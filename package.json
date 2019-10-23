@@ -2,6 +2,10 @@
   "name": "ptpt",
   "version": "1.0.0",
   "repository": "https://github.com/isubit/ptpt.git",
+  "scripts": {
+    "watch": "webpack -d --watch",
+    "serve": "webpack-dev-server --progress --inline --hot"
+  },
   "dependencies": {
     "@mapbox/geojsonhint": "^3.0.0",
     "debug": "^4.1.1",
