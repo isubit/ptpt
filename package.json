@@ -1,0 +1,42 @@
+{
+  "name": "ptpt",
+  "version": "1.0.0",
+  "repository": "https://github.com/isubit/ptpt.git",
+  "dependencies": {
+    "@mapbox/geojsonhint": "^3.0.0",
+    "debug": "^4.1.1",
+    "immutable": "^4.0.0-rc.12",
+    "lodash": "^4.17.15",
+    "mapbox-gl": "^1.4.1",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-places-autocomplete": "^7.2.1",
+    "react-route": "^1.0.3",
+    "react-router-dom": "^5.1.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.4",
+    "@babel/core": "^7.6.4",
+    "@babel/node": "^7.6.3",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-optional-chaining": "^7.6.0",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-react": "^7.6.3",
+    "@babel/preset-stage-2": "^7.0.0",
+    "@babel/register": "^7.6.2",
+    "babel-loader": "^8.0.6",
+    "chai": "^4.2.0",
+    "css-loader": "^3.2.0",
+    "enzyme": "^3.10.0",
+    "file-loader": "^4.2.0",
+    "json-loader": "^0.5.7",
+    "mocha": "^6.2.2",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.0",
+    "svg-transform-loader": "^2.0.8",
+    "url-loader": "^2.2.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.9.0"
+  }
+}
