@@ -4,7 +4,8 @@
   "repository": "https://github.com/isubit/ptpt.git",
   "scripts": {
     "watch": "webpack -d --watch",
-    "serve": "webpack-dev-server --progress --inline --hot"
+    "serve": "webpack-dev-server --progress --inline --hot",
+    "build": "webpack --config webpack.config.js"
   },
   "dependencies": {
     "@mapbox/geojsonhint": "^3.0.0",
