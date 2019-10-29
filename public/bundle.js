@@ -36089,13 +36089,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var components_Component_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! components/Component.jsx */ "./src/components/Component.jsx");
+/* harmony import */ var contexts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! contexts */ "./src/contexts/index.js");
 
  // import { Router, Route, IndexRoute, Redirect, browserHistory } from 'react-router';
 
  // import 'styles/base.sass';
 // import { Header } from 'components/Header.jsx';
 // import { MapMaker } from 'components/MapMaker.jsx';
-// import { Store } from 'contexts';
+
+
+
 
 var App = function App(props) {
   // return (
@@ -36111,10 +36115,140 @@ var App = function App(props) {
   // 		</Router>
   // 	</Store>
   // );
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Hello World!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Test test test"));
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts__WEBPACK_IMPORTED_MODULE_4__["Store"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_Component_jsx__WEBPACK_IMPORTED_MODULE_3__["Component"], null));
 };
 
 react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(App, null), document.getElementById('root'));
+
+/***/ }),
+
+/***/ "./src/components/Component.jsx":
+/*!**************************************!*\
+  !*** ./src/components/Component.jsx ***!
+  \**************************************/
+/*! exports provided: Component */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Component", function() { return Component; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+var Component = function Component(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Hello World!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Test test test"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, props.settings && props.settings.colorBlindMode ? 'on' : 'off'));
+};
+
+/***/ }),
+
+/***/ "./src/contexts/Settings.js":
+/*!**********************************!*\
+  !*** ./src/contexts/Settings.js ***!
+  \**********************************/
+/*! exports provided: SettingsDefaultState, SettingsContext, SettingsProvider, SettingsConsumer, SettingsActions */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SettingsDefaultState", function() { return SettingsDefaultState; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SettingsContext", function() { return SettingsContext; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SettingsProvider", function() { return SettingsProvider; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SettingsConsumer", function() { return SettingsConsumer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SettingsActions", function() { return SettingsActions; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var SettingsDefaultState = {
+  colorBlindMode: true
+};
+var SettingsContext = react__WEBPACK_IMPORTED_MODULE_0___default.a.createContext(SettingsDefaultState);
+var SettingsProvider = SettingsContext.Provider;
+var SettingsConsumer = SettingsContext.Consumer;
+var SettingsActions = function SettingsActions(that) {
+  return {
+    toggleColorBlindMode: function toggleColorBlindMode() {
+      that.setState(_objectSpread({}, that.state, {
+        Settings: _objectSpread({}, that.state.Settings, {
+          colorBlindMode: !this.state.Settings.colorBlindMode
+        })
+      }));
+    }
+  };
+};
+
+/***/ }),
+
+/***/ "./src/contexts/index.js":
+/*!*******************************!*\
+  !*** ./src/contexts/index.js ***!
+  \*******************************/
+/*! exports provided: Store */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Store", function() { return Store; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Settings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Settings */ "./src/contexts/Settings.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var Store =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(Store, _React$Component);
+
+  function Store(props) {
+    var _this;
+
+    _classCallCheck(this, Store);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Store).call(this, props));
+    _this.state = {
+      Settings: _Settings__WEBPACK_IMPORTED_MODULE_1__["SettingsDefaultState"]
+    };
+    return _this;
+  }
+
+  _createClass(Store, [{
+    key: "render",
+    value: function render() {
+      var state = this.state;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Settings__WEBPACK_IMPORTED_MODULE_1__["SettingsProvider"], {
+        value: {
+          state: state.Settings,
+          actions: Object(_Settings__WEBPACK_IMPORTED_MODULE_1__["SettingsActions"])(this)
+        }
+      }, this.props.children);
+    }
+  }]);
+
+  return Store;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /***/ })
 
