@@ -10,6 +10,7 @@
   "dependencies": {
     "@mapbox/geojsonhint": "^3.0.0",
     "debug": "^4.1.1",
+    "dotenv": "^8.2.0",
     "immutable": "^4.0.0-rc.12",
     "lodash": "^4.17.15",
     "mapbox-gl": "^1.4.1",
