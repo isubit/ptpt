@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-ro
 
 // import 'styles/base.sass';
 
-import { MapContainer } from 'components/MapContainer.jsx';
+import { MapWrapper } from 'components/MapComponent.jsx';
 import { Store } from 'contexts';
 
 const App = props => {
@@ -28,7 +28,7 @@ const App = props => {
 				<Link to="/">Map</Link>
 				<Link to="/help">Help</Link>
 				<Route path="/help" render={() => <h2>Help Page</h2>} />
-				<Route path="/" render={() => <MapContainer />} />
+				<Route path="/" render={() => <MapWrapper />} />
 			</Router>
 		</Store>
     );
