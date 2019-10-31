@@ -1,10 +1,8 @@
 import React from 'react';
 import geojsonhint from '@mapbox/geojsonhint';
 
-import test_1 from 'test_data/1.json';
-
 export const MapDefaultState = {
-	data: [test_1],
+	data: [],
 };
 export const MapContext = React.createContext(MapDefaultState);
 export const MapProvider = MapContext.Provider;
