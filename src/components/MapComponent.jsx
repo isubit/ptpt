@@ -7,6 +7,7 @@ import areaLayer from 'map_layers/area.json';
 
 mapboxgl.accessToken = process.env.mapbox_api_key;
 
+//wrapped here because it will be cleaner to pass in props than passing it in app.jsx file
 export const MapWrapper = props => {
     return (
         <MapConsumer>
