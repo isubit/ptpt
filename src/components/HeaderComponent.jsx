@@ -55,10 +55,7 @@ export const Title = props => {
 export class HeaderComponent extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            mainTitle: 'prairie & tree',
-            subTitle: 'planting tool'
-        };
+        
     }
 
     render() {
