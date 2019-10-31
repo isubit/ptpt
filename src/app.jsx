@@ -31,7 +31,8 @@ const App = props => {
 					<React.Fragment>
 						<HeaderComponent />
 						<MapWrapper />
-					</React.Fragment>} />
+					</React.Fragment>
+				}/>
 			</Router>
 		</Store>
     );
