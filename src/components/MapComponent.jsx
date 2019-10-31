@@ -1,5 +1,6 @@
 import React from 'react';
 import mapboxgl from 'mapbox-gl';
+import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import { Route } from 'react-router-dom';
 
 import { MapConsumer } from 'contexts/MapState';
@@ -30,6 +31,17 @@ export class MapComponent extends React.Component {
         this.mapElement = React.createRef();
     }
 
+    get params() {
+        const { 
+            router: {
+                match: {
+                    params
+                }
+            } 
+        } = this.props;
+        return params;
+    }
+
     componentDidMount() {
         this.map = new mapboxgl.Map({
             container: this.mapElement.current,
@@ -43,8 +55,10 @@ export class MapComponent extends React.Component {
                 return false;
             }
 
+            this.addDraw();
             this.loadSources();
-            this.loadLayers();
+            this.setDrawMode();
+            // this.loadLayers();
             this.setState({
                 setup: true
             });
@@ -55,25 +69,50 @@ export class MapComponent extends React.Component {
     componentDidUpdate() {
         if (this.state.setup) {
             this.loadSources();
+            this.setDrawMode();
         }
     }
 
-    addSource(name, type, data) {
-        if (this.state.sources.includes(name)) {
-            // Update the source.
-            const source = this.map.getSource(name);
-            source.setData(data);
-        } else {
-            // Add the source.
-            this.map.addSource(name, {
-                type,
-                data
-            });
-            this.setState({
-                sources: this.state.sources.concat(name)
-            });
+    setDrawMode() {
+        const { action, type, step } = this.params;
+        console.log(action, type, step);
+        if (action == 'plant' && !step) {
+            if (type == 'tree_single') {
+                // Enter draw_point mode.
+                this.draw.changeMode('draw_point');
+            } else if (type == 'tree_row') {
+                // Enter draw_line_string mode.
+                this.draw.changeMode('draw_line_string');
+            } else if (type == 'tree_area') {
+                // Enter draw_polygon mode.
+                this.draw.changeMode('draw_tree_area');
+            } else {
+                // Redirect to root / because invalid param
+            }
         }
     }
+
+    addDraw() {
+        this.draw = new MapboxDraw();
+        this.map.addControl(this.draw, 'top-right');
+    }
+
+    // addSource(name, type, data) {
+    //     if (this.state.sources.includes(name)) {
+    //         // Update the source.
+    //         const source = this.map.getSource(name);
+    //         source.setData(data);
+    //     } else {
+    //         // Add the source.
+    //         this.map.addSource(name, {
+    //             type,
+    //             data
+    //         });
+    //         this.setState({
+    //             sources: this.state.sources.concat(name)
+    //         });
+    //     }
+    // }
 
     loadSources() {
         const { data = [] } = this.props;
@@ -85,28 +124,24 @@ export class MapComponent extends React.Component {
                 features = features.concat(ea.features);
             }
         });
-        this.addSource('feature_data', 'geojson', {
-            type: 'FeatureCollection',
-            features
-        });
+
+        // Add each feature to the mapbox-gl-draw source.
+        features.forEach(ea => this.draw.add(ea));
+
+        // this.addSource('feature_data', 'geojson', {
+        //     type: 'FeatureCollection',
+        //     features
+        // });
     }
 
     loadLayers() {
         this.map.addLayer(areaLayer);
     }
 
-    inputOnChange = event => {
-        this.setState({
-            geojsonInput: event?.target?.value
-        });
-    }
-
     render() {
         return (
             <React.Fragment>
                 <Route path="/welcome" render={() => <h4>Welcome! Get Started...</h4>}/>
-                <textarea value={this.state.geojsonInput} onChange={this.inputOnChange} style={{width: '400px', height: '400px'}}/>
-                <button onClick={() => this.props.addData(this.state.geojsonInput)}>Add GeoJSON</button>
                 <div className="Map" ref={this.mapElement}></div>
             </React.Fragment>
         );
