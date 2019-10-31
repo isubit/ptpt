@@ -1,14 +1,12 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom';
 
-
-// SideNavButton will simply be a button. This button will route and render the SideNavComponent 
 export const SideNavButton = props => {
     return (
         <Link to="/sidenav">side nav</Link>
     )
 }
-//build 
+
 export const HeaderOptions = props => {
     return (
         <React.Fragment>
@@ -49,8 +47,6 @@ export const Title = props => {
     )
 }
 
-// SaveButton will just be a button that saves the geojson data --> this data lies in context MapProvider, retrieve
-// using MapConsumer
 
 export class HeaderComponent extends React.Component {
     constructor(props) {
