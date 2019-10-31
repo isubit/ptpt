@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-ro
 
 import { MapWrapper } from 'components/MapComponent.jsx';
 import { Store } from 'contexts';
-import { HeaderComponent } from 'components/HeaderComponent.jsx';
+import { Header } from 'components/Header.jsx';
 
 const App = props => {
 	// return (

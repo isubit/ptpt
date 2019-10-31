@@ -49,7 +49,7 @@ export const Title = props => {
 }
 
 
-export class HeaderComponent extends React.Component {
+export class Header extends React.Component {
     constructor(props) {
         super(props)
         
