@@ -29,7 +29,7 @@ const App = props => {
 				<Route path="/help" render={() => <h2>Help Page</h2>} />
 				<Route path="/" render={() => 
 					<React.Fragment>
-						<HeaderComponent />
+						<Header />
 						<MapWrapper />
 					</React.Fragment>
 				}/>
