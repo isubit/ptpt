@@ -178,6 +178,387 @@ module.exports = _inheritsLoose;
 
 /***/ }),
 
+/***/ "./node_modules/@mapbox/extent/index.js":
+/*!**********************************************!*\
+  !*** ./node_modules/@mapbox/extent/index.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = Extent;
+
+function Extent(bbox) {
+    if (!(this instanceof Extent)) {
+        return new Extent(bbox);
+    }
+    this._bbox = bbox || [Infinity, Infinity, -Infinity, -Infinity];
+    this._valid = !!bbox;
+}
+
+Extent.prototype.include = function(ll) {
+    this._valid = true;
+    this._bbox[0] = Math.min(this._bbox[0], ll[0]);
+    this._bbox[1] = Math.min(this._bbox[1], ll[1]);
+    this._bbox[2] = Math.max(this._bbox[2], ll[0]);
+    this._bbox[3] = Math.max(this._bbox[3], ll[1]);
+    return this;
+};
+
+Extent.prototype.equals = function(_) {
+    var other;
+    if (_ instanceof Extent) { other = _.bbox(); } else { other = _; }
+    return this._bbox[0] == other[0] &&
+        this._bbox[1] == other[1] &&
+        this._bbox[2] == other[2] &&
+        this._bbox[3] == other[3];
+};
+
+Extent.prototype.center = function(_) {
+    if (!this._valid) return null;
+    return [
+        (this._bbox[0] + this._bbox[2]) / 2,
+        (this._bbox[1] + this._bbox[3]) / 2]
+};
+
+Extent.prototype.union = function(_) {
+    this._valid = true;
+    var other;
+    if (_ instanceof Extent) { other = _.bbox(); } else { other = _; }
+    this._bbox[0] = Math.min(this._bbox[0], other[0]);
+    this._bbox[1] = Math.min(this._bbox[1], other[1]);
+    this._bbox[2] = Math.max(this._bbox[2], other[2]);
+    this._bbox[3] = Math.max(this._bbox[3], other[3]);
+    return this;
+};
+
+Extent.prototype.bbox = function() {
+    if (!this._valid) return null;
+    return this._bbox;
+};
+
+Extent.prototype.contains = function(ll) {
+    if (!ll) return this._fastContains();
+    if (!this._valid) return null;
+    var lon = ll[0], lat = ll[1];
+    return this._bbox[0] <= lon &&
+        this._bbox[1] <= lat &&
+        this._bbox[2] >= lon &&
+        this._bbox[3] >= lat;
+};
+
+Extent.prototype.intersect = function(_) {
+    if (!this._valid) return null;
+
+    var other;
+    if (_ instanceof Extent) { other = _.bbox(); } else { other = _; }
+
+    return !(
+      this._bbox[0] > other[2] ||
+      this._bbox[2] < other[0] ||
+      this._bbox[3] < other[1] ||
+      this._bbox[1] > other[3]
+    );
+};
+
+Extent.prototype._fastContains = function() {
+    if (!this._valid) return new Function('return null;');
+    var body = 'return ' +
+        this._bbox[0] + '<= ll[0] &&' +
+        this._bbox[1] + '<= ll[1] &&' +
+        this._bbox[2] + '>= ll[0] &&' +
+        this._bbox[3] + '>= ll[1]';
+    return new Function('ll', body);
+};
+
+Extent.prototype.polygon = function() {
+    if (!this._valid) return null;
+    return {
+        type: 'Polygon',
+        coordinates: [
+            [
+                // W, S
+                [this._bbox[0], this._bbox[1]],
+                // E, S
+                [this._bbox[2], this._bbox[1]],
+                // E, N
+                [this._bbox[2], this._bbox[3]],
+                // W, N
+                [this._bbox[0], this._bbox[3]],
+                // W, S
+                [this._bbox[0], this._bbox[1]]
+            ]
+        ]
+    };
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/geojson-area/index.js":
+/*!****************************************************!*\
+  !*** ./node_modules/@mapbox/geojson-area/index.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var wgs84 = __webpack_require__(/*! wgs84 */ "./node_modules/wgs84/index.js");
+
+module.exports.geometry = geometry;
+module.exports.ring = ringArea;
+
+function geometry(_) {
+    var area = 0, i;
+    switch (_.type) {
+        case 'Polygon':
+            return polygonArea(_.coordinates);
+        case 'MultiPolygon':
+            for (i = 0; i < _.coordinates.length; i++) {
+                area += polygonArea(_.coordinates[i]);
+            }
+            return area;
+        case 'Point':
+        case 'MultiPoint':
+        case 'LineString':
+        case 'MultiLineString':
+            return 0;
+        case 'GeometryCollection':
+            for (i = 0; i < _.geometries.length; i++) {
+                area += geometry(_.geometries[i]);
+            }
+            return area;
+    }
+}
+
+function polygonArea(coords) {
+    var area = 0;
+    if (coords && coords.length > 0) {
+        area += Math.abs(ringArea(coords[0]));
+        for (var i = 1; i < coords.length; i++) {
+            area -= Math.abs(ringArea(coords[i]));
+        }
+    }
+    return area;
+}
+
+/**
+ * Calculate the approximate area of the polygon were it projected onto
+ *     the earth.  Note that this area will be positive if ring is oriented
+ *     clockwise, otherwise it will be negative.
+ *
+ * Reference:
+ * Robert. G. Chamberlain and William H. Duquette, "Some Algorithms for
+ *     Polygons on a Sphere", JPL Publication 07-03, Jet Propulsion
+ *     Laboratory, Pasadena, CA, June 2007 http://trs-new.jpl.nasa.gov/dspace/handle/2014/40409
+ *
+ * Returns:
+ * {float} The approximate signed geodesic area of the polygon in square
+ *     meters.
+ */
+
+function ringArea(coords) {
+    var p1, p2, p3, lowerIndex, middleIndex, upperIndex, i,
+    area = 0,
+    coordsLength = coords.length;
+
+    if (coordsLength > 2) {
+        for (i = 0; i < coordsLength; i++) {
+            if (i === coordsLength - 2) {// i = N-2
+                lowerIndex = coordsLength - 2;
+                middleIndex = coordsLength -1;
+                upperIndex = 0;
+            } else if (i === coordsLength - 1) {// i = N-1
+                lowerIndex = coordsLength - 1;
+                middleIndex = 0;
+                upperIndex = 1;
+            } else { // i = 0 to N-3
+                lowerIndex = i;
+                middleIndex = i+1;
+                upperIndex = i+2;
+            }
+            p1 = coords[lowerIndex];
+            p2 = coords[middleIndex];
+            p3 = coords[upperIndex];
+            area += ( rad(p3[0]) - rad(p1[0]) ) * Math.sin( rad(p2[1]));
+        }
+
+        area = area * wgs84.RADIUS * wgs84.RADIUS / 2;
+    }
+
+    return area;
+}
+
+function rad(_) {
+    return _ * Math.PI / 180;
+}
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/geojson-coords/flatten.js":
+/*!********************************************************!*\
+  !*** ./node_modules/@mapbox/geojson-coords/flatten.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function flatten(list) {
+    return _flatten(list);
+
+    function _flatten(list) {
+        if (Array.isArray(list) && list.length &&
+            typeof list[0] === 'number') {
+            return [list];
+        }
+        return list.reduce(function (acc, item) {
+            if (Array.isArray(item) && Array.isArray(item[0])) {
+                return acc.concat(_flatten(item));
+            } else {
+                acc.push(item);
+                return acc;
+            }
+        }, []);
+    }
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/geojson-coords/index.js":
+/*!******************************************************!*\
+  !*** ./node_modules/@mapbox/geojson-coords/index.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var geojsonNormalize = __webpack_require__(/*! @mapbox/geojson-normalize */ "./node_modules/@mapbox/geojson-normalize/index.js"),
+    geojsonFlatten = __webpack_require__(/*! geojson-flatten */ "./node_modules/geojson-flatten/dist/index.js"),
+    flatten = __webpack_require__(/*! ./flatten */ "./node_modules/@mapbox/geojson-coords/flatten.js");
+
+module.exports = function(_) {
+    if (!_) return [];
+    var normalized = geojsonFlatten(geojsonNormalize(_)),
+        coordinates = [];
+    normalized.features.forEach(function(feature) {
+        if (!feature.geometry) return;
+        coordinates = coordinates.concat(flatten(feature.geometry.coordinates));
+    });
+    return coordinates;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/geojson-extent/index.js":
+/*!******************************************************!*\
+  !*** ./node_modules/@mapbox/geojson-extent/index.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var geojsonCoords = __webpack_require__(/*! @mapbox/geojson-coords */ "./node_modules/@mapbox/geojson-coords/index.js"),
+    traverse = __webpack_require__(/*! traverse */ "./node_modules/traverse/index.js"),
+    extent = __webpack_require__(/*! @mapbox/extent */ "./node_modules/@mapbox/extent/index.js");
+
+var geojsonTypesByDataAttributes = {
+    features: ['FeatureCollection'],
+    coordinates: ['Point', 'MultiPoint', 'LineString', 'MultiLineString', 'Polygon', 'MultiPolygon'],
+    geometry: ['Feature'],
+    geometries: ['GeometryCollection']
+}
+
+var dataAttributes = Object.keys(geojsonTypesByDataAttributes);
+
+module.exports = function(_) {
+    return getExtent(_).bbox();
+};
+
+module.exports.polygon = function(_) {
+    return getExtent(_).polygon();
+};
+
+module.exports.bboxify = function(_) {
+    return traverse(_).map(function(value) {
+        if (!value) return ;
+
+        var isValid = dataAttributes.some(function(attribute){
+            if(value[attribute]) {
+                return geojsonTypesByDataAttributes[attribute].indexOf(value.type) !== -1;
+            }
+            return false;
+        });
+
+        if(isValid){
+            value.bbox = getExtent(value).bbox();
+            this.update(value);
+        }
+
+    });
+};
+
+function getExtent(_) {
+    var bbox = [Infinity, Infinity, -Infinity, -Infinity],
+        ext = extent(),
+        coords = geojsonCoords(_);
+    for (var i = 0; i < coords.length; i++) ext.include(coords[i]);
+    return ext;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/geojson-normalize/index.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/@mapbox/geojson-normalize/index.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = normalize;
+
+var types = {
+    Point: 'geometry',
+    MultiPoint: 'geometry',
+    LineString: 'geometry',
+    MultiLineString: 'geometry',
+    Polygon: 'geometry',
+    MultiPolygon: 'geometry',
+    GeometryCollection: 'geometry',
+    Feature: 'feature',
+    FeatureCollection: 'featurecollection'
+};
+
+/**
+ * Normalize a GeoJSON feature into a FeatureCollection.
+ *
+ * @param {object} gj geojson data
+ * @returns {object} normalized geojson data
+ */
+function normalize(gj) {
+    if (!gj || !gj.type) return null;
+    var type = types[gj.type];
+    if (!type) return null;
+
+    if (type === 'geometry') {
+        return {
+            type: 'FeatureCollection',
+            features: [{
+                type: 'Feature',
+                properties: {},
+                geometry: gj
+            }]
+        };
+    } else if (type === 'feature') {
+        return {
+            type: 'FeatureCollection',
+            features: [gj]
+        };
+    } else if (type === 'featurecollection') {
+        return gj;
+    }
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/@mapbox/geojsonhint/lib/index.js":
 /*!*******************************************************!*\
   !*** ./node_modules/@mapbox/geojsonhint/lib/index.js ***!
@@ -761,6 +1142,5030 @@ module.exports = function validateRightHandRule(geometry, errors) {
 
 /***/ }),
 
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/index.js":
+/*!******************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/index.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const runSetup = __webpack_require__(/*! ./src/setup */ "./node_modules/@mapbox/mapbox-gl-draw/src/setup.js");
+const setupOptions = __webpack_require__(/*! ./src/options */ "./node_modules/@mapbox/mapbox-gl-draw/src/options.js");
+const setupAPI = __webpack_require__(/*! ./src/api */ "./node_modules/@mapbox/mapbox-gl-draw/src/api.js");
+const Constants = __webpack_require__(/*! ./src/constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+
+const setupDraw = function(options, api) {
+  options = setupOptions(options);
+
+  const ctx = {
+    options: options
+  };
+
+  api = setupAPI(ctx, api);
+  ctx.api = api;
+
+  const setup = runSetup(ctx);
+
+  api.onAdd = setup.onAdd;
+  api.onRemove = setup.onRemove;
+  api.types = Constants.types;
+  api.options = options;
+
+  return api;
+};
+
+module.exports = function(options) {
+  setupDraw(options, this);
+};
+
+module.exports.modes = __webpack_require__(/*! ./src/modes */ "./node_modules/@mapbox/mapbox-gl-draw/src/modes/index.js");
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/api.js":
+/*!********************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/api.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const isEqual = __webpack_require__(/*! lodash.isequal */ "./node_modules/lodash.isequal/index.js");
+const normalize = __webpack_require__(/*! @mapbox/geojson-normalize */ "./node_modules/@mapbox/geojson-normalize/index.js");
+const hat = __webpack_require__(/*! hat */ "./node_modules/hat/index.js");
+const featuresAt = __webpack_require__(/*! ./lib/features_at */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/features_at.js");
+const stringSetsAreEqual = __webpack_require__(/*! ./lib/string_sets_are_equal */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/string_sets_are_equal.js");
+const geojsonhint = __webpack_require__(/*! @mapbox/geojsonhint */ "./node_modules/@mapbox/geojsonhint/lib/index.js");
+const Constants = __webpack_require__(/*! ./constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+const StringSet = __webpack_require__(/*! ./lib/string_set */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/string_set.js");
+
+const featureTypes = {
+  Polygon: __webpack_require__(/*! ./feature_types/polygon */ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/polygon.js"),
+  LineString: __webpack_require__(/*! ./feature_types/line_string */ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/line_string.js"),
+  Point: __webpack_require__(/*! ./feature_types/point */ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/point.js"),
+  MultiPolygon: __webpack_require__(/*! ./feature_types/multi_feature */ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/multi_feature.js"),
+  MultiLineString: __webpack_require__(/*! ./feature_types/multi_feature */ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/multi_feature.js"),
+  MultiPoint: __webpack_require__(/*! ./feature_types/multi_feature */ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/multi_feature.js")
+};
+
+module.exports = function(ctx, api) {
+
+  api.modes = Constants.modes;
+
+  api.getFeatureIdsAt = function(point) {
+    const features = featuresAt.click({ point }, null, ctx);
+    return features.map(feature => feature.properties.id);
+  };
+
+  api.getSelectedIds = function () {
+    return ctx.store.getSelectedIds();
+  };
+
+  api.getSelected = function () {
+    return {
+      type: Constants.geojsonTypes.FEATURE_COLLECTION,
+      features: ctx.store.getSelectedIds().map(id => ctx.store.get(id)).map(feature => feature.toGeoJSON())
+    };
+  };
+
+  api.getSelectedPoints = function () {
+    return {
+      type: Constants.geojsonTypes.FEATURE_COLLECTION,
+      features: ctx.store.getSelectedCoordinates().map(coordinate => {
+        return {
+          type: Constants.geojsonTypes.FEATURE,
+          properties: {},
+          geometry: {
+            type: Constants.geojsonTypes.POINT,
+            coordinates: coordinate.coordinates
+          }
+        };
+      })
+    };
+  };
+
+  api.set = function(featureCollection) {
+    if (featureCollection.type === undefined || featureCollection.type !== Constants.geojsonTypes.FEATURE_COLLECTION || !Array.isArray(featureCollection.features)) {
+      throw new Error('Invalid FeatureCollection');
+    }
+    const renderBatch = ctx.store.createRenderBatch();
+    let toDelete = ctx.store.getAllIds().slice();
+    const newIds = api.add(featureCollection);
+    const newIdsLookup = new StringSet(newIds);
+
+    toDelete = toDelete.filter(id => !newIdsLookup.has(id));
+    if (toDelete.length) {
+      api.delete(toDelete);
+    }
+
+    renderBatch();
+    return newIds;
+  };
+
+  api.add = function (geojson) {
+    const errors = geojsonhint.hint(geojson, { precisionWarning: false }).filter(e => e.level !== 'message');
+    if (errors.length) {
+      throw new Error(errors[0].message);
+    }
+    const featureCollection = JSON.parse(JSON.stringify(normalize(geojson)));
+
+    const ids = featureCollection.features.map(feature => {
+      feature.id = feature.id || hat();
+
+      if (feature.geometry === null) {
+        throw new Error('Invalid geometry: null');
+      }
+
+      if (ctx.store.get(feature.id) === undefined || ctx.store.get(feature.id).type !== feature.geometry.type) {
+        // If the feature has not yet been created ...
+        const Model = featureTypes[feature.geometry.type];
+        if (Model === undefined) {
+          throw new Error(`Invalid geometry type: ${feature.geometry.type}.`);
+        }
+        const internalFeature = new Model(ctx, feature);
+        ctx.store.add(internalFeature);
+      } else {
+        // If a feature of that id has already been created, and we are swapping it out ...
+        const internalFeature = ctx.store.get(feature.id);
+        internalFeature.properties = feature.properties;
+        if (!isEqual(internalFeature.getCoordinates(), feature.geometry.coordinates)) {
+          internalFeature.incomingCoords(feature.geometry.coordinates);
+        }
+      }
+      return feature.id;
+    });
+
+    ctx.store.render();
+    return ids;
+  };
+
+
+  api.get = function (id) {
+    const feature = ctx.store.get(id);
+    if (feature) {
+      return feature.toGeoJSON();
+    }
+  };
+
+  api.getAll = function() {
+    return {
+      type: Constants.geojsonTypes.FEATURE_COLLECTION,
+      features: ctx.store.getAll().map(feature => feature.toGeoJSON())
+    };
+  };
+
+  api.delete = function(featureIds) {
+    ctx.store.delete(featureIds, { silent: true });
+    // If we were in direct select mode and our selected feature no longer exists
+    // (because it was deleted), we need to get out of that mode.
+    if (api.getMode() === Constants.modes.DIRECT_SELECT && !ctx.store.getSelectedIds().length) {
+      ctx.events.changeMode(Constants.modes.SIMPLE_SELECT, undefined, { silent: true });
+    } else {
+      ctx.store.render();
+    }
+
+    return api;
+  };
+
+  api.deleteAll = function() {
+    ctx.store.delete(ctx.store.getAllIds(), { silent: true });
+    // If we were in direct select mode, now our selected feature no longer exists,
+    // so escape that mode.
+    if (api.getMode() === Constants.modes.DIRECT_SELECT) {
+      ctx.events.changeMode(Constants.modes.SIMPLE_SELECT, undefined, { silent: true });
+    } else {
+      ctx.store.render();
+    }
+
+    return api;
+  };
+
+  api.changeMode = function(mode, modeOptions = {}) {
+    // Avoid changing modes just to re-select what's already selected
+    if (mode === Constants.modes.SIMPLE_SELECT && api.getMode() === Constants.modes.SIMPLE_SELECT) {
+      if (stringSetsAreEqual((modeOptions.featureIds || []), ctx.store.getSelectedIds())) return api;
+      // And if we are changing the selection within simple_select mode, just change the selection,
+      // instead of stopping and re-starting the mode
+      ctx.store.setSelected(modeOptions.featureIds, { silent: true });
+      ctx.store.render();
+      return api;
+    }
+
+    if (mode === Constants.modes.DIRECT_SELECT && api.getMode() === Constants.modes.DIRECT_SELECT &&
+      modeOptions.featureId === ctx.store.getSelectedIds()[0]) {
+      return api;
+    }
+
+    ctx.events.changeMode(mode, modeOptions, { silent: true });
+    return api;
+  };
+
+  api.getMode = function() {
+    return ctx.events.getMode();
+  };
+
+  api.trash = function() {
+    ctx.events.trash({ silent: true });
+    return api;
+  };
+
+  api.combineFeatures = function() {
+    ctx.events.combineFeatures({ silent: true });
+    return api;
+  };
+
+  api.uncombineFeatures = function() {
+    ctx.events.uncombineFeatures({ silent: true });
+    return api;
+  };
+
+  api.setFeatureProperty = function(featureId, property, value) {
+    ctx.store.setFeatureProperty(featureId, property, value);
+    return api;
+  };
+
+  return api;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/constants.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = {
+  classes: {
+    CONTROL_BASE: 'mapboxgl-ctrl',
+    CONTROL_PREFIX: 'mapboxgl-ctrl-',
+    CONTROL_BUTTON: 'mapbox-gl-draw_ctrl-draw-btn',
+    CONTROL_BUTTON_LINE: 'mapbox-gl-draw_line',
+    CONTROL_BUTTON_POLYGON: 'mapbox-gl-draw_polygon',
+    CONTROL_BUTTON_POINT: 'mapbox-gl-draw_point',
+    CONTROL_BUTTON_TRASH: 'mapbox-gl-draw_trash',
+    CONTROL_BUTTON_COMBINE_FEATURES: 'mapbox-gl-draw_combine',
+    CONTROL_BUTTON_UNCOMBINE_FEATURES: 'mapbox-gl-draw_uncombine',
+    CONTROL_GROUP: 'mapboxgl-ctrl-group',
+    ATTRIBUTION: 'mapboxgl-ctrl-attrib',
+    ACTIVE_BUTTON: 'active',
+    BOX_SELECT: 'mapbox-gl-draw_boxselect'
+  },
+  sources: {
+    HOT: 'mapbox-gl-draw-hot',
+    COLD: 'mapbox-gl-draw-cold'
+  },
+  cursors: {
+    ADD: 'add',
+    MOVE: 'move',
+    DRAG: 'drag',
+    POINTER: 'pointer',
+    NONE: 'none'
+  },
+  types: {
+    POLYGON: 'polygon',
+    LINE: 'line_string',
+    POINT: 'point'
+  },
+  geojsonTypes: {
+    FEATURE: 'Feature',
+    POLYGON: 'Polygon',
+    LINE_STRING: 'LineString',
+    POINT: 'Point',
+    FEATURE_COLLECTION: 'FeatureCollection',
+    MULTI_PREFIX: 'Multi',
+    MULTI_POINT: 'MultiPoint',
+    MULTI_LINE_STRING: 'MultiLineString',
+    MULTI_POLYGON: 'MultiPolygon'
+  },
+  modes: {
+    DRAW_LINE_STRING: 'draw_line_string',
+    DRAW_POLYGON: 'draw_polygon',
+    DRAW_POINT: 'draw_point',
+    SIMPLE_SELECT: 'simple_select',
+    DIRECT_SELECT: 'direct_select',
+    STATIC: 'static'
+  },
+  events: {
+    CREATE: 'draw.create',
+    DELETE: 'draw.delete',
+    UPDATE: 'draw.update',
+    SELECTION_CHANGE: 'draw.selectionchange',
+    MODE_CHANGE: 'draw.modechange',
+    ACTIONABLE: 'draw.actionable',
+    RENDER: 'draw.render',
+    COMBINE_FEATURES: 'draw.combine',
+    UNCOMBINE_FEATURES: 'draw.uncombine'
+  },
+  updateActions: {
+    MOVE: 'move',
+    CHANGE_COORDINATES: 'change_coordinates'
+  },
+  meta: {
+    FEATURE: 'feature',
+    MIDPOINT: 'midpoint',
+    VERTEX: 'vertex'
+  },
+  activeStates: {
+    ACTIVE: 'true',
+    INACTIVE: 'false'
+  },
+  interactions: [
+    'scrollZoom',
+    'boxZoom',
+    'dragRotate',
+    'dragPan',
+    'keyboard',
+    'doubleClickZoom',
+    'touchZoomRotate'
+  ],
+  LAT_MIN: -90,
+  LAT_RENDERED_MIN: -85,
+  LAT_MAX: 90,
+  LAT_RENDERED_MAX: 85,
+  LNG_MIN: -270,
+  LNG_MAX: 270
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/events.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/events.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const setupModeHandler = __webpack_require__(/*! ./lib/mode_handler */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/mode_handler.js");
+const getFeaturesAndSetCursor = __webpack_require__(/*! ./lib/get_features_and_set_cursor */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/get_features_and_set_cursor.js");
+const featuresAt = __webpack_require__(/*! ./lib/features_at */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/features_at.js");
+const isClick = __webpack_require__(/*! ./lib/is_click */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/is_click.js");
+const isTap = __webpack_require__(/*! ./lib/is_tap */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/is_tap.js");
+const Constants = __webpack_require__(/*! ./constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+const objectToMode = __webpack_require__(/*! ./modes/object_to_mode */ "./node_modules/@mapbox/mapbox-gl-draw/src/modes/object_to_mode.js");
+
+module.exports = function(ctx) {
+
+  const modes = Object.keys(ctx.options.modes).reduce((m, k) => {
+    m[k] = objectToMode(ctx.options.modes[k]);
+    return m;
+  }, {});
+
+  let mouseDownInfo = {};
+  let touchStartInfo = {};
+  const events = {};
+  let currentModeName = null;
+  let currentMode = null;
+
+  events.drag = function(event, isDrag) {
+    if (isDrag({
+      point: event.point,
+      time: new Date().getTime()
+    })) {
+      ctx.ui.queueMapClasses({ mouse: Constants.cursors.DRAG });
+      currentMode.drag(event);
+    } else {
+      event.originalEvent.stopPropagation();
+    }
+  };
+
+  events.mousedrag = function(event) {
+    events.drag(event, (endInfo) => !isClick(mouseDownInfo, endInfo));
+  };
+
+  events.touchdrag = function(event) {
+    events.drag(event, (endInfo) => !isTap(touchStartInfo, endInfo));
+  };
+
+  events.mousemove = function(event) {
+    const button = event.originalEvent.buttons !== undefined ? event.originalEvent.buttons : event.originalEvent.which;
+    if (button === 1) {
+      return events.mousedrag(event);
+    }
+    const target = getFeaturesAndSetCursor(event, ctx);
+    event.featureTarget = target;
+    currentMode.mousemove(event);
+  };
+
+  events.mousedown = function(event) {
+    mouseDownInfo = {
+      time: new Date().getTime(),
+      point: event.point
+    };
+    const target = getFeaturesAndSetCursor(event, ctx);
+    event.featureTarget = target;
+    currentMode.mousedown(event);
+  };
+
+  events.mouseup = function(event) {
+    const target = getFeaturesAndSetCursor(event, ctx);
+    event.featureTarget = target;
+
+    if (isClick(mouseDownInfo, {
+      point: event.point,
+      time: new Date().getTime()
+    })) {
+      currentMode.click(event);
+    } else {
+      currentMode.mouseup(event);
+    }
+  };
+
+  events.mouseout = function(event) {
+    currentMode.mouseout(event);
+  };
+
+  events.touchstart = function(event) {
+    // Prevent emulated mouse events because we will fully handle the touch here.
+    // This does not stop the touch events from propogating to mapbox though.
+    event.originalEvent.preventDefault();
+    if (!ctx.options.touchEnabled) {
+      return;
+    }
+
+    touchStartInfo = {
+      time: new Date().getTime(),
+      point: event.point
+    };
+    const target = featuresAt.touch(event, null, ctx)[0];
+    event.featureTarget = target;
+    currentMode.touchstart(event);
+  };
+
+  events.touchmove = function(event) {
+    event.originalEvent.preventDefault();
+    if (!ctx.options.touchEnabled) {
+      return;
+    }
+
+    currentMode.touchmove(event);
+    return events.touchdrag(event);
+  };
+
+  events.touchend = function(event) {
+    event.originalEvent.preventDefault();
+    if (!ctx.options.touchEnabled) {
+      return;
+    }
+
+    const target = featuresAt.touch(event, null, ctx)[0];
+    event.featureTarget = target;
+    if (isTap(touchStartInfo, {
+      time: new Date().getTime(),
+      point: event.point
+    })) {
+      currentMode.tap(event);
+    } else {
+      currentMode.touchend(event);
+    }
+  };
+
+  // 8 - Backspace
+  // 46 - Delete
+  const isKeyModeValid = (code) => !(code === 8 || code === 46 || (code >= 48 && code <= 57));
+
+  events.keydown = function(event) {
+    if ((event.srcElement || event.target).classList[0] !== 'mapboxgl-canvas') return; // we only handle events on the map
+
+    if ((event.keyCode === 8 || event.keyCode === 46) && ctx.options.controls.trash) {
+      event.preventDefault();
+      currentMode.trash();
+    } else if (isKeyModeValid(event.keyCode)) {
+      currentMode.keydown(event);
+    } else if (event.keyCode === 49 && ctx.options.controls.point) {
+      changeMode(Constants.modes.DRAW_POINT);
+    } else if (event.keyCode === 50 && ctx.options.controls.line_string) {
+      changeMode(Constants.modes.DRAW_LINE_STRING);
+    } else if (event.keyCode === 51 && ctx.options.controls.polygon) {
+      changeMode(Constants.modes.DRAW_POLYGON);
+    }
+  };
+
+  events.keyup = function(event) {
+    if (isKeyModeValid(event.keyCode)) {
+      currentMode.keyup(event);
+    }
+  };
+
+  events.zoomend = function() {
+    ctx.store.changeZoom();
+  };
+
+  events.data = function(event) {
+    if (event.dataType === 'style') {
+      const { setup, map, options, store } = ctx;
+      const hasLayers = options.styles.some(style => map.getLayer(style.id));
+      if (!hasLayers) {
+        setup.addLayers();
+        store.setDirty();
+        store.render();
+      }
+    }
+  };
+
+  function changeMode(modename, nextModeOptions, eventOptions = {}) {
+    currentMode.stop();
+
+    const modebuilder = modes[modename];
+    if (modebuilder === undefined) {
+      throw new Error(`${modename} is not valid`);
+    }
+    currentModeName = modename;
+    const mode = modebuilder(ctx, nextModeOptions);
+    currentMode = setupModeHandler(mode, ctx);
+
+    if (!eventOptions.silent) {
+      ctx.map.fire(Constants.events.MODE_CHANGE, { mode: modename});
+    }
+
+    ctx.store.setDirty();
+    ctx.store.render();
+  }
+
+  const actionState = {
+    trash: false,
+    combineFeatures: false,
+    uncombineFeatures: false
+  };
+
+  function actionable(actions) {
+    let changed = false;
+    Object.keys(actions).forEach(action => {
+      if (actionState[action] === undefined) throw new Error('Invalid action type');
+      if (actionState[action] !== actions[action]) changed = true;
+      actionState[action] = actions[action];
+    });
+    if (changed) ctx.map.fire(Constants.events.ACTIONABLE, { actions: actionState });
+  }
+
+  const api = {
+    start: function() {
+      currentModeName = ctx.options.defaultMode;
+      currentMode = setupModeHandler(modes[currentModeName](ctx), ctx);
+    },
+    changeMode,
+    actionable,
+    currentModeName: function() {
+      return currentModeName;
+    },
+    currentModeRender: function(geojson, push) {
+      return currentMode.render(geojson, push);
+    },
+    fire: function(name, event) {
+      if (events[name]) {
+        events[name](event);
+      }
+    },
+    addEventListeners: function() {
+      ctx.map.on('mousemove', events.mousemove);
+      ctx.map.on('mousedown', events.mousedown);
+      ctx.map.on('mouseup', events.mouseup);
+      ctx.map.on('data', events.data);
+
+      ctx.map.on('touchmove', events.touchmove);
+      ctx.map.on('touchstart', events.touchstart);
+      ctx.map.on('touchend', events.touchend);
+
+      ctx.container.addEventListener('mouseout', events.mouseout);
+
+      if (ctx.options.keybindings) {
+        ctx.container.addEventListener('keydown', events.keydown);
+        ctx.container.addEventListener('keyup', events.keyup);
+      }
+    },
+    removeEventListeners: function() {
+      ctx.map.off('mousemove', events.mousemove);
+      ctx.map.off('mousedown', events.mousedown);
+      ctx.map.off('mouseup', events.mouseup);
+      ctx.map.off('data', events.data);
+
+      ctx.map.off('touchmove', events.touchmove);
+      ctx.map.off('touchstart', events.touchstart);
+      ctx.map.off('touchend', events.touchend);
+
+      ctx.container.removeEventListener('mouseout', events.mouseout);
+
+      if (ctx.options.keybindings) {
+        ctx.container.removeEventListener('keydown', events.keydown);
+        ctx.container.removeEventListener('keyup', events.keyup);
+      }
+    },
+    trash: function(options) {
+      currentMode.trash(options);
+    },
+    combineFeatures: function() {
+      currentMode.combineFeatures();
+    },
+    uncombineFeatures: function() {
+      currentMode.uncombineFeatures();
+    },
+    getMode: function() {
+      return currentModeName;
+    }
+  };
+
+  return api;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/feature.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/feature.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const hat = __webpack_require__(/*! hat */ "./node_modules/hat/index.js");
+const Constants = __webpack_require__(/*! ../constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+
+const Feature = function(ctx, geojson) {
+  this.ctx = ctx;
+  this.properties = geojson.properties || {};
+  this.coordinates = geojson.geometry.coordinates;
+  this.id = geojson.id || hat();
+  this.type = geojson.geometry.type;
+};
+
+Feature.prototype.changed = function() {
+  this.ctx.store.featureChanged(this.id);
+};
+
+Feature.prototype.incomingCoords = function(coords) {
+  this.setCoordinates(coords);
+};
+
+Feature.prototype.setCoordinates = function(coords) {
+  this.coordinates = coords;
+  this.changed();
+};
+
+Feature.prototype.getCoordinates = function() {
+  return JSON.parse(JSON.stringify(this.coordinates));
+};
+
+Feature.prototype.setProperty = function(property, value) {
+  this.properties[property] = value;
+};
+
+Feature.prototype.toGeoJSON = function() {
+  return JSON.parse(JSON.stringify({
+    id: this.id,
+    type: Constants.geojsonTypes.FEATURE,
+    properties: this.properties,
+    geometry: {
+      coordinates: this.getCoordinates(),
+      type: this.type
+    }
+  }));
+};
+
+Feature.prototype.internal = function(mode) {
+  const properties = {
+    id: this.id,
+    meta: Constants.meta.FEATURE,
+    'meta:type': this.type,
+    active: Constants.activeStates.INACTIVE,
+    mode: mode
+  };
+
+  if (this.ctx.options.userProperties) {
+    for (const name in this.properties) {
+      properties[`user_${name}`] = this.properties[name];
+    }
+  }
+
+  return {
+    type: Constants.geojsonTypes.FEATURE,
+    properties: properties,
+    geometry: {
+      coordinates: this.getCoordinates(),
+      type: this.type
+    }
+  };
+};
+
+module.exports = Feature;
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/line_string.js":
+/*!******************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/line_string.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Feature = __webpack_require__(/*! ./feature */ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/feature.js");
+
+const LineString = function(ctx, geojson) {
+  Feature.call(this, ctx, geojson);
+};
+
+LineString.prototype = Object.create(Feature.prototype);
+
+LineString.prototype.isValid = function() {
+  return this.coordinates.length > 1;
+};
+
+LineString.prototype.addCoordinate = function(path, lng, lat) {
+  this.changed();
+  const id = parseInt(path, 10);
+  this.coordinates.splice(id, 0, [lng, lat]);
+};
+
+LineString.prototype.getCoordinate = function(path) {
+  const id = parseInt(path, 10);
+  return JSON.parse(JSON.stringify(this.coordinates[id]));
+};
+
+LineString.prototype.removeCoordinate = function(path) {
+  this.changed();
+  this.coordinates.splice(parseInt(path, 10), 1);
+};
+
+LineString.prototype.updateCoordinate = function(path, lng, lat) {
+  const id = parseInt(path, 10);
+  this.coordinates[id] = [lng, lat];
+  this.changed();
+};
+
+module.exports = LineString;
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/multi_feature.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/multi_feature.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Feature = __webpack_require__(/*! ./feature */ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/feature.js");
+const Constants = __webpack_require__(/*! ../constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+const hat = __webpack_require__(/*! hat */ "./node_modules/hat/index.js");
+
+const models = {
+  MultiPoint: __webpack_require__(/*! ./point */ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/point.js"),
+  MultiLineString: __webpack_require__(/*! ./line_string */ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/line_string.js"),
+  MultiPolygon: __webpack_require__(/*! ./polygon */ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/polygon.js")
+};
+
+const takeAction = (features, action, path, lng, lat) => {
+  const parts = path.split('.');
+  const idx = parseInt(parts[0], 10);
+  const tail = (!parts[1]) ? null : parts.slice(1).join('.');
+  return features[idx][action](tail, lng, lat);
+};
+
+const MultiFeature = function(ctx, geojson) {
+  Feature.call(this, ctx, geojson);
+
+  delete this.coordinates;
+  this.model = models[geojson.geometry.type];
+  if (this.model === undefined) throw new TypeError(`${geojson.geometry.type} is not a valid type`);
+  this.features = this._coordinatesToFeatures(geojson.geometry.coordinates);
+};
+
+MultiFeature.prototype = Object.create(Feature.prototype);
+
+MultiFeature.prototype._coordinatesToFeatures = function(coordinates) {
+  const Model = this.model.bind(this);
+  return coordinates.map(coords => new Model(this.ctx, {
+    id: hat(),
+    type: Constants.geojsonTypes.FEATURE,
+    properties: {},
+    geometry: {
+      coordinates: coords,
+      type: this.type.replace('Multi', '')
+    }
+  }));
+};
+
+MultiFeature.prototype.isValid = function() {
+  return this.features.every(f => f.isValid());
+};
+
+MultiFeature.prototype.setCoordinates = function(coords) {
+  this.features = this._coordinatesToFeatures(coords);
+  this.changed();
+};
+
+MultiFeature.prototype.getCoordinate = function(path) {
+  return takeAction(this.features, 'getCoordinate', path);
+};
+
+MultiFeature.prototype.getCoordinates = function() {
+  return JSON.parse(JSON.stringify(this.features.map(f => {
+    if (f.type === Constants.geojsonTypes.POLYGON) return f.getCoordinates();
+    return f.coordinates;
+  })));
+};
+
+MultiFeature.prototype.updateCoordinate = function(path, lng, lat) {
+  takeAction(this.features, 'updateCoordinate', path, lng, lat);
+  this.changed();
+};
+
+MultiFeature.prototype.addCoordinate = function(path, lng, lat) {
+  takeAction(this.features, 'addCoordinate', path, lng, lat);
+  this.changed();
+};
+
+MultiFeature.prototype.removeCoordinate = function(path) {
+  takeAction(this.features, 'removeCoordinate', path);
+  this.changed();
+};
+
+MultiFeature.prototype.getFeatures = function() {
+  return this.features;
+};
+
+module.exports = MultiFeature;
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/point.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/point.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Feature = __webpack_require__(/*! ./feature */ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/feature.js");
+
+const Point = function(ctx, geojson) {
+  Feature.call(this, ctx, geojson);
+};
+
+Point.prototype = Object.create(Feature.prototype);
+
+Point.prototype.isValid = function() {
+  return typeof this.coordinates[0] === 'number' &&
+    typeof this.coordinates[1] === 'number';
+};
+
+Point.prototype.updateCoordinate = function(pathOrLng, lngOrLat, lat) {
+  if (arguments.length === 3) {
+    this.coordinates = [lngOrLat, lat];
+  } else {
+    this.coordinates = [pathOrLng, lngOrLat];
+  }
+  this.changed();
+};
+
+Point.prototype.getCoordinate = function() {
+  return this.getCoordinates();
+};
+
+module.exports = Point;
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/polygon.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/polygon.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Feature = __webpack_require__(/*! ./feature */ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/feature.js");
+
+const Polygon = function(ctx, geojson) {
+  Feature.call(this, ctx, geojson);
+  this.coordinates = this.coordinates.map(ring => ring.slice(0, -1));
+};
+
+Polygon.prototype = Object.create(Feature.prototype);
+
+Polygon.prototype.isValid = function() {
+  if (this.coordinates.length === 0) return false;
+  return this.coordinates.every(ring => ring.length > 2);
+};
+
+// Expects valid geoJSON polygon geometry: first and last positions must be equivalent.
+Polygon.prototype.incomingCoords = function(coords) {
+  this.coordinates = coords.map(ring => ring.slice(0, -1));
+  this.changed();
+};
+
+// Does NOT expect valid geoJSON polygon geometry: first and last positions should not be equivalent.
+Polygon.prototype.setCoordinates = function(coords) {
+  this.coordinates = coords;
+  this.changed();
+};
+
+Polygon.prototype.addCoordinate = function(path, lng, lat) {
+  this.changed();
+  const ids = path.split('.').map(x => parseInt(x, 10));
+
+  const ring = this.coordinates[ids[0]];
+
+  ring.splice(ids[1], 0, [lng, lat]);
+};
+
+Polygon.prototype.removeCoordinate = function(path) {
+  this.changed();
+  const ids = path.split('.').map(x => parseInt(x, 10));
+  const ring = this.coordinates[ids[0]];
+  if (ring) {
+    ring.splice(ids[1], 1);
+    if (ring.length < 3) {
+      this.coordinates.splice(ids[0], 1);
+    }
+  }
+};
+
+Polygon.prototype.getCoordinate = function(path) {
+  const ids = path.split('.').map(x => parseInt(x, 10));
+  const ring = this.coordinates[ids[0]];
+  return JSON.parse(JSON.stringify(ring[ids[1]]));
+};
+
+Polygon.prototype.getCoordinates = function() {
+  return this.coordinates.map(coords => coords.concat([coords[0]]));
+};
+
+Polygon.prototype.updateCoordinate = function(path, lng, lat) {
+  this.changed();
+  const parts = path.split('.');
+  const ringId = parseInt(parts[0], 10);
+  const coordId = parseInt(parts[1], 10);
+
+  if (this.coordinates[ringId] === undefined) {
+    this.coordinates[ringId] = [];
+  }
+
+  this.coordinates[ringId][coordId] = [lng, lat];
+};
+
+module.exports = Polygon;
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/common_selectors.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/common_selectors.js ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Constants = __webpack_require__(/*! ../constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+
+module.exports = {
+  isOfMetaType: function(type) {
+    return function(e) {
+      const featureTarget = e.featureTarget;
+      if (!featureTarget) return false;
+      if (!featureTarget.properties) return false;
+      return featureTarget.properties.meta === type;
+    };
+  },
+  isShiftMousedown: function(e) {
+    if (!e.originalEvent) return false;
+    if (!e.originalEvent.shiftKey) return false;
+    return e.originalEvent.button === 0;
+  },
+  isActiveFeature: function(e) {
+    if (!e.featureTarget) return false;
+    if (!e.featureTarget.properties) return false;
+    return e.featureTarget.properties.active === Constants.activeStates.ACTIVE &&
+      e.featureTarget.properties.meta === Constants.meta.FEATURE;
+  },
+  isInactiveFeature: function(e) {
+    if (!e.featureTarget) return false;
+    if (!e.featureTarget.properties) return false;
+    return e.featureTarget.properties.active === Constants.activeStates.INACTIVE &&
+      e.featureTarget.properties.meta === Constants.meta.FEATURE;
+  },
+  noTarget: function(e) {
+    return e.featureTarget === undefined;
+  },
+  isFeature: function(e) {
+    if (!e.featureTarget) return false;
+    if (!e.featureTarget.properties) return false;
+    return e.featureTarget.properties.meta === Constants.meta.FEATURE;
+  },
+  isVertex: function(e) {
+    const featureTarget = e.featureTarget;
+    if (!featureTarget) return false;
+    if (!featureTarget.properties) return false;
+    return featureTarget.properties.meta === Constants.meta.VERTEX;
+  },
+  isShiftDown: function(e) {
+    if (!e.originalEvent) return false;
+    return e.originalEvent.shiftKey === true;
+  },
+  isEscapeKey: function(e) {
+    return e.keyCode === 27;
+  },
+  isEnterKey: function(e) {
+    return e.keyCode === 13;
+  },
+  true: function() {
+    return true;
+  }
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/constrain_feature_movement.js":
+/*!***********************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/constrain_feature_movement.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const extent = __webpack_require__(/*! @mapbox/geojson-extent */ "./node_modules/@mapbox/geojson-extent/index.js");
+const Constants = __webpack_require__(/*! ../constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+
+const {
+  LAT_MIN,
+  LAT_MAX,
+  LAT_RENDERED_MIN,
+  LAT_RENDERED_MAX,
+  LNG_MIN,
+  LNG_MAX
+} = Constants;
+
+// Ensure that we do not drag north-south far enough for
+// - any part of any feature to exceed the poles
+// - any feature to be completely lost in the space between the projection's
+//   edge and the poles, such that it couldn't be re-selected and moved back
+module.exports = function(geojsonFeatures, delta) {
+  // "inner edge" = a feature's latitude closest to the equator
+  let northInnerEdge = LAT_MIN;
+  let southInnerEdge = LAT_MAX;
+  // "outer edge" = a feature's latitude furthest from the equator
+  let northOuterEdge = LAT_MIN;
+  let southOuterEdge = LAT_MAX;
+
+  let westEdge = LNG_MAX;
+  let eastEdge = LNG_MIN;
+
+  geojsonFeatures.forEach(feature => {
+    const bounds = extent(feature);
+    const featureSouthEdge = bounds[1];
+    const featureNorthEdge = bounds[3];
+    const featureWestEdge = bounds[0];
+    const featureEastEdge = bounds[2];
+    if (featureSouthEdge > northInnerEdge) northInnerEdge = featureSouthEdge;
+    if (featureNorthEdge < southInnerEdge) southInnerEdge = featureNorthEdge;
+    if (featureNorthEdge > northOuterEdge) northOuterEdge = featureNorthEdge;
+    if (featureSouthEdge < southOuterEdge) southOuterEdge = featureSouthEdge;
+    if (featureWestEdge < westEdge) westEdge = featureWestEdge;
+    if (featureEastEdge > eastEdge) eastEdge = featureEastEdge;
+  });
+
+
+  // These changes are not mutually exclusive: we might hit the inner
+  // edge but also have hit the outer edge and therefore need
+  // another readjustment
+  const constrainedDelta = delta;
+  if (northInnerEdge + constrainedDelta.lat > LAT_RENDERED_MAX) {
+    constrainedDelta.lat = LAT_RENDERED_MAX - northInnerEdge;
+  }
+  if (northOuterEdge + constrainedDelta.lat > LAT_MAX) {
+    constrainedDelta.lat = LAT_MAX - northOuterEdge;
+  }
+  if (southInnerEdge + constrainedDelta.lat < LAT_RENDERED_MIN) {
+    constrainedDelta.lat = LAT_RENDERED_MIN - southInnerEdge;
+  }
+  if (southOuterEdge + constrainedDelta.lat < LAT_MIN) {
+    constrainedDelta.lat = LAT_MIN - southOuterEdge;
+  }
+  if (westEdge + constrainedDelta.lng <= LNG_MIN) {
+    constrainedDelta.lng += Math.ceil(Math.abs(constrainedDelta.lng) / 360) * 360;
+  }
+  if (eastEdge + constrainedDelta.lng >= LNG_MAX) {
+    constrainedDelta.lng -= Math.ceil(Math.abs(constrainedDelta.lng) / 360) * 360;
+  }
+
+  return constrainedDelta;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/create_midpoint.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/create_midpoint.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Constants = __webpack_require__(/*! ../constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+
+module.exports = function(parent, startVertex, endVertex, map) {
+  const startCoord = startVertex.geometry.coordinates;
+  const endCoord = endVertex.geometry.coordinates;
+
+  // If a coordinate exceeds the projection, we can't calculate a midpoint,
+  // so run away
+  if (startCoord[1] > Constants.LAT_RENDERED_MAX ||
+    startCoord[1] < Constants.LAT_RENDERED_MIN ||
+    endCoord[1] > Constants.LAT_RENDERED_MAX ||
+    endCoord[1] < Constants.LAT_RENDERED_MIN) {
+    return null;
+  }
+
+  const ptA = map.project([ startCoord[0], startCoord[1] ]);
+  const ptB = map.project([ endCoord[0], endCoord[1] ]);
+  const mid = map.unproject([ (ptA.x + ptB.x) / 2, (ptA.y + ptB.y) / 2 ]);
+
+  return {
+    type: Constants.geojsonTypes.FEATURE,
+    properties: {
+      meta: Constants.meta.MIDPOINT,
+      parent: parent,
+      lng: mid.lng,
+      lat: mid.lat,
+      coord_path: endVertex.properties.coord_path
+    },
+    geometry: {
+      type: Constants.geojsonTypes.POINT,
+      coordinates: [mid.lng, mid.lat]
+    }
+  };
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/create_supplementary_points.js":
+/*!************************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/create_supplementary_points.js ***!
+  \************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const createVertex = __webpack_require__(/*! ./create_vertex */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/create_vertex.js");
+const createMidpoint = __webpack_require__(/*! ./create_midpoint */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/create_midpoint.js");
+const Constants = __webpack_require__(/*! ../constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+
+function createSupplementaryPoints(geojson, options = {}, basePath = null) {
+  const { type, coordinates } = geojson.geometry;
+  const featureId = geojson.properties && geojson.properties.id;
+
+  let supplementaryPoints = [];
+
+  if (type === Constants.geojsonTypes.POINT) {
+    // For points, just create a vertex
+    supplementaryPoints.push(createVertex(featureId, coordinates, basePath, isSelectedPath(basePath)));
+  } else if (type === Constants.geojsonTypes.POLYGON) {
+    // Cycle through a Polygon's rings and
+    // process each line
+    coordinates.forEach((line, lineIndex) => {
+      processLine(line, (basePath !== null) ? `${basePath}.${lineIndex}` : String(lineIndex));
+    });
+  } else if (type === Constants.geojsonTypes.LINE_STRING) {
+    processLine(coordinates, basePath);
+  } else if (type.indexOf(Constants.geojsonTypes.MULTI_PREFIX) === 0) {
+    processMultiGeometry();
+  }
+
+  function processLine(line, lineBasePath) {
+    let firstPointString = '';
+    let lastVertex = null;
+    line.forEach((point, pointIndex) => {
+      const pointPath = (lineBasePath !== undefined && lineBasePath !== null) ? `${lineBasePath}.${pointIndex}` : String(pointIndex);
+      const vertex = createVertex(featureId, point, pointPath, isSelectedPath(pointPath));
+
+      // If we're creating midpoints, check if there was a
+      // vertex before this one. If so, add a midpoint
+      // between that vertex and this one.
+      if (options.midpoints && lastVertex) {
+        const midpoint = createMidpoint(featureId, lastVertex, vertex, options.map);
+        if (midpoint) {
+          supplementaryPoints.push(midpoint);
+        }
+      }
+      lastVertex = vertex;
+
+      // A Polygon line's last point is the same as the first point. If we're on the last
+      // point, we want to draw a midpoint before it but not another vertex on it
+      // (since we already a vertex there, from the first point).
+      const stringifiedPoint = JSON.stringify(point);
+      if (firstPointString !== stringifiedPoint) {
+        supplementaryPoints.push(vertex);
+      }
+      if (pointIndex === 0) {
+        firstPointString = stringifiedPoint;
+      }
+    });
+  }
+
+  function isSelectedPath(path) {
+    if (!options.selectedPaths) return false;
+    return options.selectedPaths.indexOf(path) !== -1;
+  }
+
+  // Split a multi-geometry into constituent
+  // geometries, and accumulate the supplementary points
+  // for each of those constituents
+  function processMultiGeometry() {
+    const subType = type.replace(Constants.geojsonTypes.MULTI_PREFIX, '');
+    coordinates.forEach((subCoordinates, index) => {
+      const subFeature = {
+        type: Constants.geojsonTypes.FEATURE,
+        properties: geojson.properties,
+        geometry: {
+          type: subType,
+          coordinates: subCoordinates
+        }
+      };
+      supplementaryPoints = supplementaryPoints.concat(createSupplementaryPoints(subFeature, options, index));
+    });
+  }
+
+  return supplementaryPoints;
+}
+
+module.exports = createSupplementaryPoints;
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/create_vertex.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/create_vertex.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Constants = __webpack_require__(/*! ../constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+
+/**
+ * Returns GeoJSON for a Point representing the
+ * vertex of another feature.
+ *
+ * @param {string} parentId
+ * @param {Array<number>} coordinates
+ * @param {string} path - Dot-separated numbers indicating exactly
+ *   where the point exists within its parent feature's coordinates.
+ * @param {boolean} selected
+ * @return {GeoJSON} Point
+ */
+module.exports = function(parentId, coordinates, path, selected) {
+  return {
+    type: Constants.geojsonTypes.FEATURE,
+    properties: {
+      meta: Constants.meta.VERTEX,
+      parent: parentId,
+      coord_path: path,
+      active: (selected) ? Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE
+    },
+    geometry: {
+      type: Constants.geojsonTypes.POINT,
+      coordinates: coordinates
+    }
+  };
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/double_click_zoom.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/double_click_zoom.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = {
+  enable(ctx) {
+    setTimeout(() => {
+      // First check we've got a map and some context.
+      if (!ctx.map || !ctx.map.doubleClickZoom || !ctx._ctx || !ctx._ctx.store || !ctx._ctx.store.getInitialConfigValue) return;
+      // Now check initial state wasn't false (we leave it disabled if so)
+      if (!ctx._ctx.store.getInitialConfigValue('doubleClickZoom')) return;
+      ctx.map.doubleClickZoom.enable();
+    }, 0);
+  },
+  disable(ctx) {
+    setTimeout(() => {
+      if (!ctx.map || !ctx.map.doubleClickZoom) return;
+      // Always disable here, as it's necessary in some cases.
+      ctx.map.doubleClickZoom.disable();
+    }, 0);
+  }
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/euclidean_distance.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/euclidean_distance.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(a, b) {
+  const x = a.x - b.x;
+  const y = a.y - b.y;
+  return Math.sqrt((x * x) + (y * y));
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/features_at.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/features_at.js ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const sortFeatures = __webpack_require__(/*! ./sort_features */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/sort_features.js");
+const mapEventToBoundingBox = __webpack_require__(/*! ./map_event_to_bounding_box */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/map_event_to_bounding_box.js");
+const Constants = __webpack_require__(/*! ../constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+const StringSet = __webpack_require__(/*! ./string_set */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/string_set.js");
+
+const META_TYPES = [
+  Constants.meta.FEATURE,
+  Constants.meta.MIDPOINT,
+  Constants.meta.VERTEX
+];
+
+// Requires either event or bbox
+module.exports = {
+  click: featuresAtClick,
+  touch: featuresAtTouch
+};
+
+function featuresAtClick(event, bbox, ctx) {
+  return featuresAt(event, bbox, ctx, ctx.options.clickBuffer);
+}
+
+function featuresAtTouch(event, bbox, ctx) {
+  return featuresAt(event, bbox, ctx, ctx.options.touchBuffer);
+}
+
+function featuresAt(event, bbox, ctx, buffer) {
+  if (ctx.map === null) return [];
+
+  const box = (event) ? mapEventToBoundingBox(event, buffer) : bbox;
+
+  const queryParams = {};
+  if (ctx.options.styles) queryParams.layers = ctx.options.styles.map(s => s.id);
+
+  const features = ctx.map.queryRenderedFeatures(box, queryParams)
+    .filter((feature) => {
+      return META_TYPES.indexOf(feature.properties.meta) !== -1;
+    });
+
+  const featureIds = new StringSet();
+  const uniqueFeatures = [];
+  features.forEach((feature) => {
+    const featureId = feature.properties.id;
+    if (featureIds.has(featureId)) return;
+    featureIds.add(featureId);
+    uniqueFeatures.push(feature);
+  });
+
+  return sortFeatures(uniqueFeatures);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/get_features_and_set_cursor.js":
+/*!************************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/get_features_and_set_cursor.js ***!
+  \************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const featuresAt = __webpack_require__(/*! ./features_at */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/features_at.js");
+const Constants = __webpack_require__(/*! ../constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+
+module.exports = function getFeatureAtAndSetCursors(event, ctx) {
+  const features = featuresAt.click(event, null, ctx);
+  const classes = { mouse: Constants.cursors.NONE };
+
+  if (features[0]) {
+    classes.mouse = (features[0].properties.active === Constants.activeStates.ACTIVE) ?
+      Constants.cursors.MOVE : Constants.cursors.POINTER;
+    classes.feature = features[0].properties.meta;
+  }
+
+  if (ctx.events.currentModeName().indexOf('draw') !== -1) {
+    classes.mouse = Constants.cursors.ADD;
+  }
+
+  ctx.ui.queueMapClasses(classes);
+  ctx.ui.updateMapClasses();
+
+  return features[0];
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/is_click.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/is_click.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const euclideanDistance = __webpack_require__(/*! ./euclidean_distance */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/euclidean_distance.js");
+
+const FINE_TOLERANCE = 4;
+const GROSS_TOLERANCE = 12;
+const INTERVAL = 500;
+
+module.exports = function isClick(start, end, options = {}) {
+  const fineTolerance = (options.fineTolerance != null) ? options.fineTolerance : FINE_TOLERANCE;
+  const grossTolerance = (options.grossTolerance != null) ? options.grossTolerance : GROSS_TOLERANCE;
+  const interval = (options.interval != null) ? options.interval : INTERVAL;
+
+  start.point = start.point || end.point;
+  start.time = start.time || end.time;
+  const moveDistance = euclideanDistance(start.point, end.point);
+
+  return moveDistance < fineTolerance ||
+    (moveDistance < grossTolerance && (end.time - start.time) < interval);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/is_event_at_coordinates.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/is_event_at_coordinates.js ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function isEventAtCoordinates(event, coordinates) {
+  if (!event.lngLat) return false;
+  return event.lngLat.lng === coordinates[0] && event.lngLat.lat === coordinates[1];
+}
+
+module.exports = isEventAtCoordinates;
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/is_tap.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/is_tap.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const euclideanDistance = __webpack_require__(/*! ./euclidean_distance */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/euclidean_distance.js");
+
+const TOLERANCE = 25;
+const INTERVAL = 250;
+
+module.exports = function isTap(start, end, options = {}) {
+  const tolerance = (options.tolerance != null) ? options.tolerance : TOLERANCE;
+  const interval = (options.interval != null) ? options.interval : INTERVAL;
+
+  start.point = start.point || end.point;
+  start.time = start.time || end.time;
+  const moveDistance = euclideanDistance(start.point, end.point);
+
+  return moveDistance < tolerance && (end.time - start.time) < interval;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/map_event_to_bounding_box.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/map_event_to_bounding_box.js ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ * Returns a bounding box representing the event's location.
+ *
+ * @param {Event} mapEvent - Mapbox GL JS map event, with a point properties.
+ * @return {Array<Array<number>>} Bounding box.
+ */
+function mapEventToBoundingBox(mapEvent, buffer = 0) {
+  return [
+    [mapEvent.point.x - buffer, mapEvent.point.y - buffer],
+    [mapEvent.point.x + buffer, mapEvent.point.y + buffer]
+  ];
+}
+
+module.exports = mapEventToBoundingBox;
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/mode_handler.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/mode_handler.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+const ModeHandler = function(mode, DrawContext) {
+
+  const handlers = {
+    drag: [],
+    click: [],
+    mousemove: [],
+    mousedown: [],
+    mouseup: [],
+    mouseout: [],
+    keydown: [],
+    keyup: [],
+    touchstart: [],
+    touchmove: [],
+    touchend: [],
+    tap: []
+  };
+
+  const ctx = {
+    on: function(event, selector, fn) {
+      if (handlers[event] === undefined) {
+        throw new Error(`Invalid event type: ${event}`);
+      }
+      handlers[event].push({
+        selector: selector,
+        fn: fn
+      });
+    },
+    render: function(id) {
+      DrawContext.store.featureChanged(id);
+    }
+  };
+
+  const delegate = function (eventName, event) {
+    const handles = handlers[eventName];
+    let iHandle = handles.length;
+    while (iHandle--) {
+      const handle = handles[iHandle];
+      if (handle.selector(event)) {
+        handle.fn.call(ctx, event);
+        DrawContext.store.render();
+        DrawContext.ui.updateMapClasses();
+
+        // ensure an event is only handled once
+        // we do this to let modes have multiple overlapping selectors
+        // and relay on order of oppertations to filter
+        break;
+      }
+    }
+  };
+
+  mode.start.call(ctx);
+
+  return {
+    render: mode.render,
+    stop: function() {
+      if (mode.stop) mode.stop();
+    },
+    trash: function() {
+      if (mode.trash) {
+        mode.trash();
+        DrawContext.store.render();
+      }
+    },
+    combineFeatures: function() {
+      if (mode.combineFeatures) {
+        mode.combineFeatures();
+      }
+    },
+    uncombineFeatures: function() {
+      if (mode.uncombineFeatures) {
+        mode.uncombineFeatures();
+      }
+    },
+    drag: function(event) {
+      delegate('drag', event);
+    },
+    click: function(event) {
+      delegate('click', event);
+    },
+    mousemove: function(event) {
+      delegate('mousemove', event);
+    },
+    mousedown: function(event) {
+      delegate('mousedown', event);
+    },
+    mouseup: function(event) {
+      delegate('mouseup', event);
+    },
+    mouseout: function(event) {
+      delegate('mouseout', event);
+    },
+    keydown: function(event) {
+      delegate('keydown', event);
+    },
+    keyup: function(event) {
+      delegate('keyup', event);
+    },
+    touchstart: function(event) {
+      delegate('touchstart', event);
+    },
+    touchmove: function(event) {
+      delegate('touchmove', event);
+    },
+    touchend: function(event) {
+      delegate('touchend', event);
+    },
+    tap: function(event) {
+      delegate('tap', event);
+    }
+  };
+};
+
+module.exports = ModeHandler;
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/mouse_event_point.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/mouse_event_point.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Point = __webpack_require__(/*! @mapbox/point-geometry */ "./node_modules/@mapbox/point-geometry/index.js");
+
+/**
+ * Returns a Point representing a mouse event's position
+ * relative to a containing element.
+ *
+ * @param {MouseEvent} mouseEvent
+ * @param {Node} container
+ * @returns {Point}
+ */
+function mouseEventPoint(mouseEvent, container) {
+  const rect = container.getBoundingClientRect();
+  return new Point(
+    mouseEvent.clientX - rect.left - (container.clientLeft || 0),
+    mouseEvent.clientY - rect.top - (container.clientTop || 0)
+  );
+}
+
+module.exports = mouseEventPoint;
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/move_features.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/move_features.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const constrainFeatureMovement = __webpack_require__(/*! ./constrain_feature_movement */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/constrain_feature_movement.js");
+const Constants = __webpack_require__(/*! ../constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+
+module.exports = function(features, delta) {
+  const constrainedDelta = constrainFeatureMovement(features.map(feature => feature.toGeoJSON()), delta);
+
+  features.forEach(feature => {
+    const currentCoordinates = feature.getCoordinates();
+
+    const moveCoordinate = (coord) => {
+      const point = {
+        lng: coord[0] + constrainedDelta.lng,
+        lat: coord[1] + constrainedDelta.lat
+      };
+      return [point.lng, point.lat];
+    };
+    const moveRing = (ring) => ring.map(coord => moveCoordinate(coord));
+    const moveMultiPolygon = (multi) => multi.map(ring => moveRing(ring));
+
+    let nextCoordinates;
+    if (feature.type === Constants.geojsonTypes.POINT) {
+      nextCoordinates = moveCoordinate(currentCoordinates);
+    } else if (feature.type === Constants.geojsonTypes.LINE_STRING || feature.type === Constants.geojsonTypes.MULTI_POINT) {
+      nextCoordinates = currentCoordinates.map(moveCoordinate);
+    } else if (feature.type === Constants.geojsonTypes.POLYGON || feature.type === Constants.geojsonTypes.MULTI_LINE_STRING) {
+      nextCoordinates = currentCoordinates.map(moveRing);
+    } else if (feature.type === Constants.geojsonTypes.MULTI_POLYGON) {
+      nextCoordinates = currentCoordinates.map(moveMultiPolygon);
+    }
+
+    feature.incomingCoords(nextCoordinates);
+  });
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/sort_features.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/sort_features.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const area = __webpack_require__(/*! @mapbox/geojson-area */ "./node_modules/@mapbox/geojson-area/index.js");
+const Constants = __webpack_require__(/*! ../constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+
+const FEATURE_SORT_RANKS = {
+  Point: 0,
+  LineString: 1,
+  Polygon: 2
+};
+
+function comparator(a, b) {
+  const score = FEATURE_SORT_RANKS[a.geometry.type] - FEATURE_SORT_RANKS[b.geometry.type];
+
+  if (score === 0 && a.geometry.type === Constants.geojsonTypes.POLYGON) {
+    return a.area - b.area;
+  }
+
+  return score;
+}
+
+// Sort in the order above, then sort polygons by area ascending.
+function sortFeatures(features) {
+  return features.map(feature => {
+    if (feature.geometry.type === Constants.geojsonTypes.POLYGON) {
+      feature.area = area.geometry({
+        type: Constants.geojsonTypes.FEATURE,
+        property: {},
+        geometry: feature.geometry
+      });
+    }
+    return feature;
+  }).sort(comparator).map(feature => {
+    delete feature.area;
+    return feature;
+  });
+}
+
+module.exports = sortFeatures;
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/string_set.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/string_set.js ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function StringSet(items) {
+  this._items = {};
+  this._nums = {};
+  this._length = items ? items.length : 0;
+  if (!items) return;
+  for (let i = 0, l = items.length; i < l; i++) {
+    this.add(items[i]);
+    if (items[i] === undefined) continue;
+    if (typeof items[i] === 'string') this._items[items[i]] = i;
+    else this._nums[items[i]] = i;
+
+  }
+}
+
+StringSet.prototype.add = function(x) {
+  if (this.has(x)) return this;
+  this._length++;
+  if (typeof x === 'string') this._items[x] = this._length;
+  else this._nums[x] = this._length;
+  return this;
+};
+
+StringSet.prototype.delete = function(x) {
+  if (this.has(x) === false) return this;
+  this._length--;
+  delete this._items[x];
+  delete this._nums[x];
+  return this;
+};
+
+StringSet.prototype.has = function(x) {
+  if (typeof x !== 'string' && typeof x !== 'number') return false;
+  return this._items[x] !== undefined || this._nums[x] !== undefined;
+};
+
+StringSet.prototype.values = function() {
+  const values = [];
+  Object.keys(this._items).forEach(k => {
+    values.push({ k: k, v: this._items[k] });
+  });
+  Object.keys(this._nums).forEach(k => {
+    values.push({ k: JSON.parse(k), v: this._nums[k] });
+  });
+
+  return values.sort((a, b) => a.v - b.v).map(a => a.k);
+};
+
+StringSet.prototype.clear = function() {
+  this._length = 0;
+  this._items = {};
+  this._nums = {};
+  return this;
+};
+
+module.exports = StringSet;
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/string_sets_are_equal.js":
+/*!******************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/string_sets_are_equal.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(a, b) {
+  if (a.length !== b.length) return false;
+  return JSON.stringify(a.map(id => id).sort()) === JSON.stringify(b.map(id => id).sort());
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/theme.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/theme.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = [
+  {
+    'id': 'gl-draw-polygon-fill-inactive',
+    'type': 'fill',
+    'filter': ['all',
+      ['==', 'active', 'false'],
+      ['==', '$type', 'Polygon'],
+      ['!=', 'mode', 'static']
+    ],
+    'paint': {
+      'fill-color': '#3bb2d0',
+      'fill-outline-color': '#3bb2d0',
+      'fill-opacity': 0.1
+    }
+  },
+  {
+    'id': 'gl-draw-polygon-fill-active',
+    'type': 'fill',
+    'filter': ['all', ['==', 'active', 'true'], ['==', '$type', 'Polygon']],
+    'paint': {
+      'fill-color': '#fbb03b',
+      'fill-outline-color': '#fbb03b',
+      'fill-opacity': 0.1
+    }
+  },
+  {
+    'id': 'gl-draw-polygon-midpoint',
+    'type': 'circle',
+    'filter': ['all',
+      ['==', '$type', 'Point'],
+      ['==', 'meta', 'midpoint']],
+    'paint': {
+      'circle-radius': 3,
+      'circle-color': '#fbb03b'
+    }
+  },
+  {
+    'id': 'gl-draw-polygon-stroke-inactive',
+    'type': 'line',
+    'filter': ['all',
+      ['==', 'active', 'false'],
+      ['==', '$type', 'Polygon'],
+      ['!=', 'mode', 'static']
+    ],
+    'layout': {
+      'line-cap': 'round',
+      'line-join': 'round'
+    },
+    'paint': {
+      'line-color': '#3bb2d0',
+      'line-width': 2
+    }
+  },
+  {
+    'id': 'gl-draw-polygon-stroke-active',
+    'type': 'line',
+    'filter': ['all', ['==', 'active', 'true'], ['==', '$type', 'Polygon']],
+    'layout': {
+      'line-cap': 'round',
+      'line-join': 'round'
+    },
+    'paint': {
+      'line-color': '#fbb03b',
+      'line-dasharray': [0.2, 2],
+      'line-width': 2
+    }
+  },
+  {
+    'id': 'gl-draw-line-inactive',
+    'type': 'line',
+    'filter': ['all',
+      ['==', 'active', 'false'],
+      ['==', '$type', 'LineString'],
+      ['!=', 'mode', 'static']
+    ],
+    'layout': {
+      'line-cap': 'round',
+      'line-join': 'round'
+    },
+    'paint': {
+      'line-color': '#3bb2d0',
+      'line-width': 2
+    }
+  },
+  {
+    'id': 'gl-draw-line-active',
+    'type': 'line',
+    'filter': ['all',
+      ['==', '$type', 'LineString'],
+      ['==', 'active', 'true']
+    ],
+    'layout': {
+      'line-cap': 'round',
+      'line-join': 'round'
+    },
+    'paint': {
+      'line-color': '#fbb03b',
+      'line-dasharray': [0.2, 2],
+      'line-width': 2
+    }
+  },
+  {
+    'id': 'gl-draw-polygon-and-line-vertex-stroke-inactive',
+    'type': 'circle',
+    'filter': ['all',
+      ['==', 'meta', 'vertex'],
+      ['==', '$type', 'Point'],
+      ['!=', 'mode', 'static']
+    ],
+    'paint': {
+      'circle-radius': 5,
+      'circle-color': '#fff'
+    }
+  },
+  {
+    'id': 'gl-draw-polygon-and-line-vertex-inactive',
+    'type': 'circle',
+    'filter': ['all',
+      ['==', 'meta', 'vertex'],
+      ['==', '$type', 'Point'],
+      ['!=', 'mode', 'static']
+    ],
+    'paint': {
+      'circle-radius': 3,
+      'circle-color': '#fbb03b'
+    }
+  },
+  {
+    'id': 'gl-draw-point-point-stroke-inactive',
+    'type': 'circle',
+    'filter': ['all',
+      ['==', 'active', 'false'],
+      ['==', '$type', 'Point'],
+      ['==', 'meta', 'feature'],
+      ['!=', 'mode', 'static']
+    ],
+    'paint': {
+      'circle-radius': 5,
+      'circle-opacity': 1,
+      'circle-color': '#fff'
+    }
+  },
+  {
+    'id': 'gl-draw-point-inactive',
+    'type': 'circle',
+    'filter': ['all',
+      ['==', 'active', 'false'],
+      ['==', '$type', 'Point'],
+      ['==', 'meta', 'feature'],
+      ['!=', 'mode', 'static']
+    ],
+    'paint': {
+      'circle-radius': 3,
+      'circle-color': '#3bb2d0'
+    }
+  },
+  {
+    'id': 'gl-draw-point-stroke-active',
+    'type': 'circle',
+    'filter': ['all',
+      ['==', '$type', 'Point'],
+      ['==', 'active', 'true'],
+      ['!=', 'meta', 'midpoint']
+    ],
+    'paint': {
+      'circle-radius': 7,
+      'circle-color': '#fff'
+    }
+  },
+  {
+    'id': 'gl-draw-point-active',
+    'type': 'circle',
+    'filter': ['all',
+      ['==', '$type', 'Point'],
+      ['!=', 'meta', 'midpoint'],
+      ['==', 'active', 'true']],
+    'paint': {
+      'circle-radius': 5,
+      'circle-color': '#fbb03b'
+    }
+  },
+  {
+    'id': 'gl-draw-polygon-fill-static',
+    'type': 'fill',
+    'filter': ['all', ['==', 'mode', 'static'], ['==', '$type', 'Polygon']],
+    'paint': {
+      'fill-color': '#404040',
+      'fill-outline-color': '#404040',
+      'fill-opacity': 0.1
+    }
+  },
+  {
+    'id': 'gl-draw-polygon-stroke-static',
+    'type': 'line',
+    'filter': ['all', ['==', 'mode', 'static'], ['==', '$type', 'Polygon']],
+    'layout': {
+      'line-cap': 'round',
+      'line-join': 'round'
+    },
+    'paint': {
+      'line-color': '#404040',
+      'line-width': 2
+    }
+  },
+  {
+    'id': 'gl-draw-line-static',
+    'type': 'line',
+    'filter': ['all', ['==', 'mode', 'static'], ['==', '$type', 'LineString']],
+    'layout': {
+      'line-cap': 'round',
+      'line-join': 'round'
+    },
+    'paint': {
+      'line-color': '#404040',
+      'line-width': 2
+    }
+  },
+  {
+    'id': 'gl-draw-point-static',
+    'type': 'circle',
+    'filter': ['all', ['==', 'mode', 'static'], ['==', '$type', 'Point']],
+    'paint': {
+      'circle-radius': 5,
+      'circle-color': '#404040'
+    }
+  }
+];
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/throttle.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/throttle.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function throttle(fn, time, context) {
+  let lock, args;
+
+  function later () {
+    // reset lock and call if queued
+    lock = false;
+    if (args) {
+      wrapperFn.apply(context, args);
+      args = false;
+    }
+  }
+
+  function wrapperFn () {
+    if (lock) {
+      // called too soon, queue to call later
+      args = arguments;
+
+    } else {
+      // lock until later then call
+      lock = true;
+      fn.apply(context, arguments);
+      setTimeout(later, time);
+    }
+  }
+
+  return wrapperFn;
+}
+
+module.exports = throttle;
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/to_dense_array.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/lib/to_dense_array.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ * Derive a dense array (no `undefined`s) from a single value or array.
+ *
+ * @param {any} x
+ * @return {Array<any>}
+ */
+function toDenseArray(x) {
+  return [].concat(x).filter(y => y !== undefined);
+}
+
+module.exports = toDenseArray;
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/modes/direct_select.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/modes/direct_select.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const {noTarget, isOfMetaType, isInactiveFeature, isShiftDown} = __webpack_require__(/*! ../lib/common_selectors */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/common_selectors.js");
+const createSupplementaryPoints = __webpack_require__(/*! ../lib/create_supplementary_points */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/create_supplementary_points.js");
+const constrainFeatureMovement = __webpack_require__(/*! ../lib/constrain_feature_movement */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/constrain_feature_movement.js");
+const doubleClickZoom = __webpack_require__(/*! ../lib/double_click_zoom */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/double_click_zoom.js");
+const Constants = __webpack_require__(/*! ../constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+const CommonSelectors = __webpack_require__(/*! ../lib/common_selectors */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/common_selectors.js");
+const moveFeatures = __webpack_require__(/*! ../lib/move_features */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/move_features.js");
+
+const isVertex = isOfMetaType(Constants.meta.VERTEX);
+const isMidpoint = isOfMetaType(Constants.meta.MIDPOINT);
+
+const DirectSelect = {};
+
+// INTERNAL FUCNTIONS
+
+DirectSelect.fireUpdate = function() {
+  this.map.fire(Constants.events.UPDATE, {
+    action: Constants.updateActions.CHANGE_COORDINATES,
+    features: this.getSelected().map(f => f.toGeoJSON())
+  });
+};
+
+DirectSelect.fireActionable = function(state) {
+  this.setActionableState({
+    combineFeatures: false,
+    uncombineFeatures: false,
+    trash: state.selectedCoordPaths.length > 0
+  });
+};
+
+DirectSelect.startDragging = function(state, e) {
+  this.map.dragPan.disable();
+  state.canDragMove = true;
+  state.dragMoveLocation = e.lngLat;
+};
+
+DirectSelect.stopDragging = function(state) {
+  this.map.dragPan.enable();
+  state.dragMoving = false;
+  state.canDragMove = false;
+  state.dragMoveLocation = null;
+};
+
+DirectSelect.onVertex = function (state, e) {
+  this.startDragging(state, e);
+  const about = e.featureTarget.properties;
+  const selectedIndex = state.selectedCoordPaths.indexOf(about.coord_path);
+  if (!isShiftDown(e) && selectedIndex === -1) {
+    state.selectedCoordPaths = [about.coord_path];
+  } else if (isShiftDown(e) && selectedIndex === -1) {
+    state.selectedCoordPaths.push(about.coord_path);
+  }
+
+  const selectedCoordinates = this.pathsToCoordinates(state.featureId, state.selectedCoordPaths);
+  this.setSelectedCoordinates(selectedCoordinates);
+};
+
+DirectSelect.onMidpoint = function(state, e) {
+  this.startDragging(state, e);
+  const about = e.featureTarget.properties;
+  state.feature.addCoordinate(about.coord_path, about.lng, about.lat);
+  this.fireUpdate();
+  state.selectedCoordPaths = [about.coord_path];
+};
+
+DirectSelect.pathsToCoordinates = function(featureId, paths) {
+  return paths.map(coord_path => { return { feature_id: featureId, coord_path }; });
+};
+
+DirectSelect.onFeature = function(state, e) {
+  if (state.selectedCoordPaths.length === 0) this.startDragging(state, e);
+  else this.stopDragging(state);
+};
+
+DirectSelect.dragFeature = function(state, e, delta) {
+  moveFeatures(this.getSelected(), delta);
+  state.dragMoveLocation = e.lngLat;
+};
+
+DirectSelect.dragVertex = function(state, e, delta) {
+  const selectedCoords = state.selectedCoordPaths.map(coord_path => state.feature.getCoordinate(coord_path));
+  const selectedCoordPoints = selectedCoords.map(coords => ({
+    type: Constants.geojsonTypes.FEATURE,
+    properties: {},
+    geometry: {
+      type: Constants.geojsonTypes.POINT,
+      coordinates: coords
+    }
+  }));
+
+  const constrainedDelta = constrainFeatureMovement(selectedCoordPoints, delta);
+  for (let i = 0; i < selectedCoords.length; i++) {
+    const coord = selectedCoords[i];
+    state.feature.updateCoordinate(state.selectedCoordPaths[i], coord[0] + constrainedDelta.lng, coord[1] + constrainedDelta.lat);
+  }
+};
+
+DirectSelect.clickNoTarget = function () {
+  this.changeMode(Constants.modes.SIMPLE_SELECT);
+};
+
+DirectSelect.clickInactive = function () {
+  this.changeMode(Constants.modes.SIMPLE_SELECT);
+};
+
+DirectSelect.clickActiveFeature = function (state) {
+  state.selectedCoordPaths = [];
+  this.clearSelectedCoordinates();
+  state.feature.changed();
+};
+
+// EXTERNAL FUNCTIONS
+
+DirectSelect.onSetup = function(opts) {
+  const featureId = opts.featureId;
+  const feature = this.getFeature(featureId);
+
+  if (!feature) {
+    throw new Error('You must provide a featureId to enter direct_select mode');
+  }
+
+  if (feature.type === Constants.geojsonTypes.POINT) {
+    throw new TypeError('direct_select mode doesn\'t handle point features');
+  }
+
+  const state = {
+    featureId,
+    feature,
+    dragMoveLocation: opts.startPos || null,
+    dragMoving: false,
+    canDragMove: false,
+    selectedCoordPaths: opts.coordPath ? [opts.coordPath] : []
+  };
+
+  this.setSelectedCoordinates(this.pathsToCoordinates(featureId, state.selectedCoordPaths));
+  this.setSelected(featureId);
+  doubleClickZoom.disable(this);
+
+  this.setActionableState({
+    trash: true
+  });
+
+  return state;
+};
+
+DirectSelect.onStop = function() {
+  doubleClickZoom.enable(this);
+  this.clearSelectedCoordinates();
+};
+
+DirectSelect.toDisplayFeatures = function(state, geojson, push) {
+  if (state.featureId === geojson.properties.id) {
+    geojson.properties.active = Constants.activeStates.ACTIVE;
+    push(geojson);
+    createSupplementaryPoints(geojson, {
+      map: this.map,
+      midpoints: true,
+      selectedPaths: state.selectedCoordPaths
+    }).forEach(push);
+  } else {
+    geojson.properties.active = Constants.activeStates.INACTIVE;
+    push(geojson);
+  }
+  this.fireActionable(state);
+};
+
+DirectSelect.onTrash = function(state) {
+  state.selectedCoordPaths.sort().reverse().forEach(id => state.feature.removeCoordinate(id));
+  this.fireUpdate();
+  state.selectedCoordPaths = [];
+  this.clearSelectedCoordinates();
+  this.fireActionable(state);
+  if (state.feature.isValid() === false) {
+    this.deleteFeature([state.featureId]);
+    this.changeMode(Constants.modes.SIMPLE_SELECT, {});
+  }
+};
+
+DirectSelect.onMouseMove = function(state, e) {
+  // On mousemove that is not a drag, stop vertex movement.
+  const isFeature = CommonSelectors.isActiveFeature(e);
+  const onVertex = isVertex(e);
+  const noCoords = state.selectedCoordPaths.length === 0;
+  if (isFeature && noCoords) this.updateUIClasses({ mouse: Constants.cursors.MOVE });
+  else if (onVertex && !noCoords) this.updateUIClasses({ mouse: Constants.cursors.MOVE });
+  else this.updateUIClasses({ mouse: Constants.cursors.NONE });
+  this.stopDragging(state);
+};
+
+DirectSelect.onMouseOut = function(state) {
+  // As soon as you mouse leaves the canvas, update the feature
+  if (state.dragMoving) this.fireUpdate();
+};
+
+DirectSelect.onTouchStart = DirectSelect.onMouseDown = function(state, e) {
+  if (isVertex(e)) return this.onVertex(state, e);
+  if (CommonSelectors.isActiveFeature(e)) return this.onFeature(state, e);
+  if (isMidpoint(e)) return this.onMidpoint(state, e);
+};
+
+DirectSelect.onDrag = function(state, e) {
+  if (state.canDragMove !== true) return;
+  state.dragMoving = true;
+  e.originalEvent.stopPropagation();
+
+  const delta = {
+    lng: e.lngLat.lng - state.dragMoveLocation.lng,
+    lat: e.lngLat.lat - state.dragMoveLocation.lat
+  };
+  if (state.selectedCoordPaths.length > 0) this.dragVertex(state, e, delta);
+  else this.dragFeature(state, e, delta);
+
+  state.dragMoveLocation = e.lngLat;
+};
+
+DirectSelect.onClick = function(state, e) {
+  if (noTarget(e)) return this.clickNoTarget(state, e);
+  if (CommonSelectors.isActiveFeature(e)) return this.clickActiveFeature(state, e);
+  if (isInactiveFeature(e)) return this.clickInactive(state, e);
+  this.stopDragging(state);
+};
+
+DirectSelect.onTap = function(state, e) {
+  if (noTarget(e)) return this.clickNoTarget(state, e);
+  if (CommonSelectors.isActiveFeature(e)) return this.clickActiveFeature(state, e);
+  if (isInactiveFeature(e)) return this.clickInactive(state, e);
+};
+
+DirectSelect.onTouchEnd = DirectSelect.onMouseUp = function(state) {
+  if (state.dragMoving) {
+    this.fireUpdate();
+  }
+  this.stopDragging(state);
+};
+
+module.exports = DirectSelect;
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/modes/draw_line_string.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/modes/draw_line_string.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const CommonSelectors = __webpack_require__(/*! ../lib/common_selectors */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/common_selectors.js");
+const isEventAtCoordinates = __webpack_require__(/*! ../lib/is_event_at_coordinates */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/is_event_at_coordinates.js");
+const doubleClickZoom = __webpack_require__(/*! ../lib/double_click_zoom */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/double_click_zoom.js");
+const Constants = __webpack_require__(/*! ../constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+const createVertex = __webpack_require__(/*! ../lib/create_vertex */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/create_vertex.js");
+
+const DrawLineString = {};
+
+DrawLineString.onSetup = function(opts) {
+  opts = opts || {};
+  const featureId = opts.featureId;
+
+  let line, currentVertexPosition;
+  let direction = 'forward';
+  if (featureId) {
+    line = this.getFeature(featureId);
+    if (!line) {
+      throw new Error('Could not find a feature with the provided featureId');
+    }
+    let from = opts.from;
+    if (from && from.type === 'Feature' && from.geometry && from.geometry.type === 'Point') {
+      from = from.geometry;
+    }
+    if (from && from.type === 'Point' && from.coordinates && from.coordinates.length === 2) {
+      from = from.coordinates;
+    }
+    if (!from || !Array.isArray(from)) {
+      throw new Error('Please use the `from` property to indicate which point to continue the line from');
+    }
+    const lastCoord = line.coordinates.length - 1;
+    if (line.coordinates[lastCoord][0] === from[0] && line.coordinates[lastCoord][1] === from[1]) {
+      currentVertexPosition = lastCoord + 1;
+      // add one new coordinate to continue from
+      line.addCoordinate(currentVertexPosition, ...line.coordinates[lastCoord]);
+    } else if (line.coordinates[0][0] === from[0] && line.coordinates[0][1] === from[1]) {
+      direction = 'backwards';
+      currentVertexPosition = 0;
+      // add one new coordinate to continue from
+      line.addCoordinate(currentVertexPosition, ...line.coordinates[0]);
+    } else {
+      throw new Error('`from` should match the point at either the start or the end of the provided LineString');
+    }
+  } else {
+    line = this.newFeature({
+      type: Constants.geojsonTypes.FEATURE,
+      properties: {},
+      geometry: {
+        type: Constants.geojsonTypes.LINE_STRING,
+        coordinates: []
+      }
+    });
+    currentVertexPosition = 0;
+    this.addFeature(line);
+  }
+
+  this.clearSelectedFeatures();
+  doubleClickZoom.disable(this);
+  this.updateUIClasses({ mouse: Constants.cursors.ADD });
+  this.activateUIButton(Constants.types.LINE);
+  this.setActionableState({
+    trash: true
+  });
+
+  return {
+    line,
+    currentVertexPosition,
+    direction
+  };
+};
+
+DrawLineString.clickAnywhere = function(state, e) {
+  if (state.currentVertexPosition > 0 && isEventAtCoordinates(e, state.line.coordinates[state.currentVertexPosition - 1]) ||
+      state.direction === 'backwards' && isEventAtCoordinates(e, state.line.coordinates[state.currentVertexPosition + 1])) {
+    return this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [state.line.id] });
+  }
+  this.updateUIClasses({ mouse: Constants.cursors.ADD });
+  state.line.updateCoordinate(state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
+  if (state.direction === 'forward') {
+    state.currentVertexPosition++;
+    state.line.updateCoordinate(state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
+  } else {
+    state.line.addCoordinate(0, e.lngLat.lng, e.lngLat.lat);
+  }
+};
+
+DrawLineString.clickOnVertex = function(state) {
+  return this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [state.line.id] });
+};
+
+DrawLineString.onMouseMove = function(state, e) {
+  state.line.updateCoordinate(state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
+  if (CommonSelectors.isVertex(e)) {
+    this.updateUIClasses({ mouse: Constants.cursors.POINTER });
+  }
+};
+
+DrawLineString.onTap = DrawLineString.onClick = function(state, e) {
+  if (CommonSelectors.isVertex(e)) return this.clickOnVertex(state, e);
+  this.clickAnywhere(state, e);
+};
+
+DrawLineString.onKeyUp = function(state, e) {
+  if (CommonSelectors.isEnterKey(e)) {
+    this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [state.line.id] });
+  } else if (CommonSelectors.isEscapeKey(e)) {
+    this.deleteFeature([state.line.id], { silent: true });
+    this.changeMode(Constants.modes.SIMPLE_SELECT);
+  }
+};
+
+DrawLineString.onStop = function(state) {
+  doubleClickZoom.enable(this);
+  this.activateUIButton();
+
+  // check to see if we've deleted this feature
+  if (this.getFeature(state.line.id) === undefined) return;
+
+  //remove last added coordinate
+  state.line.removeCoordinate(`${state.currentVertexPosition}`);
+  if (state.line.isValid()) {
+    this.map.fire(Constants.events.CREATE, {
+      features: [state.line.toGeoJSON()]
+    });
+  } else {
+    this.deleteFeature([state.line.id], { silent: true });
+    this.changeMode(Constants.modes.SIMPLE_SELECT, {}, { silent: true });
+  }
+};
+
+DrawLineString.onTrash = function(state) {
+  this.deleteFeature([state.line.id], { silent: true });
+  this.changeMode(Constants.modes.SIMPLE_SELECT);
+};
+
+DrawLineString.toDisplayFeatures = function(state, geojson, display) {
+  const isActiveLine = geojson.properties.id === state.line.id;
+  geojson.properties.active = (isActiveLine) ? Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE;
+  if (!isActiveLine) return display(geojson);
+  // Only render the line if it has at least one real coordinate
+  if (geojson.geometry.coordinates.length < 2) return;
+  geojson.properties.meta = Constants.meta.FEATURE;
+  display(createVertex(
+    state.line.id,
+    geojson.geometry.coordinates[state.direction === 'forward' ? geojson.geometry.coordinates.length - 2 : 1],
+    `${state.direction === 'forward' ? geojson.geometry.coordinates.length - 2 : 1}`,
+    false
+  ));
+
+  display(geojson);
+};
+
+module.exports = DrawLineString;
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/modes/draw_point.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/modes/draw_point.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const CommonSelectors = __webpack_require__(/*! ../lib/common_selectors */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/common_selectors.js");
+const Constants = __webpack_require__(/*! ../constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+
+const DrawPoint = {};
+
+DrawPoint.onSetup = function() {
+  const point = this.newFeature({
+    type: Constants.geojsonTypes.FEATURE,
+    properties: {},
+    geometry: {
+      type: Constants.geojsonTypes.POINT,
+      coordinates: []
+    }
+  });
+
+  this.addFeature(point);
+
+  this.clearSelectedFeatures();
+  this.updateUIClasses({ mouse: Constants.cursors.ADD });
+  this.activateUIButton(Constants.types.POINT);
+
+  this.setActionableState({
+    trash: true
+  });
+
+  return { point };
+};
+
+DrawPoint.stopDrawingAndRemove = function(state) {
+  this.deleteFeature([state.point.id], { silent: true });
+  this.changeMode(Constants.modes.SIMPLE_SELECT);
+};
+
+DrawPoint.onTap = DrawPoint.onClick = function(state, e) {
+  this.updateUIClasses({ mouse: Constants.cursors.MOVE });
+  state.point.updateCoordinate('', e.lngLat.lng, e.lngLat.lat);
+  this.map.fire(Constants.events.CREATE, {
+    features: [state.point.toGeoJSON()]
+  });
+  this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [state.point.id] });
+};
+
+DrawPoint.onStop = function(state) {
+  this.activateUIButton();
+  if (!state.point.getCoordinate().length) {
+    this.deleteFeature([state.point.id], { silent: true });
+  }
+};
+
+DrawPoint.toDisplayFeatures = function(state, geojson, display) {
+  // Never render the point we're drawing
+  const isActivePoint = geojson.properties.id === state.point.id;
+  geojson.properties.active = (isActivePoint) ? Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE;
+  if (!isActivePoint) return display(geojson);
+};
+
+DrawPoint.onTrash = DrawPoint.stopDrawingAndRemove;
+
+DrawPoint.onKeyUp = function(state, e) {
+  if (CommonSelectors.isEscapeKey(e) || CommonSelectors.isEnterKey(e)) {
+    return this.stopDrawingAndRemove(state, e);
+  }
+};
+
+module.exports = DrawPoint;
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/modes/draw_polygon.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/modes/draw_polygon.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const CommonSelectors = __webpack_require__(/*! ../lib/common_selectors */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/common_selectors.js");
+const doubleClickZoom = __webpack_require__(/*! ../lib/double_click_zoom */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/double_click_zoom.js");
+const Constants = __webpack_require__(/*! ../constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+const isEventAtCoordinates = __webpack_require__(/*! ../lib/is_event_at_coordinates */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/is_event_at_coordinates.js");
+const createVertex = __webpack_require__(/*! ../lib/create_vertex */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/create_vertex.js");
+
+const DrawPolygon = {};
+
+DrawPolygon.onSetup = function() {
+  const polygon = this.newFeature({
+    type: Constants.geojsonTypes.FEATURE,
+    properties: {},
+    geometry: {
+      type: Constants.geojsonTypes.POLYGON,
+      coordinates: [[]]
+    }
+  });
+
+  this.addFeature(polygon);
+
+  this.clearSelectedFeatures();
+  doubleClickZoom.disable(this);
+  this.updateUIClasses({ mouse: Constants.cursors.ADD });
+  this.activateUIButton(Constants.types.POLYGON);
+  this.setActionableState({
+    trash: true
+  });
+
+  return {
+    polygon,
+    currentVertexPosition: 0
+  };
+};
+
+DrawPolygon.clickAnywhere = function(state, e) {
+  if (state.currentVertexPosition > 0 && isEventAtCoordinates(e, state.polygon.coordinates[0][state.currentVertexPosition - 1])) {
+    return this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [state.polygon.id] });
+  }
+  this.updateUIClasses({ mouse: Constants.cursors.ADD });
+  state.polygon.updateCoordinate(`0.${state.currentVertexPosition}`, e.lngLat.lng, e.lngLat.lat);
+  state.currentVertexPosition++;
+  state.polygon.updateCoordinate(`0.${state.currentVertexPosition}`, e.lngLat.lng, e.lngLat.lat);
+};
+
+DrawPolygon.clickOnVertex = function(state) {
+  return this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [state.polygon.id] });
+};
+
+DrawPolygon.onMouseMove = function(state, e) {
+  state.polygon.updateCoordinate(`0.${state.currentVertexPosition}`, e.lngLat.lng, e.lngLat.lat);
+  if (CommonSelectors.isVertex(e)) {
+    this.updateUIClasses({ mouse: Constants.cursors.POINTER });
+  }
+};
+
+DrawPolygon.onTap = DrawPolygon.onClick = function(state, e) {
+  if (CommonSelectors.isVertex(e)) return this.clickOnVertex(state, e);
+  return this.clickAnywhere(state, e);
+};
+
+DrawPolygon.onKeyUp = function(state, e) {
+  if (CommonSelectors.isEscapeKey(e)) {
+    this.deleteFeature([state.polygon.id], { silent: true });
+    this.changeMode(Constants.modes.SIMPLE_SELECT);
+  } else if (CommonSelectors.isEnterKey(e)) {
+    this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [state.polygon.id] });
+  }
+};
+
+DrawPolygon.onStop = function(state) {
+  this.updateUIClasses({ mouse: Constants.cursors.NONE });
+  doubleClickZoom.enable(this);
+  this.activateUIButton();
+
+  // check to see if we've deleted this feature
+  if (this.getFeature(state.polygon.id) === undefined) return;
+
+  //remove last added coordinate
+  state.polygon.removeCoordinate(`0.${state.currentVertexPosition}`);
+  if (state.polygon.isValid()) {
+    this.map.fire(Constants.events.CREATE, {
+      features: [state.polygon.toGeoJSON()]
+    });
+  } else {
+    this.deleteFeature([state.polygon.id], { silent: true });
+    this.changeMode(Constants.modes.SIMPLE_SELECT, {}, { silent: true });
+  }
+};
+
+DrawPolygon.toDisplayFeatures = function(state, geojson, display) {
+  const isActivePolygon = geojson.properties.id === state.polygon.id;
+  geojson.properties.active = (isActivePolygon) ? Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE;
+  if (!isActivePolygon) return display(geojson);
+
+  // Don't render a polygon until it has two positions
+  // (and a 3rd which is just the first repeated)
+  if (geojson.geometry.coordinates.length === 0) return;
+
+  const coordinateCount = geojson.geometry.coordinates[0].length;
+  // 2 coordinates after selecting a draw type
+  // 3 after creating the first point
+  if (coordinateCount < 3) {
+    return;
+  }
+  geojson.properties.meta = Constants.meta.FEATURE;
+  display(createVertex(state.polygon.id, geojson.geometry.coordinates[0][0], '0.0', false));
+  if (coordinateCount > 3) {
+    // Add a start position marker to the map, clicking on this will finish the feature
+    // This should only be shown when we're in a valid spot
+    const endPos = geojson.geometry.coordinates[0].length - 3;
+    display(createVertex(state.polygon.id, geojson.geometry.coordinates[0][endPos], `0.${endPos}`, false));
+  }
+  if (coordinateCount <= 4) {
+    // If we've only drawn two positions (plus the closer),
+    // make a LineString instead of a Polygon
+    const lineCoordinates = [
+      [geojson.geometry.coordinates[0][0][0], geojson.geometry.coordinates[0][0][1]], [geojson.geometry.coordinates[0][1][0], geojson.geometry.coordinates[0][1][1]]
+    ];
+    // create an initial vertex so that we can track the first point on mobile devices
+    display({
+      type: Constants.geojsonTypes.FEATURE,
+      properties: geojson.properties,
+      geometry: {
+        coordinates: lineCoordinates,
+        type: Constants.geojsonTypes.LINE_STRING
+      }
+    });
+    if (coordinateCount === 3) {
+      return;
+    }
+  }
+  // render the Polygon
+  return display(geojson);
+};
+
+DrawPolygon.onTrash = function(state) {
+  this.deleteFeature([state.polygon.id], { silent: true });
+  this.changeMode(Constants.modes.SIMPLE_SELECT);
+};
+
+module.exports = DrawPolygon;
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/modes/index.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/modes/index.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = {
+  simple_select: __webpack_require__(/*! ./simple_select */ "./node_modules/@mapbox/mapbox-gl-draw/src/modes/simple_select.js"),
+  direct_select: __webpack_require__(/*! ./direct_select */ "./node_modules/@mapbox/mapbox-gl-draw/src/modes/direct_select.js"),
+  draw_point: __webpack_require__(/*! ./draw_point */ "./node_modules/@mapbox/mapbox-gl-draw/src/modes/draw_point.js"),
+  draw_polygon: __webpack_require__(/*! ./draw_polygon */ "./node_modules/@mapbox/mapbox-gl-draw/src/modes/draw_polygon.js"),
+  draw_line_string: __webpack_require__(/*! ./draw_line_string */ "./node_modules/@mapbox/mapbox-gl-draw/src/modes/draw_line_string.js"),
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/modes/mode_interface.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/modes/mode_interface.js ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const ModeInterface = module.exports = __webpack_require__(/*! ./mode_interface_accessors */ "./node_modules/@mapbox/mapbox-gl-draw/src/modes/mode_interface_accessors.js");
+
+/**
+ * Triggered while a mode is being transitioned into.
+ * @param opts {Object} - this is the object passed via `draw.changeMode('mode', opts)`;
+ * @name MODE.onSetup
+ * @returns {Object} - this object will be passed to all other life cycle functions
+ */
+ModeInterface.prototype.onSetup = function() {};
+
+/**
+ * Triggered when a drag event is detected on the map
+ * @name MODE.onDrag
+ * @param state {Object} - a mutible state object created by onSetup
+ * @param e {Object} - the captured event that is triggering this life cycle event
+ */
+ModeInterface.prototype.onDrag = function() {};
+
+/**
+ * Triggered when the mouse is clicked
+ * @name MODE.onClick
+ * @param state {Object} - a mutible state object created by onSetup
+ * @param e {Object} - the captured event that is triggering this life cycle event
+ */
+ModeInterface.prototype.onClick = function() {};
+
+/**
+ * Triggered with the mouse is moved
+ * @name MODE.onMouseMove
+ * @param state {Object} - a mutible state object created by onSetup
+ * @param e {Object} - the captured event that is triggering this life cycle event
+ */
+ModeInterface.prototype.onMouseMove = function() {};
+
+/**
+ * Triggered when the mouse button is pressed down
+ * @name MODE.onMouseDown
+ * @param state {Object} - a mutible state object created by onSetup
+ * @param e {Object} - the captured event that is triggering this life cycle event
+ */
+ModeInterface.prototype.onMouseDown = function() {};
+
+/**
+ * Triggered when the mouse button is released
+ * @name MODE.onMouseUp
+ * @param state {Object} - a mutible state object created by onSetup
+ * @param e {Object} - the captured event that is triggering this life cycle event
+ */
+ModeInterface.prototype.onMouseUp = function() {};
+
+/**
+ * Triggered when the mouse leaves the map's container
+ * @name MODE.onMouseOut
+ * @param state {Object} - a mutible state object created by onSetup
+ * @param e {Object} - the captured event that is triggering this life cycle event
+ */
+ModeInterface.prototype.onMouseOut = function() {};
+
+/**
+ * Triggered when a key up event is detected
+ * @name MODE.onKeyUp
+ * @param state {Object} - a mutible state object created by onSetup
+ * @param e {Object} - the captured event that is triggering this life cycle event
+ */
+ModeInterface.prototype.onKeyUp = function() {};
+
+/**
+ * Triggered when a key down event is detected
+ * @name MODE.onKeyDown
+ * @param state {Object} - a mutible state object created by onSetup
+ * @param e {Object} - the captured event that is triggering this life cycle event
+ */
+ModeInterface.prototype.onKeyDown = function() {};
+
+/**
+ * Triggered when a touch event is started
+ * @name MODE.onTouchStart
+ * @param state {Object} - a mutible state object created by onSetup
+ * @param e {Object} - the captured event that is triggering this life cycle event
+ */
+ModeInterface.prototype.onTouchStart = function() {};
+
+/**
+ * Triggered when one drags thier finger on a mobile device
+ * @name MODE.onTouchMove
+ * @param state {Object} - a mutible state object created by onSetup
+ * @param e {Object} - the captured event that is triggering this life cycle event
+ */
+ModeInterface.prototype.onTouchMove = function() {};
+
+/**
+ * Triggered when one removes their finger from the map
+ * @name MODE.onTouchEnd
+ * @param state {Object} - a mutible state object created by onSetup
+ * @param e {Object} - the captured event that is triggering this life cycle event
+ */
+ModeInterface.prototype.onTouchEnd = function() {};
+
+/**
+ * Triggered when one quicly taps the map
+ * @name MODE.onTap
+ * @param state {Object} - a mutible state object created by onSetup
+ * @param e {Object} - the captured event that is triggering this life cycle event
+ */
+ModeInterface.prototype.onTap = function() {};
+
+/**
+ * Triggered when the mode is being exited, to be used for cleaning up artifacts such as invalid features
+ * @name MODE.onStop
+ * @param state {Object} - a mutible state object created by onSetup
+ */
+ModeInterface.prototype.onStop = function() {};
+
+/**
+ * Triggered when [draw.trash()](https://github.com/mapbox/mapbox-gl-draw/blob/master/API.md#trash-draw) is called.
+ * @name MODE.onTrash
+ * @param state {Object} - a mutible state object created by onSetup
+ */
+ModeInterface.prototype.onTrash = function() {};
+
+/**
+ * Triggered when [draw.combineFeatures()](https://github.com/mapbox/mapbox-gl-draw/blob/master/API.md#combinefeatures-draw) is called.
+ * @name MODE.onCombineFeature
+ * @param state {Object} - a mutible state object created by onSetup
+ */
+ModeInterface.prototype.onCombineFeature = function() {};
+
+/**
+ * Triggered when [draw.uncombineFeatures()](https://github.com/mapbox/mapbox-gl-draw/blob/master/API.md#uncombinefeatures-draw) is called.
+ * @name MODE.onUncombineFeature
+ * @param state {Object} - a mutible state object created by onSetup
+ */
+ModeInterface.prototype.onUncombineFeature = function() {};
+
+/**
+ * Triggered per feature on render to convert raw features into set of features for display on the map
+ * See [styling draw](https://github.com/mapbox/mapbox-gl-draw/blob/master/API.md#styling-draw) for information about what geojson properties Draw uses as part of rendering.
+ * @name MODE.toDisplayFeatures
+ * @param state {Object} - a mutible state object created by onSetup
+ * @param geojson {Object} - a geojson being evaulated. To render, pass to `display`.
+ * @param display {Function} - all geojson objects passed to this be rendered onto the map
+ */
+ModeInterface.prototype.toDisplayFeatures = function() {
+  throw new Error('You must overwrite toDisplayFeatures');
+};
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/modes/mode_interface_accessors.js":
+/*!***********************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/modes/mode_interface_accessors.js ***!
+  \***********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Constants = __webpack_require__(/*! ../constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+const featuresAt = __webpack_require__(/*! ../lib/features_at */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/features_at.js");
+const Point = __webpack_require__(/*! ../feature_types/point */ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/point.js");
+const LineString = __webpack_require__(/*! ../feature_types/line_string */ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/line_string.js");
+const Polygon = __webpack_require__(/*! ../feature_types/polygon */ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/polygon.js");
+const MultiFeature = __webpack_require__(/*! ../feature_types/multi_feature */ "./node_modules/@mapbox/mapbox-gl-draw/src/feature_types/multi_feature.js");
+
+const ModeInterface = module.exports = function(ctx) {
+  this.map = ctx.map;
+  this.drawConfig = JSON.parse(JSON.stringify(ctx.options || {}));
+  this._ctx = ctx;
+};
+
+/**
+ * Sets Draw's interal selected state
+ * @name this.setSelected
+ * @param {DrawFeature[]} - whats selected as a [DrawFeature](https://github.com/mapbox/mapbox-gl-draw/blob/master/src/feature_types/feature.js)
+ */
+ModeInterface.prototype.setSelected = function(features) {
+  return this._ctx.store.setSelected(features);
+};
+
+/**
+ * Sets Draw's internal selected coordinate state
+ * @name this.setSelectedCoordinates
+ * @param {Object[]} coords - a array of {coord_path: 'string', featureId: 'string'}
+ */
+ModeInterface.prototype.setSelectedCoordinates = function(coords) {
+  this._ctx.store.setSelectedCoordinates(coords);
+  coords.reduce((m, c) => {
+    if (m[c.feature_id] === undefined) {
+      m[c.feature_id] = true;
+      this._ctx.store.get(c.feature_id).changed();
+    }
+    return m;
+  }, {});
+};
+
+/**
+ * Get all selected features as a [DrawFeature](https://github.com/mapbox/mapbox-gl-draw/blob/master/src/feature_types/feature.js)
+ * @name this.getSelected
+ * @returns {DrawFeature[]}
+ */
+ModeInterface.prototype.getSelected = function() {
+  return this._ctx.store.getSelected();
+};
+
+/**
+ * Get the ids of all currently selected features
+ * @name this.getSelectedIds
+ * @returns {String[]}
+ */
+ModeInterface.prototype.getSelectedIds = function() {
+  return this._ctx.store.getSelectedIds();
+};
+
+/**
+ * Check if a feature is selected
+ * @name this.isSelected
+ * @param {String} id - a feature id
+ * @returns {Boolean}
+ */
+ModeInterface.prototype.isSelected = function(id) {
+  return this._ctx.store.isSelected(id);
+};
+
+/**
+ * Get a [DrawFeature](https://github.com/mapbox/mapbox-gl-draw/blob/master/src/feature_types/feature.js) by its id
+ * @name this.getFeature
+ * @param {String} id - a feature id
+ * @returns {DrawFeature}
+ */
+ModeInterface.prototype.getFeature = function(id) {
+  return this._ctx.store.get(id);
+};
+
+/**
+ * Add a feature to draw's internal selected state
+ * @name this.select
+ * @param {String} id
+ */
+ModeInterface.prototype.select = function(id) {
+  return this._ctx.store.select(id);
+};
+
+/**
+ * Remove a feature from draw's internal selected state
+ * @name this.delete
+ * @param {String} id
+ */
+ModeInterface.prototype.deselect = function(id) {
+  return this._ctx.store.deselect(id);
+};
+
+/**
+ * Delete a feature from draw
+ * @name this.deleteFeature
+ * @param {String} id - a feature id
+ */
+ModeInterface.prototype.deleteFeature = function(id, opts = {}) {
+  return this._ctx.store.delete(id, opts);
+};
+
+/**
+ * Add a [DrawFeature](https://github.com/mapbox/mapbox-gl-draw/blob/master/src/feature_types/feature.js) to draw.
+ * See `this.newFeature` for converting geojson into a DrawFeature
+ * @name this.addFeature
+ * @param {DrawFeature} feature - the feature to add
+ */
+ModeInterface.prototype.addFeature = function(feature) {
+  return this._ctx.store.add(feature);
+};
+
+/**
+ * Clear all selected features
+ */
+ModeInterface.prototype.clearSelectedFeatures = function() {
+  return this._ctx.store.clearSelected();
+};
+
+/**
+ * Clear all selected coordinates
+ */
+ModeInterface.prototype.clearSelectedCoordinates = function() {
+  return this._ctx.store.clearSelectedCoordinates();
+};
+
+/**
+ * Indicate if the different action are currently possible with your mode
+ * See [draw.actionalbe](https://github.com/mapbox/mapbox-gl-draw/blob/master/API.md#drawactionable) for a list of possible actions. All undefined actions are set to **false** by default
+ * @name this.setActionableState
+ * @param {Object} actions
+ */
+ModeInterface.prototype.setActionableState = function(actions = {}) {
+  const newSet = {
+    trash: actions.trash || false,
+    combineFeatures: actions.combineFeatures || false,
+    uncombineFeatures: actions.uncombineFeatures || false
+  };
+  return this._ctx.events.actionable(newSet);
+};
+
+/**
+ * Trigger a mode change
+ * @name this.changeMode
+ * @param {String} mode - the mode to transition into
+ * @param {Object} opts - the options object to pass to the new mode
+ * @param {Object} eventOpts - used to control what kind of events are emitted.
+ */
+ModeInterface.prototype.changeMode = function(mode, opts = {}, eventOpts = {}) {
+  return this._ctx.events.changeMode(mode, opts, eventOpts);
+};
+
+/**
+ * Update the state of draw map classes
+ * @name this.updateUIClasses
+ * @param {Object} opts
+ */
+ModeInterface.prototype.updateUIClasses = function(opts) {
+  return this._ctx.ui.queueMapClasses(opts);
+};
+
+/**
+ * If a name is provided it makes that button active, else if makes all buttons inactive
+ * @name this.activateUIButton
+ * @param {String?} name - name of the button to make active, leave as undefined to set buttons to be inactive
+ */
+ModeInterface.prototype.activateUIButton = function(name) {
+  return this._ctx.ui.setActiveButton(name);
+};
+
+/**
+ * Get the features at the location of an event object or in a bbox
+ * @name this.featuresAt
+ * @param {Event||NULL} event - a mapbox-gl event object
+ * @param {BBOX||NULL} bbox - the area to get features from
+ * @param {String} bufferType - is this `click` or `tap` event, defaults to click
+ */
+ModeInterface.prototype.featuresAt = function(event, bbox, bufferType = 'click') {
+  if (bufferType !== 'click' && bufferType !== 'touch') throw new Error('invalid buffer type');
+  return featuresAt[bufferType](event, bbox, this._ctx);
+};
+
+/**
+ * Create a new [DrawFeature](https://github.com/mapbox/mapbox-gl-draw/blob/master/src/feature_types/feature.js) from geojson
+ * @name this.newFeature
+ * @param {GeoJSONFeature} geojson
+ * @returns {DrawFeature}
+ */
+ModeInterface.prototype.newFeature = function(geojson) {
+  const type = geojson.geometry.type;
+  if (type === Constants.geojsonTypes.POINT) return new Point(this._ctx, geojson);
+  if (type === Constants.geojsonTypes.LINE_STRING) return new LineString(this._ctx, geojson);
+  if (type === Constants.geojsonTypes.POLYGON) return new Polygon(this._ctx, geojson);
+  return new MultiFeature(this._ctx, geojson);
+};
+
+/**
+ * Check is an object is an instance of a [DrawFeature](https://github.com/mapbox/mapbox-gl-draw/blob/master/src/feature_types/feature.js)
+ * @name this.isInstanceOf
+ * @param {String} type - `Point`, `LineString`, `Polygon`, `MultiFeature`
+ * @param {Object} feature - the object that needs to be checked
+ * @returns {Boolean}
+ */
+ModeInterface.prototype.isInstanceOf = function(type, feature) {
+  if (type === Constants.geojsonTypes.POINT) return feature instanceof Point;
+  if (type === Constants.geojsonTypes.LINE_STRING) return feature instanceof LineString;
+  if (type === Constants.geojsonTypes.POLYGON) return feature instanceof Polygon;
+  if (type === 'MultiFeature') return feature instanceof MultiFeature;
+  throw new Error(`Unknown feature class: ${type}`);
+};
+
+/**
+ * Force draw to rerender the feature of the provided id
+ * @name this.doRender
+ * @param {String} id - a feature id
+ */
+ModeInterface.prototype.doRender = function(id) {
+  return this._ctx.store.featureChanged(id);
+};
+
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/modes/object_to_mode.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/modes/object_to_mode.js ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const ModeInterface = __webpack_require__(/*! ./mode_interface */ "./node_modules/@mapbox/mapbox-gl-draw/src/modes/mode_interface.js");
+
+const eventMapper = {
+  drag: 'onDrag',
+  click: 'onClick',
+  mousemove: 'onMouseMove',
+  mousedown: 'onMouseDown',
+  mouseup: 'onMouseUp',
+  mouseout: 'onMouseOut',
+  keyup: 'onKeyUp',
+  keydown: 'onKeyDown',
+  touchstart: 'onTouchStart',
+  touchmove: 'onTouchMove',
+  touchend: 'onTouchEnd',
+  tap: 'onTap'
+};
+
+const eventKeys = Object.keys(eventMapper);
+
+module.exports = function(modeObject) {
+  const modeObjectKeys = Object.keys(modeObject);
+
+  return function(ctx, startOpts = {}) {
+    let state = {};
+
+    const mode = modeObjectKeys.reduce((m, k) => {
+      m[k] = modeObject[k];
+      return m;
+    }, new ModeInterface(ctx));
+
+    function wrapper(eh) {
+      return function(e) {
+        mode[eh](state, e);
+      };
+    }
+
+    return {
+      start: function() {
+        state = mode.onSetup(startOpts); // this should set ui buttons
+
+        // Adds event handlers for all event options
+        // add sets the selector to false for all
+        // handlers that are not present in the mode
+        // to reduce on render calls for functions that
+        // have no logic
+        eventKeys.forEach(key => {
+          const modeHandler = eventMapper[key];
+          let selector = () => false;
+          if (modeObject[modeHandler]) {
+            selector = () => true;
+          }
+          this.on(key, selector, wrapper(modeHandler));
+        });
+
+      },
+      stop: function() {
+        mode.onStop(state);
+      },
+      trash: function() {
+        mode.onTrash(state);
+      },
+      combineFeatures: function() {
+        mode.onCombineFeatures(state);
+      },
+      uncombineFeatures: function() {
+        mode.onUncombineFeatures(state);
+      },
+      render: function(geojson, push) {
+        mode.toDisplayFeatures(state, geojson, push);
+      }
+    };
+  };
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/modes/simple_select.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/modes/simple_select.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const CommonSelectors = __webpack_require__(/*! ../lib/common_selectors */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/common_selectors.js");
+const mouseEventPoint = __webpack_require__(/*! ../lib/mouse_event_point */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/mouse_event_point.js");
+const createSupplementaryPoints = __webpack_require__(/*! ../lib/create_supplementary_points */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/create_supplementary_points.js");
+const StringSet = __webpack_require__(/*! ../lib/string_set */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/string_set.js");
+const doubleClickZoom = __webpack_require__(/*! ../lib/double_click_zoom */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/double_click_zoom.js");
+const moveFeatures = __webpack_require__(/*! ../lib/move_features */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/move_features.js");
+const Constants = __webpack_require__(/*! ../constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+
+const SimpleSelect = {};
+
+SimpleSelect.onSetup = function(opts) {
+  // turn the opts into state.
+  const state = {
+    dragMoveLocation: null,
+    boxSelectStartLocation: null,
+    boxSelectElement: undefined,
+    boxSelecting: false,
+    canBoxSelect: false,
+    dragMoveing: false,
+    canDragMove: false,
+    initiallySelectedFeatureIds: opts.featureIds || []
+  };
+
+  this.setSelected(state.initiallySelectedFeatureIds.filter(id => {
+    return this.getFeature(id) !== undefined;
+  }));
+  this.fireActionable();
+
+  this.setActionableState({
+    combineFeatures: true,
+    uncombineFeatures: true,
+    trash: true
+  });
+
+  return state;
+};
+
+SimpleSelect.fireUpdate = function() {
+  this.map.fire(Constants.events.UPDATE, {
+    action: Constants.updateActions.MOVE,
+    features: this.getSelected().map(f => f.toGeoJSON())
+  });
+};
+
+SimpleSelect.fireActionable = function() {
+  const selectedFeatures = this.getSelected();
+
+  const multiFeatures = selectedFeatures.filter(
+    feature => this.isInstanceOf('MultiFeature', feature)
+  );
+
+  let combineFeatures = false;
+
+  if (selectedFeatures.length > 1) {
+    combineFeatures = true;
+    const featureType = selectedFeatures[0].type.replace('Multi', '');
+    selectedFeatures.forEach(feature => {
+      if (feature.type.replace('Multi', '') !== featureType) {
+        combineFeatures = false;
+      }
+    });
+  }
+
+  const uncombineFeatures = multiFeatures.length > 0;
+  const trash = selectedFeatures.length > 0;
+
+  this.setActionableState({
+    combineFeatures, uncombineFeatures, trash
+  });
+};
+
+SimpleSelect.getUniqueIds = function(allFeatures) {
+  if (!allFeatures.length) return [];
+  const ids = allFeatures.map(s => s.properties.id)
+    .filter(id => id !== undefined)
+    .reduce((memo, id) => {
+      memo.add(id);
+      return memo;
+    }, new StringSet());
+
+  return ids.values();
+};
+
+SimpleSelect.stopExtendedInteractions = function(state) {
+  if (state.boxSelectElement) {
+    if (state.boxSelectElement.parentNode) state.boxSelectElement.parentNode.removeChild(state.boxSelectElement);
+    state.boxSelectElement = null;
+  }
+
+  this.map.dragPan.enable();
+
+  state.boxSelecting = false;
+  state.canBoxSelect = false;
+  state.dragMoving = false;
+  state.canDragMove = false;
+};
+
+SimpleSelect.onStop = function() {
+  doubleClickZoom.enable(this);
+};
+
+SimpleSelect.onMouseMove = function(state) {
+  // On mousemove that is not a drag, stop extended interactions.
+  // This is useful if you drag off the canvas, release the button,
+  // then move the mouse back over the canvas --- we don't allow the
+  // interaction to continue then, but we do let it continue if you held
+  // the mouse button that whole time
+  return this.stopExtendedInteractions(state);
+};
+
+SimpleSelect.onMouseOut = function(state) {
+  // As soon as you mouse leaves the canvas, update the feature
+  if (state.dragMoving) return this.fireUpdate();
+};
+
+SimpleSelect.onTap = SimpleSelect.onClick = function(state, e) {
+  // Click (with or without shift) on no feature
+  if (CommonSelectors.noTarget(e)) return this.clickAnywhere(state, e); // also tap
+  if (CommonSelectors.isOfMetaType(Constants.meta.VERTEX)(e)) return this.clickOnVertex(state, e); //tap
+  if (CommonSelectors.isFeature(e)) return this.clickOnFeature(state, e);
+};
+
+SimpleSelect.clickAnywhere = function (state) {
+  // Clear the re-render selection
+  const wasSelected = this.getSelectedIds();
+  if (wasSelected.length) {
+    this.clearSelectedFeatures();
+    wasSelected.forEach(id => this.doRender(id));
+  }
+  doubleClickZoom.enable(this);
+  this.stopExtendedInteractions(state);
+};
+
+SimpleSelect.clickOnVertex = function(state, e) {
+  // Enter direct select mode
+  this.changeMode(Constants.modes.DIRECT_SELECT, {
+    featureId: e.featureTarget.properties.parent,
+    coordPath: e.featureTarget.properties.coord_path,
+    startPos: e.lngLat
+  });
+  this.updateUIClasses({ mouse: Constants.cursors.MOVE });
+};
+
+SimpleSelect.startOnActiveFeature = function(state, e) {
+  // Stop any already-underway extended interactions
+  this.stopExtendedInteractions(state);
+
+  // Disable map.dragPan immediately so it can't start
+  this.map.dragPan.disable();
+
+  // Re-render it and enable drag move
+  this.doRender(e.featureTarget.properties.id);
+
+  // Set up the state for drag moving
+  state.canDragMove = true;
+  state.dragMoveLocation = e.lngLat;
+};
+
+SimpleSelect.clickOnFeature = function(state, e) {
+  // Stop everything
+  doubleClickZoom.disable(this);
+  this.stopExtendedInteractions(state);
+
+  const isShiftClick = CommonSelectors.isShiftDown(e);
+  const selectedFeatureIds = this.getSelectedIds();
+  const featureId = e.featureTarget.properties.id;
+  const isFeatureSelected = this.isSelected(featureId);
+
+  // Click (without shift) on any selected feature but a point
+  if (!isShiftClick && isFeatureSelected && this.getFeature(featureId).type !== Constants.geojsonTypes.POINT) {
+    // Enter direct select mode
+    return this.changeMode(Constants.modes.DIRECT_SELECT, {
+      featureId: featureId
+    });
+  }
+
+  // Shift-click on a selected feature
+  if (isFeatureSelected && isShiftClick) {
+    // Deselect it
+    this.deselect(featureId);
+    this.updateUIClasses({ mouse: Constants.cursors.POINTER });
+    if (selectedFeatureIds.length === 1) {
+      doubleClickZoom.enable(this);
+    }
+  // Shift-click on an unselected feature
+  } else if (!isFeatureSelected && isShiftClick) {
+    // Add it to the selection
+    this.select(featureId);
+    this.updateUIClasses({ mouse: Constants.cursors.MOVE });
+  // Click (without shift) on an unselected feature
+  } else if (!isFeatureSelected && !isShiftClick) {
+    // Make it the only selected feature
+    selectedFeatureIds.forEach(id => this.doRender(id));
+    this.setSelected(featureId);
+    this.updateUIClasses({ mouse: Constants.cursors.MOVE });
+  }
+
+  // No matter what, re-render the clicked feature
+  this.doRender(featureId);
+};
+
+SimpleSelect.onMouseDown = function(state, e) {
+  if (CommonSelectors.isActiveFeature(e)) return this.startOnActiveFeature(state, e);
+  if (this.drawConfig.boxSelect && CommonSelectors.isShiftMousedown(e)) return this.startBoxSelect(state, e);
+};
+
+SimpleSelect.startBoxSelect = function(state, e) {
+  this.stopExtendedInteractions(state);
+  this.map.dragPan.disable();
+  // Enable box select
+  state.boxSelectStartLocation = mouseEventPoint(e.originalEvent, this.map.getContainer());
+  state.canBoxSelect = true;
+};
+
+SimpleSelect.onTouchStart = function(state, e) {
+  if (CommonSelectors.isActiveFeature(e)) return this.startOnActiveFeature(state, e);
+};
+
+SimpleSelect.onDrag = function(state, e) {
+  if (state.canDragMove) return this.dragMove(state, e);
+  if (this.drawConfig.boxSelect && state.canBoxSelect) return this.whileBoxSelect(state, e);
+};
+
+SimpleSelect.whileBoxSelect = function(state, e) {
+  state.boxSelecting = true;
+  this.updateUIClasses({ mouse: Constants.cursors.ADD });
+
+  // Create the box node if it doesn't exist
+  if (!state.boxSelectElement) {
+    state.boxSelectElement = document.createElement('div');
+    state.boxSelectElement.classList.add(Constants.classes.BOX_SELECT);
+    this.map.getContainer().appendChild(state.boxSelectElement);
+  }
+
+  // Adjust the box node's width and xy position
+  const current = mouseEventPoint(e.originalEvent, this.map.getContainer());
+  const minX = Math.min(state.boxSelectStartLocation.x, current.x);
+  const maxX = Math.max(state.boxSelectStartLocation.x, current.x);
+  const minY = Math.min(state.boxSelectStartLocation.y, current.y);
+  const maxY = Math.max(state.boxSelectStartLocation.y, current.y);
+  const translateValue = `translate(${minX}px, ${minY}px)`;
+  state.boxSelectElement.style.transform = translateValue;
+  state.boxSelectElement.style.WebkitTransform = translateValue;
+  state.boxSelectElement.style.width = `${maxX - minX}px`;
+  state.boxSelectElement.style.height = `${maxY - minY}px`;
+};
+
+SimpleSelect.dragMove = function(state, e) {
+  // Dragging when drag move is enabled
+  state.dragMoving = true;
+  e.originalEvent.stopPropagation();
+
+  const delta = {
+    lng: e.lngLat.lng - state.dragMoveLocation.lng,
+    lat: e.lngLat.lat - state.dragMoveLocation.lat
+  };
+
+  moveFeatures(this.getSelected(), delta);
+
+  state.dragMoveLocation = e.lngLat;
+};
+
+SimpleSelect.onMouseUp = function(state, e) {
+  // End any extended interactions
+  if (state.dragMoving) {
+    this.fireUpdate();
+  } else if (state.boxSelecting) {
+    const bbox = [
+      state.boxSelectStartLocation,
+      mouseEventPoint(e.originalEvent, this.map.getContainer())
+    ];
+    const featuresInBox = this.featuresAt(null, bbox, 'click');
+    const idsToSelect = this.getUniqueIds(featuresInBox)
+      .filter(id => !this.isSelected(id));
+
+    if (idsToSelect.length) {
+      this.select(idsToSelect);
+      idsToSelect.forEach(id => this.doRender(id));
+      this.updateUIClasses({ mouse: Constants.cursors.MOVE });
+    }
+  }
+  this.stopExtendedInteractions(state);
+};
+
+SimpleSelect.toDisplayFeatures = function(state, geojson, display) {
+  geojson.properties.active = (this.isSelected(geojson.properties.id)) ?
+    Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE;
+  display(geojson);
+  this.fireActionable();
+  if (geojson.properties.active !== Constants.activeStates.ACTIVE ||
+    geojson.geometry.type === Constants.geojsonTypes.POINT) return;
+  createSupplementaryPoints(geojson).forEach(display);
+};
+
+SimpleSelect.onTrash = function() {
+  this.deleteFeature(this.getSelectedIds());
+  this.fireActionable();
+};
+
+SimpleSelect.onCombineFeatures = function() {
+  const selectedFeatures = this.getSelected();
+
+  if (selectedFeatures.length === 0 || selectedFeatures.length < 2) return;
+
+  const coordinates = [], featuresCombined = [];
+  const featureType = selectedFeatures[0].type.replace('Multi', '');
+
+  for (let i = 0; i < selectedFeatures.length; i++) {
+    const feature = selectedFeatures[i];
+
+    if (feature.type.replace('Multi', '') !== featureType) {
+      return;
+    }
+    if (feature.type.includes('Multi')) {
+      feature.getCoordinates().forEach((subcoords) => {
+        coordinates.push(subcoords);
+      });
+    } else {
+      coordinates.push(feature.getCoordinates());
+    }
+
+    featuresCombined.push(feature.toGeoJSON());
+  }
+
+  if (featuresCombined.length > 1) {
+    const multiFeature = this.newFeature({
+      type: Constants.geojsonTypes.FEATURE,
+      properties: featuresCombined[0].properties,
+      geometry: {
+        type: `Multi${featureType}`,
+        coordinates: coordinates
+      }
+    });
+
+    this.addFeature(multiFeature);
+    this.deleteFeature(this.getSelectedIds(), { silent: true });
+    this.setSelected([multiFeature.id]);
+
+    this.map.fire(Constants.events.COMBINE_FEATURES, {
+      createdFeatures: [multiFeature.toGeoJSON()],
+      deletedFeatures: featuresCombined
+    });
+  }
+  this.fireActionable();
+};
+
+SimpleSelect.onUncombineFeatures = function() {
+  const selectedFeatures = this.getSelected();
+  if (selectedFeatures.length === 0) return;
+
+  const createdFeatures = [];
+  const featuresUncombined = [];
+
+  for (let i = 0; i < selectedFeatures.length; i++) {
+    const feature = selectedFeatures[i];
+
+    if (this.isInstanceOf('MultiFeature', feature)) {
+      feature.getFeatures().forEach((subFeature) => {
+        this.addFeature(subFeature);
+        subFeature.properties = feature.properties;
+        createdFeatures.push(subFeature.toGeoJSON());
+        this.select([subFeature.id]);
+      });
+      this.deleteFeature(feature.id, { silent: true });
+      featuresUncombined.push(feature.toGeoJSON());
+    }
+  }
+
+  if (createdFeatures.length > 1) {
+    this.map.fire(Constants.events.UNCOMBINE_FEATURES, {
+      createdFeatures: createdFeatures,
+      deletedFeatures: featuresUncombined
+    });
+  }
+  this.fireActionable();
+};
+
+module.exports = SimpleSelect;
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/options.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/options.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const xtend = __webpack_require__(/*! xtend */ "./node_modules/xtend/immutable.js");
+const Constants = __webpack_require__(/*! ./constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+
+const defaultOptions = {
+  defaultMode: Constants.modes.SIMPLE_SELECT,
+  keybindings: true,
+  touchEnabled: true,
+  clickBuffer: 2,
+  touchBuffer: 25,
+  boxSelect: true,
+  displayControlsDefault: true,
+  styles: __webpack_require__(/*! ./lib/theme */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/theme.js"),
+  modes: __webpack_require__(/*! ./modes */ "./node_modules/@mapbox/mapbox-gl-draw/src/modes/index.js"),
+  controls: {},
+  userProperties: false
+};
+
+const showControls = {
+  point: true,
+  line_string: true,
+  polygon: true,
+  trash: true,
+  combine_features: true,
+  uncombine_features: true
+};
+
+const hideControls = {
+  point: false,
+  line_string: false,
+  polygon: false,
+  trash: false,
+  combine_features: false,
+  uncombine_features: false
+};
+
+function addSources(styles, sourceBucket) {
+  return styles.map(style => {
+    if (style.source) return style;
+    return xtend(style, {
+      id: `${style.id}.${sourceBucket}`,
+      source: (sourceBucket === 'hot') ? Constants.sources.HOT : Constants.sources.COLD
+    });
+  });
+}
+
+module.exports = function(options = {}) {
+  let withDefaults = xtend(options);
+
+  if (!options.controls) {
+    withDefaults.controls = {};
+  }
+
+  if (options.displayControlsDefault === false) {
+    withDefaults.controls = xtend(hideControls, options.controls);
+  } else {
+    withDefaults.controls = xtend(showControls, options.controls);
+  }
+
+  withDefaults = xtend(defaultOptions, withDefaults);
+
+  // Layers with a shared source should be adjacent for performance reasons
+  withDefaults.styles = addSources(withDefaults.styles, 'cold').concat(addSources(withDefaults.styles, 'hot'));
+
+  return withDefaults;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/render.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/render.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Constants = __webpack_require__(/*! ./constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+
+module.exports = function render() {
+  const store = this;
+  const mapExists = store.ctx.map && store.ctx.map.getSource(Constants.sources.HOT) !== undefined;
+  if (!mapExists) return cleanup();
+
+  const mode = store.ctx.events.currentModeName();
+
+  store.ctx.ui.queueMapClasses({ mode });
+
+  let newHotIds = [];
+  let newColdIds = [];
+
+  if (store.isDirty) {
+    newColdIds = store.getAllIds();
+  } else {
+    newHotIds = store.getChangedIds().filter(id => store.get(id) !== undefined);
+    newColdIds = store.sources.hot.filter((geojson) => {
+      return geojson.properties.id && newHotIds.indexOf(geojson.properties.id) === -1 && store.get(geojson.properties.id) !== undefined;
+    }).map(geojson => geojson.properties.id);
+  }
+
+  store.sources.hot = [];
+  const lastColdCount = store.sources.cold.length;
+  store.sources.cold = store.isDirty ? [] : store.sources.cold.filter((geojson) => {
+    const id = geojson.properties.id || geojson.properties.parent;
+    return newHotIds.indexOf(id) === -1;
+  });
+
+  const coldChanged = lastColdCount !== store.sources.cold.length || newColdIds.length > 0;
+  newHotIds.forEach(id => renderFeature(id, 'hot'));
+  newColdIds.forEach(id => renderFeature(id, 'cold'));
+
+  function renderFeature(id, source) {
+    const feature = store.get(id);
+    const featureInternal = feature.internal(mode);
+    store.ctx.events.currentModeRender(featureInternal, (geojson) => {
+      store.sources[source].push(geojson);
+    });
+  }
+
+  if (coldChanged) {
+    store.ctx.map.getSource(Constants.sources.COLD).setData({
+      type: Constants.geojsonTypes.FEATURE_COLLECTION,
+      features: store.sources.cold
+    });
+  }
+
+  store.ctx.map.getSource(Constants.sources.HOT).setData({
+    type: Constants.geojsonTypes.FEATURE_COLLECTION,
+    features: store.sources.hot
+  });
+
+  if (store._emitSelectionChange) {
+    store.ctx.map.fire(Constants.events.SELECTION_CHANGE, {
+      features: store.getSelected().map(feature => feature.toGeoJSON()),
+      points: store.getSelectedCoordinates().map(coordinate => {
+        return {
+          type: Constants.geojsonTypes.FEATURE,
+          properties: {},
+          geometry: {
+            type: Constants.geojsonTypes.POINT,
+            coordinates: coordinate.coordinates
+          }
+        };
+      })
+    });
+    store._emitSelectionChange = false;
+  }
+
+  if (store._deletedFeaturesToEmit.length) {
+    const geojsonToEmit = store._deletedFeaturesToEmit.map(feature => feature.toGeoJSON());
+
+    store._deletedFeaturesToEmit = [];
+
+    store.ctx.map.fire(Constants.events.DELETE, {
+      features: geojsonToEmit
+    });
+  }
+
+  cleanup();
+  store.ctx.map.fire(Constants.events.RENDER, {});
+
+  function cleanup() {
+    store.isDirty = false;
+    store.clearChangedIds();
+  }
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/setup.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/setup.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const events = __webpack_require__(/*! ./events */ "./node_modules/@mapbox/mapbox-gl-draw/src/events.js");
+const Store = __webpack_require__(/*! ./store */ "./node_modules/@mapbox/mapbox-gl-draw/src/store.js");
+const ui = __webpack_require__(/*! ./ui */ "./node_modules/@mapbox/mapbox-gl-draw/src/ui.js");
+const Constants = __webpack_require__(/*! ./constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+const xtend = __webpack_require__(/*! xtend */ "./node_modules/xtend/immutable.js");
+
+module.exports = function(ctx) {
+
+  let controlContainer = null;
+  let mapLoadedInterval = null;
+
+  const setup = {
+    onRemove: function() {
+      // Stop connect attempt in the event that control is removed before map is loaded
+      ctx.map.off('load', setup.connect);
+      clearInterval(mapLoadedInterval);
+
+      setup.removeLayers();
+      ctx.store.restoreMapConfig();
+      ctx.ui.removeButtons();
+      ctx.events.removeEventListeners();
+      ctx.ui.clearMapClasses();
+      ctx.map = null;
+      ctx.container = null;
+      ctx.store = null;
+
+      if (controlContainer && controlContainer.parentNode) controlContainer.parentNode.removeChild(controlContainer);
+      controlContainer = null;
+
+      return this;
+    },
+    connect: function() {
+      ctx.map.off('load', setup.connect);
+      clearInterval(mapLoadedInterval);
+      setup.addLayers();
+      ctx.store.storeMapConfig();
+      ctx.events.addEventListeners();
+    },
+    onAdd: function(map) {
+      if (true) {
+        // Monkey patch to resolve breaking change to `fire` introduced by
+        // mapbox-gl-js. See mapbox/mapbox-gl-draw/issues/766.
+        const _fire = map.fire;
+        map.fire = function(type, event) {
+          let args = arguments;
+
+          if (_fire.length === 1 && arguments.length !== 1) {
+            args = [xtend({}, { type: type }, event)];
+          }
+
+          return _fire.apply(map, args);
+        };
+      }
+
+      ctx.map = map;
+      ctx.events = events(ctx);
+      ctx.ui = ui(ctx);
+      ctx.container = map.getContainer();
+      ctx.store = new Store(ctx);
+
+
+      controlContainer = ctx.ui.addButtons();
+
+      if (ctx.options.boxSelect) {
+        map.boxZoom.disable();
+        // Need to toggle dragPan on and off or else first
+        // dragPan disable attempt in simple_select doesn't work
+        map.dragPan.disable();
+        map.dragPan.enable();
+      }
+
+      if (map.loaded()) {
+        setup.connect();
+      } else {
+        map.on('load', setup.connect);
+        mapLoadedInterval = setInterval(() => { if (map.loaded()) setup.connect(); }, 16);
+      }
+
+      ctx.events.start();
+      return controlContainer;
+    },
+    addLayers: function() {
+      // drawn features style
+      ctx.map.addSource(Constants.sources.COLD, {
+        data: {
+          type: Constants.geojsonTypes.FEATURE_COLLECTION,
+          features: []
+        },
+        type: 'geojson'
+      });
+
+      // hot features style
+      ctx.map.addSource(Constants.sources.HOT, {
+        data: {
+          type: Constants.geojsonTypes.FEATURE_COLLECTION,
+          features: []
+        },
+        type: 'geojson'
+      });
+
+      ctx.options.styles.forEach(style => {
+        ctx.map.addLayer(style);
+      });
+
+      ctx.store.setDirty(true);
+      ctx.store.render();
+    },
+    // Check for layers and sources before attempting to remove
+    // If user adds draw control and removes it before the map is loaded, layers and sources will be missing
+    removeLayers: function() {
+      ctx.options.styles.forEach(style => {
+        if (ctx.map.getLayer(style.id)) {
+          ctx.map.removeLayer(style.id);
+        }
+      });
+
+      if (ctx.map.getSource(Constants.sources.COLD)) {
+        ctx.map.removeSource(Constants.sources.COLD);
+      }
+
+      if (ctx.map.getSource(Constants.sources.HOT)) {
+        ctx.map.removeSource(Constants.sources.HOT);
+      }
+    }
+  };
+
+  ctx.setup = setup;
+
+  return setup;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/store.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/store.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const throttle = __webpack_require__(/*! ./lib/throttle */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/throttle.js");
+const toDenseArray = __webpack_require__(/*! ./lib/to_dense_array */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/to_dense_array.js");
+const StringSet = __webpack_require__(/*! ./lib/string_set */ "./node_modules/@mapbox/mapbox-gl-draw/src/lib/string_set.js");
+const render = __webpack_require__(/*! ./render */ "./node_modules/@mapbox/mapbox-gl-draw/src/render.js");
+const interactions = __webpack_require__(/*! ./constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js").interactions;
+
+const Store = module.exports = function(ctx) {
+  this._features = {};
+  this._featureIds = new StringSet();
+  this._selectedFeatureIds = new StringSet();
+  this._selectedCoordinates = [];
+  this._changedFeatureIds = new StringSet();
+  this._deletedFeaturesToEmit = [];
+  this._emitSelectionChange = false;
+  this._mapInitialConfig = {};
+  this.ctx = ctx;
+  this.sources = {
+    hot: [],
+    cold: []
+  };
+  this.render = throttle(render, 16, this);
+  this.isDirty = false;
+};
+
+
+/**
+ * Delays all rendering until the returned function is invoked
+ * @return {Function} renderBatch
+ */
+Store.prototype.createRenderBatch = function() {
+  const holdRender = this.render;
+  let numRenders = 0;
+  this.render = function() {
+    numRenders++;
+  };
+
+  return () => {
+    this.render = holdRender;
+    if (numRenders > 0) {
+      this.render();
+    }
+  };
+};
+
+/**
+ * Sets the store's state to dirty.
+ * @return {Store} this
+ */
+Store.prototype.setDirty = function() {
+  this.isDirty = true;
+  return this;
+};
+
+/**
+ * Sets a feature's state to changed.
+ * @param {string} featureId
+ * @return {Store} this
+ */
+Store.prototype.featureChanged = function(featureId) {
+  this._changedFeatureIds.add(featureId);
+  return this;
+};
+
+/**
+ * Gets the ids of all features currently in changed state.
+ * @return {Store} this
+ */
+Store.prototype.getChangedIds = function() {
+  return this._changedFeatureIds.values();
+};
+
+/**
+ * Sets all features to unchanged state.
+ * @return {Store} this
+ */
+Store.prototype.clearChangedIds = function() {
+  this._changedFeatureIds.clear();
+  return this;
+};
+
+/**
+ * Gets the ids of all features in the store.
+ * @return {Store} this
+ */
+Store.prototype.getAllIds = function() {
+  return this._featureIds.values();
+};
+
+/**
+ * Adds a feature to the store.
+ * @param {Object} feature
+ *
+ * @return {Store} this
+ */
+Store.prototype.add = function(feature) {
+  this.featureChanged(feature.id);
+  this._features[feature.id] = feature;
+  this._featureIds.add(feature.id);
+  return this;
+};
+
+/**
+ * Deletes a feature or array of features from the store.
+ * Cleans up after the deletion by deselecting the features.
+ * If changes were made, sets the state to the dirty
+ * and fires an event.
+ * @param {string | Array<string>} featureIds
+ * @param {Object} [options]
+ * @param {Object} [options.silent] - If `true`, this invocation will not fire an event.
+ * @return {Store} this
+ */
+Store.prototype.delete = function(featureIds, options = {}) {
+  toDenseArray(featureIds).forEach(id => {
+    if (!this._featureIds.has(id)) return;
+    this._featureIds.delete(id);
+    this._selectedFeatureIds.delete(id);
+    if (!options.silent) {
+      if (this._deletedFeaturesToEmit.indexOf(this._features[id]) === -1) {
+        this._deletedFeaturesToEmit.push(this._features[id]);
+      }
+    }
+    delete this._features[id];
+    this.isDirty = true;
+  });
+  refreshSelectedCoordinates.call(this, options);
+  return this;
+};
+
+/**
+ * Returns a feature in the store matching the specified value.
+ * @return {Object | undefined} feature
+ */
+Store.prototype.get = function(id) {
+  return this._features[id];
+};
+
+/**
+ * Returns all features in the store.
+ * @return {Array<Object>}
+ */
+Store.prototype.getAll = function() {
+  return Object.keys(this._features).map(id => this._features[id]);
+};
+
+/**
+ * Adds features to the current selection.
+ * @param {string | Array<string>} featureIds
+ * @param {Object} [options]
+ * @param {Object} [options.silent] - If `true`, this invocation will not fire an event.
+ * @return {Store} this
+ */
+Store.prototype.select = function(featureIds, options = {}) {
+  toDenseArray(featureIds).forEach(id => {
+    if (this._selectedFeatureIds.has(id)) return;
+    this._selectedFeatureIds.add(id);
+    this._changedFeatureIds.add(id);
+    if (!options.silent) {
+      this._emitSelectionChange = true;
+    }
+  });
+  return this;
+};
+
+/**
+ * Deletes features from the current selection.
+ * @param {string | Array<string>} featureIds
+ * @param {Object} [options]
+ * @param {Object} [options.silent] - If `true`, this invocation will not fire an event.
+ * @return {Store} this
+ */
+Store.prototype.deselect = function(featureIds, options = {}) {
+  toDenseArray(featureIds).forEach(id => {
+    if (!this._selectedFeatureIds.has(id)) return;
+    this._selectedFeatureIds.delete(id);
+    this._changedFeatureIds.add(id);
+    if (!options.silent) {
+      this._emitSelectionChange = true;
+    }
+  });
+  refreshSelectedCoordinates.call(this, options);
+  return this;
+};
+
+/**
+ * Clears the current selection.
+ * @param {Object} [options]
+ * @param {Object} [options.silent] - If `true`, this invocation will not fire an event.
+ * @return {Store} this
+ */
+Store.prototype.clearSelected = function(options = {}) {
+  this.deselect(this._selectedFeatureIds.values(), { silent: options.silent });
+  return this;
+};
+
+/**
+ * Sets the store's selection, clearing any prior values.
+ * If no feature ids are passed, the store is just cleared.
+ * @param {string | Array<string> | undefined} featureIds
+ * @param {Object} [options]
+ * @param {Object} [options.silent] - If `true`, this invocation will not fire an event.
+ * @return {Store} this
+ */
+Store.prototype.setSelected = function(featureIds, options = {}) {
+  featureIds = toDenseArray(featureIds);
+
+  // Deselect any features not in the new selection
+  this.deselect(this._selectedFeatureIds.values().filter(id => {
+    return featureIds.indexOf(id) === -1;
+  }), { silent: options.silent });
+
+  // Select any features in the new selection that were not already selected
+  this.select(featureIds.filter(id => {
+    return !this._selectedFeatureIds.has(id);
+  }), { silent: options.silent });
+
+  return this;
+};
+
+/**
+ * Sets the store's coordinates selection, clearing any prior values.
+ * @param {Array<Array<string>>} coordinates
+ * @return {Store} this
+ */
+Store.prototype.setSelectedCoordinates = function(coordinates) {
+  this._selectedCoordinates = coordinates;
+  this._emitSelectionChange = true;
+  return this;
+};
+
+/**
+ * Clears the current coordinates selection.
+ * @param {Object} [options]
+ * @return {Store} this
+ */
+Store.prototype.clearSelectedCoordinates = function() {
+  this._selectedCoordinates = [];
+  this._emitSelectionChange = true;
+  return this;
+};
+
+/**
+ * Returns the ids of features in the current selection.
+ * @return {Array<string>} Selected feature ids.
+ */
+Store.prototype.getSelectedIds = function() {
+  return this._selectedFeatureIds.values();
+};
+
+/**
+ * Returns features in the current selection.
+ * @return {Array<Object>} Selected features.
+ */
+Store.prototype.getSelected = function() {
+  return this._selectedFeatureIds.values().map(id => this.get(id));
+};
+
+/**
+ * Returns selected coordinates in the currently selected feature.
+ * @return {Array<Object>} Selected coordinates.
+ */
+Store.prototype.getSelectedCoordinates = function() {
+  const selected = this._selectedCoordinates.map(coordinate => {
+    const feature = this.get(coordinate.feature_id);
+    return {
+      coordinates: feature.getCoordinate(coordinate.coord_path)
+    };
+  });
+  return selected;
+};
+
+/**
+ * Indicates whether a feature is selected.
+ * @param {string} featureId
+ * @return {boolean} `true` if the feature is selected, `false` if not.
+ */
+Store.prototype.isSelected = function(featureId) {
+  return this._selectedFeatureIds.has(featureId);
+};
+
+/**
+ * Sets a property on the given feature
+ * @param {string} featureId
+ * @param {string} property property
+ * @param {string} property value
+*/
+Store.prototype.setFeatureProperty = function(featureId, property, value) {
+  this.get(featureId).setProperty(property, value);
+  this.featureChanged(featureId);
+};
+
+function refreshSelectedCoordinates(options) {
+  const newSelectedCoordinates = this._selectedCoordinates.filter(point => this._selectedFeatureIds.has(point.feature_id));
+  if (this._selectedCoordinates.length !== newSelectedCoordinates.length && !options.silent) {
+    this._emitSelectionChange = true;
+  }
+  this._selectedCoordinates = newSelectedCoordinates;
+}
+
+/**
+ * Stores the initial config for a map, so that we can set it again after we're done.
+*/
+Store.prototype.storeMapConfig = function() {
+  interactions.forEach((interaction) => {
+    const interactionSet = this.ctx.map[interaction];
+    if (interactionSet) {
+      this._mapInitialConfig[interaction] = this.ctx.map[interaction].isEnabled();
+    }
+  });
+};
+
+/**
+ * Restores the initial config for a map, ensuring all is well.
+*/
+Store.prototype.restoreMapConfig = function() {
+  Object.keys(this._mapInitialConfig).forEach(key => {
+    const value = this._mapInitialConfig[key];
+    if (value) {
+      this.ctx.map[key].enable();
+    } else {
+      this.ctx.map[key].disable();
+    }
+  });
+};
+
+/**
+ * Returns the initial state of an interaction setting.
+ * @param {string} interaction
+ * @return {boolean} `true` if the interaction is enabled, `false` if not.
+ * Defaults to `true`. (Todo: include defaults.)
+*/
+Store.prototype.getInitialConfigValue = function(interaction) {
+  if (this._mapInitialConfig[interaction] !== undefined) {
+    return this._mapInitialConfig[interaction];
+  } else {
+    // This needs to be set to whatever the default is for that interaction
+    // It seems to be true for all cases currently, so let's send back `true`.
+    return true;
+  }
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/mapbox-gl-draw/src/ui.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@mapbox/mapbox-gl-draw/src/ui.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const xtend = __webpack_require__(/*! xtend */ "./node_modules/xtend/immutable.js");
+const Constants = __webpack_require__(/*! ./constants */ "./node_modules/@mapbox/mapbox-gl-draw/src/constants.js");
+
+const classTypes = ['mode', 'feature', 'mouse'];
+
+module.exports = function(ctx) {
+
+
+  const buttonElements = {};
+  let activeButton = null;
+
+  let currentMapClasses = {
+    mode: null, // e.g. mode-direct_select
+    feature: null, // e.g. feature-vertex
+    mouse: null // e.g. mouse-move
+  };
+
+  let nextMapClasses = {
+    mode: null,
+    feature: null,
+    mouse: null
+  };
+
+  function clearMapClasses() {
+    queueMapClasses({mode:null, feature:null, mouse:null});
+    updateMapClasses();
+  }
+
+  function queueMapClasses(options) {
+    nextMapClasses = xtend(nextMapClasses, options);
+  }
+
+  function updateMapClasses() {
+    if (!ctx.container) return;
+
+    const classesToRemove = [];
+    const classesToAdd = [];
+
+    classTypes.forEach((type) => {
+      if (nextMapClasses[type] === currentMapClasses[type]) return;
+
+      classesToRemove.push(`${type}-${currentMapClasses[type]}`);
+      if (nextMapClasses[type] !== null) {
+        classesToAdd.push(`${type}-${nextMapClasses[type]}`);
+      }
+    });
+
+    if (classesToRemove.length > 0) {
+      ctx.container.classList.remove.apply(ctx.container.classList, classesToRemove);
+    }
+
+    if (classesToAdd.length > 0) {
+      ctx.container.classList.add.apply(ctx.container.classList, classesToAdd);
+    }
+
+    currentMapClasses = xtend(currentMapClasses, nextMapClasses);
+  }
+
+  function createControlButton(id, options = {}) {
+    const button = document.createElement('button');
+    button.className = `${Constants.classes.CONTROL_BUTTON} ${options.className}`;
+    button.setAttribute('title', options.title);
+    options.container.appendChild(button);
+
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const clickedButton = e.target;
+      if (clickedButton === activeButton) {
+        deactivateButtons();
+        return;
+      }
+
+      setActiveButton(id);
+      options.onActivate();
+    }, true);
+
+    return button;
+  }
+
+  function deactivateButtons() {
+    if (!activeButton) return;
+    activeButton.classList.remove(Constants.classes.ACTIVE_BUTTON);
+    activeButton = null;
+  }
+
+  function setActiveButton(id) {
+    deactivateButtons();
+
+    const button = buttonElements[id];
+    if (!button) return;
+
+    if (button && id !== 'trash') {
+      button.classList.add(Constants.classes.ACTIVE_BUTTON);
+      activeButton = button;
+    }
+  }
+
+  function addButtons() {
+    const controls = ctx.options.controls;
+    const controlGroup = document.createElement('div');
+    controlGroup.className = `${Constants.classes.CONTROL_GROUP} ${Constants.classes.CONTROL_BASE}`;
+
+    if (!controls) return controlGroup;
+
+    if (controls[Constants.types.LINE]) {
+      buttonElements[Constants.types.LINE] = createControlButton(Constants.types.LINE, {
+        container: controlGroup,
+        className: Constants.classes.CONTROL_BUTTON_LINE,
+        title: `LineString tool ${ctx.options.keybindings ? '(l)' : ''}`,
+        onActivate: () => ctx.events.changeMode(Constants.modes.DRAW_LINE_STRING)
+      });
+    }
+
+    if (controls[Constants.types.POLYGON]) {
+      buttonElements[Constants.types.POLYGON] = createControlButton(Constants.types.POLYGON, {
+        container: controlGroup,
+        className: Constants.classes.CONTROL_BUTTON_POLYGON,
+        title: `Polygon tool ${ctx.options.keybindings ? '(p)' : ''}`,
+        onActivate: () => ctx.events.changeMode(Constants.modes.DRAW_POLYGON)
+      });
+    }
+
+    if (controls[Constants.types.POINT]) {
+      buttonElements[Constants.types.POINT] = createControlButton(Constants.types.POINT, {
+        container: controlGroup,
+        className: Constants.classes.CONTROL_BUTTON_POINT,
+        title: `Marker tool ${ctx.options.keybindings ? '(m)' : ''}`,
+        onActivate: () => ctx.events.changeMode(Constants.modes.DRAW_POINT)
+      });
+    }
+
+    if (controls.trash) {
+      buttonElements.trash = createControlButton('trash', {
+        container: controlGroup,
+        className: Constants.classes.CONTROL_BUTTON_TRASH,
+        title: 'Delete',
+        onActivate: () => {
+          ctx.events.trash();
+        }
+      });
+    }
+
+    if (controls.combine_features) {
+      buttonElements.combine_features = createControlButton('combineFeatures', {
+        container: controlGroup,
+        className: Constants.classes.CONTROL_BUTTON_COMBINE_FEATURES,
+        title: 'Combine',
+        onActivate: () => {
+          ctx.events.combineFeatures();
+        }
+      });
+    }
+
+    if (controls.uncombine_features) {
+      buttonElements.uncombine_features = createControlButton('uncombineFeatures', {
+        container: controlGroup,
+        className: Constants.classes.CONTROL_BUTTON_UNCOMBINE_FEATURES,
+        title: 'Uncombine',
+        onActivate: () => {
+          ctx.events.uncombineFeatures();
+        }
+      });
+    }
+
+    return controlGroup;
+  }
+
+  function removeButtons() {
+    Object.keys(buttonElements).forEach(buttonId => {
+      const button = buttonElements[buttonId];
+      if (button.parentNode) {
+        button.parentNode.removeChild(button);
+      }
+      delete buttonElements[buttonId];
+    });
+  }
+
+  return {
+    setActiveButton,
+    queueMapClasses,
+    updateMapClasses,
+    clearMapClasses,
+    addButtons,
+    removeButtons
+  };
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@mapbox/point-geometry/index.js":
+/*!******************************************************!*\
+  !*** ./node_modules/@mapbox/point-geometry/index.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = Point;
+
+/**
+ * A standalone point geometry with useful accessor, comparison, and
+ * modification methods.
+ *
+ * @class Point
+ * @param {Number} x the x-coordinate. this could be longitude or screen
+ * pixels, or any other sort of unit.
+ * @param {Number} y the y-coordinate. this could be latitude or screen
+ * pixels, or any other sort of unit.
+ * @example
+ * var point = new Point(-77, 38);
+ */
+function Point(x, y) {
+    this.x = x;
+    this.y = y;
+}
+
+Point.prototype = {
+
+    /**
+     * Clone this point, returning a new point that can be modified
+     * without affecting the old one.
+     * @return {Point} the clone
+     */
+    clone: function() { return new Point(this.x, this.y); },
+
+    /**
+     * Add this point's x & y coordinates to another point,
+     * yielding a new point.
+     * @param {Point} p the other point
+     * @return {Point} output point
+     */
+    add:     function(p) { return this.clone()._add(p); },
+
+    /**
+     * Subtract this point's x & y coordinates to from point,
+     * yielding a new point.
+     * @param {Point} p the other point
+     * @return {Point} output point
+     */
+    sub:     function(p) { return this.clone()._sub(p); },
+
+    /**
+     * Multiply this point's x & y coordinates by point,
+     * yielding a new point.
+     * @param {Point} p the other point
+     * @return {Point} output point
+     */
+    multByPoint:    function(p) { return this.clone()._multByPoint(p); },
+
+    /**
+     * Divide this point's x & y coordinates by point,
+     * yielding a new point.
+     * @param {Point} p the other point
+     * @return {Point} output point
+     */
+    divByPoint:     function(p) { return this.clone()._divByPoint(p); },
+
+    /**
+     * Multiply this point's x & y coordinates by a factor,
+     * yielding a new point.
+     * @param {Point} k factor
+     * @return {Point} output point
+     */
+    mult:    function(k) { return this.clone()._mult(k); },
+
+    /**
+     * Divide this point's x & y coordinates by a factor,
+     * yielding a new point.
+     * @param {Point} k factor
+     * @return {Point} output point
+     */
+    div:     function(k) { return this.clone()._div(k); },
+
+    /**
+     * Rotate this point around the 0, 0 origin by an angle a,
+     * given in radians
+     * @param {Number} a angle to rotate around, in radians
+     * @return {Point} output point
+     */
+    rotate:  function(a) { return this.clone()._rotate(a); },
+
+    /**
+     * Rotate this point around p point by an angle a,
+     * given in radians
+     * @param {Number} a angle to rotate around, in radians
+     * @param {Point} p Point to rotate around
+     * @return {Point} output point
+     */
+    rotateAround:  function(a,p) { return this.clone()._rotateAround(a,p); },
+
+    /**
+     * Multiply this point by a 4x1 transformation matrix
+     * @param {Array<Number>} m transformation matrix
+     * @return {Point} output point
+     */
+    matMult: function(m) { return this.clone()._matMult(m); },
+
+    /**
+     * Calculate this point but as a unit vector from 0, 0, meaning
+     * that the distance from the resulting point to the 0, 0
+     * coordinate will be equal to 1 and the angle from the resulting
+     * point to the 0, 0 coordinate will be the same as before.
+     * @return {Point} unit vector point
+     */
+    unit:    function() { return this.clone()._unit(); },
+
+    /**
+     * Compute a perpendicular point, where the new y coordinate
+     * is the old x coordinate and the new x coordinate is the old y
+     * coordinate multiplied by -1
+     * @return {Point} perpendicular point
+     */
+    perp:    function() { return this.clone()._perp(); },
+
+    /**
+     * Return a version of this point with the x & y coordinates
+     * rounded to integers.
+     * @return {Point} rounded point
+     */
+    round:   function() { return this.clone()._round(); },
+
+    /**
+     * Return the magitude of this point: this is the Euclidean
+     * distance from the 0, 0 coordinate to this point's x and y
+     * coordinates.
+     * @return {Number} magnitude
+     */
+    mag: function() {
+        return Math.sqrt(this.x * this.x + this.y * this.y);
+    },
+
+    /**
+     * Judge whether this point is equal to another point, returning
+     * true or false.
+     * @param {Point} other the other point
+     * @return {boolean} whether the points are equal
+     */
+    equals: function(other) {
+        return this.x === other.x &&
+               this.y === other.y;
+    },
+
+    /**
+     * Calculate the distance from this point to another point
+     * @param {Point} p the other point
+     * @return {Number} distance
+     */
+    dist: function(p) {
+        return Math.sqrt(this.distSqr(p));
+    },
+
+    /**
+     * Calculate the distance from this point to another point,
+     * without the square root step. Useful if you're comparing
+     * relative distances.
+     * @param {Point} p the other point
+     * @return {Number} distance
+     */
+    distSqr: function(p) {
+        var dx = p.x - this.x,
+            dy = p.y - this.y;
+        return dx * dx + dy * dy;
+    },
+
+    /**
+     * Get the angle from the 0, 0 coordinate to this point, in radians
+     * coordinates.
+     * @return {Number} angle
+     */
+    angle: function() {
+        return Math.atan2(this.y, this.x);
+    },
+
+    /**
+     * Get the angle from this point to another point, in radians
+     * @param {Point} b the other point
+     * @return {Number} angle
+     */
+    angleTo: function(b) {
+        return Math.atan2(this.y - b.y, this.x - b.x);
+    },
+
+    /**
+     * Get the angle between this point and another point, in radians
+     * @param {Point} b the other point
+     * @return {Number} angle
+     */
+    angleWith: function(b) {
+        return this.angleWithSep(b.x, b.y);
+    },
+
+    /*
+     * Find the angle of the two vectors, solving the formula for
+     * the cross product a x b = |a||b|sin(θ) for θ.
+     * @param {Number} x the x-coordinate
+     * @param {Number} y the y-coordinate
+     * @return {Number} the angle in radians
+     */
+    angleWithSep: function(x, y) {
+        return Math.atan2(
+            this.x * y - this.y * x,
+            this.x * x + this.y * y);
+    },
+
+    _matMult: function(m) {
+        var x = m[0] * this.x + m[1] * this.y,
+            y = m[2] * this.x + m[3] * this.y;
+        this.x = x;
+        this.y = y;
+        return this;
+    },
+
+    _add: function(p) {
+        this.x += p.x;
+        this.y += p.y;
+        return this;
+    },
+
+    _sub: function(p) {
+        this.x -= p.x;
+        this.y -= p.y;
+        return this;
+    },
+
+    _mult: function(k) {
+        this.x *= k;
+        this.y *= k;
+        return this;
+    },
+
+    _div: function(k) {
+        this.x /= k;
+        this.y /= k;
+        return this;
+    },
+
+    _multByPoint: function(p) {
+        this.x *= p.x;
+        this.y *= p.y;
+        return this;
+    },
+
+    _divByPoint: function(p) {
+        this.x /= p.x;
+        this.y /= p.y;
+        return this;
+    },
+
+    _unit: function() {
+        this._div(this.mag());
+        return this;
+    },
+
+    _perp: function() {
+        var y = this.y;
+        this.y = this.x;
+        this.x = -y;
+        return this;
+    },
+
+    _rotate: function(angle) {
+        var cos = Math.cos(angle),
+            sin = Math.sin(angle),
+            x = cos * this.x - sin * this.y,
+            y = sin * this.x + cos * this.y;
+        this.x = x;
+        this.y = y;
+        return this;
+    },
+
+    _rotateAround: function(angle, p) {
+        var cos = Math.cos(angle),
+            sin = Math.sin(angle),
+            x = p.x + cos * (this.x - p.x) - sin * (this.y - p.y),
+            y = p.y + sin * (this.x - p.x) + cos * (this.y - p.y);
+        this.x = x;
+        this.y = y;
+        return this;
+    },
+
+    _round: function() {
+        this.x = Math.round(this.x);
+        this.y = Math.round(this.y);
+        return this;
+    }
+};
+
+/**
+ * Construct a point from an array if necessary, otherwise if the input
+ * is already a Point, or an unknown type, return it unchanged
+ * @param {Array<Number>|Point|*} a any kind of input value
+ * @return {Point} constructed point, or passed-through value.
+ * @example
+ * // this
+ * var point = Point.convert([0, 1]);
+ * // is equivalent to
+ * var point = new Point(0, 1);
+ */
+Point.convert = function (a) {
+    if (a instanceof Point) {
+        return a;
+    }
+    if (Array.isArray(a)) {
+        return new Point(a[0], a[1]);
+    }
+    return a;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css":
+/*!***********************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css ***!
+  \***********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
+// Module
+exports.push([module.i, "\n/* Override default control style */\n.mapbox-gl-draw_ctrl-bottom-left,\n.mapbox-gl-draw_ctrl-top-left {\n  margin-left:0;\n  border-radius:0 4px 4px 0;\n}\n.mapbox-gl-draw_ctrl-top-right,\n.mapbox-gl-draw_ctrl-bottom-right {\n  margin-right:0;\n  border-radius:4px 0 0 4px;\n}\n.mapbox-gl-draw_ctrl-draw {\n  background-color:rgba(0,0,0,0.75);\n  border-color:rgba(0,0,0,0.9);\n}\n.mapbox-gl-draw_ctrl-draw > button {\n  border-color:rgba(0,0,0,0.9);\n  color:rgba(255,255,255,0.5);\n  width:30px;\n  height:30px;\n}\n.mapbox-gl-draw_ctrl-draw > button:hover {\n  background-color:rgba(0,0,0,0.85);\n  color:rgba(255,255,255,0.75);\n}\n.mapbox-gl-draw_ctrl-draw > button.active,\n.mapbox-gl-draw_ctrl-draw > button.active:hover {\n  background-color:rgba(0,0,0,0.95);\n  color:#fff;\n}\n.mapbox-gl-draw_ctrl-draw-btn {\n  background-repeat: no-repeat;\n  background-position: center;\n}\n.mapbox-gl-draw_point {\n  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIiAgIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIgICB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgICB4bWxuczpzb2RpcG9kaT0iaHR0cDovL3NvZGlwb2RpLnNvdXJjZWZvcmdlLm5ldC9EVEQvc29kaXBvZGktMC5kdGQiICAgeG1sbnM6aW5rc2NhcGU9Imh0dHA6Ly93d3cuaW5rc2NhcGUub3JnL25hbWVzcGFjZXMvaW5rc2NhcGUiICAgd2lkdGg9IjIwIiAgIGhlaWdodD0iMjAiICAgdmlld0JveD0iMCAwIDIwIDIwIiAgIGlkPSJzdmcxOTE2NyIgICB2ZXJzaW9uPSIxLjEiICAgaW5rc2NhcGU6dmVyc2lvbj0iMC45MStkZXZlbCtvc3htZW51IHIxMjkxMSIgICBzb2RpcG9kaTpkb2NuYW1lPSJtYXJrZXIuc3ZnIj4gIDxkZWZzICAgICBpZD0iZGVmczE5MTY5IiAvPiAgPHNvZGlwb2RpOm5hbWVkdmlldyAgICAgaWQ9ImJhc2UiICAgICBwYWdlY29sb3I9IiNmZmZmZmYiICAgICBib3JkZXJjb2xvcj0iIzY2NjY2NiIgICAgIGJvcmRlcm9wYWNpdHk9IjEuMCIgICAgIGlua3NjYXBlOnBhZ2VvcGFjaXR5PSIwLjAiICAgICBpbmtzY2FwZTpwYWdlc2hhZG93PSIyIiAgICAgaW5rc2NhcGU6em9vbT0iMTYiICAgICBpbmtzY2FwZTpjeD0iMTQuMTY0MjUzIiAgICAgaW5rc2NhcGU6Y3k9IjguODg1NzIiICAgICBpbmtzY2FwZTpkb2N1bWVudC11bml0cz0icHgiICAgICBpbmtzY2FwZTpjdXJyZW50LWxheWVyPSJsYXllcjEiICAgICBzaG93Z3JpZD0iZmFsc2UiICAgICB1bml0cz0icHgiICAgICBpbmtzY2FwZTp3aW5kb3ctd2lkdGg9IjEyODAiICAgICBpbmtzY2FwZTp3aW5kb3ctaGVpZ2h0PSI3NTEiICAgICBpbmtzY2FwZTp3aW5kb3cteD0iMjA4IiAgICAgaW5rc2NhcGU6d2luZG93LXk9IjE5MCIgICAgIGlua3NjYXBlOndpbmRvdy1tYXhpbWl6ZWQ9IjAiICAgICBpbmtzY2FwZTpvYmplY3Qtbm9kZXM9InRydWUiPiAgICA8aW5rc2NhcGU6Z3JpZCAgICAgICB0eXBlPSJ4eWdyaWQiICAgICAgIGlkPSJncmlkMTk3MTUiIC8+ICA8L3NvZGlwb2RpOm5hbWVkdmlldz4gIDxtZXRhZGF0YSAgICAgaWQ9Im1ldGFkYXRhMTkxNzIiPiAgICA8cmRmOlJERj4gICAgICA8Y2M6V29yayAgICAgICAgIHJkZjphYm91dD0iIj4gICAgICAgIDxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PiAgICAgICAgPGRjOnR5cGUgICAgICAgICAgIHJkZjpyZXNvdXJjZT0iaHR0cDovL3B1cmwub3JnL2RjL2RjbWl0eXBlL1N0aWxsSW1hZ2UiIC8+ICAgICAgICA8ZGM6dGl0bGUgLz4gICAgICA8L2NjOldvcms+ICAgIDwvcmRmOlJERj4gIDwvbWV0YWRhdGE+ICA8ZyAgICAgaW5rc2NhcGU6bGFiZWw9IkxheWVyIDEiICAgICBpbmtzY2FwZTpncm91cG1vZGU9ImxheWVyIiAgICAgaWQ9ImxheWVyMSIgICAgIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsLTEwMzIuMzYyMikiPiAgICA8cGF0aCAgICAgICBzdHlsZT0iY29sb3I6IzAwMDAwMDtjbGlwLXJ1bGU6bm9uemVybztkaXNwbGF5OmlubGluZTtvdmVyZmxvdzp2aXNpYmxlO3Zpc2liaWxpdHk6dmlzaWJsZTtvcGFjaXR5OjE7aXNvbGF0aW9uOmF1dG87bWl4LWJsZW5kLW1vZGU6bm9ybWFsO2NvbG9yLWludGVycG9sYXRpb246c1JHQjtjb2xvci1pbnRlcnBvbGF0aW9uLWZpbHRlcnM6bGluZWFyUkdCO3NvbGlkLWNvbG9yOiMwMDAwMDA7c29saWQtb3BhY2l0eToxO2ZpbGw6IzAwMDAwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6ZXZlbm9kZDtzdHJva2U6bm9uZTtzdHJva2Utd2lkdGg6MjtzdHJva2UtbGluZWNhcDpyb3VuZDtzdHJva2UtbGluZWpvaW46cm91bmQ7c3Ryb2tlLW1pdGVybGltaXQ6NDtzdHJva2UtZGFzaGFycmF5Om5vbmU7c3Ryb2tlLWRhc2hvZmZzZXQ6MDtzdHJva2Utb3BhY2l0eToxO21hcmtlcjpub25lO2NvbG9yLXJlbmRlcmluZzphdXRvO2ltYWdlLXJlbmRlcmluZzphdXRvO3NoYXBlLXJlbmRlcmluZzphdXRvO3RleHQtcmVuZGVyaW5nOmF1dG87ZW5hYmxlLWJhY2tncm91bmQ6YWNjdW11bGF0ZSIgICAgICAgZD0ibSAzNiwxMDQwLjM2MjIgYyA2ZS02LDMuMzA5MyAtNS45ODg2MTIsMTAgLTUuOTg4NjEyLDEwIDAsMCAtNS45OTg3NzYsLTYuNjY4IC02LjAxMTM0NSwtOS45NzcyIC0wLjAxMjU3LC0zLjMwOTIgMi42NTY1NzYsLTYuMDAzOSA1Ljk2NTc5MiwtNi4wMjI3IDMuMzA5MTg5LC0wLjAxOSA2LjAwODg0LDIuNjQ1MiA2LjAzMzk5Miw1Ljk1NDMiICAgICAgIGlkPSJwYXRoMTI1NjEiICAgICAgIGlua3NjYXBlOmNvbm5lY3Rvci1jdXJ2YXR1cmU9IjAiICAgICAgIHNvZGlwb2RpOm5vZGV0eXBlcz0iY2Nzc2MiIC8+ICAgIDxwYXRoICAgICAgIHN0eWxlPSJjb2xvcjojMDAwMDAwO2NsaXAtcnVsZTpub256ZXJvO2Rpc3BsYXk6aW5saW5lO292ZXJmbG93OnZpc2libGU7dmlzaWJpbGl0eTp2aXNpYmxlO29wYWNpdHk6MTtpc29sYXRpb246YXV0bzttaXgtYmxlbmQtbW9kZTpub3JtYWw7Y29sb3ItaW50ZXJwb2xhdGlvbjpzUkdCO2NvbG9yLWludGVycG9sYXRpb24tZmlsdGVyczpsaW5lYXJSR0I7c29saWQtY29sb3I6IzAwMDAwMDtzb2xpZC1vcGFjaXR5OjE7ZmlsbDojZmZmZmZmO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpldmVub2RkO3N0cm9rZTpub25lO3N0cm9rZS13aWR0aDoyO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2UtbWl0ZXJsaW1pdDo0O3N0cm9rZS1kYXNoYXJyYXk6bm9uZTtzdHJva2UtZGFzaG9mZnNldDowO3N0cm9rZS1vcGFjaXR5OjE7bWFya2VyOm5vbmU7Y29sb3ItcmVuZGVyaW5nOmF1dG87aW1hZ2UtcmVuZGVyaW5nOmF1dG87c2hhcGUtcmVuZGVyaW5nOmF1dG87dGV4dC1yZW5kZXJpbmc6YXV0bztlbmFibGUtYmFja2dyb3VuZDphY2N1bXVsYXRlIiAgICAgICBkPSJtIDM0LjAwMDExNSwxMDQwLjM2MjIgYyAtNWUtNiwyLjIwNjIgLTMuOTkyNTIzLDcuMDAwMSAtMy45OTI1MjMsNy4wMDAxIDAsMCAtMy45OTkyOTEsLTQuNzc4NyAtNC4wMDc2NzksLTYuOTg0OSAtMC4wMDg0LC0yLjIwNjIgMS43NzEwODIsLTQuMDAyNyAzLjk3NzMxLC00LjAxNTMgMi4yMDYyMSwtMC4wMTMgNC4wMDYwMzcsMS43NjM1IDQuMDIyNzc3LDMuOTY5NyIgICAgICAgaWQ9InBhdGgxMjU2MyIgICAgICAgaW5rc2NhcGU6Y29ubmVjdG9yLWN1cnZhdHVyZT0iMCIgICAgICAgc29kaXBvZGk6bm9kZXR5cGVzPSJjY2NzYyIgLz4gICAgPHBhdGggICAgICAgc3R5bGU9ImNvbG9yOiMwMDAwMDA7Y2xpcC1ydWxlOm5vbnplcm87ZGlzcGxheTppbmxpbmU7b3ZlcmZsb3c6dmlzaWJsZTt2aXNpYmlsaXR5OnZpc2libGU7b3BhY2l0eToxO2lzb2xhdGlvbjphdXRvO21peC1ibGVuZC1tb2RlOm5vcm1hbDtjb2xvci1pbnRlcnBvbGF0aW9uOnNSR0I7Y29sb3ItaW50ZXJwb2xhdGlvbi1maWx0ZXJzOmxpbmVhclJHQjtzb2xpZC1jb2xvcjojMDAwMDAwO3NvbGlkLW9wYWNpdHk6MTtmaWxsOiMwMDAwMDA7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOmV2ZW5vZGQ7c3Ryb2tlOm5vbmU7c3Ryb2tlLXdpZHRoOjI7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO3N0cm9rZS1taXRlcmxpbWl0OjQ7c3Ryb2tlLWRhc2hhcnJheTpub25lO3N0cm9rZS1kYXNob2Zmc2V0OjA7c3Ryb2tlLW9wYWNpdHk6MTttYXJrZXI6bm9uZTtjb2xvci1yZW5kZXJpbmc6YXV0bztpbWFnZS1yZW5kZXJpbmc6YXV0bztzaGFwZS1yZW5kZXJpbmc6YXV0bzt0ZXh0LXJlbmRlcmluZzphdXRvO2VuYWJsZS1iYWNrZ3JvdW5kOmFjY3VtdWxhdGUiICAgICAgIGQ9Ik0gOS45NjY3OTY5LDEwMTQuMzYyMiBDIDYuNjU3NTgwOSwxMDE0LjM4MSAzLjk4NzQzLDEwMTcuMDc2NCA0LDEwMjAuMzg1NiBjIDAuMDEyNTY5LDMuMzA5MiA2LjAxMTcxOSw4Ljk3NjYgNi4wMTE3MTksOC45NzY2IDAsMCA1Ljk4ODI4NywtNS42OTA3IDUuOTg4MjgxLC05IGwgMCwtMC4wNDUgYyAtMC4wMjUxNSwtMy4zMDkxIC0yLjcyNDAxNCwtNS45NzQxIC02LjAzMzIwMzEsLTUuOTU1MSB6IG0gMC4wMDk3NywyIGMgMi4yMDYyMDYxLC0wLjAxMyA0LjAwNjY5MzEsMS43NjI2IDQuMDIzNDMzMSwzLjk2ODggbCAwLDAuMDMxIGMgLTVlLTYsMi4yMDYyIC0zLjk5MjE4OCw2IC0zLjk5MjE4OCw2IDAsMCAtMy45OTk0MjQsLTMuNzc4MiAtNC4wMDc4MTIsLTUuOTg0NCAtMC4wMDg0LC0yLjIwNjIgMS43NzAzMzQ1LC00LjAwMyAzLjk3NjU2MjUsLTQuMDE1NiB6IiAgICAgICBpZD0icGF0aDEyNTY4IiAgICAgICBpbmtzY2FwZTpjb25uZWN0b3ItY3VydmF0dXJlPSIwIiAgICAgICBzb2RpcG9kaTpub2RldHlwZXM9ImNzY3NjY2Njc2NzYyIgLz4gICAgPHBhdGggICAgICAgc3R5bGU9Im9wYWNpdHk6MTtmaWxsOiMwMDAwMDA7ZmlsbC1vcGFjaXR5OjE7c3Ryb2tlOm5vbmU7c3Ryb2tlLXdpZHRoOjI7c3Ryb2tlLWxpbmVjYXA6YnV0dDtzdHJva2UtbGluZWpvaW46YmV2ZWw7c3Ryb2tlLW1pdGVybGltaXQ6NDtzdHJva2UtZGFzaGFycmF5Om5vbmU7c3Ryb2tlLWRhc2hvZmZzZXQ6MDtzdHJva2Utb3BhY2l0eToxO21hcmtlcjpub25lIiAgICAgICBkPSJNIDEwIDIgQyA2LjY4NjI5MiAyIDQgNC42ODYzIDQgOCBDIDQgMTEuMzEzNyAxMCAxNyAxMCAxNyBDIDEwIDE3IDE2IDExLjMxMzcgMTYgOCBDIDE2IDQuNjg2MyAxMy4zMTM3MDggMiAxMCAyIHogTSAxMCA0IEMgMTIuMDcxMDY4IDQgMTMuNzUgNS42Nzg5IDEzLjc1IDcuNzUgQyAxMy43NSA5LjIwNTMyNzggMTEuOTMxMTEgMTEuNjQ0MzkzIDEwLjgzMDA3OCAxMyBMIDkuMTY5OTIxOSAxMyBDIDguMDY4ODkwMyAxMS42NDQzOTMgNi4yNSA5LjIwNTMyNzggNi4yNSA3Ljc1IEMgNi4yNSA1LjY3ODkgNy45Mjg5MzIgNCAxMCA0IHogIiAgICAgICB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLDEwMzIuMzYyMikiICAgICAgIGlkPSJwYXRoMTczMDUiIC8+ICA8L2c+PC9zdmc+);\n}\n.mapbox-gl-draw_polygon {\n  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIiAgIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIgICB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgICB4bWxuczpzb2RpcG9kaT0iaHR0cDovL3NvZGlwb2RpLnNvdXJjZWZvcmdlLm5ldC9EVEQvc29kaXBvZGktMC5kdGQiICAgeG1sbnM6aW5rc2NhcGU9Imh0dHA6Ly93d3cuaW5rc2NhcGUub3JnL25hbWVzcGFjZXMvaW5rc2NhcGUiICAgd2lkdGg9IjIwIiAgIGhlaWdodD0iMjAiICAgdmlld0JveD0iMCAwIDIwIDIwIiAgIGlkPSJzdmcxOTE2NyIgICB2ZXJzaW9uPSIxLjEiICAgaW5rc2NhcGU6dmVyc2lvbj0iMC45MStkZXZlbCtvc3htZW51IHIxMjkxMSIgICBzb2RpcG9kaTpkb2NuYW1lPSJzcXVhcmUuc3ZnIj4gIDxkZWZzICAgICBpZD0iZGVmczE5MTY5IiAvPiAgPHNvZGlwb2RpOm5hbWVkdmlldyAgICAgaWQ9ImJhc2UiICAgICBwYWdlY29sb3I9IiNmZmZmZmYiICAgICBib3JkZXJjb2xvcj0iIzY2NjY2NiIgICAgIGJvcmRlcm9wYWNpdHk9IjEuMCIgICAgIGlua3NjYXBlOnBhZ2VvcGFjaXR5PSIwLjAiICAgICBpbmtzY2FwZTpwYWdlc2hhZG93PSIyIiAgICAgaW5rc2NhcGU6em9vbT0iMTEuMzEzNzA4IiAgICAgaW5rc2NhcGU6Y3g9IjExLjY4MTYzNCIgICAgIGlua3NjYXBlOmN5PSI5LjI4NTcxNDMiICAgICBpbmtzY2FwZTpkb2N1bWVudC11bml0cz0icHgiICAgICBpbmtzY2FwZTpjdXJyZW50LWxheWVyPSJsYXllcjEiICAgICBzaG93Z3JpZD0idHJ1ZSIgICAgIHVuaXRzPSJweCIgICAgIGlua3NjYXBlOndpbmRvdy13aWR0aD0iMTI4MCIgICAgIGlua3NjYXBlOndpbmRvdy1oZWlnaHQ9Ijc1MSIgICAgIGlua3NjYXBlOndpbmRvdy14PSIwIiAgICAgaW5rc2NhcGU6d2luZG93LXk9IjIzIiAgICAgaW5rc2NhcGU6d2luZG93LW1heGltaXplZD0iMCIgICAgIGlua3NjYXBlOm9iamVjdC1ub2Rlcz0idHJ1ZSI+ICAgIDxpbmtzY2FwZTpncmlkICAgICAgIHR5cGU9Inh5Z3JpZCIgICAgICAgaWQ9ImdyaWQxOTcxNSIgLz4gIDwvc29kaXBvZGk6bmFtZWR2aWV3PiAgPG1ldGFkYXRhICAgICBpZD0ibWV0YWRhdGExOTE3MiI+ICAgIDxyZGY6UkRGPiAgICAgIDxjYzpXb3JrICAgICAgICAgcmRmOmFib3V0PSIiPiAgICAgICAgPGRjOmZvcm1hdD5pbWFnZS9zdmcreG1sPC9kYzpmb3JtYXQ+ICAgICAgICA8ZGM6dHlwZSAgICAgICAgICAgcmRmOnJlc291cmNlPSJodHRwOi8vcHVybC5vcmcvZGMvZGNtaXR5cGUvU3RpbGxJbWFnZSIgLz4gICAgICAgIDxkYzp0aXRsZSAvPiAgICAgIDwvY2M6V29yaz4gICAgPC9yZGY6UkRGPiAgPC9tZXRhZGF0YT4gIDxnICAgICBpbmtzY2FwZTpsYWJlbD0iTGF5ZXIgMSIgICAgIGlua3NjYXBlOmdyb3VwbW9kZT0ibGF5ZXIiICAgICBpZD0ibGF5ZXIxIiAgICAgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwtMTAzMi4zNjIyKSI+ICAgIDxwYXRoICAgICAgIGlua3NjYXBlOmNvbm5lY3Rvci1jdXJ2YXR1cmU9IjAiICAgICAgIHN0eWxlPSJjb2xvcjojMDAwMDAwO2Rpc3BsYXk6aW5saW5lO292ZXJmbG93OnZpc2libGU7dmlzaWJpbGl0eTp2aXNpYmxlO2ZpbGw6IzAwMDAwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZTtzdHJva2Utd2lkdGg6MC41O21hcmtlcjpub25lO2VuYWJsZS1iYWNrZ3JvdW5kOmFjY3VtdWxhdGUiICAgICAgIGQ9Im0gNSwxMDM5LjM2MjIgMCw2IDIsMiA2LDAgMiwtMiAwLC02IC0yLC0yIC02LDAgeiBtIDMsMCA0LDAgMSwxIDAsNCAtMSwxIC00LDAgLTEsLTEgMCwtNCB6IiAgICAgICBpZD0icmVjdDc3OTciICAgICAgIHNvZGlwb2RpOm5vZGV0eXBlcz0iY2NjY2NjY2NjY2NjY2NjY2NjIiAvPiAgICA8Y2lyY2xlICAgICAgIHN0eWxlPSJjb2xvcjojMDAwMDAwO2Rpc3BsYXk6aW5saW5lO292ZXJmbG93OnZpc2libGU7dmlzaWJpbGl0eTp2aXNpYmxlO2ZpbGw6IzAwMDAwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZTtzdHJva2Utd2lkdGg6MS42MDAwMDAwMjttYXJrZXI6bm9uZTtlbmFibGUtYmFja2dyb3VuZDphY2N1bXVsYXRlIiAgICAgICBpZD0icGF0aDQzNjQiICAgICAgIGN4PSI2IiAgICAgICBjeT0iMTA0Ni4zNjIyIiAgICAgICByPSIyIiAvPiAgICA8Y2lyY2xlICAgICAgIGlkPSJwYXRoNDM2OCIgICAgICAgc3R5bGU9ImNvbG9yOiMwMDAwMDA7ZGlzcGxheTppbmxpbmU7b3ZlcmZsb3c6dmlzaWJsZTt2aXNpYmlsaXR5OnZpc2libGU7ZmlsbDojMDAwMDAwO2ZpbGwtb3BhY2l0eToxO2ZpbGwtcnVsZTpub256ZXJvO3N0cm9rZTpub25lO3N0cm9rZS13aWR0aDoxLjYwMDAwMDAyO21hcmtlcjpub25lO2VuYWJsZS1iYWNrZ3JvdW5kOmFjY3VtdWxhdGUiICAgICAgIGN4PSIxNCIgICAgICAgY3k9IjEwNDYuMzYyMiIgICAgICAgcj0iMiIgLz4gICAgPGNpcmNsZSAgICAgICBpZD0icGF0aDQzNzAiICAgICAgIHN0eWxlPSJjb2xvcjojMDAwMDAwO2Rpc3BsYXk6aW5saW5lO292ZXJmbG93OnZpc2libGU7dmlzaWJpbGl0eTp2aXNpYmxlO2ZpbGw6IzAwMDAwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZTtzdHJva2Utd2lkdGg6MS42MDAwMDAwMjttYXJrZXI6bm9uZTtlbmFibGUtYmFja2dyb3VuZDphY2N1bXVsYXRlIiAgICAgICBjeD0iNiIgICAgICAgY3k9IjEwMzguMzYyMiIgICAgICAgcj0iMiIgLz4gICAgPGNpcmNsZSAgICAgICBzdHlsZT0iY29sb3I6IzAwMDAwMDtkaXNwbGF5OmlubGluZTtvdmVyZmxvdzp2aXNpYmxlO3Zpc2liaWxpdHk6dmlzaWJsZTtmaWxsOiMwMDAwMDA7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmU7c3Ryb2tlLXdpZHRoOjEuNjAwMDAwMDI7bWFya2VyOm5vbmU7ZW5hYmxlLWJhY2tncm91bmQ6YWNjdW11bGF0ZSIgICAgICAgaWQ9InBhdGg0MzcyIiAgICAgICBjeD0iMTQiICAgICAgIGN5PSIxMDM4LjM2MjIiICAgICAgIHI9IjIiIC8+ICA8L2c+PC9zdmc+);\n}\n.mapbox-gl-draw_line {\n  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIiAgIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIgICB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgICB4bWxuczpzb2RpcG9kaT0iaHR0cDovL3NvZGlwb2RpLnNvdXJjZWZvcmdlLm5ldC9EVEQvc29kaXBvZGktMC5kdGQiICAgeG1sbnM6aW5rc2NhcGU9Imh0dHA6Ly93d3cuaW5rc2NhcGUub3JnL25hbWVzcGFjZXMvaW5rc2NhcGUiICAgd2lkdGg9IjIwIiAgIGhlaWdodD0iMjAiICAgdmlld0JveD0iMCAwIDIwIDIwIiAgIGlkPSJzdmcxOTE2NyIgICB2ZXJzaW9uPSIxLjEiICAgaW5rc2NhcGU6dmVyc2lvbj0iMC45MStkZXZlbCtvc3htZW51IHIxMjkxMSIgICBzb2RpcG9kaTpkb2NuYW1lPSJsaW5lLnN2ZyI+ICA8ZGVmcyAgICAgaWQ9ImRlZnMxOTE2OSIgLz4gIDxzb2RpcG9kaTpuYW1lZHZpZXcgICAgIGlkPSJiYXNlIiAgICAgcGFnZWNvbG9yPSIjZmZmZmZmIiAgICAgYm9yZGVyY29sb3I9IiM2NjY2NjYiICAgICBib3JkZXJvcGFjaXR5PSIxLjAiICAgICBpbmtzY2FwZTpwYWdlb3BhY2l0eT0iMC4wIiAgICAgaW5rc2NhcGU6cGFnZXNoYWRvdz0iMiIgICAgIGlua3NjYXBlOnpvb209IjE2IiAgICAgaW5rc2NhcGU6Y3g9IjEyLjg5ODc3NSIgICAgIGlua3NjYXBlOmN5PSI5LjU4OTAxNTIiICAgICBpbmtzY2FwZTpkb2N1bWVudC11bml0cz0icHgiICAgICBpbmtzY2FwZTpjdXJyZW50LWxheWVyPSJsYXllcjEiICAgICBzaG93Z3JpZD0idHJ1ZSIgICAgIHVuaXRzPSJweCIgICAgIGlua3NjYXBlOndpbmRvdy13aWR0aD0iMTI4MCIgICAgIGlua3NjYXBlOndpbmRvdy1oZWlnaHQ9Ijc1MSIgICAgIGlua3NjYXBlOndpbmRvdy14PSIwIiAgICAgaW5rc2NhcGU6d2luZG93LXk9IjIzIiAgICAgaW5rc2NhcGU6d2luZG93LW1heGltaXplZD0iMCIgICAgIGlua3NjYXBlOm9iamVjdC1ub2Rlcz0idHJ1ZSI+ICAgIDxpbmtzY2FwZTpncmlkICAgICAgIHR5cGU9Inh5Z3JpZCIgICAgICAgaWQ9ImdyaWQxOTcxNSIgLz4gIDwvc29kaXBvZGk6bmFtZWR2aWV3PiAgPG1ldGFkYXRhICAgICBpZD0ibWV0YWRhdGExOTE3MiI+ICAgIDxyZGY6UkRGPiAgICAgIDxjYzpXb3JrICAgICAgICAgcmRmOmFib3V0PSIiPiAgICAgICAgPGRjOmZvcm1hdD5pbWFnZS9zdmcreG1sPC9kYzpmb3JtYXQ+ICAgICAgICA8ZGM6dHlwZSAgICAgICAgICAgcmRmOnJlc291cmNlPSJodHRwOi8vcHVybC5vcmcvZGMvZGNtaXR5cGUvU3RpbGxJbWFnZSIgLz4gICAgICAgIDxkYzp0aXRsZSAvPiAgICAgIDwvY2M6V29yaz4gICAgPC9yZGY6UkRGPiAgPC9tZXRhZGF0YT4gIDxnICAgICBpbmtzY2FwZTpsYWJlbD0iTGF5ZXIgMSIgICAgIGlua3NjYXBlOmdyb3VwbW9kZT0ibGF5ZXIiICAgICBpZD0ibGF5ZXIxIiAgICAgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwtMTAzMi4zNjIyKSI+ICAgIDxwYXRoICAgICAgIHN0eWxlPSJjb2xvcjojMDAwMDAwO2Rpc3BsYXk6aW5saW5lO292ZXJmbG93OnZpc2libGU7dmlzaWJpbGl0eTp2aXNpYmxlO2ZpbGw6IzAwMDAwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZTtzdHJva2Utd2lkdGg6MzttYXJrZXI6bm9uZTtlbmFibGUtYmFja2dyb3VuZDphY2N1bXVsYXRlIiAgICAgICBkPSJtIDEzLjUsMTAzNS44NjIyIGMgLTEuMzgwNzEyLDAgLTIuNSwxLjExOTMgLTIuNSwyLjUgMCwwLjMyMDggMC4wNDYxNCwwLjYyNDQgMC4xNTYyNSwwLjkwNjMgbCAtMy43NSwzLjc1IGMgLTAuMjgxODM2LC0wLjExMDIgLTAuNTg1NDIxLC0wLjE1NjMgLTAuOTA2MjUsLTAuMTU2MyAtMS4zODA3MTIsMCAtMi41LDEuMTE5MyAtMi41LDIuNSAwLDEuMzgwNyAxLjExOTI4OCwyLjUgMi41LDIuNSAxLjM4MDcxMiwwIDIuNSwtMS4xMTkzIDIuNSwtMi41IDAsLTAuMzIwOCAtMC4wNDYxNCwtMC42MjQ0IC0wLjE1NjI1LC0wLjkwNjIgbCAzLjc1LC0zLjc1IGMgMC4yODE4MzYsMC4xMTAxIDAuNTg1NDIxLDAuMTU2MiAwLjkwNjI1LDAuMTU2MiAxLjM4MDcxMiwwIDIuNSwtMS4xMTkzIDIuNSwtMi41IDAsLTEuMzgwNyAtMS4xMTkyODgsLTIuNSAtMi41LC0yLjUgeiIgICAgICAgaWQ9InJlY3Q2NDY3IiAgICAgICBpbmtzY2FwZTpjb25uZWN0b3ItY3VydmF0dXJlPSIwIiAvPiAgPC9nPjwvc3ZnPg==);\n}\n.mapbox-gl-draw_trash {\n  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+PHN2ZyAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIiAgIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIgICB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgICB4bWxuczpzb2RpcG9kaT0iaHR0cDovL3NvZGlwb2RpLnNvdXJjZWZvcmdlLm5ldC9EVEQvc29kaXBvZGktMC5kdGQiICAgeG1sbnM6aW5rc2NhcGU9Imh0dHA6Ly93d3cuaW5rc2NhcGUub3JnL25hbWVzcGFjZXMvaW5rc2NhcGUiICAgd2lkdGg9IjIwIiAgIGhlaWdodD0iMjAiICAgaWQ9InN2ZzU3MzgiICAgdmVyc2lvbj0iMS4xIiAgIGlua3NjYXBlOnZlcnNpb249IjAuOTErZGV2ZWwrb3N4bWVudSByMTI5MTEiICAgc29kaXBvZGk6ZG9jbmFtZT0idHJhc2guc3ZnIiAgIHZpZXdCb3g9IjAgMCAyMCAyMCI+ICA8ZGVmcyAgICAgaWQ9ImRlZnM1NzQwIiAvPiAgPHNvZGlwb2RpOm5hbWVkdmlldyAgICAgaWQ9ImJhc2UiICAgICBwYWdlY29sb3I9IiNmZmZmZmYiICAgICBib3JkZXJjb2xvcj0iIzY2NjY2NiIgICAgIGJvcmRlcm9wYWNpdHk9IjEuMCIgICAgIGlua3NjYXBlOnBhZ2VvcGFjaXR5PSIwLjAiICAgICBpbmtzY2FwZTpwYWdlc2hhZG93PSIyIiAgICAgaW5rc2NhcGU6em9vbT0iMjIuNjI3NDE3IiAgICAgaW5rc2NhcGU6Y3g9IjEyLjEyODE4NCIgICAgIGlua3NjYXBlOmN5PSI4Ljg0NjEzMDciICAgICBpbmtzY2FwZTpkb2N1bWVudC11bml0cz0icHgiICAgICBpbmtzY2FwZTpjdXJyZW50LWxheWVyPSJsYXllcjEiICAgICBzaG93Z3JpZD0idHJ1ZSIgICAgIGlua3NjYXBlOndpbmRvdy13aWR0aD0iMTAzMyIgICAgIGlua3NjYXBlOndpbmRvdy1oZWlnaHQ9Ijc1MSIgICAgIGlua3NjYXBlOndpbmRvdy14PSIyMCIgICAgIGlua3NjYXBlOndpbmRvdy15PSIyMyIgICAgIGlua3NjYXBlOndpbmRvdy1tYXhpbWl6ZWQ9IjAiICAgICBpbmtzY2FwZTpzbmFwLXNtb290aC1ub2Rlcz0idHJ1ZSIgICAgIGlua3NjYXBlOm9iamVjdC1ub2Rlcz0idHJ1ZSI+ICAgIDxpbmtzY2FwZTpncmlkICAgICAgIHR5cGU9Inh5Z3JpZCIgICAgICAgaWQ9ImdyaWQ1NzQ2IiAgICAgICBlbXBzcGFjaW5nPSI1IiAgICAgICB2aXNpYmxlPSJ0cnVlIiAgICAgICBlbmFibGVkPSJ0cnVlIiAgICAgICBzbmFwdmlzaWJsZWdyaWRsaW5lc29ubHk9InRydWUiIC8+ICA8L3NvZGlwb2RpOm5hbWVkdmlldz4gIDxtZXRhZGF0YSAgICAgaWQ9Im1ldGFkYXRhNTc0MyI+ICAgIDxyZGY6UkRGPiAgICAgIDxjYzpXb3JrICAgICAgICAgcmRmOmFib3V0PSIiPiAgICAgICAgPGRjOmZvcm1hdD5pbWFnZS9zdmcreG1sPC9kYzpmb3JtYXQ+ICAgICAgICA8ZGM6dHlwZSAgICAgICAgICAgcmRmOnJlc291cmNlPSJodHRwOi8vcHVybC5vcmcvZGMvZGNtaXR5cGUvU3RpbGxJbWFnZSIgLz4gICAgICAgIDxkYzp0aXRsZSAvPiAgICAgIDwvY2M6V29yaz4gICAgPC9yZGY6UkRGPiAgPC9tZXRhZGF0YT4gIDxnICAgICBpbmtzY2FwZTpsYWJlbD0iTGF5ZXIgMSIgICAgIGlua3NjYXBlOmdyb3VwbW9kZT0ibGF5ZXIiICAgICBpZD0ibGF5ZXIxIiAgICAgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwtMTAzMi4zNjIyKSI+ICAgIDxwYXRoICAgICAgIHN0eWxlPSJjb2xvcjojMDAwMDAwO2Rpc3BsYXk6aW5saW5lO292ZXJmbG93OnZpc2libGU7dmlzaWJpbGl0eTp2aXNpYmxlO2ZpbGw6IzAwMDAwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZTtzdHJva2Utd2lkdGg6MC45OTk5OTk4MjttYXJrZXI6bm9uZTtlbmFibGUtYmFja2dyb3VuZDphY2N1bXVsYXRlIiAgICAgICBkPSJtIDEwLDEwMzUuNzc0MyBjIC0wLjc4NDkyNTMsOGUtNCAtMS40OTY4Mzc2LDAuNDYwNiAtMS44MjAzMTI1LDEuMTc1OCBsIC0zLjE3OTY4NzUsMCAtMSwxIDAsMSAxMiwwIDAsLTEgLTEsLTEgLTMuMTc5Njg4LDAgYyAtMC4zMjM0NzUsLTAuNzE1MiAtMS4wMzUzODcsLTEuMTc1IC0xLjgyMDMxMiwtMS4xNzU4IHogbSAtNSw0LjU4NzkgMCw3IGMgMCwxIDEsMiAyLDIgbCA2LDAgYyAxLDAgMiwtMSAyLC0yIGwgMCwtNyAtMiwwIDAsNS41IC0xLjUsMCAwLC01LjUgLTMsMCAwLDUuNSAtMS41LDAgMCwtNS41IHoiICAgICAgIGlkPSJyZWN0MjQzOS03IiAgICAgICBpbmtzY2FwZTpjb25uZWN0b3ItY3VydmF0dXJlPSIwIiAgICAgICBzb2RpcG9kaTpub2RldHlwZXM9ImNjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2MiIC8+ICA8L2c+PC9zdmc+);\n}\n\n.mapbox-gl-draw_uncombine {\n  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhLS0gQ3JlYXRlZCB3aXRoIElua3NjYXBlIChodHRwOi8vd3d3Lmlua3NjYXBlLm9yZy8pIC0tPgoKPHN2ZwogICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iCiAgIHhtbG5zOmNjPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9ucyMiCiAgIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIKICAgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogICB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIKICAgeG1sbnM6c29kaXBvZGk9Imh0dHA6Ly9zb2RpcG9kaS5zb3VyY2Vmb3JnZS5uZXQvRFREL3NvZGlwb2RpLTAuZHRkIgogICB4bWxuczppbmtzY2FwZT0iaHR0cDovL3d3dy5pbmtzY2FwZS5vcmcvbmFtZXNwYWNlcy9pbmtzY2FwZSIKICAgd2lkdGg9IjIwIgogICBoZWlnaHQ9IjIwIgogICBpZD0ic3ZnNTczOCIKICAgdmVyc2lvbj0iMS4xIgogICBpbmtzY2FwZTp2ZXJzaW9uPSIwLjkxIHIxMzcyNSIKICAgc29kaXBvZGk6ZG9jbmFtZT0idW5jb21iaW5lLnN2ZyI+CiAgPGRlZnMKICAgICBpZD0iZGVmczU3NDAiPgogICAgPGxpbmVhckdyYWRpZW50CiAgICAgICBpbmtzY2FwZTpjb2xsZWN0PSJhbHdheXMiCiAgICAgICB4bGluazpocmVmPSIjbGluZWFyR3JhZGllbnQ0MTAzIgogICAgICAgaWQ9ImxpbmVhckdyYWRpZW50NDE4NCIKICAgICAgIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIgogICAgICAgeDE9IjMwMDMiCiAgICAgICB5MT0iMTAiCiAgICAgICB4Mj0iMzAxNyIKICAgICAgIHkyPSIxMCIKICAgICAgIGdyYWRpZW50VHJhbnNmb3JtPSJ0cmFuc2xhdGUoMSwyLjYxNzE4NzRlLTYpIiAvPgogICAgPGxpbmVhckdyYWRpZW50CiAgICAgICBpbmtzY2FwZTpjb2xsZWN0PSJhbHdheXMiCiAgICAgICBpZD0ibGluZWFyR3JhZGllbnQ0MTAzIj4KICAgICAgPHN0b3AKICAgICAgICAgc3R5bGU9InN0b3AtY29sb3I6IzAwMDAwMDtzdG9wLW9wYWNpdHk6MTsiCiAgICAgICAgIG9mZnNldD0iMCIKICAgICAgICAgaWQ9InN0b3A0MTA1IiAvPgogICAgICA8c3RvcAogICAgICAgICBzdHlsZT0ic3RvcC1jb2xvcjojMDAwMDAwO3N0b3Atb3BhY2l0eTowOyIKICAgICAgICAgb2Zmc2V0PSIxIgogICAgICAgICBpZD0ic3RvcDQxMDciIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8c29kaXBvZGk6bmFtZWR2aWV3CiAgICAgaWQ9ImJhc2UiCiAgICAgcGFnZWNvbG9yPSIjZmZmZmZmIgogICAgIGJvcmRlcmNvbG9yPSIjNjY2NjY2IgogICAgIGJvcmRlcm9wYWNpdHk9IjEuMCIKICAgICBpbmtzY2FwZTpwYWdlb3BhY2l0eT0iMC4wIgogICAgIGlua3NjYXBlOnBhZ2VzaGFkb3c9IjIiCiAgICAgaW5rc2NhcGU6em9vbT0iMTEuMzEzNzA4IgogICAgIGlua3NjYXBlOmN4PSItMTAuMjczOTQ2IgogICAgIGlua3NjYXBlOmN5PSI2LjkzMDM0NCIKICAgICBpbmtzY2FwZTpkb2N1bWVudC11bml0cz0icHgiCiAgICAgaW5rc2NhcGU6Y3VycmVudC1sYXllcj0ibGF5ZXIxIgogICAgIHNob3dncmlkPSJmYWxzZSIKICAgICBpbmtzY2FwZTp3aW5kb3ctd2lkdGg9IjIwNzgiCiAgICAgaW5rc2NhcGU6d2luZG93LWhlaWdodD0iMTA1NCIKICAgICBpbmtzY2FwZTp3aW5kb3cteD0iOTAwIgogICAgIGlua3NjYXBlOndpbmRvdy15PSIyOTYiCiAgICAgaW5rc2NhcGU6d2luZG93LW1heGltaXplZD0iMCIKICAgICBzaG93Z3VpZGVzPSJmYWxzZSIKICAgICBpbmtzY2FwZTpzbmFwLWJib3g9InRydWUiCiAgICAgaW5rc2NhcGU6YmJveC1wYXRocz0idHJ1ZSIKICAgICBpbmtzY2FwZTpiYm94LW5vZGVzPSJ0cnVlIgogICAgIGlua3NjYXBlOm9iamVjdC1wYXRocz0idHJ1ZSIKICAgICBpbmtzY2FwZTpvYmplY3Qtbm9kZXM9InRydWUiCiAgICAgaW5rc2NhcGU6c25hcC1zbW9vdGgtbm9kZXM9InRydWUiCiAgICAgaW5rc2NhcGU6c25hcC1vdGhlcnM9ImZhbHNlIgogICAgIGlua3NjYXBlOnNuYXAtbm9kZXM9ImZhbHNlIj4KICAgIDxpbmtzY2FwZTpncmlkCiAgICAgICB0eXBlPSJ4eWdyaWQiCiAgICAgICBpZD0iZ3JpZDU3NDYiCiAgICAgICBlbXBzcGFjaW5nPSIyIgogICAgICAgdmlzaWJsZT0idHJ1ZSIKICAgICAgIGVuYWJsZWQ9InRydWUiCiAgICAgICBzbmFwdmlzaWJsZWdyaWRsaW5lc29ubHk9InRydWUiCiAgICAgICBzcGFjaW5neD0iMC41cHgiCiAgICAgICBzcGFjaW5neT0iMC41cHgiCiAgICAgICBjb2xvcj0iIzAwMDBmZiIKICAgICAgIG9wYWNpdHk9IjAuMDU4ODIzNTMiIC8+CiAgPC9zb2RpcG9kaTpuYW1lZHZpZXc+CiAgPG1ldGFkYXRhCiAgICAgaWQ9Im1ldGFkYXRhNTc0MyI+CiAgICA8cmRmOlJERj4KICAgICAgPGNjOldvcmsKICAgICAgICAgcmRmOmFib3V0PSIiPgogICAgICAgIDxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PgogICAgICAgIDxkYzp0eXBlCiAgICAgICAgICAgcmRmOnJlc291cmNlPSJodHRwOi8vcHVybC5vcmcvZGMvZGNtaXR5cGUvU3RpbGxJbWFnZSIgLz4KICAgICAgICA8ZGM6dGl0bGU+PC9kYzp0aXRsZT4KICAgICAgPC9jYzpXb3JrPgogICAgPC9yZGY6UkRGPgogIDwvbWV0YWRhdGE+CiAgPGcKICAgICBpbmtzY2FwZTpsYWJlbD0iTGF5ZXIgMSIKICAgICBpbmtzY2FwZTpncm91cG1vZGU9ImxheWVyIgogICAgIGlkPSJsYXllcjEiCiAgICAgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwtMTAzMi4zNjIyKSI+CiAgICA8cGF0aAogICAgICAgc3R5bGU9ImNvbG9yOiMwMDAwMDA7Y2xpcC1ydWxlOm5vbnplcm87ZGlzcGxheTppbmxpbmU7b3ZlcmZsb3c6dmlzaWJsZTt2aXNpYmlsaXR5OnZpc2libGU7b3BhY2l0eToxO2lzb2xhdGlvbjphdXRvO21peC1ibGVuZC1tb2RlOm5vcm1hbDtjb2xvci1pbnRlcnBvbGF0aW9uOnNSR0I7Y29sb3ItaW50ZXJwb2xhdGlvbi1maWx0ZXJzOmxpbmVhclJHQjtzb2xpZC1jb2xvcjojMDAwMDAwO3NvbGlkLW9wYWNpdHk6MTtmaWxsOiMwMDAwMDA7ZmlsbC1vcGFjaXR5OjE7ZmlsbC1ydWxlOm5vbnplcm87c3Ryb2tlOm5vbmU7c3Ryb2tlLXdpZHRoOjI7c3Ryb2tlLWxpbmVjYXA6YnV0dDtzdHJva2UtbGluZWpvaW46bWl0ZXI7c3Ryb2tlLW1pdGVybGltaXQ6NDtzdHJva2UtZGFzaGFycmF5Om5vbmU7c3Ryb2tlLWRhc2hvZmZzZXQ6MDtzdHJva2Utb3BhY2l0eToxO21hcmtlcjpub25lO2NvbG9yLXJlbmRlcmluZzphdXRvO2ltYWdlLXJlbmRlcmluZzphdXRvO3NoYXBlLXJlbmRlcmluZzphdXRvO3RleHQtcmVuZGVyaW5nOmF1dG87ZW5hYmxlLWJhY2tncm91bmQ6YWNjdW11bGF0ZSIKICAgICAgIGQ9Ik0gMTIuMDA1ODU5IDIgQyAxMS43NTAzNiAyIDExLjQ5NDYwNSAyLjA5NzE4NyAxMS4yOTg4MjggMi4yOTI5Njg4IEwgMTAuMzAyNzM0IDMuMjg5MDYyNSBDIDkuOTExMTgwNCAzLjY4MDYyNiA5LjkxMTE4MDQgNC4zMTE1NjE1IDEwLjMwMjczNCA0LjcwMzEyNSBMIDExLjMwMjczNCA1LjcwMTE3MTkgQyAxMS42OTQyODggNi4wOTI3MzU0IDEyLjMyMzI5IDYuMDkyNzM1NCAxMi43MTQ4NDQgNS43MDExNzE5IEwgMTMuNzEwOTM4IDQuNzA1MDc4MSBDIDE0LjEwMjQ5MSA0LjMxMzUxNDYgMTQuMTAyNDkxIDMuNjgyNTc5MSAxMy43MTA5MzggMy4yOTEwMTU2IEwgMTIuNzEyODkxIDIuMjkyOTY4OCBDIDEyLjUxNzExNCAyLjA5NzE4NyAxMi4yNjEzNTkgMiAxMi4wMDU4NTkgMiB6IE0gMTYuMDAxOTUzIDUuOTk0MTQwNiBDIDE1Ljc0NjQ2MyA1Ljk5NDE0MDYgMTUuNDkwNjkyIDYuMDkzMjczNSAxNS4yOTQ5MjIgNi4yODkwNjI1IEwgMTQuMjk4ODI4IDcuMjg1MTU2MiBDIDEzLjkwNzI4OSA3LjY3NjczNDIgMTMuOTA3Mjg5IDguMzA1Njg3NyAxNC4yOTg4MjggOC42OTcyNjU2IEwgMTUuMjk2ODc1IDkuNjk3MjY1NiBDIDE1LjY4ODQxNCAxMC4wODg4NDQgMTYuMzE5Mzk4IDEwLjA4ODg0NCAxNi43MTA5MzggOS42OTcyNjU2IEwgMTcuNzA3MDMxIDguNzAxMTcxOSBDIDE4LjA5ODU3MSA4LjMwOTU5MzkgMTguMDk4NTcxIDcuNjc4Njg3MyAxNy43MDcwMzEgNy4yODcxMDk0IEwgMTYuNzA4OTg0IDYuMjg5MDYyNSBDIDE2LjUxMzIxNSA2LjA5MzI3MzUgMTYuMjU3NDQzIDUuOTk0MTQwNiAxNi4wMDE5NTMgNS45OTQxNDA2IHogTSA5IDcgQyA4IDcgOCA4IDguNSA4LjUgQyA4LjgzMzMzMyA4LjgzMzMgOS41IDkuNSA5LjUgOS41IEwgOC41IDEwLjUgQyA4LjUgMTAuNSA4IDExIDguNSAxMS41IEMgOSAxMiA5LjUgMTEuNSA5LjUgMTEuNSBMIDEwLjUgMTAuNSBMIDExLjUgMTEuNSBDIDEyIDEyIDEzIDEyIDEzIDExIEwgMTMgNyBMIDkgNyB6IE0gNC4wNDg4MjgxIDEwLjAwMTk1MyBDIDMuNzkzMzA4NyAxMC4wMDE5NTMgMy41Mzc1ODkxIDEwLjA5OTEyOSAzLjM0MTc5NjkgMTAuMjk0OTIyIEwgMi4yOTg4MjgxIDExLjMzNzg5MSBDIDEuOTA3MjQzNyAxMS43Mjk0NzYgMS45MDcyNDM3IDEyLjM2MDM2OCAyLjI5ODgyODEgMTIuNzUxOTUzIEwgNy4yNDgwNDY5IDE3LjcwMTE3MiBDIDcuNjM5NjMxMyAxOC4wOTI3NTcgOC4yNzA1MjUgMTguMDkyNzU3IDguNjYyMTA5NCAxNy43MDExNzIgTCA5LjcwNTA3ODEgMTYuNjU4MjAzIEMgMTAuMDk2NjYzIDE2LjI2NjYxOCAxMC4wOTY2NjMgMTUuNjM1NzI2IDkuNzA1MDc4MSAxNS4yNDQxNDEgTCA0Ljc1NTg1OTQgMTAuMjk0OTIyIEMgNC41NjAwNjcyIDEwLjA5OTEyOSA0LjMwNDM0NzUgMTAuMDAxOTUzIDQuMDQ4ODI4MSAxMC4wMDE5NTMgeiAiCiAgICAgICB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLDEwMzIuMzYyMikiCiAgICAgICBpZD0icmVjdDkxOTgiIC8+CiAgPC9nPgo8L3N2Zz4K);\n}\n.mapbox-gl-draw_combine {\n  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhLS0gQ3JlYXRlZCB3aXRoIElua3NjYXBlIChodHRwOi8vd3d3Lmlua3NjYXBlLm9yZy8pIC0tPgoKPHN2ZwogICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iCiAgIHhtbG5zOmNjPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9ucyMiCiAgIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIKICAgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogICB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIKICAgeG1sbnM6c29kaXBvZGk9Imh0dHA6Ly9zb2RpcG9kaS5zb3VyY2Vmb3JnZS5uZXQvRFREL3NvZGlwb2RpLTAuZHRkIgogICB4bWxuczppbmtzY2FwZT0iaHR0cDovL3d3dy5pbmtzY2FwZS5vcmcvbmFtZXNwYWNlcy9pbmtzY2FwZSIKICAgd2lkdGg9IjIwIgogICBoZWlnaHQ9IjIwIgogICBpZD0ic3ZnNTczOCIKICAgdmVyc2lvbj0iMS4xIgogICBpbmtzY2FwZTp2ZXJzaW9uPSIwLjkxIHIxMzcyNSIKICAgc29kaXBvZGk6ZG9jbmFtZT0iY29tYmluZS5zdmciPgogIDxkZWZzCiAgICAgaWQ9ImRlZnM1NzQwIj4KICAgIDxsaW5lYXJHcmFkaWVudAogICAgICAgaW5rc2NhcGU6Y29sbGVjdD0iYWx3YXlzIgogICAgICAgeGxpbms6aHJlZj0iI2xpbmVhckdyYWRpZW50NDEwMyIKICAgICAgIGlkPSJsaW5lYXJHcmFkaWVudDQxODQiCiAgICAgICBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIKICAgICAgIHgxPSIzMDAzIgogICAgICAgeTE9IjEwIgogICAgICAgeDI9IjMwMTciCiAgICAgICB5Mj0iMTAiCiAgICAgICBncmFkaWVudFRyYW5zZm9ybT0idHJhbnNsYXRlKDEsMi42MTcxODc0ZS02KSIgLz4KICAgIDxsaW5lYXJHcmFkaWVudAogICAgICAgaW5rc2NhcGU6Y29sbGVjdD0iYWx3YXlzIgogICAgICAgaWQ9ImxpbmVhckdyYWRpZW50NDEwMyI+CiAgICAgIDxzdG9wCiAgICAgICAgIHN0eWxlPSJzdG9wLWNvbG9yOiMwMDAwMDA7c3RvcC1vcGFjaXR5OjE7IgogICAgICAgICBvZmZzZXQ9IjAiCiAgICAgICAgIGlkPSJzdG9wNDEwNSIgLz4KICAgICAgPHN0b3AKICAgICAgICAgc3R5bGU9InN0b3AtY29sb3I6IzAwMDAwMDtzdG9wLW9wYWNpdHk6MDsiCiAgICAgICAgIG9mZnNldD0iMSIKICAgICAgICAgaWQ9InN0b3A0MTA3IiAvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHNvZGlwb2RpOm5hbWVkdmlldwogICAgIGlkPSJiYXNlIgogICAgIHBhZ2Vjb2xvcj0iI2ZmZmZmZiIKICAgICBib3JkZXJjb2xvcj0iIzY2NjY2NiIKICAgICBib3JkZXJvcGFjaXR5PSIxLjAiCiAgICAgaW5rc2NhcGU6cGFnZW9wYWNpdHk9IjAuMCIKICAgICBpbmtzY2FwZTpwYWdlc2hhZG93PSIyIgogICAgIGlua3NjYXBlOnpvb209IjE2IgogICAgIGlua3NjYXBlOmN4PSIyLjQyMzAwNiIKICAgICBpbmtzY2FwZTpjeT0iMTIuMTczMTY1IgogICAgIGlua3NjYXBlOmRvY3VtZW50LXVuaXRzPSJweCIKICAgICBpbmtzY2FwZTpjdXJyZW50LWxheWVyPSJsYXllcjEiCiAgICAgc2hvd2dyaWQ9ImZhbHNlIgogICAgIGlua3NjYXBlOndpbmRvdy13aWR0aD0iMjA3OCIKICAgICBpbmtzY2FwZTp3aW5kb3ctaGVpZ2h0PSIxMDU0IgogICAgIGlua3NjYXBlOndpbmRvdy14PSI5MDAiCiAgICAgaW5rc2NhcGU6d2luZG93LXk9IjI5NiIKICAgICBpbmtzY2FwZTp3aW5kb3ctbWF4aW1pemVkPSIwIgogICAgIHNob3dndWlkZXM9ImZhbHNlIgogICAgIGlua3NjYXBlOnNuYXAtYmJveD0idHJ1ZSIKICAgICBpbmtzY2FwZTpiYm94LXBhdGhzPSJ0cnVlIgogICAgIGlua3NjYXBlOmJib3gtbm9kZXM9InRydWUiCiAgICAgaW5rc2NhcGU6b2JqZWN0LXBhdGhzPSJ0cnVlIgogICAgIGlua3NjYXBlOm9iamVjdC1ub2Rlcz0idHJ1ZSIKICAgICBpbmtzY2FwZTpzbmFwLXNtb290aC1ub2Rlcz0idHJ1ZSIKICAgICBpbmtzY2FwZTpzbmFwLW90aGVycz0iZmFsc2UiCiAgICAgaW5rc2NhcGU6c25hcC1ub2Rlcz0iZmFsc2UiPgogICAgPGlua3NjYXBlOmdyaWQKICAgICAgIHR5cGU9Inh5Z3JpZCIKICAgICAgIGlkPSJncmlkNTc0NiIKICAgICAgIGVtcHNwYWNpbmc9IjIiCiAgICAgICB2aXNpYmxlPSJ0cnVlIgogICAgICAgZW5hYmxlZD0idHJ1ZSIKICAgICAgIHNuYXB2aXNpYmxlZ3JpZGxpbmVzb25seT0idHJ1ZSIKICAgICAgIHNwYWNpbmd4PSIwLjVweCIKICAgICAgIHNwYWNpbmd5PSIwLjVweCIKICAgICAgIGNvbG9yPSIjMDAwMGZmIgogICAgICAgb3BhY2l0eT0iMC4wNTg4MjM1MyIgLz4KICA8L3NvZGlwb2RpOm5hbWVkdmlldz4KICA8bWV0YWRhdGEKICAgICBpZD0ibWV0YWRhdGE1NzQzIj4KICAgIDxyZGY6UkRGPgogICAgICA8Y2M6V29yawogICAgICAgICByZGY6YWJvdXQ9IiI+CiAgICAgICAgPGRjOmZvcm1hdD5pbWFnZS9zdmcreG1sPC9kYzpmb3JtYXQ+CiAgICAgICAgPGRjOnR5cGUKICAgICAgICAgICByZGY6cmVzb3VyY2U9Imh0dHA6Ly9wdXJsLm9yZy9kYy9kY21pdHlwZS9TdGlsbEltYWdlIiAvPgogICAgICAgIDxkYzp0aXRsZT48L2RjOnRpdGxlPgogICAgICA8L2NjOldvcms+CiAgICA8L3JkZjpSREY+CiAgPC9tZXRhZGF0YT4KICA8ZwogICAgIGlua3NjYXBlOmxhYmVsPSJMYXllciAxIgogICAgIGlua3NjYXBlOmdyb3VwbW9kZT0ibGF5ZXIiCiAgICAgaWQ9ImxheWVyMSIKICAgICB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLC0xMDMyLjM2MjIpIj4KICAgIDxwYXRoCiAgICAgICBzdHlsZT0iY29sb3I6IzAwMDAwMDtjbGlwLXJ1bGU6bm9uemVybztkaXNwbGF5OmlubGluZTtvdmVyZmxvdzp2aXNpYmxlO3Zpc2liaWxpdHk6dmlzaWJsZTtvcGFjaXR5OjE7aXNvbGF0aW9uOmF1dG87bWl4LWJsZW5kLW1vZGU6bm9ybWFsO2NvbG9yLWludGVycG9sYXRpb246c1JHQjtjb2xvci1pbnRlcnBvbGF0aW9uLWZpbHRlcnM6bGluZWFyUkdCO3NvbGlkLWNvbG9yOiMwMDAwMDA7c29saWQtb3BhY2l0eToxO2ZpbGw6IzAwMDAwMDtmaWxsLW9wYWNpdHk6MTtmaWxsLXJ1bGU6bm9uemVybztzdHJva2U6bm9uZTtzdHJva2Utd2lkdGg6MjtzdHJva2UtbGluZWNhcDpidXR0O3N0cm9rZS1saW5lam9pbjptaXRlcjtzdHJva2UtbWl0ZXJsaW1pdDo0O3N0cm9rZS1kYXNoYXJyYXk6bm9uZTtzdHJva2UtZGFzaG9mZnNldDowO3N0cm9rZS1vcGFjaXR5OjE7bWFya2VyOm5vbmU7Y29sb3ItcmVuZGVyaW5nOmF1dG87aW1hZ2UtcmVuZGVyaW5nOmF1dG87c2hhcGUtcmVuZGVyaW5nOmF1dG87dGV4dC1yZW5kZXJpbmc6YXV0bztlbmFibGUtYmFja2dyb3VuZDphY2N1bXVsYXRlIgogICAgICAgZD0iTSAxMi4wNTA3ODEgMiBDIDExLjc5NTI2MiAyIDExLjUzOTU0MiAyLjA5NzE3NjIgMTEuMzQzNzUgMi4yOTI5Njg4IEwgMTAuMjk4ODI4IDMuMzM3ODkwNiBDIDkuOTA3MjQzNyAzLjcyOTQ3NTcgOS45MDcyNDM3IDQuMzYwMzY4IDEwLjI5ODgyOCA0Ljc1MTk1MzEgTCAxNS4yNDgwNDcgOS43MDExNzE5IEMgMTUuNjM5NjMxIDEwLjA5Mjc1NyAxNi4yNzA1MjUgMTAuMDkyNzU3IDE2LjY2MjEwOSA5LjcwMTE3MTkgTCAxNy43MDcwMzEgOC42NTYyNSBDIDE4LjA5ODYxNiA4LjI2NDY2NDkgMTguMDk4NjE2IDcuNjMzNzcyNiAxNy43MDcwMzEgNy4yNDIxODc1IEwgMTIuNzU3ODEyIDIuMjkyOTY4OCBDIDEyLjU2MjAyIDIuMDk3MTc2MiAxMi4zMDYzMDEgMiAxMi4wNTA3ODEgMiB6IE0gOCA4IEMgNyA4IDcgOSA3LjUgOS41IEMgNy44MzMzMzMgOS44MzMzIDguNSAxMC41IDguNSAxMC41IEwgNy41IDExLjUgQyA3LjUgMTEuNSA3IDEyIDcuNSAxMi41IEMgOCAxMyA4LjUgMTIuNSA4LjUgMTIuNSBMIDkuNSAxMS41IEwgMTAuNSAxMi41IEMgMTEgMTMgMTIgMTMgMTIgMTIgTCAxMiA4IEwgOCA4IHogTSA0IDEwLjAwMzkwNiBDIDMuNzQ0NTEgMTAuMDAzOTA2IDMuNDkwNjkxNiAxMC4xMDMwMzkgMy4yOTQ5MjE5IDEwLjI5ODgyOCBMIDIuMjk4ODI4MSAxMS4yOTQ5MjIgQyAxLjkwNzI4ODggMTEuNjg2NSAxLjkwNzI4ODggMTIuMzE1NDUzIDIuMjk4ODI4MSAxMi43MDcwMzEgTCAzLjI5Njg3NSAxMy43MDcwMzEgQyAzLjY4ODQxNDQgMTQuMDk4NjA5IDQuMzE5Mzk4MSAxNC4wOTg2MDkgNC43MTA5Mzc1IDEzLjcwNzAzMSBMIDUuNzA3MDMxMiAxMi43MTA5MzggQyA2LjA5ODU3MDYgMTIuMzE5MzYgNi4wOTg1NzA2IDExLjY4ODQ1MyA1LjcwNzAzMTIgMTEuMjk2ODc1IEwgNC43MDcwMzEyIDEwLjI5ODgyOCBDIDQuNTExMjYxNiAxMC4xMDMwMzkgNC4yNTU0OSAxMC4wMDM5MDYgNCAxMC4wMDM5MDYgeiBNIDcuOTk2MDkzOCAxNCBDIDcuNzQwNTk0MiAxNCA3LjQ4NDgzOTUgMTQuMDk3MTg3IDcuMjg5MDYyNSAxNC4yOTI5NjkgTCA2LjI5NDkyMTkgMTUuMjg5MDYyIEMgNS45MDMzNjc5IDE1LjY4MDYyNiA1LjkwMzM2NzkgMTYuMzExNTYxIDYuMjk0OTIxOSAxNi43MDMxMjUgTCA3LjI5Mjk2ODggMTcuNzAxMTcyIEMgNy42ODQ1MjI3IDE4LjA5MjczNSA4LjMxMzUyNDIgMTguMDkyNzM1IDguNzA1MDc4MSAxNy43MDExNzIgTCA5LjcwMTE3MTkgMTYuNzA1MDc4IEMgMTAuMDkyNzI2IDE2LjMxMzUxNSAxMC4wOTI3MjYgMTUuNjg0NTMyIDkuNzAxMTcxOSAxNS4yOTI5NjkgTCA4LjcwMzEyNSAxNC4yOTI5NjkgQyA4LjUwNzM0OCAxNC4wOTcxODcgOC4yNTE1OTMzIDE0IDcuOTk2MDkzOCAxNCB6ICIKICAgICAgIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAsMTAzMi4zNjIyKSIKICAgICAgIGlkPSJyZWN0OTE5OCIgLz4KICA8L2c+Cjwvc3ZnPgo=);\n}\n\n.mapboxgl-map.mouse-pointer .mapboxgl-canvas-container.mapboxgl-interactive {\n  cursor: pointer;\n}\n.mapboxgl-map.mouse-move .mapboxgl-canvas-container.mapboxgl-interactive {\n  cursor: move;\n}\n.mapboxgl-map.mouse-add .mapboxgl-canvas-container.mapboxgl-interactive {\n  cursor: crosshair;\n}\n.mapboxgl-map.mouse-move.mode-direct_select .mapboxgl-canvas-container.mapboxgl-interactive {\n  cursor: grab;\n  cursor: -moz-grab;\n  cursor: -webkit-grab;\n}\n.mapboxgl-map.mode-direct_select.feature-vertex.mouse-move .mapboxgl-canvas-container.mapboxgl-interactive {\n  cursor: move;\n}\n.mapboxgl-map.mode-direct_select.feature-midpoint.mouse-pointer .mapboxgl-canvas-container.mapboxgl-interactive {\n  cursor: cell;\n}\n.mapboxgl-map.mode-direct_select.feature-feature.mouse-move .mapboxgl-canvas-container.mapboxgl-interactive {\n  cursor: move;\n}\n.mapboxgl-map.mode-static.mouse-pointer  .mapboxgl-canvas-container.mapboxgl-interactive {\n  cursor: grab;\n  cursor: -moz-grab;\n  cursor: -webkit-grab;\n}\n\n.mapbox-gl-draw_boxselect {\n    pointer-events: none;\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 0;\n    height: 0;\n    background: rgba(0,0,0,.1);\n    border: 2px dotted #fff;\n    opacity: 0.5;\n}\n", ""]);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/mapbox-gl/dist/mapbox-gl.css":
+/*!*****************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/mapbox-gl/dist/mapbox-gl.css ***!
+  \*****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
+// Module
+exports.push([module.i, ".mapboxgl-map {\n    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;\n    overflow: hidden;\n    position: relative;\n    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\n    text-align: left;\n}\n\n.mapboxgl-map:-webkit-full-screen {\n    width: 100%;\n    height: 100%;\n}\n\n.mapboxgl-canary {\n    background-color: salmon;\n}\n\n.mapboxgl-canvas-container.mapboxgl-interactive,\n.mapboxgl-ctrl-group > button.mapboxgl-ctrl-compass {\n    cursor: -webkit-grab;\n    cursor: -moz-grab;\n    cursor: grab;\n    -moz-user-select: none;\n    -webkit-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n}\n\n.mapboxgl-canvas-container.mapboxgl-interactive.mapboxgl-track-pointer {\n    cursor: pointer;\n}\n\n.mapboxgl-canvas-container.mapboxgl-interactive:active,\n.mapboxgl-ctrl-group > button.mapboxgl-ctrl-compass:active {\n    cursor: -webkit-grabbing;\n    cursor: -moz-grabbing;\n    cursor: grabbing;\n}\n\n.mapboxgl-canvas-container.mapboxgl-touch-zoom-rotate,\n.mapboxgl-canvas-container.mapboxgl-touch-zoom-rotate .mapboxgl-canvas {\n    touch-action: pan-x pan-y;\n}\n\n.mapboxgl-canvas-container.mapboxgl-touch-drag-pan,\n.mapboxgl-canvas-container.mapboxgl-touch-drag-pan .mapboxgl-canvas {\n    touch-action: pinch-zoom;\n}\n\n.mapboxgl-canvas-container.mapboxgl-touch-zoom-rotate.mapboxgl-touch-drag-pan,\n.mapboxgl-canvas-container.mapboxgl-touch-zoom-rotate.mapboxgl-touch-drag-pan .mapboxgl-canvas {\n    touch-action: none;\n}\n\n.mapboxgl-ctrl-top-left,\n.mapboxgl-ctrl-top-right,\n.mapboxgl-ctrl-bottom-left,\n.mapboxgl-ctrl-bottom-right { position: absolute; pointer-events: none; z-index: 2; }\n.mapboxgl-ctrl-top-left     { top: 0; left: 0; }\n.mapboxgl-ctrl-top-right    { top: 0; right: 0; }\n.mapboxgl-ctrl-bottom-left  { bottom: 0; left: 0; }\n.mapboxgl-ctrl-bottom-right { right: 0; bottom: 0; }\n\n.mapboxgl-ctrl {\n    clear: both;\n    pointer-events: auto;\n\n    /* workaround for a Safari bug https://github.com/mapbox/mapbox-gl-js/issues/8185 */\n    transform: translate(0, 0);\n}\n.mapboxgl-ctrl-top-left .mapboxgl-ctrl     { margin: 10px 0 0 10px; float: left; }\n.mapboxgl-ctrl-top-right .mapboxgl-ctrl    { margin: 10px 10px 0 0; float: right; }\n.mapboxgl-ctrl-bottom-left .mapboxgl-ctrl  { margin: 0 0 10px 10px; float: left; }\n.mapboxgl-ctrl-bottom-right .mapboxgl-ctrl { margin: 0 10px 10px 0; float: right; }\n\n.mapboxgl-ctrl-group {\n    border-radius: 4px;\n    background: #fff;\n}\n\n.mapboxgl-ctrl-group:not(:empty) {\n    -moz-box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);\n    -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);\n    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);\n}\n\n.mapboxgl-ctrl-group > button {\n    width: 30px;\n    height: 30px;\n    display: block;\n    padding: 0;\n    outline: none;\n    border: 0;\n    box-sizing: border-box;\n    background-color: transparent;\n    cursor: pointer;\n}\n\n.mapboxgl-ctrl-group > button + button {\n    border-top: 1px solid #ddd;\n}\n\n/* https://bugzilla.mozilla.org/show_bug.cgi?id=140562 */\n.mapboxgl-ctrl > button::-moz-focus-inner {\n    border: 0;\n    padding: 0;\n}\n\n.mapboxgl-ctrl > button:hover {\n    background-color: rgba(0, 0, 0, 0.05);\n}\n\n.mapboxgl-ctrl-group > button:focus {\n    box-shadow: 0 0 2px 2px rgba(0, 150, 255, 1);\n}\n\n.mapboxgl-ctrl-group > button:focus:focus-visible {\n    box-shadow: 0 0 2px 2px rgba(0, 150, 255, 1);\n}\n\n.mapboxgl-ctrl-group > button:focus:not(:focus-visible) {\n    box-shadow: none;\n}\n\n.mapboxgl-ctrl-group > button:focus:first-child {\n    border-radius: 4px 4px 0 0;\n}\n\n.mapboxgl-ctrl-group > button:focus:last-child {\n    border-radius: 0 0 4px 4px;\n}\n\n.mapboxgl-ctrl-group > button:focus:only-child {\n    border-radius: inherit;\n}\n\n.mapboxgl-ctrl-icon,\n.mapboxgl-ctrl-icon > .mapboxgl-ctrl-compass-arrow {\n    speak: none;\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n}\n\n.mapboxgl-ctrl-icon {\n    padding: 5px;\n}\n\n.mapboxgl-ctrl-icon.mapboxgl-ctrl-icon-disabled {\n    opacity: 0.25;\n    border-color: #373737;\n}\n\n.mapboxgl-ctrl-icon.mapboxgl-ctrl-zoom-out {\n    background-image: url(\"data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath style='fill:%23333333;' d='m 7,9 c -0.554,0 -1,0.446 -1,1 0,0.554 0.446,1 1,1 l 6,0 c 0.554,0 1,-0.446 1,-1 0,-0.554 -0.446,-1 -1,-1 z'/%3E %3C/svg%3E\");\n}\n\n.mapboxgl-ctrl-icon.mapboxgl-ctrl-zoom-in {\n    background-image: url(\"data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath style='fill:%23333333;' d='M 10 6 C 9.446 6 9 6.4459904 9 7 L 9 9 L 7 9 C 6.446 9 6 9.446 6 10 C 6 10.554 6.446 11 7 11 L 9 11 L 9 13 C 9 13.55401 9.446 14 10 14 C 10.554 14 11 13.55401 11 13 L 11 11 L 13 11 C 13.554 11 14 10.554 14 10 C 14 9.446 13.554 9 13 9 L 11 9 L 11 7 C 11 6.4459904 10.554 6 10 6 z'/%3E %3C/svg%3E\");\n}\n\n.mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate::before {\n    background-image: url(\"data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%23333'%3E %3Cpath d='M10 4C9 4 9 5 9 5L9 5.1A5 5 0 0 0 5.1 9L5 9C5 9 4 9 4 10 4 11 5 11 5 11L5.1 11A5 5 0 0 0 9 14.9L9 15C9 15 9 16 10 16 11 16 11 15 11 15L11 14.9A5 5 0 0 0 14.9 11L15 11C15 11 16 11 16 10 16 9 15 9 15 9L14.9 9A5 5 0 0 0 11 5.1L11 5C11 5 11 4 10 4zM10 6.5A3.5 3.5 0 0 1 13.5 10 3.5 3.5 0 0 1 10 13.5 3.5 3.5 0 0 1 6.5 10 3.5 3.5 0 0 1 10 6.5zM10 8.3A1.8 1.8 0 0 0 8.3 10 1.8 1.8 0 0 0 10 11.8 1.8 1.8 0 0 0 11.8 10 1.8 1.8 0 0 0 10 8.3z'/%3E %3C/svg%3E\");\n    content: \"\";\n    display: block;\n    width: 100%;\n    height: 100%;\n}\n\n.mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate::before:disabled {\n    background-image: url(\"data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%23aaa'%3E %3Cpath d='M10 4C9 4 9 5 9 5L9 5.1A5 5 0 0 0 5.1 9L5 9C5 9 4 9 4 10 4 11 5 11 5 11L5.1 11A5 5 0 0 0 9 14.9L9 15C9 15 9 16 10 16 11 16 11 15 11 15L11 14.9A5 5 0 0 0 14.9 11L15 11C15 11 16 11 16 10 16 9 15 9 15 9L14.9 9A5 5 0 0 0 11 5.1L11 5C11 5 11 4 10 4zM10 6.5A3.5 3.5 0 0 1 13.5 10 3.5 3.5 0 0 1 10 13.5 3.5 3.5 0 0 1 6.5 10 3.5 3.5 0 0 1 10 6.5zM10 8.3A1.8 1.8 0 0 0 8.3 10 1.8 1.8 0 0 0 10 11.8 1.8 1.8 0 0 0 11.8 10 1.8 1.8 0 0 0 10 8.3z'/%3E %3C/svg%3E\");\n}\n\n.mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-active::before {\n    background-image: url(\"data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%2333b5e5'%3E %3Cpath d='M10 4C9 4 9 5 9 5L9 5.1A5 5 0 0 0 5.1 9L5 9C5 9 4 9 4 10 4 11 5 11 5 11L5.1 11A5 5 0 0 0 9 14.9L9 15C9 15 9 16 10 16 11 16 11 15 11 15L11 14.9A5 5 0 0 0 14.9 11L15 11C15 11 16 11 16 10 16 9 15 9 15 9L14.9 9A5 5 0 0 0 11 5.1L11 5C11 5 11 4 10 4zM10 6.5A3.5 3.5 0 0 1 13.5 10 3.5 3.5 0 0 1 10 13.5 3.5 3.5 0 0 1 6.5 10 3.5 3.5 0 0 1 10 6.5zM10 8.3A1.8 1.8 0 0 0 8.3 10 1.8 1.8 0 0 0 10 11.8 1.8 1.8 0 0 0 11.8 10 1.8 1.8 0 0 0 10 8.3z'/%3E %3C/svg%3E\");\n}\n\n.mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-active-error::before {\n    background-image: url(\"data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%23e58978'%3E %3Cpath d='M10 4C9 4 9 5 9 5L9 5.1A5 5 0 0 0 5.1 9L5 9C5 9 4 9 4 10 4 11 5 11 5 11L5.1 11A5 5 0 0 0 9 14.9L9 15C9 15 9 16 10 16 11 16 11 15 11 15L11 14.9A5 5 0 0 0 14.9 11L15 11C15 11 16 11 16 10 16 9 15 9 15 9L14.9 9A5 5 0 0 0 11 5.1L11 5C11 5 11 4 10 4zM10 6.5A3.5 3.5 0 0 1 13.5 10 3.5 3.5 0 0 1 10 13.5 3.5 3.5 0 0 1 6.5 10 3.5 3.5 0 0 1 10 6.5zM10 8.3A1.8 1.8 0 0 0 8.3 10 1.8 1.8 0 0 0 10 11.8 1.8 1.8 0 0 0 11.8 10 1.8 1.8 0 0 0 10 8.3z'/%3E %3C/svg%3E\");\n}\n\n.mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-background::before {\n    background-image: url(\"data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%2333b5e5'%3E %3Cpath d='M 10,4 C 9,4 9,5 9,5 L 9,5.1 C 7.0357113,5.5006048 5.5006048,7.0357113 5.1,9 L 5,9 c 0,0 -1,0 -1,1 0,1 1,1 1,1 l 0.1,0 c 0.4006048,1.964289 1.9357113,3.499395 3.9,3.9 L 9,15 c 0,0 0,1 1,1 1,0 1,-1 1,-1 l 0,-0.1 c 1.964289,-0.400605 3.499395,-1.935711 3.9,-3.9 l 0.1,0 c 0,0 1,0 1,-1 C 16,9 15,9 15,9 L 14.9,9 C 14.499395,7.0357113 12.964289,5.5006048 11,5.1 L 11,5 c 0,0 0,-1 -1,-1 z m 0,2.5 c 1.932997,0 3.5,1.5670034 3.5,3.5 0,1.932997 -1.567003,3.5 -3.5,3.5 C 8.0670034,13.5 6.5,11.932997 6.5,10 6.5,8.0670034 8.0670034,6.5 10,6.5 Z'/%3E %3C/svg%3E\");\n}\n\n.mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-background-error::before {\n    background-image: url(\"data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' fill='%23e54e33'%3E %3Cpath d='M 10,4 C 9,4 9,5 9,5 L 9,5.1 C 7.0357113,5.5006048 5.5006048,7.0357113 5.1,9 L 5,9 c 0,0 -1,0 -1,1 0,1 1,1 1,1 l 0.1,0 c 0.4006048,1.964289 1.9357113,3.499395 3.9,3.9 L 9,15 c 0,0 0,1 1,1 1,0 1,-1 1,-1 l 0,-0.1 c 1.964289,-0.400605 3.499395,-1.935711 3.9,-3.9 l 0.1,0 c 0,0 1,0 1,-1 C 16,9 15,9 15,9 L 14.9,9 C 14.499395,7.0357113 12.964289,5.5006048 11,5.1 L 11,5 c 0,0 0,-1 -1,-1 z m 0,2.5 c 1.932997,0 3.5,1.5670034 3.5,3.5 0,1.932997 -1.567003,3.5 -3.5,3.5 C 8.0670034,13.5 6.5,11.932997 6.5,10 6.5,8.0670034 8.0670034,6.5 10,6.5 Z'/%3E %3C/svg%3E\");\n}\n\n.mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate.mapboxgl-ctrl-geolocate-waiting::before {\n    -webkit-animation: mapboxgl-spin 2s infinite linear;\n    -moz-animation: mapboxgl-spin 2s infinite linear;\n    -o-animation: mapboxgl-spin 2s infinite linear;\n    -ms-animation: mapboxgl-spin 2s infinite linear;\n    animation: mapboxgl-spin 2s infinite linear;\n}\n\n@-webkit-keyframes mapboxgl-spin {\n    0% { -webkit-transform: rotate(0deg); }\n    100% { -webkit-transform: rotate(360deg); }\n}\n\n@-moz-keyframes mapboxgl-spin {\n    0% { -moz-transform: rotate(0deg); }\n    100% { -moz-transform: rotate(360deg); }\n}\n\n@-o-keyframes mapboxgl-spin {\n    0% { -o-transform: rotate(0deg); }\n    100% { -o-transform: rotate(360deg); }\n}\n\n@-ms-keyframes mapboxgl-spin {\n    0% { -ms-transform: rotate(0deg); }\n    100% { -ms-transform: rotate(360deg); }\n}\n\n@keyframes mapboxgl-spin {\n    0% { transform: rotate(0deg); }\n    100% { transform: rotate(360deg); }\n}\n\n.mapboxgl-ctrl-icon.mapboxgl-ctrl-fullscreen {\n    background-image: url(\"data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M 5 4 C 4.5 4 4 4.5 4 5 L 4 6 L 4 9 L 4.5 9 L 5.7773438 7.296875 C 6.7771319 8.0602131 7.835765 8.9565728 8.890625 10 C 7.8257121 11.0633 6.7761791 11.951675 5.78125 12.707031 L 4.5 11 L 4 11 L 4 15 C 4 15.5 4.5 16 5 16 L 9 16 L 9 15.5 L 7.2734375 14.205078 C 8.0428931 13.187886 8.9395441 12.133481 9.9609375 11.068359 C 11.042371 12.14699 11.942093 13.2112 12.707031 14.21875 L 11 15.5 L 11 16 L 14 16 L 15 16 C 15.5 16 16 15.5 16 15 L 16 14 L 16 11 L 15.5 11 L 14.205078 12.726562 C 13.177985 11.949617 12.112718 11.043577 11.037109 10.009766 C 12.151856 8.981061 13.224345 8.0798624 14.228516 7.3046875 L 15.5 9 L 16 9 L 16 5 C 16 4.5 15.5 4 15 4 L 11 4 L 11 4.5 L 12.703125 5.7773438 C 11.932647 6.7864834 11.026693 7.8554712 9.9707031 8.9199219 C 8.9584739 7.8204943 8.0698767 6.7627188 7.3046875 5.7714844 L 9 4.5 L 9 4 L 6 4 L 5 4 z '/%3E %3C/svg%3E\");\n}\n\n.mapboxgl-ctrl-icon.mapboxgl-ctrl-shrink {\n    background-image: url(\"data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath style='fill:%23000000;' d='M 4.2421875 3.4921875 A 0.750075 0.750075 0 0 0 3.71875 4.78125 L 5.9648438 7.0273438 L 4 8.5 L 4 9 L 8 9 C 8.500001 8.9999988 9 8.4999992 9 8 L 9 4 L 8.5 4 L 7.0175781 5.9550781 L 4.78125 3.71875 A 0.750075 0.750075 0 0 0 4.2421875 3.4921875 z M 15.734375 3.4921875 A 0.750075 0.750075 0 0 0 15.21875 3.71875 L 12.984375 5.953125 L 11.5 4 L 11 4 L 11 8 C 11 8.4999992 11.499999 8.9999988 12 9 L 16 9 L 16 8.5 L 14.035156 7.0273438 L 16.28125 4.78125 A 0.750075 0.750075 0 0 0 15.734375 3.4921875 z M 4 11 L 4 11.5 L 5.9648438 12.972656 L 3.71875 15.21875 A 0.75130096 0.75130096 0 1 0 4.78125 16.28125 L 7.0273438 14.035156 L 8.5 16 L 9 16 L 9 12 C 9 11.500001 8.500001 11.000001 8 11 L 4 11 z M 12 11 C 11.499999 11.000001 11 11.500001 11 12 L 11 16 L 11.5 16 L 12.972656 14.035156 L 15.21875 16.28125 A 0.75130096 0.75130096 0 1 0 16.28125 15.21875 L 14.035156 12.972656 L 16 11.5 L 16 11 L 12 11 z '/%3E %3C/svg%3E\");\n}\n\n.mapboxgl-ctrl-icon.mapboxgl-ctrl-compass > .mapboxgl-ctrl-compass-arrow {\n    width: 20px;\n    height: 20px;\n    margin: 5px;\n    background-image: url(\"data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E %3Cpolygon fill='%23333333' points='6,9 10,1 14,9'/%3E %3Cpolygon fill='%23CCCCCC' points='6,11 10,19 14,11 '/%3E %3C/svg%3E\");\n    background-repeat: no-repeat;\n    display: inline-block;\n}\n\na.mapboxgl-ctrl-logo {\n    width: 85px;\n    height: 21px;\n    margin: 0 0 -3px -3px;\n    display: block;\n    background-repeat: no-repeat;\n    cursor: pointer;\n    background-image: url(\"data:image/svg+xml;charset=utf-8,%3C?xml version='1.0' encoding='utf-8'?%3E%3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 84.49 21' style='enable-background:new 0 0 84.49 21;' xml:space='preserve'%3E%3Cg%3E %3Cpath class='st0' style='opacity:0.9; fill: %23FFFFFF; enable-background: new;' d='M83.25,14.26c0,0.12-0.09,0.21-0.21,0.21h-1.61c-0.13,0-0.24-0.06-0.3-0.17l-1.44-2.39l-1.44,2.39 c-0.06,0.11-0.18,0.17-0.3,0.17h-1.61c-0.04,0-0.08-0.01-0.12-0.03c-0.09-0.06-0.13-0.19-0.06-0.28l0,0l2.43-3.68L76.2,6.84 c-0.02-0.03-0.03-0.07-0.03-0.12c0-0.12,0.09-0.21,0.21-0.21h1.61c0.13,0,0.24,0.06,0.3,0.17l1.41,2.36l1.4-2.35 c0.06-0.11,0.18-0.17,0.3-0.17H83c0.04,0,0.08,0.01,0.12,0.03c0.09,0.06,0.13,0.19,0.06,0.28l0,0l-2.37,3.63l2.43,3.67 C83.24,14.18,83.25,14.22,83.25,14.26z'/%3E %3Cpath class='st0' style='opacity:0.9; fill: %23FFFFFF; enable-background: new;' d='M66.24,9.59c-0.39-1.88-1.96-3.28-3.84-3.28c-1.03,0-2.03,0.42-2.73,1.18V3.51c0-0.13-0.1-0.23-0.23-0.23h-1.4 c-0.13,0-0.23,0.11-0.23,0.23v10.72c0,0.13,0.1,0.23,0.23,0.23h1.4c0.13,0,0.23-0.11,0.23-0.23V13.5c0.71,0.75,1.7,1.18,2.73,1.18 c1.88,0,3.45-1.41,3.84-3.29C66.37,10.79,66.37,10.18,66.24,9.59L66.24,9.59z M62.08,13c-1.32,0-2.39-1.11-2.41-2.48v-0.06 c0.02-1.38,1.09-2.48,2.41-2.48s2.42,1.12,2.42,2.51S63.41,13,62.08,13z'/%3E %3Cpath class='st0' style='opacity:0.9; fill: %23FFFFFF; enable-background: new;' d='M71.67,6.32c-1.98-0.01-3.72,1.35-4.16,3.29c-0.13,0.59-0.13,1.19,0,1.77c0.44,1.94,2.17,3.32,4.17,3.3 c2.35,0,4.26-1.87,4.26-4.19S74.04,6.32,71.67,6.32z M71.65,13.01c-1.33,0-2.42-1.12-2.42-2.51s1.08-2.52,2.42-2.52 c1.33,0,2.42,1.12,2.42,2.51S72.99,13,71.65,13.01L71.65,13.01z'/%3E %3Cpath class='st1' style='opacity:0.35; enable-background:new;' d='M62.08,7.98c-1.32,0-2.39,1.11-2.41,2.48v0.06C59.68,11.9,60.75,13,62.08,13s2.42-1.12,2.42-2.51 S63.41,7.98,62.08,7.98z M62.08,11.76c-0.63,0-1.14-0.56-1.17-1.25v-0.04c0.01-0.69,0.54-1.25,1.17-1.25 c0.63,0,1.17,0.57,1.17,1.27C63.24,11.2,62.73,11.76,62.08,11.76z'/%3E %3Cpath class='st1' style='opacity:0.35; enable-background:new;' d='M71.65,7.98c-1.33,0-2.42,1.12-2.42,2.51S70.32,13,71.65,13s2.42-1.12,2.42-2.51S72.99,7.98,71.65,7.98z M71.65,11.76c-0.64,0-1.17-0.57-1.17-1.27c0-0.7,0.53-1.26,1.17-1.26s1.17,0.57,1.17,1.27C72.82,11.21,72.29,11.76,71.65,11.76z'/%3E %3Cpath class='st0' style='opacity:0.9; fill: %23FFFFFF; enable-background: new;' d='M45.74,6.53h-1.4c-0.13,0-0.23,0.11-0.23,0.23v0.73c-0.71-0.75-1.7-1.18-2.73-1.18 c-2.17,0-3.94,1.87-3.94,4.19s1.77,4.19,3.94,4.19c1.04,0,2.03-0.43,2.73-1.19v0.73c0,0.13,0.1,0.23,0.23,0.23h1.4 c0.13,0,0.23-0.11,0.23-0.23V6.74c0-0.12-0.09-0.22-0.22-0.22C45.75,6.53,45.75,6.53,45.74,6.53z M44.12,10.53 C44.11,11.9,43.03,13,41.71,13s-2.42-1.12-2.42-2.51s1.08-2.52,2.4-2.52c1.33,0,2.39,1.11,2.41,2.48L44.12,10.53z'/%3E %3Cpath class='st1' style='opacity:0.35; enable-background:new;' d='M41.71,7.98c-1.33,0-2.42,1.12-2.42,2.51S40.37,13,41.71,13s2.39-1.11,2.41-2.48v-0.06 C44.1,9.09,43.03,7.98,41.71,7.98z M40.55,10.49c0-0.7,0.52-1.27,1.17-1.27c0.64,0,1.14,0.56,1.17,1.25v0.04 c-0.01,0.68-0.53,1.24-1.17,1.24C41.08,11.75,40.55,11.19,40.55,10.49z'/%3E %3Cpath class='st0' style='opacity:0.9; fill: %23FFFFFF; enable-background: new;' d='M52.41,6.32c-1.03,0-2.03,0.42-2.73,1.18V6.75c0-0.13-0.1-0.23-0.23-0.23h-1.4c-0.13,0-0.23,0.11-0.23,0.23 v10.72c0,0.13,0.1,0.23,0.23,0.23h1.4c0.13,0,0.23-0.1,0.23-0.23V13.5c0.71,0.75,1.7,1.18,2.74,1.18c2.17,0,3.94-1.87,3.94-4.19 S54.58,6.32,52.41,6.32z M52.08,13.01c-1.32,0-2.39-1.11-2.42-2.48v-0.07c0.02-1.38,1.09-2.49,2.4-2.49c1.32,0,2.41,1.12,2.41,2.51 S53.4,13,52.08,13.01L52.08,13.01z'/%3E %3Cpath class='st1' style='opacity:0.35; enable-background:new;' d='M52.08,7.98c-1.32,0-2.39,1.11-2.42,2.48v0.06c0.03,1.38,1.1,2.48,2.42,2.48s2.41-1.12,2.41-2.51 S53.4,7.98,52.08,7.98z M52.08,11.76c-0.63,0-1.14-0.56-1.17-1.25v-0.04c0.01-0.69,0.54-1.25,1.17-1.25c0.63,0,1.17,0.58,1.17,1.27 S52.72,11.76,52.08,11.76z'/%3E %3Cpath class='st0' style='opacity:0.9; fill: %23FFFFFF; enable-background: new;' d='M36.08,14.24c0,0.13-0.1,0.23-0.23,0.23h-1.41c-0.13,0-0.23-0.11-0.23-0.23V9.68c0-0.98-0.74-1.71-1.62-1.71 c-0.8,0-1.46,0.7-1.59,1.62l0.01,4.66c0,0.13-0.11,0.23-0.23,0.23h-1.41c-0.13,0-0.23-0.11-0.23-0.23V9.68 c0-0.98-0.74-1.71-1.62-1.71c-0.85,0-1.54,0.79-1.6,1.8v4.48c0,0.13-0.1,0.23-0.23,0.23h-1.4c-0.13,0-0.23-0.11-0.23-0.23V6.74 c0.01-0.13,0.1-0.22,0.23-0.22h1.4c0.13,0,0.22,0.11,0.23,0.22V7.4c0.5-0.68,1.3-1.09,2.16-1.1h0.03c1.09,0,2.09,0.6,2.6,1.55 c0.45-0.95,1.4-1.55,2.44-1.56c1.62,0,2.93,1.25,2.9,2.78L36.08,14.24z'/%3E %3Cpath class='st1' style='opacity:0.35; enable-background:new;' d='M84.34,13.59l-0.07-0.13l-1.96-2.99l1.94-2.95c0.44-0.67,0.26-1.56-0.41-2.02c-0.02,0-0.03,0-0.04-0.01 c-0.23-0.15-0.5-0.22-0.78-0.22h-1.61c-0.56,0-1.08,0.29-1.37,0.78L79.72,6.6l-0.34-0.56C79.09,5.56,78.57,5.27,78,5.27h-1.6 c-0.6,0-1.13,0.37-1.35,0.92c-2.19-1.66-5.28-1.47-7.26,0.45c-0.35,0.34-0.65,0.72-0.89,1.14c-0.9-1.62-2.58-2.72-4.5-2.72 c-0.5,0-1.01,0.07-1.48,0.23V3.51c0-0.82-0.66-1.48-1.47-1.48h-1.4c-0.81,0-1.47,0.66-1.47,1.47v3.75 c-0.95-1.36-2.5-2.18-4.17-2.19c-0.74,0-1.46,0.16-2.12,0.47c-0.24-0.17-0.54-0.26-0.84-0.26h-1.4c-0.45,0-0.87,0.21-1.15,0.56 c-0.02-0.03-0.04-0.05-0.07-0.08c-0.28-0.3-0.68-0.47-1.09-0.47h-1.39c-0.3,0-0.6,0.09-0.84,0.26c-0.67-0.3-1.39-0.46-2.12-0.46 c-1.83,0-3.43,1-4.37,2.5c-0.2-0.46-0.48-0.89-0.83-1.25c-0.8-0.81-1.89-1.25-3.02-1.25h-0.01c-0.89,0.01-1.75,0.33-2.46,0.88 c-0.74-0.57-1.64-0.88-2.57-0.88H28.1c-0.29,0-0.58,0.03-0.86,0.11c-0.28,0.06-0.56,0.16-0.82,0.28c-0.21-0.12-0.45-0.18-0.7-0.18 h-1.4c-0.82,0-1.47,0.66-1.47,1.47v7.5c0,0.82,0.66,1.47,1.47,1.47h1.4c0.82,0,1.48-0.66,1.48-1.48l0,0V9.79 c0.03-0.36,0.23-0.59,0.36-0.59c0.18,0,0.38,0.18,0.38,0.47v4.57c0,0.82,0.66,1.47,1.47,1.47h1.41c0.82,0,1.47-0.66,1.47-1.47 l-0.01-4.57c0.06-0.32,0.25-0.47,0.35-0.47c0.18,0,0.38,0.18,0.38,0.47v4.57c0,0.82,0.66,1.47,1.47,1.47h1.41 c0.82,0,1.47-0.66,1.47-1.47v-0.38c0.96,1.29,2.46,2.06,4.06,2.06c0.74,0,1.46-0.16,2.12-0.47c0.24,0.17,0.54,0.26,0.84,0.26h1.39 c0.3,0,0.6-0.09,0.84-0.26v2.01c0,0.82,0.66,1.47,1.47,1.47h1.4c0.82,0,1.47-0.66,1.47-1.47v-1.77c0.48,0.15,0.99,0.23,1.49,0.22 c1.7,0,3.22-0.87,4.17-2.2v0.52c0,0.82,0.66,1.47,1.47,1.47h1.4c0.3,0,0.6-0.09,0.84-0.26c0.66,0.31,1.39,0.47,2.12,0.47 c1.92,0,3.6-1.1,4.49-2.73c1.54,2.65,4.95,3.53,7.58,1.98c0.18-0.11,0.36-0.22,0.53-0.36c0.22,0.55,0.76,0.91,1.35,0.9H78 c0.56,0,1.08-0.29,1.37-0.78l0.37-0.61l0.37,0.61c0.29,0.48,0.81,0.78,1.38,0.78h1.6c0.81,0,1.46-0.66,1.45-1.46 C84.49,14.02,84.44,13.8,84.34,13.59L84.34,13.59z M35.86,14.47h-1.41c-0.13,0-0.23-0.11-0.23-0.23V9.68 c0-0.98-0.74-1.71-1.62-1.71c-0.8,0-1.46,0.7-1.59,1.62l0.01,4.66c0,0.13-0.1,0.23-0.23,0.23h-1.41c-0.13,0-0.23-0.11-0.23-0.23 V9.68c0-0.98-0.74-1.71-1.62-1.71c-0.85,0-1.54,0.79-1.6,1.8v4.48c0,0.13-0.1,0.23-0.23,0.23h-1.4c-0.13,0-0.23-0.11-0.23-0.23 V6.74c0.01-0.13,0.11-0.22,0.23-0.22h1.4c0.13,0,0.22,0.11,0.23,0.22V7.4c0.5-0.68,1.3-1.09,2.16-1.1h0.03 c1.09,0,2.09,0.6,2.6,1.55c0.45-0.95,1.4-1.55,2.44-1.56c1.62,0,2.93,1.25,2.9,2.78l0.01,5.16C36.09,14.36,35.98,14.46,35.86,14.47 L35.86,14.47z M45.97,14.24c0,0.13-0.1,0.23-0.23,0.23h-1.4c-0.13,0-0.23-0.11-0.23-0.23V13.5c-0.7,0.76-1.69,1.18-2.72,1.18 c-2.17,0-3.94-1.87-3.94-4.19s1.77-4.19,3.94-4.19c1.03,0,2.02,0.43,2.73,1.18V6.74c0-0.13,0.1-0.23,0.23-0.23h1.4 c0.12-0.01,0.22,0.08,0.23,0.21c0,0.01,0,0.01,0,0.02v7.51h-0.01V14.24z M52.41,14.67c-1.03,0-2.02-0.43-2.73-1.18v3.97 c0,0.13-0.1,0.23-0.23,0.23h-1.4c-0.13,0-0.23-0.1-0.23-0.23V6.75c0-0.13,0.1-0.22,0.23-0.22h1.4c0.13,0,0.23,0.11,0.23,0.23v0.73 c0.71-0.76,1.7-1.18,2.73-1.18c2.17,0,3.94,1.86,3.94,4.18S54.58,14.67,52.41,14.67z M66.24,11.39c-0.39,1.87-1.96,3.29-3.84,3.29 c-1.03,0-2.02-0.43-2.73-1.18v0.73c0,0.13-0.1,0.23-0.23,0.23h-1.4c-0.13,0-0.23-0.11-0.23-0.23V3.51c0-0.13,0.1-0.23,0.23-0.23 h1.4c0.13,0,0.23,0.11,0.23,0.23v3.97c0.71-0.75,1.7-1.18,2.73-1.17c1.88,0,3.45,1.4,3.84,3.28C66.37,10.19,66.37,10.8,66.24,11.39 L66.24,11.39L66.24,11.39z M71.67,14.68c-2,0.01-3.73-1.35-4.17-3.3c-0.13-0.59-0.13-1.19,0-1.77c0.44-1.94,2.17-3.31,4.17-3.3 c2.36,0,4.26,1.87,4.26,4.19S74.03,14.68,71.67,14.68L71.67,14.68z M83.04,14.47h-1.61c-0.13,0-0.24-0.06-0.3-0.17l-1.44-2.39 l-1.44,2.39c-0.06,0.11-0.18,0.17-0.3,0.17h-1.61c-0.04,0-0.08-0.01-0.12-0.03c-0.09-0.06-0.13-0.19-0.06-0.28l0,0l2.43-3.68 L76.2,6.84c-0.02-0.03-0.03-0.07-0.03-0.12c0-0.12,0.09-0.21,0.21-0.21h1.61c0.13,0,0.24,0.06,0.3,0.17l1.41,2.36l1.41-2.36 c0.06-0.11,0.18-0.17,0.3-0.17h1.61c0.04,0,0.08,0.01,0.12,0.03c0.09,0.06,0.13,0.19,0.06,0.28l0,0l-2.38,3.64l2.43,3.67 c0.02,0.03,0.03,0.07,0.03,0.12C83.25,14.38,83.16,14.47,83.04,14.47L83.04,14.47L83.04,14.47z'/%3E %3Cpath class='st0' style='opacity:0.9; fill: %23FFFFFF; enable-background: new;' d='M10.5,1.24c-5.11,0-9.25,4.15-9.25,9.25s4.15,9.25,9.25,9.25s9.25-4.15,9.25-9.25 C19.75,5.38,15.61,1.24,10.5,1.24z M14.89,12.77c-1.93,1.93-4.78,2.31-6.7,2.31c-0.7,0-1.41-0.05-2.1-0.16c0,0-1.02-5.64,2.14-8.81 c0.83-0.83,1.95-1.28,3.13-1.28c1.27,0,2.49,0.51,3.39,1.42C16.59,8.09,16.64,11,14.89,12.77z'/%3E %3Cpath class='st1' style='opacity:0.35; enable-background:new;' d='M10.5-0.01C4.7-0.01,0,4.7,0,10.49s4.7,10.5,10.5,10.5S21,16.29,21,10.49C20.99,4.7,16.3-0.01,10.5-0.01z M10.5,19.74c-5.11,0-9.25-4.15-9.25-9.25s4.14-9.26,9.25-9.26s9.25,4.15,9.25,9.25C19.75,15.61,15.61,19.74,10.5,19.74z'/%3E %3Cpath class='st1' style='opacity:0.35; enable-background:new;' d='M14.74,6.25C12.9,4.41,9.98,4.35,8.23,6.1c-3.16,3.17-2.14,8.81-2.14,8.81s5.64,1.02,8.81-2.14 C16.64,11,16.59,8.09,14.74,6.25z M12.47,10.34l-0.91,1.87l-0.9-1.87L8.8,9.43l1.86-0.9l0.9-1.87l0.91,1.87l1.86,0.9L12.47,10.34z'/%3E %3Cpolygon class='st0' style='opacity:0.9; fill: %23FFFFFF; enable-background: new;' points='14.33,9.43 12.47,10.34 11.56,12.21 10.66,10.34 8.8,9.43 10.66,8.53 11.56,6.66 12.47,8.53 '/%3E%3C/g%3E%3C/svg%3E\");\n}\n\na.mapboxgl-ctrl-logo.mapboxgl-compact {\n    width: 21px;\n    height: 21px;\n    background-image: url(\"data:image/svg+xml;charset=utf-8,%3C?xml version='1.0' encoding='utf-8'?%3E %3Csvg version='1.1' id='Layer_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 21 21' style='enable-background:new 0 0 21 21;' xml:space='preserve'%3E%3Cg transform='translate(0,0.01)'%3E%3Cpath d='m 10.5,1.24 c -5.11,0 -9.25,4.15 -9.25,9.25 0,5.1 4.15,9.25 9.25,9.25 5.1,0 9.25,-4.15 9.25,-9.25 0,-5.11 -4.14,-9.25 -9.25,-9.25 z m 4.39,11.53 c -1.93,1.93 -4.78,2.31 -6.7,2.31 -0.7,0 -1.41,-0.05 -2.1,-0.16 0,0 -1.02,-5.64 2.14,-8.81 0.83,-0.83 1.95,-1.28 3.13,-1.28 1.27,0 2.49,0.51 3.39,1.42 1.84,1.84 1.89,4.75 0.14,6.52 z' style='opacity:0.9;fill:%23ffffff;enable-background:new' class='st0'/%3E%3Cpath d='M 10.5,-0.01 C 4.7,-0.01 0,4.7 0,10.49 c 0,5.79 4.7,10.5 10.5,10.5 5.8,0 10.5,-4.7 10.5,-10.5 C 20.99,4.7 16.3,-0.01 10.5,-0.01 Z m 0,19.75 c -5.11,0 -9.25,-4.15 -9.25,-9.25 0,-5.1 4.14,-9.26 9.25,-9.26 5.11,0 9.25,4.15 9.25,9.25 0,5.13 -4.14,9.26 -9.25,9.26 z' style='opacity:0.35;enable-background:new' class='st1'/%3E%3Cpath d='M 14.74,6.25 C 12.9,4.41 9.98,4.35 8.23,6.1 5.07,9.27 6.09,14.91 6.09,14.91 c 0,0 5.64,1.02 8.81,-2.14 C 16.64,11 16.59,8.09 14.74,6.25 Z m -2.27,4.09 -0.91,1.87 -0.9,-1.87 -1.86,-0.91 1.86,-0.9 0.9,-1.87 0.91,1.87 1.86,0.9 z' style='opacity:0.35;enable-background:new' class='st1'/%3E%3Cpolygon points='11.56,12.21 10.66,10.34 8.8,9.43 10.66,8.53 11.56,6.66 12.47,8.53 14.33,9.43 12.47,10.34 ' style='opacity:0.9;fill:%23ffffff;enable-background:new' class='st0'/%3E%3C/g%3E%3C/svg%3E\");\n}\n\n.mapboxgl-ctrl.mapboxgl-ctrl-attrib {\n    padding: 0 5px;\n    background-color: rgba(255, 255, 255, 0.5);\n    margin: 0;\n}\n\n@media screen {\n    .mapboxgl-ctrl-attrib.mapboxgl-compact {\n        min-height: 20px;\n        padding: 0;\n        margin: 10px;\n        position: relative;\n        background-color: #fff;\n        border-radius: 3px 12px 12px 3px;\n    }\n\n    .mapboxgl-ctrl-attrib.mapboxgl-compact:hover {\n        padding: 2px 24px 2px 4px;\n        visibility: visible;\n        margin-top: 6px;\n    }\n\n    .mapboxgl-ctrl-top-left > .mapboxgl-ctrl-attrib.mapboxgl-compact:hover,\n    .mapboxgl-ctrl-bottom-left > .mapboxgl-ctrl-attrib.mapboxgl-compact:hover {\n        padding: 2px 4px 2px 24px;\n        border-radius: 12px 3px 3px 12px;\n    }\n\n    .mapboxgl-ctrl-attrib.mapboxgl-compact .mapboxgl-ctrl-attrib-inner {\n        display: none;\n    }\n\n    .mapboxgl-ctrl-attrib.mapboxgl-compact:hover .mapboxgl-ctrl-attrib-inner {\n        display: block;\n    }\n\n    .mapboxgl-ctrl-attrib.mapboxgl-compact::after {\n        content: '';\n        cursor: pointer;\n        position: absolute;\n        background-image: url(\"data:image/svg+xml;charset=utf-8,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath fill='%23333333' fill-rule='evenodd' d='M4,10a6,6 0 1,0 12,0a6,6 0 1,0 -12,0 M9,7a1,1 0 1,0 2,0a1,1 0 1,0 -2,0 M9,10a1,1 0 1,1 2,0l0,3a1,1 0 1,1 -2,0'/%3E %3C/svg%3E\");\n        background-color: rgba(255, 255, 255, 0.5);\n        width: 24px;\n        height: 24px;\n        box-sizing: border-box;\n        border-radius: 12px;\n    }\n\n    .mapboxgl-ctrl-bottom-right > .mapboxgl-ctrl-attrib.mapboxgl-compact::after {\n        bottom: 0;\n        right: 0;\n    }\n\n    .mapboxgl-ctrl-top-right > .mapboxgl-ctrl-attrib.mapboxgl-compact::after {\n        top: 0;\n        right: 0;\n    }\n\n    .mapboxgl-ctrl-top-left > .mapboxgl-ctrl-attrib.mapboxgl-compact::after {\n        top: 0;\n        left: 0;\n    }\n\n    .mapboxgl-ctrl-bottom-left > .mapboxgl-ctrl-attrib.mapboxgl-compact::after {\n        bottom: 0;\n        left: 0;\n    }\n}\n\n.mapboxgl-ctrl-attrib a {\n    color: rgba(0, 0, 0, 0.75);\n    text-decoration: none;\n}\n\n.mapboxgl-ctrl-attrib a:hover {\n    color: inherit;\n    text-decoration: underline;\n}\n\n/* stylelint-disable-next-line selector-class-pattern */\n.mapboxgl-ctrl-attrib .mapbox-improve-map {\n    font-weight: bold;\n    margin-left: 2px;\n}\n\n.mapboxgl-attrib-empty {\n    display: none;\n}\n\n.mapboxgl-ctrl-scale {\n    background-color: rgba(255, 255, 255, 0.75);\n    font-size: 10px;\n    border-width: medium 2px 2px;\n    border-style: none solid solid;\n    border-color: #333;\n    padding: 0 5px;\n    color: #333;\n    box-sizing: border-box;\n}\n\n.mapboxgl-popup {\n    position: absolute;\n    top: 0;\n    left: 0;\n    display: -webkit-flex;\n    display: flex;\n    will-change: transform;\n    pointer-events: none;\n}\n\n.mapboxgl-popup-anchor-top,\n.mapboxgl-popup-anchor-top-left,\n.mapboxgl-popup-anchor-top-right {\n    -webkit-flex-direction: column;\n    flex-direction: column;\n}\n\n.mapboxgl-popup-anchor-bottom,\n.mapboxgl-popup-anchor-bottom-left,\n.mapboxgl-popup-anchor-bottom-right {\n    -webkit-flex-direction: column-reverse;\n    flex-direction: column-reverse;\n}\n\n.mapboxgl-popup-anchor-left {\n    -webkit-flex-direction: row;\n    flex-direction: row;\n}\n\n.mapboxgl-popup-anchor-right {\n    -webkit-flex-direction: row-reverse;\n    flex-direction: row-reverse;\n}\n\n.mapboxgl-popup-tip {\n    width: 0;\n    height: 0;\n    border: 10px solid transparent;\n    z-index: 1;\n}\n\n.mapboxgl-popup-anchor-top .mapboxgl-popup-tip {\n    -webkit-align-self: center;\n    align-self: center;\n    border-top: none;\n    border-bottom-color: #fff;\n}\n\n.mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip {\n    -webkit-align-self: flex-start;\n    align-self: flex-start;\n    border-top: none;\n    border-left: none;\n    border-bottom-color: #fff;\n}\n\n.mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {\n    -webkit-align-self: flex-end;\n    align-self: flex-end;\n    border-top: none;\n    border-right: none;\n    border-bottom-color: #fff;\n}\n\n.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {\n    -webkit-align-self: center;\n    align-self: center;\n    border-bottom: none;\n    border-top-color: #fff;\n}\n\n.mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip {\n    -webkit-align-self: flex-start;\n    align-self: flex-start;\n    border-bottom: none;\n    border-left: none;\n    border-top-color: #fff;\n}\n\n.mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip {\n    -webkit-align-self: flex-end;\n    align-self: flex-end;\n    border-bottom: none;\n    border-right: none;\n    border-top-color: #fff;\n}\n\n.mapboxgl-popup-anchor-left .mapboxgl-popup-tip {\n    -webkit-align-self: center;\n    align-self: center;\n    border-left: none;\n    border-right-color: #fff;\n}\n\n.mapboxgl-popup-anchor-right .mapboxgl-popup-tip {\n    -webkit-align-self: center;\n    align-self: center;\n    border-right: none;\n    border-left-color: #fff;\n}\n\n.mapboxgl-popup-close-button {\n    position: absolute;\n    right: 0;\n    top: 0;\n    border: 0;\n    border-radius: 0 3px 0 0;\n    cursor: pointer;\n    background-color: transparent;\n}\n\n.mapboxgl-popup-close-button:hover {\n    background-color: rgba(0, 0, 0, 0.05);\n}\n\n.mapboxgl-popup-content {\n    position: relative;\n    background: #fff;\n    border-radius: 3px;\n    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);\n    padding: 10px 10px 15px;\n    pointer-events: auto;\n}\n\n.mapboxgl-popup-anchor-top-left .mapboxgl-popup-content {\n    border-top-left-radius: 0;\n}\n\n.mapboxgl-popup-anchor-top-right .mapboxgl-popup-content {\n    border-top-right-radius: 0;\n}\n\n.mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-content {\n    border-bottom-left-radius: 0;\n}\n\n.mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-content {\n    border-bottom-right-radius: 0;\n}\n\n.mapboxgl-popup-track-pointer {\n    display: none;\n}\n\n.mapboxgl-popup-track-pointer * {\n    pointer-events: none;\n    user-select: none;\n}\n\n.mapboxgl-map:hover .mapboxgl-popup-track-pointer {\n    display: flex;\n}\n\n.mapboxgl-map:active .mapboxgl-popup-track-pointer {\n    display: none;\n}\n\n.mapboxgl-marker {\n    position: absolute;\n    top: 0;\n    left: 0;\n    will-change: transform;\n}\n\n.mapboxgl-user-location-dot {\n    background-color: #1da1f2;\n    width: 15px;\n    height: 15px;\n    border-radius: 50%;\n}\n\n.mapboxgl-user-location-dot::before {\n    background-color: #1da1f2;\n    content: '';\n    width: 15px;\n    height: 15px;\n    border-radius: 50%;\n    position: absolute;\n    -webkit-animation: mapboxgl-user-location-dot-pulse 2s infinite;\n    -moz-animation: mapboxgl-user-location-dot-pulse 2s infinite;\n    -ms-animation: mapboxgl-user-location-dot-pulse 2s infinite;\n    animation: mapboxgl-user-location-dot-pulse 2s infinite;\n}\n\n.mapboxgl-user-location-dot::after {\n    border-radius: 50%;\n    border: 2px solid #fff;\n    content: '';\n    height: 19px;\n    left: -2px;\n    position: absolute;\n    top: -2px;\n    width: 19px;\n    box-sizing: border-box;\n    box-shadow: 0 0 3px rgba(0, 0, 0, 0.35);\n}\n\n@-webkit-keyframes mapboxgl-user-location-dot-pulse {\n    0%   { -webkit-transform: scale(1); opacity: 1; }\n    70%  { -webkit-transform: scale(3); opacity: 0; }\n    100% { -webkit-transform: scale(1); opacity: 0; }\n}\n\n@-ms-keyframes mapboxgl-user-location-dot-pulse {\n    0%   { -ms-transform: scale(1); opacity: 1; }\n    70%  { -ms-transform: scale(3); opacity: 0; }\n    100% { -ms-transform: scale(1); opacity: 0; }\n}\n\n@keyframes mapboxgl-user-location-dot-pulse {\n    0%   { transform: scale(1); opacity: 1; }\n    70%  { transform: scale(3); opacity: 0; }\n    100% { transform: scale(1); opacity: 0; }\n}\n\n.mapboxgl-user-location-dot-stale {\n    background-color: #aaa;\n}\n\n.mapboxgl-user-location-dot-stale::after {\n    display: none;\n}\n\n.mapboxgl-crosshair,\n.mapboxgl-crosshair .mapboxgl-interactive,\n.mapboxgl-crosshair .mapboxgl-interactive:active {\n    cursor: crosshair;\n}\n\n.mapboxgl-boxzoom {\n    position: absolute;\n    top: 0;\n    left: 0;\n    width: 0;\n    height: 0;\n    background: #fff;\n    border: 2px dotted #202020;\n    opacity: 0.5;\n}\n\n@media print {\n    /* stylelint-disable-next-line selector-class-pattern */\n    .mapbox-improve-map {\n        display: none;\n    }\n}\n", ""]);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/base.sass":
+/*!***********************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/base.sass ***!
+  \***********************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
+// Imports
+exports.i(__webpack_require__(/*! -!../../node_modules/css-loader/dist/cjs.js!@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css"), "");
+exports.i(__webpack_require__(/*! -!../../node_modules/css-loader/dist/cjs.js!mapbox-gl/dist/mapbox-gl.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/mapbox-gl/dist/mapbox-gl.css"), "");
+// Module
+exports.push([module.i, ".Header {\n  width: 100%; }\n\n.Map {\n  width: 100%;\n  height: 100vh; }\n", ""]);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/runtime/api.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/css-loader/dist/runtime/api.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+// eslint-disable-next-line func-names
+module.exports = function (useSourceMap) {
+  var list = []; // return the list of modules as css string
+
+  list.toString = function toString() {
+    return this.map(function (item) {
+      var content = cssWithMappingToString(item, useSourceMap);
+
+      if (item[2]) {
+        return "@media ".concat(item[2], "{").concat(content, "}");
+      }
+
+      return content;
+    }).join('');
+  }; // import a list of modules into the list
+  // eslint-disable-next-line func-names
+
+
+  list.i = function (modules, mediaQuery) {
+    if (typeof modules === 'string') {
+      // eslint-disable-next-line no-param-reassign
+      modules = [[null, modules, '']];
+    }
+
+    var alreadyImportedModules = {};
+
+    for (var i = 0; i < this.length; i++) {
+      // eslint-disable-next-line prefer-destructuring
+      var id = this[i][0];
+
+      if (id != null) {
+        alreadyImportedModules[id] = true;
+      }
+    }
+
+    for (var _i = 0; _i < modules.length; _i++) {
+      var item = modules[_i]; // skip already imported module
+      // this implementation is not 100% perfect for weird media query combinations
+      // when a module is imported multiple times with different media queries.
+      // I hope this will never occur (Hey this way we have smaller bundles)
+
+      if (item[0] == null || !alreadyImportedModules[item[0]]) {
+        if (mediaQuery && !item[2]) {
+          item[2] = mediaQuery;
+        } else if (mediaQuery) {
+          item[2] = "(".concat(item[2], ") and (").concat(mediaQuery, ")");
+        }
+
+        list.push(item);
+      }
+    }
+  };
+
+  return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+  var content = item[1] || ''; // eslint-disable-next-line prefer-destructuring
+
+  var cssMapping = item[3];
+
+  if (!cssMapping) {
+    return content;
+  }
+
+  if (useSourceMap && typeof btoa === 'function') {
+    var sourceMapping = toComment(cssMapping);
+    var sourceURLs = cssMapping.sources.map(function (source) {
+      return "/*# sourceURL=".concat(cssMapping.sourceRoot).concat(source, " */");
+    });
+    return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+  }
+
+  return [content].join('\n');
+} // Adapted from convert-source-map (MIT)
+
+
+function toComment(sourceMap) {
+  // eslint-disable-next-line no-undef
+  var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+  var data = "sourceMappingURL=data:application/json;charset=utf-8;base64,".concat(base64);
+  return "/*# ".concat(data, " */");
+}
+
+/***/ }),
+
+/***/ "./node_modules/geojson-flatten/dist/index.js":
+/*!****************************************************!*\
+  !*** ./node_modules/geojson-flatten/dist/index.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports=function e(t){switch(t&&t.type||null){case"FeatureCollection":return t.features=t.features.reduce(function(t,r){return t.concat(e(r))},[]),t;case"Feature":return t.geometry?e(t.geometry).map(function(e){var r={type:"Feature",properties:JSON.parse(JSON.stringify(t.properties)),geometry:e};return void 0!==t.id&&(r.id=t.id),r}):t;case"MultiPoint":return t.coordinates.map(function(e){return{type:"Point",coordinates:e}});case"MultiPolygon":return t.coordinates.map(function(e){return{type:"Polygon",coordinates:e}});case"MultiLineString":return t.coordinates.map(function(e){return{type:"LineString",coordinates:e}});case"GeometryCollection":return t.geometries.map(e).reduce(function(e,t){return e.concat(t)},[]);case"Point":case"Polygon":case"LineString":return[t]}};
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
 /***/ "./node_modules/gud/index.js":
 /*!***********************************!*\
   !*** ./node_modules/gud/index.js ***!
@@ -779,6 +6184,79 @@ module.exports = function() {
 };
 
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
+/***/ "./node_modules/hat/index.js":
+/*!***********************************!*\
+  !*** ./node_modules/hat/index.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var hat = module.exports = function (bits, base) {
+    if (!base) base = 16;
+    if (bits === undefined) bits = 128;
+    if (bits <= 0) return '0';
+    
+    var digits = Math.log(Math.pow(2, bits)) / Math.log(base);
+    for (var i = 2; digits === Infinity; i *= 2) {
+        digits = Math.log(Math.pow(2, bits / i)) / Math.log(base) * i;
+    }
+    
+    var rem = digits - Math.floor(digits);
+    
+    var res = '';
+    
+    for (var i = 0; i < Math.floor(digits); i++) {
+        var x = Math.floor(Math.random() * base).toString(base);
+        res = x + res;
+    }
+    
+    if (rem) {
+        var b = Math.pow(base, rem);
+        var x = Math.floor(Math.random() * b).toString(base);
+        res = x + res;
+    }
+    
+    var parsed = parseInt(res, base);
+    if (parsed !== Infinity && parsed >= Math.pow(2, bits)) {
+        return hat(bits, base)
+    }
+    else return res;
+};
+
+hat.rack = function (bits, base, expandBy) {
+    var fn = function (data) {
+        var iters = 0;
+        do {
+            if (iters ++ > 10) {
+                if (expandBy) bits += expandBy;
+                else throw new Error('too many ID collisions, use more bits')
+            }
+            
+            var id = hat(bits, base);
+        } while (Object.hasOwnProperty.call(hats, id));
+        
+        hats[id] = data;
+        return id;
+    };
+    var hats = fn.hats = {};
+    
+    fn.get = function (id) {
+        return fn.hats[id];
+    };
+    
+    fn.set = function (id, value) {
+        fn.hats[id] = value;
+        return fn;
+    };
+    
+    fn.bits = bits || 128;
+    fn.base = base || 16;
+    return fn;
+};
+
 
 /***/ }),
 
@@ -2563,6 +8041,1866 @@ if ( true && __webpack_require__.c[__webpack_require__.s] === module) {
 }
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../process/browser.js */ "./node_modules/process/browser.js"), __webpack_require__(/*! ./../../webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
+
+/***/ }),
+
+/***/ "./node_modules/lodash.isequal/index.js":
+/*!**********************************************!*\
+  !*** ./node_modules/lodash.isequal/index.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global, module) {/**
+ * Lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright JS Foundation and other contributors <https://js.foundation/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** Used as the size to enable large array optimizations. */
+var LARGE_ARRAY_SIZE = 200;
+
+/** Used to stand-in for `undefined` hash values. */
+var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+/** Used to compose bitmasks for value comparisons. */
+var COMPARE_PARTIAL_FLAG = 1,
+    COMPARE_UNORDERED_FLAG = 2;
+
+/** Used as references for various `Number` constants. */
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+/** `Object#toString` result references. */
+var argsTag = '[object Arguments]',
+    arrayTag = '[object Array]',
+    asyncTag = '[object AsyncFunction]',
+    boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    errorTag = '[object Error]',
+    funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]',
+    mapTag = '[object Map]',
+    numberTag = '[object Number]',
+    nullTag = '[object Null]',
+    objectTag = '[object Object]',
+    promiseTag = '[object Promise]',
+    proxyTag = '[object Proxy]',
+    regexpTag = '[object RegExp]',
+    setTag = '[object Set]',
+    stringTag = '[object String]',
+    symbolTag = '[object Symbol]',
+    undefinedTag = '[object Undefined]',
+    weakMapTag = '[object WeakMap]';
+
+var arrayBufferTag = '[object ArrayBuffer]',
+    dataViewTag = '[object DataView]',
+    float32Tag = '[object Float32Array]',
+    float64Tag = '[object Float64Array]',
+    int8Tag = '[object Int8Array]',
+    int16Tag = '[object Int16Array]',
+    int32Tag = '[object Int32Array]',
+    uint8Tag = '[object Uint8Array]',
+    uint8ClampedTag = '[object Uint8ClampedArray]',
+    uint16Tag = '[object Uint16Array]',
+    uint32Tag = '[object Uint32Array]';
+
+/**
+ * Used to match `RegExp`
+ * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
+ */
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+
+/** Used to detect host constructors (Safari). */
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+
+/** Used to detect unsigned integer values. */
+var reIsUint = /^(?:0|[1-9]\d*)$/;
+
+/** Used to identify `toStringTag` values of typed arrays. */
+var typedArrayTags = {};
+typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
+typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
+typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] =
+typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] =
+typedArrayTags[uint32Tag] = true;
+typedArrayTags[argsTag] = typedArrayTags[arrayTag] =
+typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] =
+typedArrayTags[dataViewTag] = typedArrayTags[dateTag] =
+typedArrayTags[errorTag] = typedArrayTags[funcTag] =
+typedArrayTags[mapTag] = typedArrayTags[numberTag] =
+typedArrayTags[objectTag] = typedArrayTags[regexpTag] =
+typedArrayTags[setTag] = typedArrayTags[stringTag] =
+typedArrayTags[weakMapTag] = false;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+/** Detect free variable `exports`. */
+var freeExports =  true && exports && !exports.nodeType && exports;
+
+/** Detect free variable `module`. */
+var freeModule = freeExports && typeof module == 'object' && module && !module.nodeType && module;
+
+/** Detect the popular CommonJS extension `module.exports`. */
+var moduleExports = freeModule && freeModule.exports === freeExports;
+
+/** Detect free variable `process` from Node.js. */
+var freeProcess = moduleExports && freeGlobal.process;
+
+/** Used to access faster Node.js helpers. */
+var nodeUtil = (function() {
+  try {
+    return freeProcess && freeProcess.binding && freeProcess.binding('util');
+  } catch (e) {}
+}());
+
+/* Node.js helper references. */
+var nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
+
+/**
+ * A specialized version of `_.filter` for arrays without support for
+ * iteratee shorthands.
+ *
+ * @private
+ * @param {Array} [array] The array to iterate over.
+ * @param {Function} predicate The function invoked per iteration.
+ * @returns {Array} Returns the new filtered array.
+ */
+function arrayFilter(array, predicate) {
+  var index = -1,
+      length = array == null ? 0 : array.length,
+      resIndex = 0,
+      result = [];
+
+  while (++index < length) {
+    var value = array[index];
+    if (predicate(value, index, array)) {
+      result[resIndex++] = value;
+    }
+  }
+  return result;
+}
+
+/**
+ * Appends the elements of `values` to `array`.
+ *
+ * @private
+ * @param {Array} array The array to modify.
+ * @param {Array} values The values to append.
+ * @returns {Array} Returns `array`.
+ */
+function arrayPush(array, values) {
+  var index = -1,
+      length = values.length,
+      offset = array.length;
+
+  while (++index < length) {
+    array[offset + index] = values[index];
+  }
+  return array;
+}
+
+/**
+ * A specialized version of `_.some` for arrays without support for iteratee
+ * shorthands.
+ *
+ * @private
+ * @param {Array} [array] The array to iterate over.
+ * @param {Function} predicate The function invoked per iteration.
+ * @returns {boolean} Returns `true` if any element passes the predicate check,
+ *  else `false`.
+ */
+function arraySome(array, predicate) {
+  var index = -1,
+      length = array == null ? 0 : array.length;
+
+  while (++index < length) {
+    if (predicate(array[index], index, array)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * The base implementation of `_.times` without support for iteratee shorthands
+ * or max array length checks.
+ *
+ * @private
+ * @param {number} n The number of times to invoke `iteratee`.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @returns {Array} Returns the array of results.
+ */
+function baseTimes(n, iteratee) {
+  var index = -1,
+      result = Array(n);
+
+  while (++index < n) {
+    result[index] = iteratee(index);
+  }
+  return result;
+}
+
+/**
+ * The base implementation of `_.unary` without support for storing metadata.
+ *
+ * @private
+ * @param {Function} func The function to cap arguments for.
+ * @returns {Function} Returns the new capped function.
+ */
+function baseUnary(func) {
+  return function(value) {
+    return func(value);
+  };
+}
+
+/**
+ * Checks if a `cache` value for `key` exists.
+ *
+ * @private
+ * @param {Object} cache The cache to query.
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function cacheHas(cache, key) {
+  return cache.has(key);
+}
+
+/**
+ * Gets the value at `key` of `object`.
+ *
+ * @private
+ * @param {Object} [object] The object to query.
+ * @param {string} key The key of the property to get.
+ * @returns {*} Returns the property value.
+ */
+function getValue(object, key) {
+  return object == null ? undefined : object[key];
+}
+
+/**
+ * Converts `map` to its key-value pairs.
+ *
+ * @private
+ * @param {Object} map The map to convert.
+ * @returns {Array} Returns the key-value pairs.
+ */
+function mapToArray(map) {
+  var index = -1,
+      result = Array(map.size);
+
+  map.forEach(function(value, key) {
+    result[++index] = [key, value];
+  });
+  return result;
+}
+
+/**
+ * Creates a unary function that invokes `func` with its argument transformed.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {Function} transform The argument transform.
+ * @returns {Function} Returns the new function.
+ */
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+
+/**
+ * Converts `set` to an array of its values.
+ *
+ * @private
+ * @param {Object} set The set to convert.
+ * @returns {Array} Returns the values.
+ */
+function setToArray(set) {
+  var index = -1,
+      result = Array(set.size);
+
+  set.forEach(function(value) {
+    result[++index] = value;
+  });
+  return result;
+}
+
+/** Used for built-in method references. */
+var arrayProto = Array.prototype,
+    funcProto = Function.prototype,
+    objectProto = Object.prototype;
+
+/** Used to detect overreaching core-js shims. */
+var coreJsData = root['__core-js_shared__'];
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = funcProto.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Used to detect methods masquerading as native. */
+var maskSrcKey = (function() {
+  var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
+  return uid ? ('Symbol(src)_1.' + uid) : '';
+}());
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var nativeObjectToString = objectProto.toString;
+
+/** Used to detect if a method is native. */
+var reIsNative = RegExp('^' +
+  funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+
+/** Built-in value references. */
+var Buffer = moduleExports ? root.Buffer : undefined,
+    Symbol = root.Symbol,
+    Uint8Array = root.Uint8Array,
+    propertyIsEnumerable = objectProto.propertyIsEnumerable,
+    splice = arrayProto.splice,
+    symToStringTag = Symbol ? Symbol.toStringTag : undefined;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeGetSymbols = Object.getOwnPropertySymbols,
+    nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined,
+    nativeKeys = overArg(Object.keys, Object);
+
+/* Built-in method references that are verified to be native. */
+var DataView = getNative(root, 'DataView'),
+    Map = getNative(root, 'Map'),
+    Promise = getNative(root, 'Promise'),
+    Set = getNative(root, 'Set'),
+    WeakMap = getNative(root, 'WeakMap'),
+    nativeCreate = getNative(Object, 'create');
+
+/** Used to detect maps, sets, and weakmaps. */
+var dataViewCtorString = toSource(DataView),
+    mapCtorString = toSource(Map),
+    promiseCtorString = toSource(Promise),
+    setCtorString = toSource(Set),
+    weakMapCtorString = toSource(WeakMap);
+
+/** Used to convert symbols to primitives and strings. */
+var symbolProto = Symbol ? Symbol.prototype : undefined,
+    symbolValueOf = symbolProto ? symbolProto.valueOf : undefined;
+
+/**
+ * Creates a hash object.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function Hash(entries) {
+  var index = -1,
+      length = entries == null ? 0 : entries.length;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+/**
+ * Removes all key-value entries from the hash.
+ *
+ * @private
+ * @name clear
+ * @memberOf Hash
+ */
+function hashClear() {
+  this.__data__ = nativeCreate ? nativeCreate(null) : {};
+  this.size = 0;
+}
+
+/**
+ * Removes `key` and its value from the hash.
+ *
+ * @private
+ * @name delete
+ * @memberOf Hash
+ * @param {Object} hash The hash to modify.
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function hashDelete(key) {
+  var result = this.has(key) && delete this.__data__[key];
+  this.size -= result ? 1 : 0;
+  return result;
+}
+
+/**
+ * Gets the hash value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf Hash
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function hashGet(key) {
+  var data = this.__data__;
+  if (nativeCreate) {
+    var result = data[key];
+    return result === HASH_UNDEFINED ? undefined : result;
+  }
+  return hasOwnProperty.call(data, key) ? data[key] : undefined;
+}
+
+/**
+ * Checks if a hash value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf Hash
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function hashHas(key) {
+  var data = this.__data__;
+  return nativeCreate ? (data[key] !== undefined) : hasOwnProperty.call(data, key);
+}
+
+/**
+ * Sets the hash `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf Hash
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the hash instance.
+ */
+function hashSet(key, value) {
+  var data = this.__data__;
+  this.size += this.has(key) ? 0 : 1;
+  data[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
+  return this;
+}
+
+// Add methods to `Hash`.
+Hash.prototype.clear = hashClear;
+Hash.prototype['delete'] = hashDelete;
+Hash.prototype.get = hashGet;
+Hash.prototype.has = hashHas;
+Hash.prototype.set = hashSet;
+
+/**
+ * Creates an list cache object.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function ListCache(entries) {
+  var index = -1,
+      length = entries == null ? 0 : entries.length;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+/**
+ * Removes all key-value entries from the list cache.
+ *
+ * @private
+ * @name clear
+ * @memberOf ListCache
+ */
+function listCacheClear() {
+  this.__data__ = [];
+  this.size = 0;
+}
+
+/**
+ * Removes `key` and its value from the list cache.
+ *
+ * @private
+ * @name delete
+ * @memberOf ListCache
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function listCacheDelete(key) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  if (index < 0) {
+    return false;
+  }
+  var lastIndex = data.length - 1;
+  if (index == lastIndex) {
+    data.pop();
+  } else {
+    splice.call(data, index, 1);
+  }
+  --this.size;
+  return true;
+}
+
+/**
+ * Gets the list cache value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf ListCache
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function listCacheGet(key) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  return index < 0 ? undefined : data[index][1];
+}
+
+/**
+ * Checks if a list cache value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf ListCache
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function listCacheHas(key) {
+  return assocIndexOf(this.__data__, key) > -1;
+}
+
+/**
+ * Sets the list cache `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf ListCache
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the list cache instance.
+ */
+function listCacheSet(key, value) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  if (index < 0) {
+    ++this.size;
+    data.push([key, value]);
+  } else {
+    data[index][1] = value;
+  }
+  return this;
+}
+
+// Add methods to `ListCache`.
+ListCache.prototype.clear = listCacheClear;
+ListCache.prototype['delete'] = listCacheDelete;
+ListCache.prototype.get = listCacheGet;
+ListCache.prototype.has = listCacheHas;
+ListCache.prototype.set = listCacheSet;
+
+/**
+ * Creates a map cache object to store key-value pairs.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function MapCache(entries) {
+  var index = -1,
+      length = entries == null ? 0 : entries.length;
+
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+
+/**
+ * Removes all key-value entries from the map.
+ *
+ * @private
+ * @name clear
+ * @memberOf MapCache
+ */
+function mapCacheClear() {
+  this.size = 0;
+  this.__data__ = {
+    'hash': new Hash,
+    'map': new (Map || ListCache),
+    'string': new Hash
+  };
+}
+
+/**
+ * Removes `key` and its value from the map.
+ *
+ * @private
+ * @name delete
+ * @memberOf MapCache
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function mapCacheDelete(key) {
+  var result = getMapData(this, key)['delete'](key);
+  this.size -= result ? 1 : 0;
+  return result;
+}
+
+/**
+ * Gets the map value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf MapCache
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function mapCacheGet(key) {
+  return getMapData(this, key).get(key);
+}
+
+/**
+ * Checks if a map value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf MapCache
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function mapCacheHas(key) {
+  return getMapData(this, key).has(key);
+}
+
+/**
+ * Sets the map `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf MapCache
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the map cache instance.
+ */
+function mapCacheSet(key, value) {
+  var data = getMapData(this, key),
+      size = data.size;
+
+  data.set(key, value);
+  this.size += data.size == size ? 0 : 1;
+  return this;
+}
+
+// Add methods to `MapCache`.
+MapCache.prototype.clear = mapCacheClear;
+MapCache.prototype['delete'] = mapCacheDelete;
+MapCache.prototype.get = mapCacheGet;
+MapCache.prototype.has = mapCacheHas;
+MapCache.prototype.set = mapCacheSet;
+
+/**
+ *
+ * Creates an array cache object to store unique values.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [values] The values to cache.
+ */
+function SetCache(values) {
+  var index = -1,
+      length = values == null ? 0 : values.length;
+
+  this.__data__ = new MapCache;
+  while (++index < length) {
+    this.add(values[index]);
+  }
+}
+
+/**
+ * Adds `value` to the array cache.
+ *
+ * @private
+ * @name add
+ * @memberOf SetCache
+ * @alias push
+ * @param {*} value The value to cache.
+ * @returns {Object} Returns the cache instance.
+ */
+function setCacheAdd(value) {
+  this.__data__.set(value, HASH_UNDEFINED);
+  return this;
+}
+
+/**
+ * Checks if `value` is in the array cache.
+ *
+ * @private
+ * @name has
+ * @memberOf SetCache
+ * @param {*} value The value to search for.
+ * @returns {number} Returns `true` if `value` is found, else `false`.
+ */
+function setCacheHas(value) {
+  return this.__data__.has(value);
+}
+
+// Add methods to `SetCache`.
+SetCache.prototype.add = SetCache.prototype.push = setCacheAdd;
+SetCache.prototype.has = setCacheHas;
+
+/**
+ * Creates a stack cache object to store key-value pairs.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+function Stack(entries) {
+  var data = this.__data__ = new ListCache(entries);
+  this.size = data.size;
+}
+
+/**
+ * Removes all key-value entries from the stack.
+ *
+ * @private
+ * @name clear
+ * @memberOf Stack
+ */
+function stackClear() {
+  this.__data__ = new ListCache;
+  this.size = 0;
+}
+
+/**
+ * Removes `key` and its value from the stack.
+ *
+ * @private
+ * @name delete
+ * @memberOf Stack
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+function stackDelete(key) {
+  var data = this.__data__,
+      result = data['delete'](key);
+
+  this.size = data.size;
+  return result;
+}
+
+/**
+ * Gets the stack value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf Stack
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+function stackGet(key) {
+  return this.__data__.get(key);
+}
+
+/**
+ * Checks if a stack value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf Stack
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+function stackHas(key) {
+  return this.__data__.has(key);
+}
+
+/**
+ * Sets the stack `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf Stack
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the stack cache instance.
+ */
+function stackSet(key, value) {
+  var data = this.__data__;
+  if (data instanceof ListCache) {
+    var pairs = data.__data__;
+    if (!Map || (pairs.length < LARGE_ARRAY_SIZE - 1)) {
+      pairs.push([key, value]);
+      this.size = ++data.size;
+      return this;
+    }
+    data = this.__data__ = new MapCache(pairs);
+  }
+  data.set(key, value);
+  this.size = data.size;
+  return this;
+}
+
+// Add methods to `Stack`.
+Stack.prototype.clear = stackClear;
+Stack.prototype['delete'] = stackDelete;
+Stack.prototype.get = stackGet;
+Stack.prototype.has = stackHas;
+Stack.prototype.set = stackSet;
+
+/**
+ * Creates an array of the enumerable property names of the array-like `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @param {boolean} inherited Specify returning inherited property names.
+ * @returns {Array} Returns the array of property names.
+ */
+function arrayLikeKeys(value, inherited) {
+  var isArr = isArray(value),
+      isArg = !isArr && isArguments(value),
+      isBuff = !isArr && !isArg && isBuffer(value),
+      isType = !isArr && !isArg && !isBuff && isTypedArray(value),
+      skipIndexes = isArr || isArg || isBuff || isType,
+      result = skipIndexes ? baseTimes(value.length, String) : [],
+      length = result.length;
+
+  for (var key in value) {
+    if ((inherited || hasOwnProperty.call(value, key)) &&
+        !(skipIndexes && (
+           // Safari 9 has enumerable `arguments.length` in strict mode.
+           key == 'length' ||
+           // Node.js 0.10 has enumerable non-index properties on buffers.
+           (isBuff && (key == 'offset' || key == 'parent')) ||
+           // PhantomJS 2 has enumerable non-index properties on typed arrays.
+           (isType && (key == 'buffer' || key == 'byteLength' || key == 'byteOffset')) ||
+           // Skip index properties.
+           isIndex(key, length)
+        ))) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+/**
+ * Gets the index at which the `key` is found in `array` of key-value pairs.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} key The key to search for.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+function assocIndexOf(array, key) {
+  var length = array.length;
+  while (length--) {
+    if (eq(array[length][0], key)) {
+      return length;
+    }
+  }
+  return -1;
+}
+
+/**
+ * The base implementation of `getAllKeys` and `getAllKeysIn` which uses
+ * `keysFunc` and `symbolsFunc` to get the enumerable property names and
+ * symbols of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {Function} keysFunc The function to get the keys of `object`.
+ * @param {Function} symbolsFunc The function to get the symbols of `object`.
+ * @returns {Array} Returns the array of property names and symbols.
+ */
+function baseGetAllKeys(object, keysFunc, symbolsFunc) {
+  var result = keysFunc(object);
+  return isArray(object) ? result : arrayPush(result, symbolsFunc(object));
+}
+
+/**
+ * The base implementation of `getTag` without fallbacks for buggy environments.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+function baseGetTag(value) {
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
+  }
+  return (symToStringTag && symToStringTag in Object(value))
+    ? getRawTag(value)
+    : objectToString(value);
+}
+
+/**
+ * The base implementation of `_.isArguments`.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+ */
+function baseIsArguments(value) {
+  return isObjectLike(value) && baseGetTag(value) == argsTag;
+}
+
+/**
+ * The base implementation of `_.isEqual` which supports partial comparisons
+ * and tracks traversed objects.
+ *
+ * @private
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @param {boolean} bitmask The bitmask flags.
+ *  1 - Unordered comparison
+ *  2 - Partial comparison
+ * @param {Function} [customizer] The function to customize comparisons.
+ * @param {Object} [stack] Tracks traversed `value` and `other` objects.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ */
+function baseIsEqual(value, other, bitmask, customizer, stack) {
+  if (value === other) {
+    return true;
+  }
+  if (value == null || other == null || (!isObjectLike(value) && !isObjectLike(other))) {
+    return value !== value && other !== other;
+  }
+  return baseIsEqualDeep(value, other, bitmask, customizer, baseIsEqual, stack);
+}
+
+/**
+ * A specialized version of `baseIsEqual` for arrays and objects which performs
+ * deep comparisons and tracks traversed objects enabling objects with circular
+ * references to be compared.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Object} [stack] Tracks traversed `object` and `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
+  var objIsArr = isArray(object),
+      othIsArr = isArray(other),
+      objTag = objIsArr ? arrayTag : getTag(object),
+      othTag = othIsArr ? arrayTag : getTag(other);
+
+  objTag = objTag == argsTag ? objectTag : objTag;
+  othTag = othTag == argsTag ? objectTag : othTag;
+
+  var objIsObj = objTag == objectTag,
+      othIsObj = othTag == objectTag,
+      isSameTag = objTag == othTag;
+
+  if (isSameTag && isBuffer(object)) {
+    if (!isBuffer(other)) {
+      return false;
+    }
+    objIsArr = true;
+    objIsObj = false;
+  }
+  if (isSameTag && !objIsObj) {
+    stack || (stack = new Stack);
+    return (objIsArr || isTypedArray(object))
+      ? equalArrays(object, other, bitmask, customizer, equalFunc, stack)
+      : equalByTag(object, other, objTag, bitmask, customizer, equalFunc, stack);
+  }
+  if (!(bitmask & COMPARE_PARTIAL_FLAG)) {
+    var objIsWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
+        othIsWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
+
+    if (objIsWrapped || othIsWrapped) {
+      var objUnwrapped = objIsWrapped ? object.value() : object,
+          othUnwrapped = othIsWrapped ? other.value() : other;
+
+      stack || (stack = new Stack);
+      return equalFunc(objUnwrapped, othUnwrapped, bitmask, customizer, stack);
+    }
+  }
+  if (!isSameTag) {
+    return false;
+  }
+  stack || (stack = new Stack);
+  return equalObjects(object, other, bitmask, customizer, equalFunc, stack);
+}
+
+/**
+ * The base implementation of `_.isNative` without bad shim checks.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a native function,
+ *  else `false`.
+ */
+function baseIsNative(value) {
+  if (!isObject(value) || isMasked(value)) {
+    return false;
+  }
+  var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
+  return pattern.test(toSource(value));
+}
+
+/**
+ * The base implementation of `_.isTypedArray` without Node.js optimizations.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
+ */
+function baseIsTypedArray(value) {
+  return isObjectLike(value) &&
+    isLength(value.length) && !!typedArrayTags[baseGetTag(value)];
+}
+
+/**
+ * The base implementation of `_.keys` which doesn't treat sparse arrays as dense.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ */
+function baseKeys(object) {
+  if (!isPrototype(object)) {
+    return nativeKeys(object);
+  }
+  var result = [];
+  for (var key in Object(object)) {
+    if (hasOwnProperty.call(object, key) && key != 'constructor') {
+      result.push(key);
+    }
+  }
+  return result;
+}
+
+/**
+ * A specialized version of `baseIsEqualDeep` for arrays with support for
+ * partial deep comparisons.
+ *
+ * @private
+ * @param {Array} array The array to compare.
+ * @param {Array} other The other array to compare.
+ * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Object} stack Tracks traversed `array` and `other` objects.
+ * @returns {boolean} Returns `true` if the arrays are equivalent, else `false`.
+ */
+function equalArrays(array, other, bitmask, customizer, equalFunc, stack) {
+  var isPartial = bitmask & COMPARE_PARTIAL_FLAG,
+      arrLength = array.length,
+      othLength = other.length;
+
+  if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
+    return false;
+  }
+  // Assume cyclic values are equal.
+  var stacked = stack.get(array);
+  if (stacked && stack.get(other)) {
+    return stacked == other;
+  }
+  var index = -1,
+      result = true,
+      seen = (bitmask & COMPARE_UNORDERED_FLAG) ? new SetCache : undefined;
+
+  stack.set(array, other);
+  stack.set(other, array);
+
+  // Ignore non-index properties.
+  while (++index < arrLength) {
+    var arrValue = array[index],
+        othValue = other[index];
+
+    if (customizer) {
+      var compared = isPartial
+        ? customizer(othValue, arrValue, index, other, array, stack)
+        : customizer(arrValue, othValue, index, array, other, stack);
+    }
+    if (compared !== undefined) {
+      if (compared) {
+        continue;
+      }
+      result = false;
+      break;
+    }
+    // Recursively compare arrays (susceptible to call stack limits).
+    if (seen) {
+      if (!arraySome(other, function(othValue, othIndex) {
+            if (!cacheHas(seen, othIndex) &&
+                (arrValue === othValue || equalFunc(arrValue, othValue, bitmask, customizer, stack))) {
+              return seen.push(othIndex);
+            }
+          })) {
+        result = false;
+        break;
+      }
+    } else if (!(
+          arrValue === othValue ||
+            equalFunc(arrValue, othValue, bitmask, customizer, stack)
+        )) {
+      result = false;
+      break;
+    }
+  }
+  stack['delete'](array);
+  stack['delete'](other);
+  return result;
+}
+
+/**
+ * A specialized version of `baseIsEqualDeep` for comparing objects of
+ * the same `toStringTag`.
+ *
+ * **Note:** This function only supports comparing values with tags of
+ * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {string} tag The `toStringTag` of the objects to compare.
+ * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Object} stack Tracks traversed `object` and `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function equalByTag(object, other, tag, bitmask, customizer, equalFunc, stack) {
+  switch (tag) {
+    case dataViewTag:
+      if ((object.byteLength != other.byteLength) ||
+          (object.byteOffset != other.byteOffset)) {
+        return false;
+      }
+      object = object.buffer;
+      other = other.buffer;
+
+    case arrayBufferTag:
+      if ((object.byteLength != other.byteLength) ||
+          !equalFunc(new Uint8Array(object), new Uint8Array(other))) {
+        return false;
+      }
+      return true;
+
+    case boolTag:
+    case dateTag:
+    case numberTag:
+      // Coerce booleans to `1` or `0` and dates to milliseconds.
+      // Invalid dates are coerced to `NaN`.
+      return eq(+object, +other);
+
+    case errorTag:
+      return object.name == other.name && object.message == other.message;
+
+    case regexpTag:
+    case stringTag:
+      // Coerce regexes to strings and treat strings, primitives and objects,
+      // as equal. See http://www.ecma-international.org/ecma-262/7.0/#sec-regexp.prototype.tostring
+      // for more details.
+      return object == (other + '');
+
+    case mapTag:
+      var convert = mapToArray;
+
+    case setTag:
+      var isPartial = bitmask & COMPARE_PARTIAL_FLAG;
+      convert || (convert = setToArray);
+
+      if (object.size != other.size && !isPartial) {
+        return false;
+      }
+      // Assume cyclic values are equal.
+      var stacked = stack.get(object);
+      if (stacked) {
+        return stacked == other;
+      }
+      bitmask |= COMPARE_UNORDERED_FLAG;
+
+      // Recursively compare objects (susceptible to call stack limits).
+      stack.set(object, other);
+      var result = equalArrays(convert(object), convert(other), bitmask, customizer, equalFunc, stack);
+      stack['delete'](object);
+      return result;
+
+    case symbolTag:
+      if (symbolValueOf) {
+        return symbolValueOf.call(object) == symbolValueOf.call(other);
+      }
+  }
+  return false;
+}
+
+/**
+ * A specialized version of `baseIsEqualDeep` for objects with support for
+ * partial deep comparisons.
+ *
+ * @private
+ * @param {Object} object The object to compare.
+ * @param {Object} other The other object to compare.
+ * @param {number} bitmask The bitmask flags. See `baseIsEqual` for more details.
+ * @param {Function} customizer The function to customize comparisons.
+ * @param {Function} equalFunc The function to determine equivalents of values.
+ * @param {Object} stack Tracks traversed `object` and `other` objects.
+ * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
+ */
+function equalObjects(object, other, bitmask, customizer, equalFunc, stack) {
+  var isPartial = bitmask & COMPARE_PARTIAL_FLAG,
+      objProps = getAllKeys(object),
+      objLength = objProps.length,
+      othProps = getAllKeys(other),
+      othLength = othProps.length;
+
+  if (objLength != othLength && !isPartial) {
+    return false;
+  }
+  var index = objLength;
+  while (index--) {
+    var key = objProps[index];
+    if (!(isPartial ? key in other : hasOwnProperty.call(other, key))) {
+      return false;
+    }
+  }
+  // Assume cyclic values are equal.
+  var stacked = stack.get(object);
+  if (stacked && stack.get(other)) {
+    return stacked == other;
+  }
+  var result = true;
+  stack.set(object, other);
+  stack.set(other, object);
+
+  var skipCtor = isPartial;
+  while (++index < objLength) {
+    key = objProps[index];
+    var objValue = object[key],
+        othValue = other[key];
+
+    if (customizer) {
+      var compared = isPartial
+        ? customizer(othValue, objValue, key, other, object, stack)
+        : customizer(objValue, othValue, key, object, other, stack);
+    }
+    // Recursively compare objects (susceptible to call stack limits).
+    if (!(compared === undefined
+          ? (objValue === othValue || equalFunc(objValue, othValue, bitmask, customizer, stack))
+          : compared
+        )) {
+      result = false;
+      break;
+    }
+    skipCtor || (skipCtor = key == 'constructor');
+  }
+  if (result && !skipCtor) {
+    var objCtor = object.constructor,
+        othCtor = other.constructor;
+
+    // Non `Object` object instances with different constructors are not equal.
+    if (objCtor != othCtor &&
+        ('constructor' in object && 'constructor' in other) &&
+        !(typeof objCtor == 'function' && objCtor instanceof objCtor &&
+          typeof othCtor == 'function' && othCtor instanceof othCtor)) {
+      result = false;
+    }
+  }
+  stack['delete'](object);
+  stack['delete'](other);
+  return result;
+}
+
+/**
+ * Creates an array of own enumerable property names and symbols of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names and symbols.
+ */
+function getAllKeys(object) {
+  return baseGetAllKeys(object, keys, getSymbols);
+}
+
+/**
+ * Gets the data for `map`.
+ *
+ * @private
+ * @param {Object} map The map to query.
+ * @param {string} key The reference key.
+ * @returns {*} Returns the map data.
+ */
+function getMapData(map, key) {
+  var data = map.__data__;
+  return isKeyable(key)
+    ? data[typeof key == 'string' ? 'string' : 'hash']
+    : data.map;
+}
+
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+function getNative(object, key) {
+  var value = getValue(object, key);
+  return baseIsNative(value) ? value : undefined;
+}
+
+/**
+ * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the raw `toStringTag`.
+ */
+function getRawTag(value) {
+  var isOwn = hasOwnProperty.call(value, symToStringTag),
+      tag = value[symToStringTag];
+
+  try {
+    value[symToStringTag] = undefined;
+    var unmasked = true;
+  } catch (e) {}
+
+  var result = nativeObjectToString.call(value);
+  if (unmasked) {
+    if (isOwn) {
+      value[symToStringTag] = tag;
+    } else {
+      delete value[symToStringTag];
+    }
+  }
+  return result;
+}
+
+/**
+ * Creates an array of the own enumerable symbols of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of symbols.
+ */
+var getSymbols = !nativeGetSymbols ? stubArray : function(object) {
+  if (object == null) {
+    return [];
+  }
+  object = Object(object);
+  return arrayFilter(nativeGetSymbols(object), function(symbol) {
+    return propertyIsEnumerable.call(object, symbol);
+  });
+};
+
+/**
+ * Gets the `toStringTag` of `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+var getTag = baseGetTag;
+
+// Fallback for data views, maps, sets, and weak maps in IE 11 and promises in Node.js < 6.
+if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
+    (Map && getTag(new Map) != mapTag) ||
+    (Promise && getTag(Promise.resolve()) != promiseTag) ||
+    (Set && getTag(new Set) != setTag) ||
+    (WeakMap && getTag(new WeakMap) != weakMapTag)) {
+  getTag = function(value) {
+    var result = baseGetTag(value),
+        Ctor = result == objectTag ? value.constructor : undefined,
+        ctorString = Ctor ? toSource(Ctor) : '';
+
+    if (ctorString) {
+      switch (ctorString) {
+        case dataViewCtorString: return dataViewTag;
+        case mapCtorString: return mapTag;
+        case promiseCtorString: return promiseTag;
+        case setCtorString: return setTag;
+        case weakMapCtorString: return weakMapTag;
+      }
+    }
+    return result;
+  };
+}
+
+/**
+ * Checks if `value` is a valid array-like index.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
+ * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
+ */
+function isIndex(value, length) {
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return !!length &&
+    (typeof value == 'number' || reIsUint.test(value)) &&
+    (value > -1 && value % 1 == 0 && value < length);
+}
+
+/**
+ * Checks if `value` is suitable for use as unique object key.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
+ */
+function isKeyable(value) {
+  var type = typeof value;
+  return (type == 'string' || type == 'number' || type == 'symbol' || type == 'boolean')
+    ? (value !== '__proto__')
+    : (value === null);
+}
+
+/**
+ * Checks if `func` has its source masked.
+ *
+ * @private
+ * @param {Function} func The function to check.
+ * @returns {boolean} Returns `true` if `func` is masked, else `false`.
+ */
+function isMasked(func) {
+  return !!maskSrcKey && (maskSrcKey in func);
+}
+
+/**
+ * Checks if `value` is likely a prototype object.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
+ */
+function isPrototype(value) {
+  var Ctor = value && value.constructor,
+      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto;
+
+  return value === proto;
+}
+
+/**
+ * Converts `value` to a string using `Object.prototype.toString`.
+ *
+ * @private
+ * @param {*} value The value to convert.
+ * @returns {string} Returns the converted string.
+ */
+function objectToString(value) {
+  return nativeObjectToString.call(value);
+}
+
+/**
+ * Converts `func` to its source code.
+ *
+ * @private
+ * @param {Function} func The function to convert.
+ * @returns {string} Returns the source code.
+ */
+function toSource(func) {
+  if (func != null) {
+    try {
+      return funcToString.call(func);
+    } catch (e) {}
+    try {
+      return (func + '');
+    } catch (e) {}
+  }
+  return '';
+}
+
+/**
+ * Performs a
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+ * comparison between two values to determine if they are equivalent.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ * var other = { 'a': 1 };
+ *
+ * _.eq(object, object);
+ * // => true
+ *
+ * _.eq(object, other);
+ * // => false
+ *
+ * _.eq('a', 'a');
+ * // => true
+ *
+ * _.eq('a', Object('a'));
+ * // => false
+ *
+ * _.eq(NaN, NaN);
+ * // => true
+ */
+function eq(value, other) {
+  return value === other || (value !== value && other !== other);
+}
+
+/**
+ * Checks if `value` is likely an `arguments` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an `arguments` object,
+ *  else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+var isArguments = baseIsArguments(function() { return arguments; }()) ? baseIsArguments : function(value) {
+  return isObjectLike(value) && hasOwnProperty.call(value, 'callee') &&
+    !propertyIsEnumerable.call(value, 'callee');
+};
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+/**
+ * Checks if `value` is array-like. A value is considered array-like if it's
+ * not a function and has a `value.length` that's an integer greater than or
+ * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
+ * @example
+ *
+ * _.isArrayLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isArrayLike(document.body.children);
+ * // => true
+ *
+ * _.isArrayLike('abc');
+ * // => true
+ *
+ * _.isArrayLike(_.noop);
+ * // => false
+ */
+function isArrayLike(value) {
+  return value != null && isLength(value.length) && !isFunction(value);
+}
+
+/**
+ * Checks if `value` is a buffer.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.3.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a buffer, else `false`.
+ * @example
+ *
+ * _.isBuffer(new Buffer(2));
+ * // => true
+ *
+ * _.isBuffer(new Uint8Array(2));
+ * // => false
+ */
+var isBuffer = nativeIsBuffer || stubFalse;
+
+/**
+ * Performs a deep comparison between two values to determine if they are
+ * equivalent.
+ *
+ * **Note:** This method supports comparing arrays, array buffers, booleans,
+ * date objects, error objects, maps, numbers, `Object` objects, regexes,
+ * sets, strings, symbols, and typed arrays. `Object` objects are compared
+ * by their own, not inherited, enumerable properties. Functions and DOM
+ * nodes are compared by strict equality, i.e. `===`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ * var other = { 'a': 1 };
+ *
+ * _.isEqual(object, other);
+ * // => true
+ *
+ * object === other;
+ * // => false
+ */
+function isEqual(value, other) {
+  return baseIsEqual(value, other);
+}
+
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  if (!isObject(value)) {
+    return false;
+  }
+  // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 9 which returns 'object' for typed arrays and other constructors.
+  var tag = baseGetTag(value);
+  return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ *
+ * **Note:** This method is loosely based on
+ * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ * @example
+ *
+ * _.isLength(3);
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE);
+ * // => false
+ *
+ * _.isLength(Infinity);
+ * // => false
+ *
+ * _.isLength('3');
+ * // => false
+ */
+function isLength(value) {
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return value != null && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
+}
+
+/**
+ * Checks if `value` is classified as a typed array.
+ *
+ * @static
+ * @memberOf _
+ * @since 3.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a typed array, else `false`.
+ * @example
+ *
+ * _.isTypedArray(new Uint8Array);
+ * // => true
+ *
+ * _.isTypedArray([]);
+ * // => false
+ */
+var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
+
+/**
+ * Creates an array of the own enumerable property names of `object`.
+ *
+ * **Note:** Non-object values are coerced to objects. See the
+ * [ES spec](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
+ * for more details.
+ *
+ * @static
+ * @since 0.1.0
+ * @memberOf _
+ * @category Object
+ * @param {Object} object The object to query.
+ * @returns {Array} Returns the array of property names.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ *   this.b = 2;
+ * }
+ *
+ * Foo.prototype.c = 3;
+ *
+ * _.keys(new Foo);
+ * // => ['a', 'b'] (iteration order is not guaranteed)
+ *
+ * _.keys('hi');
+ * // => ['0', '1']
+ */
+function keys(object) {
+  return isArrayLike(object) ? arrayLikeKeys(object) : baseKeys(object);
+}
+
+/**
+ * This method returns a new empty array.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.13.0
+ * @category Util
+ * @returns {Array} Returns the new empty array.
+ * @example
+ *
+ * var arrays = _.times(2, _.stubArray);
+ *
+ * console.log(arrays);
+ * // => [[], []]
+ *
+ * console.log(arrays[0] === arrays[1]);
+ * // => false
+ */
+function stubArray() {
+  return [];
+}
+
+/**
+ * This method returns `false`.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.13.0
+ * @category Util
+ * @returns {boolean} Returns `false`.
+ * @example
+ *
+ * _.times(2, _.stubFalse);
+ * // => [false, false]
+ */
+function stubFalse() {
+  return false;
+}
+
+module.exports = isEqual;
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js"), __webpack_require__(/*! ./../webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
 
 /***/ }),
 
@@ -37797,6 +45135,299 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var stylesInDom = {};
+
+var isOldIE = function isOldIE() {
+  var memo;
+  return function memorize() {
+    if (typeof memo === 'undefined') {
+      // Test for IE <= 9 as proposed by Browserhacks
+      // @see http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
+      // Tests for existence of standard globals is to allow style-loader
+      // to operate correctly into non-standard environments
+      // @see https://github.com/webpack-contrib/style-loader/issues/177
+      memo = Boolean(window && document && document.all && !window.atob);
+    }
+
+    return memo;
+  };
+}();
+
+var getTarget = function getTarget() {
+  var memo = {};
+  return function memorize(target) {
+    if (typeof memo[target] === 'undefined') {
+      var styleTarget = document.querySelector(target); // Special case to return head of iframe instead of iframe itself
+
+      if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
+        try {
+          // This will throw an exception if access to iframe is blocked
+          // due to cross-origin restrictions
+          styleTarget = styleTarget.contentDocument.head;
+        } catch (e) {
+          // istanbul ignore next
+          styleTarget = null;
+        }
+      }
+
+      memo[target] = styleTarget;
+    }
+
+    return memo[target];
+  };
+}();
+
+function listToStyles(list, options) {
+  var styles = [];
+  var newStyles = {};
+
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i];
+    var id = options.base ? item[0] + options.base : item[0];
+    var css = item[1];
+    var media = item[2];
+    var sourceMap = item[3];
+    var part = {
+      css: css,
+      media: media,
+      sourceMap: sourceMap
+    };
+
+    if (!newStyles[id]) {
+      styles.push(newStyles[id] = {
+        id: id,
+        parts: [part]
+      });
+    } else {
+      newStyles[id].parts.push(part);
+    }
+  }
+
+  return styles;
+}
+
+function addStylesToDom(styles, options) {
+  for (var i = 0; i < styles.length; i++) {
+    var item = styles[i];
+    var domStyle = stylesInDom[item.id];
+    var j = 0;
+
+    if (domStyle) {
+      domStyle.refs++;
+
+      for (; j < domStyle.parts.length; j++) {
+        domStyle.parts[j](item.parts[j]);
+      }
+
+      for (; j < item.parts.length; j++) {
+        domStyle.parts.push(addStyle(item.parts[j], options));
+      }
+    } else {
+      var parts = [];
+
+      for (; j < item.parts.length; j++) {
+        parts.push(addStyle(item.parts[j], options));
+      }
+
+      stylesInDom[item.id] = {
+        id: item.id,
+        refs: 1,
+        parts: parts
+      };
+    }
+  }
+}
+
+function insertStyleElement(options) {
+  var style = document.createElement('style');
+
+  if (typeof options.attributes.nonce === 'undefined') {
+    var nonce =  true ? __webpack_require__.nc : undefined;
+
+    if (nonce) {
+      options.attributes.nonce = nonce;
+    }
+  }
+
+  Object.keys(options.attributes).forEach(function (key) {
+    style.setAttribute(key, options.attributes[key]);
+  });
+
+  if (typeof options.insert === 'function') {
+    options.insert(style);
+  } else {
+    var target = getTarget(options.insert || 'head');
+
+    if (!target) {
+      throw new Error("Couldn't find a style target. This probably means that the value for the 'insert' parameter is invalid.");
+    }
+
+    target.appendChild(style);
+  }
+
+  return style;
+}
+
+function removeStyleElement(style) {
+  // istanbul ignore if
+  if (style.parentNode === null) {
+    return false;
+  }
+
+  style.parentNode.removeChild(style);
+}
+/* istanbul ignore next  */
+
+
+var replaceText = function replaceText() {
+  var textStore = [];
+  return function replace(index, replacement) {
+    textStore[index] = replacement;
+    return textStore.filter(Boolean).join('\n');
+  };
+}();
+
+function applyToSingletonTag(style, index, remove, obj) {
+  var css = remove ? '' : obj.css; // For old IE
+
+  /* istanbul ignore if  */
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = replaceText(index, css);
+  } else {
+    var cssNode = document.createTextNode(css);
+    var childNodes = style.childNodes;
+
+    if (childNodes[index]) {
+      style.removeChild(childNodes[index]);
+    }
+
+    if (childNodes.length) {
+      style.insertBefore(cssNode, childNodes[index]);
+    } else {
+      style.appendChild(cssNode);
+    }
+  }
+}
+
+function applyToTag(style, options, obj) {
+  var css = obj.css;
+  var media = obj.media;
+  var sourceMap = obj.sourceMap;
+
+  if (media) {
+    style.setAttribute('media', media);
+  }
+
+  if (sourceMap && btoa) {
+    css += "\n/*# sourceMappingURL=data:application/json;base64,".concat(btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))), " */");
+  } // For old IE
+
+  /* istanbul ignore if  */
+
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    while (style.firstChild) {
+      style.removeChild(style.firstChild);
+    }
+
+    style.appendChild(document.createTextNode(css));
+  }
+}
+
+var singleton = null;
+var singletonCounter = 0;
+
+function addStyle(obj, options) {
+  var style;
+  var update;
+  var remove;
+
+  if (options.singleton) {
+    var styleIndex = singletonCounter++;
+    style = singleton || (singleton = insertStyleElement(options));
+    update = applyToSingletonTag.bind(null, style, styleIndex, false);
+    remove = applyToSingletonTag.bind(null, style, styleIndex, true);
+  } else {
+    style = insertStyleElement(options);
+    update = applyToTag.bind(null, style, options);
+
+    remove = function remove() {
+      removeStyleElement(style);
+    };
+  }
+
+  update(obj);
+  return function updateStyle(newObj) {
+    if (newObj) {
+      if (newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap) {
+        return;
+      }
+
+      update(obj = newObj);
+    } else {
+      remove();
+    }
+  };
+}
+
+module.exports = function (list, options) {
+  options = options || {};
+  options.attributes = typeof options.attributes === 'object' ? options.attributes : {}; // Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+  // tags it will allow on a page
+
+  if (!options.singleton && typeof options.singleton !== 'boolean') {
+    options.singleton = isOldIE();
+  }
+
+  var styles = listToStyles(list, options);
+  addStylesToDom(styles, options);
+  return function update(newList) {
+    var mayRemove = [];
+
+    for (var i = 0; i < styles.length; i++) {
+      var item = styles[i];
+      var domStyle = stylesInDom[item.id];
+
+      if (domStyle) {
+        domStyle.refs--;
+        mayRemove.push(domStyle);
+      }
+    }
+
+    if (newList) {
+      var newStyles = listToStyles(newList, options);
+      addStylesToDom(newStyles, options);
+    }
+
+    for (var _i = 0; _i < mayRemove.length; _i++) {
+      var _domStyle = mayRemove[_i];
+
+      if (_domStyle.refs === 0) {
+        for (var j = 0; j < _domStyle.parts.length; j++) {
+          _domStyle.parts[j]();
+        }
+
+        delete stylesInDom[_domStyle.id];
+      }
+    }
+  };
+};
+
+/***/ }),
+
 /***/ "./node_modules/tiny-invariant/dist/tiny-invariant.esm.js":
 /*!****************************************************************!*\
   !*** ./node_modules/tiny-invariant/dist/tiny-invariant.esm.js ***!
@@ -37854,6 +45485,331 @@ function warning(condition, message) {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (warning);
+
+
+/***/ }),
+
+/***/ "./node_modules/traverse/index.js":
+/*!****************************************!*\
+  !*** ./node_modules/traverse/index.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var traverse = module.exports = function (obj) {
+    return new Traverse(obj);
+};
+
+function Traverse (obj) {
+    this.value = obj;
+}
+
+Traverse.prototype.get = function (ps) {
+    var node = this.value;
+    for (var i = 0; i < ps.length; i ++) {
+        var key = ps[i];
+        if (!node || !hasOwnProperty.call(node, key)) {
+            node = undefined;
+            break;
+        }
+        node = node[key];
+    }
+    return node;
+};
+
+Traverse.prototype.has = function (ps) {
+    var node = this.value;
+    for (var i = 0; i < ps.length; i ++) {
+        var key = ps[i];
+        if (!node || !hasOwnProperty.call(node, key)) {
+            return false;
+        }
+        node = node[key];
+    }
+    return true;
+};
+
+Traverse.prototype.set = function (ps, value) {
+    var node = this.value;
+    for (var i = 0; i < ps.length - 1; i ++) {
+        var key = ps[i];
+        if (!hasOwnProperty.call(node, key)) node[key] = {};
+        node = node[key];
+    }
+    node[ps[i]] = value;
+    return value;
+};
+
+Traverse.prototype.map = function (cb) {
+    return walk(this.value, cb, true);
+};
+
+Traverse.prototype.forEach = function (cb) {
+    this.value = walk(this.value, cb, false);
+    return this.value;
+};
+
+Traverse.prototype.reduce = function (cb, init) {
+    var skip = arguments.length === 1;
+    var acc = skip ? this.value : init;
+    this.forEach(function (x) {
+        if (!this.isRoot || !skip) {
+            acc = cb.call(this, acc, x);
+        }
+    });
+    return acc;
+};
+
+Traverse.prototype.paths = function () {
+    var acc = [];
+    this.forEach(function (x) {
+        acc.push(this.path); 
+    });
+    return acc;
+};
+
+Traverse.prototype.nodes = function () {
+    var acc = [];
+    this.forEach(function (x) {
+        acc.push(this.node);
+    });
+    return acc;
+};
+
+Traverse.prototype.clone = function () {
+    var parents = [], nodes = [];
+    
+    return (function clone (src) {
+        for (var i = 0; i < parents.length; i++) {
+            if (parents[i] === src) {
+                return nodes[i];
+            }
+        }
+        
+        if (typeof src === 'object' && src !== null) {
+            var dst = copy(src);
+            
+            parents.push(src);
+            nodes.push(dst);
+            
+            forEach(objectKeys(src), function (key) {
+                dst[key] = clone(src[key]);
+            });
+            
+            parents.pop();
+            nodes.pop();
+            return dst;
+        }
+        else {
+            return src;
+        }
+    })(this.value);
+};
+
+function walk (root, cb, immutable) {
+    var path = [];
+    var parents = [];
+    var alive = true;
+    
+    return (function walker (node_) {
+        var node = immutable ? copy(node_) : node_;
+        var modifiers = {};
+        
+        var keepGoing = true;
+        
+        var state = {
+            node : node,
+            node_ : node_,
+            path : [].concat(path),
+            parent : parents[parents.length - 1],
+            parents : parents,
+            key : path.slice(-1)[0],
+            isRoot : path.length === 0,
+            level : path.length,
+            circular : null,
+            update : function (x, stopHere) {
+                if (!state.isRoot) {
+                    state.parent.node[state.key] = x;
+                }
+                state.node = x;
+                if (stopHere) keepGoing = false;
+            },
+            'delete' : function (stopHere) {
+                delete state.parent.node[state.key];
+                if (stopHere) keepGoing = false;
+            },
+            remove : function (stopHere) {
+                if (isArray(state.parent.node)) {
+                    state.parent.node.splice(state.key, 1);
+                }
+                else {
+                    delete state.parent.node[state.key];
+                }
+                if (stopHere) keepGoing = false;
+            },
+            keys : null,
+            before : function (f) { modifiers.before = f },
+            after : function (f) { modifiers.after = f },
+            pre : function (f) { modifiers.pre = f },
+            post : function (f) { modifiers.post = f },
+            stop : function () { alive = false },
+            block : function () { keepGoing = false }
+        };
+        
+        if (!alive) return state;
+        
+        function updateState() {
+            if (typeof state.node === 'object' && state.node !== null) {
+                if (!state.keys || state.node_ !== state.node) {
+                    state.keys = objectKeys(state.node)
+                }
+                
+                state.isLeaf = state.keys.length == 0;
+                
+                for (var i = 0; i < parents.length; i++) {
+                    if (parents[i].node_ === node_) {
+                        state.circular = parents[i];
+                        break;
+                    }
+                }
+            }
+            else {
+                state.isLeaf = true;
+                state.keys = null;
+            }
+            
+            state.notLeaf = !state.isLeaf;
+            state.notRoot = !state.isRoot;
+        }
+        
+        updateState();
+        
+        // use return values to update if defined
+        var ret = cb.call(state, state.node);
+        if (ret !== undefined && state.update) state.update(ret);
+        
+        if (modifiers.before) modifiers.before.call(state, state.node);
+        
+        if (!keepGoing) return state;
+        
+        if (typeof state.node == 'object'
+        && state.node !== null && !state.circular) {
+            parents.push(state);
+            
+            updateState();
+            
+            forEach(state.keys, function (key, i) {
+                path.push(key);
+                
+                if (modifiers.pre) modifiers.pre.call(state, state.node[key], key);
+                
+                var child = walker(state.node[key]);
+                if (immutable && hasOwnProperty.call(state.node, key)) {
+                    state.node[key] = child.node;
+                }
+                
+                child.isLast = i == state.keys.length - 1;
+                child.isFirst = i == 0;
+                
+                if (modifiers.post) modifiers.post.call(state, child);
+                
+                path.pop();
+            });
+            parents.pop();
+        }
+        
+        if (modifiers.after) modifiers.after.call(state, state.node);
+        
+        return state;
+    })(root).node;
+}
+
+function copy (src) {
+    if (typeof src === 'object' && src !== null) {
+        var dst;
+        
+        if (isArray(src)) {
+            dst = [];
+        }
+        else if (isDate(src)) {
+            dst = new Date(src.getTime ? src.getTime() : src);
+        }
+        else if (isRegExp(src)) {
+            dst = new RegExp(src);
+        }
+        else if (isError(src)) {
+            dst = { message: src.message };
+        }
+        else if (isBoolean(src)) {
+            dst = new Boolean(src);
+        }
+        else if (isNumber(src)) {
+            dst = new Number(src);
+        }
+        else if (isString(src)) {
+            dst = new String(src);
+        }
+        else if (Object.create && Object.getPrototypeOf) {
+            dst = Object.create(Object.getPrototypeOf(src));
+        }
+        else if (src.constructor === Object) {
+            dst = {};
+        }
+        else {
+            var proto =
+                (src.constructor && src.constructor.prototype)
+                || src.__proto__
+                || {}
+            ;
+            var T = function () {};
+            T.prototype = proto;
+            dst = new T;
+        }
+        
+        forEach(objectKeys(src), function (key) {
+            dst[key] = src[key];
+        });
+        return dst;
+    }
+    else return src;
+}
+
+var objectKeys = Object.keys || function keys (obj) {
+    var res = [];
+    for (var key in obj) res.push(key)
+    return res;
+};
+
+function toS (obj) { return Object.prototype.toString.call(obj) }
+function isDate (obj) { return toS(obj) === '[object Date]' }
+function isRegExp (obj) { return toS(obj) === '[object RegExp]' }
+function isError (obj) { return toS(obj) === '[object Error]' }
+function isBoolean (obj) { return toS(obj) === '[object Boolean]' }
+function isNumber (obj) { return toS(obj) === '[object Number]' }
+function isString (obj) { return toS(obj) === '[object String]' }
+
+var isArray = Array.isArray || function isArray (xs) {
+    return Object.prototype.toString.call(xs) === '[object Array]';
+};
+
+var forEach = function (xs, fn) {
+    if (xs.forEach) return xs.forEach(fn)
+    else for (var i = 0; i < xs.length; i++) {
+        fn(xs[i], i, xs);
+    }
+};
+
+forEach(objectKeys(Traverse.prototype), function (key) {
+    traverse[key] = function (obj) {
+        var args = [].slice.call(arguments, 1);
+        var t = new Traverse(obj);
+        return t[key].apply(t, args);
+    };
+});
+
+var hasOwnProperty = Object.hasOwnProperty || function (obj, key) {
+    return key in obj;
+};
 
 
 /***/ }),
@@ -37971,6 +45927,50 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./node_modules/wgs84/index.js":
+/*!*************************************!*\
+  !*** ./node_modules/wgs84/index.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports.RADIUS = 6378137;
+module.exports.FLATTENING = 1/298.257223563;
+module.exports.POLAR_RADIUS = 6356752.3142;
+
+
+/***/ }),
+
+/***/ "./node_modules/xtend/immutable.js":
+/*!*****************************************!*\
+  !*** ./node_modules/xtend/immutable.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = extend
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+function extend() {
+    var target = {}
+
+    for (var i = 0; i < arguments.length; i++) {
+        var source = arguments[i]
+
+        for (var key in source) {
+            if (hasOwnProperty.call(source, key)) {
+                target[key] = source[key]
+            }
+        }
+    }
+
+    return target
+}
+
+
+/***/ }),
+
 /***/ "./src/app.jsx":
 /*!*********************!*\
   !*** ./src/app.jsx ***!
@@ -37985,41 +45985,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var components_MapComponent_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! components/MapComponent.jsx */ "./src/components/MapComponent.jsx");
-/* harmony import */ var contexts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! contexts */ "./src/contexts/index.js");
-/* harmony import */ var components_HeaderComponent_jsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! components/HeaderComponent.jsx */ "./src/components/HeaderComponent.jsx");
+/* harmony import */ var styles_base_sass__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! styles/base.sass */ "./src/styles/base.sass");
+/* harmony import */ var styles_base_sass__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(styles_base_sass__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var components_MapComponent_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! components/MapComponent.jsx */ "./src/components/MapComponent.jsx");
+/* harmony import */ var contexts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! contexts */ "./src/contexts/index.js");
+/* harmony import */ var components_Header_jsx__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! components/Header.jsx */ "./src/components/Header.jsx");
 
  // import { Router, Route, IndexRoute, Redirect, browserHistory } from 'react-router';
 
- // import 'styles/main.sass';
+
 
 
 
 
 
 var App = function App(props) {
-  // return (
-  // 	<Store>
-  // 		<Router>
-  // 			<React.Fragment>
-  // 				<Header />
-  // 				<Switch>
-  // 					<Route path="/new/:action?/:id?" render={router => <MapMaker router={router} />} />
-  // 					<Redirect to="/new" />
-  // 				</Switch>
-  // 			</React.Fragment>
-  // 		</Router>
-  // 	</Store>
-  // );
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts__WEBPACK_IMPORTED_MODULE_4__["Store"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts__WEBPACK_IMPORTED_MODULE_5__["Store"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_Header_jsx__WEBPACK_IMPORTED_MODULE_6__["Header"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+    path: "/:action?/:type?/:step?",
+    render: function render(router) {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_MapComponent_jsx__WEBPACK_IMPORTED_MODULE_4__["MapWrapper"], {
+        router: router
+      });
+    }
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     path: "/help",
     render: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Help Page");
-    }
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
-    path: "/",
-    render: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_HeaderComponent_jsx__WEBPACK_IMPORTED_MODULE_5__["HeaderComponent"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_MapComponent_jsx__WEBPACK_IMPORTED_MODULE_3__["MapWrapper"], null));
     }
   })));
 };
@@ -38028,11 +46019,11 @@ react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_
 
 /***/ }),
 
-/***/ "./src/components/HeaderComponent.jsx":
-/*!********************************************!*\
-  !*** ./src/components/HeaderComponent.jsx ***!
-  \********************************************/
-/*! exports provided: SideNavButton, HeaderOptions, SearchBar, Title, HeaderComponent */
+/***/ "./src/components/Header.jsx":
+/*!***********************************!*\
+  !*** ./src/components/Header.jsx ***!
+  \***********************************/
+/*! exports provided: SideNavButton, HeaderOptions, SearchBar, Title, Header */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -38041,7 +46032,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HeaderOptions", function() { return HeaderOptions; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SearchBar", function() { return SearchBar; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Title", function() { return Title; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HeaderComponent", function() { return HeaderComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Header", function() { return Header; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
@@ -38077,7 +46068,9 @@ var HeaderOptions = function HeaderOptions(props) {
     className: "option"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "https://via.placeholder.com/30x30?text=Option"
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/plant/tree_single"
+  }, "Plant Single Tree (test)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "option"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "https://via.placeholder.com/30x30?text=Option"
@@ -38092,31 +46085,33 @@ var HeaderOptions = function HeaderOptions(props) {
   }))));
 };
 var SearchBar = function SearchBar(props) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    placeholder: "Enter a location or address"
-  }));
+  return (//MapConsumer here?
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      placeholder: "Enter a location or address"
+    }))
+  );
 };
 var Title = function Title(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "title"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "PRAIRIE & TREE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Planting Tool")));
 };
-var HeaderComponent =
+var Header =
 /*#__PURE__*/
 function (_React$Component) {
-  _inherits(HeaderComponent, _React$Component);
+  _inherits(Header, _React$Component);
 
-  function HeaderComponent(props) {
-    _classCallCheck(this, HeaderComponent);
+  function Header(props) {
+    _classCallCheck(this, Header);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(HeaderComponent).call(this, props));
+    return _possibleConstructorReturn(this, _getPrototypeOf(Header).call(this, props));
   }
 
-  _createClass(HeaderComponent, [{
+  _createClass(Header, [{
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "header-wrap"
+        className: "Header"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SideNavButton, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Title, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(HeaderOptions, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SearchBar, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "save-button"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -38125,7 +46120,7 @@ function (_React$Component) {
     }
   }]);
 
-  return HeaderComponent;
+  return Header;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /***/ }),
@@ -38145,10 +46140,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! mapbox-gl */ "./node_modules/mapbox-gl/dist/mapbox-gl.js");
 /* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(mapbox_gl__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var contexts_MapState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! contexts/MapState */ "./src/contexts/MapState.js");
-/* harmony import */ var map_layers_area_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! map_layers/area.json */ "./src/map_layers/area.json");
-var map_layers_area_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! map_layers/area.json */ "./src/map_layers/area.json", 1);
+/* harmony import */ var _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mapbox/mapbox-gl-draw */ "./node_modules/@mapbox/mapbox-gl-draw/index.js");
+/* harmony import */ var _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var contexts_MapState__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! contexts/MapState */ "./src/contexts/MapState.js");
+/* harmony import */ var map_layers_area_json__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! map_layers/area.json */ "./src/map_layers/area.json");
+var map_layers_area_json__WEBPACK_IMPORTED_MODULE_5___namespace = /*#__PURE__*/__webpack_require__.t(/*! map_layers/area.json */ "./src/map_layers/area.json", 1);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -38159,9 +46156,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -38180,9 +46177,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 mapbox_gl__WEBPACK_IMPORTED_MODULE_1___default.a.accessToken = "pk.eyJ1IjoiYW5keWt0cmFuIiwiYSI6ImNrMmNiamI2cjAyeHUzaGxwNms1amo1Z3YifQ.pGhYXpvRoBknIQgRMEwQ9Q";
 var MapWrapper = function MapWrapper(props) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_3__["MapConsumer"], null, function (mapCtx) {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_4__["MapConsumer"], null, function (mapCtx) {
     var ctx = _objectSpread({}, mapCtx.state, {}, mapCtx.actions);
 
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(MapComponent, _extends({}, ctx, props));
@@ -38199,15 +46197,6 @@ function (_React$Component) {
     _classCallCheck(this, MapComponent);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(MapComponent).call(this, props));
-
-    _defineProperty(_assertThisInitialized(_this), "inputOnChange", function (event) {
-      var _event$target;
-
-      _this.setState({
-        geojsonInput: event === null || event === void 0 ? void 0 : (_event$target = event.target) === null || _event$target === void 0 ? void 0 : _event$target.value
-      });
-    });
-
     _this.state = {
       setup: false,
       geojsonInput: '',
@@ -38233,9 +46222,12 @@ function (_React$Component) {
           return false;
         }
 
+        _this2.addDraw();
+
         _this2.loadSources();
 
-        _this2.loadLayers();
+        _this2.setDrawMode(); // this.loadLayers();
+
 
         _this2.setState({
           setup: true
@@ -38249,29 +46241,59 @@ function (_React$Component) {
     value: function componentDidUpdate() {
       if (this.state.setup) {
         this.loadSources();
+        this.setDrawMode();
       }
     }
   }, {
-    key: "addSource",
-    value: function addSource(name, type, data) {
-      if (this.state.sources.includes(name)) {
-        // Update the source.
-        var source = this.map.getSource(name);
-        source.setData(data);
-      } else {
-        // Add the source.
-        this.map.addSource(name, {
-          type: type,
-          data: data
-        });
-        this.setState({
-          sources: this.state.sources.concat(name)
-        });
+    key: "setDrawMode",
+    value: function setDrawMode() {
+      var _this$params = this.params,
+          action = _this$params.action,
+          type = _this$params.type,
+          step = _this$params.step;
+      console.log(action, type, step);
+
+      if (action == 'plant' && !step) {
+        if (type == 'tree_single') {
+          // Enter draw_point mode.
+          this.draw.changeMode('draw_point');
+        } else if (type == 'tree_row') {
+          // Enter draw_line_string mode.
+          this.draw.changeMode('draw_line_string');
+        } else if (type == 'tree_area') {
+          // Enter draw_polygon mode.
+          this.draw.changeMode('draw_tree_area');
+        } else {// Redirect to root / because invalid param
+        }
       }
     }
+  }, {
+    key: "addDraw",
+    value: function addDraw() {
+      this.draw = new _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_2___default.a();
+      this.map.addControl(this.draw, 'top-right');
+    } // addSource(name, type, data) {
+    //     if (this.state.sources.includes(name)) {
+    //         // Update the source.
+    //         const source = this.map.getSource(name);
+    //         source.setData(data);
+    //     } else {
+    //         // Add the source.
+    //         this.map.addSource(name, {
+    //             type,
+    //             data
+    //         });
+    //         this.setState({
+    //             sources: this.state.sources.concat(name)
+    //         });
+    //     }
+    // }
+
   }, {
     key: "loadSources",
     value: function loadSources() {
+      var _this3 = this;
+
       var _this$props$data = this.props.data,
           data = _this$props$data === void 0 ? [] : _this$props$data;
       var features = [];
@@ -38281,42 +46303,38 @@ function (_React$Component) {
         } else if (ea.type == 'FeatureCollection') {
           features = features.concat(ea.features);
         }
-      });
-      this.addSource('feature_data', 'geojson', {
-        type: 'FeatureCollection',
-        features: features
-      });
+      }); // Add each feature to the mapbox-gl-draw source.
+
+      features.forEach(function (ea) {
+        return _this3.draw.add(ea);
+      }); // this.addSource('feature_data', 'geojson', {
+      //     type: 'FeatureCollection',
+      //     features
+      // });
     }
   }, {
     key: "loadLayers",
     value: function loadLayers() {
-      this.map.addLayer(map_layers_area_json__WEBPACK_IMPORTED_MODULE_4__);
+      this.map.addLayer(map_layers_area_json__WEBPACK_IMPORTED_MODULE_5__);
     }
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
-
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Route"], {
         path: "/welcome",
         render: function render() {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Welcome! Get Started...");
         }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
-        value: this.state.geojsonInput,
-        onChange: this.inputOnChange,
-        style: {
-          width: '400px',
-          height: '400px'
-        }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        onClick: function onClick() {
-          return _this3.props.addData(_this3.state.geojsonInput);
-        }
-      }, "Add GeoJSON"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "Map",
         ref: this.mapElement
       }));
+    }
+  }, {
+    key: "params",
+    get: function get() {
+      var params = this.props.router.match.params;
+      return params;
     }
   }]);
 
@@ -38344,8 +46362,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _mapbox_geojsonhint__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @mapbox/geojsonhint */ "./node_modules/@mapbox/geojsonhint/lib/index.js");
 /* harmony import */ var _mapbox_geojsonhint__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_mapbox_geojsonhint__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var test_data_1_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! test_data/1.json */ "./src/test_data/1.json");
-var test_data_1_json__WEBPACK_IMPORTED_MODULE_2___namespace = /*#__PURE__*/__webpack_require__.t(/*! test_data/1.json */ "./src/test_data/1.json", 1);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -38354,9 +46370,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
 var MapDefaultState = {
-  data: [test_data_1_json__WEBPACK_IMPORTED_MODULE_2__]
+  data: []
 };
 var MapContext = react__WEBPACK_IMPORTED_MODULE_0___default.a.createContext(MapDefaultState);
 var MapProvider = MapContext.Provider;
@@ -38521,14 +46536,30 @@ module.exports = JSON.parse("{\"id\":\"feature_data_area\",\"type\":\"fill\",\"s
 
 /***/ }),
 
-/***/ "./src/test_data/1.json":
+/***/ "./src/styles/base.sass":
 /*!******************************!*\
-  !*** ./src/test_data/1.json ***!
+  !*** ./src/styles/base.sass ***!
   \******************************/
-/*! exports provided: type, features, default */
-/***/ (function(module) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = JSON.parse("{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"properties\":{},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[-93.60832214355469,41.60511034238919],[-93.60875129699707,41.600489293095904],[-93.6086654663086,41.59593210097788],[-93.59930992126465,41.59657397849253],[-93.58901023864746,41.59984745452105],[-93.5891819000244,41.60504616341523],[-93.60832214355469,41.60511034238919]]]}}]}");
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./base.sass */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/base.sass");
+
+if (typeof content === 'string') {
+  content = [[module.i, content, '']];
+}
+
+var options = {}
+
+options.insert = "head";
+options.singleton = false;
+
+var update = __webpack_require__(/*! ../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js")(content, options);
+
+if (content.locals) {
+  module.exports = content.locals;
+}
+
 
 /***/ })
 

@@ -21,16 +21,7 @@ const App = props => {
 
 				{/* Routed components here. These will float over the map. */}
 				<Route path="/help" render={() => <h2>Help Page</h2>} />
-<<<<<<< HEAD
-				<Route path="/" render={() => 
-					<React.Fragment>
-						<Header />
-						<MapWrapper />
-					</React.Fragment>
-				}/>
-=======
 				{/* ---- */}
->>>>>>> 181507d577a3a641b6f8b169c065c8b2b5db66ac
 			</Router>
 		</Store>
     );

@@ -29,6 +29,7 @@ export class MapComponent extends React.Component {
             sources: []
         };
         this.mapElement = React.createRef();
+        console.log(props)
     }
 
     get params() {
@@ -47,7 +48,7 @@ export class MapComponent extends React.Component {
             container: this.mapElement.current,
             style: 'mapbox://styles/mapbox/outdoors-v11',
             center: [-93.624287, 41.587537],
-            zoom: 13
+            zoom: 13,
         });
 
         this.map.on('load', () => {
@@ -79,7 +80,7 @@ export class MapComponent extends React.Component {
         if (action == 'plant' && !step) {
             if (type == 'tree_single') {
                 // Enter draw_point mode.
-                this.draw.changeMode('draw_point');
+                this.draw.changeMode('draw_multiple_points');
             } else if (type == 'tree_row') {
                 // Enter draw_line_string mode.
                 this.draw.changeMode('draw_line_string');
@@ -93,7 +94,18 @@ export class MapComponent extends React.Component {
     }
 
     addDraw() {
-        this.draw = new MapboxDraw();
+        const { 
+            configs: {
+                custom_modes: {
+                   draw_multiple_points
+                }
+            } 
+        } = this.props
+        this.draw = new MapboxDraw({
+            modes: Object.assign({
+                draw_multiple_points: draw_multiple_points
+            }, MapboxDraw.modes)
+        });
         this.map.addControl(this.draw, 'top-right');
     }
 
