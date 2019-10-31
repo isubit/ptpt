@@ -13,6 +13,7 @@ export const HeaderOptions = props => {
             <ul className="header-options">
                 <li className="option">
                     <img src="https://via.placeholder.com/30x30?text=Option"></img>
+                    <Link to="/plant/tree_single">Plant Single Tree (test)</Link>
                 </li>
                 <li className="option">
                     <img src="https://via.placeholder.com/30x30?text=Option"></img>
@@ -51,14 +52,13 @@ export const Title = props => {
 
 export class Header extends React.Component {
     constructor(props) {
-        super(props)
-        
+        super(props);
     }
 
     render() {
         return (
             <React.Fragment>
-                <div className="header-wrap">
+                <div className="Header">
                     <SideNavButton />
                     <Title />
                     <HeaderOptions />
@@ -66,6 +66,6 @@ export class Header extends React.Component {
                     <div className="save-button"><img src="https://via.placeholder.com/35x35?text=Save"></img></div>
                 </div>
             </React.Fragment>
-        )
+        );
     }
 }
