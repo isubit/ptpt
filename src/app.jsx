@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 // import { Router, Route, IndexRoute, Redirect, browserHistory } from 'react-router';
 import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom';
 
-// import 'styles/base.sass';
+// import 'styles/main.sass';
 
 import { MapWrapper } from 'components/MapComponent.jsx';
 import { Store } from 'contexts';
+import { HeaderComponent } from 'components/HeaderComponent.jsx';
 
 const App = props => {
 	// return (
@@ -25,10 +26,12 @@ const App = props => {
     return (
 		<Store>
 			<Router>
-				<Link to="/">Map</Link>
-				<Link to="/help">Help</Link>
 				<Route path="/help" render={() => <h2>Help Page</h2>} />
-				<Route path="/" render={() => <MapWrapper />} />
+				<Route path="/" render={() => 
+					<React.Fragment>
+						<HeaderComponent />
+						<MapWrapper />
+					</React.Fragment>} />
 			</Router>
 		</Store>
     );
