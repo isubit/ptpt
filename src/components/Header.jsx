@@ -3,14 +3,18 @@ import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-ro
 
 export const SideNavButton = props => {
     return (
-        <Link to="/sidenav">side nav</Link>
+        <React.Fragment>
+            <div class="SideNav">
+                <Link to="/sidenav">side nav</Link>
+            </div>
+        </React.Fragment>
     )
 }
 
 export const HeaderOptions = props => {
     return (
         <React.Fragment>
-            <ul className="header-options">
+            <ul className="HeaderOptions">
                 <li className="option">
                     <img src="https://via.placeholder.com/30x30?text=Option"></img>
                     <Link to="/plant/tree_single">Plant Single Tree (test)</Link>
@@ -34,7 +38,9 @@ export const SearchBar = props => {
     return (
         //MapConsumer here?
         <React.Fragment>
-            <input placeholder="Enter a location or address"></input>
+            <div class="Searchbar">
+                <input placeholder="Enter a location or address"></input>
+            </div>
         </React.Fragment>
     )
 }
@@ -42,7 +48,7 @@ export const SearchBar = props => {
 export const Title = props => {
     return (
         <React.Fragment>
-            <div className="title">
+            <div className="Title">
                 <p>PRAIRIE & TREE</p>
                 <p>Planting Tool</p>
             </div>
@@ -59,7 +65,7 @@ export class Header extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="Header">
+                <div className="Header grid">
                     <SideNavButton />
                     <Title />
                     <HeaderOptions />
