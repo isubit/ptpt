@@ -17,6 +17,7 @@ export const HeaderOptions = props => {
                 </li>
                 <li className="option">
                     <img src="https://via.placeholder.com/30x30?text=Option"></img>
+                    <Link to="/plant/tree_row">Plant Row of Trees</Link>
                 </li>
                 <li className="option">
                     <img src="https://via.placeholder.com/30x30?text=Option"></img>
