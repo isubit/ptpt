@@ -30,6 +30,7 @@ export const HeaderOptions = props => {
 
 export const SearchBar = props => {
     return (
+        //MapConsumer here?
         <React.Fragment>
             <input placeholder="Enter a location or address"></input>
         </React.Fragment>
