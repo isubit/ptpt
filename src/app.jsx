@@ -1,38 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 // import { Router, Route, IndexRoute, Redirect, browserHistory } from 'react-router';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom';
 
-// import 'styles/base.sass';
+import 'styles/base.sass';
 
-// import { Header } from 'components/Header.jsx';
-// import { MapMaker } from 'components/MapMaker.jsx';
-// import { Store } from 'contexts';
+import { MapWrapper } from 'components/MapComponent.jsx';
+import { Store } from 'contexts';
+import { Header } from 'components/Header.jsx';
 
 const App = props => {
-	// return (
-	// 	<Store>
-	// 		<Router>
-	// 			<React.Fragment>
-	// 				<Header />
-	// 				<Switch>
-	// 					<Route path="/new/:action?/:id?" render={router => <MapMaker router={router} />} />
-	// 					<Redirect to="/new" />
-	// 				</Switch>
-	// 			</React.Fragment>
-	// 		</Router>
-	// 	</Store>
-    // );
     return (
-        <React.Fragment>
-            <h2>Hello World!</h2>
-            <div>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </div>
-			<div>
-				Test test test
-			</div>
-        </React.Fragment>
+		<Store>
+			<Router>
+				{/* These will always be visible, no addt'l routing required. */}
+				{/* The map is always mounted (but perhaps covered) to improve performance when route switching. */}
+				<Header />
+				<Route path="/:action?/:type?/:step?" render={router => <MapWrapper router={router} />} />
+				{/* --- */}
+
+				{/* Routed components here. These will float over the map. */}
+				<Route path="/help" render={() => <h2>Help Page</h2>} />
+				{/* ---- */}
+			</Router>
+		</Store>
     );
 };
 
