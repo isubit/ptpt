@@ -6047,7 +6047,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 exports.i(__webpack_require__(/*! -!../../node_modules/css-loader/dist/cjs.js!@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css"), "");
 exports.i(__webpack_require__(/*! -!../../node_modules/css-loader/dist/cjs.js!mapbox-gl/dist/mapbox-gl.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/mapbox-gl/dist/mapbox-gl.css"), "");
 // Module
-exports.push([module.i, ".Header {\n  width: 100%; }\n\n.Map {\n  width: 100%;\n  height: 100vh; }\n", ""]);
+exports.push([module.i, ".Header {\n  width: 100%; }\n\n.SideNav {\n  grid-area: s; }\n\n.Searchbar {\n  grid-area: b; }\n\n.Title {\n  grid-area: t; }\n\n.HeaderOptions {\n  grid-area: o;\n  list-style: none;\n  padding-left: 0;\n  margin: 4px 0px 5px 0px; }\n  .HeaderOptions li {\n    display: inline-block; }\n\n.SaveButton {\n  grid-area: v; }\n\nbody {\n  margin: 0; }\n\n.Map {\n  width: 100%;\n  height: 100vh; }\n\n.grid {\n  display: grid;\n  grid-template-areas: \"s t t t t o o o o o o o\" \"b b b b b b b b b b v v\"; }\n", ""]);
 
 
 /***/ }),
@@ -46057,44 +46057,50 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 var SideNavButton = function SideNavButton(props) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
     to: "/sidenav"
-  }, "side nav");
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "SideNav"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "../assets/side_nav.svg"
+  }))));
 };
 var HeaderOptions = function HeaderOptions(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-    className: "header-options"
+    className: "HeaderOptions"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "option"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "https://via.placeholder.com/30x30?text=Option"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/plant/tree_single"
-  }, "Plant Single Tree (test)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    className: "option"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "https://via.placeholder.com/30x30?text=Option"
+    src: "../assets/plant_tree_option.svg"
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "option"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "https://via.placeholder.com/30x30?text=Option"
+    src: "../assets/plant_prairie.svg"
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
     className: "option"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "https://via.placeholder.com/30x30?text=Option"
+    src: "../assets/map_layers.svg"
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+    className: "option"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "../assets/view_report.svg"
   }))));
 };
 var SearchBar = function SearchBar(props) {
   return (//MapConsumer here?
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "Searchbar"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       placeholder: "Enter a location or address"
-    }))
+    })))
   );
 };
 var Title = function Title(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "title"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "PRAIRIE & TREE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Planting Tool")));
+    className: "Title"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "../assets/narrow_logo.svg"
+  })));
 };
 var Header =
 /*#__PURE__*/
@@ -46111,11 +46117,11 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "Header"
+        className: "Header grid"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SideNavButton, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Title, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(HeaderOptions, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SearchBar, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "save-button"
+        className: "SaveButton"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: "https://via.placeholder.com/35x35?text=Save"
+        src: "../assets/save_narrow.svg"
       }))));
     }
   }]);
@@ -46203,6 +46209,7 @@ function (_React$Component) {
       sources: []
     };
     _this.mapElement = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
+    console.log(props);
     return _this;
   }
 
@@ -46256,7 +46263,7 @@ function (_React$Component) {
       if (action == 'plant' && !step) {
         if (type == 'tree_single') {
           // Enter draw_point mode.
-          this.draw.changeMode('draw_point');
+          this.draw.changeMode('draw_multiple_points');
         } else if (type == 'tree_row') {
           // Enter draw_line_string mode.
           this.draw.changeMode('draw_line_string');
@@ -46270,7 +46277,12 @@ function (_React$Component) {
   }, {
     key: "addDraw",
     value: function addDraw() {
-      this.draw = new _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_2___default.a();
+      var draw_multiple_points = this.props.configs.custom_modes.draw_multiple_points;
+      this.draw = new _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_2___default.a({
+        modes: Object.assign({
+          draw_multiple_points: draw_multiple_points
+        }, _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_2___default.a.modes)
+      });
       this.map.addControl(this.draw, 'top-right');
     } // addSource(name, type, data) {
     //     if (this.state.sources.includes(name)) {
@@ -46362,6 +46374,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _mapbox_geojsonhint__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @mapbox/geojsonhint */ "./node_modules/@mapbox/geojsonhint/lib/index.js");
 /* harmony import */ var _mapbox_geojsonhint__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_mapbox_geojsonhint__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _map_configs_draw_multiple_points__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../map_configs/draw_multiple_points */ "./src/map_configs/draw_multiple_points.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -46370,8 +46383,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 var MapDefaultState = {
-  data: []
+  data: [],
+  configs: {
+    custom_modes: {
+      draw_multiple_points: _map_configs_draw_multiple_points__WEBPACK_IMPORTED_MODULE_2__["draw_multiple_points"]
+    }
+  }
 };
 var MapContext = react__WEBPACK_IMPORTED_MODULE_0___default.a.createContext(MapDefaultState);
 var MapProvider = MapContext.Provider;
@@ -46522,6 +46541,45 @@ function (_React$Component) {
   return Store;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 ;
+
+/***/ }),
+
+/***/ "./src/map_configs/draw_multiple_points.js":
+/*!*************************************************!*\
+  !*** ./src/map_configs/draw_multiple_points.js ***!
+  \*************************************************/
+/*! exports provided: draw_multiple_points */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "draw_multiple_points", function() { return draw_multiple_points; });
+var draw_multiple_points = {
+  onSetup: function onSetup(opts) {
+    var state = {};
+    state.count = opts.count || 0;
+    return state;
+  },
+  onClick: function onClick(state, e) {
+    var point = this.newFeature({
+      type: 'Feature',
+      properties: {
+        count: state.count
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [e.lngLat.lng, e.lngLat.lat]
+      }
+    });
+    this.addFeature(point); // puts the point on the map
+  },
+  onKeyUp: function onKeyUp(state, e) {
+    if (e.keyCode === 27) return this.changeMode('simple_select');
+  },
+  toDisplayFeatures: function toDisplayFeatures(state, geojson, display) {
+    display(geojson);
+  }
+};
 
 /***/ }),
 
