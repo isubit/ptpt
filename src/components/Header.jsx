@@ -4,9 +4,11 @@ import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-ro
 export const SideNavButton = props => {
     return (
         <React.Fragment>
-            <div class="SideNav">
-                <Link to="/sidenav">side nav</Link>
-            </div>
+            <Link to="/sidenav">
+                <div className="SideNav">
+                    <img src="../assets/side_nav.svg"></img>
+                </div>
+            </Link>
         </React.Fragment>
     )
 }
@@ -16,18 +18,16 @@ export const HeaderOptions = props => {
         <React.Fragment>
             <ul className="HeaderOptions">
                 <li className="option">
-                    <img src="https://via.placeholder.com/30x30?text=Option"></img>
-                    <Link to="/plant/tree_single">Plant Single Tree (test)</Link>
+                    <img src="../assets/plant_tree_option.svg"></img>
                 </li>
                 <li className="option">
-                    <img src="https://via.placeholder.com/30x30?text=Option"></img>
-                    <Link to="/plant/tree_row">Plant Row of Trees</Link>
+                    <img src="../assets/plant_prairie.svg"></img>
                 </li>
                 <li className="option">
-                    <img src="https://via.placeholder.com/30x30?text=Option"></img>
+                    <img src="../assets/map_layers.svg"></img>
                 </li>
                 <li className="option">
-                    <img src="https://via.placeholder.com/30x30?text=Option"></img>
+                    <img src="../assets/view_report.svg"></img>
                 </li>
             </ul>
         </React.Fragment>
@@ -38,7 +38,7 @@ export const SearchBar = props => {
     return (
         //MapConsumer here?
         <React.Fragment>
-            <div class="Searchbar">
+            <div className="Searchbar">
                 <input placeholder="Enter a location or address"></input>
             </div>
         </React.Fragment>
@@ -49,8 +49,7 @@ export const Title = props => {
     return (
         <React.Fragment>
             <div className="Title">
-                <p>PRAIRIE & TREE</p>
-                <p>Planting Tool</p>
+                <img src="../assets/narrow_logo.svg"></img>
             </div>
         </React.Fragment>
     )
@@ -70,7 +69,7 @@ export class Header extends React.Component {
                     <Title />
                     <HeaderOptions />
                     <SearchBar />
-                    <div className="save-button"><img src="https://via.placeholder.com/35x35?text=Save"></img></div>
+                    <div className="SaveButton"><img src="../assets/save_narrow.svg"></img></div>
                 </div>
             </React.Fragment>
         );

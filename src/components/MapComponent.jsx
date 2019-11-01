@@ -44,6 +44,7 @@ export class MapComponent extends React.Component {
     }
 
     componentDidMount() {
+        console.log("mounted")
         this.map = new mapboxgl.Map({
             container: this.mapElement.current,
             style: 'mapbox://styles/mapbox/outdoors-v11',
