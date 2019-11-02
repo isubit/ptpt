@@ -4,11 +4,12 @@ import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-ro
 export const SideNavButton = props => {
     return (
         <React.Fragment>
-            <Link to="/sidenav">
                 <div className="SideNav">
-                    <img src="../assets/side_nav.svg"></img>
+                    <Link to="/sidenav">
+                        <img src="../assets/side_nav.svg"></img>
+                    </Link>
                 </div>
-            </Link>
+            
         </React.Fragment>
     )
 }
@@ -38,7 +39,7 @@ export const SearchBar = props => {
     return (
         //MapConsumer here?
         <React.Fragment>
-            <div className="Searchbar">
+            <div className="SearchBar">
                 <input placeholder="Enter a location or address"></input>
             </div>
         </React.Fragment>
@@ -64,7 +65,7 @@ export class Header extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="Header grid">
+                <div className="Header grid narrow">
                     <SideNavButton />
                     <Title />
                     <HeaderOptions />
