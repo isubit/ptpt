@@ -37,14 +37,16 @@ const config = {
 			{
 				test: /\.(js$|jsx)/,
 				include: APP_DIR,
-				loader: 'babel-loader',
-				query: {
-					presets: ['@babel/preset-env', '@babel/preset-react'].map(require.resolve),
-					plugins: [
-						'@babel/plugin-proposal-class-properties',
-						'@babel/plugin-proposal-optional-chaining'
-					].map(require.resolve)
-				}
+				use: [{
+					loader: 'babel-loader',
+					options: {
+						presets: ['@babel/preset-env', '@babel/preset-react'].map(require.resolve),
+						plugins: [
+							'@babel/plugin-proposal-class-properties',
+							'@babel/plugin-proposal-optional-chaining'
+						].map(require.resolve)
+					}
+				}, 'eslint-loader']
 			},
 			// {
 			// 	test: /\.json/,
