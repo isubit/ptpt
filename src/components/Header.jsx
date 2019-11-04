@@ -7,7 +7,8 @@ export const SideNavButton = props => {
         <React.Fragment>
                 <div className="SideNav">
                     <Link to="/sidenav">
-                        <img src="../assets/side_nav.svg"></img>
+                        <img className="narrow-sidenav" src="../assets/side_nav.svg"></img>
+                        <img className="wide-sidenav" src="../assets/sidenav_wide.svg"></img>
                     </Link>
                 </div>
             
@@ -53,7 +54,8 @@ export const Title = props => {
     return (
         <React.Fragment>
             <div className="Title">
-                <img src="../assets/narrow_logo.svg"></img>
+                <img className="narrow-logo" src="../assets/narrow_logo.svg"></img>
+                <img className="wide-logo" src="../assets/wide_logo.svg"></img>
             </div>
         </React.Fragment>
     )
@@ -64,7 +66,8 @@ export const SaveButton = props => {
         <React.Fragment>
             <div className="SaveButton">
                 <Link to="/save">
-                    <img src="../assets/save_narrow.svg"></img>
+                    <img className="narrow-save" src="../assets/save_narrow.svg"></img>
+                    <img className="wide-save" src="../assets/save_wide.svg"></img>
                 </Link>
             </div>
         </React.Fragment>
@@ -80,12 +83,14 @@ export class Header extends React.Component {
         return (
             <React.Fragment>
                 <div className="Header">
-                    <div className="grid-row">
+                    <div className="grid-row sidenav-btn">
                         <SideNavButton />
                         <Title />
+                        <SearchBar />
                         <HeaderOptions />
+                        <SaveButton />
                     </div>
-                    <div className="grid-row">
+                    <div className="grid-row save-btn">
                         <SearchBar />
                         <SaveButton />
                     </div>

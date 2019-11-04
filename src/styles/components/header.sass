@@ -6,15 +6,10 @@
     background-color: #FFFFFF
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1)
 
-.SideNav
-    grid-column: 1 / 2
-    a
-        display: block
-        img
-            display: block
+.Title
+    display: flex
 
 .SearchBar
-    grid-column: 1 / 12
     input 
         -webkit-box-sizing: border-box
         -moz-box-sizing: border-box
@@ -32,31 +27,91 @@
             font-size: 14px
             line-height: 18px
 
-.Title
-    display: flex
-    padding-left: 9px
-    grid-row: 1 / 2
-    grid-column: 2 / 5
-
 .HeaderOptions
-    grid-column: 5 / -1
     list-style: none
-    margin: 4px 0px 5px 0px
-    padding-right: 18px
-    padding-left: 30px
     ul
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: flex-end;
+        margin: 0
+        padding: 0
+        display: flex
+        justify-content: flex-end
         .option
             display: inline-block
-            margin-right: 9px
-            &:last-child
-                margin-right: 0px
             img 
                 display: block
-            
 
 .SaveButton
-    grid-column: 12 / 13
+    a
+        img 
+            display: block
+
+.sidenav-btn
+    grid-template-columns: 54px repeat(11, 1fr)
+    .SideNav
+        grid-column: 1 / 2
+        a
+            display: block
+        img
+            display: block
+        .wide-sidenav
+            display: none
+    .Title
+        padding-left: 9px
+        grid-column: 2 / 5
+        .wide-logo
+            display: none
+        .narrow-logo
+            width: 100%
+            max-width: 82px
+    .SearchBar
+        display: none
+    .HeaderOptions
+        grid-column: 5 / -1
+        ul
+            .option
+                padding: 4px 5px 5px 5px
+    .SaveButton
+        display: none
+
+.save-btn
+    grid-template-columns: repeat(11, 1fr) 54px
+    .SearchBar
+        grid-column: 1 / 12
+        height: 45px
+    .SaveButton
+        grid-column: 12 / 13
+        .wide-save
+            display: none
+
+@media (min-width: 400px)
+    .HeaderOptions
+        ul
+            .option
+                margin-right: 1%
+                margin-left: 1%
+
+@media (min-width: 900px)
+    .Header
+        height: 72px
+    .grid-row
+        &.save-btn
+            display: none
+    .grid-row
+        &.sidenav-btn
+            grid-template-columns: 72px repeat(10, 1fr) 63px
+            .SideNav
+                .narrow-sidenav
+                    display: none
+                .wide-sidenav
+                    display: block
+            .Title
+                .narrow-logo
+                    display: none
+                .wide-logo
+                    display: block
+            .SearchBar
+                display: block
+            .SaveButton
+                display: block
+                grid-column: 12 / 13
+                .narrow-save
+                    display: none
