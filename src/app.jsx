@@ -8,6 +8,7 @@ import 'styles/base.sass';
 import { MapWrapper } from 'components/MapComponent.jsx';
 import { Store } from 'contexts';
 import { Header } from 'components/Header.jsx';
+import { SideNav } from 'components/SideNav.jsx';
 
 const App = props => {
     return (
@@ -21,6 +22,7 @@ const App = props => {
 
 				{/* Routed components here. These will float over the map. */}
 				<Route path="/help" render={() => <h2>Help Page</h2>} />
+				<Route path="/sidenav" render={() => <SideNav />} />
 				{/* ---- */}
 			</Router>
 		</Store>
