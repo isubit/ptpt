@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom';
+import { ReadStream } from 'tty';
 
 export const SideNavButton = props => {
     return (
@@ -17,20 +18,22 @@ export const SideNavButton = props => {
 export const HeaderOptions = props => {
     return (
         <React.Fragment>
-            <ul className="HeaderOptions">
-                <li className="option">
-                    <img src="../assets/plant_tree_option.svg"></img>
-                </li>
-                <li className="option">
-                    <img src="../assets/plant_prairie.svg"></img>
-                </li>
-                <li className="option">
-                    <img src="../assets/map_layers.svg"></img>
-                </li>
-                <li className="option">
-                    <img src="../assets/view_report.svg"></img>
-                </li>
-            </ul>
+            <div className="HeaderOptions">
+                <ul>
+                    <li className="option">
+                        <img src="../assets/plant_tree_option.svg"></img>
+                    </li>
+                    <li className="option">
+                        <img src="../assets/plant_prairie.svg"></img>
+                    </li>
+                    <li className="option">
+                        <img src="../assets/map_layers.svg"></img>
+                    </li>
+                    <li className="option">
+                        <img src="../assets/view_report.svg"></img>
+                    </li>
+                </ul>
+            </div>
         </React.Fragment>
     )
 }
@@ -56,6 +59,17 @@ export const Title = props => {
     )
 }
 
+export const SaveButton = props => {
+    return (
+        <React.Fragment>
+            <div className="SaveButton">
+                <Link to="/save">
+                    <img src="../assets/save_narrow.svg"></img>
+                </Link>
+            </div>
+        </React.Fragment>
+    )
+}
 
 export class Header extends React.Component {
     constructor(props) {
@@ -65,12 +79,16 @@ export class Header extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="Header grid narrow">
-                    <SideNavButton />
-                    <Title />
-                    <HeaderOptions />
-                    <SearchBar />
-                    <div className="SaveButton"><img src="../assets/save_narrow.svg"></img></div>
+                <div className="Header">
+                    <div className="grid-row">
+                        <SideNavButton />
+                        <Title />
+                        <HeaderOptions />
+                    </div>
+                    <div className="grid-row">
+                        <SearchBar />
+                        <SaveButton />
+                    </div>
                 </div>
             </React.Fragment>
         );
