@@ -1,6 +1,4 @@
 @import vendor
-    
-@import './components/header'
 
 body
     margin: 0
@@ -10,16 +8,12 @@ body
     height: 100vh
     height: calc(100vh - 99px)
 
-.grid
-    display: grid
-    grid-template-columns: repeat(12, 1fr)
-    &.narrow
-        grid-template: 54px 45px / repeat(12, 1fr)
-    &.wide
-
 .grid-row
     display: grid
     grid-template-columns: repeat(12, 1fr)
+
+@import './components/header'
+    
     
 
                          

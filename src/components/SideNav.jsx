@@ -5,18 +5,21 @@ export const NavOptions = props => {
     return (
         <React.Fragment>
             <div className="NavOptions">
+                <div>
+                    <img src="../assets/sidebar-close.svg"></img>
+                </div>
                 <ul>
                     <li>
-                        <Link to="/settings" />
+                        <Link to="/settings">Settings</Link>
                     </li>
                     <li>
-                        <Link to="/help" />
+                        <Link to="/help">Help</Link>
                     </li>
                     <li>
-                        <Link to="/about" />
+                        <Link to="/about">About</Link>
                     </li>
                     <li>
-                        <Link to="/activate" />
+                        <Link to="/activate">Activate Helper Popups</Link>
                     </li>
                 </ul>
                 <div>
