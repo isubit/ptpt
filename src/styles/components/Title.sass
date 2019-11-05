@@ -1,3 +1,18 @@
 .Title
     display: flex
     align-items: center
+    .wide-logo
+        display: none
+    .narrow-logo
+        width: 100%
+        max-width: 82px
+        min-width: 63px
+
+@media (min-width: 900px) 
+    .Title
+        .narrow-logo
+            display: none
+        .wide-logo
+            display: block
+            width: 100%
+            max-width: 154px

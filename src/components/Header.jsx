@@ -42,55 +42,71 @@ export const OptionsDropdown = props => {
                     </div>
                 </React.Fragment>
             )
+        } else if (option == 'prairie') {
         }
 }
 
-export const HeaderOptions = props => {
-    return (
-        <React.Fragment>
-            <div className="HeaderOptions">
-                <ul>
-                    <li className="option">
-                        <Link to="/plant">
-                            <img src="../assets/plant_tree_option.svg"></img>
-                            <div className="option-name">
-                                <p>Plant</p>
-                                <p>Trees</p>
-                            </div>
-                        </Link>
-                        <OptionsDropdown option="tree"/>
-                    </li>                  
-                    <li className="option">
-                        <Link to="/plant">
-                            <img src="../assets/plant_prairie.svg"></img>
-                            <div className="option-name">
-                                <p>Plant</p>
-                                <p>Prairies</p>
-                            </div>
-                        </Link>
-                    </li>
-                    <li className="option">
-                        <Link>
-                            <img src="../assets/map_layers.svg"></img>
-                            <div className="option-name">
-                                <p>View Map</p>
-                                <p>Layers</p>
-                            </div>
-                        </Link>
-                    </li>
-                    <li className="option">
-                        <Link>
-                            <img src="../assets/view_report.svg"></img>
-                            <div className="option-name">
-                                <p>View</p>
-                                <p>Report</p>
-                            </div>
-                        </Link>
-                    </li>
-                </ul>
-            </div>
-        </React.Fragment>
-    )
+export class HeaderOptions extends React.Component {
+    constructor(props) {
+        super(props)
+        this.treeOption = React.createRef()
+        this.prairieOption = React.createRef()
+        this.layersOption = React.createRef()
+        this.reportOption = React.createRef()
+    }
+
+    addActiveClass(ref) {
+        ref.classList.add('active')
+    } 
+
+    render() {
+        return (
+            <React.Fragment>
+                <div className="HeaderOptions">
+                    <ul>
+                        <li className="option" ref={this.treeOption}>
+                            <Link to="/plant" onClick={() => this.addActiveClass(this.treeOption)}>
+                                <img className="tree-option-inactive" src="../assets/plant_tree_option.svg"></img>
+                                <img className="tree-option-active" src="../assets/tree_active.svg"></img>
+                                <div className="option-name">
+                                    <p>Plant</p>
+                                    <p>Trees</p>
+                                </div>
+                            </Link>
+                            <OptionsDropdown option="tree" />
+                        </li>                  
+                        <li className="option">
+                            <Link to="/plant">
+                                <img src="../assets/plant_prairie.svg"></img>
+                                <div className="option-name">
+                                    <p>Plant</p>
+                                    <p>Prairies</p>
+                                </div>
+                            </Link>
+                        </li>
+                        <li className="option">
+                            <Link>
+                                <img src="../assets/map_layers.svg"></img>
+                                <div className="option-name">
+                                    <p>View Map</p>
+                                    <p>Layers</p>
+                                </div>
+                            </Link>
+                        </li>
+                        <li className="option">
+                            <Link>
+                                <img src="../assets/view_report.svg"></img>
+                                <div className="option-name">
+                                    <p>View</p>
+                                    <p>Report</p>
+                                </div>
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+            </React.Fragment>
+        )
+    }
 }
 
 export const SearchBar = props => {
@@ -144,7 +160,7 @@ export class Header extends React.Component {
                         <HeaderOptions />
                         <SaveButton />
                     </div>
-                    <div className="grid-row save-btn">
+                    <div className="search-save-btn">
                         <SearchBar />
                         <SaveButton />
                     </div>
