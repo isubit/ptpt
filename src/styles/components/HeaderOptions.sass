@@ -1,11 +1,16 @@
 .HeaderOptions
-    ul
+    > ul
         margin: 0
         padding: 0
         display: flex
         justify-content: flex-end
+        display: grid
+        grid-template-columns: repeat(4, minmax(35px, 60px))
+        height: 100%
         .option
-            display: inline-block
+            display: flex
+            align-items: center
+            padding: 0px 4px
             a
                 display: block
                 margin: 0 auto
@@ -15,3 +20,41 @@
                     display: block
                     width: 100%
                     max-width: 45px
+            &.active
+                background-color: $blue-highlight
+
+
+@media (min-width: 400px)
+    .HeaderOptions
+        padding-right: 15px
+
+@media (min-width: 900px)
+     .HeaderOptions
+        padding-right: 0px
+        margin-left: 0
+        padding-left: 0
+        > ul 
+            grid-template-rows: 1fr
+            grid-template-columns: repeat(4, 1fr)
+            width: 100%
+            .option
+                grid-row: 1
+                width: 100%
+                padding: 0
+
+@media (min-width: 1280px)
+    .HeaderOptions
+        ul
+            .option
+                a
+                    .option-name
+                        display: inline-block
+                        vertical-align: middle
+                        padding-left: 5px
+                        p
+                            display: block
+                            margin: 0
+                            font-size: 0.683rem
+                    img
+                        display: inline-block
+                        vertical-align: middle

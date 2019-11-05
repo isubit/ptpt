@@ -2,27 +2,27 @@
     position: absolute
     top: 54px
     left: 0
-    width: 100%
-    background-color: #ffffff
-    border-top: 2px solid #006BA6
+    right: 0
+    background-color: $white-background
+    border-top: 2px solid $blue-highlight
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1)
     img
-        grid-column: 12 / 13
-        grid-row: 1 / 2
         width: 18px
-        margin-top: 16px
-        margin-right: 16px
+        position: absolute
+        top: 6px
+        right: 6px
+        padding: 10px
         cursor: pointer
     .dropdown-list
-        padding-top: 35px
+        margin-top: 27px
         grid-column: 1 / -1
-        grid-row: 1 / 2
         ul
             display: block
+            padding: 0
             li
-                margin: 0px 25px
                 a
                     text-decoration: none
-                    padding: 15px 0px
+                    font-size: 0.909rem
+                    padding: 13px 0px
                 &:last-child
                     border-top: 1px solid #ECF1F3
