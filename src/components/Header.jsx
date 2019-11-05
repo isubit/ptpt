@@ -16,6 +16,35 @@ export const SideNavButton = props => {
     )
 }
 
+export const OptionsDropdown = props => {
+        let option = props.option
+        if (option == 'tree') {
+            return (
+                <React.Fragment>
+                    <div className="OptionsDropdown grid-row">
+                        <img src="../assets/close_dropdown.svg"></img>
+                        <div className="dropdown-list">
+                            <ul>
+                                <li>
+                                    <Link to="/plant/tree_single">Plant Single Trees</Link>
+                                </li>
+                                <li>
+                                    <Link to="/plant/tree_row">Plant Tree Rows</Link>
+                                </li>
+                                <li>
+                                    <Link to="/plant/tree_plantation">Plant a Tree Plantation</Link>
+                                </li>
+                                <li>
+                                    <Link to="/upload">Upload a Shapefile</Link>
+                                </li>
+                            </ul>
+                        </div>       
+                    </div>
+                </React.Fragment>
+            )
+        }
+}
+
 export const HeaderOptions = props => {
     return (
         <React.Fragment>
@@ -29,6 +58,7 @@ export const HeaderOptions = props => {
                                 <p>Trees</p>
                             </div>
                         </Link>
+                        <OptionsDropdown option="tree"/>
                     </li>                  
                     <li className="option">
                         <Link to="/plant">
