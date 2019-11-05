@@ -22,16 +22,40 @@ export const HeaderOptions = props => {
             <div className="HeaderOptions">
                 <ul>
                     <li className="option">
-                        <img src="../assets/plant_tree_option.svg"></img>
+                        <Link to="/plant">
+                            <img src="../assets/plant_tree_option.svg"></img>
+                            <div className="option-name">
+                                <p>Plant</p>
+                                <p>Trees</p>
+                            </div>
+                        </Link>
+                    </li>                  
+                    <li className="option">
+                        <Link to="/plant">
+                            <img src="../assets/plant_prairie.svg"></img>
+                            <div className="option-name">
+                                <p>Plant</p>
+                                <p>Prairies</p>
+                            </div>
+                        </Link>
                     </li>
                     <li className="option">
-                        <img src="../assets/plant_prairie.svg"></img>
+                        <Link>
+                            <img src="../assets/map_layers.svg"></img>
+                            <div className="option-name">
+                                <p>View Map</p>
+                                <p>Layers</p>
+                            </div>
+                        </Link>
                     </li>
                     <li className="option">
-                        <img src="../assets/map_layers.svg"></img>
-                    </li>
-                    <li className="option">
-                        <img src="../assets/view_report.svg"></img>
+                        <Link>
+                            <img src="../assets/view_report.svg"></img>
+                            <div className="option-name">
+                                <p>View</p>
+                                <p>Report</p>
+                            </div>
+                        </Link>
                     </li>
                 </ul>
             </div>

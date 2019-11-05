@@ -5,113 +5,137 @@
     height: 99px
     background-color: #FFFFFF
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1)
-
-.Title
-    display: flex
-
-.SearchBar
-    input 
-        -webkit-box-sizing: border-box
-        -moz-box-sizing: border-box
-        box-sizing: border-box
-        width: 100%
-        -webkit-appearance: none
-        border: none
-        padding: 0 0px 0px 18px
-        height: 100%
-        background-color: #ECF1F3
-        &::-webkit-input-placeholder
-            font-family: Merriweather
-            font-style: italic
-            font-weight: normal
-            font-size: 14px
-            line-height: 18px
-
-.HeaderOptions
-    list-style: none
-    ul
-        margin: 0
-        padding: 0
-        display: flex
-        justify-content: flex-end
-        .option
-            display: inline-block
-            img 
-                display: block
-
-.SaveButton
-    a
-        img 
-            display: block
-
-.sidenav-btn
-    grid-template-columns: 54px repeat(11, 1fr)
-    .SideNav
-        grid-column: 1 / 2
-        a
-            display: block
-        img
-            display: block
-        .wide-sidenav
-            display: none
-    .Title
-        padding-left: 9px
-        grid-column: 2 / 5
-        .wide-logo
-            display: none
-        .narrow-logo
-            width: 100%
-            max-width: 82px
-    .SearchBar
-        display: none
-    .HeaderOptions
-        grid-column: 5 / -1
-        ul
-            .option
-                padding: 4px 5px 5px 5px
-    .SaveButton
-        display: none
-
-.save-btn
-    grid-template-columns: repeat(11, 1fr) 54px
-    .SearchBar
-        grid-column: 1 / 12
-        height: 45px
-    .SaveButton
-        grid-column: 12 / 13
-        .wide-save
-            display: none
+    .grid-row
+        &.sidenav-btn
+            grid-template-columns: repeat(3, auto) repeat(9, 1fr)
+            .SideNav
+                grid-column: 1 / 2
+                a
+                    display: block
+                img
+                    display: block
+                .wide-sidenav
+                    display: none
+            .Title
+                padding-left: 9px
+                grid-column: 2 / 4
+                .wide-logo
+                    display: none
+                .narrow-logo
+                    width: 100%
+                    max-width: 82px
+                    min-width: 63px
+            .SearchBar
+                display: none
+            .HeaderOptions
+                grid-column: 4 / -1
+                padding-right: 5px
+                padding-left: 15px
+                margin-left: auto
+                ul
+                    display: grid
+                    grid-template-columns: repeat(4, minmax(35px, 60px))
+                    height: 100%
+                    .option
+                        display: flex
+                        align-items: center
+                        padding: 0px 2px
+            .SaveButton
+                display: none
+        &.save-btn
+            grid-template-columns: repeat(11, 1fr) 54px
+            .SearchBar
+                grid-column: 1 / 12
+                height: 45px
+                input
+                    background-image: url('../assets/search_small.svg')
+            .SaveButton
+                grid-column: 12 / 13
+                .wide-save
+                    display: none
 
 @media (min-width: 400px)
-    .HeaderOptions
-        ul
-            .option
-                margin-right: 1%
-                margin-left: 1%
+    .Header
+        .grid-row
+            &.sidenav-btn
+                .HeaderOptions
+                    padding-right: 15px
 
 @media (min-width: 900px)
     .Header
         height: 72px
-    .grid-row
-        &.save-btn
-            display: none
-    .grid-row
-        &.sidenav-btn
-            grid-template-columns: 72px repeat(10, 1fr) 63px
-            .SideNav
-                .narrow-sidenav
-                    display: none
-                .wide-sidenav
+        .grid-row
+            &.save-btn
+                display: none
+            &.sidenav-btn
+                grid-template-columns: 72px 154px repeat(9, 1fr) 63px
+                .SideNav
+                    .narrow-sidenav
+                        display: none
+                    .wide-sidenav
+                        display: block
+                .Title
+                    padding-left: 18px
+                    grid-column: 2 / 3
+                    .narrow-logo
+                        display: none
+                    .wide-logo
+                        display: block
+                        width: 100%
+                        max-width: 154px
+                .SearchBar
                     display: block
-            .Title
-                .narrow-logo
-                    display: none
-                .wide-logo
+                    padding-bottom: 9px
+                    grid-column: 3 / 8
+                    padding-left: 20px
+                    padding-right: 10px
+                    padding-top: 9px
+                    input
+                        background-image: url('../assets/search_wide.svg')
+                .HeaderOptions
+                    grid-column: 8 / 12
+                    margin-left: 0
+                    padding-right: 10px
+                    padding-left: 0
+                    ul 
+                        display: grid
+                        grid-template-rows: 1fr
+                        grid-template-columns: repeat(4, 1fr)
+                        width: 100%
+                        .option
+                            grid-row: 1
+                            width: 100%
+                            padding: 0
+                .SaveButton
                     display: block
-            .SearchBar
-                display: block
-            .SaveButton
-                display: block
-                grid-column: 12 / 13
-                .narrow-save
-                    display: none
+                    grid-column: 12 / 13
+                    .narrow-save
+                        display: none
+
+@media (min-width: 1439px)
+    .Header
+        .grid-row
+            &.sidenav-btn
+                .Title
+                    grid-column: 2 / 3
+                .SearchBar
+                    grid-column: 3 / 8
+                    padding-left: 36px
+                    padding-right: 20px
+                .HeaderOptions
+                    padding-right: 20px
+                    ul
+                        .option
+                            a
+                                .option-name
+                                    display: inline-block
+                                    vertical-align: middle
+                                    padding-left: 5px
+                                    p
+                                        display: block
+                                        margin: 0
+                                        font-size: 1em
+                                img
+                                    display: inline-block
+                                    vertical-align: middle
+                
