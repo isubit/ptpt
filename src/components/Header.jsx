@@ -56,28 +56,57 @@ export class HeaderOptions extends React.Component {
                         prairieOptionActive: false,
                         layerOptionActive: false,
                         reportOptionActive: false
+            },
+            layerStates: {
+                ssurgo: false,
+                lidar: false,
+                contours: false,
+                satellite: false
             }
         }
+        this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
+    }
+
+    handleCheckboxChange(event) {
+        let checkboxName = event.target.name
+        let { layerStates } = this.state
+        // toggle on or off
+        layerStates[checkboxName] = !layerStates[checkboxName]
+        this.setState({
+            layerStates: {
+                ...layerStates
+            }
+        })
+    
     }
 
     toggleActiveClass(optionName) {
         let { optionStates } = this.state
-        // set everything to false
+        let prevActiveState;
+
         for (let key in optionStates) {
-            optionStates[key] = false
-        }
-        if (optionName == 'treeOption') {
-            optionStates.treeOptionActive = true
-        } else if (optionName == 'prairieOption') {
-            optionStates.prairieOptionActive = true
-        } else if (optionName == 'layerOption') {
-            optionStates.layerOptionActive = true
-        } else if (optionName == 'reportOption') {
-            optionStates.reportOptionActive = true
-        } else {
-            return
+            if (optionStates[key] == true) {
+                prevActiveState = key
+                break
+            }
         }
 
+        if (optionName == 'treeOption') {
+            optionStates.treeOptionActive = !optionStates.treeOptionActive 
+        } else if (optionName == 'prairieOption') {
+            optionStates.prairieOptionActive = !optionStates.prairieOptionActive
+        } else if (optionName == 'layerOption') {
+            optionStates.layerOptionActive = !optionStates.layerOptionActive 
+        } else if (optionName == 'reportOption') {
+            optionStates.reportOptionActive = !optionStates.reportOptionActive
+        }
+        
+        if (prevActiveState) {
+            if (!prevActiveState.includes(optionName)) {
+                optionStates[prevActiveState] = false
+            }
+        }
+        
         this.setState({ 
             optionStates: {
                 ...optionStates
@@ -93,6 +122,12 @@ export class HeaderOptions extends React.Component {
                 prairieOptionActive,
                 layerOptionActive,
                 reportOptionActive
+            },
+            layerStates: {
+                ssurgo,
+                satellite,
+                contours,
+                lidar
             }
         } = this.state
 
@@ -110,7 +145,7 @@ export class HeaderOptions extends React.Component {
                                 </div>
                             </Link>
                             <div className="OptionsDropdown grid-row">
-                                <img onClick={() => this.setState({optionStates: { ...optionStates, treeOptionActive: false }})} src="../assets/close_dropdown.svg"></img>
+                                <img onClick={() => this.toggleActiveClass('treeOption')} src="../assets/close_dropdown.svg"></img>
                                 <div className="dropdown-list">
                                     <ul>
                                         <li>
@@ -148,6 +183,29 @@ export class HeaderOptions extends React.Component {
                                     <p>Layers</p>
                                 </div>
                             </Link>
+                            <div className="OptionsDropdown grid-row">
+                                <img onClick={() => this.toggleActiveClass('layerOption')} src="../assets/close_dropdown.svg"></img>
+                                <div className="dropdown-checkbox">
+                                    <form>   
+                                            <label>
+                                                <input type="checkbox" name="ssurgo" onChange={this.handleCheckboxChange} />
+                                                gSSURGO - CSR
+                                            </label>    
+                                            <label>                                                          
+                                                <input type="checkbox" name="lidar" onChange={this.handleCheckboxChange}></input>
+                                                LiDAR Hillshade
+                                            </label> 
+                                            <label>
+                                                <input type="checkbox" name="contours" onChange={this.handleCheckboxChange}></input>
+                                                (2 ft contours)
+                                            </label>
+                                            <label>
+                                                <input type="checkbox" name="satellite" onChange={this.handleCheckboxChange}></input>
+                                                Satellite
+                                            </label>
+                                    </form>
+                                </div>
+                            </div>
                         </li>
                         <li className={reportOptionActive ? "option active" : "option" }>
                             <Link onClick={() => this.toggleActiveClass('reportOption')}>
