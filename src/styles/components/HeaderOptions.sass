@@ -28,9 +28,9 @@
                     .option-inactive
                         display: none
                     .option-active
-                        display: inline-block
+                        display: block
                 .OptionsDropdown
-                    display: block
+                    display: grid
 
 
 @media (min-width: 400px)
@@ -64,6 +64,11 @@
                             display: block
                             margin: 0
                             font-size: 0.683rem
-                    img
+                    .option-inactive
                         display: inline-block
                         vertical-align: middle
+                &.active
+                    a
+                        .option-active
+                            display: inline-block
+                            vertical-align: middle
