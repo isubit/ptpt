@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom';
 import { ReadStream } from 'tty';
+import { red } from 'ansi-colors';
 
 export const SideNavButton = props => {
     return (
@@ -49,53 +50,109 @@ export const OptionsDropdown = props => {
 export class HeaderOptions extends React.Component {
     constructor(props) {
         super(props)
-        this.treeOption = React.createRef()
-        this.prairieOption = React.createRef()
-        this.layersOption = React.createRef()
-        this.reportOption = React.createRef()
+        this.state = {
+            optionStates: {
+                        treeOptionActive: false,
+                        prairieOptionActive: false,
+                        layerOptionActive: false,
+                        reportOptionActive: false
+            }
+        }
     }
 
-    addActiveClass(ref) {
-        ref.classList.add('active')
+    toggleActiveClass(optionName) {
+        let { optionStates } = this.state
+        // set everything to false
+        for (let key in optionStates) {
+            optionStates[key] = false
+        }
+        if (optionName == 'treeOption') {
+            optionStates.treeOptionActive = true
+        } else if (optionName == 'prairieOption') {
+            optionStates.prairieOptionActive = true
+        } else if (optionName == 'layerOption') {
+            optionStates.layerOptionActive = true
+        } else if (optionName == 'reportOption') {
+            optionStates.reportOptionActive = true
+        } else {
+            return
+        }
+
+        this.setState({ 
+            optionStates: {
+                ...optionStates
+            }
+        })
     } 
 
     render() {
+        let { optionStates } = this.state
+        let { 
+            optionStates: {
+                treeOptionActive,
+                prairieOptionActive,
+                layerOptionActive,
+                reportOptionActive
+            }
+        } = this.state
+
         return (
             <React.Fragment>
                 <div className="HeaderOptions">
                     <ul>
-                        <li className="option" ref={this.treeOption}>
-                            <Link to="/plant" onClick={() => this.addActiveClass(this.treeOption)}>
-                                <img className="tree-option-inactive" src="../assets/plant_tree_option.svg"></img>
-                                <img className="tree-option-active" src="../assets/tree_active.svg"></img>
+                        <li className={treeOptionActive ? "option active" : "option" }>
+                            <Link to="/plant" onClick={() => this.toggleActiveClass('treeOption')}>
+                                <img className="option-inactive" src="../assets/plant_tree_option.svg"></img>
+                                <img className="option-active" src="../assets/tree_active.svg"></img>
                                 <div className="option-name">
                                     <p>Plant</p>
                                     <p>Trees</p>
                                 </div>
                             </Link>
-                            <OptionsDropdown option="tree" />
+                            <div className="OptionsDropdown grid-row">
+                                <img onClick={() => this.setState({optionStates: { ...optionStates, treeOptionActive: false }})} src="../assets/close_dropdown.svg"></img>
+                                <div className="dropdown-list">
+                                    <ul>
+                                        <li>
+                                            <Link to="/plant/tree_single">Plant Single Trees</Link>
+                                        </li>
+                                        <li>
+                                            <Link to="/plant/tree_row">Plant Tree Rows</Link>
+                                        </li>
+                                        <li>
+                                            <Link to="/plant/tree_plantation">Plant a Tree Plantation</Link>
+                                        </li>
+                                        <li>
+                                            <Link to="/upload">Upload a Shapefile</Link>
+                                        </li>
+                                    </ul>
+                                </div>       
+                            </div>
                         </li>                  
-                        <li className="option">
-                            <Link to="/plant">
-                                <img src="../assets/plant_prairie.svg"></img>
+                        <li className={prairieOptionActive ? "option active" : "option" }>
+                            <Link to="/plant" onClick={() => this.toggleActiveClass('prairieOption')}>
+                                <img className="option-inactive" src="../assets/plant_prairie.svg"></img>
+                                <img className="option-active" src="../assets/prairieOption_active.svg"></img>
                                 <div className="option-name">
                                     <p>Plant</p>
                                     <p>Prairies</p>
                                 </div>
                             </Link>
                         </li>
-                        <li className="option">
-                            <Link>
-                                <img src="../assets/map_layers.svg"></img>
+                        <li className={layerOptionActive ? "option active" : "option" }>
+                            <Link onClick={() => this.toggleActiveClass('layerOption')}>
+                                <img className="option-inactive" src="../assets/map_layers.svg"></img>
+                                <img className="option-active" src="../assets/layerOption_active.svg"></img>
                                 <div className="option-name">
                                     <p>View Map</p>
                                     <p>Layers</p>
                                 </div>
                             </Link>
                         </li>
-                        <li className="option">
-                            <Link>
-                                <img src="../assets/view_report.svg"></img>
+                        <li className={reportOptionActive ? "option active" : "option" }>
+                            <Link onClick={() => this.toggleActiveClass('reportOption')}>
+                                <img className="option-inactive" src="../assets/view_report.svg"></img>
+                                <img className="option-active" src="../assets/reportOption_active.svg"></img>
                                 <div className="option-name">
                                     <p>View</p>
                                     <p>Report</p>
