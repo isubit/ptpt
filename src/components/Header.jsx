@@ -1,7 +1,5 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom';
-import { ReadStream } from 'tty';
-import { red } from 'ansi-colors';
 
 export const SideNavButton = props => {
     return (
@@ -264,6 +262,7 @@ export const SaveButton = props => {
 export class Header extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {}
     }
 
     render() {
