@@ -3,11 +3,11 @@
     top: 54px
     left: 0
     right: 0
-    background-color: $white-background
-    border-top: 2px solid $blue-highlight
+    background-color: $white
+    border-top: 2px solid $bright-blue
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1)
     display: none
-    img
+    > img:first-of-type
         width: 18px
         position: absolute
         top: 6px
@@ -17,7 +17,9 @@
 
 @media (min-width: 900px) 
     .OptionsDropdown
-        width: 200px
+        &.grid-row
+            grid-column-gap: 0rem
+        width: 180px
         top: 72px
         padding: 0 1em
         left: auto

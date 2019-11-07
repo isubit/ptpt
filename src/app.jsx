@@ -17,7 +17,7 @@ const App = props => {
 				{/* These will always be visible, no addt'l routing required. */}
 				{/* The map is always mounted (but perhaps covered) to improve performance when route switching. */}
 				<Header />
-				{/* <Route path="/:action?/:type?/:step?" render={router => <MapWrapper router={router} />} /> */}
+				<Route path="/:action?/:type?/:step?" render={router => <MapWrapper router={router} />} />
 				{/* --- */}
 
 				{/* Routed components here. These will float over the map. */}
