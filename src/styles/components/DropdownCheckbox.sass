@@ -1,2 +1,16 @@
 .dropdown-checkbox
     @include dropdown-grid-columns
+    > div:last-of-type
+        margin-top: 1rem
+        margin-bottom: 3rem
+    > img:last-of-type
+        position: absolute
+        bottom: 18px
+        right: 18px
+        cursor: pointer
+
+@media (min-width: 900px)
+    .dropdown-checkbox
+        > div:last-of-type
+            margin: 0.5rem auto 2.5rem auto
+        

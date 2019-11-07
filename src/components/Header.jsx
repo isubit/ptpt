@@ -186,24 +186,26 @@ export class HeaderOptions extends React.Component {
                             <div className="OptionsDropdown grid-row">
                                 <img onClick={() => this.toggleActiveClass('layerOption')} src="../assets/close_dropdown.svg"></img>
                                 <div className="dropdown-checkbox">
-                                    <form>   
-                                            <label>
-                                                <input type="checkbox" name="ssurgo" onChange={this.handleCheckboxChange} />
-                                                gSSURGO - CSR
-                                            </label>    
-                                            <label>                                                          
-                                                <input type="checkbox" name="lidar" onChange={this.handleCheckboxChange}></input>
-                                                LiDAR Hillshade
-                                            </label> 
-                                            <label>
-                                                <input type="checkbox" name="contours" onChange={this.handleCheckboxChange}></input>
-                                                (2 ft contours)
-                                            </label>
-                                            <label>
-                                                <input type="checkbox" name="satellite" onChange={this.handleCheckboxChange}></input>
-                                                Satellite
-                                            </label>
-                                    </form>
+                                    <label>
+                                        <input type="checkbox" name="ssurgo" onChange={this.handleCheckboxChange} />
+                                        <span>gSSURGO - CSR</span>
+                                    </label>    
+                                    <label>                                                          
+                                        <input type="checkbox" name="lidar" onChange={this.handleCheckboxChange}></input>
+                                        <span>LiDAR Hillshade</span>
+                                    </label> 
+                                    <label>
+                                        <input type="checkbox" name="contours" onChange={this.handleCheckboxChange}></input>
+                                        <span>(2 ft contours)</span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="satellite" onChange={this.handleCheckboxChange}></input>
+                                        <span>Satellite</span>
+                                    </label>
+                                    <div className="Button">
+                                        <span>Add A Map Layer</span>
+                                    </div>
+                                    <img src="../assets/question-mark.svg"></img>
                                 </div>
                             </div>
                         </li>
