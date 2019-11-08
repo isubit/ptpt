@@ -8,14 +8,13 @@
     .grid-row
         &.sidenav-btn
             padding: 0
-            .SideNav
+            .SideNavButton
                 grid-column: 1 / 2
-                a
+                cursor: pointer
+                img
                     display: block
-                    img
-                        display: block
-                    .wide-sidenav
-                        display: none
+                .wide-sidenav
+                    display: none
             .Title
                 grid-column: 2 / 4
             .SearchBar
@@ -34,12 +33,11 @@
         height: 72px
         .grid-row
             &.sidenav-btn
-                .SideNav
-                    a
-                        .narrow-sidenav
-                            display: none
-                        .wide-sidenav
-                            display: block
+                .SideNavButton
+                    .narrow-sidenav
+                        display: none
+                    .wide-sidenav
+                        display: block
                 .Title
                     grid-column: 2 / 4
                 .SearchBar
