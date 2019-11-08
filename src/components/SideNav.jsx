@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 export const NavOptions = props => {
     return (
         <React.Fragment>
-            <div className="NavOptions">
+            <div className="NavOptions grid-row">
                 <div>
                     <img src="../assets/sidebar-close.svg"></img>
                 </div>
