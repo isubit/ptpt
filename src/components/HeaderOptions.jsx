@@ -7,7 +7,7 @@ export const OptionsDropdown = props => {
         return (
             <React.Fragment>
                 <div className="OptionsDropdown grid-row">
-                    <img src="../assets/close_dropdown.svg"></img>
+                    <img className="CloseButton" src="../assets/close_dropdown.svg"></img>
                     <div className="dropdown-list">
                         <ul>
                             <li>
@@ -129,7 +129,7 @@ render() {
                             </div>
                         </Link>
                         <div className="OptionsDropdown grid-row">
-                            <img onClick={() => this.toggleActiveClass('treeOption')} src="../assets/close_dropdown.svg"></img>
+                            <img className="CloseButton" onClick={() => this.toggleActiveClass('treeOption')} src="../assets/close_dropdown.svg"></img>
                             <div className="dropdown-list">
                                 <ul>
                                     <li>
@@ -168,7 +168,7 @@ render() {
                             </div>
                         </Link>
                         <div className="OptionsDropdown grid-row">
-                            <img onClick={() => this.toggleActiveClass('layerOption')} src="../assets/close_dropdown.svg"></img>
+                            <img className="CloseButton" onClick={() => this.toggleActiveClass('layerOption')} src="../assets/close_dropdown.svg"></img>
                             <div className="dropdown-checkbox">
                                 <label>
                                     <input type="checkbox" name="ssurgo" onChange={this.handleCheckboxChange} />

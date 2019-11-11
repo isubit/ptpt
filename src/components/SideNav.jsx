@@ -21,7 +21,7 @@ export class SideNav extends React.Component {
                     <img className="wide-sidenav" src="../assets/sidenav_wide.svg"></img>
                 </div>
                 <div className={isNavOpen ? "NavOptions grid-row active" : "NavOptions grid-row"}>
-                    <img onClick={this.toggleNav} src="../assets/sidebar-close.svg"></img>
+                    <img className="CloseButton" onClick={this.toggleNav} src="../assets/sidebar-close.svg"></img>
                     <div className="grid-wrap">
                         <ul>
                             <li>
