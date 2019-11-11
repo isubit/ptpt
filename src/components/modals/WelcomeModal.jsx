@@ -4,7 +4,13 @@ import { Link } from 'react-router-dom'
 export class WelcomeModal extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { isDisplayed: this.props.isDisplayed }
+        this.state = { isDisplayed: true }
+        this.toggleWelcomeModal = this.toggleWelcomeModal.bind(this)
+    }
+
+    toggleWelcomeModal() {
+        let { isDisplayed } = this.state
+        this.setState({ isDisplayed: !isDisplayed })
     }
 
     render() {
@@ -13,7 +19,7 @@ export class WelcomeModal extends React.Component {
             <React.Fragment>
                 <div className={isDisplayed ? "WelcomeModal active grid-row" : "WelcomeModal grid-row"}>
                     <div className="grid-wrap">
-                        <img className="CloseButton" src="../../assets/close_dropdown.svg"></img>
+                        <img className="CloseButton" onClick={this.toggleWelcomeModal} src="../../assets/close_dropdown.svg"></img>
                         <h2 className="modal-header">Welcome to the Prairie & Tree Planting Tool</h2>
                         <p className="modal-text">To get started, you can use your current location, 
                             add a location or address in the bar above. You 
@@ -23,7 +29,7 @@ export class WelcomeModal extends React.Component {
                             If you need additional help, you can read the help <Link to="/help">help documentation</Link>.
                         </p>
                         <div>
-                            <span>Dismiss helper popups</span>
+                            <span className="modal-link">Dismiss helper popups</span>
                             <div className="Button">
                                 <span>Let's Get Started</span>
                             </div>

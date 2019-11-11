@@ -4,6 +4,7 @@
     top: 0
     z-index: 1
     background-color: $white
+    display: none
     .grid-wrap
         > div:last-of-type
             position: absolute
@@ -15,3 +16,15 @@
             justify-content: space-between
             bottom: 0
             padding: 1.5rem
+            background-color: $light-blue
+    &.active
+        display: grid
+
+@media (min-width: 900px) 
+    .WelcomeModal
+        height: 450px
+    &.grid-row
+        background-color: transparent
+        .grid-wrap
+            grid-column: 2 / 12
+            background-color: $white
