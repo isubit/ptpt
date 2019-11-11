@@ -154,7 +154,6 @@ export class MapComponent extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Route path="/welcome" render={() => <h4>Welcome! Get Started...</h4>}/>
                 <div className="Map" ref={this.mapElement}></div>
             </React.Fragment>
         );
