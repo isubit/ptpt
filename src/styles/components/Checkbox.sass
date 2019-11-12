@@ -1,0 +1,34 @@
+label
+    display: block
+    input[type="checkbox"] 
+        -webkit-appearance: none
+        border-radius: 3px
+        border: 1px solid $grey
+        width: 18px
+        box-sizing: border-box
+        height: 18px
+        margin: 0px 0.5rem 0px 0px
+        vertical-align: middle
+        &:focus
+            border: 1px solid $black
+            outline: none
+            + span
+                color: black
+        &:checked
+            background-color: $bright-blue
+            background-image: url('../assets/checkmark.svg')
+            background-repeat: no-repeat
+            border: 1px solid $bright-blue
+            + span
+                color: $black
+        &:disabled
+            background-color: $light-blue
+            border: 1px solid $light-blue
+            + span
+                color: $medium-grey
+    span
+        font-size: .909rem
+        color: $cool-grey
+        line-height: 2rem
+
+            

@@ -1,0 +1,32 @@
+@mixin dropdown-grid-columns()
+    margin-top: 1.5em
+    grid-column: 1 / -1
+
+.modal-header
+    padding-bottom: 1rem
+    position: relative
+    &::after
+        content: ''
+        position: absolute
+        bottom: -2px
+        left: 0
+        height: 2px
+        width: 135px
+        background-color: $dark-green
+
+.modal-text
+    padding-top: 1.5rem
+
+.modal-link
+    font-family: Merriweather
+    font-style: italic
+    font-weight: normal
+    font-size: 0.751rem
+    line-height: 21px
+    text-decoration-line: underline
+    color: $bright-blue
+
+@media (min-width: 900px)
+    .modal-header
+        &::after            
+            left: 2rem

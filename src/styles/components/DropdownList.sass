@@ -1,0 +1,26 @@
+.dropdown-list
+        @include dropdown-grid-columns
+        ul
+            display: block
+            padding: 0
+            li
+                a
+                    text-decoration: none
+                    font-size: 0.909rem
+                    line-height: 2.75em
+                &:last-child
+                    border-top: 1px solid #ECF1F3
+                    padding: 1em 0
+                    a 
+                        line-height: 1.5em
+                        
+@media (min-width: 900px)
+    .dropdown-list
+        margin-top: 1em
+        ul
+            li
+                a
+                    line-height: 2em
+                    padding: 0
+                &:nth-of-type(3)
+                    padding-bottom: 1em

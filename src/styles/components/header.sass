@@ -1,15 +1,66 @@
 .Header
+    position: relative
+    z-index: 1
     width: 100%
-    // height: 60px
+    height: 99px
+    background-color: $white
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1)
+    .grid-row
+        &.sidenav-btn
+            padding: 0
+            .SideNavButton
+                grid-column: 1 / 2
+                cursor: pointer
+                img
+                    display: block
+                .wide-sidenav
+                    display: none
+            .Title
+                grid-column: 2 / 4
+            .SearchBar
+                display: none
+            .HeaderOptions
+                grid-column: 4 / -1
+            .SaveButton
+                display: none
+    .search-save-btn
+        .SaveButton
+            .wide-save
+                display: none
 
-.SideNav
-    grid-area: s
+@media (min-width: 900px)
+    .Header
+        height: 72px
+        .grid-row
+            &.sidenav-btn
+                .SideNavButton
+                    .narrow-sidenav
+                        display: none
+                    .wide-sidenav
+                        display: block
+                .Title
+                    grid-column: 2 / 4
+                .SearchBar
+                    grid-column: 4 / 8
+                    display: block
+                .HeaderOptions
+                    grid-column: 8 / 12
+                .SaveButton
+                    display: block
+                    .narrow-save
+                        display: none
+        .search-save-btn
+                display: none
 
-.Searchbar
-    grid-area: b
-
-.Title
-    grid-area: t
-
-.HeaderOptions
-    grid-area: o
+@media (min-width: 1280px)
+    .Header
+        .grid-row
+            &.sidenav-btn
+                .Title
+                    grid-column: 2 / 4
+                .SearchBar
+                    grid-column: 4 / 9
+                .HeaderOptions
+                    grid-column: 9 / 14
+                    
+                

@@ -1,44 +1,14 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom';
 
-export const SideNavButton = props => {
-    return (
-        <React.Fragment>
-            <div class="SideNav">
-                <Link to="/sidenav">side nav</Link>
-            </div>
-        </React.Fragment>
-    )
-}
-
-export const HeaderOptions = props => {
-    return (
-        <React.Fragment>
-            <ul className="HeaderOptions">
-                <li className="option">
-                    <img src="https://via.placeholder.com/30x30?text=Option"></img>
-                    <Link to="/plant/tree_single">Plant Single Tree (test)</Link>
-                </li>
-                <li className="option">
-                    <img src="https://via.placeholder.com/30x30?text=Option"></img>
-                    <Link to="/plant/tree_row">Plant Row of Trees</Link>
-                </li>
-                <li className="option">
-                    <img src="https://via.placeholder.com/30x30?text=Option"></img>
-                </li>
-                <li className="option">
-                    <img src="https://via.placeholder.com/30x30?text=Option"></img>
-                </li>
-            </ul>
-        </React.Fragment>
-    )
-}
+import { SideNav } from './SideNav.jsx'
+import { HeaderOptions } from './HeaderOptions.jsx'
 
 export const SearchBar = props => {
     return (
         //MapConsumer here?
         <React.Fragment>
-            <div class="Searchbar">
+            <div className="SearchBar">
                 <input placeholder="Enter a location or address"></input>
             </div>
         </React.Fragment>
@@ -49,28 +19,47 @@ export const Title = props => {
     return (
         <React.Fragment>
             <div className="Title">
-                <p>PRAIRIE & TREE</p>
-                <p>Planting Tool</p>
+                <img className="narrow-logo" src="../assets/narrow_logo.svg"></img>
+                <img className="wide-logo" src="../assets/wide_logo.svg"></img>
             </div>
         </React.Fragment>
     )
 }
 
+export const SaveButton = props => {
+    return (
+        <React.Fragment>
+            <div className="SaveButton">
+                <Link to="/save">
+                    <img className="narrow-save" src="../assets/save_narrow.svg"></img>
+                    <img className="wide-save" src="../assets/save_wide.svg"></img>
+                </Link>
+            </div>
+        </React.Fragment>
+    )
+}
 
 export class Header extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {}
     }
 
     render() {
         return (
             <React.Fragment>
-                <div className="Header grid">
-                    <SideNavButton />
-                    <Title />
-                    <HeaderOptions />
-                    <SearchBar />
-                    <div className="save-button"><img src="https://via.placeholder.com/35x35?text=Save"></img></div>
+                <div className="Header">
+                    <div className="grid-row sidenav-btn">
+                        <SideNav />
+                        <Title />
+                        <SearchBar />
+                        <HeaderOptions />
+                        <SaveButton />
+                    </div>
+                    <div className="search-save-btn">
+                        <SearchBar />
+                        <SaveButton />
+                    </div>
                 </div>
             </React.Fragment>
         );

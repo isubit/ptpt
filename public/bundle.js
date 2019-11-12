@@ -6046,8 +6046,13 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 // Imports
 exports.i(__webpack_require__(/*! -!../../node_modules/css-loader/dist/cjs.js!@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css"), "");
 exports.i(__webpack_require__(/*! -!../../node_modules/css-loader/dist/cjs.js!mapbox-gl/dist/mapbox-gl.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/mapbox-gl/dist/mapbox-gl.css"), "");
+exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Merriweather:400i&display=swap);", ""]);
+var getUrl = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/getUrl.js */ "./node_modules/css-loader/dist/runtime/getUrl.js");
+var ___CSS_LOADER_URL___0___ = getUrl(__webpack_require__(/*! ../assets/search_small.svg */ "./src/assets/search_small.svg"));
+var ___CSS_LOADER_URL___1___ = getUrl(__webpack_require__(/*! ../assets/search_wide.svg */ "./src/assets/search_wide.svg"));
+var ___CSS_LOADER_URL___2___ = getUrl(__webpack_require__(/*! ../assets/checkmark.svg */ "./src/assets/checkmark.svg"));
 // Module
-exports.push([module.i, ".Header {\n  width: 100%; }\n\n.Map {\n  width: 100%;\n  height: 100vh; }\n", ""]);
+exports.push([module.i, ".grid-row {\n  display: grid;\n  grid-template-columns: repeat(6, 1fr);\n  grid-column-gap: 1rem;\n  padding: 0px 5.625%;\n  max-width: 1680px; }\n\n@media (min-width: 900px) {\n  .grid-row {\n    grid-template-columns: repeat(12, 1fr); } }\n\n@media (min-width: 1280px) {\n  .grid-row {\n    grid-template-columns: repeat(14, 1fr);\n    padding: 0px 2.5%; } }\n\n.Map {\n  width: 100%;\n  height: calc(100vh - 99px); }\n\n@media (min-width: 900px) {\n  .Map {\n    height: calc(100vh - 72px); } }\n\n.HeaderOptions > ul {\n  margin: 0;\n  padding: 0;\n  display: flex;\n  justify-content: flex-end;\n  display: grid;\n  grid-template-columns: repeat(4, minmax(35px, 60px));\n  height: 100%; }\n  .HeaderOptions > ul .option {\n    display: flex;\n    align-items: center;\n    padding: 0px 4px; }\n    .HeaderOptions > ul .option a {\n      display: block;\n      margin: 0 auto; }\n      .HeaderOptions > ul .option a .option-active {\n        display: none; }\n      .HeaderOptions > ul .option a .option-name {\n        display: none; }\n      .HeaderOptions > ul .option a img {\n        display: block;\n        width: 100%;\n        max-width: 45px; }\n    .HeaderOptions > ul .option.active {\n      background-color: #006BA6; }\n      .HeaderOptions > ul .option.active a .option-inactive {\n        display: none; }\n      .HeaderOptions > ul .option.active a .option-active {\n        display: block; }\n      .HeaderOptions > ul .option.active .OptionsDropdown {\n        display: grid; }\n\n@media (min-width: 400px) {\n  .HeaderOptions {\n    padding-right: 15px; } }\n\n@media (min-width: 900px) {\n  .HeaderOptions {\n    padding-right: 0px;\n    margin-left: 0;\n    padding-left: 0; }\n    .HeaderOptions > ul {\n      grid-template-rows: 1fr;\n      grid-template-columns: repeat(4, 1fr);\n      width: 100%; }\n      .HeaderOptions > ul .option {\n        grid-row: 1;\n        width: 100%;\n        padding: 0; } }\n\n@media (min-width: 1280px) {\n  .HeaderOptions ul .option a .option-name {\n    display: inline-block;\n    vertical-align: middle;\n    padding-left: 5px; }\n    .HeaderOptions ul .option a .option-name p {\n      display: block;\n      margin: 0;\n      font-size: 0.683rem; }\n  .HeaderOptions ul .option a .option-inactive {\n    display: inline-block;\n    vertical-align: middle; }\n  .HeaderOptions ul .option.active a .option-active {\n    display: inline-block;\n    vertical-align: middle; } }\n\n.SaveButton {\n  display: inline-block; }\n  .SaveButton a img {\n    display: block;\n    margin-left: auto; }\n\n.SearchBar {\n  width: calc(100% - 54px);\n  height: 45px;\n  vertical-align: top;\n  display: inline-block; }\n  .SearchBar input {\n    width: 100%;\n    height: 100%;\n    -webkit-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    box-sizing: border-box;\n    -webkit-appearance: none;\n    border: none;\n    padding: 0 0px 0px 18px;\n    background-color: #ECF1F3;\n    background-repeat: no-repeat;\n    background-position: 95%;\n    background-image: url(" + ___CSS_LOADER_URL___0___ + "); }\n    .SearchBar input::-webkit-input-placeholder {\n      font-family: Merriweather;\n      font-style: italic;\n      font-weight: normal;\n      font-size: 0.683rem;\n      line-height: 1rem; }\n\n@media (min-width: 900px) {\n  .SearchBar {\n    height: auto;\n    width: auto;\n    padding-bottom: 9px;\n    padding-top: 9px; }\n    .SearchBar input {\n      background-image: url(" + ___CSS_LOADER_URL___1___ + "); }\n      .SearchBar input::-webkit-input-placeholder {\n        font-size: 0.826rem; } }\n\n.Title {\n  display: flex;\n  align-items: center; }\n  .Title .wide-logo {\n    display: none; }\n  .Title .narrow-logo {\n    width: 100%;\n    max-width: 82px;\n    min-width: 63px; }\n\n@media (min-width: 900px) {\n  .Title .narrow-logo {\n    display: none; }\n  .Title .wide-logo {\n    display: block;\n    width: 100%;\n    max-width: 154px; } }\n\n.OptionsDropdown {\n  position: absolute;\n  top: 54px;\n  left: 0;\n  right: 0;\n  background-color: #FFFFFF;\n  border-top: 2px solid #006BA6;\n  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);\n  display: none; }\n  .OptionsDropdown > img:first-of-type {\n    width: 18px;\n    position: absolute;\n    top: 6px;\n    right: 6px;\n    padding: 10px;\n    cursor: pointer; }\n\n@media (min-width: 900px) {\n  .OptionsDropdown {\n    width: 180px;\n    top: 72px;\n    padding: 0 1em;\n    left: auto;\n    right: auto; }\n    .OptionsDropdown.grid-row {\n      grid-column-gap: 0rem; }\n    .OptionsDropdown > img:first-of-type {\n      display: none; } }\n\n.dropdown-list {\n  margin-top: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-list ul {\n    display: block;\n    padding: 0; }\n    .dropdown-list ul li a {\n      text-decoration: none;\n      font-size: 0.909rem;\n      line-height: 2.75em; }\n    .dropdown-list ul li:last-child {\n      border-top: 1px solid #ECF1F3;\n      padding: 1em 0; }\n      .dropdown-list ul li:last-child a {\n        line-height: 1.5em; }\n\n@media (min-width: 900px) {\n  .dropdown-list {\n    margin-top: 1em; }\n    .dropdown-list ul li a {\n      line-height: 2em;\n      padding: 0; }\n    .dropdown-list ul li:nth-of-type(3) {\n      padding-bottom: 1em; } }\n\nlabel {\n  display: block; }\n  label input[type=\"checkbox\"] {\n    -webkit-appearance: none;\n    border-radius: 3px;\n    border: 1px solid #A8ACAE;\n    width: 18px;\n    box-sizing: border-box;\n    height: 18px;\n    margin: 0px 0.5rem 0px 0px;\n    vertical-align: middle; }\n    label input[type=\"checkbox\"]:focus {\n      border: 1px solid #333333;\n      outline: none; }\n      label input[type=\"checkbox\"]:focus + span {\n        color: black; }\n    label input[type=\"checkbox\"]:checked {\n      background-color: #006BA6;\n      background-image: url(" + ___CSS_LOADER_URL___2___ + ");\n      background-repeat: no-repeat;\n      border: 1px solid #006BA6; }\n      label input[type=\"checkbox\"]:checked + span {\n        color: #333333; }\n    label input[type=\"checkbox\"]:disabled {\n      background-color: #ECF1F3;\n      border: 1px solid #ECF1F3; }\n      label input[type=\"checkbox\"]:disabled + span {\n        color: #A8ACAE; }\n  label span {\n    font-size: .909rem;\n    color: #707372;\n    line-height: 2rem; }\n\n.dropdown-checkbox {\n  margin-top: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-checkbox > div:last-of-type {\n    margin-top: 1rem;\n    margin-bottom: 3rem; }\n  .dropdown-checkbox > img:last-of-type {\n    position: absolute;\n    bottom: 18px;\n    right: 18px;\n    cursor: pointer; }\n\n@media (min-width: 900px) {\n  .dropdown-checkbox > div:last-of-type {\n    margin: 0.5rem auto 2.5rem auto; }\n  .dropdown-checkbox .Button {\n    display: block;\n    text-align: center; }\n  .dropdown-checkbox > img:last-of-type {\n    bottom: 9px;\n    right: 9px; } }\n\n.Button {\n  padding: 0.5rem 22px;\n  font-size: .909rem;\n  display: inline-block;\n  border-radius: 5px;\n  background-color: #006BA6;\n  cursor: pointer; }\n  .Button span {\n    color: white; }\n\n.NavOptions {\n  position: absolute;\n  height: 100vh;\n  background-color: #3E4827;\n  display: none;\n  z-index: 10; }\n  .NavOptions.active {\n    display: block; }\n  .NavOptions > img:first-of-type {\n    position: absolute;\n    top: 18px;\n    right: 18px;\n    cursor: pointer; }\n  .NavOptions .grid-wrap {\n    padding-top: 4rem;\n    grid-column: 1 / -1; }\n    .NavOptions .grid-wrap ul {\n      border-bottom: 2px solid #656D52;\n      padding-bottom: 1rem; }\n      .NavOptions .grid-wrap ul li a {\n        line-height: 2.75rem;\n        text-decoration: none;\n        color: #FFFFFF;\n        font-size: .909rem; }\n    .NavOptions .grid-wrap div p {\n      margin: 0;\n      font-family: Merriweather;\n      font-style: italic;\n      color: #FFFFFF;\n      font-size: 0.683rem;\n      line-height: 1rem;\n      padding-top: 1.5rem; }\n\n@media (min-width: 900px) {\n  .NavOptions {\n    width: 300px; } }\n\n.Header {\n  position: relative;\n  z-index: 1;\n  width: 100%;\n  height: 99px;\n  background-color: #FFFFFF;\n  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); }\n  .Header .grid-row.sidenav-btn {\n    padding: 0; }\n    .Header .grid-row.sidenav-btn .SideNavButton {\n      grid-column: 1 / 2;\n      cursor: pointer; }\n      .Header .grid-row.sidenav-btn .SideNavButton img {\n        display: block; }\n      .Header .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n        display: none; }\n    .Header .grid-row.sidenav-btn .Title {\n      grid-column: 2 / 4; }\n    .Header .grid-row.sidenav-btn .SearchBar {\n      display: none; }\n    .Header .grid-row.sidenav-btn .HeaderOptions {\n      grid-column: 4 / -1; }\n    .Header .grid-row.sidenav-btn .SaveButton {\n      display: none; }\n  .Header .search-save-btn .SaveButton .wide-save {\n    display: none; }\n\n@media (min-width: 900px) {\n  .Header {\n    height: 72px; }\n    .Header .grid-row.sidenav-btn .SideNavButton .narrow-sidenav {\n      display: none; }\n    .Header .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n      display: block; }\n    .Header .grid-row.sidenav-btn .Title {\n      grid-column: 2 / 4; }\n    .Header .grid-row.sidenav-btn .SearchBar {\n      grid-column: 4 / 8;\n      display: block; }\n    .Header .grid-row.sidenav-btn .HeaderOptions {\n      grid-column: 8 / 12; }\n    .Header .grid-row.sidenav-btn .SaveButton {\n      display: block; }\n      .Header .grid-row.sidenav-btn .SaveButton .narrow-save {\n        display: none; }\n    .Header .search-save-btn {\n      display: none; } }\n\n@media (min-width: 1280px) {\n  .Header .grid-row.sidenav-btn .Title {\n    grid-column: 2 / 4; }\n  .Header .grid-row.sidenav-btn .SearchBar {\n    grid-column: 4 / 9; }\n  .Header .grid-row.sidenav-btn .HeaderOptions {\n    grid-column: 9 / 14; } }\n\nhtml, body {\n  font-size: 18px;\n  font-family: Nimbus Sans;\n  margin: 0;\n  min-width: 305px; }\n\nul {\n  list-style: none;\n  padding: 0;\n  margin: 0; }\n\nh1 {\n  font-size: 1.464rem; }\n\nh2 {\n  font-size: 1.331rem; }\n\nh3 {\n  font-size: 1rem; }\n\nh4 {\n  font-size: 0.909rem; }\n", ""]);
 
 
 /***/ }),
@@ -6150,6 +6155,41 @@ function toComment(sourceMap) {
   var data = "sourceMappingURL=data:application/json;charset=utf-8;base64,".concat(base64);
   return "/*# ".concat(data, " */");
 }
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/runtime/getUrl.js":
+/*!********************************************************!*\
+  !*** ./node_modules/css-loader/dist/runtime/getUrl.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function (url, needQuotes) {
+  // eslint-disable-next-line no-underscore-dangle, no-param-reassign
+  url = url.__esModule ? url.default : url;
+
+  if (typeof url !== 'string') {
+    return url;
+  } // If url is already wrapped in quotes, remove them
+
+
+  if (/^['"].*['"]$/.test(url)) {
+    // eslint-disable-next-line no-param-reassign
+    url = url.slice(1, -1);
+  } // Should url be wrapped?
+  // See https://drafts.csswg.org/css-values-3/#urls
+
+
+  if (/["'() \t\n]/.test(url) || needQuotes) {
+    return "\"".concat(url.replace(/"/g, '\\"').replace(/\n/g, '\\n'), "\"");
+  }
+
+  return url;
+};
 
 /***/ }),
 
@@ -45990,8 +46030,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var components_MapComponent_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! components/MapComponent.jsx */ "./src/components/MapComponent.jsx");
 /* harmony import */ var contexts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! contexts */ "./src/contexts/index.js");
 /* harmony import */ var components_Header_jsx__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! components/Header.jsx */ "./src/components/Header.jsx");
+/* harmony import */ var components_SideNav_jsx__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! components/SideNav.jsx */ "./src/components/SideNav.jsx");
 
  // import { Router, Route, IndexRoute, Redirect, browserHistory } from 'react-router';
+
 
 
 
@@ -46019,23 +46061,57 @@ react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_
 
 /***/ }),
 
+/***/ "./src/assets/checkmark.svg":
+/*!**********************************!*\
+  !*** ./src/assets/checkmark.svg ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCAxNiAxMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuMDg0NzEgOS40Njc1NkwxLjI5MTY0IDUuNzM2MDJMMCA2Ljk5Nzc2TDUuMDg0NzEgMTJMMTYgMS4yNjE3NEwxNC43MTc1IDBMNS4wODQ3MSA5LjQ2NzU2WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cg=="
+
+/***/ }),
+
+/***/ "./src/assets/search_small.svg":
+/*!*************************************!*\
+  !*** ./src/assets/search_small.svg ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkiIGhlaWdodD0iMTkiIHZpZXdCb3g9IjAgMCAxOSAxOSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE1IDcuOTk5OTlDMTUgMTEuODY2IDExLjg2NiAxNSA3Ljk5OTk5IDE1QzQuMTM0IDE1IDEgMTEuODY2IDEgNy45OTk5OUMxIDQuMTM0IDQuMTM0IDEgNy45OTk5OSAxQzExLjg2NiAxIDE1IDQuMTM0IDE1IDcuOTk5OTlaIiBzdHJva2U9IiMwMDZCQTYiIHN0cm9rZS13aWR0aD0iMiIvPgo8cGF0aCBkPSJNMTMgMTNMMTggMTgiIHN0cm9rZT0iIzAwNkJBNiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPgo="
+
+/***/ }),
+
+/***/ "./src/assets/search_wide.svg":
+/*!************************************!*\
+  !*** ./src/assets/search_wide.svg ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgiIGhlaWdodD0iMjgiIHZpZXdCb3g9IjAgMCAyOCAyOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIzLjAwMDcgMTIuMDAwNEMyMy4wMDA3IDE4LjA3NTcgMTguMDc1NyAyMy4wMDA3IDEyLjAwMDQgMjMuMDAwN0M1LjkyNTAzIDIzLjAwMDcgMSAxOC4wNzU3IDEgMTIuMDAwNEMxIDUuOTI1MDMgNS45MjUwMyAxIDEyLjAwMDQgMUMxOC4wNzU3IDEgMjMuMDAwNyA1LjkyNTAzIDIzLjAwMDcgMTIuMDAwNFoiIHN0cm9rZT0iIzAwNkJBNiIgc3Ryb2tlLXdpZHRoPSIyIi8+CjxwYXRoIGQ9Ik0xOS41MDA2IDE5LjUwMDZMMjcuMDAwOCAyNy4wMDA5IiBzdHJva2U9IiMwMDZCQTYiIHN0cm9rZS13aWR0aD0iMiIvPgo8L3N2Zz4K"
+
+/***/ }),
+
 /***/ "./src/components/Header.jsx":
 /*!***********************************!*\
   !*** ./src/components/Header.jsx ***!
   \***********************************/
-/*! exports provided: SideNavButton, HeaderOptions, SearchBar, Title, Header */
+/*! exports provided: SearchBar, Title, SaveButton, Header */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SideNavButton", function() { return SideNavButton; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HeaderOptions", function() { return HeaderOptions; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SearchBar", function() { return SearchBar; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Title", function() { return Title; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SaveButton", function() { return SaveButton; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Header", function() { return Header; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _SideNav_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SideNav.jsx */ "./src/components/SideNav.jsx");
+/* harmony import */ var _HeaderOptions_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./HeaderOptions.jsx */ "./src/components/HeaderOptions.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -46056,45 +46132,40 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
-var SideNavButton = function SideNavButton(props) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/sidenav"
-  }, "side nav");
-};
-var HeaderOptions = function HeaderOptions(props) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-    className: "header-options"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    className: "option"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "https://via.placeholder.com/30x30?text=Option"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-    to: "/plant/tree_single"
-  }, "Plant Single Tree (test)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    className: "option"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "https://via.placeholder.com/30x30?text=Option"
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    className: "option"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "https://via.placeholder.com/30x30?text=Option"
-  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
-    className: "option"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "https://via.placeholder.com/30x30?text=Option"
-  }))));
-};
+
+
 var SearchBar = function SearchBar(props) {
   return (//MapConsumer here?
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "SearchBar"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
       placeholder: "Enter a location or address"
-    }))
+    })))
   );
 };
 var Title = function Title(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "title"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "PRAIRIE & TREE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Planting Tool")));
+    className: "Title"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    className: "narrow-logo",
+    src: "../assets/narrow_logo.svg"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    className: "wide-logo",
+    src: "../assets/wide_logo.svg"
+  })));
+};
+var SaveButton = function SaveButton(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "SaveButton"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/save"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    className: "narrow-save",
+    src: "../assets/save_narrow.svg"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    className: "wide-save",
+    src: "../assets/save_wide.svg"
+  }))));
 };
 var Header =
 /*#__PURE__*/
@@ -46102,9 +46173,13 @@ function (_React$Component) {
   _inherits(Header, _React$Component);
 
   function Header(props) {
+    var _this;
+
     _classCallCheck(this, Header);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Header).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Header).call(this, props));
+    _this.state = {};
+    return _this;
   }
 
   _createClass(Header, [{
@@ -46112,15 +46187,283 @@ function (_React$Component) {
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "Header"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SideNavButton, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Title, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(HeaderOptions, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SearchBar, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "save-button"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: "https://via.placeholder.com/35x35?text=Save"
-      }))));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "grid-row sidenav-btn"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideNav_jsx__WEBPACK_IMPORTED_MODULE_2__["SideNav"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Title, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SearchBar, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HeaderOptions_jsx__WEBPACK_IMPORTED_MODULE_3__["HeaderOptions"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SaveButton, null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "search-save-btn"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SearchBar, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SaveButton, null))));
     }
   }]);
 
   return Header;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/***/ }),
+
+/***/ "./src/components/HeaderOptions.jsx":
+/*!******************************************!*\
+  !*** ./src/components/HeaderOptions.jsx ***!
+  \******************************************/
+/*! exports provided: OptionsDropdown, HeaderOptions */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OptionsDropdown", function() { return OptionsDropdown; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HeaderOptions", function() { return HeaderOptions; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var OptionsDropdown = function OptionsDropdown(props) {
+  var option = props.option;
+
+  if (option == 'tree') {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "OptionsDropdown grid-row"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      src: "../assets/close_dropdown.svg"
+    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "dropdown-list"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      to: "/plant/tree_single"
+    }, "Plant Single Trees")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      to: "/plant/tree_row"
+    }, "Plant Tree Rows")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      to: "/plant/tree_plantation"
+    }, "Plant a Tree Plantation")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      to: "/upload"
+    }, "Upload a Shapefile"))))));
+  } else if (option == 'prairie') {}
+};
+var HeaderOptions =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(HeaderOptions, _React$Component);
+
+  function HeaderOptions(props) {
+    var _this;
+
+    _classCallCheck(this, HeaderOptions);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(HeaderOptions).call(this, props));
+    _this.state = {
+      optionStates: {
+        treeOptionActive: false,
+        prairieOptionActive: false,
+        layerOptionActive: false,
+        reportOptionActive: false
+      },
+      layerStates: {
+        ssurgo: false,
+        lidar: false,
+        contours: false,
+        satellite: false
+      }
+    };
+    _this.handleCheckboxChange = _this.handleCheckboxChange.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(HeaderOptions, [{
+    key: "handleCheckboxChange",
+    value: function handleCheckboxChange(event) {
+      var checkboxName = event.target.name;
+      var layerStates = this.state.layerStates; // toggle on or off
+
+      layerStates[checkboxName] = !layerStates[checkboxName];
+      this.setState({
+        layerStates: _objectSpread({}, layerStates)
+      });
+    }
+  }, {
+    key: "toggleActiveClass",
+    value: function toggleActiveClass(optionName) {
+      var optionStates = this.state.optionStates;
+      var prevActiveState;
+
+      for (var key in optionStates) {
+        if (optionStates[key] == true) {
+          prevActiveState = key;
+          break;
+        }
+      }
+
+      if (optionName == 'treeOption') {
+        optionStates.treeOptionActive = !optionStates.treeOptionActive;
+      } else if (optionName == 'prairieOption') {
+        optionStates.prairieOptionActive = !optionStates.prairieOptionActive;
+      } else if (optionName == 'layerOption') {
+        optionStates.layerOptionActive = !optionStates.layerOptionActive;
+      } else if (optionName == 'reportOption') {
+        optionStates.reportOptionActive = !optionStates.reportOptionActive;
+      }
+
+      if (prevActiveState) {
+        if (!prevActiveState.includes(optionName)) {
+          optionStates[prevActiveState] = false;
+        }
+      }
+
+      this.setState({
+        optionStates: _objectSpread({}, optionStates)
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var optionStates = this.state.optionStates;
+      var _this$state = this.state,
+          _this$state$optionSta = _this$state.optionStates,
+          treeOptionActive = _this$state$optionSta.treeOptionActive,
+          prairieOptionActive = _this$state$optionSta.prairieOptionActive,
+          layerOptionActive = _this$state$optionSta.layerOptionActive,
+          reportOptionActive = _this$state$optionSta.reportOptionActive,
+          _this$state$layerStat = _this$state.layerStates,
+          ssurgo = _this$state$layerStat.ssurgo,
+          satellite = _this$state$layerStat.satellite,
+          contours = _this$state$layerStat.contours,
+          lidar = _this$state$layerStat.lidar;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "HeaderOptions"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: treeOptionActive ? "option active" : "option"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/plant",
+        onClick: function onClick() {
+          return _this2.toggleActiveClass('treeOption');
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        className: "option-inactive",
+        src: "../assets/plant_tree_option.svg"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        className: "option-active",
+        src: "../assets/tree_active.svg"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "option-name"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Plant"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Trees"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "OptionsDropdown grid-row"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        onClick: function onClick() {
+          return _this2.toggleActiveClass('treeOption');
+        },
+        src: "../assets/close_dropdown.svg"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-list"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/plant/tree_single"
+      }, "Plant Single Trees")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/plant/tree_row"
+      }, "Plant Tree Rows")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/plant/tree_plantation"
+      }, "Plant a Tree Plantation")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/upload"
+      }, "Upload a Shapefile")))))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: prairieOptionActive ? "option active" : "option"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/plant",
+        onClick: function onClick() {
+          return _this2.toggleActiveClass('prairieOption');
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        className: "option-inactive",
+        src: "../assets/plant_prairie.svg"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        className: "option-active",
+        src: "../assets/prairieOption_active.svg"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "option-name"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Plant"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Prairies")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: layerOptionActive ? "option active" : "option"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/#",
+        onClick: function onClick() {
+          return _this2.toggleActiveClass('layerOption');
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        className: "option-inactive",
+        src: "../assets/map_layers.svg"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        className: "option-active",
+        src: "../assets/layerOption_active.svg"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "option-name"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "View Map"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Layers"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "OptionsDropdown grid-row"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        onClick: function onClick() {
+          return _this2.toggleActiveClass('layerOption');
+        },
+        src: "../assets/close_dropdown.svg"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "dropdown-checkbox"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "checkbox",
+        name: "ssurgo",
+        onChange: this.handleCheckboxChange
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "gSSURGO - CSR")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "checkbox",
+        name: "lidar",
+        onChange: this.handleCheckboxChange
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "LiDAR Hillshade")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "checkbox",
+        name: "contours",
+        onChange: this.handleCheckboxChange
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "(2 ft contours)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "checkbox",
+        name: "satellite",
+        onChange: this.handleCheckboxChange
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Satellite")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "Button"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Add A Map Layer")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: "../assets/question-mark.svg"
+      })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: reportOptionActive ? "option active" : "option"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/#",
+        onClick: function onClick() {
+          return _this2.toggleActiveClass('reportOption');
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        className: "option-inactive",
+        src: "../assets/view_report.svg"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        className: "option-active",
+        src: "../assets/reportOption_active.svg"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "option-name"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "View"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Report")))))));
+    }
+  }]);
+
+  return HeaderOptions;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /***/ }),
@@ -46178,7 +46521,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-mapbox_gl__WEBPACK_IMPORTED_MODULE_1___default.a.accessToken = "pk.eyJ1IjoiYW5keWt0cmFuIiwiYSI6ImNrMmNiamI2cjAyeHUzaGxwNms1amo1Z3YifQ.pGhYXpvRoBknIQgRMEwQ9Q";
+mapbox_gl__WEBPACK_IMPORTED_MODULE_1___default.a.accessToken = "pk.eyJ1Ijoiam9obndpbGRzcHJpbmciLCJhIjoiY2syYzVvcjc5MXNyaTNjcGJnZnV5bGt5bSJ9.lyBcX-LG9alwBhxpcE8Pwg";
 var MapWrapper = function MapWrapper(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_4__["MapConsumer"], null, function (mapCtx) {
     var ctx = _objectSpread({}, mapCtx.state, {}, mapCtx.actions);
@@ -46203,6 +46546,7 @@ function (_React$Component) {
       sources: []
     };
     _this.mapElement = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
+    console.log(props);
     return _this;
   }
 
@@ -46211,6 +46555,7 @@ function (_React$Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
+      console.log("mounted");
       this.map = new mapbox_gl__WEBPACK_IMPORTED_MODULE_1___default.a.Map({
         container: this.mapElement.current,
         style: 'mapbox://styles/mapbox/outdoors-v11',
@@ -46256,7 +46601,7 @@ function (_React$Component) {
       if (action == 'plant' && !step) {
         if (type == 'tree_single') {
           // Enter draw_point mode.
-          this.draw.changeMode('draw_point');
+          this.draw.changeMode('draw_multiple_points');
         } else if (type == 'tree_row') {
           // Enter draw_line_string mode.
           this.draw.changeMode('draw_line_string');
@@ -46270,7 +46615,12 @@ function (_React$Component) {
   }, {
     key: "addDraw",
     value: function addDraw() {
-      this.draw = new _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_2___default.a();
+      var draw_multiple_points = this.props.configs.custom_modes.draw_multiple_points;
+      this.draw = new _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_2___default.a({
+        modes: Object.assign({
+          draw_multiple_points: draw_multiple_points
+        }, _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_2___default.a.modes)
+      });
       this.map.addControl(this.draw, 'top-right');
     } // addSource(name, type, data) {
     //     if (this.state.sources.includes(name)) {
@@ -46344,6 +46694,102 @@ function (_React$Component) {
 
 /***/ }),
 
+/***/ "./src/components/SideNav.jsx":
+/*!************************************!*\
+  !*** ./src/components/SideNav.jsx ***!
+  \************************************/
+/*! exports provided: SideNav */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SideNav", function() { return SideNav; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var SideNav =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(SideNav, _React$Component);
+
+  function SideNav(props) {
+    var _this;
+
+    _classCallCheck(this, SideNav);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(SideNav).call(this, props));
+    _this.state = {
+      isNavOpen: false
+    };
+    _this.toggleNav = _this.toggleNav.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(SideNav, [{
+    key: "toggleNav",
+    value: function toggleNav() {
+      var isNavOpen = this.state.isNavOpen;
+      this.setState({
+        isNavOpen: !isNavOpen
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var isNavOpen = this.state.isNavOpen;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "SideNavButton",
+        onClick: this.toggleNav
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        className: "narrow-sidenav",
+        src: "../assets/side_nav.svg"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        className: "wide-sidenav",
+        src: "../assets/sidenav_wide.svg"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: isNavOpen ? "NavOptions grid-row active" : "NavOptions grid-row"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        onClick: this.toggleNav,
+        src: "../assets/sidebar-close.svg"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "grid-wrap"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/settings"
+      }, "Settings")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/help"
+      }, "Help")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/about"
+      }, "About")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: "/activate"
+      }, "Activate Helper Popups"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Any additonal info like copyright information or sponsorship can go here.")))));
+    }
+  }]);
+
+  return SideNav;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/***/ }),
+
 /***/ "./src/contexts/MapState.js":
 /*!**********************************!*\
   !*** ./src/contexts/MapState.js ***!
@@ -46362,6 +46808,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _mapbox_geojsonhint__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @mapbox/geojsonhint */ "./node_modules/@mapbox/geojsonhint/lib/index.js");
 /* harmony import */ var _mapbox_geojsonhint__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_mapbox_geojsonhint__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _map_configs_draw_multiple_points__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../map_configs/draw_multiple_points */ "./src/map_configs/draw_multiple_points.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -46370,8 +46817,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 var MapDefaultState = {
-  data: []
+  data: [],
+  configs: {
+    custom_modes: {
+      draw_multiple_points: _map_configs_draw_multiple_points__WEBPACK_IMPORTED_MODULE_2__["draw_multiple_points"]
+    }
+  }
 };
 var MapContext = react__WEBPACK_IMPORTED_MODULE_0___default.a.createContext(MapDefaultState);
 var MapProvider = MapContext.Provider;
@@ -46522,6 +46975,45 @@ function (_React$Component) {
   return Store;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 ;
+
+/***/ }),
+
+/***/ "./src/map_configs/draw_multiple_points.js":
+/*!*************************************************!*\
+  !*** ./src/map_configs/draw_multiple_points.js ***!
+  \*************************************************/
+/*! exports provided: draw_multiple_points */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "draw_multiple_points", function() { return draw_multiple_points; });
+var draw_multiple_points = {
+  onSetup: function onSetup(opts) {
+    var state = {};
+    state.count = opts.count || 0;
+    return state;
+  },
+  onClick: function onClick(state, e) {
+    var point = this.newFeature({
+      type: 'Feature',
+      properties: {
+        count: state.count
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [e.lngLat.lng, e.lngLat.lat]
+      }
+    });
+    this.addFeature(point); // puts the point on the map
+  },
+  onKeyUp: function onKeyUp(state, e) {
+    if (e.keyCode === 27) return this.changeMode('simple_select');
+  },
+  toDisplayFeatures: function toDisplayFeatures(state, geojson, display) {
+    display(geojson);
+  }
+};
 
 /***/ }),
 
