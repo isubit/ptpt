@@ -17,7 +17,7 @@ export class WelcomeModal extends React.Component {
         let { isDisplayed } = this.state
         return (
             <React.Fragment>
-                <div className={isDisplayed ? "WelcomeModal active grid-row" : "WelcomeModal grid-row"}>
+                <div className={isDisplayed ? "WelcomeModal grid-row active" : "WelcomeModal grid-row"}>
                     <div className="grid-wrap">
                         <Link to="/"><img className="CloseButton" onClick={this.toggleWelcomeModal} src="../../assets/close_dropdown.svg"></img></Link>
                         <h2 className="modal-header">Welcome to the Prairie & Tree Planting Tool</h2>
