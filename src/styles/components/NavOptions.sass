@@ -6,24 +6,26 @@
     z-index: 10
     &.active 
         display: block
-    ul
-        border-bottom: 2px solid #656D52
-        padding-bottom: 1rem
-        li
-            a
-                line-height: 2.75rem
-                text-decoration: none
+    .grid-wrap
+        padding-top: 4rem
+        ul
+            border-bottom: 2px solid #656D52
+            padding-bottom: 1rem
+            li
+                a
+                    line-height: 2.75rem
+                    text-decoration: none
+                    color: $white
+                    font-size: .909rem
+        div
+            p
+                margin: 0
+                font-family: Merriweather
+                font-style: italic
                 color: $white
-                font-size: .909rem
-    div
-        p
-            margin: 0
-            font-family: Merriweather
-            font-style: italic
-            color: $white
-            font-size: 0.683rem
-            line-height: 1rem
-            padding-top: 1.5rem
+                font-size: 0.683rem
+                line-height: 1rem
+                padding-top: 1.5rem
 
 @media (min-width: 900px)
     .NavOptions
