@@ -18,7 +18,7 @@ export const draw_multiple_points = {
 		this.addFeature(point); // puts the point on the map
 	},
 	onKeyUp(state, e) {
-		if (e.keyCode === 27) return this.changeMode('simple_select');
+		return e.keyCode === 27 ? this.changeMode('simple_select') : null;
 	},
 	toDisplayFeatures(state, geojson, display) {
 		display(geojson);

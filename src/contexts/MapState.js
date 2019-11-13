@@ -28,7 +28,7 @@ export const MapActions = (that) => ({
 		} else {
 			value = geojson;
 		}
-		if (!errors || errors.length == 0) {
+		if (!errors || errors.length === 0) {
 			that.setState({
 				MapState: {
 					...that.state.MapState,
