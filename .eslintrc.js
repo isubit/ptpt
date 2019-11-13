@@ -18,6 +18,7 @@ module.exports = {
       "react/prop-types": 0, // Unsure, but triggering for this.props.children
       "camelcase": 0, // Sometimes you can use variable with underscore and not camelcase
       "no-console": 0, // Can have console logs
+      "react/jsx-props-no-spreading": 0, // Props spreading is allowed
     },
     "settings": {
       "import/resolver": {
