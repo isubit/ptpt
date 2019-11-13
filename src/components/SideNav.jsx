@@ -5,11 +5,9 @@ export class SideNav extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = { isNavOpen: false };
-
-		this.toggleNav = this.toggleNav.bind(this);
 	}
 
-	toggleNav() {
+	toggleNav = () => {
 		const { isNavOpen } = this.state;
 		this.setState({ isNavOpen: !isNavOpen });
 	}
@@ -18,12 +16,14 @@ export class SideNav extends React.Component {
 		const { isNavOpen } = this.state;
 		return (
 			<>
-				<div className="SideNavButton" onClick={this.toggleNav}>
-					<img className="narrow-sidenav" src="../assets/side_nav.svg" />
-					<img className="wide-sidenav" src="../assets/sidenav_wide.svg" />
-				</div>
+				<button type="button" className="SideNavButton" onClick={this.toggleNav} onKeyPress={this.toggleNav}>
+					<img className="narrow-sidenav" src="../assets/side_nav.svg" alt="Side Navigation Toggle" />
+					<img className="wide-sidenav" src="../assets/sidenav_wide.svg" alt="Side Navigation Toggle" />
+				</button>
 				<div className={isNavOpen ? 'NavOptions grid-row active' : 'NavOptions grid-row'}>
-					<img className="CloseButton" onClick={this.toggleNav} src="../assets/sidebar-close.svg" />
+					<button type="button" onClick={this.toggleNav} onKeyPress={this.toggleNav}>
+						<img className="CloseButton" src="../assets/sidebar-close.svg" alt="Close Side Navigation" />
+					</button>
 					<div className="grid-wrap">
 						<ul>
 							<li>
