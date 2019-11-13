@@ -1,12 +1,10 @@
 import React from 'react';
-import {
-	BrowserRouter as Router, Route, Switch, Redirect, Link,
-} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { SideNav } from './SideNav.jsx';
-import { HeaderOptions } from './HeaderOptions.jsx';
+import { SideNav } from './SideNav';
+import { HeaderOptions } from './HeaderOptions';
 
-export const SearchBar = (props) => (
+export const SearchBar = () => (
 	// MapConsumer here?
 	<>
 		<div className="SearchBar">
@@ -15,21 +13,21 @@ export const SearchBar = (props) => (
 	</>
 );
 
-export const Title = (props) => (
+export const Title = () => (
 	<>
 		<div className="Title">
-			<img className="narrow-logo" src="../assets/narrow_logo.svg" />
-			<img className="wide-logo" src="../assets/wide_logo.svg" />
+			<img className="narrow-logo" src="../assets/narrow_logo.svg" alt="Logo - Prairie and Tree Planting Tool" />
+			<img className="wide-logo" src="../assets/wide_logo.svg" alt="Logo - Prairie and Tree Planting Tool" />
 		</div>
 	</>
 );
 
-export const SaveButton = (props) => (
+export const SaveButton = () => (
 	<>
 		<div className="SaveButton">
 			<Link to="/save">
-				<img className="narrow-save" src="../assets/save_narrow.svg" />
-				<img className="wide-save" src="../assets/save_wide.svg" />
+				<img className="narrow-save" src="../assets/save_narrow.svg" alt="Save" />
+				<img className="wide-save" src="../assets/save_wide.svg" alt="Save" />
 			</Link>
 		</div>
 	</>

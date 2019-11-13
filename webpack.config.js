@@ -45,8 +45,9 @@ const config = {
 							'@babel/plugin-proposal-class-properties',
 							'@babel/plugin-proposal-optional-chaining'
 						].map(require.resolve)
-					}
-				}, 'eslint-loader']
+					},
+				}]
+				// }, 'eslint-loader']
 			},
 			// {
 			// 	test: /\.json/,

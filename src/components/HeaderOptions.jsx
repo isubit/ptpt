@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 
 export const OptionsDropdown = (props) => {
 	const { option } = props;
-	if (option == 'tree') {
+	if (option === 'tree') {
 		return (
 			<>
 				<div className="OptionsDropdown grid-row">
-					<img className="CloseButton" src="../assets/close_dropdown.svg" />
+					<img className="CloseButton" src="../assets/close_dropdown.svg" alt="Close" />
 					<div className="dropdown-list">
 						<ul>
 							<li>
@@ -27,7 +27,6 @@ export const OptionsDropdown = (props) => {
 				</div>
 			</>
 		);
-	} if (option == 'prairie') {
 	}
 };
 
@@ -74,13 +73,13 @@ export class HeaderOptions extends React.Component {
 			}
 		}
 
-		if (optionName == 'treeOption') {
+		if (optionName === 'treeOption') {
 			optionStates.treeOptionActive = !optionStates.treeOptionActive;
-		} else if (optionName == 'prairieOption') {
+		} else if (optionName === 'prairieOption') {
 			optionStates.prairieOptionActive = !optionStates.prairieOptionActive;
-		} else if (optionName == 'layerOption') {
+		} else if (optionName === 'layerOption') {
 			optionStates.layerOptionActive = !optionStates.layerOptionActive;
-		} else if (optionName == 'reportOption') {
+		} else if (optionName === 'reportOption') {
 			optionStates.reportOptionActive = !optionStates.reportOptionActive;
 		}
 
