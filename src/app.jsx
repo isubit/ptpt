@@ -10,10 +10,10 @@ import {
 
 import 'styles/base.sass';
 
-import { MapWrapper } from 'components/MapComponent.jsx';
+import { MapWrapper } from 'components/MapComponent';
 import { Store } from 'contexts';
-import { Header } from 'components/Header.jsx';
-import { WelcomeModal } from 'components/modals/WelcomeModal.jsx';
+import { Header } from 'components/Header';
+import { WelcomeModal } from 'components/modals/WelcomeModal';
 
 const App = () => (
 	<Store>
