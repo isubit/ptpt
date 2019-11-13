@@ -15,7 +15,8 @@ export class Store extends React.Component {
 
 	save = () => {
 		const data = JSON.stringify(this.state, null, 4);
-		download(data, 'test.json');
+		const date = new Date();
+		download(data, `prairie_tree_planting_tool_savefile_${date.getDate()}-${date.getMonth()}-${date.getFullYear()}.json`);
 	}
 
 	render() {
