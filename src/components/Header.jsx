@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { SideNav } from './SideNav';
 import { HeaderOptions } from './HeaderOptions';
 
+import { MapConsumer } from 'contexts/MapState';
+
 export const SearchBar = () => (
 	// MapConsumer here?
 	<>
@@ -22,13 +24,11 @@ export const Title = () => (
 	</>
 );
 
-export const SaveButton = () => (
+export const SaveButton = ({ save }) => (
 	<>
 		<div className="SaveButton">
-			<Link to="/save">
-				<img className="narrow-save" src="../assets/save_narrow.svg" alt="Save" />
-				<img className="wide-save" src="../assets/save_wide.svg" alt="Save" />
-			</Link>
+			<img className="narrow-save" src="../assets/save_narrow.svg" onClick={save} alt="Save" />
+			<img className="wide-save" src="../assets/save_wide.svg" onClick={save} alt="Save" />
 		</div>
 	</>
 );
@@ -48,7 +48,11 @@ export class Header extends React.Component {
 						<Title />
 						<SearchBar />
 						<HeaderOptions />
-						<SaveButton />
+						<MapConsumer>
+							{ctx => <SaveButton save={ctx.save} />}
+							
+						</MapConsumer>
+						
 					</div>
 					<div className="search-save-btn">
 						<SearchBar />

@@ -13,6 +13,7 @@
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
     "immutable": "^4.0.0-rc.12",
+    "js-file-download": "^0.4.8",
     "lodash": "^4.17.15",
     "mapbox-gl": "^1.4.1",
     "react": "^16.11.0",

@@ -80,7 +80,8 @@ const config = {
 		new webpack.DefinePlugin(envKeys)
 	],
 	resolve: {
-		modules: [MODULES_DIR, APP_DIR]
+		modules: [MODULES_DIR, APP_DIR],
+		extensions: ['.js', '.jsx']
 	},
 	node: {
 		fs: 'empty'
