@@ -1,7 +1,6 @@
 import React from 'react';
 import mapboxgl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
-import { Route } from 'react-router-dom';
 
 import { MapConsumer } from 'contexts/MapState';
 import areaLayer from 'map_layers/area.json';
@@ -23,22 +22,11 @@ export class MapComponent extends React.Component {
 		super(props);
 		this.state = {
 			setup: false,
-			geojsonInput: '',
-			sources: [],
+			// geojsonInput: '',
+			// sources: [],
 		};
 		this.mapElement = React.createRef();
 		console.log(props);
-	}
-
-	get params() {
-		const {
-			router: {
-				match: {
-					params,
-				},
-			},
-		} = this.props;
-		return params;
 	}
 
 	componentDidMount() {
@@ -63,6 +51,8 @@ export class MapComponent extends React.Component {
 				setup: true,
 			});
 			console.log('Map loaded:', this.map);
+
+			return true;
 		});
 	}
 
@@ -73,17 +63,28 @@ export class MapComponent extends React.Component {
 		}
 	}
 
+	get params() {
+		const {
+			router: {
+				match: {
+					params,
+				},
+			},
+		} = this.props;
+		return params;
+	}
+
 	setDrawMode() {
 		const { action, type, step } = this.params;
 		console.log(action, type, step);
-		if (action == 'plant' && !step) {
-			if (type == 'tree_single') {
+		if (action === 'plant' && !step) {
+			if (type === 'tree_single') {
 				// Enter draw_point mode.
 				this.draw.changeMode('draw_multiple_points');
-			} else if (type == 'tree_row') {
+			} else if (type === 'tree_row') {
 				// Enter draw_line_string mode.
 				this.draw.changeMode('draw_line_string');
-			} else if (type == 'tree_area') {
+			} else if (type === 'tree_area') {
 				// Enter draw_polygon mode.
 				this.draw.changeMode('draw_tree_area');
 			} else {
@@ -126,10 +127,10 @@ export class MapComponent extends React.Component {
 	loadSources() {
 		const { data = [] } = this.props;
 		let features = [];
-		data.forEach((ea, i) => {
-			if (ea.type == 'Feature') {
+		data.forEach(ea => {
+			if (ea.type === 'Feature') {
 				features.push(ea);
-			} else if (ea.type == 'FeatureCollection') {
+			} else if (ea.type === 'FeatureCollection') {
 				features = features.concat(ea.features);
 			}
 		});
@@ -149,9 +150,7 @@ export class MapComponent extends React.Component {
 
 	render() {
 		return (
-			<>
-				<div className="Map" ref={this.mapElement} />
-			</>
+			<div className="Map" ref={this.mapElement} />
 		);
 	}
 }
