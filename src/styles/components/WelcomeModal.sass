@@ -1,10 +1,10 @@
 .WelcomeModal
+    display: grid
     height: 100vh
     position: absolute
     top: 0
     z-index: 1
     background-color: $white
-    display: none
     .grid-wrap
         > div:last-of-type
             position: absolute
@@ -22,8 +22,7 @@
         .button-wrap
             > *:last-child
                 display: none
-    &.active
-        display: grid
+        
 
 @media (min-width: 900px) 
     .WelcomeModal
