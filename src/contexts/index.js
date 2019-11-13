@@ -15,11 +15,11 @@ export class Store extends React.Component {
 	render() {
 		const { state } = this;
 		return (
-			<SettingsProvider value={{state: state.Settings, actions: SettingsActions(this)}}>
-				<MapProvider value={{state: state.MapState, actions: MapActions(this)}}>
-					{this.props.children}	
+			<SettingsProvider value={{ state: state.Settings, actions: SettingsActions(this) }}>
+				<MapProvider value={{ state: state.MapState, actions: MapActions(this) }}>
+					{this.props.children}
 				</MapProvider>
 			</SettingsProvider>
-		)
+		);
 	}
-};
+}
