@@ -19,6 +19,10 @@ export class Store extends React.Component {
 		download(data, `prairie_tree_planting_tool_savefile_${date.getDate()}-${date.getMonth()}-${date.getFullYear()}.json`);
 	}
 
+	load = data => {
+		this.setState(data);
+	}
+
 	render() {
 		const { state, save } = this;
 		return (
