@@ -101,6 +101,7 @@ export class MapComponent extends React.Component {
 				mode_events,
 			},
 		} = this.props;
+
 		const mode = this.draw.getMode();
 		// unbind all previous event listeners
 		Object.keys(mode_events).forEach(key => {
