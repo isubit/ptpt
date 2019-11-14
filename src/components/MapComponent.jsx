@@ -89,7 +89,7 @@ export class MapComponent extends React.Component {
 				// Enter draw_polygon mode.
 				this.draw.changeMode('draw_tree_area');
 			} else {
-				// Redirect to root / because invalid param
+				this.draw.changeMode('simple_select');
 			}
 		}
 	}
@@ -111,6 +111,7 @@ export class MapComponent extends React.Component {
 		});
 
 		// bind corresponding event listener
+		console.log(mode);
 		if (mode === 'draw_line_string') {
 			mode_events.drawLineStringEvents.bindTo(this);
 		}

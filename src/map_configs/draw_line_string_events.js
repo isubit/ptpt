@@ -11,7 +11,6 @@ export const drawLineStringEvents = {
 	bindTo(mapComponent) {
 		this.map = mapComponent.map;
 		this.draw = mapComponent.draw;
-		console.log('run');
 		this.map.on('click', () => this.drawLineString());
 	},
 	unbind() {
