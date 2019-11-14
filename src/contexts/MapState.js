@@ -2,10 +2,14 @@ import React from 'react';
 import geojsonhint from '@mapbox/geojsonhint';
 
 import { draw_multiple_points } from '../map_configs/draw_multiple_points';
+import { drawLineStringEvents } from '../map_configs/draw_line_string_events';
 
 export const MapDefaultState = {
 	data: [],
 	configs: {
+		mode_events: {
+			drawLineStringEvents,
+		},
 		custom_modes: {
 			draw_multiple_points,
 		},
