@@ -77,7 +77,7 @@ export class MapComponent extends React.Component {
 
 	setDrawMode() {
 		const { action, type, step } = this.params;
-		// console.log(action, type, step);
+		console.log(action, type, step);
 		if (action === 'plant' && !step) {
 			if (type === 'tree_single') {
 				// Enter draw_point mode.
@@ -101,15 +101,18 @@ export class MapComponent extends React.Component {
 				mode_events,
 			},
 		} = this.props;
+		const mode = this.draw.getMode();
 		// unbind all previous event listeners
 		Object.keys(mode_events).forEach(key => {
-			mode_events[key].unbind();
+			if (mode_events[key].map) {
+				mode_events[key].unbind();
+			}
 		});
 
 		// bind corresponding event listener
-		if (this.draw.getMode() === 'draw_line_string') {
+		if (mode === 'draw_line_string') {
 			mode_events.drawLineStringEvents.bindTo(this);
-		}
+		} // else if (mode === '')
 	}
 
 	addDraw() {
