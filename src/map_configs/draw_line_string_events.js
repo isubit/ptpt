@@ -1,8 +1,8 @@
 export const drawLineStringEvents = {
 	lineVertices: 0,
-	drawLineString() {
-		this.lineVertices += 1;
+	drawLineString: () => {
 		console.log(this);
+		this.lineVertices += 1;
 		if (this.lineVertices === 2) {
 			this.lineVertices = 0;
 			this.draw.changeMode('simple_select');
@@ -13,11 +13,12 @@ export const drawLineStringEvents = {
 		this.map = mapComponent.map;
 		this.draw = mapComponent.draw;
 		// this runs on ANY click... how to test if this method unbinds
-		this.map.on('click', this.drawLineString.bind(this));
+		this.map.on('click', this.drawLineString);
 	},
 	unbind() {
 		if (this.map) {
-			this.map.off('click', this.drawLineString.bind(this));
+			this.map.off('click', this.drawLineString);
+			console.log(this);
 		}
 	},
 };
