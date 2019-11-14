@@ -15,7 +15,6 @@ export const drawLineStringEvents = {
 		this.map = mapComponent.map;
 		this.draw = mapComponent.draw;
 		this.map.on('click', () => this.drawLineString());
-		// prevent binding twice
 		this.isBound = true;
 	},
 	// does not work
@@ -28,5 +27,5 @@ export const drawLineStringEvents = {
 	},
 };
 
-// when mode is changed route needs to change
+// when mode is changed on keypress (esc) or double click route needs to change
 // i.e draw_line_string --> simple_select or draw_line_string --> draw_multiple_points
