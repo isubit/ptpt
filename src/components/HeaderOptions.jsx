@@ -142,7 +142,7 @@ export class HeaderOptions extends React.Component {
 							</div>
 						</li>
 						<li className={prairieOptionActive ? 'option active' : 'option'}>
-							<Link to="/plant" onClick={() => this.toggleActiveClass('prairieOption')}>
+							<Link to="/plant/prairie" onClick={() => this.toggleActiveClass('prairieOption')}>
 								<img className="option-inactive" src="../assets/plant_prairie.svg" alt="Plant prairies" />
 								<img className="option-active" src="../assets/prairieOption_active.svg" alt="Plant prairies" />
 								<div className="option-name">

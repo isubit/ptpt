@@ -88,6 +88,8 @@ export class MapComponent extends React.Component {
 			} else if (type === 'tree_area') {
 				// Enter draw_polygon mode.
 				this.draw.changeMode('draw_tree_area');
+			} else if (type === 'prairie') {
+				this.draw.changeMode('draw_polygon');
 			} else {
 				this.draw.changeMode('simple_select');
 			}
@@ -101,19 +103,20 @@ export class MapComponent extends React.Component {
 				mode_events,
 			},
 		} = this.props;
-
 		const mode = this.draw.getMode();
+
 		// unbind all previous event listeners
 		Object.keys(mode_events).forEach(key => {
-			if (mode_events[key].map) {
+			if (mode_events[key].map && mode_events[key].isBound) {
 				mode_events[key].unbind();
 			}
 		});
 
-		// bind corresponding event listener
-		console.log(mode);
+		// bind corresponding event to current mode
 		if (mode === 'draw_line_string') {
-			mode_events.drawLineStringEvents.bindTo(this);
+			if (!mode_events.drawLineStringEvents.isBound) {
+				mode_events.drawLineStringEvents.bindTo(this);
+			}
 		}
 	}
 
