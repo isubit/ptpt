@@ -18,6 +18,7 @@ export const drawLineStringEvents = {
 		// prevent binding twice
 		this.isBound = true;
 	},
+	// does not work
 	unbind() {
 		if (this.map) {
 			this.map.off('click', this.drawLineString);
