@@ -76,17 +76,6 @@ export class MapComponent extends React.Component {
 
 	setDrawMode() {
 		const { action, type, step } = this.params;
-		const {
-			configs: {
-				mode_events,
-			},
-		} = this.props;
-
-		Object.keys(mode_events).forEach(key => {
-			if (mode_events[key].map && mode_events[key].isBound) {
-				mode_events[key].unbind();
-			}
-		});
 
 		if (action === 'plant' && !step) {
 			if (type === 'tree_single') {
@@ -94,10 +83,7 @@ export class MapComponent extends React.Component {
 				this.draw.changeMode('draw_multiple_points');
 			} else if (type === 'tree_row') {
 				// Enter draw_line_string mode.
-				this.draw.changeMode('draw_line_string');
-				if (!mode_events.drawLineStringEvents.isBound) {
-					mode_events.drawLineStringEvents.bindTo(this);
-				}
+				this.draw.changeMode('draw_multiple_lines');
 			} else if (type === 'tree_area') {
 				// Enter draw_polygon mode.
 				this.draw.changeMode('draw_tree_area');
@@ -114,11 +100,16 @@ export class MapComponent extends React.Component {
 			configs: {
 				custom_modes: {
 					draw_multiple_points,
+					draw_multiple_lines,
 				},
 			},
 		} = this.props;
 		this.draw = new MapboxDraw({
-			modes: { draw_multiple_points, ...MapboxDraw.modes },
+			modes: {
+				draw_multiple_lines,
+				draw_multiple_points,
+				...MapboxDraw.modes,
+			},
 		});
 		this.map.addControl(this.draw, 'top-right');
 	}
