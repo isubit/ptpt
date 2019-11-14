@@ -1,7 +1,6 @@
 export const drawLineStringEvents = {
 	lineVertices: 0,
-	drawLineString: () => {
-		console.log(this);
+	drawLineString() {
 		this.lineVertices += 1;
 		if (this.lineVertices === 2) {
 			this.lineVertices = 0;
@@ -14,11 +13,12 @@ export const drawLineStringEvents = {
 		this.draw = mapComponent.draw;
 		// this runs on ANY click... how to test if this method unbinds
 		this.map.on('click', this.drawLineString);
+		// this is a closure therefore the scope which drawLineString is called is outside
+		// this object and does not have the correct this bounded
 	},
 	unbind() {
 		if (this.map) {
 			this.map.off('click', this.drawLineString);
-			console.log(this);
 		}
 	},
 };
