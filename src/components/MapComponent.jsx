@@ -112,7 +112,7 @@ export class MapComponent extends React.Component {
 		// bind corresponding event listener
 		if (mode === 'draw_line_string') {
 			mode_events.drawLineStringEvents.bindTo(this);
-		} // else if (mode === '')
+		}
 	}
 
 	addDraw() {
