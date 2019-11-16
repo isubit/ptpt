@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { MapConsumer } from 'contexts/MapState';
 
@@ -15,8 +16,10 @@ export const SearchBar = () => (
 
 export const Title = () => (
 	<div className="Title">
-		<img className="narrow-logo" src="../assets/narrow_logo.svg" alt="Logo - Prairie and Tree Planting Tool" />
-		<img className="wide-logo" src="../assets/wide_logo.svg" alt="Logo - Prairie and Tree Planting Tool" />
+		<Link to="/">
+			<img className="narrow-logo" src="../assets/narrow_logo.svg" alt="Logo - Prairie and Tree Planting Tool" />
+			<img className="wide-logo" src="../assets/wide_logo.svg" alt="Logo - Prairie and Tree Planting Tool" />
+		</Link>
 	</div>
 );
 

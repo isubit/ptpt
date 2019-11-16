@@ -1,18 +1,27 @@
 /* eslint-disable react/no-this-in-sfc */
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 
-export const draw_multiple_lines = MapboxDraw.modes.draw_line_string;
+export const draw_single_line = MapboxDraw.modes.draw_line_string;
 
-draw_multiple_lines.clickAnywhere = function clickAnywhere(state, e) {
+const ogSetup = MapboxDraw.modes.draw_line_string.onSetup;
+
+draw_single_line.onSetup = function onSetup(opts = {}) {
+	// This allows us to pass props to the draw mode from the React component.
+	const state = ogSetup.call(this);
+	return {
+		...state,
+		...opts,
+	};
+};
+
+draw_single_line.clickAnywhere = function clickAnywhere(state, e) {
 	const newState = state;
 
 	if (newState.currentVertexPosition === 1) {
 		newState.line.addCoordinate(1, e.lngLat.lng, e.lngLat.lat);
-		// want to set the line then resume planting more rows
-		this.changeMode('simple_select');
-		return this.changeMode('draw_multiple_lines');
-		// return this.changeMode('simple_select', { featureIds: [newState.line.id] });
+		return state.nextStep('type');
 	}
+
 	this.updateUIClasses({ mouse: 'add' });
 	newState.line.updateCoordinate(newState.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
 	if (newState.direction === 'forward') {

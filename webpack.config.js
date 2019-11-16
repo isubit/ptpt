@@ -15,6 +15,8 @@ const envKeys = Object.keys(env).reduce((prev, next) => {
 	return prev;
 }, {});
 
+console.log(envKeys);
+
 const config = {
 	context: path.resolve(__dirname, './'),
 	mode: 'development',
@@ -28,8 +30,8 @@ const config = {
 		contentBase: BUILD_DIR,
 		historyApiFallback: true,
 		allowedHosts: [
-			'.ngrok.io'
-		]
+			'.ngrok.io',
+		],
 	},
 	module : {
 		noParse: [/node_modules\/mapbox-gl\/dist\/mapbox-gl.js/],
@@ -43,11 +45,11 @@ const config = {
 						presets: ['@babel/preset-env', '@babel/preset-react'].map(require.resolve),
 						plugins: [
 							'@babel/plugin-proposal-class-properties',
-							'@babel/plugin-proposal-optional-chaining'
-						].map(require.resolve)
+							'@babel/plugin-proposal-optional-chaining',
+						].map(require.resolve),
 					},
 				// }]
-				}, 'eslint-loader']
+				}, 'eslint-loader'],
 			},
 			// {
 			// 	test: /\.json/,
@@ -57,34 +59,34 @@ const config = {
 			{
 				test: /\.sass$/,
 				include: APP_DIR,
-				loaders: ['style-loader', 'css-loader', 'sass-loader']
+				loaders: ['style-loader', 'css-loader', 'sass-loader'],
 			},
 			{
 				test: /\.css$/,
 				include: APP_DIR,
-				loaders: ['style-loader', 'css-loader']
+				loaders: ['style-loader', 'css-loader'],
 			},
 			{
 				test: /\.(png|jpg|eot|woff|woff2|ttf)$/,
 				include: [APP_DIR, MODULES_DIR],
-				loaders: ['url-loader?limit=50000&name=[path][name].[ext]']
+				loaders: ['url-loader?limit=50000&name=[path][name].[ext]'],
 			},
 			{
 				test: /\.svg(\?.*)?$/,
 				include: APP_DIR,
-				loaders: [ 'url-loader', 'svg-transform-loader']
+				loaders: [ 'url-loader', 'svg-transform-loader'],
 			}
 		]
 	},
 	plugins: [
-		new webpack.DefinePlugin(envKeys)
+		new webpack.DefinePlugin(envKeys),
 	],
 	resolve: {
 		modules: [MODULES_DIR, APP_DIR],
-		extensions: ['.js', '.jsx']
+		extensions: ['.js', '.jsx'],
 	},
 	node: {
-		fs: 'empty'
+		fs: 'empty',
 	}
 };
 

@@ -20,6 +20,9 @@ module.exports = {
       "no-console": 0, // Can have console logs
       "react/jsx-props-no-spreading": 0, // Props spreading is allowed
       "import/no-unresolved": 0, // Disabled because it's broken, doesn't work with the import/resolver webpack plugin
+      "react/sort-comp": 0, // No sorting
+      "no-unused-expressions": 0, // Allow expressions (e.g. true && func())
+      "max-len": [0], // No max length
     },
     "settings": {
       "import/resolver": {

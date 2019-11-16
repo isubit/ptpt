@@ -1,17 +1,8 @@
 import React from 'react';
 import geojsonhint from '@mapbox/geojsonhint';
 
-import { draw_multiple_points } from '../map_configs/draw_multiple_points';
-import { draw_multiple_lines } from '../map_configs/draw_multiple_lines';
-
 export const MapDefaultState = {
 	data: [],
-	configs: {
-		custom_modes: {
-			draw_multiple_points,
-			draw_multiple_lines,
-		},
-	},
 };
 export const MapContext = React.createContext(MapDefaultState);
 export const MapProvider = MapContext.Provider;

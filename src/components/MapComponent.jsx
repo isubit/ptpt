@@ -1,11 +1,21 @@
 import React from 'react';
+import {
+	Switch,
+	Route,
+	Redirect,
+} from 'react-router-dom';
 import mapboxgl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
+import Debug from 'debug';
 
 import { MapConsumer } from 'contexts/MapState';
 import areaLayer from 'map_layers/area.json';
+import { SimpleSelect } from './map_modes/SimpleSelect';
+import { PlantTrees } from './map_modes/PlantTrees';
 
 mapboxgl.accessToken = process.env.mapbox_api_key;
+
+const debug = Debug('MapComponent');
 
 export const MapWrapper = (props) => (
 	<MapConsumer>
@@ -26,11 +36,10 @@ export class MapComponent extends React.Component {
 			// sources: [],
 		};
 		this.mapElement = React.createRef();
-		console.log(props);
+		debug('Props:', props);
 	}
 
 	componentDidMount() {
-		console.log('mounted');
 		this.map = new mapboxgl.Map({
 			container: this.mapElement.current,
 			style: 'mapbox://styles/mapbox/outdoors-v11',
@@ -45,12 +54,12 @@ export class MapComponent extends React.Component {
 
 			this.addDraw();
 			this.loadSources();
-			this.setDrawMode();
+			// this.setDrawMode();
 			// this.loadLayers();
 			this.setState({
 				setup: true,
 			});
-			console.log('Map loaded:', this.map);
+			debug('Map loaded:', this.map);
 
 			return true;
 		});
@@ -59,7 +68,7 @@ export class MapComponent extends React.Component {
 	componentDidUpdate() {
 		if (this.state.setup) {
 			this.loadSources();
-			this.setDrawMode();
+			// this.setDrawMode();
 		}
 	}
 
@@ -74,43 +83,70 @@ export class MapComponent extends React.Component {
 		return params;
 	}
 
-	setDrawMode() {
-		const { action, type, step } = this.params;
-
-		if (action === 'plant' && !step) {
-			if (type === 'tree_single') {
-				// Enter draw_point mode.
-				this.draw.changeMode('draw_multiple_points');
-			} else if (type === 'tree_row') {
-				// Enter draw_line_string mode.
-				this.draw.changeMode('draw_multiple_lines');
-			} else if (type === 'tree_area') {
-				// Enter draw_polygon mode.
-				this.draw.changeMode('draw_tree_area');
-			} else if (type === 'prairie') {
-				this.draw.changeMode('draw_polygon');
-			} else {
-				// this.draw.changeMode('simple_select');
-			}
-		}
-	}
-
-	addDraw() {
+	nextStep = step => {
 		const {
-			configs: {
-				custom_modes: {
-					draw_multiple_points,
-					draw_multiple_lines,
+			router: {
+				history,
+				location: {
+					pathname,
 				},
 			},
 		} = this.props;
-		this.draw = new MapboxDraw({
-			modes: {
-				draw_multiple_lines,
-				draw_multiple_points,
-				...MapboxDraw.modes,
-			},
-		});
+
+		history.push(`${pathname}/${step}`);
+	}
+
+	clearDraw = () => {
+		this.draw.deleteAll();
+	}
+
+	enableDrawMode = (mode, cb) => {
+		if (!mode) {
+			throw new Error('Expected a draw mode to be passed to enableDrawMode');
+		}
+
+		if (mode !== 'simple_select' && !cb) {
+			throw new Error('Expected a callback function to be passed to enableDrawMode if desired mode is not simple_select');
+		}
+
+		debug('Changing mode:', mode, cb);
+
+		const {
+			nextStep,
+			clearDraw,
+			draw,
+			map,
+		} = this;
+
+		// Some props available in callback.
+		const callbackProps = {
+			nextStep,
+			draw,
+			map,
+		};
+
+		const setupCreationEvent = () => {
+			this.onCreate = e => {
+				this.map.off('draw.create', this.onCreate);
+				cb(e, callbackProps);
+				// const feature = e.features[0];
+				// feature.properties = {
+				// 	...feature.properties,
+				// 	type,
+				// };
+				// this.draw.add(feature);
+				// nextStep('rows');
+			};
+			this.map.on('draw.create', this.onCreate);
+		};
+
+		clearDraw(); // First clear any draw data.
+		this.draw.changeMode(mode); // Change mode.
+		mode !== 'simple_select' && !this.onCreate && setupCreationEvent(); // If is it a draw mode, setup the creation callback.
+	}
+
+	addDraw() {
+		this.draw = new MapboxDraw();
 		this.map.addControl(this.draw, 'top-right');
 	}
 
@@ -156,8 +192,32 @@ export class MapComponent extends React.Component {
 	}
 
 	render() {
+		const {
+			enableDrawMode,
+			map,
+			state: {
+				setup,
+			},
+		} = this;
+
+		const mapModeProps = {
+			enableDrawMode,
+			map,
+		};
+
 		return (
-			<div className="Map" ref={this.mapElement} />
+			<>
+				<div className="Map" ref={this.mapElement} />
+				{setup
+					&& (
+						<Switch>
+							<Route path="/plant/trees/:step?" render={router => <PlantTrees router={router} {...mapModeProps} />} />
+							{/* <Route path="/plant/prairie/:step?" render={router => <PlantPrairie router={router} {...mapModeProps} />} /> */}
+							<Route path="/" render={router => <SimpleSelect router={router} {...mapModeProps} />} />
+							<Redirect to="/" />
+						</Switch>
+					)}
+			</>
 		);
 	}
 }
