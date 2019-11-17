@@ -1,5 +1,7 @@
 import React from 'react';
 import geojsonhint from '@mapbox/geojsonhint';
+import uuid from 'uuid/v4';
+import _ from 'lodash';
 import Debug from 'debug';
 
 const debug = Debug('MapState');
@@ -20,7 +22,15 @@ export const MapActions = (that) => ({
 			} else {
 				// Create new map depending on if the new geojson should go into staticData or gl-draw data.
 				const data = new Map(that.state.MapState.data);
-				data.set(geojson.properties.id, geojson);
+
+				const feature = _.cloneDeep(geojson);
+
+				// If feature doesn't have an id, give it one first.
+				if (!feature.id) {
+					feature.id = uuid();
+				}
+
+				data.set(feature.id, feature);
 
 				// Rebuild a new state object with new mapData. mapData should be updated into correct data (static or nonstatic).
 				const updateState = {

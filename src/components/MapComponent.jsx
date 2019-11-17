@@ -11,6 +11,8 @@ import Debug from 'debug';
 import areaLayer from 'map_layers/area.json';
 import outlineLayer from 'map_layers/outline.json';
 
+import TestTreePoly from 'test_data/tree.json';
+
 import { MapConsumer } from 'contexts/MapState';
 import { SimpleSelect } from './map_modes/SimpleSelect';
 import { PlantTrees } from './map_modes/PlantTrees';
@@ -54,9 +56,10 @@ export class MapComponent extends React.Component {
 				return false;
 			}
 
-			this.addDraw();
-			this.loadSources();
-			this.loadLayers();
+			this.addDraw(); // Add the draw controller.
+			this.loadSources(); // Load the data sources.
+			this.loadLayers(); // Load the layer styles.
+			this.loadSomeTestData(); // Load some test data.
 			this.setState({
 				setup: true,
 			});
@@ -68,6 +71,7 @@ export class MapComponent extends React.Component {
 
 	componentDidUpdate() {
 		if (this.state.setup) {
+			// Only the sources need to be updated, because they contain the state data.
 			this.loadSources();
 		}
 	}
@@ -83,7 +87,16 @@ export class MapComponent extends React.Component {
 		return params;
 	}
 
+	loadSomeTestData() {
+		const {
+			addData,
+		} = this.props;
+
+		addData(TestTreePoly);
+	}
+
 	nextStep = step => {
+		// This simply pushes a desired step into the router.
 		const {
 			router: {
 				history,
@@ -97,12 +110,14 @@ export class MapComponent extends React.Component {
 	}
 
 	setEditingFeature = feature => {
+		// This sets the feature that is currently being edited to state.
 		this.setState({
 			editingFeature: feature,
 		});
 	}
 
 	saveFeature = () => {
+		// This saves the feature to context.
 		const {
 			state: {
 				editingFeature,
@@ -121,11 +136,13 @@ export class MapComponent extends React.Component {
 	}
 
 	addDraw() {
+		// This adds the draw controller.
 		this.draw = new MapboxDraw();
 		this.map.addControl(this.draw, 'top-right');
 	}
 
 	addSource(name, type, data) {
+		// This adds the data source to the map, or updates it if it exists.
 		if (this.state.sources.includes(name)) {
 			// Update the source.
 			const source = this.map.getSource(name);
@@ -143,6 +160,7 @@ export class MapComponent extends React.Component {
 	}
 
 	loadSources() {
+		// This passes the data from context to source.
 		const {
 			data = new Map(),
 		} = this.props;
@@ -166,6 +184,7 @@ export class MapComponent extends React.Component {
 	}
 
 	loadLayers() {
+		// This just adds the layer styles.
 		this.map.addLayer(areaLayer);
 		this.map.addLayer(outlineLayer);
 	}
@@ -195,6 +214,7 @@ export class MapComponent extends React.Component {
 		return (
 			<>
 				<div className="Map" ref={this.mapElement}>
+					{/* If the map is setup, we can render the drawing modes. They self-contain their config forms. */}
 					{setup
 						&& (
 							<Switch>

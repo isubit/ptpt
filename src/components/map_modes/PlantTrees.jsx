@@ -49,7 +49,7 @@ export class PlantTrees extends React.Component {
 		} = this.props;
 
 		if (!step) {
-			// If not on a step, that means we're drawing, so enter draw_polygon mode with a clean slate.
+			// If not on a config step, that means we're drawing, so enter draw_polygon mode with a clean slate.
 			debug('Entering draw_polygon mode.');
 
 			draw.deleteAll();
@@ -76,17 +76,11 @@ export class PlantTrees extends React.Component {
 			map.on('draw.create', onCreate);
 			this.events.set('draw.create', onCreate);
 		} else if (editingFeature) {
-			// Else, if we're on a step and there is a feature being edited, enter direct_select mode.
-
+			// Else, if we're on a config step and there is a feature being edited, enter direct_select mode.
+			// This actually doesn't matter too much because if we're on a config step the modal overlay blocks map interactivity.
 			debug('Entering direct_select mode.', editingFeature);
-			draw.changeMode('direct_select', { featureId: editingFeature.id }); // Use draw.changeMode instead of enableDrawMode so that we don't clear data.
 
-			// Setup listeners so that the user cannot switch from direct_select mode.
-			const lockDirectSelectToFeature = () => {
-				draw.changeMode('direct_select', { featureId: editingFeature.id });
-			};
-			map.on('draw.modechange', lockDirectSelectToFeature);
-			this.events.set('draw.modechange', lockDirectSelectToFeature);
+			draw.changeMode('direct_select', { featureId: editingFeature.id });
 		}
 	}
 
@@ -134,7 +128,7 @@ export class PlantTrees extends React.Component {
 			},
 		} = editingFeature;
 
-		// If we're on a step, render the form.
+		// If we're on a config step, render the form.
 		return step ? (
 			<div className="PlantTrees MapModeForm vertical-align">
 				{/* the modal below needs to be replaced with a prebuilt component */}
