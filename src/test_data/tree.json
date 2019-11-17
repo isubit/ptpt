@@ -1,0 +1,80 @@
+{
+    "type": "Feature",
+    "properties": {
+        "type": "tree",
+        "configs": {
+            "rows": [
+                {
+                    "type": {
+                        "id": 1,
+                        "display": "Evergreen"
+                    },
+                    "species": {
+                        "id": 15,
+                        "display": "Jack Pine"
+                    }
+                },
+                {
+                    "type": {
+                        "id": 1,
+                        "display": "Evergreen"
+                    },
+                    "species": {
+                        "id": 15,
+                        "display": "Jack Pine"
+                    }
+                },
+                {
+                    "type": {
+                        "id": 1,
+                        "display": "Evergreen"
+                    },
+                    "species": {
+                        "id": 15,
+                        "display": "Jack Pine"
+                    }
+                }
+            ],
+            "spacing_rows": {
+                "value": 3,
+                "unit": "feet"
+            },
+            "spacing_trees": {
+                "value": 3,
+                "unit": "feet"
+            },
+            "stock_size": {
+                "id": 1,
+                "display": "Bareroot"
+            },
+            "drip_irrigation": true   
+        }
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -93.58695030212402,
+            41.59143877963822
+          ],
+          [
+            -93.58712196350098,
+            41.585340200380344
+          ],
+          [
+            -93.57373237609862,
+            41.584441413680075
+          ],
+          [
+            -93.56961250305176,
+            41.59118200897135
+          ],
+          [
+            -93.58695030212402,
+            41.59143877963822
+          ]
+        ]
+      ]
+    }
+  }

@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 		return (
 			<>
 				<div className="OptionsDropdown grid-row">
-					<img className="CloseButton" src="../assets/close_dropdown.svg" alt="Close" />
+					<img className="CloseButton" src="/assets/close_dropdown.svg" alt="Close" />
 					<div className="dropdown-list">
 						<ul>
 							<li>
@@ -111,8 +111,8 @@ export class HeaderOptions extends React.Component {
 				<ul>
 					<li className={treeOptionActive ? 'option active' : 'option'}>
 						<Link to="/plant/trees" onClick={() => this.toggleActiveClass('treeOption')}>
-							<img className="option-inactive" src="../assets/plant_tree_option.svg" alt="Plant trees" />
-							<img className="option-active" src="../assets/tree_active.svg" alt="Plant trees" />
+							<img className="option-inactive" src="/assets/plant_tree_option.svg" alt="Plant trees" />
+							<img className="option-active" src="/assets/tree_active.svg" alt="Plant trees" />
 							<div className="option-name">
 								<p>Plant</p>
 								<p>Trees</p>
@@ -121,8 +121,8 @@ export class HeaderOptions extends React.Component {
 					</li>
 					<li className={prairieOptionActive ? 'option active' : 'option'}>
 						<Link to="/plant/prairie" onClick={() => this.toggleActiveClass('prairieOption')}>
-							<img className="option-inactive" src="../assets/plant_prairie.svg" alt="Plant prairies" />
-							<img className="option-active" src="../assets/prairieOption_active.svg" alt="Plant prairies" />
+							<img className="option-inactive" src="/assets/plant_prairie.svg" alt="Plant prairies" />
+							<img className="option-active" src="/assets/prairieOption_active.svg" alt="Plant prairies" />
 							<div className="option-name">
 								<p>Plant</p>
 								<p>Prairies</p>
@@ -131,8 +131,8 @@ export class HeaderOptions extends React.Component {
 					</li>
 					<li className={layerOptionActive ? 'option active' : 'option'}>
 						<Link to="/#" onClick={() => this.toggleActiveClass('layerOption')}>
-							<img className="option-inactive" src="../assets/map_layers.svg" alt="Show layers" />
-							<img className="option-active" src="../assets/layerOption_active.svg" alt="Show layers" />
+							<img className="option-inactive" src="/assets/map_layers.svg" alt="Show layers" />
+							<img className="option-active" src="/assets/layerOption_active.svg" alt="Show layers" />
 							<div className="option-name">
 								<p>View Map</p>
 								<p>Layers</p>
@@ -140,7 +140,7 @@ export class HeaderOptions extends React.Component {
 						</Link>
 						<div className="OptionsDropdown grid-row">
 							<button type="button" className="CloseButton" onClick={() => this.toggleActiveClass('layerOption')}>
-								<img src="../assets/close_dropdown.svg" alt="Close" />
+								<img src="/assets/close_dropdown.svg" alt="Close" />
 							</button>
 							<div className="dropdown-checkbox">
 								<div>
@@ -162,14 +162,14 @@ export class HeaderOptions extends React.Component {
 								<button type="button" className="Button">
 									<span>Add A Map Layer</span>
 								</button>
-								<img src="../assets/question-mark.svg" alt="Help" />
+								<img src="/assets/question-mark.svg" alt="Help" />
 							</div>
 						</div>
 					</li>
 					<li className={reportOptionActive ? 'option active' : 'option'}>
 						<Link to="/#" onClick={() => this.toggleActiveClass('reportOption')}>
-							<img className="option-inactive" src="../assets/view_report.svg" alt="View report" />
-							<img className="option-active" src="../assets/reportOption_active.svg" alt="View report" />
+							<img className="option-inactive" src="/assets/view_report.svg" alt="View report" />
+							<img className="option-active" src="/assets/reportOption_active.svg" alt="View report" />
 							<div className="option-name">
 								<p>View</p>
 								<p>Report</p>

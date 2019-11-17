@@ -32,8 +32,7 @@ export class MapComponent extends React.Component {
 		super(props);
 		this.state = {
 			setup: false,
-			// geojsonInput: '',
-			// sources: [],
+			editingFeature: null,
 		};
 		this.mapElement = React.createRef();
 		debug('Props:', props);
@@ -96,54 +95,49 @@ export class MapComponent extends React.Component {
 		history.push(`${pathname}/${step}`);
 	}
 
-	clearDraw = () => {
-		this.draw.deleteAll();
+	setEditingFeature = feature => {
+		this.setState({
+			editingFeature: feature,
+		});
 	}
 
-	enableDrawMode = (mode, cb) => {
-		if (!mode) {
-			throw new Error('Expected a draw mode to be passed to enableDrawMode');
-		}
+	// clearDraw = () => {
+	// 	this.draw.deleteAll();
+	// }
 
-		if (mode !== 'simple_select' && !cb) {
-			throw new Error('Expected a callback function to be passed to enableDrawMode if desired mode is not simple_select');
-		}
+	// enableDrawMode = (config = {}) => {
+	// 	// This cleanly switches draw modes. Clears the draw and editingFeature data.
+	// 	const {
+	// 		mode,
+	// 		opts,
+	// 		cb,
+	// 	} = config;
 
-		debug('Changing mode:', mode, cb);
+	// 	if (!mode) {
+	// 		throw new Error('Expected a draw mode to be passed to enableDrawMode');
+	// 	}
 
-		const {
-			nextStep,
-			clearDraw,
-			draw,
-			map,
-		} = this;
+	// 	const {
+	// 		clearDraw,
+	// 		draw,
+	// 	} = this;
 
-		// Some props available in callback.
-		const callbackProps = {
-			nextStep,
-			draw,
-			map,
-		};
+	// 	if (draw.getMode() === mode) {
+	// 		debug('Already on mode:', mode);
+	// 		return false;
+	// 	}
 
-		const setupCreationEvent = () => {
-			this.onCreate = e => {
-				this.map.off('draw.create', this.onCreate);
-				cb(e, callbackProps);
-				// const feature = e.features[0];
-				// feature.properties = {
-				// 	...feature.properties,
-				// 	type,
-				// };
-				// this.draw.add(feature);
-				// nextStep('rows');
-			};
-			this.map.on('draw.create', this.onCreate);
-		};
+	// 	debug('Changing mode:', mode, opts, cb);
 
-		clearDraw(); // First clear any draw data.
-		this.draw.changeMode(mode); // Change mode.
-		mode !== 'simple_select' && !this.onCreate && setupCreationEvent(); // If is it a draw mode, setup the creation callback.
-	}
+	// 	clearDraw(); // First clear any draw data.
+	// 	this.draw.changeMode(mode, opts); // Change mode.
+	// 	this.setState({
+	// 		editingFeature: null,
+	// 	}, () => {
+	// 		cb && cb(); // Callback after changeMode, this can be used to setup some map event listeners.
+	// 	});
+	// 	return true;
+	// }
 
 	addDraw() {
 		this.draw = new MapboxDraw();
@@ -193,30 +187,41 @@ export class MapComponent extends React.Component {
 
 	render() {
 		const {
-			enableDrawMode,
+			setEditingFeature,
+			// enableDrawMode,
+			nextStep,
+			// clearDraw,
 			map,
+			draw,
 			state: {
 				setup,
+				editingFeature,
 			},
 		} = this;
 
 		const mapModeProps = {
-			enableDrawMode,
+			setEditingFeature,
+			// enableDrawMode,
+			nextStep,
+			// clearDraw,
 			map,
+			draw,
+			editingFeature,
 		};
 
 		return (
 			<>
-				<div className="Map" ref={this.mapElement} />
-				{setup
-					&& (
-						<Switch>
-							<Route path="/plant/trees/:step?" render={router => <PlantTrees router={router} {...mapModeProps} />} />
-							{/* <Route path="/plant/prairie/:step?" render={router => <PlantPrairie router={router} {...mapModeProps} />} /> */}
-							<Route path="/" render={router => <SimpleSelect router={router} {...mapModeProps} />} />
-							<Redirect to="/" />
-						</Switch>
-					)}
+				<div className="Map" ref={this.mapElement}>
+					{setup
+						&& (
+							<Switch>
+								<Route path="/plant/trees/:step?" render={router => <PlantTrees router={router} type="tree" {...mapModeProps} />} />
+								{/* <Route path="/plant/prairie/:step?" render={router => <PlantPrairie router={router} type="prairie" {...mapModeProps} />} /> */}
+								<Route path="/" render={router => <SimpleSelect router={router} {...mapModeProps} />} />
+								<Redirect to="/" />
+							</Switch>
+						)}
+				</div>
 			</>
 		);
 	}

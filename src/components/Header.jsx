@@ -17,16 +17,16 @@ export const SearchBar = () => (
 export const Title = () => (
 	<div className="Title">
 		<Link to="/">
-			<img className="narrow-logo" src="../assets/narrow_logo.svg" alt="Logo - Prairie and Tree Planting Tool" />
-			<img className="wide-logo" src="../assets/wide_logo.svg" alt="Logo - Prairie and Tree Planting Tool" />
+			<img className="narrow-logo" src="/assets/narrow_logo.svg" alt="Logo - Prairie and Tree Planting Tool" />
+			<img className="wide-logo" src="/assets/wide_logo.svg" alt="Logo - Prairie and Tree Planting Tool" />
 		</Link>
 	</div>
 );
 
 export const SaveButton = ({ save }) => (
 	<button type="button" className="SaveButton" onClick={save} onKeyPress={save}>
-		<img className="narrow-save" src="../assets/save_narrow.svg" alt="Save" />
-		<img className="wide-save" src="../assets/save_wide.svg" alt="Save" />
+		<img className="narrow-save" src="/assets/save_narrow.svg" alt="Save" />
+		<img className="wide-save" src="/assets/save_wide.svg" alt="Save" />
 	</button>
 );
 

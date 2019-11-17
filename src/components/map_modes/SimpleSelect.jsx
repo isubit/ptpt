@@ -3,10 +3,10 @@ import React from 'react';
 export class SimpleSelect extends React.Component {
 	componentDidMount() {
 		const {
-			enableDrawMode,
+			draw,
 		} = this.props;
 
-		enableDrawMode('simple_select');
+		draw.changeMode('simple_select');
 	}
 
 	render() {

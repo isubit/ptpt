@@ -22,7 +22,9 @@ module.exports = {
       "import/no-unresolved": 0, // Disabled because it's broken, doesn't work with the import/resolver webpack plugin
       "react/sort-comp": 0, // No sorting
       "no-unused-expressions": 0, // Allow expressions (e.g. true && func())
-      "max-len": [0], // No max length
+      "max-len": 0, // No max length
+      "react/state-in-constructor": 0, // State doesn't need to be in constructor
+      "react/jsx-one-expression-per-line": 0, // Don't need a new line...
     },
     "settings": {
       "import/resolver": {

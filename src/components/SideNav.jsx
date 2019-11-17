@@ -17,12 +17,12 @@ export class SideNav extends React.Component {
 		return (
 			<>
 				<button type="button" className="SideNavButton" onClick={this.toggleNav} onKeyPress={this.toggleNav}>
-					<img className="narrow-sidenav" src="../assets/side_nav.svg" alt="Side Navigation Toggle" />
-					<img className="wide-sidenav" src="../assets/sidenav_wide.svg" alt="Side Navigation Toggle" />
+					<img className="narrow-sidenav" src="/assets/side_nav.svg" alt="Side Navigation Toggle" />
+					<img className="wide-sidenav" src="/assets/sidenav_wide.svg" alt="Side Navigation Toggle" />
 				</button>
 				<div className={isNavOpen ? 'NavOptions grid-row active' : 'NavOptions grid-row'}>
 					<button type="button" className="CloseButton" onClick={this.toggleNav} onKeyPress={this.toggleNav}>
-						<img src="../assets/sidebar-close.svg" alt="Close Side Navigation" />
+						<img src="/assets/sidebar-close.svg" alt="Close Side Navigation" />
 					</button>
 					<div className="grid-wrap">
 						<ul>
