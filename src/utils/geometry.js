@@ -58,16 +58,16 @@
 
 // findBearing
 // Find the bearing degree of a line.
-// args: 
+// args:
 // <LineString>
-// returns: 
+// returns:
 // Int, bearing degree
 // Protocol:
 // Find the bearing of the given line.
 
 // findLineWithBearing
 // Find the line that intersects the given point, with a given bearing degree:
-// args: 
+// args:
 // <Point>
 // Int, bearing degree
 // returns:
