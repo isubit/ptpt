@@ -16,7 +16,14 @@
               "id": 1,
               "display": "Mow"
             },
-            ""
+            "cropping_system": {
+              "id": 1,
+              "display": "Corn Rotation"
+            },
+            "pest_control": {
+              "id": 1,
+              "display": "Pest Control"
+            }
         }
     },
     "geometry": {

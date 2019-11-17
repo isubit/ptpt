@@ -78,8 +78,7 @@ export class PlantTrees extends React.Component {
 		} else if (editingFeature) {
 			// Else, if we're on a step and there is a feature being edited, enter direct_select mode.
 
-			debug('Entering direct_select mode.');
-			debug(editingFeature);
+			debug('Entering direct_select mode.', editingFeature);
 			draw.changeMode('direct_select', { featureId: editingFeature.id }); // Use draw.changeMode instead of enableDrawMode so that we don't clear data.
 
 			// Setup listeners so that the user cannot switch from direct_select mode.
@@ -121,6 +120,7 @@ export class PlantTrees extends React.Component {
 				},
 			},
 			editingFeature,
+			saveFeature,
 		} = this.props;
 
 		if (!editingFeature) {
@@ -136,29 +136,31 @@ export class PlantTrees extends React.Component {
 
 		// If we're on a step, render the form.
 		return step ? (
-			<div className="PlantTrees MapModeForm">
+			<div className="PlantTrees MapModeForm vertical-align">
 				{/* the modal below needs to be replaced with a prebuilt component */}
-				<div className="modal">
+				<div className="modal margin-center">
 					<div>
 						<p>Some pre-filled properties for this {editingFeature.properties.type} polygon...</p>
 						<p>Rows: {configs.rows.length}</p>
 						{
 							configs.rows.map((ea, i) => (
-								<div>
+								<div key={`row-${i + 1}`} className="spacer-left-1">
 									<p>Row {i + 1}</p>
-									<p>Type: {ea.type.display}</p>
-									<p>Species: {ea.species.display}</p>
+									<div className="spacer-left-1">
+										<p>Type: {ea.type.display}</p>
+										<p>Species: {ea.species.display}</p>
+									</div>
 								</div>
 							))
 						}
 						<p>Row Spacing: {configs.spacing_rows.value} {configs.spacing_rows.unit}</p>
 						<p>Tree Spacing: {configs.spacing_trees.value} {configs.spacing_trees.unit}</p>
 						<p>Drip Irrigation: {configs.drip_irrigation ? 'yes' : 'no'}</p>
-						<div className="spacer-top-1">
-							<button type="button">Done &amp; Back to Map</button>
+						<div className="spacer-top-2 distribute">
 							<div>
-								<Link to="/plant/trees">Start Over</Link>
+								<Link className="modal-link" to="/plant/trees">Start Over</Link>
 							</div>
+							<button onClick={saveFeature} className="Button" type="button">Done</button>
 						</div>
 					</div>
 				</div>

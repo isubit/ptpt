@@ -8,8 +8,10 @@ import mapboxgl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import Debug from 'debug';
 
-import { MapConsumer } from 'contexts/MapState';
 import areaLayer from 'map_layers/area.json';
+import outlineLayer from 'map_layers/outline.json';
+
+import { MapConsumer } from 'contexts/MapState';
 import { SimpleSelect } from './map_modes/SimpleSelect';
 import { PlantTrees } from './map_modes/PlantTrees';
 
@@ -33,6 +35,7 @@ export class MapComponent extends React.Component {
 		this.state = {
 			setup: false,
 			editingFeature: null,
+			sources: [],
 		};
 		this.mapElement = React.createRef();
 		debug('Props:', props);
@@ -53,8 +56,7 @@ export class MapComponent extends React.Component {
 
 			this.addDraw();
 			this.loadSources();
-			// this.setDrawMode();
-			// this.loadLayers();
+			this.loadLayers();
 			this.setState({
 				setup: true,
 			});
@@ -67,7 +69,6 @@ export class MapComponent extends React.Component {
 	componentDidUpdate() {
 		if (this.state.setup) {
 			this.loadSources();
-			// this.setDrawMode();
 		}
 	}
 
@@ -101,68 +102,51 @@ export class MapComponent extends React.Component {
 		});
 	}
 
-	// clearDraw = () => {
-	// 	this.draw.deleteAll();
-	// }
+	saveFeature = () => {
+		const {
+			state: {
+				editingFeature,
+			},
+			props: {
+				router: {
+					history,
+				},
+				addData,
+			},
+		} = this;
 
-	// enableDrawMode = (config = {}) => {
-	// 	// This cleanly switches draw modes. Clears the draw and editingFeature data.
-	// 	const {
-	// 		mode,
-	// 		opts,
-	// 		cb,
-	// 	} = config;
-
-	// 	if (!mode) {
-	// 		throw new Error('Expected a draw mode to be passed to enableDrawMode');
-	// 	}
-
-	// 	const {
-	// 		clearDraw,
-	// 		draw,
-	// 	} = this;
-
-	// 	if (draw.getMode() === mode) {
-	// 		debug('Already on mode:', mode);
-	// 		return false;
-	// 	}
-
-	// 	debug('Changing mode:', mode, opts, cb);
-
-	// 	clearDraw(); // First clear any draw data.
-	// 	this.draw.changeMode(mode, opts); // Change mode.
-	// 	this.setState({
-	// 		editingFeature: null,
-	// 	}, () => {
-	// 		cb && cb(); // Callback after changeMode, this can be used to setup some map event listeners.
-	// 	});
-	// 	return true;
-	// }
+		debug('Saving feature:', editingFeature);
+		addData(editingFeature);
+		history.push('/');
+	}
 
 	addDraw() {
 		this.draw = new MapboxDraw();
 		this.map.addControl(this.draw, 'top-right');
 	}
 
-	// addSource(name, type, data) {
-	//     if (this.state.sources.includes(name)) {
-	//         // Update the source.
-	//         const source = this.map.getSource(name);
-	//         source.setData(data);
-	//     } else {
-	//         // Add the source.
-	//         this.map.addSource(name, {
-	//             type,
-	//             data
-	//         });
-	//         this.setState({
-	//             sources: this.state.sources.concat(name)
-	//         });
-	//     }
-	// }
+	addSource(name, type, data) {
+		if (this.state.sources.includes(name)) {
+			// Update the source.
+			const source = this.map.getSource(name);
+			source.setData(data);
+		} else {
+			// Add the source.
+			this.map.addSource(name, {
+				type,
+				data,
+			});
+			this.setState(prevState => ({
+				sources: prevState.sources.concat(name),
+			}));
+		}
+	}
 
 	loadSources() {
-		const { data = [] } = this.props;
+		const {
+			data = new Map(),
+		} = this.props;
+
 		let features = [];
 		data.forEach(ea => {
 			if (ea.type === 'Feature') {
@@ -173,24 +157,24 @@ export class MapComponent extends React.Component {
 		});
 
 		// Add each feature to the mapbox-gl-draw source.
-		features.forEach((ea) => this.draw.add(ea));
+		// features.forEach((ea) => this.draw.add(ea));
 
-		// this.addSource('feature_data', 'geojson', {
-		//     type: 'FeatureCollection',
-		//     features
-		// });
+		this.addSource('feature_data', 'geojson', {
+			type: 'FeatureCollection',
+			features,
+		});
 	}
 
 	loadLayers() {
 		this.map.addLayer(areaLayer);
+		this.map.addLayer(outlineLayer);
 	}
 
 	render() {
 		const {
 			setEditingFeature,
-			// enableDrawMode,
+			saveFeature,
 			nextStep,
-			// clearDraw,
 			map,
 			draw,
 			state: {
@@ -201,9 +185,8 @@ export class MapComponent extends React.Component {
 
 		const mapModeProps = {
 			setEditingFeature,
-			// enableDrawMode,
+			saveFeature,
 			nextStep,
-			// clearDraw,
 			map,
 			draw,
 			editingFeature,

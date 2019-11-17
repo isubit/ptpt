@@ -1,0 +1,9 @@
+{
+	"id": "feature_data_outline",
+	"type": "line",
+	"source": "feature_data",
+	"paint": {
+		"line-color": "#006ba6",
+        "line-width": 3
+	}
+}
