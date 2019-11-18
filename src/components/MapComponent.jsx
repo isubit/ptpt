@@ -269,7 +269,7 @@ export class MapComponent extends React.Component {
 					{drawInit
 						&& (
 							<Switch>
-								<Route path="/plant/trees/:step?" render={router => <Planting router={router} type="tree" steps={['rows', 'species', 'spacing']} {...mapModeProps} />} />
+								<Route path="/plant/tree/:step?" render={router => <Planting router={router} type="tree" steps={['rows', 'species', 'spacing']} {...mapModeProps} />} />
 								<Route path="/plant/prairie/:step?" render={router => <Planting router={router} type="prairie" steps={['seed', 'mgmt_1', 'mgmt_2']} {...mapModeProps} />} />
 								<Route path="/" render={router => <SimpleSelect router={router} {...mapModeProps} />} />
 								<Redirect to="/" />

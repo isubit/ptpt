@@ -25,7 +25,7 @@ export const EditIcons = props => {
 			const { for: featureId } = editingIcon.properties;
 			const feature = data.get(featureId);
 			setEditingFeature(feature);
-			nextStep('/plant/trees/rows');
+			nextStep('/plant/tree/rows');
 		}],
 	];
 	events = new Map(events);

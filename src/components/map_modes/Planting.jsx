@@ -10,7 +10,7 @@ import Debug from 'debug';
 const debug = Debug('MapComponent');
 
 const testData = {
-	trees: tree,
+	tree,
 	prairie,
 };
 
