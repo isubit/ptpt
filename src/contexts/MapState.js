@@ -47,4 +47,19 @@ export const MapActions = (that) => ({
 			debug('Error adding data to context:', errors);
 		}
 	},
+	deleteData(id) {
+		// Delete data using id.
+		const data = new Map(that.state.MapState.data);
+		data.delete(id);
+
+		const updateState = {
+			MapState: {
+				...that.state.MapState,
+				data,
+			},
+		};
+
+		// Update state.
+		that.setState(updateState);
+	},
 });

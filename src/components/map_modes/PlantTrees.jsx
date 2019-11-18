@@ -117,6 +117,8 @@ export class PlantTrees extends React.Component {
 					},
 				},
 			},
+			data,
+			deleteFeature,
 			editingFeature,
 			saveFeature,
 		} = this.props;
@@ -155,9 +157,19 @@ export class PlantTrees extends React.Component {
 						<p>Tree Spacing: {configs.spacing_trees.value} {configs.spacing_trees.unit}</p>
 						<p>Drip Irrigation: {configs.drip_irrigation ? 'yes' : 'no'}</p>
 						<div className="spacer-top-2 distribute">
-							<div>
-								<Link className="modal-link" to="/plant/trees">Start Over</Link>
-							</div>
+							{
+								data.get(editingFeature.id)
+									? (
+										<div>
+											<span onClick={() => deleteFeature(editingFeature.id)} onKeyDown={e => e.keyCode === 13 && deleteFeature(editingFeature.id)} role="button" tabIndex="0">Delete</span>
+										</div>
+									)
+									: (
+										<div>
+											<Link className="modal-link" to="/plant/trees">Start Over</Link>
+										</div>
+									)
+							}
 							<button onClick={saveFeature} className="Button" type="button">Done</button>
 						</div>
 					</div>

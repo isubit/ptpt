@@ -144,15 +144,29 @@ export class MapComponent extends React.Component {
 				editingFeature,
 			},
 			props: {
+				addData,
 				router: {
 					history,
 				},
-				addData,
 			},
 		} = this;
 
 		debug('Saving feature:', editingFeature);
 		addData(editingFeature);
+		history.push('/');
+	}
+
+	deleteFeature = id => {
+		const {
+			props: {
+				deleteData,
+				router: {
+					history,
+				},
+			},
+		} = this;
+
+		deleteData(id);
 		history.push('/');
 	}
 
@@ -219,28 +233,31 @@ export class MapComponent extends React.Component {
 
 	render() {
 		const {
+			deleteFeature,
+			draw,
+			map,
+			nextStep,
+			props: {
+				data,
+			},
 			setEditingFeature,
 			saveFeature,
-			nextStep,
-			map,
-			draw,
 			state: {
 				drawInit,
 				sourcesAdded,
 				editingFeature,
 			},
-			props: {
-				data,
-			},
 		} = this;
 
 		const mapModeProps = {
-			setEditingFeature,
-			saveFeature,
-			nextStep,
-			map,
+			data,
+			deleteFeature,
 			draw,
 			editingFeature,
+			map,
+			nextStep,
+			setEditingFeature,
+			saveFeature,
 		};
 
 		return (
