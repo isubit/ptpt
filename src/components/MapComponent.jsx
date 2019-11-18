@@ -22,7 +22,7 @@ import { EditIcons } from './map_layers/EditIcons';
 import { Outline } from './map_layers/Outline';
 
 import { SimpleSelect } from './map_modes/SimpleSelect';
-import { PlantTrees } from './map_modes/PlantTrees';
+import { Planting } from './map_modes/Planting';
 
 
 mapboxgl.accessToken = process.env.mapbox_api_key;
@@ -267,8 +267,8 @@ export class MapComponent extends React.Component {
 					{drawInit
 						&& (
 							<Switch>
-								<Route path="/plant/trees/:step?" render={router => <PlantTrees router={router} type="tree" {...mapModeProps} />} />
-								{/* <Route path="/plant/prairie/:step?" render={router => <PlantPrairie router={router} type="prairie" {...mapModeProps} />} /> */}
+								<Route path="/plant/trees/:step?" render={router => <Planting router={router} type="tree" steps={['rows', 'species', 'spacing']} {...mapModeProps} />} />
+								<Route path="/plant/prairie/:step?" render={router => <Planting router={router} type="prairie" steps={['seed', 'mgmt_1', 'mgmt_2']} {...mapModeProps} />} />
 								<Route path="/" render={router => <SimpleSelect router={router} {...mapModeProps} />} />
 								<Redirect to="/" />
 							</Switch>

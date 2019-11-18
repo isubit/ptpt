@@ -4,11 +4,17 @@ import {
 	Redirect,
 } from 'react-router-dom';
 import tree from 'test_data/tree.json';
+import prairie from 'test_data/prairie.json';
 import Debug from 'debug';
 
 const debug = Debug('MapComponent');
 
-export class PlantTrees extends React.Component {
+const testData = {
+	trees: tree,
+	prairie,
+};
+
+export class Planting extends React.Component {
 	events = new Map()
 
 	componentDidMount() {
@@ -47,6 +53,7 @@ export class PlantTrees extends React.Component {
 			draw,
 			editingFeature,
 			type,
+			steps,
 		} = this.props;
 
 		if (!step) {
@@ -67,11 +74,11 @@ export class PlantTrees extends React.Component {
 				feature.properties = {
 					...feature.properties,
 					type,
-					configs: tree.properties.configs, // These are some default properties for testing.
+					configs: testData[type].properties.configs, // These are some default properties for testing.
 				};
 				draw.add(feature);
 				debug('Created feature:', feature);
-				nextStep('/plant/trees/rows');
+				nextStep(`/plant/${type}/${steps[0]}`);
 				setEditingFeature(feature);
 			};
 			map.on('draw.create', onCreate);
@@ -121,11 +128,12 @@ export class PlantTrees extends React.Component {
 			deleteFeature,
 			editingFeature,
 			saveFeature,
+			type,
 		} = this.props;
 
 		if (!editingFeature) {
 			// If there isn't a feature being edited, navigate to the draw step.
-			return <Redirect to="/plant/trees" />;
+			return <Redirect to={`/plant/${type}`} />;
 		}
 
 		const {
@@ -136,26 +144,40 @@ export class PlantTrees extends React.Component {
 
 		// If we're on a config step, render the form.
 		return step ? (
-			<div className="PlantTrees MapModeForm vertical-align">
+			<div className="Planting MapModeForm vertical-align">
 				{/* the modal below needs to be replaced with a prebuilt component */}
 				<div className="modal margin-center">
 					<div>
 						<p>Some pre-filled properties for this {editingFeature.properties.type} polygon...</p>
-						<p>Rows: {configs.rows.length}</p>
-						{
-							configs.rows.map((ea, i) => (
-								<div key={`row-${i + 1}`} className="spacer-left-1">
-									<p>Row {i + 1}</p>
-									<div className="spacer-left-1">
-										<p>Type: {ea.type.display}</p>
-										<p>Species: {ea.species.display}</p>
-									</div>
-								</div>
-							))
-						}
-						<p>Row Spacing: {configs.spacing_rows.value} {configs.spacing_rows.unit}</p>
-						<p>Tree Spacing: {configs.spacing_trees.value} {configs.spacing_trees.unit}</p>
-						<p>Drip Irrigation: {configs.drip_irrigation ? 'yes' : 'no'}</p>
+						{editingFeature.properties.type === 'tree' && (
+							<>
+								<p>Rows: {configs.rows.length}</p>
+								{
+									configs.rows.map((ea, i) => (
+										<div key={`row-${i + 1}`} className="spacer-left-1">
+											<p>Row {i + 1}</p>
+											<div className="spacer-left-1">
+												<p>Type: {ea.type.display}</p>
+												<p>Species: {ea.species.display}</p>
+											</div>
+										</div>
+									))
+								}
+								<p>Row Spacing: {configs.spacing_rows.value} {configs.spacing_rows.unit}</p>
+								<p>Tree Spacing: {configs.spacing_trees.value} {configs.spacing_trees.unit}</p>
+								<p>Drip Irrigation: {configs.drip_irrigation ? 'yes' : 'no'}</p>
+							</>
+						)}
+
+						{editingFeature.properties.type === 'prairie' && (
+							<>
+								<p>Seed: {configs.seed.value}</p>
+								<p>Management: {configs.management.display}</p>
+								<p>Cropping System: {configs.cropping_system.display}</p>
+								<p>Pest Control: {configs.pest_control.value}</p>
+							</>
+						)}
+
 						<div className="spacer-top-2 distribute">
 							{
 								data.get(editingFeature.id)
@@ -166,7 +188,7 @@ export class PlantTrees extends React.Component {
 									)
 									: (
 										<div>
-											<Link className="modal-link" to="/plant/trees">Start Over</Link>
+											<Link className="modal-link" to={`/plant/${type}`}>Start Over</Link>
 										</div>
 									)
 							}
