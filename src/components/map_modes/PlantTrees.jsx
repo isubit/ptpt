@@ -26,6 +26,7 @@ export class PlantTrees extends React.Component {
 		// Clean up events.
 		events.forEach((value, key) => {
 			map.off(key, value);
+			events.delete(key);
 		});
 
 		this.setDrawMode();
@@ -70,7 +71,7 @@ export class PlantTrees extends React.Component {
 				};
 				draw.add(feature);
 				debug('Created feature:', feature);
-				nextStep('rows');
+				nextStep('/plant/trees/rows');
 				setEditingFeature(feature);
 			};
 			map.on('draw.create', onCreate);
@@ -79,7 +80,9 @@ export class PlantTrees extends React.Component {
 			// Else, if we're on a config step and there is a feature being edited, enter direct_select mode.
 			// This actually doesn't matter too much because if we're on a config step the modal overlay blocks map interactivity.
 			debug('Entering direct_select mode.', editingFeature);
-
+			if (!draw.get(editingFeature.id)) {
+				draw.add(editingFeature);
+			}
 			draw.changeMode('direct_select', { featureId: editingFeature.id });
 		}
 	}
@@ -97,6 +100,7 @@ export class PlantTrees extends React.Component {
 		// Clean up events.
 		events.forEach((value, key) => {
 			map.off(key, value);
+			events.delete(key);
 		});
 
 		// Clean up draw and feature state.

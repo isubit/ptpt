@@ -8,14 +8,22 @@ import mapboxgl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import Debug from 'debug';
 
-import areaLayer from 'map_layers/area.json';
-import outlineLayer from 'map_layers/outline.json';
-
-import TestTreePoly from 'test_data/tree.json';
-
 import { MapConsumer } from 'contexts/MapState';
+
+import {
+	getPolygons,
+	getEditIcons,
+} from 'utils/sources';
+
+import TestTreePoly from 'test_data/tree.json'; // This is some test data so there is something to interact with.
+
+import { Area } from './map_layers/Area';
+import { EditIcons } from './map_layers/EditIcons';
+import { Outline } from './map_layers/Outline';
+
 import { SimpleSelect } from './map_modes/SimpleSelect';
 import { PlantTrees } from './map_modes/PlantTrees';
+
 
 mapboxgl.accessToken = process.env.mapbox_api_key;
 
@@ -35,9 +43,12 @@ export class MapComponent extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			setup: false,
-			editingFeature: null,
-			sources: [],
+			// init: false, // Is the map init? Access via this.map
+			// loaded: false, // Is the map loaded?
+			drawInit: false, // Is the draw controller init?
+			sourcesAdded: false, // Are the sources added?
+			editingFeature: null, // The current feature being edited.
+			sources: [], // The current sources loaded.
 		};
 		this.mapElement = React.createRef();
 		debug('Props:', props);
@@ -51,26 +62,36 @@ export class MapComponent extends React.Component {
 			zoom: 13,
 		});
 
+		// this.setState({ init: true });
+
 		this.map.on('load', () => {
+			// this.setState({ loaded: true });
+			debug('Map loaded:', this.map);
+
 			if (this.state.setup) {
 				return false;
 			}
 
-			this.addDraw(); // Add the draw controller.
 			this.loadSources(); // Load the data sources.
-			this.loadLayers(); // Load the layer styles.
+			this.loadImages([ // Load the images to be used in the map.
+				'/assets/edit_feature.svg',
+			]);
 			this.loadSomeTestData(); // Load some test data.
+
+			// Add the draw controller.
+			this.draw = new MapboxDraw();
+			this.map.addControl(this.draw, 'top-right');
+
 			this.setState({
-				setup: true,
+				drawInit: true,
 			});
-			debug('Map loaded:', this.map);
 
 			return true;
 		});
 	}
 
 	componentDidUpdate() {
-		if (this.state.setup) {
+		if (this.state.sourcesAdded) {
 			// Only the sources need to be updated, because they contain the state data.
 			this.loadSources();
 		}
@@ -96,17 +117,17 @@ export class MapComponent extends React.Component {
 	}
 
 	nextStep = step => {
-		// This simply pushes a desired step into the router.
+		// This simply pushes a desired URL into the router.
 		const {
 			router: {
 				history,
-				location: {
-					pathname,
-				},
+				// location: {
+				// 	pathname,
+				// },
 			},
 		} = this.props;
 
-		history.push(`${pathname}/${step}`);
+		history.push(step);
 	}
 
 	setEditingFeature = feature => {
@@ -135,12 +156,6 @@ export class MapComponent extends React.Component {
 		history.push('/');
 	}
 
-	addDraw() {
-		// This adds the draw controller.
-		this.draw = new MapboxDraw();
-		this.map.addControl(this.draw, 'top-right');
-	}
-
 	addSource(name, type, data) {
 		// This adds the data source to the map, or updates it if it exists.
 		if (this.state.sources.includes(name)) {
@@ -162,31 +177,44 @@ export class MapComponent extends React.Component {
 	loadSources() {
 		// This passes the data from context to source.
 		const {
-			data = new Map(),
-		} = this.props;
+			state: {
+				sourcesAdded,
+			},
+			props: {
+				data = new Map(),
+			},
+		} = this;
 
-		let features = [];
-		data.forEach(ea => {
-			if (ea.type === 'Feature') {
-				features.push(ea);
-			} else if (ea.type === 'FeatureCollection') {
-				features = features.concat(ea.features);
-			}
-		});
-
-		// Add each feature to the mapbox-gl-draw source.
-		// features.forEach((ea) => this.draw.add(ea));
-
+		// These are the polygons.
 		this.addSource('feature_data', 'geojson', {
 			type: 'FeatureCollection',
-			features,
+			features: getPolygons(data),
 		});
+
+		// These are the edit icons.
+		this.addSource('feature_data_edit_icons', 'geojson', {
+			type: 'FeatureCollection',
+			features: getEditIcons(data),
+		});
+
+		!sourcesAdded && this.setState({ sourcesAdded: true });
 	}
 
-	loadLayers() {
-		// This just adds the layer styles.
-		this.map.addLayer(areaLayer);
-		this.map.addLayer(outlineLayer);
+	loadImages(srcs) {
+		const addImg = src => new Promise(resolve => {
+			const img = document.createElement('img');
+			img.src = src;
+			img.alt = 'Edit Polygon';
+			img.onload = () => {
+				resolve(src);
+				this.map.addImage(src, img);
+			};
+			img.onerror = () => {
+				resolve(src);
+			};
+		});
+
+		return Promise.all(srcs.map(addImg));
 	}
 
 	render() {
@@ -197,8 +225,12 @@ export class MapComponent extends React.Component {
 			map,
 			draw,
 			state: {
-				setup,
+				drawInit,
+				sourcesAdded,
 				editingFeature,
+			},
+			props: {
+				data,
 			},
 		} = this;
 
@@ -214,8 +246,8 @@ export class MapComponent extends React.Component {
 		return (
 			<>
 				<div className="Map" ref={this.mapElement}>
-					{/* If the map is setup, we can render the drawing modes. They self-contain their config forms. */}
-					{setup
+					{/* When the draw controller is init, we can render the drawing modes. They self-contain their event listeners and config forms. */}
+					{drawInit
 						&& (
 							<Switch>
 								<Route path="/plant/trees/:step?" render={router => <PlantTrees router={router} type="tree" {...mapModeProps} />} />
@@ -223,6 +255,16 @@ export class MapComponent extends React.Component {
 								<Route path="/" render={router => <SimpleSelect router={router} {...mapModeProps} />} />
 								<Redirect to="/" />
 							</Switch>
+						)}
+
+					{/* Load layers. These self-contain their event listeners. */}
+					{sourcesAdded
+						&& (
+							<>
+								<Area map={map} />
+								<Outline map={map} />
+								<EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />
+							</>
 						)}
 				</div>
 			</>

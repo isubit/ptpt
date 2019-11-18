@@ -1,3 +1,6 @@
+import { point } from '@turf/helpers';
+import _ from 'lodash';
+
 // A few methodologies for finding the longest lines that can fit within a polygon:
 
 // Two-Vertices Method:
@@ -106,3 +109,28 @@
 // Find the lineOffset of the perpendicular line, offset the given distance.
 // Find the intersect of the two lines.
 // Repeat until there is no intersect.
+
+// -----------------------------------
+
+// We need to generate the edit icon, in the southern-most vertex of the polygon.
+
+// findSouthernVertex
+// Find the southern-most vertex of the given polygon.
+// args:
+// <Polygon>
+// returns:
+// <Point>
+// Protocol:
+// Sort the vertices by latitude. Find the point with the smallest latitude.
+export function findSouthernVertex(polygon) {
+	const feature = _.cloneDeep(polygon);
+	const {
+		geometry: {
+			coordinates,
+		},
+	} = feature;
+	const vertices = coordinates[0];
+	const sorted = vertices.sort((a, b) => a[1] - b[1]);
+	const vertex = sorted[0];
+	return point(vertex);
+}
