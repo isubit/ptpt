@@ -15,14 +15,16 @@ export const MapConsumer = MapContext.Consumer;
 
 export const MapActions = (that) => ({
 	addData(geojson) {
+		// Add geojson feature data.
 		const errors = geojsonhint.hint(geojson);
 		if (!errors || errors.length === 0 || (errors.length === 1 && errors[0].message.includes('right-hand rule'))) {
 			if (geojson.type === 'FeatureCollection') {
 				geojson.features.forEach(ea => this.addData(ea));
 			} else {
-				// Create new map depending on if the new geojson should go into staticData or gl-draw data.
+				// Create new map.
 				const data = new Map(that.state.MapState.data);
 
+				// Clone the geojson.
 				const feature = _.cloneDeep(geojson);
 
 				// If feature doesn't have an id, give it one first.
@@ -32,15 +34,13 @@ export const MapActions = (that) => ({
 
 				data.set(feature.id, feature);
 
-				// Rebuild a new state object with new mapData. mapData should be updated into correct data (static or nonstatic).
+				// Rebuild a new state object with new data.
 				const updateState = {
 					MapState: {
 						...that.state.MapState,
 						data,
 					},
 				};
-
-				// Update state.
 				that.setState(updateState);
 			}
 		} else {
@@ -58,8 +58,6 @@ export const MapActions = (that) => ({
 				data,
 			},
 		};
-
-		// Update state.
 		that.setState(updateState);
 	},
 });

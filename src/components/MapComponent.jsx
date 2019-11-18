@@ -55,6 +55,7 @@ export class MapComponent extends React.Component {
 	}
 
 	componentDidMount() {
+		// On mount, we init the map in the container, then load in the things we need.
 		this.map = new mapboxgl.Map({
 			container: this.mapElement.current,
 			style: 'mapbox://styles/mapbox/outdoors-v11',
@@ -109,6 +110,7 @@ export class MapComponent extends React.Component {
 	}
 
 	loadSomeTestData() {
+		// This is just so we have a polygon to work with on the map.
 		const {
 			addData,
 		} = this.props;
