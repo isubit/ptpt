@@ -8,6 +8,7 @@ const debug = Debug('MapState');
 
 export const MapDefaultState = {
 	data: new Map(),
+	style: new Map([['outdoor', { on: true, url: 'mapbox://styles/mapbox/outdoors-v11' }], ['ssurgo', { on: false, url: null }], ['lidar', { on: false, url: null }], ['contours', { on: false, url: null }], ['satellite', { on: false, url: 'mapbox://styles/mapbox/satellite-v9' }]]),
 };
 export const MapContext = React.createContext(MapDefaultState);
 export const MapProvider = MapContext.Provider;
@@ -58,6 +59,23 @@ export const MapActions = (that) => ({
 				data,
 			},
 		};
+		that.setState(updateState);
+	},
+	setMapStyle(styleName) {
+		// change the set map style state depending on the given styleName
+		const { style } = that.state.MapState;
+		// the default view must turn off if sattelite is active
+		if (styleName === 'satellite') {
+			style.get('outdoor').on = !style.get('outdoor').on;
+		}
+		style.set(styleName, { on: !style.get(styleName).on, url: style.get(styleName).url });
+		const updateState = {
+			MapState: {
+				...that.state.MapState,
+				style,
+			},
+		};
+
 		that.setState(updateState);
 	},
 });

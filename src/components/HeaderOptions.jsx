@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { MapConsumer } from '../contexts/MapState';
+// import { Context } from 'mocha';
+
 /* export const OptionsDropdown = (props) => {
 	const { option } = props;
 	if (option === 'tree') {
@@ -30,6 +33,31 @@ import { Link } from 'react-router-dom';
 	}
 }; */
 
+const DropdownCheckbox = ({ setMapStyle }) => (
+	<div className="dropdown-checkbox">
+		<div>
+			<input type="checkbox" name="ssurgo" onChange={(e) => setMapStyle(e.target.name)} />
+			<span>gSSURGO - CSR</span>
+		</div>
+		<div>
+			<input type="checkbox" name="lidar" onChange={(e) => setMapStyle(e.target.name)} />
+			<span>LiDAR Hillshade</span>
+		</div>
+		<div>
+			<input type="checkbox" name="contours" onChange={(e) => setMapStyle(e.target.name)} />
+			<span>(2 ft contours)</span>
+		</div>
+		<div>
+			<input type="checkbox" name="satellite" onChange={(e) => setMapStyle(e.target.name)} />
+			<span>Satellite</span>
+		</div>
+		<button type="button" className="Button">
+			<span>Add A Map Layer</span>
+		</button>
+		<img src="/assets/question-mark.svg" alt="Help" />
+	</div>
+);
+
 export class HeaderOptions extends React.Component {
 	constructor(props) {
 		super(props);
@@ -40,17 +68,16 @@ export class HeaderOptions extends React.Component {
 				layerOptionActive: false,
 				reportOptionActive: false,
 			},
-			layerStates: {
+			/* layerStates: {
 				ssurgo: false,
 				lidar: false,
 				contours: false,
 				satellite: false,
-			},
+			}, */
 		};
-		this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
 	}
 
-	handleCheckboxChange(event) {
+	handleCheckboxChange = (event) => {
 		const checkboxName = event.target.name;
 		const { layerStates } = this.state;
 		// toggle on or off
@@ -62,7 +89,7 @@ export class HeaderOptions extends React.Component {
 		});
 	}
 
-	toggleActiveClass(optionName) {
+	toggleActiveClass = (optionName) => {
 		const { optionStates } = this.state;
 		let prevActiveState;
 
@@ -142,7 +169,17 @@ export class HeaderOptions extends React.Component {
 							<button type="button" className="CloseButton" onClick={() => this.toggleActiveClass('layerOption')}>
 								<img src="/assets/close_dropdown.svg" alt="Close" />
 							</button>
-							<div className="dropdown-checkbox">
+							<MapConsumer>
+								{(ctx) => {
+									const {
+										actions: {
+											setMapStyle,
+										},
+									} = ctx;
+									return <DropdownCheckbox setMapStyle={setMapStyle} />;
+								}}
+							</MapConsumer>
+							{/* <div className="dropdown-checkbox">
 								<div>
 									<input type="checkbox" name="ssurgo" onChange={this.handleCheckboxChange} />
 									<span>gSSURGO - CSR</span>
@@ -163,7 +200,7 @@ export class HeaderOptions extends React.Component {
 									<span>Add A Map Layer</span>
 								</button>
 								<img src="/assets/question-mark.svg" alt="Help" />
-							</div>
+							</div> */}
 						</div>
 					</li>
 					<li className={reportOptionActive ? 'option active' : 'option'}>
