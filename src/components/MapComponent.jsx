@@ -93,11 +93,9 @@ export class MapComponent extends React.Component {
 	}
 
 	componentDidUpdate() {
-		// loadsources needs to run ANY time style changes
-		// if map style changed run below -- how to track if style changes?
-		// this.setMapStyle();
 		if (this.state.sourcesAdded) {
 			// Only the sources need to be updated, because they contain the state data.
+			this.setMapStyle();
 			this.loadSources();
 		}
 	}
@@ -140,7 +138,7 @@ export class MapComponent extends React.Component {
 	setMapStyle = () => {
 		// depending on the map context change to correct style
 		const { style } = this.props;
-		// setStyle removes the sources from the map, copy sources on the map before changing the style
+		// setStyle removes the sources from the map
 		if (style.get('satellite').on === true) {
 			this.map.setStyle(style.get('satellite').url);
 			this.setState({
