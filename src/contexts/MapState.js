@@ -19,15 +19,9 @@ export const MapDefaultState = {
 		},
 	},
 	layers: {
-		ssurgo: {
-			on: false,
-		},
-		lidar: {
-			on: false,
-		},
-		contours: {
-			on: false,
-		},
+		ssurgo: false,
+		lidar: false,
+		contours: false,
 	},
 };
 export const MapContext = React.createContext(MapDefaultState);
@@ -103,9 +97,10 @@ export const MapActions = (that) => ({
 	setMapLayer(layerName) {
 		// Set map layer given layer name
 		const { layers } = that.state.MapState;
-		if (layers[layerName]) {
-			layers[layerName].on = !layers[layerName].on;
+		if (Object.prototype.hasOwnProperty.call(layers, layerName)) {
+			layers[layerName] = !layers[layerName];
 		}
+		console.log(layers);
 		const updateState = {
 			MapState: {
 				...that.state.MapState,

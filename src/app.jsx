@@ -27,6 +27,8 @@ const App = () => (
 			<MapConsumer>
 				{(ctx) => {
 					const { basemaps } = ctx.state;
+					// console.log(layers);
+					console.log(basemaps);
 					// if satellite style is selected render satellite styled map component
 					const loadMap = (router, basemapsMap) => {
 						if (basemapsMap.satellite.on) {
