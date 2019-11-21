@@ -30,9 +30,9 @@ const App = () => (
 					// if satellite style is selected render satellite styled map component
 					const loadMap = (router, styleMap) => {
 						if (styleMap.get('satellite').on) {
-							return <MapWrapperSatellite router={router} mapStyle="satellite" />;
+							return <MapWrapperSatellite router={router} />;
 						}
-						return <MapWrapperDefault router={router} mapStyle="outdoor" />;
+						return <MapWrapperDefault router={router} />;
 					};
 					return <Route path="/" render={(router) => loadMap(router, style)} />;
 				}}
