@@ -19,6 +19,7 @@ import TestTreePoly from 'test_data/tree.json'; // This is some test data so the
 
 import { Area } from './map_layers/Area';
 import { EditIcons } from './map_layers/EditIcons';
+import { SSURGO } from './map_layers/SSURGO';
 import { Outline } from './map_layers/Outline';
 
 import { SimpleSelect } from './map_modes/SimpleSelect';
@@ -205,15 +206,22 @@ export class MapComponent extends React.Component {
 	addSource(name, type, data) {
 		// This adds the data source to the map, or updates it if it exists.
 		if (this.state.sources.includes(name)) {
-			// Update the source.
-			const source = this.map.getSource(name);
-			source.setData(data);
+			// Update the source, only if geojson. (Not sure what the method is to update a vector url.)
+			if (type === 'geojson') {
+				const source = this.map.getSource(name);
+				source.setData(data);
+			}
 		} else {
 			// Add the source.
-			this.map.addSource(name, {
+			const sourceData = {
 				type,
-				data,
-			});
+			};
+			if (type === 'geojson') {
+				sourceData.data = data;
+			} else if (type === 'vector') {
+				sourceData.url = data;
+			}
+			this.map.addSource(name, sourceData);
 			this.setState(prevState => ({
 				sources: prevState.sources.concat(name),
 			}));
@@ -242,6 +250,9 @@ export class MapComponent extends React.Component {
 			type: 'FeatureCollection',
 			features: getEditIcons(data),
 		});
+
+		// This is SSURGO.
+		this.addSource('ssurgo', 'vector', 'mapbox://johnwildspring.3osngqu3');
 
 		!sourcesAdded && this.setState({ sourcesAdded: true });
 	}
@@ -310,6 +321,7 @@ export class MapComponent extends React.Component {
 					{sourcesAdded
 						&& (
 							<>
+								<SSURGO map={map} />
 								<Area map={map} />
 								<Outline map={map} />
 								<EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />

@@ -19,7 +19,7 @@ export const EditIcons = props => {
 		},
 	};
 
-	let events = [
+	const events = new Map([
 		['click', e => {
 			const editingIcon = e.features[0];
 			const { for: featureId } = editingIcon.properties;
@@ -27,8 +27,7 @@ export const EditIcons = props => {
 			setEditingFeature(feature);
 			nextStep('/plant/tree/rows');
 		}],
-	];
-	events = new Map(events);
+	]);
 
 	return <Layer map={map} layer={layer} events={events} />;
 };
