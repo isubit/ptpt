@@ -15,6 +15,18 @@ import { Store } from 'contexts';
 import { Header } from 'components/Header';
 import { WelcomeModal } from 'components/modals/WelcomeModal';
 
+/* (function injectMapScript(d, s, id) {
+	const js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)){ return; }
+	js = d.createElement(s); 
+	js.id = id;
+	js.onload = function() {
+		// remote script has loaded // emit event 
+	};
+	js.src = "//connect.facebook.net/en_US/sdk.js";
+	fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk')); */
+
 const App = () => (
 	<Store>
 		<Router>
