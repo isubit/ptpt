@@ -33,22 +33,22 @@ import { MapConsumer } from '../contexts/MapState';
 	}
 }; */
 
-const DropdownCheckbox = ({ setMapStyle }) => (
+const DropdownCheckbox = ({ setBasemap, setMapLayer }) => (
 	<div className="dropdown-checkbox">
 		<div>
-			<input type="checkbox" name="ssurgo" onChange={(e) => setMapStyle(e.target.name)} />
+			<input type="checkbox" name="ssurgo" onChange={(e) => setMapLayer(e.target.name)} />
 			<span>gSSURGO - CSR</span>
 		</div>
 		<div>
-			<input type="checkbox" name="lidar" onChange={(e) => setMapStyle(e.target.name)} />
+			<input type="checkbox" name="lidar" onChange={(e) => setMapLayer(e.target.name)} />
 			<span>LiDAR Hillshade</span>
 		</div>
 		<div>
-			<input type="checkbox" name="contours" onChange={(e) => setMapStyle(e.target.name)} />
+			<input type="checkbox" name="contours" onChange={(e) => setMapLayer(e.target.name)} />
 			<span>(2 ft contours)</span>
 		</div>
 		<div>
-			<input type="checkbox" name="satellite" onChange={(e) => setMapStyle(e.target.name)} />
+			<input type="checkbox" name="satellite" onChange={(e) => setBasemap(e.target.name)} />
 			<span>Satellite</span>
 		</div>
 		<button type="button" className="Button">
@@ -167,10 +167,11 @@ export class HeaderOptions extends React.Component {
 								{(ctx) => {
 									const {
 										actions: {
-											setMapStyle,
+											setBasemap,
+											setMapLayer,
 										},
 									} = ctx;
-									return <DropdownCheckbox setMapStyle={setMapStyle} />;
+									return <DropdownCheckbox setBasemap={setBasemap} setMapLayer={setMapLayer} />;
 								}}
 							</MapConsumer>
 						</div>

@@ -33,7 +33,7 @@ export const MapWrapperDefault = (props) => (
 	<MapConsumer>
 		{(mapCtx) => {
 			const ctx = { ...mapCtx.state, ...mapCtx.actions };
-			return <MapComponent {...ctx} {...props} mapStyle="outdoor" />;
+			return <MapComponent {...ctx} {...props} basemapName="outdoor" />;
 		}}
 	</MapConsumer>
 );
@@ -42,7 +42,7 @@ export const MapWrapperSatellite = (props) => (
 	<MapConsumer>
 		{(mapCtx) => {
 			const ctx = { ...mapCtx.state, ...mapCtx.actions };
-			return <MapComponent {...ctx} {...props} mapStyle="satellite" />;
+			return <MapComponent {...ctx} {...props} basemapName="satellite" />;
 		}}
 	</MapConsumer>
 );
@@ -65,11 +65,11 @@ export class MapComponent extends React.Component {
 
 	componentDidMount() {
 		// On mount, we init the map in the container, then load in the things we need.
-		const { style, mapStyle } = this.props;
-		const styleURL = style.get(mapStyle).url;
+		const { basemaps, basemapName } = this.props;
+		const basemapURL = basemaps[basemapName].url;
 		this.map = new mapboxgl.Map({
 			container: this.mapElement.current,
-			style: styleURL,
+			style: basemapURL,
 			center: [-93.624287, 41.587537],
 			zoom: 13,
 		});
@@ -105,7 +105,6 @@ export class MapComponent extends React.Component {
 	componentDidUpdate() {
 		if (this.state.sourcesAdded) {
 			// Only the sources need to be updated, because they contain the state data.
-			// this.setMapStyle();
 			this.loadSources();
 		}
 	}
@@ -147,20 +146,6 @@ export class MapComponent extends React.Component {
 
 		history.push(step);
 	}
-
-	// if change of style, remove all the sources in the array
-	/* setMapStyle = () => {
-		// depending on the map context change to correct style
-		const { style } = this.props;
-		// setStyle removes the sources from the map
-		if (style.get('satellite').on === true) {
-			this.map.setStyle(style.get('satellite').url);
-			this.setState({
-				sources: [],
-				sourcesAdded: false,
-			});
-		}
-	} */
 
 	setEditingFeature = feature => {
 		// This sets the feature that is currently being edited to state.

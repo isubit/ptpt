@@ -26,15 +26,15 @@ const App = () => (
 			{/* <Route path="/:action?/:type?/:step?" render={(router) => <MapWrapper router={router} />} /> */}
 			<MapConsumer>
 				{(ctx) => {
-					const { style } = ctx.state;
+					const { basemaps } = ctx.state;
 					// if satellite style is selected render satellite styled map component
-					const loadMap = (router, styleMap) => {
-						if (styleMap.get('satellite').on) {
+					const loadMap = (router, basemapsMap) => {
+						if (basemapsMap.satellite.on) {
 							return <MapWrapperSatellite router={router} />;
 						}
 						return <MapWrapperDefault router={router} />;
 					};
-					return <Route path="/" render={(router) => loadMap(router, style)} />;
+					return <Route path="/" render={(router) => loadMap(router, basemaps)} />;
 				}}
 			</MapConsumer>
 			{/* --- */}

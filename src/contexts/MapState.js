@@ -8,7 +8,27 @@ const debug = Debug('MapState');
 
 export const MapDefaultState = {
 	data: new Map(),
-	style: new Map([['outdoor', { on: true, url: 'mapbox://styles/mapbox/outdoors-v11' }], ['ssurgo', { on: false, url: null }], ['lidar', { on: false, url: null }], ['contours', { on: false, url: null }], ['satellite', { on: false, url: 'mapbox://styles/mapbox/satellite-v9' }]]),
+	basemaps: {
+		outdoor: {
+			on: true,
+			url: 'mapbox://styles/mapbox/outdoors-v11',
+		},
+		satellite: {
+			on: false,
+			url: 'mapbox://styles/mapbox/satellite-v9',
+		},
+	},
+	layers: {
+		ssurgo: {
+			on: false,
+		},
+		lidar: {
+			on: false,
+		},
+		contours: {
+			on: false,
+		},
+	},
 };
 export const MapContext = React.createContext(MapDefaultState);
 export const MapProvider = MapContext.Provider;
@@ -61,21 +81,37 @@ export const MapActions = (that) => ({
 		};
 		that.setState(updateState);
 	},
-	setMapStyle(styleName) {
-		// change the set map style state depending on the given styleName
-		const { style } = that.state.MapState;
-		// the default view must turn off if sattelite is active
-		if (styleName === 'satellite') {
-			style.get('outdoor').on = !style.get('outdoor').on;
+	setBasemap(basemapName) {
+		// Set map style given basemap name
+		const { basemaps } = that.state.MapState;
+		// the default view must toggle opposite of satellite
+		if (basemapName === 'satellite') {
+			basemaps.outdoor.on = !basemaps.outdoor.on;
 		}
-		style.set(styleName, { on: !style.get(styleName).on, url: style.get(styleName).url });
+		if (basemaps[basemapName]) {
+			basemaps[basemapName].on = !basemaps[basemapName].on;
+		}
 		const updateState = {
 			MapState: {
 				...that.state.MapState,
-				style,
+				basemaps,
 			},
 		};
 
+		that.setState(updateState);
+	},
+	setMapLayer(layerName) {
+		// Set map layer given layer name
+		const { layers } = that.state.MapState;
+		if (layers[layerName]) {
+			layers[layerName].on = !layers[layerName].on;
+		}
+		const updateState = {
+			MapState: {
+				...that.state.MapState,
+				layers,
+			},
+		};
 		that.setState(updateState);
 	},
 });
