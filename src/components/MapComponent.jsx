@@ -29,11 +29,20 @@ mapboxgl.accessToken = process.env.mapbox_api_key;
 
 const debug = Debug('MapComponent');
 
-export const MapWrapper = (props) => (
+export const MapWrapperDefault = (props) => (
 	<MapConsumer>
 		{(mapCtx) => {
 			const ctx = { ...mapCtx.state, ...mapCtx.actions };
-			return <MapComponent {...ctx} {...props} />;
+			return <MapComponent {...ctx} {...props} mapStyle="outdoor" />;
+		}}
+	</MapConsumer>
+);
+
+export const MapWrapperSatellite = (props) => (
+	<MapConsumer>
+		{(mapCtx) => {
+			const ctx = { ...mapCtx.state, ...mapCtx.actions };
+			return <MapComponent {...ctx} {...props} mapStyle="satellite" />;
 		}}
 	</MapConsumer>
 );
@@ -56,10 +65,11 @@ export class MapComponent extends React.Component {
 
 	componentDidMount() {
 		// On mount, we init the map in the container, then load in the things we need.
-		const outdoorURL = this.props.style.get('outdoor').url;
+		const { style, mapStyle } = this.props;
+		const styleURL = style.get(mapStyle).url;
 		this.map = new mapboxgl.Map({
 			container: this.mapElement.current,
-			style: outdoorURL,
+			style: styleURL,
 			center: [-93.624287, 41.587537],
 			zoom: 13,
 		});
@@ -95,9 +105,13 @@ export class MapComponent extends React.Component {
 	componentDidUpdate() {
 		if (this.state.sourcesAdded) {
 			// Only the sources need to be updated, because they contain the state data.
-			this.setMapStyle();
+			// this.setMapStyle();
 			this.loadSources();
 		}
+	}
+
+	componentWillUnmount() {
+		this.map.remove();
 	}
 
 	get params() {
@@ -135,7 +149,7 @@ export class MapComponent extends React.Component {
 	}
 
 	// if change of style, remove all the sources in the array
-	setMapStyle = () => {
+	/* setMapStyle = () => {
 		// depending on the map context change to correct style
 		const { style } = this.props;
 		// setStyle removes the sources from the map
@@ -146,7 +160,7 @@ export class MapComponent extends React.Component {
 				sourcesAdded: false,
 			});
 		}
-	}
+	} */
 
 	setEditingFeature = feature => {
 		// This sets the feature that is currently being edited to state.

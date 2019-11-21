@@ -68,12 +68,6 @@ export class HeaderOptions extends React.Component {
 				layerOptionActive: false,
 				reportOptionActive: false,
 			},
-			/* layerStates: {
-				ssurgo: false,
-				lidar: false,
-				contours: false,
-				satellite: false,
-			}, */
 		};
 	}
 
@@ -179,28 +173,6 @@ export class HeaderOptions extends React.Component {
 									return <DropdownCheckbox setMapStyle={setMapStyle} />;
 								}}
 							</MapConsumer>
-							{/* <div className="dropdown-checkbox">
-								<div>
-									<input type="checkbox" name="ssurgo" onChange={this.handleCheckboxChange} />
-									<span>gSSURGO - CSR</span>
-								</div>
-								<div>
-									<input type="checkbox" name="lidar" onChange={this.handleCheckboxChange} />
-									<span>LiDAR Hillshade</span>
-								</div>
-								<div>
-									<input type="checkbox" name="contours" onChange={this.handleCheckboxChange} />
-									<span>(2 ft contours)</span>
-								</div>
-								<div>
-									<input type="checkbox" name="satellite" onChange={this.handleCheckboxChange} />
-									<span>Satellite</span>
-								</div>
-								<button type="button" className="Button">
-									<span>Add A Map Layer</span>
-								</button>
-								<img src="/assets/question-mark.svg" alt="Help" />
-							</div> */}
 						</div>
 					</li>
 					<li className={reportOptionActive ? 'option active' : 'option'}>
