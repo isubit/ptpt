@@ -7,14 +7,14 @@ import { SideNav } from './SideNav';
 import { HeaderOptions } from './HeaderOptions';
 
 
-export const SearchBar = () => (
+const SearchBar = () => (
 	// MapConsumer here?
 	<div className="SearchBar">
 		<input placeholder="Enter a location or address" />
 	</div>
 );
 
-export const Title = () => (
+const Title = () => (
 	<div className="Title">
 		<Link to="/">
 			<img className="narrow-logo" src="/assets/narrow_logo.svg" alt="Logo - Prairie and Tree Planting Tool" />
@@ -23,7 +23,7 @@ export const Title = () => (
 	</div>
 );
 
-export const SaveButton = ({ save }) => (
+const SaveButton = ({ save }) => (
 	<button type="button" className="SaveButton" onClick={save} onKeyPress={save}>
 		<img className="narrow-save" src="/assets/save_narrow.svg" alt="Save" />
 		<img className="wide-save" src="/assets/save_wide.svg" alt="Save" />

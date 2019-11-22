@@ -10,10 +10,11 @@ import {
 
 import 'styles/base.sass';
 
-import { MapWrapper } from 'components/MapComponent';
+import { MapWrapperDefault, MapWrapperSatellite } from 'components/MapComponent';
 import { Store } from 'contexts';
 import { Header } from 'components/Header';
 import { WelcomeModal } from 'components/modals/WelcomeModal';
+import { MapConsumer } from 'contexts/MapState';
 
 const App = () => (
 	<Store>
@@ -23,7 +24,25 @@ const App = () => (
 				to improve performance when route switching. */}
 			<Header />
 			{/* <Route path="/:action?/:type?/:step?" render={(router) => <MapWrapper router={router} />} /> */}
-			<Route path="/" render={(router) => <MapWrapper router={router} />} />
+			<MapConsumer>
+				{(ctx) => {
+					const {
+						basemap,
+					} = ctx.state;
+					// If satellite style is selected render satellite styled map component, otherwise render the default outdoors style.
+					return (
+						<Route
+							path="/"
+							render={router => {
+								if (basemap === 'satellite') {
+									return <MapWrapperSatellite router={router} />;
+								}
+								return <MapWrapperDefault router={router} />;
+							}}
+						/>
+					);
+				}}
+			</MapConsumer>
 			{/* --- */}
 
 			{/* Routed components here. These will float over the map. */}

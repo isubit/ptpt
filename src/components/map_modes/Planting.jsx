@@ -106,12 +106,12 @@ export class Planting extends React.Component {
 
 		// Clean up events.
 		events.forEach((value, key) => {
-			map.off(key, value);
+			map && map.off(key, value);
 			events.delete(key);
 		});
 
 		// Clean up draw and feature state.
-		draw.deleteAll();
+		draw && draw.deleteAll();
 		setEditingFeature(null);
 	}
 
