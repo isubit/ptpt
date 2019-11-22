@@ -67,18 +67,10 @@ export const MapActions = (that) => ({
 		that.setState(updateState);
 	},
 	setBasemap(basemapName) {
-		let { basemap } = that.state.MapState;
-
-		if (basemapName === 'satellite' && basemapName === basemap) {
-			basemap = 'outdoor';
-		} else if (basemapName === 'satellite' && basemapName !== basemap) {
-			basemap = 'satellite';
-		}
-
 		that.setState({
 			MapState: {
 				...that.state.MapState,
-				basemap,
+				basemap: basemapName,
 			},
 		});
 	},

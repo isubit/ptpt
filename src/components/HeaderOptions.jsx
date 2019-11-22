@@ -48,7 +48,13 @@ const DropdownCheckbox = ({ setBasemap, setMapLayer }) => (
 			<span>(2 ft contours)</span>
 		</div>
 		<div>
-			<input type="checkbox" name="satellite" onChange={(e) => setBasemap(e.target.name)} />
+			<input
+				type="checkbox"
+				name="satellite"
+				onChange={(e) => {
+					e.target.checked ? setBasemap(e.target.name) : setBasemap('outdoor');
+				}}
+			/>
 			<span>Satellite</span>
 		</div>
 		<button type="button" className="Button">
