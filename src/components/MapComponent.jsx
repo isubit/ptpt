@@ -252,7 +252,7 @@ export class MapComponent extends React.Component {
 		});
 
 		// This is SSURGO.
-		this.addSource('ssurgo', 'vector', 'mapbox://johnwildspring.3osngqu3');
+		process.env.mapbox_ssurgo_tileset_id && this.addSource('ssurgo', 'vector', `mapbox://${process.env.mapbox_ssurgo_tileset_id}`);
 
 		!sourcesAdded && this.setState({ sourcesAdded: true });
 	}
