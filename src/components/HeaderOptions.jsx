@@ -33,23 +33,29 @@ import { MapConsumer } from '../contexts/MapState';
 	}
 }; */
 
-const DropdownCheckbox = ({ setBasemap, setMapLayer }) => (
+const DropdownCheckbox = ({
+	setBasemap,
+	setMapLayer,
+	layers,
+	basemap,
+}) => (
 	<div className="dropdown-checkbox">
 		<div>
-			<input type="checkbox" name="ssurgo" onChange={(e) => setMapLayer(e.target.name)} />
+			<input type="checkbox" checked={layers.ssurgo} name="ssurgo" onChange={(e) => setMapLayer(e.target.name)} />
 			<span>gSSURGO - CSR</span>
 		</div>
 		<div>
-			<input type="checkbox" name="lidar" onChange={(e) => setMapLayer(e.target.name)} />
+			<input type="checkbox" checked={layers.lidar} name="lidar" onChange={(e) => setMapLayer(e.target.name)} />
 			<span>LiDAR Hillshade</span>
 		</div>
 		<div>
-			<input type="checkbox" name="contours" onChange={(e) => setMapLayer(e.target.name)} />
+			<input type="checkbox" checked={layers.contours} name="contours" onChange={(e) => setMapLayer(e.target.name)} />
 			<span>(2 ft contours)</span>
 		</div>
 		<div>
 			<input
 				type="checkbox"
+				checked={basemap === 'satellite'}
 				name="satellite"
 				onChange={(e) => {
 					e.target.checked ? setBasemap(e.target.name) : setBasemap('outdoor');
@@ -172,12 +178,16 @@ export class HeaderOptions extends React.Component {
 							<MapConsumer>
 								{(ctx) => {
 									const {
+										state: {
+											layers,
+											basemap,
+										},
 										actions: {
 											setBasemap,
 											setMapLayer,
 										},
 									} = ctx;
-									return <DropdownCheckbox setBasemap={setBasemap} setMapLayer={setMapLayer} />;
+									return <DropdownCheckbox setBasemap={setBasemap} setMapLayer={setMapLayer} layers={layers} basemap={basemap} />;
 								}}
 							</MapConsumer>
 						</div>
