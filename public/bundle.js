@@ -6797,7 +6797,7 @@ var ___CSS_LOADER_URL___0___ = getUrl(__webpack_require__(/*! ../assets/checkmar
 var ___CSS_LOADER_URL___1___ = getUrl(__webpack_require__(/*! ../assets/search_small.svg */ "./src/assets/search_small.svg"));
 var ___CSS_LOADER_URL___2___ = getUrl(__webpack_require__(/*! ../assets/search_wide.svg */ "./src/assets/search_wide.svg"));
 // Module
-exports.push([module.i, ".mapbox-gl-draw_ctrl-draw-btn {\n  display: none !important; }\n\n.grid-row {\n  display: grid;\n  grid-template-columns: repeat(6, 1fr);\n  grid-column-gap: 1rem;\n  padding: 0px 5.625%;\n  max-width: 1680px; }\n\n.grid-wrap {\n  grid-column: 1 / -1; }\n\n@media (min-width: 900px) {\n  .grid-row {\n    grid-template-columns: repeat(12, 1fr); } }\n\n@media (min-width: 1280px) {\n  .grid-row {\n    grid-template-columns: repeat(14, 1fr);\n    padding: 0px 2.5%; } }\n\n.modal-header {\n  padding-bottom: 1rem;\n  position: relative; }\n  .modal-header::after {\n    content: '';\n    position: absolute;\n    bottom: -2px;\n    left: 0;\n    height: 2px;\n    width: 135px;\n    background-color: #76881D; }\n\n.modal-text {\n  padding-top: 1.5rem; }\n\n.modal-link {\n  font-family: Merriweather;\n  font-style: italic;\n  font-weight: normal;\n  font-size: 0.751rem;\n  line-height: 21px;\n  text-decoration-line: underline;\n  color: #006BA6; }\n\n@media (min-width: 900px) {\n  .modal-header::after {\n    left: 2rem; } }\n\n.vertical-align {\n  display: flex;\n  align-items: center; }\n\n.distribute {\n  display: flex;\n  justify-content: space-between; }\n\n.margin-center {\n  margin: 0 auto !important; }\n\n.spacer-top-0 {\n  margin-top: 0rem !important; }\n\n.spacer-top-1 {\n  margin-top: 1rem !important; }\n\n.spacer-top-2 {\n  margin-top: 2rem !important; }\n\n.spacer-top-3 {\n  margin-top: 3rem !important; }\n\n.spacer-top-4 {\n  margin-top: 4rem !important; }\n\n.spacer-bottom-0 {\n  margin-bottom: 0rem !important; }\n\n.spacer-bottom-1 {\n  margin-bottom: 1rem !important; }\n\n.spacer-bottom-2 {\n  margin-bottom: 2rem !important; }\n\n.spacer-bottom-3 {\n  margin-bottom: 3rem !important; }\n\n.spacer-bottom-4 {\n  margin-bottom: 4rem !important; }\n\n.spacer-left-0 {\n  margin-left: 0rem !important; }\n\n.spacer-left-1 {\n  margin-left: 1rem !important; }\n\n.spacer-left-2 {\n  margin-left: 2rem !important; }\n\n.spacer-left-3 {\n  margin-left: 3rem !important; }\n\n.spacer-left-4 {\n  margin-left: 4rem !important; }\n\n.spacer-right-0 {\n  margin-right: 0rem !important; }\n\n.spacer-right-1 {\n  margin-right: 1rem !important; }\n\n.spacer-right-2 {\n  margin-right: 2rem !important; }\n\n.spacer-right-3 {\n  margin-right: 3rem !important; }\n\n.spacer-right-4 {\n  margin-right: 4rem !important; }\n\n.width-1 {\n  width: 1% !important; }\n\n.width-2 {\n  width: 2% !important; }\n\n.width-3 {\n  width: 3% !important; }\n\n.width-4 {\n  width: 4% !important; }\n\n.width-5 {\n  width: 5% !important; }\n\n.width-6 {\n  width: 6% !important; }\n\n.width-7 {\n  width: 7% !important; }\n\n.width-8 {\n  width: 8% !important; }\n\n.width-9 {\n  width: 9% !important; }\n\n.width-10 {\n  width: 10% !important; }\n\n.width-11 {\n  width: 11% !important; }\n\n.width-12 {\n  width: 12% !important; }\n\n.width-13 {\n  width: 13% !important; }\n\n.width-14 {\n  width: 14% !important; }\n\n.width-15 {\n  width: 15% !important; }\n\n.width-16 {\n  width: 16% !important; }\n\n.width-17 {\n  width: 17% !important; }\n\n.width-18 {\n  width: 18% !important; }\n\n.width-19 {\n  width: 19% !important; }\n\n.width-20 {\n  width: 20% !important; }\n\n.width-21 {\n  width: 21% !important; }\n\n.width-22 {\n  width: 22% !important; }\n\n.width-23 {\n  width: 23% !important; }\n\n.width-24 {\n  width: 24% !important; }\n\n.width-25 {\n  width: 25% !important; }\n\n.width-26 {\n  width: 26% !important; }\n\n.width-27 {\n  width: 27% !important; }\n\n.width-28 {\n  width: 28% !important; }\n\n.width-29 {\n  width: 29% !important; }\n\n.width-30 {\n  width: 30% !important; }\n\n.width-31 {\n  width: 31% !important; }\n\n.width-32 {\n  width: 32% !important; }\n\n.width-33 {\n  width: 33% !important; }\n\n.width-34 {\n  width: 34% !important; }\n\n.width-35 {\n  width: 35% !important; }\n\n.width-36 {\n  width: 36% !important; }\n\n.width-37 {\n  width: 37% !important; }\n\n.width-38 {\n  width: 38% !important; }\n\n.width-39 {\n  width: 39% !important; }\n\n.width-40 {\n  width: 40% !important; }\n\n.width-41 {\n  width: 41% !important; }\n\n.width-42 {\n  width: 42% !important; }\n\n.width-43 {\n  width: 43% !important; }\n\n.width-44 {\n  width: 44% !important; }\n\n.width-45 {\n  width: 45% !important; }\n\n.width-46 {\n  width: 46% !important; }\n\n.width-47 {\n  width: 47% !important; }\n\n.width-48 {\n  width: 48% !important; }\n\n.width-49 {\n  width: 49% !important; }\n\n.width-50 {\n  width: 50% !important; }\n\n.width-51 {\n  width: 51% !important; }\n\n.width-52 {\n  width: 52% !important; }\n\n.width-53 {\n  width: 53% !important; }\n\n.width-54 {\n  width: 54% !important; }\n\n.width-55 {\n  width: 55% !important; }\n\n.width-56 {\n  width: 56% !important; }\n\n.width-57 {\n  width: 57% !important; }\n\n.width-58 {\n  width: 58% !important; }\n\n.width-59 {\n  width: 59% !important; }\n\n.width-60 {\n  width: 60% !important; }\n\n.width-61 {\n  width: 61% !important; }\n\n.width-62 {\n  width: 62% !important; }\n\n.width-63 {\n  width: 63% !important; }\n\n.width-64 {\n  width: 64% !important; }\n\n.width-65 {\n  width: 65% !important; }\n\n.width-66 {\n  width: 66% !important; }\n\n.width-67 {\n  width: 67% !important; }\n\n.width-68 {\n  width: 68% !important; }\n\n.width-69 {\n  width: 69% !important; }\n\n.width-70 {\n  width: 70% !important; }\n\n.width-71 {\n  width: 71% !important; }\n\n.width-72 {\n  width: 72% !important; }\n\n.width-73 {\n  width: 73% !important; }\n\n.width-74 {\n  width: 74% !important; }\n\n.width-75 {\n  width: 75% !important; }\n\n.width-76 {\n  width: 76% !important; }\n\n.width-77 {\n  width: 77% !important; }\n\n.width-78 {\n  width: 78% !important; }\n\n.width-79 {\n  width: 79% !important; }\n\n.width-80 {\n  width: 80% !important; }\n\n.width-81 {\n  width: 81% !important; }\n\n.width-82 {\n  width: 82% !important; }\n\n.width-83 {\n  width: 83% !important; }\n\n.width-84 {\n  width: 84% !important; }\n\n.width-85 {\n  width: 85% !important; }\n\n.width-86 {\n  width: 86% !important; }\n\n.width-87 {\n  width: 87% !important; }\n\n.width-88 {\n  width: 88% !important; }\n\n.width-89 {\n  width: 89% !important; }\n\n.width-90 {\n  width: 90% !important; }\n\n.width-91 {\n  width: 91% !important; }\n\n.width-92 {\n  width: 92% !important; }\n\n.width-93 {\n  width: 93% !important; }\n\n.width-94 {\n  width: 94% !important; }\n\n.width-95 {\n  width: 95% !important; }\n\n.width-96 {\n  width: 96% !important; }\n\n.width-97 {\n  width: 97% !important; }\n\n.width-98 {\n  width: 98% !important; }\n\n.width-99 {\n  width: 99% !important; }\n\n.width-100 {\n  width: 100% !important; }\n\n.height-1 {\n  height: 1% !important; }\n\n.height-2 {\n  height: 2% !important; }\n\n.height-3 {\n  height: 3% !important; }\n\n.height-4 {\n  height: 4% !important; }\n\n.height-5 {\n  height: 5% !important; }\n\n.height-6 {\n  height: 6% !important; }\n\n.height-7 {\n  height: 7% !important; }\n\n.height-8 {\n  height: 8% !important; }\n\n.height-9 {\n  height: 9% !important; }\n\n.height-10 {\n  height: 10% !important; }\n\n.height-11 {\n  height: 11% !important; }\n\n.height-12 {\n  height: 12% !important; }\n\n.height-13 {\n  height: 13% !important; }\n\n.height-14 {\n  height: 14% !important; }\n\n.height-15 {\n  height: 15% !important; }\n\n.height-16 {\n  height: 16% !important; }\n\n.height-17 {\n  height: 17% !important; }\n\n.height-18 {\n  height: 18% !important; }\n\n.height-19 {\n  height: 19% !important; }\n\n.height-20 {\n  height: 20% !important; }\n\n.height-21 {\n  height: 21% !important; }\n\n.height-22 {\n  height: 22% !important; }\n\n.height-23 {\n  height: 23% !important; }\n\n.height-24 {\n  height: 24% !important; }\n\n.height-25 {\n  height: 25% !important; }\n\n.height-26 {\n  height: 26% !important; }\n\n.height-27 {\n  height: 27% !important; }\n\n.height-28 {\n  height: 28% !important; }\n\n.height-29 {\n  height: 29% !important; }\n\n.height-30 {\n  height: 30% !important; }\n\n.height-31 {\n  height: 31% !important; }\n\n.height-32 {\n  height: 32% !important; }\n\n.height-33 {\n  height: 33% !important; }\n\n.height-34 {\n  height: 34% !important; }\n\n.height-35 {\n  height: 35% !important; }\n\n.height-36 {\n  height: 36% !important; }\n\n.height-37 {\n  height: 37% !important; }\n\n.height-38 {\n  height: 38% !important; }\n\n.height-39 {\n  height: 39% !important; }\n\n.height-40 {\n  height: 40% !important; }\n\n.height-41 {\n  height: 41% !important; }\n\n.height-42 {\n  height: 42% !important; }\n\n.height-43 {\n  height: 43% !important; }\n\n.height-44 {\n  height: 44% !important; }\n\n.height-45 {\n  height: 45% !important; }\n\n.height-46 {\n  height: 46% !important; }\n\n.height-47 {\n  height: 47% !important; }\n\n.height-48 {\n  height: 48% !important; }\n\n.height-49 {\n  height: 49% !important; }\n\n.height-50 {\n  height: 50% !important; }\n\n.height-51 {\n  height: 51% !important; }\n\n.height-52 {\n  height: 52% !important; }\n\n.height-53 {\n  height: 53% !important; }\n\n.height-54 {\n  height: 54% !important; }\n\n.height-55 {\n  height: 55% !important; }\n\n.height-56 {\n  height: 56% !important; }\n\n.height-57 {\n  height: 57% !important; }\n\n.height-58 {\n  height: 58% !important; }\n\n.height-59 {\n  height: 59% !important; }\n\n.height-60 {\n  height: 60% !important; }\n\n.height-61 {\n  height: 61% !important; }\n\n.height-62 {\n  height: 62% !important; }\n\n.height-63 {\n  height: 63% !important; }\n\n.height-64 {\n  height: 64% !important; }\n\n.height-65 {\n  height: 65% !important; }\n\n.height-66 {\n  height: 66% !important; }\n\n.height-67 {\n  height: 67% !important; }\n\n.height-68 {\n  height: 68% !important; }\n\n.height-69 {\n  height: 69% !important; }\n\n.height-70 {\n  height: 70% !important; }\n\n.height-71 {\n  height: 71% !important; }\n\n.height-72 {\n  height: 72% !important; }\n\n.height-73 {\n  height: 73% !important; }\n\n.height-74 {\n  height: 74% !important; }\n\n.height-75 {\n  height: 75% !important; }\n\n.height-76 {\n  height: 76% !important; }\n\n.height-77 {\n  height: 77% !important; }\n\n.height-78 {\n  height: 78% !important; }\n\n.height-79 {\n  height: 79% !important; }\n\n.height-80 {\n  height: 80% !important; }\n\n.height-81 {\n  height: 81% !important; }\n\n.height-82 {\n  height: 82% !important; }\n\n.height-83 {\n  height: 83% !important; }\n\n.height-84 {\n  height: 84% !important; }\n\n.height-85 {\n  height: 85% !important; }\n\n.height-86 {\n  height: 86% !important; }\n\n.height-87 {\n  height: 87% !important; }\n\n.height-88 {\n  height: 88% !important; }\n\n.height-89 {\n  height: 89% !important; }\n\n.height-90 {\n  height: 90% !important; }\n\n.height-91 {\n  height: 91% !important; }\n\n.height-92 {\n  height: 92% !important; }\n\n.height-93 {\n  height: 93% !important; }\n\n.height-94 {\n  height: 94% !important; }\n\n.height-95 {\n  height: 95% !important; }\n\n.height-96 {\n  height: 96% !important; }\n\n.height-97 {\n  height: 97% !important; }\n\n.height-98 {\n  height: 98% !important; }\n\n.height-99 {\n  height: 99% !important; }\n\n.height-100 {\n  height: 100% !important; }\n\n.warning {\n  color: red; }\n\n.block {\n  display: block !important; }\n\n.inline {\n  display: inline !important; }\n\n.inline-block {\n  display: inline-block !important; }\n\n.clickable {\n  pointer-events: auto !important; }\n  .clickable * {\n    pointer-events: auto !important; }\n\n.unclickable {\n  pointer-events: none !important; }\n\n.Button {\n  padding: 0.5rem 22px;\n  font-size: .909rem;\n  display: inline-block;\n  border-radius: 5px;\n  background-color: #006BA6;\n  cursor: pointer;\n  color: white; }\n  .Button span {\n    color: white;\n    line-height: 1.5rem; }\n\ndiv {\n  display: block; }\n  div input[type=\"checkbox\"] {\n    -webkit-appearance: none;\n    border-radius: 3px;\n    border: 1px solid #A8ACAE;\n    width: 18px;\n    box-sizing: border-box;\n    height: 18px;\n    margin: 0px 0.5rem 0px 0px;\n    vertical-align: middle; }\n    div input[type=\"checkbox\"]:focus {\n      border: 1px solid #333333;\n      outline: none; }\n      div input[type=\"checkbox\"]:focus + span {\n        color: black; }\n    div input[type=\"checkbox\"]:checked {\n      background-color: #006BA6;\n      background-image: url(" + ___CSS_LOADER_URL___0___ + ");\n      background-repeat: no-repeat;\n      border: 1px solid #006BA6; }\n      div input[type=\"checkbox\"]:checked + span {\n        color: #333333; }\n    div input[type=\"checkbox\"]:disabled {\n      background-color: #ECF1F3;\n      border: 1px solid #ECF1F3; }\n      div input[type=\"checkbox\"]:disabled + span {\n        color: #A8ACAE; }\n  div span {\n    font-size: .909rem;\n    color: #707372;\n    line-height: 2rem; }\n\n.CloseButton {\n  position: absolute;\n  z-index: 1;\n  top: 18px;\n  right: 18px;\n  cursor: pointer;\n  padding: 0;\n  border: none;\n  background-color: inherit; }\n\n.dropdown-checkbox {\n  margin-top: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-checkbox .Button {\n    margin-top: 1rem;\n    margin-bottom: 3rem; }\n  .dropdown-checkbox > img:last-of-type {\n    position: absolute;\n    bottom: 18px;\n    right: 18px;\n    cursor: pointer; }\n\n@media (min-width: 900px) {\n  .dropdown-checkbox {\n    margin-top: 1em; }\n    .dropdown-checkbox .Button {\n      display: block;\n      text-align: center;\n      margin: 0.5rem auto 2.5rem auto; }\n    .dropdown-checkbox > img:last-of-type {\n      bottom: 9px;\n      right: 9px; } }\n\n.dropdown-list {\n  margin-top: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-list ul {\n    display: block;\n    padding: 0; }\n    .dropdown-list ul li a {\n      text-decoration: none;\n      font-size: 0.909rem;\n      line-height: 2.75em; }\n    .dropdown-list ul li:last-child {\n      border-top: 1px solid #ECF1F3;\n      padding: 1em 0; }\n      .dropdown-list ul li:last-child a {\n        line-height: 1.5em; }\n\n@media (min-width: 900px) {\n  .dropdown-list {\n    margin-top: 1em;\n    margin-top: 1em; }\n    .dropdown-list ul li a {\n      line-height: 2em;\n      padding: 0; }\n    .dropdown-list ul li:nth-of-type(3) {\n      padding-bottom: 1em; } }\n\n.Header {\n  position: relative;\n  z-index: 1;\n  width: 100%;\n  height: 99px;\n  background-color: #FFFFFF;\n  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); }\n  .Header > .grid-row {\n    grid-template-columns: auto repeat(5, 1fr); }\n    .Header > .grid-row.sidenav-btn {\n      padding: 0; }\n      .Header > .grid-row.sidenav-btn .SideNavButton {\n        background-color: #FFFFFF;\n        grid-column: 1 / 2;\n        cursor: pointer;\n        padding: 0;\n        border: none; }\n        .Header > .grid-row.sidenav-btn .SideNavButton img {\n          display: block; }\n        .Header > .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n          display: none; }\n      .Header > .grid-row.sidenav-btn .Title {\n        grid-column: 2 / 4; }\n      .Header > .grid-row.sidenav-btn .SearchBar {\n        display: none; }\n      .Header > .grid-row.sidenav-btn .HeaderOptions {\n        grid-column: 4 / -1; }\n      .Header > .grid-row.sidenav-btn .SaveButton {\n        display: none; }\n  .Header .search-save-btn .SaveButton .wide-save {\n    display: none; }\n\n@media (min-width: 900px) {\n  .Header {\n    height: 72px; }\n    .Header > .grid-row {\n      height: 72px;\n      grid-template-columns: repeat(12, 1fr); }\n      .Header > .grid-row.sidenav-btn .SideNavButton .narrow-sidenav {\n        display: none; }\n      .Header > .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n        display: block; }\n      .Header > .grid-row.sidenav-btn .Title {\n        grid-column: 2 / 4; }\n      .Header > .grid-row.sidenav-btn .SearchBar {\n        grid-column: 4 / 8;\n        display: block; }\n      .Header > .grid-row.sidenav-btn .HeaderOptions {\n        grid-column: 8 / 12; }\n      .Header > .grid-row.sidenav-btn .SaveButton {\n        display: block; }\n        .Header > .grid-row.sidenav-btn .SaveButton .narrow-save {\n          display: none; }\n    .Header .search-save-btn {\n      display: none; } }\n\n@media (min-width: 1280px) {\n  .Header > .grid-row {\n    grid-template-columns: repeat(14, 1fr); }\n    .Header > .grid-row.sidenav-btn .Title {\n      grid-column: 2 / 4; }\n    .Header > .grid-row.sidenav-btn .SearchBar {\n      grid-column: 4 / 9; }\n    .Header > .grid-row.sidenav-btn .HeaderOptions {\n      grid-column: 9 / 14; } }\n\n.HeaderOptions > ul {\n  margin: 0;\n  padding: 0;\n  display: flex;\n  justify-content: flex-end;\n  display: grid;\n  grid-template-columns: repeat(4, minmax(35px, 60px));\n  height: 100%; }\n  .HeaderOptions > ul .option {\n    display: flex;\n    align-items: center;\n    padding: 0px 4px; }\n    .HeaderOptions > ul .option a {\n      display: block;\n      margin: 0 auto; }\n      .HeaderOptions > ul .option a .option-active {\n        display: none; }\n      .HeaderOptions > ul .option a .option-name {\n        display: none; }\n      .HeaderOptions > ul .option a img {\n        display: block;\n        width: 100%;\n        max-width: 45px; }\n    .HeaderOptions > ul .option.active {\n      background-color: #006BA6; }\n      .HeaderOptions > ul .option.active a .option-inactive {\n        display: none; }\n      .HeaderOptions > ul .option.active a .option-active {\n        display: block; }\n      .HeaderOptions > ul .option.active .OptionsDropdown {\n        display: grid; }\n\n@media (min-width: 400px) {\n  .HeaderOptions {\n    padding-right: 15px; } }\n\n@media (min-width: 900px) {\n  .HeaderOptions {\n    padding-right: 0px;\n    margin-left: 0;\n    padding-left: 0; }\n    .HeaderOptions > ul {\n      grid-template-rows: 1fr;\n      grid-template-columns: repeat(4, 1fr);\n      width: 100%; }\n      .HeaderOptions > ul .option {\n        grid-row: 1;\n        width: 100%;\n        padding: 0; } }\n\n@media (min-width: 1280px) {\n  .HeaderOptions ul .option a .option-name {\n    display: inline-block;\n    vertical-align: middle;\n    padding-left: 5px; }\n    .HeaderOptions ul .option a .option-name p {\n      display: block;\n      margin: 0;\n      font-size: 0.683rem;\n      line-height: 0.683rem; }\n  .HeaderOptions ul .option a .option-inactive {\n    display: inline-block;\n    vertical-align: middle; }\n  .HeaderOptions ul .option.active a .option-active {\n    display: inline-block;\n    vertical-align: middle; } }\n\n.Map {\n  width: 100%;\n  height: calc(100vh - 99px); }\n\n@media (min-width: 900px) {\n  .Map {\n    height: calc(100vh - 72px); } }\n\n.MapModeForm {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.4); }\n  .MapModeForm .modal {\n    background: white;\n    width: 100%;\n    height: 100%;\n    padding: 2rem 4rem; }\n\n@media (min-width: 900px) {\n  .MapModeForm .modal {\n    width: 600px;\n    height: 500px; } }\n\n.NavOptions {\n  position: absolute;\n  height: 100vh;\n  background-color: #3E4827;\n  display: none;\n  z-index: 10; }\n  .NavOptions.active {\n    display: block; }\n  .NavOptions .grid-wrap {\n    padding-top: 4rem; }\n    .NavOptions .grid-wrap ul {\n      border-bottom: 2px solid #656D52;\n      padding-bottom: 1rem; }\n      .NavOptions .grid-wrap ul li a {\n        line-height: 2.75rem;\n        text-decoration: none;\n        color: #FFFFFF;\n        font-size: .909rem; }\n    .NavOptions .grid-wrap div p {\n      margin: 0;\n      font-family: Merriweather;\n      font-style: italic;\n      color: #FFFFFF;\n      font-size: 0.683rem;\n      line-height: 1rem;\n      padding-top: 1.5rem; }\n\n@media (min-width: 900px) {\n  .NavOptions {\n    width: 270px; } }\n\n.OptionsDropdown {\n  position: absolute;\n  top: 54px;\n  left: 0;\n  right: 0;\n  background-color: #FFFFFF;\n  border-top: 2px solid #006BA6;\n  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);\n  display: none; }\n\n@media (min-width: 900px) {\n  .OptionsDropdown {\n    width: 180px;\n    top: 72px;\n    padding: 0 1em;\n    left: auto;\n    right: auto; }\n    .OptionsDropdown.grid-row {\n      grid-column-gap: 0rem; }\n    .OptionsDropdown .CloseButton {\n      display: none; } }\n\n.SaveButton {\n  display: inline-block;\n  border: none;\n  padding: 0; }\n  .SaveButton img {\n    display: block;\n    margin-left: auto; }\n\n.SearchBar {\n  width: calc(100% - 54px);\n  height: 45px;\n  vertical-align: top;\n  display: inline-block; }\n  .SearchBar input {\n    width: 100%;\n    height: 100%;\n    -webkit-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    box-sizing: border-box;\n    -webkit-appearance: none;\n    border: none;\n    padding: 0 0px 0px 18px;\n    background-color: #ECF1F3;\n    background-repeat: no-repeat;\n    background-position: 95%;\n    background-image: url(" + ___CSS_LOADER_URL___1___ + "); }\n    .SearchBar input::-webkit-input-placeholder {\n      font-family: Merriweather;\n      font-style: italic;\n      font-weight: normal;\n      font-size: 0.683rem;\n      line-height: 1rem; }\n\n@media (min-width: 900px) {\n  .SearchBar {\n    height: auto;\n    width: auto;\n    padding-bottom: 9px;\n    padding-top: 9px; }\n    .SearchBar input {\n      background-image: url(" + ___CSS_LOADER_URL___2___ + "); }\n      .SearchBar input::-webkit-input-placeholder {\n        font-size: 0.826rem; } }\n\n.Title {\n  display: flex;\n  align-items: center; }\n  .Title .wide-logo {\n    display: none; }\n  .Title .narrow-logo {\n    width: 100%;\n    max-width: 82px;\n    min-width: 63px; }\n\n@media (min-width: 900px) {\n  .Title .narrow-logo {\n    display: none; }\n  .Title .wide-logo {\n    display: block;\n    width: 100%;\n    max-width: 154px; } }\n\n.WelcomeModal {\n  display: grid;\n  height: 100vh;\n  position: absolute;\n  top: 0;\n  z-index: 1;\n  background-color: #FFFFFF; }\n  .WelcomeModal .grid-wrap > div:last-of-type {\n    position: absolute;\n    padding: 0px 5.625%;\n    left: 0;\n    right: 0;\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    bottom: 0;\n    padding: 1.5rem;\n    background-color: #ECF1F3; }\n  .WelcomeModal .grid-wrap .modal-header {\n    padding-top: 4rem; }\n  .WelcomeModal .grid-wrap .button-wrap > *:last-child {\n    display: none; }\n\n@media (min-width: 900px) {\n  .WelcomeModal {\n    height: 100vh;\n    align-items: center; }\n    .WelcomeModal.grid-row {\n      background-color: rgba(51, 51, 51, 0.7); }\n    .WelcomeModal .grid-wrap {\n      max-height: 450px;\n      display: flex;\n      flex-direction: column;\n      grid-column: 2 / 12;\n      background-color: #FFFFFF;\n      box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);\n      position: relative; }\n      .WelcomeModal .grid-wrap > div:last-of-type {\n        position: initial;\n        margin-top: auto;\n        padding: 1.5rem 2rem 1.5rem 2rem;\n        align-items: baseline; }\n      .WelcomeModal .grid-wrap .modal-header {\n        padding-top: 3.5rem; }\n      .WelcomeModal .grid-wrap .modal-text {\n        padding-bottom: 3rem; }\n      .WelcomeModal .grid-wrap .modal-header, .WelcomeModal .grid-wrap .modal-text {\n        padding-left: 2rem;\n        padding-right: 2rem; }\n      .WelcomeModal .grid-wrap .button-wrap > *:last-child {\n        color: #7A99AC;\n        display: block;\n        padding-top: 0.5rem;\n        font-size: .909rem; } }\n\n@media (min-width: 1280px) {\n  .WelcomeModal .grid-wrap {\n    grid-column: 4 / 12; } }\n\nhtml, body {\n  font-size: 18px;\n  font-family: Nimbus Sans;\n  margin: 0;\n  min-width: 305px; }\n\nul {\n  list-style: none;\n  padding: 0;\n  margin: 0; }\n\nh1 {\n  font-size: 1.464rem;\n  line-height: 2rem;\n  margin: 0; }\n\nh2 {\n  font-size: 1.331rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\nh3 {\n  font-size: 1rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\nh4, p {\n  font-size: 0.909rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\na {\n  text-decoration: none; }\n\nspan.link {\n  color: blue;\n  cursor: pointer; }\n", ""]);
+exports.push([module.i, ".mapbox-gl-draw_ctrl-draw-btn {\n  display: none !important; }\n\n.grid-row {\n  display: grid;\n  grid-template-columns: repeat(6, 1fr);\n  grid-column-gap: 1rem;\n  padding: 0px 5.625%;\n  max-width: 1680px; }\n\n.grid-wrap {\n  grid-column: 1 / -1; }\n\n@media (min-width: 900px) {\n  .grid-row {\n    grid-template-columns: repeat(12, 1fr); } }\n\n@media (min-width: 1280px) {\n  .grid-row {\n    grid-template-columns: repeat(14, 1fr);\n    padding: 0px 2.5%; } }\n\n.modal-header {\n  padding-bottom: 1rem;\n  position: relative; }\n  .modal-header::after {\n    content: '';\n    position: absolute;\n    bottom: -2px;\n    left: 0;\n    height: 2px;\n    width: 135px;\n    background-color: #76881D; }\n\n.modal-text {\n  padding-top: 1.5rem; }\n\n.modal-link {\n  font-family: Merriweather;\n  font-style: italic;\n  font-weight: normal;\n  font-size: 0.751rem;\n  line-height: 21px;\n  text-decoration-line: underline;\n  color: #006BA6; }\n\n@media (min-width: 900px) {\n  .modal-header::after {\n    left: 2rem; } }\n\n.vertical-align {\n  display: flex;\n  align-items: center; }\n\n.distribute {\n  display: flex;\n  justify-content: space-between; }\n\n.margin-center {\n  margin: 0 auto !important; }\n\n.spacer-top-0 {\n  margin-top: 0rem !important; }\n\n.spacer-top-1 {\n  margin-top: 1rem !important; }\n\n.spacer-top-2 {\n  margin-top: 2rem !important; }\n\n.spacer-top-3 {\n  margin-top: 3rem !important; }\n\n.spacer-top-4 {\n  margin-top: 4rem !important; }\n\n.spacer-bottom-0 {\n  margin-bottom: 0rem !important; }\n\n.spacer-bottom-1 {\n  margin-bottom: 1rem !important; }\n\n.spacer-bottom-2 {\n  margin-bottom: 2rem !important; }\n\n.spacer-bottom-3 {\n  margin-bottom: 3rem !important; }\n\n.spacer-bottom-4 {\n  margin-bottom: 4rem !important; }\n\n.spacer-left-0 {\n  margin-left: 0rem !important; }\n\n.spacer-left-1 {\n  margin-left: 1rem !important; }\n\n.spacer-left-2 {\n  margin-left: 2rem !important; }\n\n.spacer-left-3 {\n  margin-left: 3rem !important; }\n\n.spacer-left-4 {\n  margin-left: 4rem !important; }\n\n.spacer-right-0 {\n  margin-right: 0rem !important; }\n\n.spacer-right-1 {\n  margin-right: 1rem !important; }\n\n.spacer-right-2 {\n  margin-right: 2rem !important; }\n\n.spacer-right-3 {\n  margin-right: 3rem !important; }\n\n.spacer-right-4 {\n  margin-right: 4rem !important; }\n\n.width-1 {\n  width: 1% !important; }\n\n.width-2 {\n  width: 2% !important; }\n\n.width-3 {\n  width: 3% !important; }\n\n.width-4 {\n  width: 4% !important; }\n\n.width-5 {\n  width: 5% !important; }\n\n.width-6 {\n  width: 6% !important; }\n\n.width-7 {\n  width: 7% !important; }\n\n.width-8 {\n  width: 8% !important; }\n\n.width-9 {\n  width: 9% !important; }\n\n.width-10 {\n  width: 10% !important; }\n\n.width-11 {\n  width: 11% !important; }\n\n.width-12 {\n  width: 12% !important; }\n\n.width-13 {\n  width: 13% !important; }\n\n.width-14 {\n  width: 14% !important; }\n\n.width-15 {\n  width: 15% !important; }\n\n.width-16 {\n  width: 16% !important; }\n\n.width-17 {\n  width: 17% !important; }\n\n.width-18 {\n  width: 18% !important; }\n\n.width-19 {\n  width: 19% !important; }\n\n.width-20 {\n  width: 20% !important; }\n\n.width-21 {\n  width: 21% !important; }\n\n.width-22 {\n  width: 22% !important; }\n\n.width-23 {\n  width: 23% !important; }\n\n.width-24 {\n  width: 24% !important; }\n\n.width-25 {\n  width: 25% !important; }\n\n.width-26 {\n  width: 26% !important; }\n\n.width-27 {\n  width: 27% !important; }\n\n.width-28 {\n  width: 28% !important; }\n\n.width-29 {\n  width: 29% !important; }\n\n.width-30 {\n  width: 30% !important; }\n\n.width-31 {\n  width: 31% !important; }\n\n.width-32 {\n  width: 32% !important; }\n\n.width-33 {\n  width: 33% !important; }\n\n.width-34 {\n  width: 34% !important; }\n\n.width-35 {\n  width: 35% !important; }\n\n.width-36 {\n  width: 36% !important; }\n\n.width-37 {\n  width: 37% !important; }\n\n.width-38 {\n  width: 38% !important; }\n\n.width-39 {\n  width: 39% !important; }\n\n.width-40 {\n  width: 40% !important; }\n\n.width-41 {\n  width: 41% !important; }\n\n.width-42 {\n  width: 42% !important; }\n\n.width-43 {\n  width: 43% !important; }\n\n.width-44 {\n  width: 44% !important; }\n\n.width-45 {\n  width: 45% !important; }\n\n.width-46 {\n  width: 46% !important; }\n\n.width-47 {\n  width: 47% !important; }\n\n.width-48 {\n  width: 48% !important; }\n\n.width-49 {\n  width: 49% !important; }\n\n.width-50 {\n  width: 50% !important; }\n\n.width-51 {\n  width: 51% !important; }\n\n.width-52 {\n  width: 52% !important; }\n\n.width-53 {\n  width: 53% !important; }\n\n.width-54 {\n  width: 54% !important; }\n\n.width-55 {\n  width: 55% !important; }\n\n.width-56 {\n  width: 56% !important; }\n\n.width-57 {\n  width: 57% !important; }\n\n.width-58 {\n  width: 58% !important; }\n\n.width-59 {\n  width: 59% !important; }\n\n.width-60 {\n  width: 60% !important; }\n\n.width-61 {\n  width: 61% !important; }\n\n.width-62 {\n  width: 62% !important; }\n\n.width-63 {\n  width: 63% !important; }\n\n.width-64 {\n  width: 64% !important; }\n\n.width-65 {\n  width: 65% !important; }\n\n.width-66 {\n  width: 66% !important; }\n\n.width-67 {\n  width: 67% !important; }\n\n.width-68 {\n  width: 68% !important; }\n\n.width-69 {\n  width: 69% !important; }\n\n.width-70 {\n  width: 70% !important; }\n\n.width-71 {\n  width: 71% !important; }\n\n.width-72 {\n  width: 72% !important; }\n\n.width-73 {\n  width: 73% !important; }\n\n.width-74 {\n  width: 74% !important; }\n\n.width-75 {\n  width: 75% !important; }\n\n.width-76 {\n  width: 76% !important; }\n\n.width-77 {\n  width: 77% !important; }\n\n.width-78 {\n  width: 78% !important; }\n\n.width-79 {\n  width: 79% !important; }\n\n.width-80 {\n  width: 80% !important; }\n\n.width-81 {\n  width: 81% !important; }\n\n.width-82 {\n  width: 82% !important; }\n\n.width-83 {\n  width: 83% !important; }\n\n.width-84 {\n  width: 84% !important; }\n\n.width-85 {\n  width: 85% !important; }\n\n.width-86 {\n  width: 86% !important; }\n\n.width-87 {\n  width: 87% !important; }\n\n.width-88 {\n  width: 88% !important; }\n\n.width-89 {\n  width: 89% !important; }\n\n.width-90 {\n  width: 90% !important; }\n\n.width-91 {\n  width: 91% !important; }\n\n.width-92 {\n  width: 92% !important; }\n\n.width-93 {\n  width: 93% !important; }\n\n.width-94 {\n  width: 94% !important; }\n\n.width-95 {\n  width: 95% !important; }\n\n.width-96 {\n  width: 96% !important; }\n\n.width-97 {\n  width: 97% !important; }\n\n.width-98 {\n  width: 98% !important; }\n\n.width-99 {\n  width: 99% !important; }\n\n.width-100 {\n  width: 100% !important; }\n\n.height-1 {\n  height: 1% !important; }\n\n.height-2 {\n  height: 2% !important; }\n\n.height-3 {\n  height: 3% !important; }\n\n.height-4 {\n  height: 4% !important; }\n\n.height-5 {\n  height: 5% !important; }\n\n.height-6 {\n  height: 6% !important; }\n\n.height-7 {\n  height: 7% !important; }\n\n.height-8 {\n  height: 8% !important; }\n\n.height-9 {\n  height: 9% !important; }\n\n.height-10 {\n  height: 10% !important; }\n\n.height-11 {\n  height: 11% !important; }\n\n.height-12 {\n  height: 12% !important; }\n\n.height-13 {\n  height: 13% !important; }\n\n.height-14 {\n  height: 14% !important; }\n\n.height-15 {\n  height: 15% !important; }\n\n.height-16 {\n  height: 16% !important; }\n\n.height-17 {\n  height: 17% !important; }\n\n.height-18 {\n  height: 18% !important; }\n\n.height-19 {\n  height: 19% !important; }\n\n.height-20 {\n  height: 20% !important; }\n\n.height-21 {\n  height: 21% !important; }\n\n.height-22 {\n  height: 22% !important; }\n\n.height-23 {\n  height: 23% !important; }\n\n.height-24 {\n  height: 24% !important; }\n\n.height-25 {\n  height: 25% !important; }\n\n.height-26 {\n  height: 26% !important; }\n\n.height-27 {\n  height: 27% !important; }\n\n.height-28 {\n  height: 28% !important; }\n\n.height-29 {\n  height: 29% !important; }\n\n.height-30 {\n  height: 30% !important; }\n\n.height-31 {\n  height: 31% !important; }\n\n.height-32 {\n  height: 32% !important; }\n\n.height-33 {\n  height: 33% !important; }\n\n.height-34 {\n  height: 34% !important; }\n\n.height-35 {\n  height: 35% !important; }\n\n.height-36 {\n  height: 36% !important; }\n\n.height-37 {\n  height: 37% !important; }\n\n.height-38 {\n  height: 38% !important; }\n\n.height-39 {\n  height: 39% !important; }\n\n.height-40 {\n  height: 40% !important; }\n\n.height-41 {\n  height: 41% !important; }\n\n.height-42 {\n  height: 42% !important; }\n\n.height-43 {\n  height: 43% !important; }\n\n.height-44 {\n  height: 44% !important; }\n\n.height-45 {\n  height: 45% !important; }\n\n.height-46 {\n  height: 46% !important; }\n\n.height-47 {\n  height: 47% !important; }\n\n.height-48 {\n  height: 48% !important; }\n\n.height-49 {\n  height: 49% !important; }\n\n.height-50 {\n  height: 50% !important; }\n\n.height-51 {\n  height: 51% !important; }\n\n.height-52 {\n  height: 52% !important; }\n\n.height-53 {\n  height: 53% !important; }\n\n.height-54 {\n  height: 54% !important; }\n\n.height-55 {\n  height: 55% !important; }\n\n.height-56 {\n  height: 56% !important; }\n\n.height-57 {\n  height: 57% !important; }\n\n.height-58 {\n  height: 58% !important; }\n\n.height-59 {\n  height: 59% !important; }\n\n.height-60 {\n  height: 60% !important; }\n\n.height-61 {\n  height: 61% !important; }\n\n.height-62 {\n  height: 62% !important; }\n\n.height-63 {\n  height: 63% !important; }\n\n.height-64 {\n  height: 64% !important; }\n\n.height-65 {\n  height: 65% !important; }\n\n.height-66 {\n  height: 66% !important; }\n\n.height-67 {\n  height: 67% !important; }\n\n.height-68 {\n  height: 68% !important; }\n\n.height-69 {\n  height: 69% !important; }\n\n.height-70 {\n  height: 70% !important; }\n\n.height-71 {\n  height: 71% !important; }\n\n.height-72 {\n  height: 72% !important; }\n\n.height-73 {\n  height: 73% !important; }\n\n.height-74 {\n  height: 74% !important; }\n\n.height-75 {\n  height: 75% !important; }\n\n.height-76 {\n  height: 76% !important; }\n\n.height-77 {\n  height: 77% !important; }\n\n.height-78 {\n  height: 78% !important; }\n\n.height-79 {\n  height: 79% !important; }\n\n.height-80 {\n  height: 80% !important; }\n\n.height-81 {\n  height: 81% !important; }\n\n.height-82 {\n  height: 82% !important; }\n\n.height-83 {\n  height: 83% !important; }\n\n.height-84 {\n  height: 84% !important; }\n\n.height-85 {\n  height: 85% !important; }\n\n.height-86 {\n  height: 86% !important; }\n\n.height-87 {\n  height: 87% !important; }\n\n.height-88 {\n  height: 88% !important; }\n\n.height-89 {\n  height: 89% !important; }\n\n.height-90 {\n  height: 90% !important; }\n\n.height-91 {\n  height: 91% !important; }\n\n.height-92 {\n  height: 92% !important; }\n\n.height-93 {\n  height: 93% !important; }\n\n.height-94 {\n  height: 94% !important; }\n\n.height-95 {\n  height: 95% !important; }\n\n.height-96 {\n  height: 96% !important; }\n\n.height-97 {\n  height: 97% !important; }\n\n.height-98 {\n  height: 98% !important; }\n\n.height-99 {\n  height: 99% !important; }\n\n.height-100 {\n  height: 100% !important; }\n\n.warning {\n  color: red; }\n\n.block {\n  display: block !important; }\n\n.inline {\n  display: inline !important; }\n\n.inline-block {\n  display: inline-block !important; }\n\n.clickable {\n  pointer-events: auto !important; }\n  .clickable * {\n    pointer-events: auto !important; }\n\n.unclickable {\n  pointer-events: none !important; }\n\n.Button {\n  padding: 0.5rem 22px;\n  font-size: .909rem;\n  display: inline-block;\n  border-radius: 5px;\n  background-color: #006BA6;\n  cursor: pointer;\n  color: white; }\n  .Button span {\n    color: white;\n    line-height: 1.5rem; }\n\ndiv {\n  display: block; }\n  div input[type=\"checkbox\"] {\n    -webkit-appearance: none;\n    border-radius: 3px;\n    border: 1px solid #A8ACAE;\n    width: 18px;\n    box-sizing: border-box;\n    height: 18px;\n    margin: 0px 0.5rem 0px 0px;\n    vertical-align: middle; }\n    div input[type=\"checkbox\"]:focus {\n      border: 1px solid #333333;\n      outline: none; }\n      div input[type=\"checkbox\"]:focus + span {\n        color: black; }\n    div input[type=\"checkbox\"]:checked {\n      background-color: #006BA6;\n      background-image: url(" + ___CSS_LOADER_URL___0___ + ");\n      background-repeat: no-repeat;\n      border: 1px solid #006BA6; }\n      div input[type=\"checkbox\"]:checked + span {\n        color: #333333; }\n    div input[type=\"checkbox\"]:disabled {\n      background-color: #ECF1F3;\n      border: 1px solid #ECF1F3; }\n      div input[type=\"checkbox\"]:disabled + span {\n        color: #A8ACAE; }\n  div span {\n    font-size: .909rem;\n    color: #707372;\n    line-height: 2rem; }\n\n.CloseButton {\n  position: absolute;\n  z-index: 1;\n  top: 18px;\n  right: 18px;\n  cursor: pointer;\n  padding: 0;\n  border: none;\n  background-color: inherit; }\n\n.dropdown-checkbox {\n  margin-top: 1.5em;\n  margin-bottom: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-checkbox .Button {\n    margin-top: 1rem;\n    margin-bottom: 3rem; }\n  .dropdown-checkbox > img:last-of-type {\n    position: absolute;\n    bottom: 18px;\n    right: 18px;\n    cursor: pointer; }\n\n@media (min-width: 900px) {\n  .dropdown-checkbox {\n    margin-top: 1em;\n    margin-bottom: 1em; }\n    .dropdown-checkbox .Button {\n      display: block;\n      text-align: center;\n      margin: 0.5rem auto 2.5rem auto; }\n    .dropdown-checkbox > img:last-of-type {\n      bottom: 9px;\n      right: 9px; } }\n\n.dropdown-list {\n  margin-top: 1.5em;\n  margin-bottom: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-list ul {\n    display: block;\n    padding: 0; }\n    .dropdown-list ul li a {\n      text-decoration: none;\n      font-size: 0.909rem;\n      line-height: 2.75em; }\n    .dropdown-list ul li:last-child {\n      border-top: 1px solid #ECF1F3;\n      padding: 1em 0; }\n      .dropdown-list ul li:last-child a {\n        line-height: 1.5em; }\n\n@media (min-width: 900px) {\n  .dropdown-list {\n    margin-top: 1em;\n    margin-top: 1em;\n    margin-bottom: 1em; }\n    .dropdown-list ul li a {\n      line-height: 2em;\n      padding: 0; }\n    .dropdown-list ul li:nth-of-type(3) {\n      padding-bottom: 1em; } }\n\n.Header {\n  position: relative;\n  z-index: 1;\n  width: 100%;\n  height: 99px;\n  background-color: #FFFFFF;\n  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); }\n  .Header > .grid-row {\n    grid-template-columns: auto repeat(5, 1fr); }\n    .Header > .grid-row.sidenav-btn {\n      padding: 0; }\n      .Header > .grid-row.sidenav-btn .SideNavButton {\n        background-color: #FFFFFF;\n        grid-column: 1 / 2;\n        cursor: pointer;\n        padding: 0;\n        border: none; }\n        .Header > .grid-row.sidenav-btn .SideNavButton img {\n          display: block; }\n        .Header > .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n          display: none; }\n      .Header > .grid-row.sidenav-btn .Title {\n        grid-column: 2 / 4; }\n      .Header > .grid-row.sidenav-btn .SearchBar {\n        display: none; }\n      .Header > .grid-row.sidenav-btn .HeaderOptions {\n        grid-column: 4 / -1; }\n      .Header > .grid-row.sidenav-btn .SaveButton {\n        display: none; }\n  .Header .search-save-btn .SaveButton .wide-save {\n    display: none; }\n\n@media (min-width: 900px) {\n  .Header {\n    height: 72px; }\n    .Header > .grid-row {\n      height: 72px;\n      grid-template-columns: repeat(12, 1fr); }\n      .Header > .grid-row.sidenav-btn .SideNavButton .narrow-sidenav {\n        display: none; }\n      .Header > .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n        display: block; }\n      .Header > .grid-row.sidenav-btn .Title {\n        grid-column: 2 / 4; }\n      .Header > .grid-row.sidenav-btn .SearchBar {\n        grid-column: 4 / 8;\n        display: block; }\n      .Header > .grid-row.sidenav-btn .HeaderOptions {\n        grid-column: 8 / 12; }\n      .Header > .grid-row.sidenav-btn .SaveButton {\n        display: block; }\n        .Header > .grid-row.sidenav-btn .SaveButton .narrow-save {\n          display: none; }\n    .Header .search-save-btn {\n      display: none; } }\n\n@media (min-width: 1280px) {\n  .Header > .grid-row {\n    grid-template-columns: repeat(14, 1fr); }\n    .Header > .grid-row.sidenav-btn .Title {\n      grid-column: 2 / 4; }\n    .Header > .grid-row.sidenav-btn .SearchBar {\n      grid-column: 4 / 9; }\n    .Header > .grid-row.sidenav-btn .HeaderOptions {\n      grid-column: 9 / 14; } }\n\n.HeaderOptions > ul {\n  margin: 0;\n  padding: 0;\n  display: flex;\n  justify-content: flex-end;\n  display: grid;\n  grid-template-columns: repeat(4, minmax(35px, 60px));\n  height: 100%; }\n  .HeaderOptions > ul .option {\n    display: flex;\n    align-items: center;\n    padding: 0px 4px; }\n    .HeaderOptions > ul .option a {\n      display: block;\n      margin: 0 auto; }\n      .HeaderOptions > ul .option a .option-active {\n        display: none; }\n      .HeaderOptions > ul .option a .option-name {\n        display: none; }\n      .HeaderOptions > ul .option a img {\n        display: block;\n        width: 100%;\n        max-width: 45px; }\n    .HeaderOptions > ul .option.active {\n      background-color: #006BA6; }\n      .HeaderOptions > ul .option.active a .option-inactive {\n        display: none; }\n      .HeaderOptions > ul .option.active a .option-active {\n        display: block; }\n      .HeaderOptions > ul .option.active .OptionsDropdown {\n        display: grid; }\n\n@media (min-width: 400px) {\n  .HeaderOptions {\n    padding-right: 15px; } }\n\n@media (min-width: 900px) {\n  .HeaderOptions {\n    padding-right: 0px;\n    margin-left: 0;\n    padding-left: 0; }\n    .HeaderOptions > ul {\n      grid-template-rows: 1fr;\n      grid-template-columns: repeat(4, 1fr);\n      width: 100%; }\n      .HeaderOptions > ul .option {\n        grid-row: 1;\n        width: 100%;\n        padding: 0; } }\n\n@media (min-width: 1280px) {\n  .HeaderOptions ul .option a .option-name {\n    display: inline-block;\n    vertical-align: middle;\n    padding-left: 5px; }\n    .HeaderOptions ul .option a .option-name p {\n      display: block;\n      margin: 0;\n      font-size: 0.683rem;\n      line-height: 0.683rem; }\n  .HeaderOptions ul .option a .option-inactive {\n    display: inline-block;\n    vertical-align: middle; }\n  .HeaderOptions ul .option.active a .option-active {\n    display: inline-block;\n    vertical-align: middle; } }\n\n.Map {\n  width: 100%;\n  height: calc(100vh - 99px); }\n\n@media (min-width: 900px) {\n  .Map {\n    height: calc(100vh - 72px); } }\n\n.MapModeForm {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.4); }\n  .MapModeForm .modal {\n    background: white;\n    width: 100%;\n    height: 100%;\n    padding: 2rem 4rem; }\n\n@media (min-width: 900px) {\n  .MapModeForm .modal {\n    width: 600px;\n    height: 500px; } }\n\n.NavOptions {\n  position: absolute;\n  height: 100vh;\n  background-color: #3E4827;\n  display: none;\n  z-index: 10; }\n  .NavOptions.active {\n    display: block; }\n  .NavOptions .grid-wrap {\n    padding-top: 4rem; }\n    .NavOptions .grid-wrap ul {\n      border-bottom: 2px solid #656D52;\n      padding-bottom: 1rem; }\n      .NavOptions .grid-wrap ul li a {\n        line-height: 2.75rem;\n        text-decoration: none;\n        color: #FFFFFF;\n        font-size: .909rem; }\n    .NavOptions .grid-wrap div p {\n      margin: 0;\n      font-family: Merriweather;\n      font-style: italic;\n      color: #FFFFFF;\n      font-size: 0.683rem;\n      line-height: 1rem;\n      padding-top: 1.5rem; }\n\n@media (min-width: 900px) {\n  .NavOptions {\n    width: 270px; } }\n\n.OptionsDropdown {\n  position: absolute;\n  top: 54px;\n  left: 0;\n  right: 0;\n  background-color: #FFFFFF;\n  border-top: 2px solid #006BA6;\n  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);\n  display: none; }\n\n@media (min-width: 900px) {\n  .OptionsDropdown {\n    width: 180px;\n    top: 72px;\n    padding: 0 1em;\n    left: auto;\n    right: auto; }\n    .OptionsDropdown.grid-row {\n      grid-column-gap: 0rem; }\n    .OptionsDropdown .CloseButton {\n      display: none; } }\n\n.SaveButton {\n  display: inline-block;\n  border: none;\n  padding: 0; }\n  .SaveButton img {\n    display: block;\n    margin-left: auto; }\n\n.SearchBar {\n  width: calc(100% - 54px);\n  height: 45px;\n  vertical-align: top;\n  display: inline-block; }\n  .SearchBar input {\n    width: 100%;\n    height: 100%;\n    -webkit-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    box-sizing: border-box;\n    -webkit-appearance: none;\n    border: none;\n    padding: 0 0px 0px 18px;\n    background-color: #ECF1F3;\n    background-repeat: no-repeat;\n    background-position: 95%;\n    background-image: url(" + ___CSS_LOADER_URL___1___ + "); }\n    .SearchBar input::-webkit-input-placeholder {\n      font-family: Merriweather;\n      font-style: italic;\n      font-weight: normal;\n      font-size: 0.683rem;\n      line-height: 1rem; }\n\n@media (min-width: 900px) {\n  .SearchBar {\n    height: auto;\n    width: auto;\n    padding-bottom: 9px;\n    padding-top: 9px; }\n    .SearchBar input {\n      background-image: url(" + ___CSS_LOADER_URL___2___ + "); }\n      .SearchBar input::-webkit-input-placeholder {\n        font-size: 0.826rem; } }\n\n.Title {\n  display: flex;\n  align-items: center; }\n  .Title .wide-logo {\n    display: none; }\n  .Title .narrow-logo {\n    width: 100%;\n    max-width: 82px;\n    min-width: 63px; }\n\n@media (min-width: 900px) {\n  .Title .narrow-logo {\n    display: none; }\n  .Title .wide-logo {\n    display: block;\n    width: 100%;\n    max-width: 154px; } }\n\n.WelcomeModal {\n  display: grid;\n  height: 100vh;\n  position: absolute;\n  top: 0;\n  z-index: 1;\n  background-color: #FFFFFF; }\n  .WelcomeModal .grid-wrap > div:last-of-type {\n    position: absolute;\n    padding: 0px 5.625%;\n    left: 0;\n    right: 0;\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    bottom: 0;\n    padding: 1.5rem;\n    background-color: #ECF1F3; }\n  .WelcomeModal .grid-wrap .modal-header {\n    padding-top: 4rem; }\n  .WelcomeModal .grid-wrap .button-wrap > *:last-child {\n    display: none; }\n\n@media (min-width: 900px) {\n  .WelcomeModal {\n    height: 100vh;\n    align-items: center; }\n    .WelcomeModal.grid-row {\n      background-color: rgba(51, 51, 51, 0.7); }\n    .WelcomeModal .grid-wrap {\n      max-height: 450px;\n      display: flex;\n      flex-direction: column;\n      grid-column: 2 / 12;\n      background-color: #FFFFFF;\n      box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);\n      position: relative; }\n      .WelcomeModal .grid-wrap > div:last-of-type {\n        position: initial;\n        margin-top: auto;\n        padding: 1.5rem 2rem 1.5rem 2rem;\n        align-items: baseline; }\n      .WelcomeModal .grid-wrap .modal-header {\n        padding-top: 3.5rem; }\n      .WelcomeModal .grid-wrap .modal-text {\n        padding-bottom: 3rem; }\n      .WelcomeModal .grid-wrap .modal-header, .WelcomeModal .grid-wrap .modal-text {\n        padding-left: 2rem;\n        padding-right: 2rem; }\n      .WelcomeModal .grid-wrap .button-wrap > *:last-child {\n        color: #7A99AC;\n        display: block;\n        padding-top: 0.5rem;\n        font-size: .909rem; } }\n\n@media (min-width: 1280px) {\n  .WelcomeModal .grid-wrap {\n    grid-column: 4 / 12; } }\n\nhtml, body {\n  font-size: 18px;\n  font-family: Nimbus Sans;\n  margin: 0;\n  min-width: 305px; }\n\nul {\n  list-style: none;\n  padding: 0;\n  margin: 0; }\n\nh1 {\n  font-size: 1.464rem;\n  line-height: 2rem;\n  margin: 0; }\n\nh2 {\n  font-size: 1.331rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\nh3 {\n  font-size: 1rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\nh4, p {\n  font-size: 0.909rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\na {\n  text-decoration: none; }\n\nspan.link {\n  color: blue;\n  cursor: pointer; }\n", ""]);
 
 
 /***/ }),
@@ -7166,7 +7166,7 @@ function load() {
 
 	// If debug isn't set in LS, and we're in Electron, try to load $DEBUG
 	if (!r && typeof process !== 'undefined' && 'env' in process) {
-		r = process.env.DEBUG;
+		r = "MapComponent";
 	}
 
 	return r;
@@ -64793,24 +64793,20 @@ __webpack_require__.r(__webpack_exports__);
 
 var App = function App() {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts__WEBPACK_IMPORTED_MODULE_5__["Store"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_Header__WEBPACK_IMPORTED_MODULE_6__["Header"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_8__["MapConsumer"], null, function (ctx) {
-    var basemap = ctx.state.basemap; // if satellite style is selected render satellite styled map component
-
-    var loadMap = function loadMap(router, basemapName) {
-      if (basemapName === 'satellite') {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_MapComponent__WEBPACK_IMPORTED_MODULE_4__["MapWrapperSatellite"], {
-          router: router
-        });
-      }
-
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_MapComponent__WEBPACK_IMPORTED_MODULE_4__["MapWrapperDefault"], {
-        router: router
-      });
-    };
+    var basemap = ctx.state.basemap; // If satellite style is selected render satellite styled map component, otherwise render the default outdoors style.
 
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
       path: "/",
       render: function render(router) {
-        return loadMap(router, basemap);
+        if (basemap === 'satellite') {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_MapComponent__WEBPACK_IMPORTED_MODULE_4__["MapWrapperSatellite"], {
+            router: router
+          });
+        }
+
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_MapComponent__WEBPACK_IMPORTED_MODULE_4__["MapWrapperDefault"], {
+          router: router
+        });
       }
     });
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
@@ -65061,40 +65057,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var DropdownCheckbox = function DropdownCheckbox(_ref) {
   var setBasemap = _ref.setBasemap,
-      setMapLayer = _ref.setMapLayer;
+      setMapLayer = _ref.setMapLayer,
+      layers = _ref.layers,
+      basemap = _ref.basemap;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "dropdown-checkbox"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "checkbox",
+    checked: layers.ssurgo,
     name: "ssurgo",
     onChange: function onChange(e) {
       return setMapLayer(e.target.name);
     }
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "gSSURGO - CSR")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     type: "checkbox",
-    name: "lidar",
-    onChange: function onChange(e) {
-      return setMapLayer(e.target.name);
-    }
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "LiDAR Hillshade")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
-    name: "contours",
-    onChange: function onChange(e) {
-      return setMapLayer(e.target.name);
-    }
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "(2 ft contours)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-    type: "checkbox",
+    checked: basemap === 'satellite',
     name: "satellite",
     onChange: function onChange(e) {
-      return setBasemap(e.target.name);
+      e.target.checked ? setBasemap(e.target.name) : setBasemap('outdoor');
     }
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Satellite")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    type: "button",
-    className: "Button"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Add A Map Layer")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-    src: "/assets/question-mark.svg",
-    alt: "Help"
-  }));
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Satellite")));
 };
 
 var HeaderOptions =
@@ -65237,12 +65219,17 @@ function (_React$Component) {
         src: "/assets/close_dropdown.svg",
         alt: "Close"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_contexts_MapState__WEBPACK_IMPORTED_MODULE_2__["MapConsumer"], null, function (ctx) {
-        var _ctx$actions = ctx.actions,
+        var _ctx$state = ctx.state,
+            layers = _ctx$state.layers,
+            basemap = _ctx$state.basemap,
+            _ctx$actions = ctx.actions,
             setBasemap = _ctx$actions.setBasemap,
             setMapLayer = _ctx$actions.setMapLayer;
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(DropdownCheckbox, {
           setBasemap: setBasemap,
-          setMapLayer: setMapLayer
+          setMapLayer: setMapLayer,
+          layers: layers,
+          basemap: basemap
         });
       }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: reportOptionActive ? 'option active' : 'option'
@@ -65297,9 +65284,10 @@ __webpack_require__.r(__webpack_exports__);
 var test_data_tree_json__WEBPACK_IMPORTED_MODULE_7___namespace = /*#__PURE__*/__webpack_require__.t(/*! test_data/tree.json */ "./src/test_data/tree.json", 1);
 /* harmony import */ var _map_layers_Area__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./map_layers/Area */ "./src/components/map_layers/Area.jsx");
 /* harmony import */ var _map_layers_EditIcons__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./map_layers/EditIcons */ "./src/components/map_layers/EditIcons.jsx");
-/* harmony import */ var _map_layers_Outline__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./map_layers/Outline */ "./src/components/map_layers/Outline.jsx");
-/* harmony import */ var _map_modes_SimpleSelect__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./map_modes/SimpleSelect */ "./src/components/map_modes/SimpleSelect.jsx");
-/* harmony import */ var _map_modes_Planting__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./map_modes/Planting */ "./src/components/map_modes/Planting.jsx");
+/* harmony import */ var _map_layers_SSURGO__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./map_layers/SSURGO */ "./src/components/map_layers/SSURGO.jsx");
+/* harmony import */ var _map_layers_Outline__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./map_layers/Outline */ "./src/components/map_layers/Outline.jsx");
+/* harmony import */ var _map_modes_SimpleSelect__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./map_modes/SimpleSelect */ "./src/components/map_modes/SimpleSelect.jsx");
+/* harmony import */ var _map_modes_Planting__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./map_modes/Planting */ "./src/components/map_modes/Planting.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -65340,8 +65328,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 mapbox_gl__WEBPACK_IMPORTED_MODULE_2___default.a.accessToken = "pk.eyJ1Ijoiam9obndpbGRzcHJpbmciLCJhIjoiY2syYzVvcjc5MXNyaTNjcGJnZnV5bGt5bSJ9.lyBcX-LG9alwBhxpcE8Pwg";
-var debug = debug__WEBPACK_IMPORTED_MODULE_4___default()('MapComponent');
+var debug = debug__WEBPACK_IMPORTED_MODULE_4___default()('MapComponent'); // Export two different MapWrappers to trigger a full component switch when styles change, for a clean refresh of the map.
+// This can be optimized in the future, but requires a lot of tweaking of lifecycle logic, because a style change means all sources and layers are wiped...
+
 var MapWrapperDefault = function MapWrapperDefault(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_5__["MapConsumer"], null, function (mapCtx) {
     var ctx = _objectSpread({}, mapCtx.state, {}, mapCtx.actions);
@@ -65417,7 +65408,9 @@ function (_React$Component) {
       // Are the sources added?
       editingFeature: null,
       // The current feature being edited.
-      sources: [] // The current sources loaded.
+      sources: [],
+      // The current sources loaded.
+      cleanup: false // Is the map cleaning up? (unmounting)
 
     };
     _this.mapElement = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
@@ -65435,8 +65428,8 @@ function (_React$Component) {
       this.map = new mapbox_gl__WEBPACK_IMPORTED_MODULE_2___default.a.Map({
         container: this.mapElement.current,
         style: styleURL,
-        center: [-93.624287, 41.587537],
-        zoom: 13
+        center: [-93.241935, 41.224619],
+        zoom: 11
       }); // this.setState({ init: true });
 
       this.map.on('load', function () {
@@ -65451,9 +65444,7 @@ function (_React$Component) {
 
 
         _this2.loadImages([// Load the images to be used in the map.
-        '/assets/edit_feature.svg']);
-
-        _this2.loadSomeTestData(); // Load some test data.
+        '/assets/edit_feature.svg']); // this.loadSomeTestData(); // Load some test data.
         // Add the draw controller.
 
 
@@ -65479,7 +65470,13 @@ function (_React$Component) {
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
-      this.map.remove();
+      var _this3 = this;
+
+      this.setState({
+        cleanup: true
+      }, function () {
+        return _this3.map.remove();
+      });
     }
   }, {
     key: "loadSomeTestData",
@@ -65493,15 +65490,24 @@ function (_React$Component) {
     value: function addSource(name, type, data) {
       // This adds the data source to the map, or updates it if it exists.
       if (this.state.sources.includes(name)) {
-        // Update the source.
-        var source = this.map.getSource(name);
-        source.setData(data);
+        // Update the source, only if geojson. (Not sure what the method is to update a vector url.)
+        if (type === 'geojson') {
+          var source = this.map.getSource(name);
+          source.setData(data);
+        }
       } else {
         // Add the source.
-        this.map.addSource(name, {
-          type: type,
-          data: data
-        });
+        var sourceData = {
+          type: type
+        };
+
+        if (type === 'geojson') {
+          sourceData.data = data;
+        } else if (type === 'vector') {
+          sourceData.url = data;
+        }
+
+        this.map.addSource(name, sourceData);
         this.setState(function (prevState) {
           return {
             sources: prevState.sources.concat(name)
@@ -65525,7 +65531,9 @@ function (_React$Component) {
       this.addSource('feature_data_edit_icons', 'geojson', {
         type: 'FeatureCollection',
         features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_6__["getEditIcons"])(data)
-      });
+      }); // This is SSURGO.
+
+       true && this.addSource('ssurgo', 'vector', "mapbox://".concat("johnwildspring.7ub1ysq1"));
       !sourcesAdded && this.setState({
         sourcesAdded: true
       });
@@ -65533,7 +65541,7 @@ function (_React$Component) {
   }, {
     key: "loadImages",
     value: function loadImages(srcs) {
-      var _this3 = this;
+      var _this4 = this;
 
       var addImg = function addImg(src) {
         return new Promise(function (resolve) {
@@ -65544,7 +65552,7 @@ function (_React$Component) {
           img.onload = function () {
             resolve(src);
 
-            _this3.map.addImage(src, img);
+            _this4.map.addImage(src, img);
           };
 
           img.onerror = function () {
@@ -65562,10 +65570,13 @@ function (_React$Component) {
           draw = this.draw,
           map = this.map,
           nextStep = this.nextStep,
-          data = this.props.data,
+          _this$props = this.props,
+          data = _this$props.data,
+          layers = _this$props.layers,
           setEditingFeature = this.setEditingFeature,
           saveFeature = this.saveFeature,
           _this$state = this.state,
+          cleanup = _this$state.cleanup,
           drawInit = _this$state.drawInit,
           sourcesAdded = _this$state.sourcesAdded,
           editingFeature = _this$state.editingFeature;
@@ -65582,10 +65593,10 @@ function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "Map",
         ref: this.mapElement
-      }, drawInit && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+      }, !cleanup && drawInit && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/plant/tree/:step?",
         render: function render(router) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_modes_Planting__WEBPACK_IMPORTED_MODULE_12__["Planting"], _extends({
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_modes_Planting__WEBPACK_IMPORTED_MODULE_13__["Planting"], _extends({
             router: router,
             type: "tree",
             steps: ['rows', 'species', 'spacing']
@@ -65594,7 +65605,7 @@ function (_React$Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/plant/prairie/:step?",
         render: function render(router) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_modes_Planting__WEBPACK_IMPORTED_MODULE_12__["Planting"], _extends({
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_modes_Planting__WEBPACK_IMPORTED_MODULE_13__["Planting"], _extends({
             router: router,
             type: "prairie",
             steps: ['seed', 'mgmt_1', 'mgmt_2']
@@ -65603,15 +65614,17 @@ function (_React$Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
         path: "/",
         render: function render(router) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_modes_SimpleSelect__WEBPACK_IMPORTED_MODULE_11__["SimpleSelect"], _extends({
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_modes_SimpleSelect__WEBPACK_IMPORTED_MODULE_12__["SimpleSelect"], _extends({
             router: router
           }, mapModeProps));
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
         to: "/"
-      })), sourcesAdded && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_layers_Area__WEBPACK_IMPORTED_MODULE_8__["Area"], {
+      })), !cleanup && sourcesAdded && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, layers.ssurgo && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_layers_SSURGO__WEBPACK_IMPORTED_MODULE_10__["SSURGO"], {
         map: map
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_layers_Outline__WEBPACK_IMPORTED_MODULE_10__["Outline"], {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_layers_Area__WEBPACK_IMPORTED_MODULE_8__["Area"], {
+        map: map
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_layers_Outline__WEBPACK_IMPORTED_MODULE_11__["Outline"], {
         map: map
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_layers_EditIcons__WEBPACK_IMPORTED_MODULE_9__["EditIcons"], {
         map: map,
@@ -65807,14 +65820,13 @@ var EditIcons = function EditIcons(props) {
       'icon-image': image || '/assets/edit_feature.svg'
     }
   };
-  var events = [['click', function (e) {
+  var events = new Map([['click', function (e) {
     var editingIcon = e.features[0];
     var featureId = editingIcon.properties["for"];
     var feature = data.get(featureId);
     setEditingFeature(feature);
     nextStep('/plant/tree/rows');
-  }]];
-  events = new Map(events);
+  }]]);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layer__WEBPACK_IMPORTED_MODULE_1__["Layer"], {
     map: map,
     layer: layer,
@@ -65836,6 +65848,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Layer", function() { return Layer; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_1__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -65857,6 +65871,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
+
+var debug = debug__WEBPACK_IMPORTED_MODULE_1___default()('MapComponent');
 var Layer =
 /*#__PURE__*/
 function (_React$Component) {
@@ -65883,8 +65899,10 @@ function (_React$Component) {
   _createClass(Layer, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      var layer = this.props.layer;
       this.setupLayer();
       this.setupEvents();
+      debug('Added layer:', layer.id);
     }
   }, {
     key: "componentDidUpdate",
@@ -65893,18 +65911,19 @@ function (_React$Component) {
       this.setupEvents();
     }
   }, {
-    key: "componentWillUmount",
-    value: function componentWillUmount() {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
       var currentEvents = this.events,
           _this$props = this.props,
           layer = _this$props.layer,
           map = _this$props.map; // Remove layer and clean up events.
 
-      map.removeLayer(layer.id);
+      map && map.removeLayer(layer.id);
       currentEvents.forEach(function (value, key) {
-        map.off(key, layer.id, value);
+        map && map.off(key, layer.id, value);
         currentEvents["delete"](key);
       });
+      debug('Removed layer:', layer.id);
     }
   }, {
     key: "setupLayer",
@@ -65984,6 +66003,50 @@ var Outline = function Outline(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layer__WEBPACK_IMPORTED_MODULE_1__["Layer"], {
     map: map,
     layer: layer
+  });
+};
+
+/***/ }),
+
+/***/ "./src/components/map_layers/SSURGO.jsx":
+/*!**********************************************!*\
+  !*** ./src/components/map_layers/SSURGO.jsx ***!
+  \**********************************************/
+/*! exports provided: SSURGO */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SSURGO", function() { return SSURGO; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Layer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Layer */ "./src/components/map_layers/Layer.jsx");
+/* eslint-disable no-useless-escape */
+
+/* eslint-disable indent */
+
+
+var SSURGO = function SSURGO(props) {
+  var map = props.map;
+  var layer = {
+    id: 'ssurgo',
+    type: 'fill',
+    source: 'ssurgo',
+    'source-layer': "muname",
+    minzoom: 10,
+    paint: {
+      'fill-color': ['case', ['==', ['get', 'taxorder'], 'Alfisols'], 'hsl(37, 93%, 49%)', ['==', ['get', 'taxorder'], 'Entisols'], 'hsl(70, 89%, 51%)', ['==', ['get', 'taxorder'], 'Histosols'], 'hsl(108, 88%, 42%)', ['==', ['get', 'taxorder'], 'Inceptisols'], 'hsl(169, 87%, 48%)', ['==', ['get', 'taxorder'], 'Mollisols'], 'hsl(242, 85%, 56%)', ['==', ['get', 'taxorder'], 'Vertisols'], 'hsl(294, 80%, 63%)', 'rgba(0,0,0,0)'],
+      'fill-opacity': 0.3,
+      'fill-antialias': false
+    }
+  };
+  var events = new Map([['click', function (e) {
+    console.log(e.features.length > 0 ? e.features[0] : null);
+  }]]);
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layer__WEBPACK_IMPORTED_MODULE_1__["Layer"], {
+    map: map,
+    layer: layer,
+    events: events
   });
 };
 
@@ -66144,11 +66207,11 @@ function (_React$Component) {
           draw = _this$props2.draw; // Clean up events.
 
       events.forEach(function (value, key) {
-        map.off(key, value);
+        map && map.off(key, value);
         events["delete"](key);
       }); // Clean up draw and feature state.
 
-      draw.deleteAll();
+      draw && draw.deleteAll();
       setEditingFeature(null);
     }
   }, {
@@ -66469,17 +66532,9 @@ var MapActions = function MapActions(that) {
       that.setState(updateState);
     },
     setBasemap: function setBasemap(basemapName) {
-      var basemap = that.state.MapState.basemap;
-
-      if (basemapName === basemap) {
-        basemap = 'outdoor';
-      } else if (basemapName === 'satellite') {
-        basemap = 'satellite';
-      }
-
       that.setState({
         MapState: _objectSpread({}, that.state.MapState, {
-          basemap: basemap
+          basemap: basemapName
         })
       });
     },
@@ -66564,6 +66619,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MapState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./MapState */ "./src/contexts/MapState.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -66604,7 +66667,13 @@ function (_React$Component) {
         data: _this.state,
         date: date,
         version: '1.0'
-      }, null, 4);
+      }, function (name, val) {
+        if (val instanceof Map) {
+          return _toConsumableArray(val.entries());
+        }
+
+        return val;
+      }, 4);
       js_file_download__WEBPACK_IMPORTED_MODULE_1___default()(contents, "prairie_tree_planting_tool_savefile_".concat(date.getDate(), "-").concat(date.getMonth(), "-").concat(date.getFullYear(), ".json"));
     });
 

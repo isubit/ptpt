@@ -44,14 +44,14 @@ const DropdownCheckbox = ({
 			<input type="checkbox" checked={layers.ssurgo} name="ssurgo" onChange={(e) => setMapLayer(e.target.name)} />
 			<span>gSSURGO - CSR</span>
 		</div>
-		<div>
+		{/* <div>
 			<input type="checkbox" checked={layers.lidar} name="lidar" onChange={(e) => setMapLayer(e.target.name)} />
 			<span>LiDAR Hillshade</span>
 		</div>
 		<div>
 			<input type="checkbox" checked={layers.contours} name="contours" onChange={(e) => setMapLayer(e.target.name)} />
 			<span>(2 ft contours)</span>
-		</div>
+		</div> */}
 		<div>
 			<input
 				type="checkbox"
@@ -63,10 +63,10 @@ const DropdownCheckbox = ({
 			/>
 			<span>Satellite</span>
 		</div>
-		<button type="button" className="Button">
+		{/* <button type="button" className="Button">
 			<span>Add A Map Layer</span>
 		</button>
-		<img src="/assets/question-mark.svg" alt="Help" />
+		<img src="/assets/question-mark.svg" alt="Help" /> */}
 	</div>
 );
 

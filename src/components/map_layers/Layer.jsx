@@ -1,11 +1,19 @@
 import React from 'react';
+import Debug from 'debug';
+
+const debug = Debug('MapComponent');
 
 export class Layer extends React.Component {
 	events = new Map()
 
 	componentDidMount() {
+		const {
+			layer,
+		} = this.props;
+
 		this.setupLayer();
 		this.setupEvents();
+		debug('Added layer:', layer.id);
 	}
 
 	componentDidUpdate() {
@@ -13,7 +21,7 @@ export class Layer extends React.Component {
 		this.setupEvents();
 	}
 
-	componentWillUmount() {
+	componentWillUnmount() {
 		const {
 			events: currentEvents,
 			props: {
@@ -23,11 +31,12 @@ export class Layer extends React.Component {
 		} = this;
 
 		// Remove layer and clean up events.
-		map.removeLayer(layer.id);
+		map && map.removeLayer(layer.id);
 		currentEvents.forEach((value, key) => {
-			map.off(key, layer.id, value);
+			map && map.off(key, layer.id, value);
 			currentEvents.delete(key);
 		});
+		debug('Removed layer:', layer.id);
 	}
 
 	setupLayer() {
