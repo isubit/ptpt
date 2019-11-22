@@ -26,6 +26,7 @@ import { Planting } from './map_modes/Planting';
 
 
 mapboxgl.accessToken = process.env.mapbox_api_key;
+console.log(process.env.mapbox_outdoor_url);
 
 const debug = Debug('MapComponent');
 
