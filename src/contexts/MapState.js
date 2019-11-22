@@ -8,16 +8,7 @@ const debug = Debug('MapState');
 
 export const MapDefaultState = {
 	data: new Map(),
-	basemaps: {
-		outdoor: {
-			on: true,
-			url: 'mapbox://styles/mapbox/outdoors-v11',
-		},
-		satellite: {
-			on: false,
-			url: 'mapbox://styles/mapbox/satellite-v9',
-		},
-	},
+	basemap: 'outdoor',
 	layers: {
 		ssurgo: false,
 		lidar: false,
@@ -76,23 +67,20 @@ export const MapActions = (that) => ({
 		that.setState(updateState);
 	},
 	setBasemap(basemapName) {
-		// Set map style given basemap name
-		const { basemaps } = that.state.MapState;
-		// the default view must toggle opposite of satellite
-		if (basemapName === 'satellite') {
-			basemaps.outdoor.on = !basemaps.outdoor.on;
+		let { basemap } = that.state.MapState;
+
+		if (basemapName === 'satellite' && basemapName === basemap) {
+			basemap = 'outdoor';
+		} else if (basemapName === 'satellite' && basemapName !== basemap) {
+			basemap = 'satellite';
 		}
-		if (basemaps[basemapName]) {
-			basemaps[basemapName].on = !basemaps[basemapName].on;
-		}
-		const updateState = {
+
+		that.setState({
 			MapState: {
 				...that.state.MapState,
-				basemaps,
+				basemap,
 			},
-		};
-
-		that.setState(updateState);
+		});
 	},
 	setMapLayer(layerName) {
 		// Set map layer given layer name
@@ -100,7 +88,6 @@ export const MapActions = (that) => ({
 		if (Object.prototype.hasOwnProperty.call(layers, layerName)) {
 			layers[layerName] = !layers[layerName];
 		}
-		console.log(layers);
 		const updateState = {
 			MapState: {
 				...that.state.MapState,

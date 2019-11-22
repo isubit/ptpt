@@ -7166,7 +7166,7 @@ function load() {
 
 	// If debug isn't set in LS, and we're in Electron, try to load $DEBUG
 	if (!r && typeof process !== 'undefined' && 'env' in process) {
-		r = "MapComponent";
+		r = process.env.DEBUG;
 	}
 
 	return r;
@@ -64780,6 +64780,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var contexts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! contexts */ "./src/contexts/index.js");
 /* harmony import */ var components_Header__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! components/Header */ "./src/components/Header.jsx");
 /* harmony import */ var components_modals_WelcomeModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! components/modals/WelcomeModal */ "./src/components/modals/WelcomeModal.jsx");
+/* harmony import */ var contexts_MapState__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! contexts/MapState */ "./src/contexts/MapState.js");
+
 
 
 
@@ -64790,13 +64792,27 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var App = function App() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts__WEBPACK_IMPORTED_MODULE_5__["Store"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_Header__WEBPACK_IMPORTED_MODULE_6__["Header"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
-    path: "/",
-    render: function render(router) {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_MapComponent__WEBPACK_IMPORTED_MODULE_4__["MapWrapper"], {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts__WEBPACK_IMPORTED_MODULE_5__["Store"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_Header__WEBPACK_IMPORTED_MODULE_6__["Header"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_8__["MapConsumer"], null, function (ctx) {
+    var basemap = ctx.state.basemap; // if satellite style is selected render satellite styled map component
+
+    var loadMap = function loadMap(router, basemapName) {
+      if (basemapName === 'satellite') {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_MapComponent__WEBPACK_IMPORTED_MODULE_4__["MapWrapperSatellite"], {
+          router: router
+        });
+      }
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_MapComponent__WEBPACK_IMPORTED_MODULE_4__["MapWrapperDefault"], {
         router: router
       });
-    }
+    };
+
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+      path: "/",
+      render: function render(router) {
+        return loadMap(router, basemap);
+      }
+    });
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     path: "/help",
     render: function render() {
@@ -64851,14 +64867,11 @@ module.exports = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgiIGhlaWdodD0iMjgi
 /*!***********************************!*\
   !*** ./src/components/Header.jsx ***!
   \***********************************/
-/*! exports provided: SearchBar, Title, SaveButton, Header */
+/*! exports provided: Header */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SearchBar", function() { return SearchBar; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Title", function() { return Title; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SaveButton", function() { return SaveButton; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Header", function() { return Header; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
@@ -64889,6 +64902,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var SearchBar = function SearchBar() {
   return (// MapConsumer here?
     react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -64898,6 +64912,7 @@ var SearchBar = function SearchBar() {
     }))
   );
 };
+
 var Title = function Title() {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "Title"
@@ -64913,6 +64928,7 @@ var Title = function Title() {
     alt: "Logo - Prairie and Tree Planting Tool"
   })));
 };
+
 var SaveButton = function SaveButton(_ref) {
   var save = _ref.save;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -64930,6 +64946,7 @@ var SaveButton = function SaveButton(_ref) {
     alt: "Save"
   }));
 };
+
 var Header =
 /*#__PURE__*/
 function (_React$Component) {
@@ -64984,13 +65001,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _contexts_MapState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../contexts/MapState */ "./src/contexts/MapState.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -65008,7 +65024,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+
+
+ // import { Context } from 'mocha';
 
 /* export const OptionsDropdown = (props) => {
 	const { option } = props;
@@ -65039,6 +65059,44 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 	}
 }; */
 
+var DropdownCheckbox = function DropdownCheckbox(_ref) {
+  var setBasemap = _ref.setBasemap,
+      setMapLayer = _ref.setMapLayer;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "dropdown-checkbox"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    name: "ssurgo",
+    onChange: function onChange(e) {
+      return setMapLayer(e.target.name);
+    }
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "gSSURGO - CSR")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    name: "lidar",
+    onChange: function onChange(e) {
+      return setMapLayer(e.target.name);
+    }
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "LiDAR Hillshade")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    name: "contours",
+    onChange: function onChange(e) {
+      return setMapLayer(e.target.name);
+    }
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "(2 ft contours)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "checkbox",
+    name: "satellite",
+    onChange: function onChange(e) {
+      return setBasemap(e.target.name);
+    }
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Satellite")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    type: "button",
+    className: "Button"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Add A Map Layer")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "/assets/question-mark.svg",
+    alt: "Help"
+  }));
+};
+
 var HeaderOptions =
 /*#__PURE__*/
 function (_React$Component) {
@@ -65050,39 +65108,20 @@ function (_React$Component) {
     _classCallCheck(this, HeaderOptions);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(HeaderOptions).call(this, props));
-    _this.state = {
-      optionStates: {
-        treeOptionActive: false,
-        prairieOptionActive: false,
-        layerOptionActive: false,
-        reportOptionActive: false
-      },
-      layerStates: {
-        ssurgo: false,
-        lidar: false,
-        contours: false,
-        satellite: false
-      }
-    };
-    _this.handleCheckboxChange = _this.handleCheckboxChange.bind(_assertThisInitialized(_this));
-    return _this;
-  }
 
-  _createClass(HeaderOptions, [{
-    key: "handleCheckboxChange",
-    value: function handleCheckboxChange(event) {
+    _defineProperty(_assertThisInitialized(_this), "handleCheckboxChange", function (event) {
       var checkboxName = event.target.name;
-      var layerStates = this.state.layerStates; // toggle on or off
+      var layerStates = _this.state.layerStates; // toggle on or off
 
       layerStates[checkboxName] = !layerStates[checkboxName];
-      this.setState({
+
+      _this.setState({
         layerStates: _objectSpread({}, layerStates)
       });
-    }
-  }, {
-    key: "toggleActiveClass",
-    value: function toggleActiveClass(optionName) {
-      var optionStates = this.state.optionStates;
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "toggleActiveClass", function (optionName) {
+      var optionStates = _this.state.optionStates;
       var prevActiveState;
       var optionStateKeys = Object.keys(optionStates);
       optionStateKeys.forEach(function (key) {
@@ -65107,11 +65146,23 @@ function (_React$Component) {
         }
       }
 
-      this.setState({
+      _this.setState({
         optionStates: _objectSpread({}, optionStates)
       });
-    }
-  }, {
+    });
+
+    _this.state = {
+      optionStates: {
+        treeOptionActive: false,
+        prairieOptionActive: false,
+        layerOptionActive: false,
+        reportOptionActive: false
+      }
+    };
+    return _this;
+  }
+
+  _createClass(HeaderOptions, [{
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -65185,31 +65236,15 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: "/assets/close_dropdown.svg",
         alt: "Close"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "dropdown-checkbox"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "checkbox",
-        name: "ssurgo",
-        onChange: this.handleCheckboxChange
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "gSSURGO - CSR")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "checkbox",
-        name: "lidar",
-        onChange: this.handleCheckboxChange
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "LiDAR Hillshade")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "checkbox",
-        name: "contours",
-        onChange: this.handleCheckboxChange
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "(2 ft contours)")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "checkbox",
-        name: "satellite",
-        onChange: this.handleCheckboxChange
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Satellite")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        type: "button",
-        className: "Button"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Add A Map Layer")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: "/assets/question-mark.svg",
-        alt: "Help"
-      })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_contexts_MapState__WEBPACK_IMPORTED_MODULE_2__["MapConsumer"], null, function (ctx) {
+        var _ctx$actions = ctx.actions,
+            setBasemap = _ctx$actions.setBasemap,
+            setMapLayer = _ctx$actions.setMapLayer;
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(DropdownCheckbox, {
+          setBasemap: setBasemap,
+          setMapLayer: setMapLayer
+        });
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: reportOptionActive ? 'option active' : 'option'
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         to: "/#",
@@ -65239,12 +65274,13 @@ function (_React$Component) {
 /*!*****************************************!*\
   !*** ./src/components/MapComponent.jsx ***!
   \*****************************************/
-/*! exports provided: MapWrapper, MapComponent */
+/*! exports provided: MapWrapperDefault, MapWrapperSatellite, MapComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapWrapper", function() { return MapWrapper; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapWrapperDefault", function() { return MapWrapperDefault; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapWrapperSatellite", function() { return MapWrapperSatellite; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapComponent", function() { return MapComponent; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
@@ -65306,11 +65342,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 mapbox_gl__WEBPACK_IMPORTED_MODULE_2___default.a.accessToken = "pk.eyJ1Ijoiam9obndpbGRzcHJpbmciLCJhIjoiY2syYzVvcjc5MXNyaTNjcGJnZnV5bGt5bSJ9.lyBcX-LG9alwBhxpcE8Pwg";
 var debug = debug__WEBPACK_IMPORTED_MODULE_4___default()('MapComponent');
-var MapWrapper = function MapWrapper(props) {
+var MapWrapperDefault = function MapWrapperDefault(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_5__["MapConsumer"], null, function (mapCtx) {
     var ctx = _objectSpread({}, mapCtx.state, {}, mapCtx.actions);
 
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(MapComponent, _extends({}, ctx, props));
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(MapComponent, _extends({}, ctx, props, {
+      styleURL: "mapbox://styles/mapbox/outdoors-v11"
+    }));
+  });
+};
+var MapWrapperSatellite = function MapWrapperSatellite(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_5__["MapConsumer"], null, function (mapCtx) {
+    var ctx = _objectSpread({}, mapCtx.state, {}, mapCtx.actions);
+
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(MapComponent, _extends({}, ctx, props, {
+      styleURL: "mapbox://styles/mapbox/satellite-v9"
+    }));
   });
 };
 var MapComponent =
@@ -65384,9 +65431,10 @@ function (_React$Component) {
       var _this2 = this;
 
       // On mount, we init the map in the container, then load in the things we need.
+      var styleURL = this.props.styleURL;
       this.map = new mapbox_gl__WEBPACK_IMPORTED_MODULE_2___default.a.Map({
         container: this.mapElement.current,
-        style: 'mapbox://styles/mapbox/outdoors-v11',
+        style: styleURL,
         center: [-93.624287, 41.587537],
         zoom: 13
       }); // this.setState({ init: true });
@@ -65427,6 +65475,11 @@ function (_React$Component) {
         // Only the sources need to be updated, because they contain the state data.
         this.loadSources();
       }
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.map.remove();
     }
   }, {
     key: "loadSomeTestData",
@@ -66356,7 +66409,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var debug = debug__WEBPACK_IMPORTED_MODULE_4___default()('MapState');
 var MapDefaultState = {
-  data: new Map()
+  data: new Map(),
+  basemap: 'outdoor',
+  layers: {
+    ssurgo: false,
+    lidar: false,
+    contours: false
+  }
 };
 var MapContext = react__WEBPACK_IMPORTED_MODULE_0___default.a.createContext(MapDefaultState);
 var MapProvider = MapContext.Provider;
@@ -66405,6 +66464,36 @@ var MapActions = function MapActions(that) {
       var updateState = {
         MapState: _objectSpread({}, that.state.MapState, {
           data: data
+        })
+      };
+      that.setState(updateState);
+    },
+    setBasemap: function setBasemap(basemapName) {
+      var basemap = that.state.MapState.basemap;
+
+      if (basemapName === basemap) {
+        basemap = 'outdoor';
+      } else if (basemapName === 'satellite') {
+        basemap = 'satellite';
+      }
+
+      that.setState({
+        MapState: _objectSpread({}, that.state.MapState, {
+          basemap: basemap
+        })
+      });
+    },
+    setMapLayer: function setMapLayer(layerName) {
+      // Set map layer given layer name
+      var layers = that.state.MapState.layers;
+
+      if (Object.prototype.hasOwnProperty.call(layers, layerName)) {
+        layers[layerName] = !layers[layerName];
+      }
+
+      var updateState = {
+        MapState: _objectSpread({}, that.state.MapState, {
+          layers: layers
         })
       };
       that.setState(updateState);

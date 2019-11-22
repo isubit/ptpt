@@ -33,7 +33,7 @@ export const MapWrapperDefault = (props) => (
 	<MapConsumer>
 		{(mapCtx) => {
 			const ctx = { ...mapCtx.state, ...mapCtx.actions };
-			return <MapComponent {...ctx} {...props} basemapName="outdoor" />;
+			return <MapComponent {...ctx} {...props} styleURL={process.env.mapbox_outdoor_url} />;
 		}}
 	</MapConsumer>
 );
@@ -42,7 +42,7 @@ export const MapWrapperSatellite = (props) => (
 	<MapConsumer>
 		{(mapCtx) => {
 			const ctx = { ...mapCtx.state, ...mapCtx.actions };
-			return <MapComponent {...ctx} {...props} basemapName="satellite" />;
+			return <MapComponent {...ctx} {...props} styleURL={process.env.mapbox_satellite_url} />;
 		}}
 	</MapConsumer>
 );
@@ -65,11 +65,10 @@ export class MapComponent extends React.Component {
 
 	componentDidMount() {
 		// On mount, we init the map in the container, then load in the things we need.
-		const { basemaps, basemapName } = this.props;
-		const basemapURL = basemaps[basemapName].url;
+		const { styleURL } = this.props;
 		this.map = new mapboxgl.Map({
 			container: this.mapElement.current,
-			style: basemapURL,
+			style: styleURL,
 			center: [-93.624287, 41.587537],
 			zoom: 13,
 		});
