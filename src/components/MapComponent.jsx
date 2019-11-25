@@ -56,19 +56,18 @@ export class MapComponent extends React.Component {
 
 	componentDidMount() {
 		// On mount, we init the map in the container, then load in the things we need.
+		const { mapCenter } = this.props;
+
 		this.map = new mapboxgl.Map({
 			container: this.mapElement.current,
 			style: 'mapbox://styles/mapbox/outdoors-v11',
-			center: [-93.624287, 41.587537],
+			center: mapCenter,
 			zoom: 13,
 		});
-
 		// this.setState({ init: true });
-
 		this.map.on('load', () => {
 			// this.setState({ loaded: true });
 			debug('Map loaded:', this.map);
-
 			if (this.state.setup) {
 				return false;
 			}

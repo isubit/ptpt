@@ -14,18 +14,22 @@ import { MapWrapper } from 'components/MapComponent';
 import { Store } from 'contexts';
 import { Header } from 'components/Header';
 import { WelcomeModal } from 'components/modals/WelcomeModal';
+import { MapConsumer } from 'contexts/MapState';
 
-/* (function injectMapScript(d, s, id) {
-	const js, fjs = d.getElementsByTagName(s)[0];
-	if (d.getElementById(id)){ return; }
-	js = d.createElement(s); 
-	js.id = id;
-	js.onload = function() {
-		// remote script has loaded // emit event 
+(function injectMapScript(d, s, id) {
+	const script = d.createElement(s);
+	script.type = 'text/javascript';
+	script.id = id;
+	script.async = true;
+	script.onload = function onload() {
+		const event = new Event('scriptinjection');
+		const locationInput = d.getElementsByClassName('LocationInput')[0];
+		locationInput.dispatchEvent(event);
 	};
-	js.src = "//connect.facebook.net/en_US/sdk.js";
-	fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk')); */
+	script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.google_places_api_key}&libraries=places`;
+	// append to top of head
+	d.getElementsByTagName('head')[0].appendChild(script);
+}(document, 'script', 'google_places_api_key'));
 
 const App = () => (
 	<Store>
@@ -33,7 +37,12 @@ const App = () => (
 			{/* These will always be visible, no addt'l routing required. */}
 			{/* The map is always mounted (but perhaps covered)
 				to improve performance when route switching. */}
-			<Header />
+			<MapConsumer>
+				{ctx => {
+					const { state, actions } = ctx;
+					return <Header {...state} {...actions} />;
+				}}
+			</MapConsumer>
 			{/* <Route path="/:action?/:type?/:step?" render={(router) => <MapWrapper router={router} />} /> */}
 			<Route path="/" render={(router) => <MapWrapper router={router} />} />
 			{/* --- */}

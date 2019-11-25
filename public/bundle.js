@@ -6797,7 +6797,7 @@ var ___CSS_LOADER_URL___0___ = getUrl(__webpack_require__(/*! ../assets/checkmar
 var ___CSS_LOADER_URL___1___ = getUrl(__webpack_require__(/*! ../assets/search_small.svg */ "./src/assets/search_small.svg"));
 var ___CSS_LOADER_URL___2___ = getUrl(__webpack_require__(/*! ../assets/search_wide.svg */ "./src/assets/search_wide.svg"));
 // Module
-exports.push([module.i, ".mapbox-gl-draw_ctrl-draw-btn {\n  display: none !important; }\n\n.grid-row {\n  display: grid;\n  grid-template-columns: repeat(6, 1fr);\n  grid-column-gap: 1rem;\n  padding: 0px 5.625%;\n  max-width: 1680px; }\n\n.grid-wrap {\n  grid-column: 1 / -1; }\n\n@media (min-width: 900px) {\n  .grid-row {\n    grid-template-columns: repeat(12, 1fr); } }\n\n@media (min-width: 1280px) {\n  .grid-row {\n    grid-template-columns: repeat(14, 1fr);\n    padding: 0px 2.5%; } }\n\n.modal-header {\n  padding-bottom: 1rem;\n  position: relative; }\n  .modal-header::after {\n    content: '';\n    position: absolute;\n    bottom: -2px;\n    left: 0;\n    height: 2px;\n    width: 135px;\n    background-color: #76881D; }\n\n.modal-text {\n  padding-top: 1.5rem; }\n\n.modal-link {\n  font-family: Merriweather;\n  font-style: italic;\n  font-weight: normal;\n  font-size: 0.751rem;\n  line-height: 21px;\n  text-decoration-line: underline;\n  color: #006BA6; }\n\n@media (min-width: 900px) {\n  .modal-header::after {\n    left: 2rem; } }\n\n.vertical-align {\n  display: flex;\n  align-items: center; }\n\n.distribute {\n  display: flex;\n  justify-content: space-between; }\n\n.margin-center {\n  margin: 0 auto !important; }\n\n.spacer-top-0 {\n  margin-top: 0rem !important; }\n\n.spacer-top-1 {\n  margin-top: 1rem !important; }\n\n.spacer-top-2 {\n  margin-top: 2rem !important; }\n\n.spacer-top-3 {\n  margin-top: 3rem !important; }\n\n.spacer-top-4 {\n  margin-top: 4rem !important; }\n\n.spacer-bottom-0 {\n  margin-bottom: 0rem !important; }\n\n.spacer-bottom-1 {\n  margin-bottom: 1rem !important; }\n\n.spacer-bottom-2 {\n  margin-bottom: 2rem !important; }\n\n.spacer-bottom-3 {\n  margin-bottom: 3rem !important; }\n\n.spacer-bottom-4 {\n  margin-bottom: 4rem !important; }\n\n.spacer-left-0 {\n  margin-left: 0rem !important; }\n\n.spacer-left-1 {\n  margin-left: 1rem !important; }\n\n.spacer-left-2 {\n  margin-left: 2rem !important; }\n\n.spacer-left-3 {\n  margin-left: 3rem !important; }\n\n.spacer-left-4 {\n  margin-left: 4rem !important; }\n\n.spacer-right-0 {\n  margin-right: 0rem !important; }\n\n.spacer-right-1 {\n  margin-right: 1rem !important; }\n\n.spacer-right-2 {\n  margin-right: 2rem !important; }\n\n.spacer-right-3 {\n  margin-right: 3rem !important; }\n\n.spacer-right-4 {\n  margin-right: 4rem !important; }\n\n.width-1 {\n  width: 1% !important; }\n\n.width-2 {\n  width: 2% !important; }\n\n.width-3 {\n  width: 3% !important; }\n\n.width-4 {\n  width: 4% !important; }\n\n.width-5 {\n  width: 5% !important; }\n\n.width-6 {\n  width: 6% !important; }\n\n.width-7 {\n  width: 7% !important; }\n\n.width-8 {\n  width: 8% !important; }\n\n.width-9 {\n  width: 9% !important; }\n\n.width-10 {\n  width: 10% !important; }\n\n.width-11 {\n  width: 11% !important; }\n\n.width-12 {\n  width: 12% !important; }\n\n.width-13 {\n  width: 13% !important; }\n\n.width-14 {\n  width: 14% !important; }\n\n.width-15 {\n  width: 15% !important; }\n\n.width-16 {\n  width: 16% !important; }\n\n.width-17 {\n  width: 17% !important; }\n\n.width-18 {\n  width: 18% !important; }\n\n.width-19 {\n  width: 19% !important; }\n\n.width-20 {\n  width: 20% !important; }\n\n.width-21 {\n  width: 21% !important; }\n\n.width-22 {\n  width: 22% !important; }\n\n.width-23 {\n  width: 23% !important; }\n\n.width-24 {\n  width: 24% !important; }\n\n.width-25 {\n  width: 25% !important; }\n\n.width-26 {\n  width: 26% !important; }\n\n.width-27 {\n  width: 27% !important; }\n\n.width-28 {\n  width: 28% !important; }\n\n.width-29 {\n  width: 29% !important; }\n\n.width-30 {\n  width: 30% !important; }\n\n.width-31 {\n  width: 31% !important; }\n\n.width-32 {\n  width: 32% !important; }\n\n.width-33 {\n  width: 33% !important; }\n\n.width-34 {\n  width: 34% !important; }\n\n.width-35 {\n  width: 35% !important; }\n\n.width-36 {\n  width: 36% !important; }\n\n.width-37 {\n  width: 37% !important; }\n\n.width-38 {\n  width: 38% !important; }\n\n.width-39 {\n  width: 39% !important; }\n\n.width-40 {\n  width: 40% !important; }\n\n.width-41 {\n  width: 41% !important; }\n\n.width-42 {\n  width: 42% !important; }\n\n.width-43 {\n  width: 43% !important; }\n\n.width-44 {\n  width: 44% !important; }\n\n.width-45 {\n  width: 45% !important; }\n\n.width-46 {\n  width: 46% !important; }\n\n.width-47 {\n  width: 47% !important; }\n\n.width-48 {\n  width: 48% !important; }\n\n.width-49 {\n  width: 49% !important; }\n\n.width-50 {\n  width: 50% !important; }\n\n.width-51 {\n  width: 51% !important; }\n\n.width-52 {\n  width: 52% !important; }\n\n.width-53 {\n  width: 53% !important; }\n\n.width-54 {\n  width: 54% !important; }\n\n.width-55 {\n  width: 55% !important; }\n\n.width-56 {\n  width: 56% !important; }\n\n.width-57 {\n  width: 57% !important; }\n\n.width-58 {\n  width: 58% !important; }\n\n.width-59 {\n  width: 59% !important; }\n\n.width-60 {\n  width: 60% !important; }\n\n.width-61 {\n  width: 61% !important; }\n\n.width-62 {\n  width: 62% !important; }\n\n.width-63 {\n  width: 63% !important; }\n\n.width-64 {\n  width: 64% !important; }\n\n.width-65 {\n  width: 65% !important; }\n\n.width-66 {\n  width: 66% !important; }\n\n.width-67 {\n  width: 67% !important; }\n\n.width-68 {\n  width: 68% !important; }\n\n.width-69 {\n  width: 69% !important; }\n\n.width-70 {\n  width: 70% !important; }\n\n.width-71 {\n  width: 71% !important; }\n\n.width-72 {\n  width: 72% !important; }\n\n.width-73 {\n  width: 73% !important; }\n\n.width-74 {\n  width: 74% !important; }\n\n.width-75 {\n  width: 75% !important; }\n\n.width-76 {\n  width: 76% !important; }\n\n.width-77 {\n  width: 77% !important; }\n\n.width-78 {\n  width: 78% !important; }\n\n.width-79 {\n  width: 79% !important; }\n\n.width-80 {\n  width: 80% !important; }\n\n.width-81 {\n  width: 81% !important; }\n\n.width-82 {\n  width: 82% !important; }\n\n.width-83 {\n  width: 83% !important; }\n\n.width-84 {\n  width: 84% !important; }\n\n.width-85 {\n  width: 85% !important; }\n\n.width-86 {\n  width: 86% !important; }\n\n.width-87 {\n  width: 87% !important; }\n\n.width-88 {\n  width: 88% !important; }\n\n.width-89 {\n  width: 89% !important; }\n\n.width-90 {\n  width: 90% !important; }\n\n.width-91 {\n  width: 91% !important; }\n\n.width-92 {\n  width: 92% !important; }\n\n.width-93 {\n  width: 93% !important; }\n\n.width-94 {\n  width: 94% !important; }\n\n.width-95 {\n  width: 95% !important; }\n\n.width-96 {\n  width: 96% !important; }\n\n.width-97 {\n  width: 97% !important; }\n\n.width-98 {\n  width: 98% !important; }\n\n.width-99 {\n  width: 99% !important; }\n\n.width-100 {\n  width: 100% !important; }\n\n.height-1 {\n  height: 1% !important; }\n\n.height-2 {\n  height: 2% !important; }\n\n.height-3 {\n  height: 3% !important; }\n\n.height-4 {\n  height: 4% !important; }\n\n.height-5 {\n  height: 5% !important; }\n\n.height-6 {\n  height: 6% !important; }\n\n.height-7 {\n  height: 7% !important; }\n\n.height-8 {\n  height: 8% !important; }\n\n.height-9 {\n  height: 9% !important; }\n\n.height-10 {\n  height: 10% !important; }\n\n.height-11 {\n  height: 11% !important; }\n\n.height-12 {\n  height: 12% !important; }\n\n.height-13 {\n  height: 13% !important; }\n\n.height-14 {\n  height: 14% !important; }\n\n.height-15 {\n  height: 15% !important; }\n\n.height-16 {\n  height: 16% !important; }\n\n.height-17 {\n  height: 17% !important; }\n\n.height-18 {\n  height: 18% !important; }\n\n.height-19 {\n  height: 19% !important; }\n\n.height-20 {\n  height: 20% !important; }\n\n.height-21 {\n  height: 21% !important; }\n\n.height-22 {\n  height: 22% !important; }\n\n.height-23 {\n  height: 23% !important; }\n\n.height-24 {\n  height: 24% !important; }\n\n.height-25 {\n  height: 25% !important; }\n\n.height-26 {\n  height: 26% !important; }\n\n.height-27 {\n  height: 27% !important; }\n\n.height-28 {\n  height: 28% !important; }\n\n.height-29 {\n  height: 29% !important; }\n\n.height-30 {\n  height: 30% !important; }\n\n.height-31 {\n  height: 31% !important; }\n\n.height-32 {\n  height: 32% !important; }\n\n.height-33 {\n  height: 33% !important; }\n\n.height-34 {\n  height: 34% !important; }\n\n.height-35 {\n  height: 35% !important; }\n\n.height-36 {\n  height: 36% !important; }\n\n.height-37 {\n  height: 37% !important; }\n\n.height-38 {\n  height: 38% !important; }\n\n.height-39 {\n  height: 39% !important; }\n\n.height-40 {\n  height: 40% !important; }\n\n.height-41 {\n  height: 41% !important; }\n\n.height-42 {\n  height: 42% !important; }\n\n.height-43 {\n  height: 43% !important; }\n\n.height-44 {\n  height: 44% !important; }\n\n.height-45 {\n  height: 45% !important; }\n\n.height-46 {\n  height: 46% !important; }\n\n.height-47 {\n  height: 47% !important; }\n\n.height-48 {\n  height: 48% !important; }\n\n.height-49 {\n  height: 49% !important; }\n\n.height-50 {\n  height: 50% !important; }\n\n.height-51 {\n  height: 51% !important; }\n\n.height-52 {\n  height: 52% !important; }\n\n.height-53 {\n  height: 53% !important; }\n\n.height-54 {\n  height: 54% !important; }\n\n.height-55 {\n  height: 55% !important; }\n\n.height-56 {\n  height: 56% !important; }\n\n.height-57 {\n  height: 57% !important; }\n\n.height-58 {\n  height: 58% !important; }\n\n.height-59 {\n  height: 59% !important; }\n\n.height-60 {\n  height: 60% !important; }\n\n.height-61 {\n  height: 61% !important; }\n\n.height-62 {\n  height: 62% !important; }\n\n.height-63 {\n  height: 63% !important; }\n\n.height-64 {\n  height: 64% !important; }\n\n.height-65 {\n  height: 65% !important; }\n\n.height-66 {\n  height: 66% !important; }\n\n.height-67 {\n  height: 67% !important; }\n\n.height-68 {\n  height: 68% !important; }\n\n.height-69 {\n  height: 69% !important; }\n\n.height-70 {\n  height: 70% !important; }\n\n.height-71 {\n  height: 71% !important; }\n\n.height-72 {\n  height: 72% !important; }\n\n.height-73 {\n  height: 73% !important; }\n\n.height-74 {\n  height: 74% !important; }\n\n.height-75 {\n  height: 75% !important; }\n\n.height-76 {\n  height: 76% !important; }\n\n.height-77 {\n  height: 77% !important; }\n\n.height-78 {\n  height: 78% !important; }\n\n.height-79 {\n  height: 79% !important; }\n\n.height-80 {\n  height: 80% !important; }\n\n.height-81 {\n  height: 81% !important; }\n\n.height-82 {\n  height: 82% !important; }\n\n.height-83 {\n  height: 83% !important; }\n\n.height-84 {\n  height: 84% !important; }\n\n.height-85 {\n  height: 85% !important; }\n\n.height-86 {\n  height: 86% !important; }\n\n.height-87 {\n  height: 87% !important; }\n\n.height-88 {\n  height: 88% !important; }\n\n.height-89 {\n  height: 89% !important; }\n\n.height-90 {\n  height: 90% !important; }\n\n.height-91 {\n  height: 91% !important; }\n\n.height-92 {\n  height: 92% !important; }\n\n.height-93 {\n  height: 93% !important; }\n\n.height-94 {\n  height: 94% !important; }\n\n.height-95 {\n  height: 95% !important; }\n\n.height-96 {\n  height: 96% !important; }\n\n.height-97 {\n  height: 97% !important; }\n\n.height-98 {\n  height: 98% !important; }\n\n.height-99 {\n  height: 99% !important; }\n\n.height-100 {\n  height: 100% !important; }\n\n.warning {\n  color: red; }\n\n.block {\n  display: block !important; }\n\n.inline {\n  display: inline !important; }\n\n.inline-block {\n  display: inline-block !important; }\n\n.clickable {\n  pointer-events: auto !important; }\n  .clickable * {\n    pointer-events: auto !important; }\n\n.unclickable {\n  pointer-events: none !important; }\n\n.Button {\n  padding: 0.5rem 22px;\n  font-size: .909rem;\n  display: inline-block;\n  border-radius: 5px;\n  background-color: #006BA6;\n  cursor: pointer;\n  color: white; }\n  .Button span {\n    color: white;\n    line-height: 1.5rem; }\n\ndiv {\n  display: block; }\n  div input[type=\"checkbox\"] {\n    -webkit-appearance: none;\n    border-radius: 3px;\n    border: 1px solid #A8ACAE;\n    width: 18px;\n    box-sizing: border-box;\n    height: 18px;\n    margin: 0px 0.5rem 0px 0px;\n    vertical-align: middle; }\n    div input[type=\"checkbox\"]:focus {\n      border: 1px solid #333333;\n      outline: none; }\n      div input[type=\"checkbox\"]:focus + span {\n        color: black; }\n    div input[type=\"checkbox\"]:checked {\n      background-color: #006BA6;\n      background-image: url(" + ___CSS_LOADER_URL___0___ + ");\n      background-repeat: no-repeat;\n      border: 1px solid #006BA6; }\n      div input[type=\"checkbox\"]:checked + span {\n        color: #333333; }\n    div input[type=\"checkbox\"]:disabled {\n      background-color: #ECF1F3;\n      border: 1px solid #ECF1F3; }\n      div input[type=\"checkbox\"]:disabled + span {\n        color: #A8ACAE; }\n  div span {\n    font-size: .909rem;\n    color: #707372;\n    line-height: 2rem; }\n\n.CloseButton {\n  position: absolute;\n  z-index: 1;\n  top: 18px;\n  right: 18px;\n  cursor: pointer;\n  padding: 0;\n  border: none;\n  background-color: inherit; }\n\n.dropdown-checkbox {\n  margin-top: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-checkbox .Button {\n    margin-top: 1rem;\n    margin-bottom: 3rem; }\n  .dropdown-checkbox > img:last-of-type {\n    position: absolute;\n    bottom: 18px;\n    right: 18px;\n    cursor: pointer; }\n\n@media (min-width: 900px) {\n  .dropdown-checkbox {\n    margin-top: 1em; }\n    .dropdown-checkbox .Button {\n      display: block;\n      text-align: center;\n      margin: 0.5rem auto 2.5rem auto; }\n    .dropdown-checkbox > img:last-of-type {\n      bottom: 9px;\n      right: 9px; } }\n\n.dropdown-list {\n  margin-top: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-list ul {\n    display: block;\n    padding: 0; }\n    .dropdown-list ul li a {\n      text-decoration: none;\n      font-size: 0.909rem;\n      line-height: 2.75em; }\n    .dropdown-list ul li:last-child {\n      border-top: 1px solid #ECF1F3;\n      padding: 1em 0; }\n      .dropdown-list ul li:last-child a {\n        line-height: 1.5em; }\n\n@media (min-width: 900px) {\n  .dropdown-list {\n    margin-top: 1em;\n    margin-top: 1em; }\n    .dropdown-list ul li a {\n      line-height: 2em;\n      padding: 0; }\n    .dropdown-list ul li:nth-of-type(3) {\n      padding-bottom: 1em; } }\n\n.Header {\n  position: relative;\n  z-index: 1;\n  width: 100%;\n  height: 99px;\n  background-color: #FFFFFF;\n  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); }\n  .Header > .grid-row {\n    grid-template-columns: auto repeat(5, 1fr); }\n    .Header > .grid-row.sidenav-btn {\n      padding: 0; }\n      .Header > .grid-row.sidenav-btn .SideNavButton {\n        background-color: #FFFFFF;\n        grid-column: 1 / 2;\n        cursor: pointer;\n        padding: 0;\n        border: none; }\n        .Header > .grid-row.sidenav-btn .SideNavButton img {\n          display: block; }\n        .Header > .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n          display: none; }\n      .Header > .grid-row.sidenav-btn .Title {\n        grid-column: 2 / 4; }\n      .Header > .grid-row.sidenav-btn .SearchBar {\n        display: none; }\n      .Header > .grid-row.sidenav-btn .HeaderOptions {\n        grid-column: 4 / -1; }\n      .Header > .grid-row.sidenav-btn .SaveButton {\n        display: none; }\n  .Header .search-save-btn .SaveButton .wide-save {\n    display: none; }\n\n@media (min-width: 900px) {\n  .Header {\n    height: 72px; }\n    .Header > .grid-row {\n      height: 72px;\n      grid-template-columns: repeat(12, 1fr); }\n      .Header > .grid-row.sidenav-btn .SideNavButton .narrow-sidenav {\n        display: none; }\n      .Header > .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n        display: block; }\n      .Header > .grid-row.sidenav-btn .Title {\n        grid-column: 2 / 4; }\n      .Header > .grid-row.sidenav-btn .SearchBar {\n        grid-column: 4 / 8;\n        display: block; }\n      .Header > .grid-row.sidenav-btn .HeaderOptions {\n        grid-column: 8 / 12; }\n      .Header > .grid-row.sidenav-btn .SaveButton {\n        display: block; }\n        .Header > .grid-row.sidenav-btn .SaveButton .narrow-save {\n          display: none; }\n    .Header .search-save-btn {\n      display: none; } }\n\n@media (min-width: 1280px) {\n  .Header > .grid-row {\n    grid-template-columns: repeat(14, 1fr); }\n    .Header > .grid-row.sidenav-btn .Title {\n      grid-column: 2 / 4; }\n    .Header > .grid-row.sidenav-btn .SearchBar {\n      grid-column: 4 / 9; }\n    .Header > .grid-row.sidenav-btn .HeaderOptions {\n      grid-column: 9 / 14; } }\n\n.HeaderOptions > ul {\n  margin: 0;\n  padding: 0;\n  display: flex;\n  justify-content: flex-end;\n  display: grid;\n  grid-template-columns: repeat(4, minmax(35px, 60px));\n  height: 100%; }\n  .HeaderOptions > ul .option {\n    display: flex;\n    align-items: center;\n    padding: 0px 4px; }\n    .HeaderOptions > ul .option a {\n      display: block;\n      margin: 0 auto; }\n      .HeaderOptions > ul .option a .option-active {\n        display: none; }\n      .HeaderOptions > ul .option a .option-name {\n        display: none; }\n      .HeaderOptions > ul .option a img {\n        display: block;\n        width: 100%;\n        max-width: 45px; }\n    .HeaderOptions > ul .option.active {\n      background-color: #006BA6; }\n      .HeaderOptions > ul .option.active a .option-inactive {\n        display: none; }\n      .HeaderOptions > ul .option.active a .option-active {\n        display: block; }\n      .HeaderOptions > ul .option.active .OptionsDropdown {\n        display: grid; }\n\n@media (min-width: 400px) {\n  .HeaderOptions {\n    padding-right: 15px; } }\n\n@media (min-width: 900px) {\n  .HeaderOptions {\n    padding-right: 0px;\n    margin-left: 0;\n    padding-left: 0; }\n    .HeaderOptions > ul {\n      grid-template-rows: 1fr;\n      grid-template-columns: repeat(4, 1fr);\n      width: 100%; }\n      .HeaderOptions > ul .option {\n        grid-row: 1;\n        width: 100%;\n        padding: 0; } }\n\n@media (min-width: 1280px) {\n  .HeaderOptions ul .option a .option-name {\n    display: inline-block;\n    vertical-align: middle;\n    padding-left: 5px; }\n    .HeaderOptions ul .option a .option-name p {\n      display: block;\n      margin: 0;\n      font-size: 0.683rem;\n      line-height: 0.683rem; }\n  .HeaderOptions ul .option a .option-inactive {\n    display: inline-block;\n    vertical-align: middle; }\n  .HeaderOptions ul .option.active a .option-active {\n    display: inline-block;\n    vertical-align: middle; } }\n\n.Map {\n  width: 100%;\n  height: calc(100vh - 99px); }\n\n@media (min-width: 900px) {\n  .Map {\n    height: calc(100vh - 72px); } }\n\n.MapModeForm {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.4); }\n  .MapModeForm .modal {\n    background: white;\n    width: 100%;\n    height: 100%;\n    padding: 2rem 4rem; }\n\n@media (min-width: 900px) {\n  .MapModeForm .modal {\n    width: 600px;\n    height: 500px; } }\n\n.NavOptions {\n  position: absolute;\n  height: 100vh;\n  background-color: #3E4827;\n  display: none;\n  z-index: 10; }\n  .NavOptions.active {\n    display: block; }\n  .NavOptions .grid-wrap {\n    padding-top: 4rem; }\n    .NavOptions .grid-wrap ul {\n      border-bottom: 2px solid #656D52;\n      padding-bottom: 1rem; }\n      .NavOptions .grid-wrap ul li a {\n        line-height: 2.75rem;\n        text-decoration: none;\n        color: #FFFFFF;\n        font-size: .909rem; }\n    .NavOptions .grid-wrap div p {\n      margin: 0;\n      font-family: Merriweather;\n      font-style: italic;\n      color: #FFFFFF;\n      font-size: 0.683rem;\n      line-height: 1rem;\n      padding-top: 1.5rem; }\n\n@media (min-width: 900px) {\n  .NavOptions {\n    width: 270px; } }\n\n.OptionsDropdown {\n  position: absolute;\n  top: 54px;\n  left: 0;\n  right: 0;\n  background-color: #FFFFFF;\n  border-top: 2px solid #006BA6;\n  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);\n  display: none; }\n\n@media (min-width: 900px) {\n  .OptionsDropdown {\n    width: 180px;\n    top: 72px;\n    padding: 0 1em;\n    left: auto;\n    right: auto; }\n    .OptionsDropdown.grid-row {\n      grid-column-gap: 0rem; }\n    .OptionsDropdown .CloseButton {\n      display: none; } }\n\n.SaveButton {\n  display: inline-block;\n  border: none;\n  padding: 0; }\n  .SaveButton img {\n    display: block;\n    margin-left: auto; }\n\n.SearchBar {\n  width: calc(100% - 54px);\n  height: 45px;\n  vertical-align: top;\n  display: inline-block; }\n  .SearchBar input {\n    width: 100%;\n    height: 100%;\n    -webkit-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    box-sizing: border-box;\n    -webkit-appearance: none;\n    border: none;\n    padding: 0 0px 0px 18px;\n    background-color: #ECF1F3;\n    background-repeat: no-repeat;\n    background-position: 95%;\n    background-image: url(" + ___CSS_LOADER_URL___1___ + "); }\n    .SearchBar input::-webkit-input-placeholder {\n      font-family: Merriweather;\n      font-style: italic;\n      font-weight: normal;\n      font-size: 0.683rem;\n      line-height: 1rem; }\n\n@media (min-width: 900px) {\n  .SearchBar {\n    height: auto;\n    width: auto;\n    padding-bottom: 9px;\n    padding-top: 9px; }\n    .SearchBar input {\n      background-image: url(" + ___CSS_LOADER_URL___2___ + "); }\n      .SearchBar input::-webkit-input-placeholder {\n        font-size: 0.826rem; } }\n\n.Title {\n  display: flex;\n  align-items: center; }\n  .Title .wide-logo {\n    display: none; }\n  .Title .narrow-logo {\n    width: 100%;\n    max-width: 82px;\n    min-width: 63px; }\n\n@media (min-width: 900px) {\n  .Title .narrow-logo {\n    display: none; }\n  .Title .wide-logo {\n    display: block;\n    width: 100%;\n    max-width: 154px; } }\n\n.WelcomeModal {\n  display: grid;\n  height: 100vh;\n  position: absolute;\n  top: 0;\n  z-index: 1;\n  background-color: #FFFFFF; }\n  .WelcomeModal .grid-wrap > div:last-of-type {\n    position: absolute;\n    padding: 0px 5.625%;\n    left: 0;\n    right: 0;\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    bottom: 0;\n    padding: 1.5rem;\n    background-color: #ECF1F3; }\n  .WelcomeModal .grid-wrap .modal-header {\n    padding-top: 4rem; }\n  .WelcomeModal .grid-wrap .button-wrap > *:last-child {\n    display: none; }\n\n@media (min-width: 900px) {\n  .WelcomeModal {\n    height: 100vh;\n    align-items: center; }\n    .WelcomeModal.grid-row {\n      background-color: rgba(51, 51, 51, 0.7); }\n    .WelcomeModal .grid-wrap {\n      max-height: 450px;\n      display: flex;\n      flex-direction: column;\n      grid-column: 2 / 12;\n      background-color: #FFFFFF;\n      box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);\n      position: relative; }\n      .WelcomeModal .grid-wrap > div:last-of-type {\n        position: initial;\n        margin-top: auto;\n        padding: 1.5rem 2rem 1.5rem 2rem;\n        align-items: baseline; }\n      .WelcomeModal .grid-wrap .modal-header {\n        padding-top: 3.5rem; }\n      .WelcomeModal .grid-wrap .modal-text {\n        padding-bottom: 3rem; }\n      .WelcomeModal .grid-wrap .modal-header, .WelcomeModal .grid-wrap .modal-text {\n        padding-left: 2rem;\n        padding-right: 2rem; }\n      .WelcomeModal .grid-wrap .button-wrap > *:last-child {\n        color: #7A99AC;\n        display: block;\n        padding-top: 0.5rem;\n        font-size: .909rem; } }\n\n@media (min-width: 1280px) {\n  .WelcomeModal .grid-wrap {\n    grid-column: 4 / 12; } }\n\nhtml, body {\n  font-size: 18px;\n  font-family: Nimbus Sans;\n  margin: 0;\n  min-width: 305px; }\n\nul {\n  list-style: none;\n  padding: 0;\n  margin: 0; }\n\nh1 {\n  font-size: 1.464rem;\n  line-height: 2rem;\n  margin: 0; }\n\nh2 {\n  font-size: 1.331rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\nh3 {\n  font-size: 1rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\nh4, p {\n  font-size: 0.909rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\na {\n  text-decoration: none; }\n\nspan.link {\n  color: blue;\n  cursor: pointer; }\n", ""]);
+exports.push([module.i, ".mapbox-gl-draw_ctrl-draw-btn {\n  display: none !important; }\n\n.grid-row {\n  display: grid;\n  grid-template-columns: repeat(6, 1fr);\n  grid-column-gap: 1rem;\n  padding: 0px 5.625%;\n  max-width: 1680px; }\n\n.grid-wrap {\n  grid-column: 1 / -1; }\n\n@media (min-width: 900px) {\n  .grid-row {\n    grid-template-columns: repeat(12, 1fr); } }\n\n@media (min-width: 1280px) {\n  .grid-row {\n    grid-template-columns: repeat(14, 1fr);\n    padding: 0px 2.5%; } }\n\n.modal-header {\n  padding-bottom: 1rem;\n  position: relative; }\n  .modal-header::after {\n    content: '';\n    position: absolute;\n    bottom: -2px;\n    left: 0;\n    height: 2px;\n    width: 135px;\n    background-color: #76881D; }\n\n.modal-text {\n  padding-top: 1.5rem; }\n\n.modal-link {\n  font-family: Merriweather;\n  font-style: italic;\n  font-weight: normal;\n  font-size: 0.751rem;\n  line-height: 21px;\n  text-decoration-line: underline;\n  color: #006BA6; }\n\n@media (min-width: 900px) {\n  .modal-header::after {\n    left: 2rem; } }\n\n.vertical-align {\n  display: flex;\n  align-items: center; }\n\n.distribute {\n  display: flex;\n  justify-content: space-between; }\n\n.margin-center {\n  margin: 0 auto !important; }\n\n.spacer-top-0 {\n  margin-top: 0rem !important; }\n\n.spacer-top-1 {\n  margin-top: 1rem !important; }\n\n.spacer-top-2 {\n  margin-top: 2rem !important; }\n\n.spacer-top-3 {\n  margin-top: 3rem !important; }\n\n.spacer-top-4 {\n  margin-top: 4rem !important; }\n\n.spacer-bottom-0 {\n  margin-bottom: 0rem !important; }\n\n.spacer-bottom-1 {\n  margin-bottom: 1rem !important; }\n\n.spacer-bottom-2 {\n  margin-bottom: 2rem !important; }\n\n.spacer-bottom-3 {\n  margin-bottom: 3rem !important; }\n\n.spacer-bottom-4 {\n  margin-bottom: 4rem !important; }\n\n.spacer-left-0 {\n  margin-left: 0rem !important; }\n\n.spacer-left-1 {\n  margin-left: 1rem !important; }\n\n.spacer-left-2 {\n  margin-left: 2rem !important; }\n\n.spacer-left-3 {\n  margin-left: 3rem !important; }\n\n.spacer-left-4 {\n  margin-left: 4rem !important; }\n\n.spacer-right-0 {\n  margin-right: 0rem !important; }\n\n.spacer-right-1 {\n  margin-right: 1rem !important; }\n\n.spacer-right-2 {\n  margin-right: 2rem !important; }\n\n.spacer-right-3 {\n  margin-right: 3rem !important; }\n\n.spacer-right-4 {\n  margin-right: 4rem !important; }\n\n.width-1 {\n  width: 1% !important; }\n\n.width-2 {\n  width: 2% !important; }\n\n.width-3 {\n  width: 3% !important; }\n\n.width-4 {\n  width: 4% !important; }\n\n.width-5 {\n  width: 5% !important; }\n\n.width-6 {\n  width: 6% !important; }\n\n.width-7 {\n  width: 7% !important; }\n\n.width-8 {\n  width: 8% !important; }\n\n.width-9 {\n  width: 9% !important; }\n\n.width-10 {\n  width: 10% !important; }\n\n.width-11 {\n  width: 11% !important; }\n\n.width-12 {\n  width: 12% !important; }\n\n.width-13 {\n  width: 13% !important; }\n\n.width-14 {\n  width: 14% !important; }\n\n.width-15 {\n  width: 15% !important; }\n\n.width-16 {\n  width: 16% !important; }\n\n.width-17 {\n  width: 17% !important; }\n\n.width-18 {\n  width: 18% !important; }\n\n.width-19 {\n  width: 19% !important; }\n\n.width-20 {\n  width: 20% !important; }\n\n.width-21 {\n  width: 21% !important; }\n\n.width-22 {\n  width: 22% !important; }\n\n.width-23 {\n  width: 23% !important; }\n\n.width-24 {\n  width: 24% !important; }\n\n.width-25 {\n  width: 25% !important; }\n\n.width-26 {\n  width: 26% !important; }\n\n.width-27 {\n  width: 27% !important; }\n\n.width-28 {\n  width: 28% !important; }\n\n.width-29 {\n  width: 29% !important; }\n\n.width-30 {\n  width: 30% !important; }\n\n.width-31 {\n  width: 31% !important; }\n\n.width-32 {\n  width: 32% !important; }\n\n.width-33 {\n  width: 33% !important; }\n\n.width-34 {\n  width: 34% !important; }\n\n.width-35 {\n  width: 35% !important; }\n\n.width-36 {\n  width: 36% !important; }\n\n.width-37 {\n  width: 37% !important; }\n\n.width-38 {\n  width: 38% !important; }\n\n.width-39 {\n  width: 39% !important; }\n\n.width-40 {\n  width: 40% !important; }\n\n.width-41 {\n  width: 41% !important; }\n\n.width-42 {\n  width: 42% !important; }\n\n.width-43 {\n  width: 43% !important; }\n\n.width-44 {\n  width: 44% !important; }\n\n.width-45 {\n  width: 45% !important; }\n\n.width-46 {\n  width: 46% !important; }\n\n.width-47 {\n  width: 47% !important; }\n\n.width-48 {\n  width: 48% !important; }\n\n.width-49 {\n  width: 49% !important; }\n\n.width-50 {\n  width: 50% !important; }\n\n.width-51 {\n  width: 51% !important; }\n\n.width-52 {\n  width: 52% !important; }\n\n.width-53 {\n  width: 53% !important; }\n\n.width-54 {\n  width: 54% !important; }\n\n.width-55 {\n  width: 55% !important; }\n\n.width-56 {\n  width: 56% !important; }\n\n.width-57 {\n  width: 57% !important; }\n\n.width-58 {\n  width: 58% !important; }\n\n.width-59 {\n  width: 59% !important; }\n\n.width-60 {\n  width: 60% !important; }\n\n.width-61 {\n  width: 61% !important; }\n\n.width-62 {\n  width: 62% !important; }\n\n.width-63 {\n  width: 63% !important; }\n\n.width-64 {\n  width: 64% !important; }\n\n.width-65 {\n  width: 65% !important; }\n\n.width-66 {\n  width: 66% !important; }\n\n.width-67 {\n  width: 67% !important; }\n\n.width-68 {\n  width: 68% !important; }\n\n.width-69 {\n  width: 69% !important; }\n\n.width-70 {\n  width: 70% !important; }\n\n.width-71 {\n  width: 71% !important; }\n\n.width-72 {\n  width: 72% !important; }\n\n.width-73 {\n  width: 73% !important; }\n\n.width-74 {\n  width: 74% !important; }\n\n.width-75 {\n  width: 75% !important; }\n\n.width-76 {\n  width: 76% !important; }\n\n.width-77 {\n  width: 77% !important; }\n\n.width-78 {\n  width: 78% !important; }\n\n.width-79 {\n  width: 79% !important; }\n\n.width-80 {\n  width: 80% !important; }\n\n.width-81 {\n  width: 81% !important; }\n\n.width-82 {\n  width: 82% !important; }\n\n.width-83 {\n  width: 83% !important; }\n\n.width-84 {\n  width: 84% !important; }\n\n.width-85 {\n  width: 85% !important; }\n\n.width-86 {\n  width: 86% !important; }\n\n.width-87 {\n  width: 87% !important; }\n\n.width-88 {\n  width: 88% !important; }\n\n.width-89 {\n  width: 89% !important; }\n\n.width-90 {\n  width: 90% !important; }\n\n.width-91 {\n  width: 91% !important; }\n\n.width-92 {\n  width: 92% !important; }\n\n.width-93 {\n  width: 93% !important; }\n\n.width-94 {\n  width: 94% !important; }\n\n.width-95 {\n  width: 95% !important; }\n\n.width-96 {\n  width: 96% !important; }\n\n.width-97 {\n  width: 97% !important; }\n\n.width-98 {\n  width: 98% !important; }\n\n.width-99 {\n  width: 99% !important; }\n\n.width-100 {\n  width: 100% !important; }\n\n.height-1 {\n  height: 1% !important; }\n\n.height-2 {\n  height: 2% !important; }\n\n.height-3 {\n  height: 3% !important; }\n\n.height-4 {\n  height: 4% !important; }\n\n.height-5 {\n  height: 5% !important; }\n\n.height-6 {\n  height: 6% !important; }\n\n.height-7 {\n  height: 7% !important; }\n\n.height-8 {\n  height: 8% !important; }\n\n.height-9 {\n  height: 9% !important; }\n\n.height-10 {\n  height: 10% !important; }\n\n.height-11 {\n  height: 11% !important; }\n\n.height-12 {\n  height: 12% !important; }\n\n.height-13 {\n  height: 13% !important; }\n\n.height-14 {\n  height: 14% !important; }\n\n.height-15 {\n  height: 15% !important; }\n\n.height-16 {\n  height: 16% !important; }\n\n.height-17 {\n  height: 17% !important; }\n\n.height-18 {\n  height: 18% !important; }\n\n.height-19 {\n  height: 19% !important; }\n\n.height-20 {\n  height: 20% !important; }\n\n.height-21 {\n  height: 21% !important; }\n\n.height-22 {\n  height: 22% !important; }\n\n.height-23 {\n  height: 23% !important; }\n\n.height-24 {\n  height: 24% !important; }\n\n.height-25 {\n  height: 25% !important; }\n\n.height-26 {\n  height: 26% !important; }\n\n.height-27 {\n  height: 27% !important; }\n\n.height-28 {\n  height: 28% !important; }\n\n.height-29 {\n  height: 29% !important; }\n\n.height-30 {\n  height: 30% !important; }\n\n.height-31 {\n  height: 31% !important; }\n\n.height-32 {\n  height: 32% !important; }\n\n.height-33 {\n  height: 33% !important; }\n\n.height-34 {\n  height: 34% !important; }\n\n.height-35 {\n  height: 35% !important; }\n\n.height-36 {\n  height: 36% !important; }\n\n.height-37 {\n  height: 37% !important; }\n\n.height-38 {\n  height: 38% !important; }\n\n.height-39 {\n  height: 39% !important; }\n\n.height-40 {\n  height: 40% !important; }\n\n.height-41 {\n  height: 41% !important; }\n\n.height-42 {\n  height: 42% !important; }\n\n.height-43 {\n  height: 43% !important; }\n\n.height-44 {\n  height: 44% !important; }\n\n.height-45 {\n  height: 45% !important; }\n\n.height-46 {\n  height: 46% !important; }\n\n.height-47 {\n  height: 47% !important; }\n\n.height-48 {\n  height: 48% !important; }\n\n.height-49 {\n  height: 49% !important; }\n\n.height-50 {\n  height: 50% !important; }\n\n.height-51 {\n  height: 51% !important; }\n\n.height-52 {\n  height: 52% !important; }\n\n.height-53 {\n  height: 53% !important; }\n\n.height-54 {\n  height: 54% !important; }\n\n.height-55 {\n  height: 55% !important; }\n\n.height-56 {\n  height: 56% !important; }\n\n.height-57 {\n  height: 57% !important; }\n\n.height-58 {\n  height: 58% !important; }\n\n.height-59 {\n  height: 59% !important; }\n\n.height-60 {\n  height: 60% !important; }\n\n.height-61 {\n  height: 61% !important; }\n\n.height-62 {\n  height: 62% !important; }\n\n.height-63 {\n  height: 63% !important; }\n\n.height-64 {\n  height: 64% !important; }\n\n.height-65 {\n  height: 65% !important; }\n\n.height-66 {\n  height: 66% !important; }\n\n.height-67 {\n  height: 67% !important; }\n\n.height-68 {\n  height: 68% !important; }\n\n.height-69 {\n  height: 69% !important; }\n\n.height-70 {\n  height: 70% !important; }\n\n.height-71 {\n  height: 71% !important; }\n\n.height-72 {\n  height: 72% !important; }\n\n.height-73 {\n  height: 73% !important; }\n\n.height-74 {\n  height: 74% !important; }\n\n.height-75 {\n  height: 75% !important; }\n\n.height-76 {\n  height: 76% !important; }\n\n.height-77 {\n  height: 77% !important; }\n\n.height-78 {\n  height: 78% !important; }\n\n.height-79 {\n  height: 79% !important; }\n\n.height-80 {\n  height: 80% !important; }\n\n.height-81 {\n  height: 81% !important; }\n\n.height-82 {\n  height: 82% !important; }\n\n.height-83 {\n  height: 83% !important; }\n\n.height-84 {\n  height: 84% !important; }\n\n.height-85 {\n  height: 85% !important; }\n\n.height-86 {\n  height: 86% !important; }\n\n.height-87 {\n  height: 87% !important; }\n\n.height-88 {\n  height: 88% !important; }\n\n.height-89 {\n  height: 89% !important; }\n\n.height-90 {\n  height: 90% !important; }\n\n.height-91 {\n  height: 91% !important; }\n\n.height-92 {\n  height: 92% !important; }\n\n.height-93 {\n  height: 93% !important; }\n\n.height-94 {\n  height: 94% !important; }\n\n.height-95 {\n  height: 95% !important; }\n\n.height-96 {\n  height: 96% !important; }\n\n.height-97 {\n  height: 97% !important; }\n\n.height-98 {\n  height: 98% !important; }\n\n.height-99 {\n  height: 99% !important; }\n\n.height-100 {\n  height: 100% !important; }\n\n.warning {\n  color: red; }\n\n.block {\n  display: block !important; }\n\n.inline {\n  display: inline !important; }\n\n.inline-block {\n  display: inline-block !important; }\n\n.clickable {\n  pointer-events: auto !important; }\n  .clickable * {\n    pointer-events: auto !important; }\n\n.unclickable {\n  pointer-events: none !important; }\n\n.Button {\n  padding: 0.5rem 22px;\n  font-size: .909rem;\n  display: inline-block;\n  border-radius: 5px;\n  background-color: #006BA6;\n  cursor: pointer;\n  color: white; }\n  .Button span {\n    color: white;\n    line-height: 1.5rem; }\n\ndiv {\n  display: block; }\n  div input[type=\"checkbox\"] {\n    -webkit-appearance: none;\n    border-radius: 3px;\n    border: 1px solid #A8ACAE;\n    width: 18px;\n    box-sizing: border-box;\n    height: 18px;\n    margin: 0px 0.5rem 0px 0px;\n    vertical-align: middle; }\n    div input[type=\"checkbox\"]:focus {\n      border: 1px solid #333333;\n      outline: none; }\n      div input[type=\"checkbox\"]:focus + span {\n        color: black; }\n    div input[type=\"checkbox\"]:checked {\n      background-color: #006BA6;\n      background-image: url(" + ___CSS_LOADER_URL___0___ + ");\n      background-repeat: no-repeat;\n      border: 1px solid #006BA6; }\n      div input[type=\"checkbox\"]:checked + span {\n        color: #333333; }\n    div input[type=\"checkbox\"]:disabled {\n      background-color: #ECF1F3;\n      border: 1px solid #ECF1F3; }\n      div input[type=\"checkbox\"]:disabled + span {\n        color: #A8ACAE; }\n  div span {\n    font-size: .909rem;\n    color: #707372;\n    line-height: 2rem; }\n\n.CloseButton {\n  position: absolute;\n  z-index: 1;\n  top: 18px;\n  right: 18px;\n  cursor: pointer;\n  padding: 0;\n  border: none;\n  background-color: inherit; }\n\n.dropdown-checkbox {\n  margin-top: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-checkbox .Button {\n    margin-top: 1rem;\n    margin-bottom: 3rem; }\n  .dropdown-checkbox > img:last-of-type {\n    position: absolute;\n    bottom: 18px;\n    right: 18px;\n    cursor: pointer; }\n\n@media (min-width: 900px) {\n  .dropdown-checkbox {\n    margin-top: 1em; }\n    .dropdown-checkbox .Button {\n      display: block;\n      text-align: center;\n      margin: 0.5rem auto 2.5rem auto; }\n    .dropdown-checkbox > img:last-of-type {\n      bottom: 9px;\n      right: 9px; } }\n\n.dropdown-list {\n  margin-top: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-list ul {\n    display: block;\n    padding: 0; }\n    .dropdown-list ul li a {\n      text-decoration: none;\n      font-size: 0.909rem;\n      line-height: 2.75em; }\n    .dropdown-list ul li:last-child {\n      border-top: 1px solid #ECF1F3;\n      padding: 1em 0; }\n      .dropdown-list ul li:last-child a {\n        line-height: 1.5em; }\n\n@media (min-width: 900px) {\n  .dropdown-list {\n    margin-top: 1em;\n    margin-top: 1em; }\n    .dropdown-list ul li a {\n      line-height: 2em;\n      padding: 0; }\n    .dropdown-list ul li:nth-of-type(3) {\n      padding-bottom: 1em; } }\n\n.Header {\n  position: relative;\n  z-index: 1;\n  width: 100%;\n  height: 99px;\n  background-color: #FFFFFF;\n  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); }\n  .Header > .grid-row {\n    grid-template-columns: auto repeat(5, 1fr); }\n    .Header > .grid-row.sidenav-btn {\n      padding: 0; }\n      .Header > .grid-row.sidenav-btn .SideNavButton {\n        background-color: #FFFFFF;\n        grid-column: 1 / 2;\n        cursor: pointer;\n        padding: 0;\n        border: none; }\n        .Header > .grid-row.sidenav-btn .SideNavButton img {\n          display: block; }\n        .Header > .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n          display: none; }\n      .Header > .grid-row.sidenav-btn .Title {\n        grid-column: 2 / 4; }\n      .Header > .grid-row.sidenav-btn .LocationInput {\n        display: none; }\n      .Header > .grid-row.sidenav-btn .HeaderOptions {\n        grid-column: 4 / -1; }\n      .Header > .grid-row.sidenav-btn .SaveButton {\n        display: none; }\n  .Header .search-save-btn .SaveButton .wide-save {\n    display: none; }\n\n@media (min-width: 900px) {\n  .Header {\n    height: 72px; }\n    .Header > .grid-row {\n      height: 72px;\n      grid-template-columns: repeat(12, 1fr); }\n      .Header > .grid-row.sidenav-btn .SideNavButton .narrow-sidenav {\n        display: none; }\n      .Header > .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n        display: block; }\n      .Header > .grid-row.sidenav-btn .Title {\n        grid-column: 2 / 4; }\n      .Header > .grid-row.sidenav-btn .LocationInput {\n        grid-column: 4 / 8;\n        display: block; }\n      .Header > .grid-row.sidenav-btn .HeaderOptions {\n        grid-column: 8 / 12; }\n      .Header > .grid-row.sidenav-btn .SaveButton {\n        display: block; }\n        .Header > .grid-row.sidenav-btn .SaveButton .narrow-save {\n          display: none; }\n    .Header .search-save-btn {\n      display: none; } }\n\n@media (min-width: 1280px) {\n  .Header > .grid-row {\n    grid-template-columns: repeat(14, 1fr); }\n    .Header > .grid-row.sidenav-btn .Title {\n      grid-column: 2 / 4; }\n    .Header > .grid-row.sidenav-btn .LocationInput {\n      grid-column: 4 / 9; }\n    .Header > .grid-row.sidenav-btn .HeaderOptions {\n      grid-column: 9 / 14; } }\n\n.HeaderOptions > ul {\n  margin: 0;\n  padding: 0;\n  display: flex;\n  justify-content: flex-end;\n  display: grid;\n  grid-template-columns: repeat(4, minmax(35px, 60px));\n  height: 100%; }\n  .HeaderOptions > ul .option {\n    display: flex;\n    align-items: center;\n    padding: 0px 4px; }\n    .HeaderOptions > ul .option a {\n      display: block;\n      margin: 0 auto; }\n      .HeaderOptions > ul .option a .option-active {\n        display: none; }\n      .HeaderOptions > ul .option a .option-name {\n        display: none; }\n      .HeaderOptions > ul .option a img {\n        display: block;\n        width: 100%;\n        max-width: 45px; }\n    .HeaderOptions > ul .option.active {\n      background-color: #006BA6; }\n      .HeaderOptions > ul .option.active a .option-inactive {\n        display: none; }\n      .HeaderOptions > ul .option.active a .option-active {\n        display: block; }\n      .HeaderOptions > ul .option.active .OptionsDropdown {\n        display: grid; }\n\n@media (min-width: 400px) {\n  .HeaderOptions {\n    padding-right: 15px; } }\n\n@media (min-width: 900px) {\n  .HeaderOptions {\n    padding-right: 0px;\n    margin-left: 0;\n    padding-left: 0; }\n    .HeaderOptions > ul {\n      grid-template-rows: 1fr;\n      grid-template-columns: repeat(4, 1fr);\n      width: 100%; }\n      .HeaderOptions > ul .option {\n        grid-row: 1;\n        width: 100%;\n        padding: 0; } }\n\n@media (min-width: 1280px) {\n  .HeaderOptions ul .option a .option-name {\n    display: inline-block;\n    vertical-align: middle;\n    padding-left: 5px; }\n    .HeaderOptions ul .option a .option-name p {\n      display: block;\n      margin: 0;\n      font-size: 0.683rem;\n      line-height: 0.683rem; }\n  .HeaderOptions ul .option a .option-inactive {\n    display: inline-block;\n    vertical-align: middle; }\n  .HeaderOptions ul .option.active a .option-active {\n    display: inline-block;\n    vertical-align: middle; } }\n\n.Map {\n  width: 100%;\n  height: calc(100vh - 99px); }\n\n@media (min-width: 900px) {\n  .Map {\n    height: calc(100vh - 72px); } }\n\n.MapModeForm {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.4); }\n  .MapModeForm .modal {\n    background: white;\n    width: 100%;\n    height: 100%;\n    padding: 2rem 4rem; }\n\n@media (min-width: 900px) {\n  .MapModeForm .modal {\n    width: 600px;\n    height: 500px; } }\n\n.NavOptions {\n  position: absolute;\n  height: 100vh;\n  background-color: #3E4827;\n  display: none;\n  z-index: 10; }\n  .NavOptions.active {\n    display: block; }\n  .NavOptions .grid-wrap {\n    padding-top: 4rem; }\n    .NavOptions .grid-wrap ul {\n      border-bottom: 2px solid #656D52;\n      padding-bottom: 1rem; }\n      .NavOptions .grid-wrap ul li a {\n        line-height: 2.75rem;\n        text-decoration: none;\n        color: #FFFFFF;\n        font-size: .909rem; }\n    .NavOptions .grid-wrap div p {\n      margin: 0;\n      font-family: Merriweather;\n      font-style: italic;\n      color: #FFFFFF;\n      font-size: 0.683rem;\n      line-height: 1rem;\n      padding-top: 1.5rem; }\n\n@media (min-width: 900px) {\n  .NavOptions {\n    width: 270px; } }\n\n.OptionsDropdown {\n  position: absolute;\n  top: 54px;\n  left: 0;\n  right: 0;\n  background-color: #FFFFFF;\n  border-top: 2px solid #006BA6;\n  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);\n  display: none; }\n\n@media (min-width: 900px) {\n  .OptionsDropdown {\n    width: 180px;\n    top: 72px;\n    padding: 0 1em;\n    left: auto;\n    right: auto; }\n    .OptionsDropdown.grid-row {\n      grid-column-gap: 0rem; }\n    .OptionsDropdown .CloseButton {\n      display: none; } }\n\n.SaveButton {\n  display: inline-block;\n  border: none;\n  padding: 0; }\n  .SaveButton img {\n    display: block;\n    margin-left: auto; }\n\n.LocationInput {\n  width: calc(100% - 54px);\n  height: 45px;\n  vertical-align: top;\n  display: inline-block; }\n  .LocationInput input {\n    width: 100%;\n    height: 100%;\n    -webkit-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    box-sizing: border-box;\n    -webkit-appearance: none;\n    border: none;\n    padding: 0 0px 0px 18px;\n    background-color: #ECF1F3;\n    background-repeat: no-repeat;\n    background-position: 95%;\n    background-image: url(" + ___CSS_LOADER_URL___1___ + "); }\n    .LocationInput input::-webkit-input-placeholder {\n      font-family: Merriweather;\n      font-style: italic;\n      font-weight: normal;\n      font-size: 0.683rem;\n      line-height: 1rem; }\n\n@media (min-width: 900px) {\n  .LocationInput {\n    height: auto;\n    width: auto;\n    padding-bottom: 9px;\n    padding-top: 9px; }\n    .LocationInput input {\n      background-image: url(" + ___CSS_LOADER_URL___2___ + "); }\n      .LocationInput input::-webkit-input-placeholder {\n        font-size: 0.826rem; } }\n\n.Title {\n  display: flex;\n  align-items: center; }\n  .Title .wide-logo {\n    display: none; }\n  .Title .narrow-logo {\n    width: 100%;\n    max-width: 82px;\n    min-width: 63px; }\n\n@media (min-width: 900px) {\n  .Title .narrow-logo {\n    display: none; }\n  .Title .wide-logo {\n    display: block;\n    width: 100%;\n    max-width: 154px; } }\n\n.WelcomeModal {\n  display: grid;\n  height: 100vh;\n  position: absolute;\n  top: 0;\n  z-index: 1;\n  background-color: #FFFFFF; }\n  .WelcomeModal .grid-wrap > div:last-of-type {\n    position: absolute;\n    padding: 0px 5.625%;\n    left: 0;\n    right: 0;\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    bottom: 0;\n    padding: 1.5rem;\n    background-color: #ECF1F3; }\n  .WelcomeModal .grid-wrap .modal-header {\n    padding-top: 4rem; }\n  .WelcomeModal .grid-wrap .button-wrap > *:last-child {\n    display: none; }\n\n@media (min-width: 900px) {\n  .WelcomeModal {\n    height: 100vh;\n    align-items: center; }\n    .WelcomeModal.grid-row {\n      background-color: rgba(51, 51, 51, 0.7); }\n    .WelcomeModal .grid-wrap {\n      max-height: 450px;\n      display: flex;\n      flex-direction: column;\n      grid-column: 2 / 12;\n      background-color: #FFFFFF;\n      box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);\n      position: relative; }\n      .WelcomeModal .grid-wrap > div:last-of-type {\n        position: initial;\n        margin-top: auto;\n        padding: 1.5rem 2rem 1.5rem 2rem;\n        align-items: baseline; }\n      .WelcomeModal .grid-wrap .modal-header {\n        padding-top: 3.5rem; }\n      .WelcomeModal .grid-wrap .modal-text {\n        padding-bottom: 3rem; }\n      .WelcomeModal .grid-wrap .modal-header, .WelcomeModal .grid-wrap .modal-text {\n        padding-left: 2rem;\n        padding-right: 2rem; }\n      .WelcomeModal .grid-wrap .button-wrap > *:last-child {\n        color: #7A99AC;\n        display: block;\n        padding-top: 0.5rem;\n        font-size: .909rem; } }\n\n@media (min-width: 1280px) {\n  .WelcomeModal .grid-wrap {\n    grid-column: 4 / 12; } }\n\nhtml, body {\n  font-size: 18px;\n  font-family: Nimbus Sans;\n  margin: 0;\n  min-width: 305px; }\n\nul {\n  list-style: none;\n  padding: 0;\n  margin: 0; }\n\nh1 {\n  font-size: 1.464rem;\n  line-height: 2rem;\n  margin: 0; }\n\nh2 {\n  font-size: 1.331rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\nh3 {\n  font-size: 1rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\nh4, p {\n  font-size: 0.909rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\na {\n  text-decoration: none; }\n\nspan.link {\n  color: blue;\n  cursor: pointer; }\n", ""]);
 
 
 /***/ }),
@@ -7166,7 +7166,7 @@ function load() {
 
 	// If debug isn't set in LS, and we're in Electron, try to load $DEBUG
 	if (!r && typeof process !== 'undefined' && 'env' in process) {
-		r = "MapComponent";
+		r = process.env.DEBUG;
 	}
 
 	return r;
@@ -9421,6 +9421,395 @@ if ( true && __webpack_require__.c[__webpack_require__.s] === module) {
 }
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../process/browser.js */ "./node_modules/process/browser.js"), __webpack_require__(/*! ./../../webpack/buildin/module.js */ "./node_modules/webpack/buildin/module.js")(module)))
+
+/***/ }),
+
+/***/ "./node_modules/lodash.debounce/index.js":
+/*!***********************************************!*\
+  !*** ./node_modules/lodash.debounce/index.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {/**
+ * lodash (Custom Build) <https://lodash.com/>
+ * Build: `lodash modularize exports="npm" -o ./`
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/** Used as the `TypeError` message for "Functions" methods. */
+var FUNC_ERROR_TEXT = 'Expected a function';
+
+/** Used as references for various `Number` constants. */
+var NAN = 0 / 0;
+
+/** `Object#toString` result references. */
+var symbolTag = '[object Symbol]';
+
+/** Used to match leading and trailing whitespace. */
+var reTrim = /^\s+|\s+$/g;
+
+/** Used to detect bad signed hexadecimal string values. */
+var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+
+/** Used to detect binary string values. */
+var reIsBinary = /^0b[01]+$/i;
+
+/** Used to detect octal string values. */
+var reIsOctal = /^0o[0-7]+$/i;
+
+/** Built-in method references without a dependency on `root`. */
+var freeParseInt = parseInt;
+
+/** Detect free variable `global` from Node.js. */
+var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+/** Detect free variable `self`. */
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+/** Used as a reference to the global object. */
+var root = freeGlobal || freeSelf || Function('return this')();
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeMax = Math.max,
+    nativeMin = Math.min;
+
+/**
+ * Gets the timestamp of the number of milliseconds that have elapsed since
+ * the Unix epoch (1 January 1970 00:00:00 UTC).
+ *
+ * @static
+ * @memberOf _
+ * @since 2.4.0
+ * @category Date
+ * @returns {number} Returns the timestamp.
+ * @example
+ *
+ * _.defer(function(stamp) {
+ *   console.log(_.now() - stamp);
+ * }, _.now());
+ * // => Logs the number of milliseconds it took for the deferred invocation.
+ */
+var now = function() {
+  return root.Date.now();
+};
+
+/**
+ * Creates a debounced function that delays invoking `func` until after `wait`
+ * milliseconds have elapsed since the last time the debounced function was
+ * invoked. The debounced function comes with a `cancel` method to cancel
+ * delayed `func` invocations and a `flush` method to immediately invoke them.
+ * Provide `options` to indicate whether `func` should be invoked on the
+ * leading and/or trailing edge of the `wait` timeout. The `func` is invoked
+ * with the last arguments provided to the debounced function. Subsequent
+ * calls to the debounced function return the result of the last `func`
+ * invocation.
+ *
+ * **Note:** If `leading` and `trailing` options are `true`, `func` is
+ * invoked on the trailing edge of the timeout only if the debounced function
+ * is invoked more than once during the `wait` timeout.
+ *
+ * If `wait` is `0` and `leading` is `false`, `func` invocation is deferred
+ * until to the next tick, similar to `setTimeout` with a timeout of `0`.
+ *
+ * See [David Corbacho's article](https://css-tricks.com/debouncing-throttling-explained-examples/)
+ * for details over the differences between `_.debounce` and `_.throttle`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to debounce.
+ * @param {number} [wait=0] The number of milliseconds to delay.
+ * @param {Object} [options={}] The options object.
+ * @param {boolean} [options.leading=false]
+ *  Specify invoking on the leading edge of the timeout.
+ * @param {number} [options.maxWait]
+ *  The maximum time `func` is allowed to be delayed before it's invoked.
+ * @param {boolean} [options.trailing=true]
+ *  Specify invoking on the trailing edge of the timeout.
+ * @returns {Function} Returns the new debounced function.
+ * @example
+ *
+ * // Avoid costly calculations while the window size is in flux.
+ * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
+ *
+ * // Invoke `sendMail` when clicked, debouncing subsequent calls.
+ * jQuery(element).on('click', _.debounce(sendMail, 300, {
+ *   'leading': true,
+ *   'trailing': false
+ * }));
+ *
+ * // Ensure `batchLog` is invoked once after 1 second of debounced calls.
+ * var debounced = _.debounce(batchLog, 250, { 'maxWait': 1000 });
+ * var source = new EventSource('/stream');
+ * jQuery(source).on('message', debounced);
+ *
+ * // Cancel the trailing debounced invocation.
+ * jQuery(window).on('popstate', debounced.cancel);
+ */
+function debounce(func, wait, options) {
+  var lastArgs,
+      lastThis,
+      maxWait,
+      result,
+      timerId,
+      lastCallTime,
+      lastInvokeTime = 0,
+      leading = false,
+      maxing = false,
+      trailing = true;
+
+  if (typeof func != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  wait = toNumber(wait) || 0;
+  if (isObject(options)) {
+    leading = !!options.leading;
+    maxing = 'maxWait' in options;
+    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  }
+
+  function invokeFunc(time) {
+    var args = lastArgs,
+        thisArg = lastThis;
+
+    lastArgs = lastThis = undefined;
+    lastInvokeTime = time;
+    result = func.apply(thisArg, args);
+    return result;
+  }
+
+  function leadingEdge(time) {
+    // Reset any `maxWait` timer.
+    lastInvokeTime = time;
+    // Start the timer for the trailing edge.
+    timerId = setTimeout(timerExpired, wait);
+    // Invoke the leading edge.
+    return leading ? invokeFunc(time) : result;
+  }
+
+  function remainingWait(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime,
+        result = wait - timeSinceLastCall;
+
+    return maxing ? nativeMin(result, maxWait - timeSinceLastInvoke) : result;
+  }
+
+  function shouldInvoke(time) {
+    var timeSinceLastCall = time - lastCallTime,
+        timeSinceLastInvoke = time - lastInvokeTime;
+
+    // Either this is the first call, activity has stopped and we're at the
+    // trailing edge, the system time has gone backwards and we're treating
+    // it as the trailing edge, or we've hit the `maxWait` limit.
+    return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+      (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait));
+  }
+
+  function timerExpired() {
+    var time = now();
+    if (shouldInvoke(time)) {
+      return trailingEdge(time);
+    }
+    // Restart the timer.
+    timerId = setTimeout(timerExpired, remainingWait(time));
+  }
+
+  function trailingEdge(time) {
+    timerId = undefined;
+
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
+    if (trailing && lastArgs) {
+      return invokeFunc(time);
+    }
+    lastArgs = lastThis = undefined;
+    return result;
+  }
+
+  function cancel() {
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
+    lastInvokeTime = 0;
+    lastArgs = lastCallTime = lastThis = timerId = undefined;
+  }
+
+  function flush() {
+    return timerId === undefined ? result : trailingEdge(now());
+  }
+
+  function debounced() {
+    var time = now(),
+        isInvoking = shouldInvoke(time);
+
+    lastArgs = arguments;
+    lastThis = this;
+    lastCallTime = time;
+
+    if (isInvoking) {
+      if (timerId === undefined) {
+        return leadingEdge(lastCallTime);
+      }
+      if (maxing) {
+        // Handle invocations in a tight loop.
+        timerId = setTimeout(timerExpired, wait);
+        return invokeFunc(lastCallTime);
+      }
+    }
+    if (timerId === undefined) {
+      timerId = setTimeout(timerExpired, wait);
+    }
+    return result;
+  }
+  debounced.cancel = cancel;
+  debounced.flush = flush;
+  return debounced;
+}
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+function isObject(value) {
+  var type = typeof value;
+  return !!value && (type == 'object' || type == 'function');
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/**
+ * Checks if `value` is classified as a `Symbol` primitive or object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
+ * @example
+ *
+ * _.isSymbol(Symbol.iterator);
+ * // => true
+ *
+ * _.isSymbol('abc');
+ * // => false
+ */
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike(value) && objectToString.call(value) == symbolTag);
+}
+
+/**
+ * Converts `value` to a number.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to process.
+ * @returns {number} Returns the number.
+ * @example
+ *
+ * _.toNumber(3.2);
+ * // => 3.2
+ *
+ * _.toNumber(Number.MIN_VALUE);
+ * // => 5e-324
+ *
+ * _.toNumber(Infinity);
+ * // => Infinity
+ *
+ * _.toNumber('3.2');
+ * // => 3.2
+ */
+function toNumber(value) {
+  if (typeof value == 'number') {
+    return value;
+  }
+  if (isSymbol(value)) {
+    return NAN;
+  }
+  if (isObject(value)) {
+    var other = typeof value.valueOf == 'function' ? value.valueOf() : value;
+    value = isObject(other) ? (other + '') : other;
+  }
+  if (typeof value != 'string') {
+    return value === 0 ? value : +value;
+  }
+  value = value.replace(reTrim, '');
+  var isBinary = reIsBinary.test(value);
+  return (isBinary || reIsOctal.test(value))
+    ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+    : (reIsBadHex.test(value) ? NAN : +value);
+}
+
+module.exports = debounce;
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 
@@ -58696,6 +59085,569 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/react-places-autocomplete/dist/PlacesAutocomplete.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/react-places-autocomplete/dist/PlacesAutocomplete.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _lodash = __webpack_require__(/*! lodash.debounce */ "./node_modules/lodash.debounce/index.js");
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _helpers = __webpack_require__(/*! ./helpers */ "./node_modules/react-places-autocomplete/dist/helpers.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * Copyright (c) 2016-present, Ken Hibino.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * Licensed under the MIT License (MIT).
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * See https://kenny-hibino.github.io/react-places-autocomplete
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
+
+// transform snake_case to camelCase
+var formattedSuggestion = function formattedSuggestion(structured_formatting) {
+  return {
+    mainText: structured_formatting.main_text,
+    secondaryText: structured_formatting.secondary_text
+  };
+};
+
+var PlacesAutocomplete = function (_React$Component) {
+  _inherits(PlacesAutocomplete, _React$Component);
+
+  function PlacesAutocomplete(props) {
+    _classCallCheck(this, PlacesAutocomplete);
+
+    var _this = _possibleConstructorReturn(this, (PlacesAutocomplete.__proto__ || Object.getPrototypeOf(PlacesAutocomplete)).call(this, props));
+
+    _this.init = function () {
+      if (!window.google) {
+        throw new Error('[react-places-autocomplete]: Google Maps JavaScript API library must be loaded. See: https://github.com/kenny-hibino/react-places-autocomplete#load-google-library');
+      }
+
+      if (!window.google.maps.places) {
+        throw new Error('[react-places-autocomplete]: Google Maps Places library must be loaded. Please add `libraries=places` to the src URL. See: https://github.com/kenny-hibino/react-places-autocomplete#load-google-library');
+      }
+
+      _this.autocompleteService = new window.google.maps.places.AutocompleteService();
+      _this.autocompleteOK = window.google.maps.places.PlacesServiceStatus.OK;
+      _this.setState(function (state) {
+        if (state.ready) {
+          return null;
+        } else {
+          return { ready: true };
+        }
+      });
+    };
+
+    _this.autocompleteCallback = function (predictions, status) {
+      _this.setState({ loading: false });
+      if (status !== _this.autocompleteOK) {
+        _this.props.onError(status, _this.clearSuggestions);
+        return;
+      }
+      var highlightFirstSuggestion = _this.props.highlightFirstSuggestion;
+
+      _this.setState({
+        suggestions: predictions.map(function (p, idx) {
+          return {
+            id: p.id,
+            description: p.description,
+            placeId: p.place_id,
+            active: highlightFirstSuggestion && idx === 0 ? true : false,
+            index: idx,
+            formattedSuggestion: formattedSuggestion(p.structured_formatting),
+            matchedSubstrings: p.matched_substrings,
+            terms: p.terms,
+            types: p.types
+          };
+        })
+      });
+    };
+
+    _this.fetchPredictions = function () {
+      var value = _this.props.value;
+
+      if (value.length) {
+        _this.setState({ loading: true });
+        _this.autocompleteService.getPlacePredictions(_extends({}, _this.props.searchOptions, {
+          input: value
+        }), _this.autocompleteCallback);
+      }
+    };
+
+    _this.clearSuggestions = function () {
+      _this.setState({ suggestions: [] });
+    };
+
+    _this.clearActive = function () {
+      _this.setState({
+        suggestions: _this.state.suggestions.map(function (suggestion) {
+          return _extends({}, suggestion, {
+            active: false
+          });
+        })
+      });
+    };
+
+    _this.handleSelect = function (address, placeId) {
+      _this.clearSuggestions();
+      if (_this.props.onSelect) {
+        _this.props.onSelect(address, placeId);
+      } else {
+        _this.props.onChange(address);
+      }
+    };
+
+    _this.getActiveSuggestion = function () {
+      return _this.state.suggestions.find(function (suggestion) {
+        return suggestion.active;
+      });
+    };
+
+    _this.selectActiveAtIndex = function (index) {
+      var activeName = _this.state.suggestions.find(function (suggestion) {
+        return suggestion.index === index;
+      }).description;
+      _this.setActiveAtIndex(index);
+      _this.props.onChange(activeName);
+    };
+
+    _this.selectUserInputValue = function () {
+      _this.clearActive();
+      _this.props.onChange(_this.state.userInputValue);
+    };
+
+    _this.handleEnterKey = function () {
+      var activeSuggestion = _this.getActiveSuggestion();
+      if (activeSuggestion === undefined) {
+        _this.handleSelect(_this.props.value, null);
+      } else {
+        _this.handleSelect(activeSuggestion.description, activeSuggestion.placeId);
+      }
+    };
+
+    _this.handleDownKey = function () {
+      if (_this.state.suggestions.length === 0) {
+        return;
+      }
+
+      var activeSuggestion = _this.getActiveSuggestion();
+      if (activeSuggestion === undefined) {
+        _this.selectActiveAtIndex(0);
+      } else if (activeSuggestion.index === _this.state.suggestions.length - 1) {
+        _this.selectUserInputValue();
+      } else {
+        _this.selectActiveAtIndex(activeSuggestion.index + 1);
+      }
+    };
+
+    _this.handleUpKey = function () {
+      if (_this.state.suggestions.length === 0) {
+        return;
+      }
+
+      var activeSuggestion = _this.getActiveSuggestion();
+      if (activeSuggestion === undefined) {
+        _this.selectActiveAtIndex(_this.state.suggestions.length - 1);
+      } else if (activeSuggestion.index === 0) {
+        _this.selectUserInputValue();
+      } else {
+        _this.selectActiveAtIndex(activeSuggestion.index - 1);
+      }
+    };
+
+    _this.handleInputKeyDown = function (event) {
+      /* eslint-disable indent */
+      switch (event.key) {
+        case 'Enter':
+          event.preventDefault();
+          _this.handleEnterKey();
+          break;
+        case 'ArrowDown':
+          event.preventDefault(); // prevent the cursor from moving
+          _this.handleDownKey();
+          break;
+        case 'ArrowUp':
+          event.preventDefault(); // prevent the cursor from moving
+          _this.handleUpKey();
+          break;
+        case 'Escape':
+          _this.clearSuggestions();
+          break;
+      }
+      /* eslint-enable indent */
+    };
+
+    _this.setActiveAtIndex = function (index) {
+      _this.setState({
+        suggestions: _this.state.suggestions.map(function (suggestion, idx) {
+          if (idx === index) {
+            return _extends({}, suggestion, { active: true });
+          } else {
+            return _extends({}, suggestion, { active: false });
+          }
+        })
+      });
+    };
+
+    _this.handleInputChange = function (event) {
+      var value = event.target.value;
+
+      _this.props.onChange(value);
+      _this.setState({ userInputValue: value });
+      if (!value) {
+        _this.clearSuggestions();
+        return;
+      }
+      if (_this.props.shouldFetchSuggestions) {
+        _this.debouncedFetchPredictions();
+      }
+    };
+
+    _this.handleInputOnBlur = function () {
+      if (!_this.mousedownOnSuggestion) {
+        _this.clearSuggestions();
+      }
+    };
+
+    _this.getActiveSuggestionId = function () {
+      var activeSuggestion = _this.getActiveSuggestion();
+      return activeSuggestion ? 'PlacesAutocomplete__suggestion-' + activeSuggestion.placeId : undefined;
+    };
+
+    _this.getIsExpanded = function () {
+      return _this.state.suggestions.length > 0;
+    };
+
+    _this.getInputProps = function () {
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      if (options.hasOwnProperty('value')) {
+        throw new Error('[react-places-autocomplete]: getInputProps does not accept `value`. Use `value` prop instead');
+      }
+
+      if (options.hasOwnProperty('onChange')) {
+        throw new Error('[react-places-autocomplete]: getInputProps does not accept `onChange`. Use `onChange` prop instead');
+      }
+
+      var defaultInputProps = {
+        type: 'text',
+        autoComplete: 'off',
+        role: 'combobox',
+        'aria-autocomplete': 'list',
+        'aria-expanded': _this.getIsExpanded(),
+        'aria-activedescendant': _this.getActiveSuggestionId(),
+        disabled: !_this.state.ready
+      };
+
+      return _extends({}, defaultInputProps, options, {
+        onKeyDown: (0, _helpers.compose)(_this.handleInputKeyDown, options.onKeyDown),
+        onBlur: (0, _helpers.compose)(_this.handleInputOnBlur, options.onBlur),
+        value: _this.props.value,
+        onChange: function onChange(event) {
+          _this.handleInputChange(event);
+        }
+      });
+    };
+
+    _this.getSuggestionItemProps = function (suggestion) {
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+      var handleSuggestionMouseEnter = _this.handleSuggestionMouseEnter.bind(_this, suggestion.index);
+      var handleSuggestionClick = _this.handleSuggestionClick.bind(_this, suggestion);
+
+      return _extends({}, options, {
+        key: suggestion.id,
+        id: _this.getActiveSuggestionId(),
+        role: 'option',
+        onMouseEnter: (0, _helpers.compose)(handleSuggestionMouseEnter, options.onMouseEnter),
+        onMouseLeave: (0, _helpers.compose)(_this.handleSuggestionMouseLeave, options.onMouseLeave),
+        onMouseDown: (0, _helpers.compose)(_this.handleSuggestionMouseDown, options.onMouseDown),
+        onMouseUp: (0, _helpers.compose)(_this.handleSuggestionMouseUp, options.onMouseUp),
+        onTouchStart: (0, _helpers.compose)(_this.handleSuggestionTouchStart, options.onTouchStart),
+        onTouchEnd: (0, _helpers.compose)(_this.handleSuggestionMouseUp, options.onTouchEnd),
+        onClick: (0, _helpers.compose)(handleSuggestionClick, options.onClick)
+      });
+    };
+
+    _this.handleSuggestionMouseEnter = function (index) {
+      _this.setActiveAtIndex(index);
+    };
+
+    _this.handleSuggestionMouseLeave = function () {
+      _this.mousedownOnSuggestion = false;
+      _this.clearActive();
+    };
+
+    _this.handleSuggestionMouseDown = function (event) {
+      event.preventDefault();
+      _this.mousedownOnSuggestion = true;
+    };
+
+    _this.handleSuggestionTouchStart = function () {
+      _this.mousedownOnSuggestion = true;
+    };
+
+    _this.handleSuggestionMouseUp = function () {
+      _this.mousedownOnSuggestion = false;
+    };
+
+    _this.handleSuggestionClick = function (suggestion, event) {
+      if (event && event.preventDefault) {
+        event.preventDefault();
+      }
+      var description = suggestion.description,
+          placeId = suggestion.placeId;
+
+      _this.handleSelect(description, placeId);
+      setTimeout(function () {
+        _this.mousedownOnSuggestion = false;
+      });
+    };
+
+    _this.state = {
+      loading: false,
+      suggestions: [],
+      userInputValue: props.value,
+      ready: !props.googleCallbackName
+    };
+
+    _this.debouncedFetchPredictions = (0, _lodash2.default)(_this.fetchPredictions, _this.props.debounce);
+    return _this;
+  }
+
+  _createClass(PlacesAutocomplete, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var googleCallbackName = this.props.googleCallbackName;
+
+      if (googleCallbackName) {
+        if (!window.google) {
+          window[googleCallbackName] = this.init;
+        } else {
+          this.init();
+        }
+      } else {
+        this.init();
+      }
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      var googleCallbackName = this.props.googleCallbackName;
+
+      if (googleCallbackName && window[googleCallbackName]) {
+        delete window[googleCallbackName];
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return this.props.children({
+        getInputProps: this.getInputProps,
+        getSuggestionItemProps: this.getSuggestionItemProps,
+        loading: this.state.loading,
+        suggestions: this.state.suggestions
+      });
+    }
+  }]);
+
+  return PlacesAutocomplete;
+}(_react2.default.Component);
+
+PlacesAutocomplete.propTypes = {
+  onChange: _propTypes2.default.func.isRequired,
+  value: _propTypes2.default.string.isRequired,
+  children: _propTypes2.default.func.isRequired,
+  onError: _propTypes2.default.func,
+  onSelect: _propTypes2.default.func,
+  searchOptions: _propTypes2.default.shape({
+    bounds: _propTypes2.default.object,
+    componentRestrictions: _propTypes2.default.object,
+    location: _propTypes2.default.object,
+    offset: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
+    radius: _propTypes2.default.oneOfType([_propTypes2.default.number, _propTypes2.default.string]),
+    types: _propTypes2.default.array
+  }),
+  debounce: _propTypes2.default.number,
+  highlightFirstSuggestion: _propTypes2.default.bool,
+  shouldFetchSuggestions: _propTypes2.default.bool,
+  googleCallbackName: _propTypes2.default.string
+};
+
+PlacesAutocomplete.defaultProps = {
+  /* eslint-disable no-unused-vars, no-console */
+  onError: function onError(status, _clearSuggestions) {
+    return console.error('[react-places-autocomplete]: error happened when fetching data from Google Maps API.\nPlease check the docs here (https://developers.google.com/maps/documentation/javascript/places#place_details_responses)\nStatus: ', status);
+  },
+  /* eslint-enable no-unused-vars, no-console */
+  searchOptions: {},
+  debounce: 200,
+  highlightFirstSuggestion: false,
+  shouldFetchSuggestions: true
+};
+
+exports.default = PlacesAutocomplete;
+
+/***/ }),
+
+/***/ "./node_modules/react-places-autocomplete/dist/helpers.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/react-places-autocomplete/dist/helpers.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var compose = exports.compose = function compose() {
+  for (var _len = arguments.length, fns = Array(_len), _key = 0; _key < _len; _key++) {
+    fns[_key] = arguments[_key];
+  }
+
+  return function () {
+    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
+    fns.forEach(function (fn) {
+      return fn && fn.apply(undefined, args);
+    });
+  };
+};
+
+var pick = exports.pick = function pick(obj) {
+  for (var _len3 = arguments.length, props = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+    props[_key3 - 1] = arguments[_key3];
+  }
+
+  return props.reduce(function (newObj, prop) {
+    if (obj.hasOwnProperty(prop)) {
+      newObj[prop] = obj[prop];
+    }
+    return newObj;
+  }, {});
+};
+
+/***/ }),
+
+/***/ "./node_modules/react-places-autocomplete/dist/index.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/react-places-autocomplete/dist/index.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getLatLng = exports.geocodeByPlaceId = exports.geocodeByAddress = undefined;
+
+var _PlacesAutocomplete = __webpack_require__(/*! ./PlacesAutocomplete */ "./node_modules/react-places-autocomplete/dist/PlacesAutocomplete.js");
+
+var _PlacesAutocomplete2 = _interopRequireDefault(_PlacesAutocomplete);
+
+var _utils = __webpack_require__(/*! ./utils */ "./node_modules/react-places-autocomplete/dist/utils.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.geocodeByAddress = _utils.geocodeByAddress;
+exports.geocodeByPlaceId = _utils.geocodeByPlaceId;
+exports.getLatLng = _utils.getLatLng;
+exports.default = _PlacesAutocomplete2.default;
+
+/***/ }),
+
+/***/ "./node_modules/react-places-autocomplete/dist/utils.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/react-places-autocomplete/dist/utils.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var geocodeByAddress = exports.geocodeByAddress = function geocodeByAddress(address) {
+  var geocoder = new window.google.maps.Geocoder();
+  var OK = window.google.maps.GeocoderStatus.OK;
+
+  return new Promise(function (resolve, reject) {
+    geocoder.geocode({ address: address }, function (results, status) {
+      if (status !== OK) {
+        reject(status);
+      }
+      resolve(results);
+    });
+  });
+};
+
+var getLatLng = exports.getLatLng = function getLatLng(result) {
+  return new Promise(function (resolve, reject) {
+    try {
+      var latLng = {
+        lat: result.geometry.location.lat(),
+        lng: result.geometry.location.lng()
+      };
+      resolve(latLng);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+var geocodeByPlaceId = exports.geocodeByPlaceId = function geocodeByPlaceId(placeId) {
+  var geocoder = new window.google.maps.Geocoder();
+  var OK = window.google.maps.GeocoderStatus.OK;
+
+  return new Promise(function (resolve, reject) {
+    geocoder.geocode({ placeId: placeId }, function (results, status) {
+      if (status !== OK) {
+        reject(status);
+      }
+      resolve(results);
+    });
+  });
+};
+
+/***/ }),
+
 /***/ "./node_modules/react-router-dom/esm/react-router-dom.js":
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
@@ -64780,6 +65732,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var contexts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! contexts */ "./src/contexts/index.js");
 /* harmony import */ var components_Header__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! components/Header */ "./src/components/Header.jsx");
 /* harmony import */ var components_modals_WelcomeModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! components/modals/WelcomeModal */ "./src/components/modals/WelcomeModal.jsx");
+/* harmony import */ var contexts_MapState__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! contexts/MapState */ "./src/contexts/MapState.js");
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 
 
@@ -64788,9 +65742,32 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+(function injectMapScript(d, s, id) {
+  var script = d.createElement(s);
+  script.type = 'text/javascript';
+  script.id = id;
+  script.async = true;
+
+  script.onload = function onload() {
+    var event = new Event('scriptinjection');
+    var locationInput = d.getElementsByClassName('LocationInput')[0];
+    locationInput.dispatchEvent(event);
+  };
+
+  script.src = "https://maps.googleapis.com/maps/api/js?key=".concat("AIzaSyDaoIEEJUJdp1pMMrx4p3dMab1NBUyv9bY", "&libraries=places"); // append to top of head
+
+  d.getElementsByTagName('head')[0].appendChild(script);
+})(document, 'script', 'google_places_api_key');
 
 var App = function App() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts__WEBPACK_IMPORTED_MODULE_5__["Store"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_Header__WEBPACK_IMPORTED_MODULE_6__["Header"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts__WEBPACK_IMPORTED_MODULE_5__["Store"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_8__["MapConsumer"], null, function (ctx) {
+    var state = ctx.state,
+        actions = ctx.actions;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_Header__WEBPACK_IMPORTED_MODULE_6__["Header"], _extends({}, state, actions));
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
     path: "/",
     render: function render(router) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_MapComponent__WEBPACK_IMPORTED_MODULE_4__["MapWrapper"], {
@@ -64851,14 +65828,11 @@ module.exports = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgiIGhlaWdodD0iMjgi
 /*!***********************************!*\
   !*** ./src/components/Header.jsx ***!
   \***********************************/
-/*! exports provided: SearchBar, Title, SaveButton, Header */
+/*! exports provided: Header */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SearchBar", function() { return SearchBar; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Title", function() { return Title; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SaveButton", function() { return SaveButton; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Header", function() { return Header; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
@@ -64866,38 +65840,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var contexts_MapState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! contexts/MapState */ "./src/contexts/MapState.js");
 /* harmony import */ var _SideNav__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SideNav */ "./src/components/SideNav.jsx");
 /* harmony import */ var _HeaderOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./HeaderOptions */ "./src/components/HeaderOptions.jsx");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+/* harmony import */ var _LocationInput2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./LocationInput2 */ "./src/components/LocationInput2.jsx");
 
 
 
 
 
 
-var SearchBar = function SearchBar() {
-  return (// MapConsumer here?
-    react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      className: "SearchBar"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-      placeholder: "Enter a location or address"
-    }))
-  );
-};
+/* const LocationInput = () => (
+	<div className="LocationInput">
+		<input placeholder="Enter a location or address" />
+	</div>
+); */
+
 var Title = function Title() {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "Title"
@@ -64913,6 +65868,7 @@ var Title = function Title() {
     alt: "Logo - Prairie and Tree Planting Tool"
   })));
 };
+
 var SaveButton = function SaveButton(_ref) {
   var save = _ref.save;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -64930,44 +65886,24 @@ var SaveButton = function SaveButton(_ref) {
     alt: "Save"
   }));
 };
-var Header =
-/*#__PURE__*/
-function (_React$Component) {
-  _inherits(Header, _React$Component);
 
-  function Header(props) {
-    var _this;
-
-    _classCallCheck(this, Header);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Header).call(this, props));
-    _this.state = {};
-    return _this;
-  }
-
-  _createClass(Header, [{
-    key: "render",
-    value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "Header"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "grid-row sidenav-btn"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideNav__WEBPACK_IMPORTED_MODULE_3__["SideNav"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Title, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SearchBar, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HeaderOptions__WEBPACK_IMPORTED_MODULE_4__["HeaderOptions"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_2__["MapConsumer"], null, function (ctx) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SaveButton, {
-          save: ctx.save
-        });
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "search-save-btn"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SearchBar, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_2__["MapConsumer"], null, function (ctx) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SaveButton, {
-          save: ctx.save
-        });
-      })));
-    }
-  }]);
-
-  return Header;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+var Header = function Header() {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "Header"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "grid-row sidenav-btn"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideNav__WEBPACK_IMPORTED_MODULE_3__["SideNav"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Title, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LocationInput2__WEBPACK_IMPORTED_MODULE_5__["LocationInput"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HeaderOptions__WEBPACK_IMPORTED_MODULE_4__["HeaderOptions"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_2__["MapConsumer"], null, function (ctx) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SaveButton, {
+      save: ctx.save
+    });
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "search-save-btn"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LocationInput2__WEBPACK_IMPORTED_MODULE_5__["LocationInput"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_2__["MapConsumer"], null, function (ctx) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SaveButton, {
+      save: ctx.save
+    });
+  })));
+};
 
 /***/ }),
 
@@ -65235,6 +66171,142 @@ function (_React$Component) {
 
 /***/ }),
 
+/***/ "./src/components/LocationInput2.jsx":
+/*!*******************************************!*\
+  !*** ./src/components/LocationInput2.jsx ***!
+  \*******************************************/
+/*! exports provided: LocationInput */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LocationInput", function() { return LocationInput; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_places_autocomplete__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-places-autocomplete */ "./node_modules/react-places-autocomplete/dist/index.js");
+/* harmony import */ var react_places_autocomplete__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_1__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var LocationInput =
+/*#__PURE__*/
+function (_React$Component) {
+  _inherits(LocationInput, _React$Component);
+
+  function LocationInput() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    _classCallCheck(this, LocationInput);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(LocationInput)).call.apply(_getPrototypeOf2, [this].concat(args)));
+
+    _defineProperty(_assertThisInitialized(_this), "state", {
+      address: '',
+      googleMapsAPILoaded: false
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "handleChange", function (address) {
+      _this.setState({
+        address: address
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "handleSelect", function (address) {
+      Object(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_1__["geocodeByAddress"])(address).then(function (results) {
+        return Object(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_1__["getLatLng"])(results[0]);
+      }).then(function (latLng) {
+        return console.log('Success', latLng);
+      })["catch"](function (error) {
+        return console.error('Error', error);
+      });
+    });
+
+    return _this;
+  }
+
+  _createClass(LocationInput, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      var locationInputNode = document.getElementsByClassName('LocationInput')[0];
+      locationInputNode.addEventListener('scriptinjection', function (e) {
+        _this2.setState({
+          googleMapsAPILoaded: true
+        });
+
+        console.log(e);
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var googleMapsAPILoaded = this.state.googleMapsAPILoaded;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "LocationInput"
+      }, googleMapsAPILoaded && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_1___default.a, {
+        value: this.state.address,
+        onChange: this.handleChange,
+        onSelect: this.handleSelect
+      }, function (_ref) {
+        var getInputProps = _ref.getInputProps,
+            suggestions = _ref.suggestions,
+            getSuggestionItemProps = _ref.getSuggestionItemProps,
+            loading = _ref.loading;
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", getInputProps({
+          placeholder: 'Search Places ...',
+          className: 'location-search-input'
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "autocomplete-dropdown-container"
+        }, loading && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Loading..."), suggestions.map(function (suggestion) {
+          var className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item'; // inline style for demonstration purpose
+
+          var style = suggestion.active ? {
+            backgroundColor: '#fafafa',
+            cursor: 'pointer'
+          } : {
+            backgroundColor: '#ffffff',
+            cursor: 'pointer'
+          };
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", getSuggestionItemProps(suggestion, {
+            className: className,
+            style: style
+          }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, suggestion.description));
+        })));
+      }));
+    }
+  }]);
+
+  return LocationInput;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+
+/***/ }),
+
 /***/ "./src/components/MapComponent.jsx":
 /*!*****************************************!*\
   !*** ./src/components/MapComponent.jsx ***!
@@ -65384,10 +66456,11 @@ function (_React$Component) {
       var _this2 = this;
 
       // On mount, we init the map in the container, then load in the things we need.
+      var mapCenter = this.props.mapCenter;
       this.map = new mapbox_gl__WEBPACK_IMPORTED_MODULE_2___default.a.Map({
         container: this.mapElement.current,
         style: 'mapbox://styles/mapbox/outdoors-v11',
-        center: [-93.624287, 41.587537],
+        center: mapCenter,
         zoom: 13
       }); // this.setState({ init: true });
 
@@ -66356,7 +67429,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var debug = debug__WEBPACK_IMPORTED_MODULE_4___default()('MapState');
 var MapDefaultState = {
-  data: new Map()
+  data: new Map(),
+  mapCenter: [-93.624287, 41.587537]
 };
 var MapContext = react__WEBPACK_IMPORTED_MODULE_0___default.a.createContext(MapDefaultState);
 var MapProvider = MapContext.Provider;

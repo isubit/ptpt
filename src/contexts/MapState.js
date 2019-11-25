@@ -8,6 +8,7 @@ const debug = Debug('MapState');
 
 export const MapDefaultState = {
 	data: new Map(),
+	mapCenter: [-93.624287, 41.587537],
 };
 export const MapContext = React.createContext(MapDefaultState);
 export const MapProvider = MapContext.Provider;
