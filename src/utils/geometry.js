@@ -1,4 +1,14 @@
-import { point } from '@turf/helpers';
+import calcBbox from '@turf/bbox';
+import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
+import calcCentroid from '@turf/centroid';
+import calcDistance from '@turf/distance';
+import lineSplit from '@turf/line-split';
+import {
+	point as pointFeature,
+	lineString as lineFeature,
+	multiLineString as multiLineStringFeature,
+} from '@turf/helpers';
+import polygonToLine from '@turf/polygon-to-line';
 import _ from 'lodash';
 
 // A few methodologies for finding the longest lines that can fit within a polygon:
@@ -33,7 +43,57 @@ import _ from 'lodash';
 // Array<LineString>
 // Protocol:
 // Find the lineSplits of the given line and polygon.
+// Determine the lines that are within the polygon.
 // Refer to https://bl.ocks.org/rveciana/e0565ca3bfcebedb12bbc2d4edb9b6b3 for complexities (i.e. concave shapes).
+export function fitLine(line, polygon) {
+	const lines = [];
+
+	let multiLine = line;
+	if (line.geometry.type === 'LineString') {
+		multiLine = multiLineStringFeature([line.geometry.coordinates]);
+	}
+
+	multiLine.geometry.coordinates.forEach(part => {
+		const split = lineSplit(lineFeature(part), polygon);
+		let oddPair;
+		if (booleanPointInPolygon(pointFeature(part[0]), polygon)) {
+			oddPair = 0;
+		} else {
+			oddPair = 1;
+		}
+		split.features.forEach((splitedPart, i) => {
+			if ((i + oddPair) % 2 === 0) {
+				lines.push(splitedPart);
+			}
+		});
+	});
+
+	return lines;
+}
+
+// findSlope
+// Find the slope of a given line.
+// args:
+// <LineString>
+// returns:
+// Int, the slope of the line
+// Protocol:
+// y = mx + b
+// (y2 - y1) / (x2 - x1)
+export function findSlope(line) {
+	const {
+		geometry: {
+			coordinates,
+		},
+	} = line;
+
+	const coordinate1 = coordinates[0];
+	const coordinate2 = coordinates[1];
+
+	// (y2 - y1) / (x2 - x1)
+	const slope = (coordinate2[1] - coordinate1[1]) / (coordinate2[0] - coordinate1[0]);
+	return slope;
+}
 
 // findLongestParallel
 // Find the line that runs parallel to the longest side of the given polygon, and intersects the centroid.
@@ -45,7 +105,53 @@ import _ from 'lodash';
 // Find the longest side of the given polygon.
 // Find the centroid of the given polygon.
 // Find the slope of the longest side.
-// Create a line that entends from the centroid in either direction, cast it to the ends of the coordinate system.
+// Create a line that entends from the centroid in either direction, cast it to the ends of the bbox of the polygon.
+export function findLongestParallel(polygon) {
+	const line = polygonToLine(polygon);
+
+	// console.log(JSON.stringify(line, null, 4));
+
+	const {
+		geometry: {
+			coordinates,
+		},
+	} = line;
+
+	// longestLine should be an object with a distance and line property.
+	const longestLine = coordinates.reduce((obj, coord, i) => {
+		const {
+			distance = 0,
+		} = obj;
+		const nextCoord = coordinates[i + 1];
+		if (!nextCoord) {
+			return obj;
+		}
+		const thisDistance = calcDistance(coord, nextCoord, {
+			units: 'meters',
+		});
+		if (thisDistance > distance) {
+			return {
+				distance: thisDistance,
+				line: lineFeature([coord, nextCoord]),
+			};
+		}
+		return obj;
+	}, {});
+
+	const slope = findSlope(longestLine.line);
+	const centroid = calcCentroid(polygon);
+	const yIntercept = centroid.geometry.coordinates[1] - (slope * centroid.geometry.coordinates[0]); // b = y - mx
+
+	const bbox = calcBbox(polygon);
+
+	// [ [xmin, ?], [centroid] ]
+	const westernCoord = [bbox[0], (slope * bbox[0]) + yIntercept];
+	// [ [centroid], [xmax, ?] ]
+	const easternCoord = [bbox[2], (slope * bbox[2]) + yIntercept];
+
+	return lineFeature([westernCoord, easternCoord]);
+}
+
 
 // findPerpendicularLine
 // Find the line that is perpendicular to the given line, and intesects the given point.
@@ -114,15 +220,15 @@ import _ from 'lodash';
 
 // We need to generate the edit icon, in the southern-most vertex of the polygon.
 
-// findSouthernVertex
-// Find the southern-most vertex of the given polygon.
+// findMaximaVertices
+// Find the vertices of the given polygon that are northern-most, eastern-most, western-most, and southern-most.
 // args:
 // <Polygon>
 // returns:
 // <Point>
 // Protocol:
 // Sort the vertices by latitude. Find the point with the smallest latitude.
-export function findSouthernVertex(polygon) {
+export function findMaximaVertices(polygon) {
 	const feature = _.cloneDeep(polygon);
 	const {
 		geometry: {
@@ -130,7 +236,14 @@ export function findSouthernVertex(polygon) {
 		},
 	} = feature;
 	const vertices = coordinates[0];
-	const sorted = vertices.sort((a, b) => a[1] - b[1]);
-	const vertex = sorted[0];
-	return point(vertex);
+	const northern = pointFeature(vertices.sort((a, b) => b[1] - a[1])[0]);
+	const southern = pointFeature(vertices.sort((a, b) => a[1] - b[1])[0]);
+	const western = pointFeature(vertices.sort((a, b) => a[0] - b[0])[0]);
+	const eastern = pointFeature(vertices.sort((a, b) => b[0] - a[0])[0]);
+	return {
+		northern,
+		southern,
+		western,
+		eastern,
+	};
 }
