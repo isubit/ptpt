@@ -1,78 +1,60 @@
-import React from 'react'
-import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-export const SideNavButton = props => {
-    return (
-        <React.Fragment>
-            <div class="SideNav">
-                <Link to="/sidenav">side nav</Link>
-            </div>
-        </React.Fragment>
-    )
-}
+import { MapConsumer } from 'contexts/MapState';
 
-export const HeaderOptions = props => {
-    return (
-        <React.Fragment>
-            <ul className="HeaderOptions">
-                <li className="option">
-                    <img src="https://via.placeholder.com/30x30?text=Option"></img>
-                    <Link to="/plant/tree_single">Plant Single Tree (test)</Link>
-                </li>
-                <li className="option">
-                    <img src="https://via.placeholder.com/30x30?text=Option"></img>
-                    <Link to="/plant/tree_row">Plant Row of Trees</Link>
-                </li>
-                <li className="option">
-                    <img src="https://via.placeholder.com/30x30?text=Option"></img>
-                </li>
-                <li className="option">
-                    <img src="https://via.placeholder.com/30x30?text=Option"></img>
-                </li>
-            </ul>
-        </React.Fragment>
-    )
-}
+import { SideNav } from './SideNav';
+import { HeaderOptions } from './HeaderOptions';
 
-export const SearchBar = props => {
-    return (
-        //MapConsumer here?
-        <React.Fragment>
-            <div class="Searchbar">
-                <input placeholder="Enter a location or address"></input>
-            </div>
-        </React.Fragment>
-    )
-}
 
-export const Title = props => {
-    return (
-        <React.Fragment>
-            <div className="Title">
-                <p>PRAIRIE & TREE</p>
-                <p>Planting Tool</p>
-            </div>
-        </React.Fragment>
-    )
-}
+const SearchBar = () => (
+	// MapConsumer here?
+	<div className="SearchBar">
+		<input placeholder="Enter a location or address" />
+	</div>
+);
 
+const Title = () => (
+	<div className="Title">
+		<Link to="/">
+			<img className="narrow-logo" src="/assets/narrow_logo.svg" alt="Logo - Prairie and Tree Planting Tool" />
+			<img className="wide-logo" src="/assets/wide_logo.svg" alt="Logo - Prairie and Tree Planting Tool" />
+		</Link>
+	</div>
+);
+
+const SaveButton = ({ save }) => (
+	<button type="button" className="SaveButton" onClick={save} onKeyPress={save}>
+		<img className="narrow-save" src="/assets/save_narrow.svg" alt="Save" />
+		<img className="wide-save" src="/assets/save_wide.svg" alt="Save" />
+	</button>
+);
 
 export class Header extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+	constructor(props) {
+		super(props);
+		this.state = {};
+	}
 
-    render() {
-        return (
-            <React.Fragment>
-                <div className="Header grid">
-                    <SideNavButton />
-                    <Title />
-                    <HeaderOptions />
-                    <SearchBar />
-                    <div className="save-button"><img src="https://via.placeholder.com/35x35?text=Save"></img></div>
-                </div>
-            </React.Fragment>
-        );
-    }
+	render() {
+		return (
+			<div className="Header">
+				<div className="grid-row sidenav-btn">
+					<SideNav />
+					<Title />
+					<SearchBar />
+					<HeaderOptions />
+					<MapConsumer>
+						{ctx => <SaveButton save={ctx.save} />}
+					</MapConsumer>
+				</div>
+				<div className="search-save-btn">
+					<SearchBar />
+					<MapConsumer>
+						{ctx => <SaveButton save={ctx.save} />}
+					</MapConsumer>
+				</div>
+			</div>
+		);
+	}
 }

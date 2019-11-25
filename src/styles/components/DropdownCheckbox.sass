@@ -1,0 +1,23 @@
+.dropdown-checkbox
+    @include dropdown-grid-columns-narrow
+    .Button
+        margin-top: 1rem
+        margin-bottom: 3rem
+    > img:last-of-type
+        position: absolute
+        bottom: 18px
+        right: 18px
+        cursor: pointer
+
+@media (min-width: 900px)
+    .dropdown-checkbox
+        @include dropdown-grid-columns-wide
+        .Button
+            display: block
+            text-align: center
+            margin: 0.5rem auto 2.5rem auto
+        > img:last-of-type
+            bottom: 9px
+            right: 9px
+                
+        

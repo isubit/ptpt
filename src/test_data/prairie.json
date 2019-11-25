@@ -1,0 +1,56 @@
+{
+    "type": "Feature",
+    "properties": {
+        "type": "prairie",
+        "configs": {
+            "seed": {
+              "id": 14,
+              "value": "Some Seed Mix",
+              "price": {
+                "value": 24.16,
+                "per_unit": "acre",
+                "currency": "$_dollar"
+              }
+            },
+            "management": {
+              "id": 1,
+              "display": "Mow"
+            },
+            "cropping_system": {
+              "id": 1,
+              "display": "Corn Rotation"
+            },
+            "pest_control": {
+              "id": 1,
+              "display": "Pest Control"
+            }
+        }
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -93.58695030212402,
+            41.59143877963822
+          ],
+          [
+            -93.58712196350098,
+            41.585340200380344
+          ],
+          [
+            -93.57373237609862,
+            41.584441413680075
+          ],
+          [
+            -93.56961250305176,
+            41.59118200897135
+          ],
+          [
+            -93.58695030212402,
+            41.59143877963822
+          ]
+        ]
+      ]
+    }
+  }

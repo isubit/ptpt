@@ -1,0 +1,92 @@
+@mixin dropdown-grid-columns-narrow()
+    margin-top: 1.5em
+    margin-bottom: 1.5em
+    grid-column: 1 / -1
+
+@mixin dropdown-grid-columns-wide()
+    margin-top: 1em
+    margin-bottom: 1em
+
+.modal-header
+    padding-bottom: 1rem
+    position: relative
+    &::after
+        content: ''
+        position: absolute
+        bottom: -2px
+        left: 0
+        height: 2px
+        width: 135px
+        background-color: $dark-green
+
+.modal-text
+    padding-top: 1.5rem
+
+.modal-link
+    font-family: Merriweather
+    font-style: italic
+    font-weight: normal
+    font-size: 0.751rem
+    line-height: 21px
+    text-decoration-line: underline
+    color: $bright-blue
+
+@media (min-width: 900px)
+    .modal-header
+        &::after            
+            left: 2rem
+
+.vertical-align
+	display: flex
+	align-items: center
+
+.distribute
+	display: flex
+	justify-content: space-between
+
+.margin-center
+    margin: 0 auto !important
+
+@for $i from 0 through 4
+	.spacer-top-#{$i}
+		margin-top: 1rem * $i !important
+
+@for $i from 0 through 4
+	.spacer-bottom-#{$i}
+    	margin-bottom: 1rem * $i !important
+
+@for $i from 0 through 4
+	.spacer-left-#{$i}
+		margin-left: 1rem * $i !important
+
+@for $i from 0 through 4
+	.spacer-right-#{$i}
+    	margin-right: 1rem * $i !important
+
+@for $i from 1 through 100
+	.width-#{$i}
+    	width: 1% * $i !important
+
+@for $i from 1 through 100
+	.height-#{$i}
+    	height: 1% * $i !important
+
+.warning
+	color: red
+
+.block
+	display: block !important
+
+.inline
+    display: inline !important
+
+.inline-block
+	display: inline-block !important
+
+.clickable
+    pointer-events: auto !important
+    *
+        pointer-events: auto !important
+
+.unclickable
+	pointer-events: none !important

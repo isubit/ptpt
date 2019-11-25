@@ -1,17 +1,68 @@
 @import vendor
+
+@import mixins
+
+@import './layout/grid'
+
+@import tools
+
+@import './components/Button'
+@import './components/Checkbox'
+@import './components/CloseButton'
+@import './components/DropdownCheckbox'
+@import './components/DropdownList'
+@import './components/Header'
+@import './components/HeaderOptions'
+@import './components/Map'
+@import './components/MapModeForm'
+@import './components/NavOptions'
+@import './components/OptionsDropdown'
+@import './components/SaveButton'
+@import './components/SearchBar'
+@import './components/Title'
+@import './components/WelcomeModal'
+
+html, body
+    font-size: 18px
+    font-family: Nimbus Sans
+    margin: 0
+    min-width: 305px
+
+ul 
+    list-style: none
+    padding: 0
+    margin: 0
+
+h1
+    font-size: 1.464rem
+    line-height: 2rem
+    margin: 0
+h2
+    font-size: 1.331rem
+    line-height: 1.5rem
+    margin: 0
+h3
+    font-size: 1rem
+    line-height: 1.5rem
+    margin: 0
+h4, p
+    font-size: 0.909rem
+    line-height: 1.5rem
+    margin: 0
+
+a
+    text-decoration: none
+
+span.link
+    color: blue
+    cursor: pointer
+
+
+
+
+
+
     
-@import './components/header'
 
-body
-     margin: 0
-
-.Map
-    width: 100%
-    height: 100vh
-    // height: calc(100vh - 60px)
-
-.grid
-    display: grid
-    grid-template-areas: "s s t t t t o o o o o o" "b b b b b b b b b b v v"
                          
     
