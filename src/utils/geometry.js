@@ -1,7 +1,11 @@
 import calcBbox from '@turf/bbox';
+import calcBearing from '@turf/bearing';
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import calcCentroid from '@turf/centroid';
 import calcDistance from '@turf/distance';
+import lineArc from '@turf/line-arc';
+import lineIntersect from '@turf/line-intersect';
+import lineOffset from '@turf/line-offset';
 import lineSplit from '@turf/line-split';
 import {
 	point as pointFeature,
@@ -101,7 +105,7 @@ export function findSlope(line) {
 // castLineToBbox
 // Cast a given line from a given point to the ends of a bounding box.
 // args:
-// <LineString>
+// Int, slope
 // <Point>
 // <Bbox>
 // returns:
@@ -109,8 +113,7 @@ export function findSlope(line) {
 // Protocol:
 // Find the slope of the line.
 // Calculate the endpoints of the new line, using the given point as a "starting point" [x,y] for the y = mx + b equation, and the bbox.
-export function castLineToBbox(line, point, bbox) {
-	const slope = findSlope(line);
+export function castLineToBbox(slope, point, bbox) {
 	const yIntercept = point.geometry.coordinates[1] - (slope * point.geometry.coordinates[0]); // b = y - mx
 
 	// Determine which axis to use as the range. Not very important, just ensures the line with the least "fat" at the ends past the intersection point of the bbox.
@@ -153,19 +156,14 @@ export function castLineToBbox(line, point, bbox) {
 export function findLongestParallel(polygon) {
 	const line = polygonToLine(polygon);
 
-	// console.log(JSON.stringify(line, null, 4));
-
 	const {
 		geometry: {
 			coordinates,
 		},
 	} = line;
 
-	// longestLine should be an object with a distance and line property.
 	const longestLine = coordinates.reduce((obj, coord, i) => {
-		const {
-			distance = 0,
-		} = obj;
+		const { distance } = obj;
 		const nextCoord = coordinates[i + 1];
 		if (!nextCoord) {
 			return obj;
@@ -180,27 +178,34 @@ export function findLongestParallel(polygon) {
 			};
 		}
 		return obj;
-	}, {});
+	}, { distance: 0, line: null }).line;
 
+	const slope = findSlope(longestLine);
 	const centroid = calcCentroid(polygon);
-
 	const bbox = calcBbox(polygon);
 
-	return castLineToBbox(longestLine.line, centroid, bbox);
+	return castLineToBbox(slope, centroid, bbox);
 }
 
-
 // findPerpendicularLine
-// Find the line that is perpendicular to the given line, and intersects the given point.
+// Find the line that is perpendicular to the given line, and intersects the given point, and is bound by the given polygon.
 // args:
 // <LineString>
 // <Point>
+// <Polygon>
 // returns:
 // <LineString>
 // Protocol:
 // Find the slope of the given line.
 // Find the perpendicular slope, the negative reciprocol: -1 / m
 // Create a line that extends from the given point in either direction, cast it to the ends of the bbox of the polygon.
+export function findPerpendicularLine(line, point, polygon) {
+	const slope = findSlope(line);
+	const negativeReciprocal = -1 / slope;
+	const bbox = calcBbox(polygon);
+	return castLineToBbox(negativeReciprocal, point, bbox);
+}
+
 
 // findBearing
 // Find the bearing degree of a line.
@@ -210,25 +215,43 @@ export function findLongestParallel(polygon) {
 // Int, bearing degree
 // Protocol:
 // Find the bearing of the given line.
+export function findBearing(line) {
+	const {
+		geometry: {
+			coordinates,
+		},
+	} = line;
+	return calcBearing(coordinates[1], coordinates[0]);
+}
 
 // findLineWithBearing
-// Find the line that intersects the given point, with a given bearing degree:
+// Find the line that intersects the given point, with a given bearing degree, and is bound by the given polygon.
 // args:
 // <Point>
 // Int, bearing degree
+// <Polygon>
 // returns:
 // <LineString>
 // Protocol:
 // Find the lineArc, using the given point, an arbitrary radius, 0 degrees as bearing1, and the bearing as bearing2.
 // Draw a line from the given point to the end point of the lineArc.
 // Create a line that extends from the given point in either direction, cast it to the ends of the coordinate system.
+export function findLineWithBearing(point, bearing, polygon) {
+	const arc = lineArc(point, 1, 0, bearing);
+	const {
+		geometry: {
+			coordinates,
+		},
+	} = arc;
+	const finalPoint = coordinates[coordinates.length - 1];
 
-// might not need...
-// Find the line that runs perpendicular to the given anchor line, with a given distance away from the given point on a given anchor line.
-// args:
-// <LineString>, anchor line
-// <Point>, point on anchor line
-// Int, distance in feet from the given point
+	const line = lineFeature([point.geometry.coordinates, finalPoint].sort((a, b) => a - b));
+	const slope = findSlope(line);
+	const centroid = calcCentroid(polygon);
+	const bbox = calcBbox(polygon);
+
+	return castLineToBbox(slope, centroid, bbox);
+}
 
 // offsetLine
 // Find the line that is offset the given line by a given distance.
@@ -239,12 +262,16 @@ export function findLongestParallel(polygon) {
 // <LineString>
 // Protocol:
 // Find the lineOffset of the given line with the given distance.
+export function offsetLine(line, distance) {
+	return lineOffset(line, distance * 0.3048, { units: 'meters' });
+}
 
 // dotLine
-// Find the points on the given line that are a given distance apart.
+// Find the points on the given line that are a given distance apart, using perpendicular lines that are bound by the given polygon.
 // args:
 // <LineString>
 // Int, distance in feet between each point
+// <Polgon>
 // returns:
 // Array<Points>
 // Protocol:
@@ -252,6 +279,33 @@ export function findLongestParallel(polygon) {
 // Find the lineOffset of the perpendicular line, offset the given distance.
 // Find the intersect of the two lines.
 // Repeat until there is no intersect.
+export function dotLine(line, distance, polygon) {
+	const {
+		geometry: {
+			coordinates,
+		},
+	} = line;
+	const firstPoint = pointFeature(coordinates[0]);
+	const perpendicular = findPerpendicularLine(line, firstPoint, polygon);
+
+	const intersects = [firstPoint];
+
+	let done = false;
+	let currentIteration = 1;
+	const maxIterations = 1000;
+	while (!done && currentIteration < maxIterations) {
+		const offset = offsetLine(perpendicular, distance * currentIteration);
+		const intersect = lineIntersect(offset, line);
+		if (intersect.features.length === 0) {
+			done = true;
+		} else {
+			intersects.push(intersect.features[0]);
+		}
+		currentIteration += 1;
+	}
+
+	return intersects;
+}
 
 // -----------------------------------
 
