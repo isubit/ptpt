@@ -5,7 +5,6 @@ import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import calcCentroid from '@turf/centroid';
 import calcDistance from '@turf/distance';
 import lineArc from '@turf/line-arc';
-// import lineIntersect from '@turf/line-intersect';
 import lineOffset from '@turf/line-offset';
 import lineSplit from '@turf/line-split';
 import {
