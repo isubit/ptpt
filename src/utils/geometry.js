@@ -55,6 +55,9 @@ export function fitLine(line, polygon) {
 
 	multiLine.geometry.coordinates.forEach(part => {
 		const split = lineSplit(lineFeature(part), polygon);
+
+		// lineSplit returns an array of lines that alternate "in" / "out" of the polygon.
+		// As long as we can determine if the starting point of the first line is "in" or "out", we can determine what the other lines are.
 		let oddPair;
 		if (booleanPointInPolygon(pointFeature(part[0]), polygon)) {
 			oddPair = 0;
@@ -94,6 +97,47 @@ export function findSlope(line) {
 	const slope = (coordinate2[1] - coordinate1[1]) / (coordinate2[0] - coordinate1[0]);
 	return slope;
 }
+
+// castLineToBbox
+// Cast a given line from a given point to the ends of a bounding box.
+// args:
+// <LineString>
+// <Point>
+// <Bbox>
+// returns:
+// <LineString>
+// Protocol:
+// Find the slope of the line.
+// Calculate the endpoints of the new line, using the given point as a "starting point" [x,y] for the y = mx + b equation, and the bbox.
+export function castLineToBbox(line, point, bbox) {
+	const slope = findSlope(line);
+	const yIntercept = point.geometry.coordinates[1] - (slope * point.geometry.coordinates[0]); // b = y - mx
+
+	// Determine which axis to use as the range. Not very important, just ensures the line with the least "fat" at the ends past the intersection point of the bbox.
+	let useAxis = 'x';
+	if (Math.abs(slope) > 1) {
+		useAxis = 'y'; // This is because when the absolute value of slope is greater than 1, y axis is changing faster than x axis.
+	}
+
+	// x = (y - b) / m
+	// southernSegment: [ [?, ymin], [point] ]
+	const southernCoord = [(bbox[1] - yIntercept) / slope, bbox[1]];
+	// northernSegment: [ [point], [?, ymax] ]
+	const northernCoord = [(bbox[3] - yIntercept) / slope, bbox[3]];
+
+	// y = mx + b
+	// westernSegment: [ [xmin, ?], [point] ]
+	const westernCoord = [bbox[0], (slope * bbox[0]) + yIntercept];
+	// easternSegment: [ [point], [xmax, ?] ]
+	const easternCoord = [bbox[2], (slope * bbox[2]) + yIntercept];
+
+	if (useAxis === 'y') {
+		return lineFeature([southernCoord, northernCoord]);
+	}
+
+	return lineFeature([westernCoord, easternCoord]);
+}
+
 
 // findLongestParallel
 // Find the line that runs parallel to the longest side of the given polygon, and intersects the centroid.
@@ -138,23 +182,16 @@ export function findLongestParallel(polygon) {
 		return obj;
 	}, {});
 
-	const slope = findSlope(longestLine.line);
 	const centroid = calcCentroid(polygon);
-	const yIntercept = centroid.geometry.coordinates[1] - (slope * centroid.geometry.coordinates[0]); // b = y - mx
 
 	const bbox = calcBbox(polygon);
 
-	// [ [xmin, ?], [centroid] ]
-	const westernCoord = [bbox[0], (slope * bbox[0]) + yIntercept];
-	// [ [centroid], [xmax, ?] ]
-	const easternCoord = [bbox[2], (slope * bbox[2]) + yIntercept];
-
-	return lineFeature([westernCoord, easternCoord]);
+	return castLineToBbox(longestLine.line, centroid, bbox);
 }
 
 
 // findPerpendicularLine
-// Find the line that is perpendicular to the given line, and intesects the given point.
+// Find the line that is perpendicular to the given line, and intersects the given point.
 // args:
 // <LineString>
 // <Point>
@@ -162,8 +199,8 @@ export function findLongestParallel(polygon) {
 // <LineString>
 // Protocol:
 // Find the slope of the given line.
-// Find the perpendicular slope, the negative reciprocol.
-// Create a line that extends from the given point in either direction, cast it to the ends of the coordinate system.
+// Find the perpendicular slope, the negative reciprocol: -1 / m
+// Create a line that extends from the given point in either direction, cast it to the ends of the bbox of the polygon.
 
 // findBearing
 // Find the bearing degree of a line.
