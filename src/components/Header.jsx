@@ -5,7 +5,7 @@ import { MapConsumer } from 'contexts/MapState';
 
 import { SideNav } from './SideNav';
 import { HeaderOptions } from './HeaderOptions';
-import { LocationInput } from './LocationInput2';
+import { LocationInputWrapper } from './LocationInput';
 
 /* const LocationInput = () => (
 	<div className="LocationInput">
@@ -34,16 +34,14 @@ export const Header = () => (
 		<div className="grid-row sidenav-btn">
 			<SideNav />
 			<Title />
-			<LocationInput />
-			{/* <LocationInput /> */}
+			<LocationInputWrapper />
 			<HeaderOptions />
 			<MapConsumer>
 				{ctx => <SaveButton save={ctx.save} />}
 			</MapConsumer>
 		</div>
 		<div className="search-save-btn">
-			<LocationInput />
-			{/* <LocationInput /> */}
+			<LocationInputWrapper />
 			<MapConsumer>
 				{ctx => <SaveButton save={ctx.save} />}
 			</MapConsumer>

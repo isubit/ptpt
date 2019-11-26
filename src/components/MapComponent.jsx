@@ -56,12 +56,12 @@ export class MapComponent extends React.Component {
 
 	componentDidMount() {
 		// On mount, we init the map in the container, then load in the things we need.
-		const { mapCenter } = this.props;
+		const { defaultMapCenter, setCurrentLatLng } = this.props;
 
 		this.map = new mapboxgl.Map({
 			container: this.mapElement.current,
 			style: 'mapbox://styles/mapbox/outdoors-v11',
-			center: mapCenter,
+			center: defaultMapCenter,
 			zoom: 13,
 		});
 		// this.setState({ init: true });
@@ -88,9 +88,16 @@ export class MapComponent extends React.Component {
 
 			return true;
 		});
+
+		this.map.on('moveend', () => {
+			const { lat, lng } = this.map.getCenter();
+			const latlng = [lng, lat];
+			setCurrentLatLng(latlng);
+		});
 	}
 
 	componentDidUpdate() {
+		this.moveMapCenter();
 		if (this.state.sourcesAdded) {
 			// Only the sources need to be updated, because they contain the state data.
 			this.loadSources();
@@ -136,6 +143,19 @@ export class MapComponent extends React.Component {
 		this.setState({
 			editingFeature: feature,
 		});
+	}
+
+	moveMapCenter() {
+		const { currentLatLng } = this.props;
+		const { lat, lng } = this.map.getCenter();
+		if (currentLatLng[0] !== lng && currentLatLng[1] !== lat) {
+			this.map.easeTo({
+				center: {
+					lat: currentLatLng[1],
+					lng: currentLatLng[0],
+				},
+			});
+		}
 	}
 
 	saveFeature = () => {

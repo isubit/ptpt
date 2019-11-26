@@ -65757,7 +65757,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
     locationInput.dispatchEvent(event);
   };
 
-  script.src = "https://maps.googleapis.com/maps/api/js?key=".concat("AIzaSyDaoIEEJUJdp1pMMrx4p3dMab1NBUyv9bY", "&libraries=places"); // append to top of head
+  script.src = "https://maps.googleapis.com/maps/api/js?key=".concat("AIzaSyCuMyGyx3CWPlh7mvdw4mu7YaLgE3S11qo", "&libraries=places"); // append to top of head
 
   d.getElementsByTagName('head')[0].appendChild(script);
 })(document, 'script', 'google_places_api_key');
@@ -65840,7 +65840,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var contexts_MapState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! contexts/MapState */ "./src/contexts/MapState.js");
 /* harmony import */ var _SideNav__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SideNav */ "./src/components/SideNav.jsx");
 /* harmony import */ var _HeaderOptions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./HeaderOptions */ "./src/components/HeaderOptions.jsx");
-/* harmony import */ var _LocationInput2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./LocationInput2 */ "./src/components/LocationInput2.jsx");
+/* harmony import */ var _LocationInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./LocationInput */ "./src/components/LocationInput.jsx");
 
 
 
@@ -65892,13 +65892,13 @@ var Header = function Header() {
     className: "Header"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "grid-row sidenav-btn"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideNav__WEBPACK_IMPORTED_MODULE_3__["SideNav"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Title, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LocationInput2__WEBPACK_IMPORTED_MODULE_5__["LocationInput"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HeaderOptions__WEBPACK_IMPORTED_MODULE_4__["HeaderOptions"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_2__["MapConsumer"], null, function (ctx) {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideNav__WEBPACK_IMPORTED_MODULE_3__["SideNav"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Title, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LocationInput__WEBPACK_IMPORTED_MODULE_5__["LocationInputWrapper"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HeaderOptions__WEBPACK_IMPORTED_MODULE_4__["HeaderOptions"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_2__["MapConsumer"], null, function (ctx) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SaveButton, {
       save: ctx.save
     });
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "search-save-btn"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LocationInput2__WEBPACK_IMPORTED_MODULE_5__["LocationInput"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_2__["MapConsumer"], null, function (ctx) {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LocationInput__WEBPACK_IMPORTED_MODULE_5__["LocationInputWrapper"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_2__["MapConsumer"], null, function (ctx) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SaveButton, {
       save: ctx.save
     });
@@ -66171,20 +66171,22 @@ function (_React$Component) {
 
 /***/ }),
 
-/***/ "./src/components/LocationInput2.jsx":
-/*!*******************************************!*\
-  !*** ./src/components/LocationInput2.jsx ***!
-  \*******************************************/
-/*! exports provided: LocationInput */
+/***/ "./src/components/LocationInput.jsx":
+/*!******************************************!*\
+  !*** ./src/components/LocationInput.jsx ***!
+  \******************************************/
+/*! exports provided: LocationInputWrapper, LocationInput */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LocationInputWrapper", function() { return LocationInputWrapper; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LocationInput", function() { return LocationInput; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_places_autocomplete__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-places-autocomplete */ "./node_modules/react-places-autocomplete/dist/index.js");
 /* harmony import */ var react_places_autocomplete__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _contexts_MapState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../contexts/MapState */ "./src/contexts/MapState.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -66205,8 +66207,18 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 
+
+
+var LocationInputWrapper = function LocationInputWrapper(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_contexts_MapState__WEBPACK_IMPORTED_MODULE_2__["MapConsumer"], null, function (ctx) {
+    var state = ctx.state,
+        actions = ctx.actions;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(LocationInput, _extends({}, state, actions, props));
+  });
+};
 var LocationInput =
 /*#__PURE__*/
 function (_React$Component) {
@@ -66226,24 +66238,7 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(LocationInput)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
     _defineProperty(_assertThisInitialized(_this), "state", {
-      address: '',
-      googleMapsAPILoaded: false
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "handleChange", function (address) {
-      _this.setState({
-        address: address
-      });
-    });
-
-    _defineProperty(_assertThisInitialized(_this), "handleSelect", function (address) {
-      Object(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_1__["geocodeByAddress"])(address).then(function (results) {
-        return Object(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_1__["getLatLng"])(results[0]);
-      }).then(function (latLng) {
-        return console.log('Success', latLng);
-      })["catch"](function (error) {
-        return console.error('Error', error);
-      });
+      mapAPILoaded: false
     });
 
     return _this;
@@ -66255,49 +66250,65 @@ function (_React$Component) {
       var _this2 = this;
 
       var locationInputNode = document.getElementsByClassName('LocationInput')[0];
-      locationInputNode.addEventListener('scriptinjection', function (e) {
+      locationInputNode.addEventListener('scriptinjection', function () {
         _this2.setState({
-          googleMapsAPILoaded: true
+          mapAPILoaded: true
         });
-
-        console.log(e);
       });
+    }
+  }, {
+    key: "handleOnChange",
+    value: function handleOnChange(e) {
+      var setAddressName = this.props.setAddressName;
+      setAddressName(e);
+    }
+  }, {
+    key: "handleKeyPress",
+    value: function handleKeyPress(e) {
+      var setAddressLatLng = this.props.setAddressLatLng;
+
+      if (e.key === 'Enter') {
+        setAddressLatLng();
+      }
     }
   }, {
     key: "render",
     value: function render() {
-      var googleMapsAPILoaded = this.state.googleMapsAPILoaded;
+      var _this3 = this;
+
+      var mapAPILoaded = this.state.mapAPILoaded;
+      var locationSearchInput = this.props.locationAddress.locationSearchInput;
+
+      if (mapAPILoaded) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_1___default.a, {
+          value: locationSearchInput,
+          onChange: function onChange(e) {
+            return _this3.handleOnChange(e);
+          }
+          /* searchOptions={{
+          	// eslint-disable-next-line no-undef
+          	location: new google.maps.LatLng(40.711744, -74.013315),
+          	radius: 20000,
+          	types: ['address'],
+          }} */
+
+        }, function (_ref) {
+          var getInputProps = _ref.getInputProps;
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "LocationInput"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", getInputProps({
+            placeholder: 'Enter a location or address',
+            onKeyUp: function onKeyUp(e) {
+              return _this3.handleKeyPress(e);
+            }
+          })));
+        });
+      }
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "LocationInput"
-      }, googleMapsAPILoaded && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_1___default.a, {
-        value: this.state.address,
-        onChange: this.handleChange,
-        onSelect: this.handleSelect
-      }, function (_ref) {
-        var getInputProps = _ref.getInputProps,
-            suggestions = _ref.suggestions,
-            getSuggestionItemProps = _ref.getSuggestionItemProps,
-            loading = _ref.loading;
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", getInputProps({
-          placeholder: 'Search Places ...',
-          className: 'location-search-input'
-        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "autocomplete-dropdown-container"
-        }, loading && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Loading..."), suggestions.map(function (suggestion) {
-          var className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item'; // inline style for demonstration purpose
-
-          var style = suggestion.active ? {
-            backgroundColor: '#fafafa',
-            cursor: 'pointer'
-          } : {
-            backgroundColor: '#ffffff',
-            cursor: 'pointer'
-          };
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", getSuggestionItemProps(suggestion, {
-            className: className,
-            style: style
-          }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, suggestion.description));
-        })));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        placeholder: "Enter a location or address"
       }));
     }
   }]);
@@ -66456,11 +66467,13 @@ function (_React$Component) {
       var _this2 = this;
 
       // On mount, we init the map in the container, then load in the things we need.
-      var mapCenter = this.props.mapCenter;
+      var _this$props = this.props,
+          defaultMapCenter = _this$props.defaultMapCenter,
+          setCurrentLatLng = _this$props.setCurrentLatLng;
       this.map = new mapbox_gl__WEBPACK_IMPORTED_MODULE_2___default.a.Map({
         container: this.mapElement.current,
         style: 'mapbox://styles/mapbox/outdoors-v11',
-        center: mapCenter,
+        center: defaultMapCenter,
         zoom: 13
       }); // this.setState({ init: true });
 
@@ -66492,10 +66505,20 @@ function (_React$Component) {
 
         return true;
       });
+      this.map.on('moveend', function () {
+        var _this2$map$getCenter = _this2.map.getCenter(),
+            lat = _this2$map$getCenter.lat,
+            lng = _this2$map$getCenter.lng;
+
+        var latlng = [lng, lat];
+        setCurrentLatLng(latlng);
+      });
     }
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate() {
+      this.moveMapCenter();
+
       if (this.state.sourcesAdded) {
         // Only the sources need to be updated, because they contain the state data.
         this.loadSources();
@@ -66507,6 +66530,24 @@ function (_React$Component) {
       // This is just so we have a polygon to work with on the map.
       var addData = this.props.addData;
       addData(test_data_tree_json__WEBPACK_IMPORTED_MODULE_7__);
+    }
+  }, {
+    key: "moveMapCenter",
+    value: function moveMapCenter() {
+      var currentLatLng = this.props.currentLatLng;
+
+      var _this$map$getCenter = this.map.getCenter(),
+          lat = _this$map$getCenter.lat,
+          lng = _this$map$getCenter.lng;
+
+      if (currentLatLng[0] !== lng && currentLatLng[1] !== lat) {
+        this.map.easeTo({
+          center: {
+            lat: currentLatLng[1],
+            lng: currentLatLng[0]
+          }
+        });
+      }
     }
   }, {
     key: "addSource",
@@ -67416,6 +67457,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
 /* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var react_places_autocomplete__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-places-autocomplete */ "./node_modules/react-places-autocomplete/dist/index.js");
+/* harmony import */ var react_places_autocomplete__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_5__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -67427,10 +67470,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 var debug = debug__WEBPACK_IMPORTED_MODULE_4___default()('MapState');
 var MapDefaultState = {
   data: new Map(),
-  mapCenter: [-93.624287, 41.587537]
+  defaultMapCenter: [-93.624287, 41.587537],
+  currentLatLng: [-93.624287, 41.587537],
+  locationAddress: {
+    locationSearchInput: '',
+    addressName: '',
+    latlng: null
+  }
 };
 var MapContext = react__WEBPACK_IMPORTED_MODULE_0___default.a.createContext(MapDefaultState);
 var MapProvider = MapContext.Provider;
@@ -67482,6 +67532,56 @@ var MapActions = function MapActions(that) {
         })
       };
       that.setState(updateState);
+    },
+    setCurrentLatLng: function setCurrentLatLng(latlng) {
+      that.setState({
+        MapState: _objectSpread({}, that.state.MapState, {
+          currentLatLng: latlng
+        })
+      });
+    },
+    setAddressLatLng: function setAddressLatLng() {
+      var locationSearchInput = that.state.MapState.locationAddress.locationSearchInput;
+      return Object(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_5__["geocodeByAddress"])(locationSearchInput).then(function (results) {
+        return Promise.all([results, Object(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_5__["getLatLng"])(results[0])]);
+      }).then(function (results) {
+        var address = results[0];
+        var _results$ = results[1],
+            lat = _results$.lat,
+            lng = _results$.lng;
+
+        if (!address || address.length === 0) {
+          throw new Error('No results found.');
+        }
+
+        var addressName = "".concat(address[0].address_components[0].long_name, ", ").concat(address[0].address_components[1].long_name);
+        var updateLocationAddress = {
+          latlng: [lng, lat],
+          locationSearchInput: locationSearchInput,
+          addressName: addressName
+        };
+        that.setState({
+          MapState: _objectSpread({}, that.state.MapState, {
+            currentLatLng: [lng, lat],
+            locationAddress: updateLocationAddress
+          })
+        }, function () {
+          return console.log(that.state);
+        });
+      })["catch"](function (error) {
+        return console.log(error);
+      });
+    },
+    setAddressName: function setAddressName(locationSearchInput) {
+      var updateLocationAddress = {
+        latlng: that.state.latlng,
+        locationSearchInput: locationSearchInput
+      };
+      that.setState({
+        MapState: _objectSpread({}, that.state.MapState, {
+          locationAddress: updateLocationAddress
+        })
+      });
     }
   };
 };
