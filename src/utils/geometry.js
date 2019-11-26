@@ -1,10 +1,11 @@
+import along from '@turf/along';
 import calcBbox from '@turf/bbox';
 import calcBearing from '@turf/bearing';
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import calcCentroid from '@turf/centroid';
 import calcDistance from '@turf/distance';
 import lineArc from '@turf/line-arc';
-import lineIntersect from '@turf/line-intersect';
+// import lineIntersect from '@turf/line-intersect';
 import lineOffset from '@turf/line-offset';
 import lineSplit from '@turf/line-split';
 import {
@@ -163,7 +164,9 @@ export function findLongestParallel(polygon) {
 	} = line;
 
 	const longestLine = coordinates.reduce((obj, coord, i) => {
-		const { distance } = obj;
+		const {
+			distance,
+		} = obj;
 		const nextCoord = coordinates[i + 1];
 		if (!nextCoord) {
 			return obj;
@@ -178,7 +181,10 @@ export function findLongestParallel(polygon) {
 			};
 		}
 		return obj;
-	}, { distance: 0, line: null }).line;
+	}, {
+		distance: 0,
+		line: null,
+	}).line;
 
 	const slope = findSlope(longestLine);
 	const centroid = calcCentroid(polygon);
@@ -263,7 +269,9 @@ export function findLineWithBearing(point, bearing, polygon) {
 // Protocol:
 // Find the lineOffset of the given line with the given distance.
 export function offsetLine(line, distance) {
-	return lineOffset(line, distance * 0.3048, { units: 'meters' });
+	return lineOffset(line, distance * 0.3048, {
+		units: 'meters',
+	});
 }
 
 // dotLine
@@ -279,32 +287,41 @@ export function offsetLine(line, distance) {
 // Find the lineOffset of the perpendicular line, offset the given distance.
 // Find the intersect of the two lines.
 // Repeat until there is no intersect.
-export function dotLine(line, distance, polygon) {
+export function dotLine(line, distance) {
 	const {
 		geometry: {
 			coordinates,
 		},
 	} = line;
-	const firstPoint = pointFeature(coordinates[0]);
-	const perpendicular = findPerpendicularLine(line, firstPoint, polygon);
+	// const firstPoint = pointFeature(coordinates[0]);
+	// const perpendicular = findPerpendicularLine(line, firstPoint, polygon);
 
-	const intersects = [firstPoint];
+	// const intersects = [firstPoint];
 
-	let done = false;
-	let currentIteration = 1;
-	const maxIterations = 1000;
-	while (!done && currentIteration < maxIterations) {
-		const offset = offsetLine(perpendicular, distance * currentIteration);
-		const intersect = lineIntersect(offset, line);
-		if (intersect.features.length === 0) {
-			done = true;
-		} else {
-			intersects.push(intersect.features[0]);
-		}
-		currentIteration += 1;
+	// let done = false;
+	// let currentIteration = 1;
+	// const maxIterations = 1000;
+	// while (!done && currentIteration < maxIterations) {
+	// 	const offset = offsetLine(perpendicular, distance * currentIteration);
+	// 	const intersect = lineIntersect(offset, line);
+	// 	if (intersect.features.length === 0) {
+	// 		done = true;
+	// 	} else {
+	// 		intersects.push(intersect.features[0]);
+	// 	}
+	// 	currentIteration += 1;
+	// }
+
+	// return intersects;
+
+	const length = calcDistance(coordinates[0], coordinates[1], { units: 'meters' });
+	const interations = length / (distance * 0.3048);
+	const points = [];
+	for (let i = 0, ii = Math.min(interations, 10000); i < ii; i += 1) {
+		points.push(along(line, distance * 0.3048 * i, { units: 'meters' }));
 	}
 
-	return intersects;
+	return points;
 }
 
 // -----------------------------------
