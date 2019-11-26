@@ -316,7 +316,7 @@ export class MapComponent extends React.Component {
 			setEditingFeature,
 			saveFeature,
 		};
-		
+
 		return (
 			<>
 				<div className="Map" ref={this.mapElement}>
