@@ -13,14 +13,16 @@ import { MapConsumer } from 'contexts/MapState';
 import {
 	getPolygons,
 	getEditIcons,
+	getOptimalTreePlacements,
 } from 'utils/sources';
 
 import TestTreePoly from 'test_data/tree.json'; // This is some test data so there is something to interact with.
 
 import { Area } from './map_layers/Area';
 import { EditIcons } from './map_layers/EditIcons';
-import { SSURGO } from './map_layers/SSURGO';
 import { Outline } from './map_layers/Outline';
+import { SSURGO } from './map_layers/SSURGO';
+import { Trees } from './map_layers/Trees';
 
 import { SimpleSelect } from './map_modes/SimpleSelect';
 import { Planting } from './map_modes/Planting';
@@ -89,7 +91,14 @@ export class MapComponent extends React.Component {
 
 			this.loadSources(); // Load the data sources.
 			this.loadImages([ // Load the images to be used in the map.
-				'/assets/edit_feature.svg',
+				{
+					alt: 'Edit Polygon',
+					src: '/assets/edit_feature.svg',
+				},
+				{
+					alt: 'Tree Placement',
+					src: '/assets/plant_tree_option.svg',
+				},
 			]);
 			// this.loadSomeTestData(); // Load some test data.
 
@@ -238,27 +247,38 @@ export class MapComponent extends React.Component {
 			features: getEditIcons(data),
 		});
 
+		// These are the tree placements.
+		this.addSource('feature_data_trees', 'geojson', {
+			type: 'FeatureCollection',
+			features: getPolygons(data)
+				.reduce((features, polygon) => {
+					const trees = getOptimalTreePlacements(polygon, polygon.properties.configs.spacing_rows.value, polygon.properties.configs.spacing_trees.value);
+					debug(polygon, trees);
+					return features.concat(trees);
+				}, []),
+		});
+
 		// This is SSURGO.
 		process.env.mapbox_ssurgo_tileset_id && this.addSource('ssurgo', 'vector', `mapbox://${process.env.mapbox_ssurgo_tileset_id}`);
 
 		!sourcesAdded && this.setState({ sourcesAdded: true });
 	}
 
-	loadImages(srcs) {
-		const addImg = src => new Promise(resolve => {
+	loadImages(images) {
+		const addImg = ea => new Promise(resolve => {
 			const img = document.createElement('img');
-			img.src = src;
-			img.alt = 'Edit Polygon';
+			img.src = ea.src;
+			img.alt = ea.alt || ea.src;
 			img.onload = () => {
-				resolve(src);
-				this.map.addImage(src, img);
+				resolve(ea.src);
+				this.map.addImage(ea.src, img);
 			};
 			img.onerror = () => {
-				resolve(src);
+				resolve(ea.src);
 			};
 		});
 
-		return Promise.all(srcs.map(addImg));
+		return Promise.all(images.map(addImg));
 	}
 
 	render() {
@@ -270,6 +290,11 @@ export class MapComponent extends React.Component {
 			props: {
 				data,
 				layers,
+				router: {
+					location: {
+						pathname,
+					},
+				},
 			},
 			setEditingFeature,
 			saveFeature,
@@ -313,7 +338,8 @@ export class MapComponent extends React.Component {
 								{layers.ssurgo && <SSURGO map={map} />}
 								<Area map={map} />
 								<Outline map={map} />
-								<EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />
+								<Trees map={map} />
+								{!/^\/plant/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
 							</>
 						)}
 				</div>

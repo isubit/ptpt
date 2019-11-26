@@ -1,5 +1,14 @@
+// import calcCentroid from '@turf/centroid';
+import _ from 'lodash';
+
 import {
-	findSouthernVertex,
+	dotLine,
+	// findBearing,
+	// findLineWithBearing,
+	findLongestParallel,
+	// findPerpendicularLine,
+	findMaximaVertices,
+	offsetLine,
 } from './geometry';
 
 export function getPolygons(data = new Map()) {
@@ -9,7 +18,7 @@ export function getPolygons(data = new Map()) {
 
 export function getEditIcons(data = new Map()) {
 	const features = [...data.values()].map(ea => {
-		const vertex = findSouthernVertex(ea);
+		const vertex = findMaximaVertices(ea).southern;
 		vertex.properties = {
 			...vertex.properties,
 			for: ea.id,
@@ -17,4 +26,18 @@ export function getEditIcons(data = new Map()) {
 		return vertex;
 	});
 	return features;
+}
+
+export function getOptimalTreePlacements(polygon, rowDistance = 10, treeDistance = 10) {
+	const parallel = findLongestParallel(polygon);
+
+	const offsets = [
+		offsetLine(parallel, rowDistance),
+		parallel,
+		offsetLine(parallel, 0 - rowDistance),
+	];
+
+	const trees = _.flatten(offsets.map(ea => dotLine(ea, treeDistance, polygon)));
+
+	return trees;
 }
