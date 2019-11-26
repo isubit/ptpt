@@ -66259,8 +66259,8 @@ function (_React$Component) {
   }, {
     key: "handleOnChange",
     value: function handleOnChange(e) {
-      var setAddressName = this.props.setAddressName;
-      setAddressName(e);
+      var setLocationSearchInput = this.props.setLocationSearchInput;
+      setLocationSearchInput(e);
     }
   }, {
     key: "handleKeyPress",
@@ -67572,7 +67572,7 @@ var MapActions = function MapActions(that) {
         return console.log(error);
       });
     },
-    setAddressName: function setAddressName(locationSearchInput) {
+    setLocationSearchInput: function setLocationSearchInput(locationSearchInput) {
       var updateLocationAddress = {
         latlng: that.state.latlng,
         locationSearchInput: locationSearchInput

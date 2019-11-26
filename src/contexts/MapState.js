@@ -118,7 +118,7 @@ export const MapActions = (that) => ({
 			.catch(error => console.log(error));
 	},
 
-	setAddressName(locationSearchInput) {
+	setLocationSearchInput(locationSearchInput) {
 		const updateLocationAddress = {
 			latlng: that.state.latlng,
 			locationSearchInput,

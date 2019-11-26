@@ -25,8 +25,8 @@ export class LocationInput extends React.Component {
 	}
 
 	handleOnChange(e) {
-		const { setAddressName } = this.props;
-		setAddressName(e);
+		const { setLocationSearchInput } = this.props;
+		setLocationSearchInput(e);
 	}
 
 	handleKeyPress(e) {
@@ -48,16 +48,20 @@ export class LocationInput extends React.Component {
 				<PlacesAutocomplete
 					value={locationSearchInput}
 					onChange={e => this.handleOnChange(e)}
-					/* searchOptions={{
+					searchOptions={{
 						// eslint-disable-next-line no-undef
 						location: new google.maps.LatLng(40.711744, -74.013315),
 						radius: 20000,
 						types: ['address'],
-					}} */
+					}}
 				>
 					{({ getInputProps }) => (
 						<div className="LocationInput">
-							<input {...getInputProps({ placeholder: 'Enter a location or address', onKeyUp: e => this.handleKeyPress(e) })} />
+							<input {...getInputProps({
+								placeholder: 'Enter a location or address',
+								onKeyUp: e => this.handleKeyPress(e),
+							})}
+							/>
 						</div>
 					)}
 				</PlacesAutocomplete>
