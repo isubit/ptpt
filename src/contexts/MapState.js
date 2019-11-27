@@ -13,8 +13,17 @@ const debug = Debug('MapState');
 
 export const MapDefaultState = {
 	data: new Map(),
-	defaultMapCenter: [-93.624287, 41.587537],
-	currentLatLng: [-93.624287, 41.587537],
+	mapAPILoaded: false,
+	defaultLatLng: [-93.624287, 41.587537],
+	defaultZoom: 13,
+	defaultBearing: 0,
+	defaultPitch: 0,
+	currentMapDetails: {
+		latlng: [-93.624287, 41.587537],
+		zoom: 13,
+		bearing: 0,
+		pitch: 0,
+	},
 	locationAddress: {
 		locationSearchInput: '',
 		addressName: '',
@@ -72,19 +81,32 @@ export const MapActions = (that) => ({
 		};
 		that.setState(updateState);
 	},
-
-	setCurrentLatLng(latlng) {
+	setMapAPILoaded() {
+		if (!that.state.mapAPILoaded) {
+			that.setState({
+				MapState: {
+					...that.state.MapState,
+					mapAPILoaded: true,
+				},
+			});
+		}
+	},
+	updateCurrentMapDetails(mapDetails) {
 		that.setState({
 			MapState: {
 				...that.state.MapState,
-				currentLatLng: latlng,
+				currentMapDetails: {
+					...mapDetails,
+				},
 			},
 		});
 	},
-
 	setAddressLatLng() {
 		const {
 			MapState: {
+				defaultZoom,
+				defaultBearing,
+				defaultPitch,
 				locationAddress: {
 					locationSearchInput,
 				},
@@ -102,31 +124,34 @@ export const MapActions = (that) => ({
 					[address] = address;
 				}
 				const addressName = `${address.address_components[0].long_name}, ${address.address_components[1].long_name}`;
-				const updateLocationAddress = {
-					latlng: [lng, lat],
-					locationSearchInput,
-					addressName,
-				};
 				that.setState({
 					MapState: {
 						...that.state.MapState,
-						currentLatLng: [lng, lat],
-						locationAddress: updateLocationAddress,
+						// reset zoom, bearing, and pitch
+						currentMapDetails: {
+							zoom: defaultZoom,
+							bearing: defaultBearing,
+							pitch: defaultPitch,
+							latlng: [lng, lat],
+						},
+						locationAddress: {
+							...that.state.MapState.locationAddress,
+							addressName,
+							latlng: [lng, lat],
+						},
 					},
 				}, () => console.log(that.state));
 			})
 			.catch(error => console.log(error));
 	},
-
 	setLocationSearchInput(locationSearchInput) {
-		const updateLocationAddress = {
-			latlng: that.state.latlng,
-			locationSearchInput,
-		};
 		that.setState({
 			MapState: {
 				...that.state.MapState,
-				locationAddress: updateLocationAddress,
+				locationAddress: {
+					...that.state.MapState.locationAddress,
+					locationSearchInput,
+				},
 			},
 		});
 	},

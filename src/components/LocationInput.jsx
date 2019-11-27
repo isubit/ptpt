@@ -12,16 +12,39 @@ export const LocationInputWrapper = (props) => (
 	</MapConsumer>
 );
 
-export class LocationInput extends React.Component {
-	state = {
-		mapAPILoaded: false,
-	}
+const LocationInputSuggestions = (props) => {
+	const {
+		suggestions,
+		getSuggestionItemProps,
+	} = props;
+	return (
+		<div className="LocationInputSuggestions">
+			{suggestions.map(suggestion => {
+				const className = suggestion.active
+					? 'suggestion-item--active'
+					: 'suggestion-item';
+				return (
+					<div
+						{...getSuggestionItemProps(suggestion, {
+							className,
+						})}
+					>
+						<span>{suggestion.description}</span>
+					</div>
+				);
+			})}
+		</div>
+	);
+};
 
+export class LocationInput extends React.Component {
 	componentDidMount() {
-		const locationInputNode = document.getElementsByClassName('LocationInput')[0];
-		locationInputNode.addEventListener('scriptinjection', () => {
-			this.setState({ mapAPILoaded: true });
-		});
+		const { setMapAPILoaded, mapAPILoaded } = this.props;
+		if (!mapAPILoaded) {
+			window.addEventListener('scriptinjection', () => {
+				setMapAPILoaded();
+			});
+		}
 	}
 
 	handleOnChange(e) {
@@ -36,32 +59,48 @@ export class LocationInput extends React.Component {
 		}
 	}
 
+	handleSelect(e) {
+		const { setAddressLatLng, setLocationSearchInput } = this.props;
+		setLocationSearchInput(e);
+		setAddressLatLng();
+	}
+
 	render() {
-		const { mapAPILoaded } = this.state;
 		const {
+			mapAPILoaded,
+			currentMapDetails: {
+				latlng,
+			},
 			locationAddress: {
 				locationSearchInput,
 			},
 		} = this.props;
+
 		if (mapAPILoaded) {
 			return (
 				<PlacesAutocomplete
 					value={locationSearchInput}
 					onChange={e => this.handleOnChange(e)}
+					onSelect={e => this.handleSelect(e)}
 					searchOptions={{
 						// eslint-disable-next-line no-undef
-						location: new google.maps.LatLng(40.711744, -74.013315),
+						location: new google.maps.LatLng(latlng[1], latlng[0]),
 						radius: 20000,
 						types: ['address'],
 					}}
 				>
-					{({ getInputProps }) => (
+					{({
+						getInputProps,
+						suggestions,
+						getSuggestionItemProps,
+					}) => (
 						<div className="LocationInput">
 							<input {...getInputProps({
 								placeholder: 'Enter a location or address',
 								onKeyUp: e => this.handleKeyPress(e),
 							})}
 							/>
+							<LocationInputSuggestions getSuggestionItemProps={getSuggestionItemProps} suggestions={suggestions} />
 						</div>
 					)}
 				</PlacesAutocomplete>

@@ -56,13 +56,17 @@ export class MapComponent extends React.Component {
 
 	componentDidMount() {
 		// On mount, we init the map in the container, then load in the things we need.
-		const { defaultMapCenter, setCurrentLatLng } = this.props;
+		const {
+			defaultLatLng,
+			defaultZoom,
+			updateCurrentMapDetails,
+		} = this.props;
 
 		this.map = new mapboxgl.Map({
 			container: this.mapElement.current,
 			style: 'mapbox://styles/mapbox/outdoors-v11',
-			center: defaultMapCenter,
-			zoom: 13,
+			center: defaultLatLng,
+			zoom: defaultZoom,
 		});
 		// this.setState({ init: true });
 		this.map.on('load', () => {
@@ -92,7 +96,15 @@ export class MapComponent extends React.Component {
 		this.map.on('moveend', () => {
 			const { lat, lng } = this.map.getCenter();
 			const latlng = [lng, lat];
-			setCurrentLatLng(latlng);
+			const zoom = this.map.getZoom();
+			const bearing = this.map.getBearing();
+			const pitch = this.map.getPitch();
+			updateCurrentMapDetails({
+				latlng,
+				zoom,
+				bearing,
+				pitch,
+			});
 		});
 	}
 
@@ -146,14 +158,24 @@ export class MapComponent extends React.Component {
 	}
 
 	moveMapCenter() {
-		const { currentLatLng } = this.props;
+		const {
+			currentMapDetails: {
+				latlng,
+				pitch,
+				bearing,
+				zoom,
+			},
+		} = this.props;
 		const { lat, lng } = this.map.getCenter();
-		if (currentLatLng[0] !== lng && currentLatLng[1] !== lat) {
+		if (latlng[0] !== lng && latlng[1] !== lat) {
 			this.map.easeTo({
 				center: {
-					lat: currentLatLng[1],
-					lng: currentLatLng[0],
+					lat: latlng[1],
+					lng: latlng[0],
 				},
+				pitch,
+				bearing,
+				zoom,
 			});
 		}
 	}

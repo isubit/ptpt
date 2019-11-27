@@ -16,20 +16,18 @@ import { Header } from 'components/Header';
 import { WelcomeModal } from 'components/modals/WelcomeModal';
 import { MapConsumer } from 'contexts/MapState';
 
-(function injectMapScript(d, s, id) {
-	const script = d.createElement(s);
+(function injectMapScript(w, s, id) {
+	const script = w.document.createElement(s);
 	script.type = 'text/javascript';
 	script.id = id;
 	script.async = true;
 	script.onload = function onload() {
 		const event = new Event('scriptinjection');
-		const locationInput = d.getElementsByClassName('LocationInput')[0];
-		locationInput.dispatchEvent(event);
+		w.dispatchEvent(event);
 	};
 	script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.google_places_api_key}&libraries=places`;
-	// append to top of head
-	d.getElementsByTagName('head')[0].appendChild(script);
-}(document, 'script', 'google_places_api_key'));
+	w.document.getElementsByTagName('head')[0].appendChild(script);
+}(window, 'script', 'google_places_api_key'));
 
 const App = () => (
 	<Store>
