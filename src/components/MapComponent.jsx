@@ -14,6 +14,7 @@ import {
 	getPolygons,
 	getEditIcons,
 	getOptimalTreePlacements,
+	getTreeRows,
 } from 'utils/sources';
 
 import TestTreePoly from 'test_data/tree.json'; // This is some test data so there is something to interact with.
@@ -22,6 +23,7 @@ import { Area } from './map_layers/Area';
 import { EditIcons } from './map_layers/EditIcons';
 import { Outline } from './map_layers/Outline';
 import { SSURGO } from './map_layers/SSURGO';
+import { TreeRows } from './map_layers/TreeRows';
 import { Trees } from './map_layers/Trees';
 
 import { SimpleSelect } from './map_modes/SimpleSelect';
@@ -247,13 +249,22 @@ export class MapComponent extends React.Component {
 			features: getEditIcons(data),
 		});
 
+		// These are the tree rows.
+		this.addSource('feature_data_tree_rows', 'geojson', {
+			type: 'FeatureCollection',
+			features: getPolygons(data)
+				.reduce((features, polygon) => {
+					const rows = getTreeRows(polygon, polygon.properties.configs.spacing_rows.value, polygon.properties.configs.spacing_trees.value);
+					return features.concat(rows);
+				}, []),
+		});
+
 		// These are the tree placements.
 		this.addSource('feature_data_trees', 'geojson', {
 			type: 'FeatureCollection',
 			features: getPolygons(data)
 				.reduce((features, polygon) => {
 					const trees = getOptimalTreePlacements(polygon, polygon.properties.configs.spacing_rows.value, polygon.properties.configs.spacing_trees.value);
-					debug(polygon, trees);
 					return features.concat(trees);
 				}, []),
 		});
@@ -338,6 +349,7 @@ export class MapComponent extends React.Component {
 								{layers.ssurgo && <SSURGO map={map} />}
 								<Area map={map} />
 								<Outline map={map} />
+								<TreeRows map={map} />
 								<Trees map={map} />
 								{!/^\/plant/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
 							</>

@@ -59,11 +59,23 @@ export function fitLine(line, polygon) {
 
 	multiLine.geometry.coordinates.forEach(part => {
 		const split = lineSplit(lineFeature(part), polygon);
+		// console.log(part, split.features.map(ea => ea.geometry.coordinates));
+
+		// lineSplit unfortunately doesn't guarantee the order of the line segments... so we have to find the first point and "connect the dots".
+		// This "sweep algorithm" sorts the line segments by longitude (x-axis), then runs a sweep to determine if there are any matches between end and start points.
+		// const sorted = split.features.sort((a, b) => a.geometry.coordinates[0][0] - b.geometry.coordinates[0][0]);
+		// console.log(sorted);
+		// const reordered = [];
+		// const firstPoint = split.features.find(ea => _.isEqual(ea.geometry.coordinates[0], part[0]));
+		// const newList = split.features.reduce((arr, feature, index) => {
+
+		// }, reordered);
 
 		// lineSplit returns an array of lines that alternate "in" / "out" of the polygon.
 		// As long as we can determine if the starting point of the first line is "in" or "out", we can determine what the other lines are.
 		let oddPair;
-		if (booleanPointInPolygon(pointFeature(part[0]), polygon)) {
+		const inPoly = booleanPointInPolygon(pointFeature(part[0]), polygon);
+		if (inPoly) {
 			oddPair = 0;
 		} else {
 			oddPair = 1;

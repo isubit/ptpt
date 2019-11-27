@@ -88,6 +88,9 @@ const config = {
 	node: {
 		fs: 'empty',
 	},
+	watchOptions: {
+		aggregateTimeout: 2000,
+	},
 };
 
 module.exports = config;

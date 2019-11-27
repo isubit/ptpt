@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // import calcCentroid from '@turf/centroid';
 import _ from 'lodash';
 
@@ -8,6 +9,7 @@ import {
 	findLongestParallel,
 	// findPerpendicularLine,
 	findMaximaVertices,
+	fitLine,
 	offsetLine,
 } from './geometry';
 
@@ -28,7 +30,7 @@ export function getEditIcons(data = new Map()) {
 	return features;
 }
 
-export function getOptimalTreePlacements(polygon, rowDistance = 10, treeDistance = 10) {
+export function getTreeRows(polygon, rowDistance) {
 	const parallel = findLongestParallel(polygon);
 
 	const offsets = [
@@ -36,6 +38,14 @@ export function getOptimalTreePlacements(polygon, rowDistance = 10, treeDistance
 		parallel,
 		offsetLine(parallel, 0 - rowDistance),
 	];
+
+	const fitted = _.flatten(offsets.map(ea => fitLine(ea, polygon)));
+
+	return fitted;
+}
+
+export function getOptimalTreePlacements(polygon, rowDistance = 10, treeDistance = 10) {
+	const offsets = getTreeRows(polygon, rowDistance);
 
 	const trees = _.flatten(offsets.map(ea => dotLine(ea, treeDistance, polygon)));
 
