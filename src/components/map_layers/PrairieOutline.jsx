@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layer } from './Layer';
 
-export const Outline = props => {
+export const PrairieOutline = props => {
 	const {
 		color,
 		width,
@@ -9,9 +9,9 @@ export const Outline = props => {
 	} = props;
 
 	const layer = {
-		id: 'feature_data_outline',
+		id: 'feature_data_prairie_outline',
 		type: 'line',
-		source: 'feature_data',
+		source: 'feature_data_prairie',
 		paint: {
 			'line-color': color || '#006ba6',
 			'line-width': width || 3,

@@ -12,17 +12,19 @@ import Debug from 'debug';
 import { MapConsumer } from 'contexts/MapState';
 
 import {
-	getPolygons,
+	getFeatures,
 	getEditIcons,
 	getOptimalTreePlacements,
+	getTreeRows,
 } from 'utils/sources';
 
 import TestTreePoly from 'test_data/tree.json'; // This is some test data so there is something to interact with.
 
-import { Area } from './map_layers/Area';
+import { PrairieArea } from './map_layers/PrairieArea';
 import { EditIcons } from './map_layers/EditIcons';
-import { Outline } from './map_layers/Outline';
+import { PrairieOutline } from './map_layers/PrairieOutline';
 import { SSURGO } from './map_layers/SSURGO';
+import { TreeRows } from './map_layers/TreeRows';
 import { Trees } from './map_layers/Trees';
 
 import { SimpleSelect } from './map_modes/SimpleSelect';
@@ -242,10 +244,33 @@ export class MapComponent extends React.Component {
 			},
 		} = this;
 
-		// These are the polygons.
-		this.addSource('feature_data', 'geojson', {
+		// These are the polygons for the prairies.
+		this.addSource('feature_data_prairie', 'geojson', {
 			type: 'FeatureCollection',
-			features: getPolygons(data),
+			features: getFeatures(data)
+				.filter(ea => ea.properties.type === 'prairie'),
+		});
+
+		// These are the tree rows.
+		this.addSource('feature_data_tree_rows', 'geojson', {
+			type: 'FeatureCollection',
+			features: getFeatures(data)
+				.filter(ea => ea.properties.type === 'tree')
+				.reduce((features, line) => {
+					const rows = getTreeRows(line);
+					return features.concat(rows);
+				}, []),
+		});
+
+		// These are the tree placements.
+		this.addSource('feature_data_trees', 'geojson', {
+			type: 'FeatureCollection',
+			features: getFeatures(data)
+				.filter(ea => ea.properties.type === 'tree')
+				.reduce((features, line) => {
+					const trees = getOptimalTreePlacements(line);
+					return features.concat(trees);
+				}, []),
 		});
 
 		// These are the edit icons.
@@ -253,17 +278,6 @@ export class MapComponent extends React.Component {
 			type: 'FeatureCollection',
 			features: getEditIcons(data),
 		});
-
-		// // These are the tree placements.
-		// this.addSource('feature_data_trees', 'geojson', {
-		// 	type: 'FeatureCollection',
-		// 	features: getPolygons(data)
-		// 		.reduce((features, polygon) => {
-		// 			const trees = getOptimalTreePlacements(polygon, polygon.properties.configs.spacing_rows.value, polygon.properties.configs.spacing_trees.value);
-		// 			debug(polygon, trees);
-		// 			return features.concat(trees);
-		// 		}, []),
-		// });
 
 		// This is SSURGO.
 		process.env.mapbox_ssurgo_tileset_id && this.addSource('ssurgo', 'vector', `mapbox://${process.env.mapbox_ssurgo_tileset_id}`);
@@ -343,9 +357,10 @@ export class MapComponent extends React.Component {
 						&& (
 							<>
 								{layers.ssurgo && <SSURGO map={map} />}
-								<Area map={map} />
-								<Outline map={map} />
-								{/* <Trees map={map} /> */}
+								<PrairieArea map={map} />
+								<PrairieOutline map={map} />
+								<TreeRows map={map} />
+								<Trees map={map} />
 								{!/^\/plant/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
 							</>
 						)}

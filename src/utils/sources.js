@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // import calcCentroid from '@turf/centroid';
 import _ from 'lodash';
 
@@ -8,10 +9,12 @@ import {
 	findLongestParallel,
 	// findPerpendicularLine,
 	findMaximaVertices,
+	fitLine,
+	findSlope,
 	offsetLine,
 } from './geometry';
 
-export function getPolygons(data = new Map()) {
+export function getFeatures(data = new Map()) {
 	const features = [...data.values()];
 	return features;
 }
@@ -28,16 +31,59 @@ export function getEditIcons(data = new Map()) {
 	return features;
 }
 
-export function getOptimalTreePlacements(polygon, rowDistance = 10, treeDistance = 10) {
-	const parallel = findLongestParallel(polygon);
+export function getTreeRows(line) {
+	const {
+		configs: {
+			propagation = 'N',
+			spacing_rows = {},
+			rows = [],
+		},
+	} = line.properties;
 
-	const offsets = [
-		offsetLine(parallel, rowDistance),
-		parallel,
-		offsetLine(parallel, 0 - rowDistance),
-	];
+	const rowDistance = spacing_rows.value;
+	const quantity = rows.length;
 
-	const trees = _.flatten(offsets.map(ea => dotLine(ea, treeDistance, polygon)));
+	if (!propagation || !['N', 'S', 'W', 'E'].includes(propagation)) {
+		throw new Error('getTreeRows expects a propagation direction of N, S, W, or E.');
+	}
+
+	let direction = 1;
+
+	// Assuming a positive slope, northern or western propagation actually entails moving negatively on the x-axis.
+	if (propagation === 'N' || propagation === 'W') {
+		direction = -1;
+	}
+
+	// If slope is actually negative, reverse direction.
+	const slope = findSlope(line);
+	if (slope < 0) {
+		direction = 0 - direction;
+	}
+
+	const offsets = [];
+
+	for (let i = 0, ii = quantity; i < ii; i += 1) {
+		offsets.push(offsetLine(
+			line,
+			rowDistance * direction * i,
+		));
+	}
+
+	return offsets;
+}
+
+export function getOptimalTreePlacements(line) {
+	const {
+		configs: {
+			spacing_trees = {},
+		},
+	} = line.properties;
+
+	const treeDistance = spacing_trees.value;
+
+	const offsets = getTreeRows(line);
+
+	const trees = _.flatten(offsets.map(ea => dotLine(ea, treeDistance)));
 
 	return trees;
 }
