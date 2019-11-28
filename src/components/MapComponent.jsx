@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import {
 	Switch,
@@ -25,7 +26,7 @@ import { SSURGO } from './map_layers/SSURGO';
 import { Trees } from './map_layers/Trees';
 
 import { SimpleSelect } from './map_modes/SimpleSelect';
-import { Planting } from './map_modes/Planting';
+import { DrawLineMode, Planting } from './map_modes/Planting';
 
 
 mapboxgl.accessToken = process.env.mapbox_api_key;
@@ -76,7 +77,8 @@ export class MapComponent extends React.Component {
 			container: this.mapElement.current,
 			style: styleURL,
 			center: [-93.241935, 41.224619],
-			zoom: 11,
+			zoom: 13,
+			minZoom: 12,
 		});
 
 		// this.setState({ init: true });
@@ -103,7 +105,12 @@ export class MapComponent extends React.Component {
 			// this.loadSomeTestData(); // Load some test data.
 
 			// Add the draw controller.
-			this.draw = new MapboxDraw();
+			this.draw = new MapboxDraw({
+				modes: {
+					draw_line: DrawLineMode,
+					...MapboxDraw.modes,
+				},
+			});
 			this.map.addControl(this.draw, 'top-right');
 
 			this.setState({
@@ -247,16 +254,16 @@ export class MapComponent extends React.Component {
 			features: getEditIcons(data),
 		});
 
-		// These are the tree placements.
-		this.addSource('feature_data_trees', 'geojson', {
-			type: 'FeatureCollection',
-			features: getPolygons(data)
-				.reduce((features, polygon) => {
-					const trees = getOptimalTreePlacements(polygon, polygon.properties.configs.spacing_rows.value, polygon.properties.configs.spacing_trees.value);
-					debug(polygon, trees);
-					return features.concat(trees);
-				}, []),
-		});
+		// // These are the tree placements.
+		// this.addSource('feature_data_trees', 'geojson', {
+		// 	type: 'FeatureCollection',
+		// 	features: getPolygons(data)
+		// 		.reduce((features, polygon) => {
+		// 			const trees = getOptimalTreePlacements(polygon, polygon.properties.configs.spacing_rows.value, polygon.properties.configs.spacing_trees.value);
+		// 			debug(polygon, trees);
+		// 			return features.concat(trees);
+		// 		}, []),
+		// });
 
 		// This is SSURGO.
 		process.env.mapbox_ssurgo_tileset_id && this.addSource('ssurgo', 'vector', `mapbox://${process.env.mapbox_ssurgo_tileset_id}`);
@@ -338,7 +345,7 @@ export class MapComponent extends React.Component {
 								{layers.ssurgo && <SSURGO map={map} />}
 								<Area map={map} />
 								<Outline map={map} />
-								<Trees map={map} />
+								{/* <Trees map={map} /> */}
 								{!/^\/plant/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
 							</>
 						)}
