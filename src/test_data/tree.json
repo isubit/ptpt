@@ -3,6 +3,7 @@
     "properties": {
         "type": "tree",
         "configs": {
+            "propagation": "N",
             "rows": [
                 {
                     "type": {

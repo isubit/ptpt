@@ -330,19 +330,20 @@ export function dotLine(line, distance) {
 // findMaximaVertices
 // Find the vertices of the given polygon that are northern-most, eastern-most, western-most, and southern-most.
 // args:
-// <Polygon>
+// <Polygon> | <LineString>
 // returns:
 // <Point>
 // Protocol:
 // Sort the vertices by latitude. Find the point with the smallest latitude.
-export function findMaximaVertices(polygon) {
-	const feature = _.cloneDeep(polygon);
+export function findMaximaVertices(feature) {
+	const clone = _.cloneDeep(feature);
 	const {
 		geometry: {
 			coordinates,
 		},
-	} = feature;
-	const vertices = coordinates[0];
+	} = clone;
+
+	const vertices = clone.geometry.type === 'polygon' ? _.flatten(coordinates) : coordinates;
 	const northern = pointFeature(vertices.sort((a, b) => b[1] - a[1])[0]);
 	const southern = pointFeature(vertices.sort((a, b) => a[1] - b[1])[0]);
 	const western = pointFeature(vertices.sort((a, b) => a[0] - b[0])[0]);

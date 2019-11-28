@@ -16,6 +16,7 @@ export const EditIcons = props => {
 		source: 'feature_data_edit_icons',
 		layout: {
 			'icon-image': image || '/assets/edit_feature.svg',
+			'icon-offset': [0, 50],
 		},
 	};
 
