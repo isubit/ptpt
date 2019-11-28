@@ -59,11 +59,23 @@ export function fitLine(line, polygon) {
 
 	multiLine.geometry.coordinates.forEach(part => {
 		const split = lineSplit(lineFeature(part), polygon);
+		// console.log(part, split.features.map(ea => ea.geometry.coordinates));
+
+		// lineSplit unfortunately doesn't guarantee the order of the line segments... so we have to find the first point and "connect the dots".
+		// This "sweep algorithm" sorts the line segments by longitude (x-axis), then runs a sweep to determine if there are any matches between end and start points.
+		// const sorted = split.features.sort((a, b) => a.geometry.coordinates[0][0] - b.geometry.coordinates[0][0]);
+		// console.log(sorted);
+		// const reordered = [];
+		// const firstPoint = split.features.find(ea => _.isEqual(ea.geometry.coordinates[0], part[0]));
+		// const newList = split.features.reduce((arr, feature, index) => {
+
+		// }, reordered);
 
 		// lineSplit returns an array of lines that alternate "in" / "out" of the polygon.
 		// As long as we can determine if the starting point of the first line is "in" or "out", we can determine what the other lines are.
 		let oddPair;
-		if (booleanPointInPolygon(pointFeature(part[0]), polygon)) {
+		const inPoly = booleanPointInPolygon(pointFeature(part[0]), polygon);
+		if (inPoly) {
 			oddPair = 0;
 		} else {
 			oddPair = 1;
@@ -274,44 +286,20 @@ export function offsetLine(line, distance) {
 }
 
 // dotLine
-// Find the points on the given line that are a given distance apart, using perpendicular lines that are bound by the given polygon.
+// Find the points on the given line that are a given distance apart.
 // args:
 // <LineString>
 // Int, distance in feet between each point
-// <Polgon>
 // returns:
 // Array<Points>
 // Protocol:
-// Find the first point on the given line, find the perpendicular line that intersects this point.
-// Find the lineOffset of the perpendicular line, offset the given distance.
-// Find the intersect of the two lines.
-// Repeat until there is no intersect.
+// Iterate the points along the line.
 export function dotLine(line, distance) {
 	const {
 		geometry: {
 			coordinates,
 		},
 	} = line;
-	// const firstPoint = pointFeature(coordinates[0]);
-	// const perpendicular = findPerpendicularLine(line, firstPoint, polygon);
-
-	// const intersects = [firstPoint];
-
-	// let done = false;
-	// let currentIteration = 1;
-	// const maxIterations = 1000;
-	// while (!done && currentIteration < maxIterations) {
-	// 	const offset = offsetLine(perpendicular, distance * currentIteration);
-	// 	const intersect = lineIntersect(offset, line);
-	// 	if (intersect.features.length === 0) {
-	// 		done = true;
-	// 	} else {
-	// 		intersects.push(intersect.features[0]);
-	// 	}
-	// 	currentIteration += 1;
-	// }
-
-	// return intersects;
 
 	const length = calcDistance(coordinates[0], coordinates[1], { units: 'meters' });
 	const interations = length / (distance * 0.3048);
@@ -343,7 +331,7 @@ export function findMaximaVertices(feature) {
 		},
 	} = clone;
 
-	const vertices = clone.geometry.type === 'polygon' ? _.flatten(coordinates) : coordinates;
+	const vertices = clone.geometry.type === 'Polygon' ? coordinates[0] : coordinates;
 	const northern = pointFeature(vertices.sort((a, b) => b[1] - a[1])[0]);
 	const southern = pointFeature(vertices.sort((a, b) => a[1] - b[1])[0]);
 	const western = pointFeature(vertices.sort((a, b) => a[0] - b[0])[0]);

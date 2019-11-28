@@ -21,7 +21,6 @@ export const DrawLineMode = MapboxDraw.modes.draw_line_string;
 DrawLineMode.clickAnywhere = function clickAnywhere(state, e) {
 	// This ends the drawing after the user creates a second point, triggering this.onStop
 	if (state.currentVertexPosition === 1) {
-		state.line.addCoordinate(0, e.lngLat.lng, e.lngLat.lat);
 		return this.changeMode('simple_select', { featureIds: [state.line.id] }); // eslint-disable-line react/no-this-in-sfc
 	}
 
@@ -38,6 +37,9 @@ DrawLineMode.clickAnywhere = function clickAnywhere(state, e) {
 };
 
 DrawLineMode.onStop = function onStop(state) {
+	// Check to see if we've deleted this feature.
+	if (this.getFeature(state.line.id) === undefined) return;
+
 	if (state.line.isValid()) {
 		const lineGeoJson = state.line.toGeoJSON();
 
