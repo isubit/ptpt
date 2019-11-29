@@ -13,7 +13,7 @@ export const TreeRows = props => {
 		type: 'line',
 		source: 'feature_data_tree_rows',
 		paint: {
-			'line-color': color || '#76881D',
+			'line-color': color || '#006ba6',
 			'line-width': width || 2,
 		},
 		maxzoom: 20,
