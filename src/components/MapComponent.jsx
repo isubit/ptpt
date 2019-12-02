@@ -13,8 +13,8 @@ import { MapConsumer } from 'contexts/MapState';
 
 import {
 	getFeatures,
-	getEditIcons,
 	getOptimalTreePlacements,
+	getSouthernVertices,
 	getTreeRows,
 } from 'utils/sources';
 
@@ -22,6 +22,7 @@ import TestTreePoly from 'test_data/tree.json'; // This is some test data so the
 
 import { PrairieArea } from './map_layers/PrairieArea';
 import { EditIcons } from './map_layers/EditIcons';
+import { FeatureLabels } from './map_layers/FeatureLabels';
 import { PrairieOutline } from './map_layers/PrairieOutline';
 import { SSURGO } from './map_layers/SSURGO';
 import { TreeRows } from './map_layers/TreeRows';
@@ -273,10 +274,10 @@ export class MapComponent extends React.Component {
 				}, []),
 		});
 
-		// These are the edit icons.
-		this.addSource('feature_data_edit_icons', 'geojson', {
+		// These are the edit icons and labels.
+		this.addSource('feature_data_southern_vertices', 'geojson', {
 			type: 'FeatureCollection',
-			features: getEditIcons(data),
+			features: getSouthernVertices(data),
 		});
 
 		// This is SSURGO.
@@ -362,6 +363,7 @@ export class MapComponent extends React.Component {
 								<TreeRows map={map} />
 								<Trees map={map} />
 								{!/^\/plant/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
+								<FeatureLabels map={map} />
 							</>
 						)}
 				</div>

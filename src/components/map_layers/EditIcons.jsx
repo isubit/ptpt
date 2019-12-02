@@ -13,10 +13,10 @@ export const EditIcons = props => {
 	const layer = {
 		id: 'feature_data_edit_icons',
 		type: 'symbol',
-		source: 'feature_data_edit_icons',
+		source: 'feature_data_southern_vertices',
 		layout: {
 			'icon-image': image || '/assets/edit_feature.svg',
-			// 'icon-offset': [0, 40],
+			'icon-allow-overlap': true,
 		},
 	};
 
