@@ -15,19 +15,35 @@ import {
 } from './geometry';
 
 export function getFeatures(data = new Map()) {
+	const mapIndex = (ea, i) => {
+		const clone = _.cloneDeep(ea);
+		clone.properties.index = i + 1;
+		return clone;
+	};
+
 	const features = [...data.values()];
-	return features;
+	const tree = features
+		.filter(ea => ea.properties.type === 'tree')
+		.map(mapIndex);
+	const prairie = features
+		.filter(ea => ea.properties.type === 'prairie')
+		.map(mapIndex);
+
+	return [...tree, ...prairie];
 }
 
-export function getEditIcons(data = new Map()) {
-	const features = [...data.values()].map(ea => {
-		const vertex = findMaximaVertices(ea).southern;
-		vertex.properties = {
-			...vertex.properties,
-			for: ea.id,
-		};
-		return vertex;
-	});
+export function getSouthernVertices(data = new Map()) {
+	const features = getFeatures(data)
+		.map(ea => {
+			const vertex = findMaximaVertices(ea).southern;
+			vertex.properties = {
+				...ea.properties,
+				label: `${ea.properties.type.replace(/^\w/, c => c.toUpperCase())} ${ea.properties.type === 'tree' ? 'Rows' : 'Area'} ${ea.properties.index}`,
+				for: ea.id,
+			};
+			return vertex;
+		});
+
 	return features;
 }
 
