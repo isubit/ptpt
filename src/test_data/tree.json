@@ -1,80 +1,70 @@
 {
-    "type": "Feature",
-    "properties": {
-        "type": "tree",
-        "configs": {
-            "rows": [
-                {
-                    "type": {
-                        "id": 1,
-                        "display": "Evergreen"
-                    },
-                    "species": {
-                        "id": 15,
-                        "display": "Jack Pine"
-                    }
-                },
-                {
-                    "type": {
-                        "id": 1,
-                        "display": "Evergreen"
-                    },
-                    "species": {
-                        "id": 15,
-                        "display": "Jack Pine"
-                    }
-                },
-                {
-                    "type": {
-                        "id": 1,
-                        "display": "Evergreen"
-                    },
-                    "species": {
-                        "id": 15,
-                        "display": "Jack Pine"
-                    }
-                }
-            ],
-            "spacing_rows": {
-                "value": 3,
-                "unit": "feet"
-            },
-            "spacing_trees": {
-                "value": 3,
-                "unit": "feet"
-            },
-            "stock_size": {
-                "id": 1,
-                "display": "Bareroot"
-            },
-            "drip_irrigation": true   
+  "type": "Feature",
+  "properties": {
+    "type": "tree",
+    "configs": {
+      "propagation": "N",
+      "rows": [{
+          "type": {
+            "id": 1,
+            "display": "Evergreen"
+          },
+          "species": {
+            "id": 15,
+            "display": "Jack Pine"
+          }
+        },
+        {
+          "type": {
+            "id": 1,
+            "display": "Evergreen"
+          },
+          "species": {
+            "id": 15,
+            "display": "Jack Pine"
+          }
+        },
+        {
+          "type": {
+            "id": 1,
+            "display": "Evergreen"
+          },
+          "species": {
+            "id": 15,
+            "display": "Jack Pine"
+          }
         }
-    },
-    "geometry": {
-      "type": "Polygon",
-      "coordinates": [
-        [
-          [
-            -93.58695030212402,
-            41.59143877963822
-          ],
-          [
-            -93.58712196350098,
-            41.585340200380344
-          ],
-          [
-            -93.57373237609862,
-            41.584441413680075
-          ],
-          [
-            -93.56961250305176,
-            41.59118200897135
-          ],
-          [
-            -93.58695030212402,
-            41.59143877963822
-          ]
-        ]
-      ]
+      ],
+      "spacing_rows": {
+        "value": 3,
+        "unit": "feet"
+      },
+      "spacing_trees": {
+        "value": 3,
+        "unit": "feet"
+      },
+      "stock_size": {
+        "id": 1,
+        "display": "Bareroot"
+      },
+      "drip_irrigation": true
     }
+  },
+  "geometry": {
+    "coordinates": [
+      [
+        -93.21597121673544,
+        41.22536138968471
+      ],
+      [
+        -93.23219321685778,
+        41.2263942656609
+      ],
+      [
+        -93.21605704742409,
+        41.22536138968471
+      ]
+    ],
+    "type": "LineString"
   }
+}
