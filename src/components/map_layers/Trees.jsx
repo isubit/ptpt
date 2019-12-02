@@ -16,7 +16,7 @@ export const Trees = props => {
 			'icon-size': 0.5,
 			// 'icon-allow-overlap': true,
 		},
-		minzoom: 20,
+		// minzoom: 20,
 	};
 
 	return <Layer map={map} layer={layer} />;
