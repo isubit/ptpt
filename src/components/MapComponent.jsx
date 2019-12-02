@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import {
 	Switch,
@@ -11,21 +12,24 @@ import Debug from 'debug';
 import { MapConsumer } from 'contexts/MapState';
 
 import {
-	getPolygons,
-	getEditIcons,
+	getFeatures,
 	getOptimalTreePlacements,
+	getSouthernVertices,
+	getTreeRows,
 } from 'utils/sources';
 
 import TestTreePoly from 'test_data/tree.json'; // This is some test data so there is something to interact with.
 
-import { Area } from './map_layers/Area';
+import { PrairieArea } from './map_layers/PrairieArea';
 import { EditIcons } from './map_layers/EditIcons';
-import { Outline } from './map_layers/Outline';
+import { FeatureLabels } from './map_layers/FeatureLabels';
+import { PrairieOutline } from './map_layers/PrairieOutline';
 import { SSURGO } from './map_layers/SSURGO';
+import { TreeRows } from './map_layers/TreeRows';
 import { Trees } from './map_layers/Trees';
 
 import { SimpleSelect } from './map_modes/SimpleSelect';
-import { Planting } from './map_modes/Planting';
+import { DrawLineMode, Planting } from './map_modes/Planting';
 
 
 mapboxgl.accessToken = process.env.mapbox_api_key;
@@ -76,7 +80,8 @@ export class MapComponent extends React.Component {
 			container: this.mapElement.current,
 			style: styleURL,
 			center: [-93.241935, 41.224619],
-			zoom: 11,
+			zoom: 13,
+			minZoom: 12,
 		});
 
 		// this.setState({ init: true });
@@ -103,7 +108,12 @@ export class MapComponent extends React.Component {
 			// this.loadSomeTestData(); // Load some test data.
 
 			// Add the draw controller.
-			this.draw = new MapboxDraw();
+			this.draw = new MapboxDraw({
+				modes: {
+					draw_line: DrawLineMode,
+					...MapboxDraw.modes,
+				},
+			});
 			this.map.addControl(this.draw, 'top-right');
 
 			this.setState({
@@ -235,27 +245,39 @@ export class MapComponent extends React.Component {
 			},
 		} = this;
 
-		// These are the polygons.
-		this.addSource('feature_data', 'geojson', {
+		// These are the polygons for the prairies.
+		this.addSource('feature_data_prairie', 'geojson', {
 			type: 'FeatureCollection',
-			features: getPolygons(data),
+			features: getFeatures(data)
+				.filter(ea => ea.properties.type === 'prairie'),
 		});
 
-		// These are the edit icons.
-		this.addSource('feature_data_edit_icons', 'geojson', {
+		// These are the tree rows.
+		this.addSource('feature_data_tree_rows', 'geojson', {
 			type: 'FeatureCollection',
-			features: getEditIcons(data),
+			features: getFeatures(data)
+				.filter(ea => ea.properties.type === 'tree')
+				.reduce((features, line) => {
+					const rows = getTreeRows(line);
+					return features.concat(rows);
+				}, []),
 		});
 
 		// These are the tree placements.
 		this.addSource('feature_data_trees', 'geojson', {
 			type: 'FeatureCollection',
-			features: getPolygons(data)
-				.reduce((features, polygon) => {
-					const trees = getOptimalTreePlacements(polygon, polygon.properties.configs.spacing_rows.value, polygon.properties.configs.spacing_trees.value);
-					debug(polygon, trees);
+			features: getFeatures(data)
+				.filter(ea => ea.properties.type === 'tree')
+				.reduce((features, line) => {
+					const trees = getOptimalTreePlacements(line);
 					return features.concat(trees);
 				}, []),
+		});
+
+		// These are the edit icons and labels.
+		this.addSource('feature_data_southern_vertices', 'geojson', {
+			type: 'FeatureCollection',
+			features: getSouthernVertices(data),
 		});
 
 		// This is SSURGO.
@@ -336,10 +358,12 @@ export class MapComponent extends React.Component {
 						&& (
 							<>
 								{layers.ssurgo && <SSURGO map={map} />}
-								<Area map={map} />
-								<Outline map={map} />
+								<PrairieArea map={map} />
+								<PrairieOutline map={map} />
+								<TreeRows map={map} />
 								<Trees map={map} />
 								{!/^\/plant/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
+								<FeatureLabels map={map} />
 							</>
 						)}
 				</div>
