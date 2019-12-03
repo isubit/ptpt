@@ -60,10 +60,14 @@ export class LocationInput extends React.Component {
 	}
 
 	handleSelect(e) {
-		const { setAddressLatLng, setLocationSearchInput } = this.props;
-		setLocationSearchInput(e);
-		setAddressLatLng();
+		// binding props to this, so we can access props within setLocationSearchInput
+		this.props.setLocationSearchInput(e, true);
 	}
+
+	/* setContextLatLng() {
+		const { setAddressLatLng } = this.props;
+		setAddressLatLng();
+	} */
 
 	render() {
 		const {
@@ -81,7 +85,9 @@ export class LocationInput extends React.Component {
 				<PlacesAutocomplete
 					value={locationSearchInput}
 					onChange={e => this.handleOnChange(e)}
-					onSelect={e => this.handleSelect(e)}
+					onSelect={e => {
+						this.handleSelect(e);
+					}}
 					searchOptions={{
 						// eslint-disable-next-line no-undef
 						location: new google.maps.LatLng(latlng[1], latlng[0]),

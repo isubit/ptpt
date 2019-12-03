@@ -140,11 +140,11 @@ export const MapActions = (that) => ({
 							latlng: [lng, lat],
 						},
 					},
-				}, () => console.log(that.state));
+				});
 			})
 			.catch(error => console.log(error));
 	},
-	setLocationSearchInput(locationSearchInput) {
+	setLocationSearchInput(locationSearchInput, setLatLng = false) {
 		that.setState({
 			MapState: {
 				...that.state.MapState,
@@ -153,6 +153,11 @@ export const MapActions = (that) => ({
 					locationSearchInput,
 				},
 			},
+		}, () => {
+			if (setLatLng) {
+				console.log(this);
+				this.setAddressLatLng();
+			}
 		});
 	},
 });
