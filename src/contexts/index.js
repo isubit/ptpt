@@ -39,7 +39,12 @@ export class Store extends React.Component {
 			data: this.state,
 			date,
 			version: '1.0',
-		}, null, 4);
+		}, (name, val) => {
+			if (val instanceof Map) {
+				return [...val.entries()];
+			}
+			return val;
+		}, 4);
 		download(contents, `prairie_tree_planting_tool_savefile_${date.getDate()}-${date.getMonth()}-${date.getFullYear()}.json`);
 	}
 

@@ -29,6 +29,12 @@ export const MapDefaultState = {
 		addressName: '',
 		latlng: null,
 	},
+	basemap: 'outdoor',
+	layers: {
+		ssurgo: false,
+		lidar: false,
+		contours: false,
+	},
 };
 export const MapContext = React.createContext(MapDefaultState);
 export const MapProvider = MapContext.Provider;
@@ -78,6 +84,28 @@ export const MapActions = (that) => {
 				MapState: {
 					...that.state.MapState,
 					data,
+				},
+			};
+			that.setState(updateState);
+		},
+		setBasemap(basemapName) {
+			that.setState({
+				MapState: {
+					...that.state.MapState,
+					basemap: basemapName,
+				},
+			});
+		},
+		setMapLayer(layerName) {
+			// Set map layer given layer name
+			const { layers } = that.state.MapState;
+			if (Object.prototype.hasOwnProperty.call(layers, layerName)) {
+				layers[layerName] = !layers[layerName];
+			}
+			const updateState = {
+				MapState: {
+					...that.state.MapState,
+					layers,
 				},
 			};
 			that.setState(updateState);

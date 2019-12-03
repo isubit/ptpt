@@ -7,12 +7,6 @@ import { SideNav } from './SideNav';
 import { HeaderOptions } from './HeaderOptions';
 import { LocationInputWrapper } from './LocationInput';
 
-/* const LocationInput = () => (
-	<div className="LocationInput">
-		<input placeholder="Enter a location or address" />
-	</div>
-); */
-
 const Title = () => (
 	<div className="Title">
 		<Link to="/">
