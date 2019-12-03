@@ -27,7 +27,7 @@ export class Store extends React.Component {
 					mapAPILoaded: true,
 				},
 			};
-			window.addEventListener('scriptinjection.googleplaces', () => {
+			window.addEventListener('script.googleplaces', () => {
 				this.setState(updateState);
 			});
 		}

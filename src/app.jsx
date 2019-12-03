@@ -22,7 +22,7 @@ import { MapConsumer } from 'contexts/MapState';
 	script.id = id;
 	script.async = true;
 	script.onload = function onload() {
-		const event = new Event('scriptinjection.googleplaces');
+		const event = new Event('script.googleplaces');
 		w.dispatchEvent(event);
 	};
 	script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.google_places_api_key}&libraries=places`;
