@@ -1,7 +1,11 @@
+// import Debug from 'debug';
 import React from 'react';
 import PlacesAutocomplete from 'react-places-autocomplete';
 
+
 import { MapConsumer } from '../contexts/MapState';
+
+// const debug = Debug('LocationInput');
 
 export const LocationInputWrapper = (props) => (
 	<MapConsumer>
@@ -38,15 +42,6 @@ const LocationInputSuggestions = (props) => {
 };
 
 export class LocationInput extends React.Component {
-	componentDidMount() {
-		const { setMapAPILoaded, mapAPILoaded } = this.props;
-		if (!mapAPILoaded) {
-			window.addEventListener('scriptinjection', () => {
-				setMapAPILoaded();
-			});
-		}
-	}
-
 	handleOnChange(e) {
 		const { setLocationSearchInput } = this.props;
 		setLocationSearchInput(e);
@@ -60,14 +55,11 @@ export class LocationInput extends React.Component {
 	}
 
 	handleSelect(e) {
-		// binding props to this, so we can access props within setLocationSearchInput
-		this.props.setLocationSearchInput(e, true);
+		// binding this to props, so we can access props within setLocationSearchInput
+		// this.props.setLocationSearchInput(e, true);
+		const { setLocationSearchInput } = this.props;
+		setLocationSearchInput(e, true);
 	}
-
-	/* setContextLatLng() {
-		const { setAddressLatLng } = this.props;
-		setAddressLatLng();
-	} */
 
 	render() {
 		const {

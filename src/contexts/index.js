@@ -13,6 +13,26 @@ export class Store extends React.Component {
 		};
 	}
 
+	componentDidMount() {
+		const {
+			MapState: {
+				mapAPILoaded,
+			},
+		} = this.state;
+
+		if (!mapAPILoaded) {
+			const updateState = {
+				MapState: {
+					...this.state.MapState,
+					mapAPILoaded: true,
+				},
+			};
+			window.addEventListener('scriptinjection.googleplaces', () => {
+				this.setState(updateState);
+			});
+		}
+	}
+
 	save = () => {
 		const date = new Date();
 		const contents = JSON.stringify({
