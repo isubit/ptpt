@@ -3,6 +3,8 @@ import {
 	Link,
 	Redirect,
 } from 'react-router-dom';
+import MapboxDraw from '@mapbox/mapbox-gl-draw';
+
 import tree from 'test_data/tree.json';
 import prairie from 'test_data/prairie.json';
 import Debug from 'debug';
@@ -12,6 +14,42 @@ const debug = Debug('MapComponent');
 const testData = {
 	tree,
 	prairie,
+};
+
+export const DrawLineMode = MapboxDraw.modes.draw_line_string;
+
+DrawLineMode.clickAnywhere = function clickAnywhere(state, e) {
+	// This ends the drawing after the user creates a second point, triggering this.onStop
+	if (state.currentVertexPosition === 1) {
+		return this.changeMode('simple_select', { featureIds: [state.line.id] }); // eslint-disable-line react/no-this-in-sfc
+	}
+
+	this.updateUIClasses({ mouse: 'add' }); // eslint-disable-line react/no-this-in-sfc
+	state.line.updateCoordinate(state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
+	if (state.direction === 'forward') {
+		state.currentVertexPosition += 1; // eslint-disable-line no-param-reassign
+		state.line.updateCoordinate(state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
+	} else {
+		state.line.addCoordinate(0, e.lngLat.lng, e.lngLat.lat);
+	}
+
+	return null;
+};
+
+DrawLineMode.onStop = function onStop(state) {
+	// Check to see if we've deleted this feature.
+	if (this.getFeature(state.line.id) === undefined) return;
+
+	if (state.line.isValid()) {
+		const lineGeoJson = state.line.toGeoJSON();
+
+		this.map.fire('draw.create', {
+			features: [lineGeoJson],
+		});
+	} else {
+		this.deleteFeature([state.line.id], { silent: true });
+		// this.changeMode('simple_select', {}, { silent: true }); // Unsure if this is necessary.
+	}
 };
 
 export class Planting extends React.Component {
@@ -63,7 +101,11 @@ export class Planting extends React.Component {
 			draw.deleteAll();
 			editingFeature && setEditingFeature(null);
 
-			draw.changeMode('draw_polygon');
+			if (type === 'tree') {
+				draw.changeMode('draw_line');
+			} else {
+				draw.changeMode('draw_polygon');
+			}
 
 			// Setup a new draw.create listener.
 			// This will update the feature with some default properties,
@@ -106,12 +148,12 @@ export class Planting extends React.Component {
 
 		// Clean up events.
 		events.forEach((value, key) => {
-			map.off(key, value);
+			map && map.off(key, value);
 			events.delete(key);
 		});
 
 		// Clean up draw and feature state.
-		draw.deleteAll();
+		draw && draw.deleteAll();
 		setEditingFeature(null);
 	}
 

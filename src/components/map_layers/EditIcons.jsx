@@ -13,13 +13,14 @@ export const EditIcons = props => {
 	const layer = {
 		id: 'feature_data_edit_icons',
 		type: 'symbol',
-		source: 'feature_data_edit_icons',
+		source: 'feature_data_southern_vertices',
 		layout: {
 			'icon-image': image || '/assets/edit_feature.svg',
+			'icon-allow-overlap': true,
 		},
 	};
 
-	let events = [
+	const events = new Map([
 		['click', e => {
 			const editingIcon = e.features[0];
 			const { for: featureId } = editingIcon.properties;
@@ -27,8 +28,7 @@ export const EditIcons = props => {
 			setEditingFeature(feature);
 			nextStep('/plant/tree/rows');
 		}],
-	];
-	events = new Map(events);
+	]);
 
 	return <Layer map={map} layer={layer} events={events} />;
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layer } from './Layer';
 
-export const Outline = props => {
+export const TreeRows = props => {
 	const {
 		color,
 		width,
@@ -9,13 +9,14 @@ export const Outline = props => {
 	} = props;
 
 	const layer = {
-		id: 'feature_data_outline',
+		id: 'feature_data_tree_rows',
 		type: 'line',
-		source: 'feature_data',
+		source: 'feature_data_tree_rows',
 		paint: {
 			'line-color': color || '#006ba6',
-			'line-width': width || 3,
+			'line-width': width || 2,
 		},
+		maxzoom: 20,
 	};
 
 	return <Layer map={map} layer={layer} />;

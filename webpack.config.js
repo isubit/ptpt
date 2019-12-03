@@ -8,7 +8,7 @@ const MODULES_DIR = path.resolve(__dirname, './node_modules');
 
 // call dotenv and it will return an Object with a parsed key 
 const env = dotenv.config().parsed;
-  
+
 // reduce it to a nice object, the same as before
 const envKeys = Object.keys(env).reduce((prev, next) => {
 	prev[`process.env.${next}`] = JSON.stringify(env[next]);
@@ -33,7 +33,7 @@ const config = {
 			'.ngrok.io',
 		],
 	},
-	module : {
+	module: {
 		noParse: [/node_modules\/mapbox-gl\/dist\/mapbox-gl.js/],
 		rules: [
 			{
@@ -87,7 +87,10 @@ const config = {
 	},
 	node: {
 		fs: 'empty',
-	}
+	},
+	watchOptions: {
+		aggregateTimeout: 2000,
+	},
 };
 
 module.exports = config;

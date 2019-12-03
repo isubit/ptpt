@@ -1,7 +1,7 @@
 import React from 'react';
 import { Layer } from './Layer';
 
-export const Area = props => {
+export const PrairieArea = props => {
 	const {
 		color,
 		opacity,
@@ -10,9 +10,9 @@ export const Area = props => {
 	} = props;
 
 	const layer = {
-		id: 'feature_data_area',
+		id: 'feature_data_prairie_area',
 		type: 'fill',
-		source: 'feature_data',
+		source: 'feature_data_prairie',
 		paint: {
 			'fill-color': color || '#7a99ac',
 			'fill-opacity': opacity || 0.7,

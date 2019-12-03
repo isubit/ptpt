@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import {
 	Switch,
@@ -11,29 +12,46 @@ import Debug from 'debug';
 import { MapConsumer } from 'contexts/MapState';
 
 import {
-	getPolygons,
-	getEditIcons,
+	getFeatures,
+	getOptimalTreePlacements,
+	getSouthernVertices,
+	getTreeRows,
 } from 'utils/sources';
 
 import TestTreePoly from 'test_data/tree.json'; // This is some test data so there is something to interact with.
 
-import { Area } from './map_layers/Area';
+import { PrairieArea } from './map_layers/PrairieArea';
 import { EditIcons } from './map_layers/EditIcons';
-import { Outline } from './map_layers/Outline';
+import { FeatureLabels } from './map_layers/FeatureLabels';
+import { PrairieOutline } from './map_layers/PrairieOutline';
+import { SSURGO } from './map_layers/SSURGO';
+import { TreeRows } from './map_layers/TreeRows';
+import { Trees } from './map_layers/Trees';
 
 import { SimpleSelect } from './map_modes/SimpleSelect';
-import { Planting } from './map_modes/Planting';
+import { DrawLineMode, Planting } from './map_modes/Planting';
 
 
 mapboxgl.accessToken = process.env.mapbox_api_key;
 
 const debug = Debug('MapComponent');
 
-export const MapWrapper = (props) => (
+// Export two different MapWrappers to trigger a full component switch when styles change, for a clean refresh of the map.
+// This can be optimized in the future, but requires a lot of tweaking of lifecycle logic, because a style change means all sources and layers are wiped...
+export const MapWrapperDefault = (props) => (
 	<MapConsumer>
 		{(mapCtx) => {
 			const ctx = { ...mapCtx.state, ...mapCtx.actions };
-			return <MapComponent {...ctx} {...props} />;
+			return <MapComponent {...ctx} {...props} styleURL={process.env.mapbox_outdoor_url} />;
+		}}
+	</MapConsumer>
+);
+
+export const MapWrapperSatellite = (props) => (
+	<MapConsumer>
+		{(mapCtx) => {
+			const ctx = { ...mapCtx.state, ...mapCtx.actions };
+			return <MapComponent {...ctx} {...props} styleURL={process.env.mapbox_satellite_url} />;
 		}}
 	</MapConsumer>
 );
@@ -49,6 +67,7 @@ export class MapComponent extends React.Component {
 			sourcesAdded: false, // Are the sources added?
 			editingFeature: null, // The current feature being edited.
 			sources: [], // The current sources loaded.
+			cleanup: false, // Is the map cleaning up? (unmounting)
 		};
 		this.mapElement = React.createRef();
 		debug('Props:', props);
@@ -59,31 +78,46 @@ export class MapComponent extends React.Component {
 		const {
 			defaultLatLng,
 			defaultZoom,
+			styleURL,
 			updateCurrentMapDetails,
 		} = this.props;
 
 		this.map = new mapboxgl.Map({
 			container: this.mapElement.current,
-			style: 'mapbox://styles/mapbox/outdoors-v11',
 			center: defaultLatLng,
 			zoom: defaultZoom,
+			style: styleURL,
+			minZoom: 12,
 		});
-		// this.setState({ init: true });
+
 		this.map.on('load', () => {
-			// this.setState({ loaded: true });
 			debug('Map loaded:', this.map);
 			if (this.state.setup) {
 				return false;
 			}
 
+			// this.moveMapCenter();
+
 			this.loadSources(); // Load the data sources.
 			this.loadImages([ // Load the images to be used in the map.
-				'/assets/edit_feature.svg',
+				{
+					alt: 'Edit Polygon',
+					src: '/assets/edit_feature.svg',
+				},
+				{
+					alt: 'Tree Placement',
+					src: '/assets/plant_tree_option.svg',
+				},
 			]);
-			this.loadSomeTestData(); // Load some test data.
+			// this.loadSomeTestData(); // Load some test data.
 
 			// Add the draw controller.
-			this.draw = new MapboxDraw();
+			this.draw = new MapboxDraw({
+				modes: {
+					draw_line: DrawLineMode,
+					...MapboxDraw.modes,
+				},
+			});
 			this.map.addControl(this.draw, 'top-right');
 
 			this.setState({
@@ -114,6 +148,10 @@ export class MapComponent extends React.Component {
 			// Only the sources need to be updated, because they contain the state data.
 			this.loadSources();
 		}
+	}
+
+	componentWillUnmount() {
+		this.setState({ cleanup: true }, () => this.map.remove());
 	}
 
 	get params() {
@@ -216,15 +254,22 @@ export class MapComponent extends React.Component {
 	addSource(name, type, data) {
 		// This adds the data source to the map, or updates it if it exists.
 		if (this.state.sources.includes(name)) {
-			// Update the source.
-			const source = this.map.getSource(name);
-			source.setData(data);
+			// Update the source, only if geojson. (Not sure what the method is to update a vector url.)
+			if (type === 'geojson') {
+				const source = this.map.getSource(name);
+				source.setData(data);
+			}
 		} else {
 			// Add the source.
-			this.map.addSource(name, {
+			const sourceData = {
 				type,
-				data,
-			});
+			};
+			if (type === 'geojson') {
+				sourceData.data = data;
+			} else if (type === 'vector') {
+				sourceData.url = data;
+			}
+			this.map.addSource(name, sourceData);
 			this.setState(prevState => ({
 				sources: prevState.sources.concat(name),
 			}));
@@ -242,36 +287,62 @@ export class MapComponent extends React.Component {
 			},
 		} = this;
 
-		// These are the polygons.
-		this.addSource('feature_data', 'geojson', {
+		// These are the polygons for the prairies.
+		this.addSource('feature_data_prairie', 'geojson', {
 			type: 'FeatureCollection',
-			features: getPolygons(data),
+			features: getFeatures(data)
+				.filter(ea => ea.properties.type === 'prairie'),
 		});
 
-		// These are the edit icons.
-		this.addSource('feature_data_edit_icons', 'geojson', {
+		// These are the tree rows.
+		this.addSource('feature_data_tree_rows', 'geojson', {
 			type: 'FeatureCollection',
-			features: getEditIcons(data),
+			features: getFeatures(data)
+				.filter(ea => ea.properties.type === 'tree')
+				.reduce((features, line) => {
+					const rows = getTreeRows(line);
+					return features.concat(rows);
+				}, []),
 		});
+
+		// These are the tree placements.
+		this.addSource('feature_data_trees', 'geojson', {
+			type: 'FeatureCollection',
+			features: getFeatures(data)
+				.filter(ea => ea.properties.type === 'tree')
+				.reduce((features, line) => {
+					const trees = getOptimalTreePlacements(line);
+					return features.concat(trees);
+				}, []),
+		});
+
+		// These are the edit icons and labels.
+		this.addSource('feature_data_southern_vertices', 'geojson', {
+			type: 'FeatureCollection',
+			features: getSouthernVertices(data),
+		});
+
+		// This is SSURGO.
+		process.env.mapbox_ssurgo_tileset_id && this.addSource('ssurgo', 'vector', `mapbox://${process.env.mapbox_ssurgo_tileset_id}`);
 
 		!sourcesAdded && this.setState({ sourcesAdded: true });
 	}
 
-	loadImages(srcs) {
-		const addImg = src => new Promise(resolve => {
+	loadImages(images) {
+		const addImg = ea => new Promise(resolve => {
 			const img = document.createElement('img');
-			img.src = src;
-			img.alt = 'Edit Polygon';
+			img.src = ea.src;
+			img.alt = ea.alt || ea.src;
 			img.onload = () => {
-				resolve(src);
-				this.map.addImage(src, img);
+				resolve(ea.src);
+				this.map.addImage(ea.src, img);
 			};
 			img.onerror = () => {
-				resolve(src);
+				resolve(ea.src);
 			};
 		});
 
-		return Promise.all(srcs.map(addImg));
+		return Promise.all(images.map(addImg));
 	}
 
 	render() {
@@ -282,10 +353,17 @@ export class MapComponent extends React.Component {
 			nextStep,
 			props: {
 				data,
+				layers,
+				router: {
+					location: {
+						pathname,
+					},
+				},
 			},
 			setEditingFeature,
 			saveFeature,
 			state: {
+				cleanup,
 				drawInit,
 				sourcesAdded,
 				editingFeature,
@@ -307,7 +385,7 @@ export class MapComponent extends React.Component {
 			<>
 				<div className="Map" ref={this.mapElement}>
 					{/* When the draw controller is init, we can render the drawing modes. They self-contain their event listeners and config forms. */}
-					{drawInit
+					{!cleanup && drawInit
 						&& (
 							<Switch>
 								<Route path="/plant/tree/:step?" render={router => <Planting router={router} type="tree" steps={['rows', 'species', 'spacing']} {...mapModeProps} />} />
@@ -318,12 +396,16 @@ export class MapComponent extends React.Component {
 						)}
 
 					{/* Load layers. These self-contain their event listeners. */}
-					{sourcesAdded
+					{!cleanup && sourcesAdded
 						&& (
 							<>
-								<Area map={map} />
-								<Outline map={map} />
-								<EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />
+								{layers.ssurgo && <SSURGO map={map} />}
+								<PrairieArea map={map} />
+								<PrairieOutline map={map} />
+								<TreeRows map={map} />
+								<Trees map={map} />
+								{!/^\/plant/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
+								<FeatureLabels map={map} />
 							</>
 						)}
 				</div>
