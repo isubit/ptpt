@@ -15,7 +15,7 @@ const envKeys = Object.keys(env).reduce((prev, next) => {
 	return prev;
 }, {});
 
-console.log(envKeys);
+// console.log(envKeys);
 
 const config = {
 	context: path.resolve(__dirname, './'),

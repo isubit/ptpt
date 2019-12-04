@@ -75,24 +75,39 @@ export class MapComponent extends React.Component {
 
 	componentDidMount() {
 		// On mount, we init the map in the container, then load in the things we need.
-		const { styleURL } = this.props;
-		this.map = new mapboxgl.Map({
+		const {
+			defaultLatLng,
+			defaultZoom,
+			defaultPitch,
+			defaultBearing,
+			styleURL,
+			updateCurrentMapDetails,
+			currentMapDetails: {
+				latlng,
+				zoom,
+				pitch,
+				bearing,
+			},
+		} = this.props;
+
+		const mapConfig = {
 			container: this.mapElement.current,
 			style: styleURL,
-			center: [-93.241935, 41.224619],
-			zoom: 13,
 			minZoom: 12,
-		});
-
-		// this.setState({ init: true });
+			center: latlng || defaultLatLng,
+			zoom: zoom || defaultZoom,
+			pitch: pitch || defaultPitch,
+			bearing: bearing || defaultBearing,
+		}
+		this.map = new mapboxgl.Map(mapConfig);
 
 		this.map.on('load', () => {
-			// this.setState({ loaded: true });
 			debug('Map loaded:', this.map);
-
 			if (this.state.setup) {
 				return false;
 			}
+
+			// this.moveMapCenter();
 
 			this.loadSources(); // Load the data sources.
 			this.loadImages([ // Load the images to be used in the map.
@@ -122,9 +137,24 @@ export class MapComponent extends React.Component {
 
 			return true;
 		});
+
+		this.map.on('moveend', () => {
+			const { lat, lng } = this.map.getCenter();
+			const latlng = [lng, lat];
+			const zoom = this.map.getZoom();
+			const bearing = this.map.getBearing();
+			const pitch = this.map.getPitch();
+			updateCurrentMapDetails({
+				latlng,
+				zoom,
+				bearing,
+				pitch,
+			});
+		});
 	}
 
 	componentDidUpdate() {
+		this.moveMapCenter();
 		if (this.state.sourcesAdded) {
 			// Only the sources need to be updated, because they contain the state data.
 			this.loadSources();
@@ -174,6 +204,31 @@ export class MapComponent extends React.Component {
 		this.setState({
 			editingFeature: feature,
 		});
+	}
+
+	moveMapCenter() {
+		const {
+			currentMapDetails: {
+				latlng,
+				pitch,
+				bearing,
+				zoom,
+			},
+		} = this.props;
+		const { lat, lng } = this.map.getCenter();
+		if (latlng) {
+			if (latlng[0] !== lng && latlng[1] !== lat) {
+				this.map.easeTo({
+					center: {
+						lat: latlng[1],
+						lng: latlng[0],
+					},
+					pitch,
+					bearing,
+					zoom,
+				});
+			}
+		}
 	}
 
 	saveFeature = () => {
