@@ -78,20 +78,45 @@ export class MapComponent extends React.Component {
 		const {
 			defaultLatLng,
 			defaultZoom,
+			defaultPitch,
+			defaultBearing,
 			styleURL,
 			updateCurrentMapDetails,
+			mapPreviouslyLoaded,
+			setMapPreviouslyLoaded,
+			currentMapDetails: {
+				latlng,
+				zoom,
+				pitch,
+				bearing,
+			},
 		} = this.props;
 
-		this.map = new mapboxgl.Map({
+		const mapConfig = {
 			container: this.mapElement.current,
-			center: defaultLatLng,
-			zoom: defaultZoom,
 			style: styleURL,
 			minZoom: 12,
-		});
+		}
+		// check if map have been loaded before -- apply current map details if so
+		if (mapPreviouslyLoaded) {
+			mapConfig.center = latlng;
+			mapConfig.zoom = zoom;
+			mapConfig.bearing = bearing;
+			mapConfig.pitch = pitch;
+		} else {
+			mapConfig.center = defaultLatLng;
+			mapConfig.zoom = defaultZoom;
+			mapConfig.bearing = defaultBearing;
+			mapConfig.pitch = defaultPitch;
+		}
+
+		this.map = new mapboxgl.Map(mapConfig);
 
 		this.map.on('load', () => {
 			debug('Map loaded:', this.map);
+			if (!mapPreviouslyLoaded) {
+				setMapPreviouslyLoaded();
+			}
 			if (this.state.setup) {
 				return false;
 			}
