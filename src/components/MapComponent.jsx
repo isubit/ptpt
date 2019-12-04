@@ -82,8 +82,6 @@ export class MapComponent extends React.Component {
 			defaultBearing,
 			styleURL,
 			updateCurrentMapDetails,
-			mapPreviouslyLoaded,
-			setMapPreviouslyLoaded,
 			currentMapDetails: {
 				latlng,
 				zoom,
@@ -96,27 +94,15 @@ export class MapComponent extends React.Component {
 			container: this.mapElement.current,
 			style: styleURL,
 			minZoom: 12,
+			center: latlng || defaultLatLng,
+			zoom: zoom || defaultZoom,
+			pitch: pitch || defaultPitch,
+			bearing: bearing || defaultBearing,
 		}
-		// check if map have been loaded before -- apply current map details if so
-		if (mapPreviouslyLoaded) {
-			mapConfig.center = latlng;
-			mapConfig.zoom = zoom;
-			mapConfig.bearing = bearing;
-			mapConfig.pitch = pitch;
-		} else {
-			mapConfig.center = defaultLatLng;
-			mapConfig.zoom = defaultZoom;
-			mapConfig.bearing = defaultBearing;
-			mapConfig.pitch = defaultPitch;
-		}
-
 		this.map = new mapboxgl.Map(mapConfig);
 
 		this.map.on('load', () => {
 			debug('Map loaded:', this.map);
-			if (!mapPreviouslyLoaded) {
-				setMapPreviouslyLoaded();
-			}
 			if (this.state.setup) {
 				return false;
 			}
@@ -230,16 +216,18 @@ export class MapComponent extends React.Component {
 			},
 		} = this.props;
 		const { lat, lng } = this.map.getCenter();
-		if (latlng[0] !== lng && latlng[1] !== lat) {
-			this.map.easeTo({
-				center: {
-					lat: latlng[1],
-					lng: latlng[0],
-				},
-				pitch,
-				bearing,
-				zoom,
-			});
+		if (latlng) {
+			if (latlng[0] !== lng && latlng[1] !== lat) {
+				this.map.easeTo({
+					center: {
+						lat: latlng[1],
+						lng: latlng[0],
+					},
+					pitch,
+					bearing,
+					zoom,
+				});
+			}
 		}
 	}
 

@@ -14,16 +14,15 @@ const debug = Debug('MapState');
 export const MapDefaultState = {
 	data: new Map(),
 	mapAPILoaded: false,
-	mapPreviouslyLoaded: false,
 	defaultLatLng: [-93.624287, 41.587537],
 	defaultZoom: 13,
 	defaultBearing: 0,
 	defaultPitch: 0,
 	currentMapDetails: {
-		latlng: [-93.624287, 41.587537],
-		zoom: 13,
-		bearing: 0,
-		pitch: 0,
+		latlng: null,
+		zoom: null,
+		bearing: null,
+		pitch: null,
 	},
 	locationAddress: {
 		locationSearchInput: '',
