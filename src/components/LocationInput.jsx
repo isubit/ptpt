@@ -64,6 +64,7 @@ export class LocationInput extends React.Component {
 	render() {
 		const {
 			mapAPILoaded,
+			defaultLatLng,
 			currentMapDetails: {
 				latlng,
 			},
@@ -82,7 +83,7 @@ export class LocationInput extends React.Component {
 					}}
 					searchOptions={{
 						// eslint-disable-next-line no-undef
-						location: new google.maps.LatLng(latlng[1], latlng[0]),
+						location: new google.maps.LatLng(latlng ? latlng[1] : defaultLatLng[1], latlng ? latlng[0] : defaultLatLng[0]),
 						radius: 20000,
 						types: ['address'],
 					}}
