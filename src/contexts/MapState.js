@@ -188,14 +188,6 @@ export const MapActions = (that) => {
 				}
 			});
 		},
-		setMapPreviouslyLoaded() {
-			that.setState({
-				MapState: {
-					...that.state.MapState,
-					mapPreviouslyLoaded: true,
-				},
-			});
-		},
 	};
 	return actions;
 };
