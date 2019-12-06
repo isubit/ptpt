@@ -1,5 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {
+	Link,
+	withRouter,
+} from 'react-router-dom';
 
 import { MapConsumer } from 'contexts/MapState';
 
@@ -23,22 +26,31 @@ const SaveButton = ({ save }) => (
 	</button>
 );
 
-export const Header = () => (
-	<div className="Header">
-		<div className="grid-row sidenav-btn">
-			<SideNav />
-			<Title />
-			<LocationInputWrapper />
-			<HeaderOptions />
-			<MapConsumer>
-				{ctx => <SaveButton save={ctx.save} />}
-			</MapConsumer>
+const Header = (props) => {
+	const {
+		location,
+		history,
+	} = props;
+
+	return (
+		<div className="Header">
+			<div className="grid-row sidenav-btn">
+				<SideNav />
+				<Title />
+				<LocationInputWrapper />
+				<HeaderOptions location={location} history={history} />
+				<MapConsumer>
+					{ctx => <SaveButton save={ctx.save} />}
+				</MapConsumer>
+			</div>
+			<div className="search-save-btn">
+				<LocationInputWrapper />
+				<MapConsumer>
+					{ctx => <SaveButton save={ctx.save} />}
+				</MapConsumer>
+			</div>
 		</div>
-		<div className="search-save-btn">
-			<LocationInputWrapper />
-			<MapConsumer>
-				{ctx => <SaveButton save={ctx.save} />}
-			</MapConsumer>
-		</div>
-	</div>
-);
+	);
+};
+
+export const HeaderWithRouter = withRouter(Header);

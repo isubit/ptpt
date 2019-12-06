@@ -1,5 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {
+	Link,
+} from 'react-router-dom';
 
 import { MapConsumer } from '../contexts/MapState';
 // import { Context } from 'mocha';
@@ -71,79 +73,77 @@ const DropdownCheckbox = ({
 );
 
 export class HeaderOptions extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			optionStates: {
-				treeOptionActive: false,
-				prairieOptionActive: false,
-				layerOptionActive: false,
-				reportOptionActive: false,
+	state = {
+		treeOption: false,
+		prairieOption: false,
+		layerOption: false,
+		reportOption: false,
+	};
+
+	componentDidUpdate() {
+		const {
+			treeOption,
+			prairieOption,
+			reportOption,
+		} = this.state;
+		const {
+			location: {
+				pathname,
 			},
+			// history,
+		} = this.props;
+
+		if (pathname.includes('/plant/tree') && !treeOption) {
+			this.setOptionState('treeOption');
+		} else if (pathname.includes('/plant/prairie') && !prairieOption) {
+			this.setOptionState('prairieOption');
+		} else if (pathname.includes('/report') && !reportOption) {
+			this.setOptionState('reportOption');
+		} else if (pathname === '/' && (treeOption || prairieOption || reportOption)) {
+			this.setOptionState(null);
+		}
+	}
+
+	toggleLayerOption() {
+		this.setOptionState('layerOption');
+	}
+
+	setOptionState(optionName) {
+		const {
+			layerOption,
+		} = this.state;
+
+		const updateState = {
+			treeOption: false,
+			prairieOption: false,
+			layerOption: false,
+			reportOption: false,
 		};
-	}
 
-	handleCheckboxChange = (event) => {
-		const checkboxName = event.target.name;
-		const { layerStates } = this.state;
-		// toggle on or off
-		layerStates[checkboxName] = !layerStates[checkboxName];
-		this.setState({
-			layerStates: {
-				...layerStates,
-			},
-		});
-	}
-
-	toggleActiveClass = (optionName) => {
-		const { optionStates } = this.state;
-		let prevActiveState;
-
-		const optionStateKeys = Object.keys(optionStates);
-		optionStateKeys.forEach((key) => {
-			if (optionStates[key] === true) {
-				prevActiveState = key;
-			}
-		});
-
-		if (optionName === 'treeOption') {
-			optionStates.treeOptionActive = !optionStates.treeOptionActive;
-		} else if (optionName === 'prairieOption') {
-			optionStates.prairieOptionActive = !optionStates.prairieOptionActive;
-		} else if (optionName === 'layerOption') {
-			optionStates.layerOptionActive = !optionStates.layerOptionActive;
-		} else if (optionName === 'reportOption') {
-			optionStates.reportOptionActive = !optionStates.reportOptionActive;
-		}
-
-		if (prevActiveState) {
-			if (!prevActiveState.includes(optionName)) {
-				optionStates[prevActiveState] = false;
+		if (optionName) {
+			if (optionName !== 'layerOption') {
+				updateState[optionName] = true;
+			} else {
+				updateState[optionName] = !layerOption;
 			}
 		}
 
-		this.setState({
-			optionStates: {
-				...optionStates,
-			},
-		});
+		this.setState(updateState);
 	}
 
 	render() {
 		const {
-			optionStates: {
-				treeOptionActive,
-				prairieOptionActive,
-				layerOptionActive,
-				reportOptionActive,
-			},
+			treeOption,
+			prairieOption,
+			layerOption,
+			reportOption,
 		} = this.state;
 
 		return (
 			<div className="HeaderOptions">
 				<ul>
-					<li className={treeOptionActive ? 'option active' : 'option'}>
-						<Link to="/plant/tree" onClick={() => this.toggleActiveClass('treeOption')}>
+					<li className={treeOption ? 'option active' : 'option'}>
+						<Link to="/plant/tree">
 							<img className="option-inactive" src="/assets/plant_tree_option.svg" alt="Plant trees" />
 							<img className="option-active" src="/assets/tree_active.svg" alt="Plant trees" />
 							<div className="option-name">
@@ -152,8 +152,8 @@ export class HeaderOptions extends React.Component {
 							</div>
 						</Link>
 					</li>
-					<li className={prairieOptionActive ? 'option active' : 'option'}>
-						<Link to="/plant/prairie" onClick={() => this.toggleActiveClass('prairieOption')}>
+					<li className={prairieOption ? 'option active' : 'option'}>
+						<Link to="/plant/prairie">
 							<img className="option-inactive" src="/assets/plant_prairie.svg" alt="Plant prairies" />
 							<img className="option-active" src="/assets/prairieOption_active.svg" alt="Plant prairies" />
 							<div className="option-name">
@@ -162,8 +162,8 @@ export class HeaderOptions extends React.Component {
 							</div>
 						</Link>
 					</li>
-					<li className={layerOptionActive ? 'option active' : 'option'}>
-						<Link to="/#" onClick={() => this.toggleActiveClass('layerOption')}>
+					<li className={layerOption ? 'option active' : 'option'}>
+						<Link to="/#" onClick={() => this.toggleLayerOption()}>
 							<img className="option-inactive" src="/assets/map_layers.svg" alt="Show layers" />
 							<img className="option-active" src="/assets/layerOption_active.svg" alt="Show layers" />
 							<div className="option-name">
@@ -172,7 +172,7 @@ export class HeaderOptions extends React.Component {
 							</div>
 						</Link>
 						<div className="OptionsDropdown grid-row">
-							<button type="button" className="CloseButton" onClick={() => this.toggleActiveClass('layerOption')}>
+							<button type="button" className="CloseButton" onClick={() => this.toggleLayerOption()}>
 								<img src="/assets/close_dropdown.svg" alt="Close" />
 							</button>
 							<MapConsumer>
@@ -192,8 +192,8 @@ export class HeaderOptions extends React.Component {
 							</MapConsumer>
 						</div>
 					</li>
-					<li className={reportOptionActive ? 'option active' : 'option'}>
-						<Link to="/#" onClick={() => this.toggleActiveClass('reportOption')}>
+					<li className={reportOption ? 'option active' : 'option'}>
+						<Link to="/report">
 							<img className="option-inactive" src="/assets/view_report.svg" alt="View report" />
 							<img className="option-active" src="/assets/reportOption_active.svg" alt="View report" />
 							<div className="option-name">
