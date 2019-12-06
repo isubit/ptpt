@@ -16,13 +16,31 @@ import { Header } from 'components/Header';
 import { WelcomeModal } from 'components/modals/WelcomeModal';
 import { MapConsumer } from 'contexts/MapState';
 
+(function injectMapScript(w, s, id) {
+	const script = w.document.createElement(s);
+	script.type = 'text/javascript';
+	script.id = id;
+	script.async = true;
+	script.onload = function onload() {
+		const event = new Event('script.googleplaces');
+		w.dispatchEvent(event);
+	};
+	script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.google_places_api_key}&libraries=places`;
+	w.document.getElementsByTagName('head')[0].appendChild(script);
+}(window, 'script', 'google_places_api_key'));
+
 const App = () => (
 	<Store>
 		<Router>
 			{/* These will always be visible, no addt'l routing required. */}
 			{/* The map is always mounted (but perhaps covered)
 				to improve performance when route switching. */}
-			<Header />
+			<MapConsumer>
+				{ctx => {
+					const { state, actions } = ctx;
+					return <Header {...state} {...actions} />;
+				}}
+			</MapConsumer>
 			{/* <Route path="/:action?/:type?/:step?" render={(router) => <MapWrapper router={router} />} /> */}
 			<MapConsumer>
 				{(ctx) => {
