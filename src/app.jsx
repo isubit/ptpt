@@ -43,7 +43,7 @@ const App = () => (
 					return <Header {...state} {...actions} />;
 				}}
 			</MapConsumer>
-			{/* <Route path="/:action?/:type?/:step?" render={(router) => <MapWrapper router={router} />} /> */}
+
 			<MapConsumer>
 				{(ctx) => {
 					const {
