@@ -1,20 +1,21 @@
 import React from 'react';
 import {
-	Link,
+	// Link,
 	Redirect,
 } from 'react-router-dom';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 
-import tree from 'test_data/tree.json';
-import prairie from 'test_data/prairie.json';
+// import tree from 'test_data/tree.json';
+// import prairie from 'test_data/prairie.json';
 import Debug from 'debug';
+import { TreePlantingModal } from '../modals/TreePlantingModal';
 
 const debug = Debug('MapComponent');
 
-const testData = {
+/* const testData = {
 	tree,
 	prairie,
-};
+}; */
 
 export const DrawLineMode = MapboxDraw.modes.draw_line_string;
 
@@ -113,12 +114,13 @@ export class Planting extends React.Component {
 			const onCreate = e => {
 				map.off('draw.create', onCreate);
 				const feature = e.features[0];
-				feature.properties = {
-					...feature.properties,
-					type,
-					configs: testData[type].properties.configs, // These are some default properties for testing.
-				};
-				draw.add(feature);
+				// feature properties need to be populated with the planting modal
+				// feature.properties = {
+				// 	...feature.properties,
+				// 	type,
+				// 	configs: testData[type].properties.configs, // These are some default properties for testing.
+				// };
+				// draw.add(feature);
 				debug('Created feature:', feature);
 				nextStep(`/plant/${type}/${steps[0]}`);
 				setEditingFeature(feature);
@@ -166,10 +168,11 @@ export class Planting extends React.Component {
 					},
 				},
 			},
-			data,
-			deleteFeature,
+			// data,
+			// deleteFeature,
 			editingFeature,
 			saveFeature,
+			nextStep,
 			type,
 		} = this.props;
 
@@ -178,17 +181,17 @@ export class Planting extends React.Component {
 			return <Redirect to={`/plant/${type}`} />;
 		}
 
-		const {
+		/* const {
 			properties: {
 				configs,
 			},
-		} = editingFeature;
+		} = editingFeature; */
 
 		// If we're on a config step, render the form.
 		return step ? (
 			<div className="Planting MapModeForm vertical-align">
 				{/* the modal below needs to be replaced with a prebuilt component */}
-				<div className="modal margin-center">
+				{/* <div className="modal margin-center">
 					<div>
 						<p>Some pre-filled properties for this {editingFeature.properties.type} polygon...</p>
 						{editingFeature.properties.type === 'tree' && (
@@ -237,7 +240,8 @@ export class Planting extends React.Component {
 							<button onClick={saveFeature} className="Button" type="button">Done</button>
 						</div>
 					</div>
-				</div>
+				</div> */}
+				<TreePlantingModal editingFeature={editingFeature} saveFeature={saveFeature} nextStep={nextStep} />
 			</div>
 		) : null;
 	}
