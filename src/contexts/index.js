@@ -16,10 +16,12 @@ export class Store extends React.Component {
 	componentDidMount() {
 		const {
 			MapState: {
+				lastGeolocationStatus,
 				mapAPILoaded,
 			},
 		} = this.state;
 
+		// Setup Google Places API script loading event.
 		if (!mapAPILoaded) {
 			window.addEventListener('script.googleplaces', () => {
 				this.setState(state => ({
@@ -29,6 +31,19 @@ export class Store extends React.Component {
 					},
 				}));
 			});
+		}
+
+		// Query for the Geolocation API permission state.
+		if (!lastGeolocationStatus) {
+			navigator.permissions.query({ name: 'geolocation' })
+				.then(({ state: status }) => {
+					this.setState(state => ({
+						MapState: {
+							...state.MapState,
+							lastGeolocationStatus: status,
+						},
+					}));
+				});
 		}
 	}
 

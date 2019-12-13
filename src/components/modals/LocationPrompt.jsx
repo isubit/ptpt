@@ -23,7 +23,7 @@ export class Component extends React.Component {
 			},
 		} = this.props;
 
-		// If no longer waiting on geolocation and there was no error, then replace location with current path without hash.
+		// If no longer waiting on geolocation and there was no error, then replace location with current path without hash, i.e. exits out of modal.
 		if ((prevProps.awaitingGeolocation === true && awaitingGeolocation === false && !geolocationError) || lastGeolocationStatus === 'granted') {
 			history.replace(location.pathname);
 		}
@@ -46,6 +46,7 @@ export class Component extends React.Component {
 			errorMsg = 'You\'re currently blocking this app from using your location information. To use this feature, unblock this app in your browser permission settings.';
 		}
 
+		// If geolocation status is granted, don't show the modal.
 		if (lastGeolocationStatus === 'granted') {
 			return null;
 		}
