@@ -13,8 +13,9 @@ import 'styles/base.sass';
 import { MapWrapperDefault, MapWrapperSatellite } from 'components/MapComponent';
 import { Store } from 'contexts';
 import { Header } from 'components/Header';
-import { LocationPrompt } from 'components/modals/LocationPrompt';
-import { WelcomeModal } from 'components/modals/WelcomeModal';
+// import { LocationPrompt } from 'components/modals/LocationPrompt';
+// import { WelcomeModal } from 'components/modals/WelcomeModal';
+import { BigModal } from 'components/modals/BigModal';
 import { MapConsumer } from 'contexts/MapState';
 
 (function injectMapScript(w, s, id) {
@@ -66,9 +67,10 @@ const App = () => (
 
 			{/* Routed components here. These will float over the map. */}
 			<Route path="/help" render={() => <h2>Help Page</h2>} />
-			<Route path="/location" render={router => <LocationPrompt router={router} />} />
-			<Route path="/welcome" render={() => <WelcomeModal />} />
+			{/* <Route path="/location" render={router => <LocationPrompt router={router} />} />
+			<Route path="/welcome" render={() => <WelcomeModal />} /> */}
 			{/* ---- */}
+			<BigModal />
 		</Router>
 	</Store>
 );

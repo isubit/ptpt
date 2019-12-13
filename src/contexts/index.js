@@ -21,14 +21,13 @@ export class Store extends React.Component {
 		} = this.state;
 
 		if (!mapAPILoaded) {
-			const updateState = {
-				MapState: {
-					...this.state.MapState,
-					mapAPILoaded: true,
-				},
-			};
 			window.addEventListener('script.googleplaces', () => {
-				this.setState(updateState);
+				this.setState(state => ({
+					MapState: {
+						...state.MapState,
+						mapAPILoaded: true,
+					},
+				}));
 			});
 		}
 	}
