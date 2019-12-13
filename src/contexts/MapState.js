@@ -12,8 +12,18 @@ import {
 const debug = Debug('MapState');
 
 export const MapDefaultState = {
+	// Data
 	data: new Map(),
+
+	// Google Maps API
 	mapAPILoaded: false,
+
+	// Device / Browser Geolocation API
+	geolocationSupported: !!(navigator && navigator.geolocation && navigator.geolocation.getCurrentPosition),
+	awaitingGeolocation: false,
+	geolocationError: null,
+
+	// Map State
 	defaultLatLng: [-93.624287, 41.587537],
 	defaultZoom: 13,
 	defaultBearing: 0,
@@ -24,11 +34,15 @@ export const MapDefaultState = {
 		bearing: null,
 		pitch: null,
 	},
+
+	// Location Input
 	locationAddress: {
 		locationSearchInput: '',
 		addressName: '',
-		latlng: null,
+		latlng: null, // This is probably redundant because there exists a latlng property in currentMapDetails
 	},
+
+	// Map Layer States
 	basemap: 'outdoor',
 	layers: {
 		ssurgo: false,
@@ -195,6 +209,45 @@ export const MapActions = (that) => {
 					mapPreviouslyLoaded: true,
 				},
 			});
+		},
+		promptCurrentGeolocation() {
+			if (that.state.MapState.geolocationSupported) {
+				that.setState({
+					MapState: {
+						...that.state.MapState,
+						awaitingGeolocation: true,
+					},
+				});
+				navigator.geolocation.getCurrentPosition(pos => {
+					debug('Current geolocation:', pos);
+					const {
+						latitude,
+						longitude,
+					} = pos.coords;
+
+					that.setState({
+						MapState: {
+							...that.state.MapState,
+							awaitingGeolocation: false,
+							locationAddress: {
+								...that.state.MapState.locationAddress,
+								latlng: [longitude, latitude],
+							},
+						},
+					});
+				}, err => {
+					debug('Geolocation error:', err);
+					that.setState({
+						MapState: {
+							...that.state.MapState,
+							awaitingGeolocation: false,
+							geolocationError: err.code,
+						},
+					});
+				});
+			} else {
+				// Set error state.
+			}
 		},
 	};
 	return actions;
