@@ -30,7 +30,7 @@ export class WelcomeModal extends React.Component {
 							<Link to="/help"> help documentation</Link>
 							.
 						</p>
-						<div>
+						<div className="modal-footer">
 							<span className="modal-link">Dismiss helper popups</span>
 							<div className="button-wrap">
 								<div className="Button">

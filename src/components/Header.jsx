@@ -1,5 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {
+	Link,
+	useLocation,
+} from 'react-router-dom';
 
 import { MapConsumer } from 'contexts/MapState';
 
@@ -28,14 +31,14 @@ export const Header = () => (
 		<div className="grid-row sidenav-btn">
 			<SideNav />
 			<Title />
-			<LocationInputWrapper />
+			<LocationInputWrapper location={useLocation()} />
 			<HeaderOptions />
 			<MapConsumer>
 				{ctx => <SaveButton save={ctx.save} />}
 			</MapConsumer>
 		</div>
 		<div className="search-save-btn">
-			<LocationInputWrapper />
+			<LocationInputWrapper location={useLocation()} />
 			<MapConsumer>
 				{ctx => <SaveButton save={ctx.save} />}
 			</MapConsumer>

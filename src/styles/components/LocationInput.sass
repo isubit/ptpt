@@ -2,7 +2,22 @@
     width: calc(100% - 54px)
     height: 45px
     vertical-align: top
-    display: inline-block
+    .wrapper
+        display: flex
+        align-items: center
+        height: 100%
+        width: 100%
+        position: relative
+    .MyLocation
+        width: 45px
+        height: 45px
+        display: inline-block
+        position: absolute
+        left: 22.5px
+        background-color: #ECF1F3
+        background-repeat: no-repeat
+        background-size: 45px
+        background-image: url('../assets/my_location.svg')
     input 
         width: 100%
         height: 100%
@@ -11,7 +26,7 @@
         box-sizing: border-box
         -webkit-appearance: none
         border: none
-        padding: 0 0px 0px 18px
+        padding: 0 0px 0px 75px
         background-color: #ECF1F3
         background-repeat: no-repeat
         background-position: 95%
