@@ -22,6 +22,7 @@ export const MapDefaultState = {
 	geolocationSupported: !!(navigator && navigator.geolocation && navigator.geolocation.getCurrentPosition),
 	awaitingGeolocation: false,
 	geolocationError: null,
+	lastGeolocationStatus: null,
 
 	// Map State
 	defaultLatLng: [-93.624287, 41.587537],
@@ -208,41 +209,57 @@ export const MapActions = (that) => {
 			}));
 		},
 		promptCurrentGeolocation() {
-			if (that.state.MapState.geolocationSupported) {
-				that.setState(state => ({
-					MapState: {
-						...state.MapState,
-						awaitingGeolocation: true,
-					},
-				}), () => {
-					navigator.geolocation.getCurrentPosition(pos => {
-						debug('Current geolocation:', pos);
-						const {
-							latitude,
-							longitude,
-						} = pos.coords;
+			function get() {
+				navigator.geolocation.getCurrentPosition(pos => {
+					debug('Current geolocation:', pos);
+					const {
+						latitude,
+						longitude,
+					} = pos.coords;
 
-						that.setState(state => ({
-							MapState: {
-								...state.MapState,
-								awaitingGeolocation: false,
-								currentMapDetails: {
-									...state.MapState.currentMapDetails,
-									latlng: [longitude, latitude],
-								},
+					that.setState(state => ({
+						MapState: {
+							...state.MapState,
+							awaitingGeolocation: false,
+							currentMapDetails: {
+								...state.MapState.currentMapDetails,
+								latlng: [longitude, latitude],
 							},
-						}));
-					}, err => {
-						debug('Geolocation error:', err);
-						that.setState(state => ({
-							MapState: {
-								...state.MapState,
-								awaitingGeolocation: false,
-								geolocationError: err.code,
-							},
-						}));
-					});
+						},
+					}));
+				}, err => {
+					debug('Geolocation error:', err);
+					that.setState(state => ({
+						MapState: {
+							...state.MapState,
+							awaitingGeolocation: false,
+							geolocationError: err.code,
+						},
+					}));
 				});
+			}
+
+			if (that.state.MapState.geolocationSupported) {
+				navigator.permissions.query({ name: 'geolocation' })
+					.then(({ state: status }) => {
+						that.setState(state => ({
+							MapState: {
+								...state.MapState,
+								lastGeolocationStatus: status,
+							},
+						}), () => {
+							if (status === 'granted') {
+								get();
+							} else {
+								that.setState(state => ({
+									MapState: {
+										...state.MapState,
+										awaitingGeolocation: true,
+									},
+								}), get);
+							}
+						});
+					});
 			} else {
 				debug('Geolocation not supported.');
 				that.setState(state => ({

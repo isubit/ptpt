@@ -16,21 +16,23 @@ export class Component extends React.Component {
 		const {
 			awaitingGeolocation,
 			geolocationError,
+			lastGeolocationStatus,
 			router: {
 				location,
 				history,
 			},
 		} = this.props;
 
-		// If no longer waiting on geolocation and there was no error, then redirect back to current path without hash.
-		if (prevProps.awaitingGeolocation === true && awaitingGeolocation === false && !geolocationError) {
-			history.push(location.pathname);
+		// If no longer waiting on geolocation and there was no error, then replace location with current path without hash.
+		if ((prevProps.awaitingGeolocation === true && awaitingGeolocation === false && !geolocationError) || lastGeolocationStatus === 'granted') {
+			history.replace(location.pathname);
 		}
 	}
 
 	render() {
 		const {
 			geolocationError,
+			lastGeolocationStatus,
 			router: {
 				location,
 			},
@@ -44,11 +46,15 @@ export class Component extends React.Component {
 			errorMsg = 'You\'re currently blocking this app from using your location information. To use this feature, unblock this app in your browser permission settings.';
 		}
 
+		if (lastGeolocationStatus === 'granted') {
+			return null;
+		}
+
 		return (
 			<div className="LocationPrompt modal">
 				<div className="grid-row">
 					<div className="grid-wrap">
-						<Link to={location.pathname}><img className="CloseButton" src="../../assets/close_dropdown.svg" alt="close modal" /></Link>
+						<Link to={location.pathname} replace><img className="CloseButton" src="../../assets/close_dropdown.svg" alt="close modal" /></Link>
 						<h3 className="modal-header">Allow the Prairie &amp; Tree Planting application to access your location while using the app?</h3>
 						<div className="content modal-text">
 							<div className="distribute">
