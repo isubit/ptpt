@@ -1,10 +1,4 @@
 .WelcomeModal
-    display: grid
-    height: 100vh
-    position: absolute
-    top: 0
-    z-index: 1
-    background-color: $white
     .grid-wrap
         > div:last-of-type
             position: absolute
@@ -26,10 +20,6 @@
 
 @media (min-width: 900px) 
     .WelcomeModal
-        height: 100vh
-        align-items: center
-        &.grid-row
-            background-color: rgba(51,51,51, 0.7)
         .grid-wrap
             // max-width: 630px
             max-height: 450px
