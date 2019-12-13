@@ -67,10 +67,9 @@ const App = () => (
 
 			{/* Routed components here. These will float over the map. */}
 			<Route path="/help" render={() => <h2>Help Page</h2>} />
-			{/* <Route path="/location" render={router => <LocationPrompt router={router} />} />
-			<Route path="/welcome" render={() => <WelcomeModal />} /> */}
-			{/* ---- */}
 			<BigModal />
+			{/* ---- */}
+
 		</Router>
 	</Store>
 );
