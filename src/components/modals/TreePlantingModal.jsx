@@ -46,7 +46,18 @@ const NumRowInput = (props) => {
 				</div>
 				<div className="inputElement">
 					<span>How many tree rows would you like to plant?</span>
-					<input type="number" min="1" value={numRows} onChange={(e) => handleNumRowChange(e)} />
+					<select value={numRows} onChange={(e) => handleNumRowChange(e)}>
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+						<option>5</option>
+						<option>6</option>
+						<option>7</option>
+						<option>8</option>
+						<option>9</option>
+						<option>10</option>
+					</select>
 				</div>
 				<div className="inputElement">
 					{/* <input type="checkbox" name="longest_length_rows" />
@@ -79,15 +90,15 @@ const RowDetailInput = (props) => {
 			<div className="stepNumber">
 				<img src="../../assets/step2.svg" alt="Step 2" />
 			</div>
-			<div className="formInputs">
+			<div className="configInputs">
 				<p>Choose a tree type and species for each row. Below are the recommended tree types and species based on your soil. You can change these by choosing a different option in each dropdown.</p>
 				{
 					rows.map((row, i) => (
-						<div className="rowDetails inputElement">
+						<div className="rowDetails">
 							<div className="rowNumber">
 								<span>Row {i + 1}</span>
 							</div>
-							<div className="rowInputs">
+							<div className="rowInputs inputElement">
 								<span>Tree Type</span>
 								<select value={row.type.display} onChange={(e) => handleRowTypeChange(e, i)}>
 									<option>Type 1</option>
@@ -118,6 +129,7 @@ const RowSpacingInput = (props) => {
 		handleRowSpacingChange,
 		handleTreeSpacingChange,
 		handleStockSizeChange,
+		handleDripIrrigationChange,
 	} = props;
 	let {
 		spacing_trees: {
@@ -139,7 +151,6 @@ const RowSpacingInput = (props) => {
 			row_spacing = '5\'';
 			break;
 		default:
-			row_spacing = '';
 			break;
 	}
 
@@ -154,7 +165,6 @@ const RowSpacingInput = (props) => {
 			tree_spacing = '5\'';
 			break;
 		default:
-			tree_spacing = '';
 			break;
 	}
 
@@ -162,10 +172,10 @@ const RowSpacingInput = (props) => {
 		<div className="ConfigForm">
 			<div className="formNumber">
 				<img src="../../assets/step3.svg" alt="Step 3" />
-				<p>Choose the spacing you need in between the trees and what size you plan on purchasing the plantings. Recommendations based on your soil type and slope percentage are prefilled.</p>
 			</div>
-			<div className="formInputs">
-				<div>
+			<div className="configInputs">
+				<p>Choose the spacing you need in between the trees and what size you plan on purchasing the plantings. Recommendations based on your soil type and slope percentage are prefilled.</p>
+				<div className="inputElement">
 					<span>Spacing Between Rows</span>
 					<select
 						value={row_spacing}
@@ -176,7 +186,7 @@ const RowSpacingInput = (props) => {
 						<option>5&apos;</option>
 					</select>
 				</div>
-				<div>
+				<div className="inputElement">
 					<span>Spacing Between Trees</span>
 					<select
 						value={tree_spacing}
@@ -187,7 +197,7 @@ const RowSpacingInput = (props) => {
 						<option>5&apos;</option>
 					</select>
 				</div>
-				<div>
+				<div className="inputElement">
 					<span>Planting Stock Size</span>
 					<select value={stock_size} onChange={(e) => handleStockSizeChange(e)}>
 						<option>Stock Size 1</option>
@@ -195,8 +205,8 @@ const RowSpacingInput = (props) => {
 						<option>Stock Size 3</option>
 					</select>
 				</div>
-				<div>
-					<input type="checkbox" name="drip_irrigation" checked={drip_irrigation} />
+				<div className="inputElement">
+					<input type="checkbox" name="drip_irrigation" checked={drip_irrigation} onChange={(e) => handleDripIrrigationChange(e)} />
 					<span>I&apos;m using drip irrigation</span>
 				</div>
 			</div>
@@ -214,22 +224,22 @@ export class TreePlantingModal extends React.Component {
 		// const type = editingFeature.properties.type || 'tree';
 		const configs = editingFeature.properties.configs || (
 			{
-				windbreak: null,
+				windbreak: false,
 				propagation: 'N',
 				rows: [],
 				spacing_rows: {
-					value: null,
+					value: 3, // placeholder value
 					unit: 'feet',
 				},
 				spacing_trees: {
-					value: null,
+					value: 3, //  placeholder value
 					unit: 'feet',
 				},
 				stock_size: {
-					id: null,
-					display: '',
+					id: 1, // placeholder id
+					display: 'Stock Size 1',
 				},
-				drip_irrigation: null,
+				drip_irrigation: false,
 			}
 		);
 		this.state = {
@@ -244,9 +254,9 @@ export class TreePlantingModal extends React.Component {
 	}
 
 	componentDidMount() {
-		// initialize first row if editingFeature has not been configured
+		// initialize first row if editingFeature has not been configured before (recommended type/species)
 		if (this.state.rows.length === 0) {
-			// const updateRows = this.generateRecommendedRowConfig();
+			// const updateRows = this.generateRecommendedRowConfig(...);
 			const updateRows = {
 				type: {
 					id: 1,
@@ -257,16 +267,25 @@ export class TreePlantingModal extends React.Component {
 					display: 'Species 3',
 				},
 			};
-			this.setState({ rows: [updateRows] }, () => console.log(this.state));
+			this.setState({ rows: [updateRows] });
 		}
+
+		// set the recommended spacing and stock size
 	}
 
 	/* generateRecommendedRowConfig() {
 		// depending on soil type generate tree config for row
 	} */
 
+	/* generateRecommendedTreeSpacing() {
+		// depending on soil type generate tree config for row
+	} */
+
+	/* generateRecommendedRowSpacing() {
+		// depending on soil type generate tree config for row
+	} */
+
 	handleNumRowChange = (event) => {
-		// add or subtract row objects in the rows array
 		const {
 			rows,
 		} = this.state;
@@ -276,17 +295,21 @@ export class TreePlantingModal extends React.Component {
 			updateRows = rows.splice(0, event.target.value);
 			this.setState({ rows: updateRows });
 		} else if (event.target.value > rows.length) {
-			// create recommended row types and species here
-			updateRows = [...rows, {
-				type: {
-					id: 1,
-					display: 'Type 1',
-				},
-				species: {
-					id: 15,
-					display: 'Species 3',
-				},
-			}];
+			// need to generate recommended row type/species
+			updateRows = [...rows];
+			for (let i = 0; i < event.target.value - rows.length; i += 1) {
+				// test data
+				updateRows.push({
+					type: {
+						id: 1,
+						display: 'Type 1',
+					},
+					species: {
+						id: 15,
+						display: 'Species 3',
+					},
+				});
+			}
 			this.setState({ rows: updateRows });
 		}
 	}
@@ -366,6 +389,11 @@ export class TreePlantingModal extends React.Component {
 		), () => console.log(this.state));
 	}
 
+	handleDripIrrigationChange = (event) => {
+		const updateDripIrrigation = event.target.checked;
+		this.setState({ drip_irrigation: updateDripIrrigation });
+	}
+
 	/* handleNextStep() {
 
 	} */
@@ -393,7 +421,7 @@ export class TreePlantingModal extends React.Component {
 				</div>
 				<NumRowInput windbreak={windbreak} propagation={propagation} numRows={rows.length} handleNumRowChange={this.handleNumRowChange} handleWindbreakChange={this.handleWindbreakChange} handlePropgationChange={this.handlePropgationChange} />
 				<RowDetailInput rows={rows} handleRowTypeChange={this.handleRowTypeChange} handleRowSpeciesChange={this.handleRowSpeciesChange} />
-				<RowSpacingInput spacing_trees={spacing_trees} spacing_rows={spacing_rows} stock_size={stock_size} drip_irrigation={drip_irrigation} handleRowSpacingChange={this.handleRowSpacingChange} handleTreeSpacingChange={this.handleTreeSpacingChange} handleStockSizeChange={this.handleStockSizeChange} />
+				<RowSpacingInput spacing_trees={spacing_trees} spacing_rows={spacing_rows} stock_size={stock_size} drip_irrigation={drip_irrigation} handleRowSpacingChange={this.handleRowSpacingChange} handleTreeSpacingChange={this.handleTreeSpacingChange} handleStockSizeChange={this.handleStockSizeChange} handleDripIrrigationChange={this.handleDripIrrigationChange} />
 				<div className="button-wrap">
 					<div className="Button">
 						<span>Next</span>
