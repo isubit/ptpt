@@ -16,7 +16,6 @@ export const FeatureLabels = props => {
 			'text-offset': [0, 3],
 			'text-allow-overlap': true,
 			'text-justify': 'auto',
-			// 'icon-image': ['concat', ['get', 'icon'], '-15'],
 		},
 	};
 
