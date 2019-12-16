@@ -18,11 +18,9 @@ import {
 	getTreeRows,
 } from 'utils/sources';
 
-import {
-	getPolygonCounty,
-} from 'utils/geometry';
+import { enrichFeature } from 'utils/enrichFeature';
 
-import TestTreePoly from 'test_data/tree.json'; // This is some test data so there is something to interact with.
+import csrRent from 'references/csr_rent.json';
 
 import { PrairieArea } from './map_layers/PrairieArea';
 import { EditIcons } from './map_layers/EditIcons';
@@ -35,7 +33,6 @@ import { Trees } from './map_layers/Trees';
 
 import { SimpleSelect } from './map_modes/SimpleSelect';
 import { DrawLineMode, Planting } from './map_modes/Planting';
-
 
 mapboxgl.accessToken = process.env.mapbox_public_key;
 
@@ -73,7 +70,7 @@ export class MapComponent extends React.Component {
 			editingFeature: null, // The current feature being edited.
 			sources: [], // The current sources loaded.
 			cleanup: false, // Is the map cleaning up? (unmounting)
-			saving: false, // Is the map currently saving a feature?
+			enriching: false, // Is the map currently enriching a feature?
 		};
 		this.mapElement = React.createRef();
 		debug('Props:', props);
@@ -126,7 +123,6 @@ export class MapComponent extends React.Component {
 					src: '/assets/plant_tree_option.svg',
 				},
 			]);
-			// this.loadSomeTestData(); // Load some test data.
 
 			// Add the draw controller.
 			this.draw = new MapboxDraw({
@@ -182,15 +178,6 @@ export class MapComponent extends React.Component {
 		return params;
 	}
 
-	loadSomeTestData() {
-		// This is just so we have a polygon to work with on the map.
-		const {
-			addData,
-		} = this.props;
-
-		addData(TestTreePoly);
-	}
-
 	nextStep = step => {
 		// This simply pushes a desired URL into the router.
 		const {
@@ -207,9 +194,32 @@ export class MapComponent extends React.Component {
 
 	setEditingFeature = feature => {
 		// This sets the feature that is currently being edited to state.
-		this.setState({
-			editingFeature: feature,
-		});
+		const {
+			props: {
+				mapAPILoaded,
+			},
+		} = this;
+
+		if (feature) {
+			let clone = _.cloneDeep(feature);
+	
+			this.setState({ enriching: true }, async () => {
+				if (mapAPILoaded) {
+					try {
+						clone = await enrichFeature(clone);
+					} catch(e) {
+						debug(e);	
+					}
+				}
+	
+				this.setState({
+					enriching: false,
+					editingFeature: clone,
+				});
+			});
+		} else {
+			this.setState({ editingFeature: null });
+		}
 	}
 
 	moveMapCenter() {
@@ -245,7 +255,6 @@ export class MapComponent extends React.Component {
 			},
 			props: {
 				addData,
-				mapAPILoaded,
 				router: {
 					history,
 				},
@@ -254,22 +263,8 @@ export class MapComponent extends React.Component {
 
 		debug('Saving feature:', editingFeature);
 
-		const clone = _.cloneDeep(editingFeature);
-
-		this.setState({ saving: true }, async () => {
-			if (mapAPILoaded) {
-				const county = await getPolygonCounty(clone);
-				clone.properties = {
-					...clone.properties,
-					county,
-				};
-			}
-
-			this.setState({ saving: false }, () => {
-				addData(clone);
-				history.push('/');
-			});
-		});
+		addData(editingFeature);
+		history.push('/');
 	}
 
 	deleteFeature = id => {
