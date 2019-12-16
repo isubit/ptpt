@@ -14,9 +14,6 @@ export const SSURGO = props => {
 		source: 'ssurgo',
 		'source-layer': process.env.mapbox_ssurgo_tileset_layer_name,
 		minzoom: 10,
-		// layout: {
-		// 	visibility: props.active ? 'visible' : 'none',
-		// },
 		paint: {
 			'fill-color': [
 				'case',
