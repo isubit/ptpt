@@ -245,6 +245,7 @@ export class MapComponent extends React.Component {
 			},
 			props: {
 				addData,
+				mapAPILoaded,
 				router: {
 					history,
 				},
@@ -253,11 +254,19 @@ export class MapComponent extends React.Component {
 
 		debug('Saving feature:', editingFeature);
 
+		const clone = _.cloneDeep(editingFeature);
+
 		this.setState({ saving: true }, async () => {
-			const county = await getPolygonCounty(editingFeature);
-			console.log(county);
+			if (mapAPILoaded) {
+				const county = await getPolygonCounty(clone);
+				clone.properties = {
+					...clone.properties,
+					county,
+				};
+			}
+
 			this.setState({ saving: false }, () => {
-				addData(editingFeature);
+				addData(clone);
 				history.push('/');
 			});
 		});

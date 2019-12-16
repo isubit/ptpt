@@ -370,14 +370,22 @@ export async function getPolygonCounty(feature) {
 		} = centroid;
 
 		const location = new google.maps.LatLng(coordinates[1], coordinates[0]);
-		const geocoder = google.maps.Geocoder();
+		const geocoder = new google.maps.Geocoder();
 		geocoder.geocode({
 			location,
 		}, (res, status) => {
 			if (status !== 'OK') {
 				reject(new Error(`Geocoder status: ${status}`));
+			} else if (res.length > 0) {
+				const countyResult = (res.find(ea => ea.types.includes('administrative_area_level_2')) || {}).address_components || [];
+				const countyComponent = countyResult.find(ea => ea.types.includes('administrative_area_level_2'));
+				if (countyComponent) {
+					resolve(countyComponent.long_name.replace(/\sCounty/, ''));
+				} else {
+					reject(new Error('No results.'));
+				}
 			} else {
-				resolve(res);
+				reject(new Error('No results.'));
 			}
 		});
 	});
