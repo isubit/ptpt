@@ -2,10 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {
 	BrowserRouter as Router,
+	Redirect,
 	Route,
-	// Switch,
-	// Redirect,
-	// Link,
 } from 'react-router-dom';
 
 import 'styles/base.sass';
@@ -17,6 +15,7 @@ import { Header } from 'components/Header';
 // import { WelcomeModal } from 'components/modals/WelcomeModal';
 import { BigModal } from 'components/modals/BigModal';
 import { MapConsumer } from 'contexts/MapState';
+import { SettingsConsumer } from 'contexts/Settings';
 
 (function injectMapScript(w, s, id) {
 	const script = w.document.createElement(s);
@@ -66,6 +65,12 @@ const App = () => (
 			{/* --- */}
 
 			{/* Routed components here. These will float over the map. */}
+			<SettingsConsumer>
+				{ctx => {
+					const { seenWelcome } = ctx.state;
+					return !seenWelcome ? <Redirect to="/#welcome" /> : null;
+				}}
+			</SettingsConsumer>
 			<Route path="/help" render={() => <h2>Help Page</h2>} />
 			<BigModal />
 			{/* ---- */}

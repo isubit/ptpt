@@ -98,14 +98,12 @@ export class LocationInput extends React.Component {
 					}) => (
 						<div className="LocationInput">
 							<div className="wrapper">
-								<Link className="MyLocation" to={`${location.pathname}#location`}>
-									{/* <img src="/assets/my_location.svg" alt="my location" /> */}
-								</Link>
 								<input {...getInputProps({
 									placeholder: 'Enter a location or address',
 									onKeyUp: e => this.handleKeyPress(e),
 								})}
 								/>
+								<Link className="MyLocation" to={`${location.pathname}#location`} />
 							</div>
 							<LocationInputSuggestions getSuggestionItemProps={getSuggestionItemProps} suggestions={suggestions} />
 						</div>
