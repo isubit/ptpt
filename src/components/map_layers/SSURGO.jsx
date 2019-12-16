@@ -14,6 +14,9 @@ export const SSURGO = props => {
 		source: 'ssurgo',
 		'source-layer': process.env.mapbox_ssurgo_tileset_layer_name,
 		minzoom: 10,
+		// layout: {
+		// 	visibility: props.active ? 'visible' : 'none',
+		// },
 		paint: {
 			'fill-color': [
 				'case',
@@ -25,7 +28,7 @@ export const SSURGO = props => {
 					['==', ['get', 'taxorder'], 'Vertisols'], 'hsl(294, 80%, 63%)',
 					'rgba(0,0,0,0)',
 			],
-			'fill-opacity': 0.3,
+			'fill-opacity': props.active ? 0.3 : 0,
 			'fill-antialias': false,
 		},
 	};
