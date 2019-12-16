@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import along from '@turf/along';
 import calcBbox from '@turf/bbox';
 import calcBearing from '@turf/bearing';
@@ -360,14 +361,14 @@ export function findMaximaVertices(feature) {
 export async function getPolygonCounty(feature) {
 	return new Promise((resolve, reject) => {
 		const clone = _.cloneDeep(feature);
-		
+
 		const centroid = calcCentroid(clone);
 		const {
 			geometry: {
 				coordinates,
 			},
 		} = centroid;
-	
+
 		const location = new google.maps.LatLng(coordinates[1], coordinates[0]);
 		const geocoder = google.maps.Geocoder();
 		geocoder.geocode({
