@@ -195,6 +195,7 @@ export class MapComponent extends React.Component {
 	setEditingFeature = feature => {
 		// This sets the feature that is currently being edited to state.
 		const {
+			map,
 			props: {
 				mapAPILoaded,
 			},
@@ -206,7 +207,7 @@ export class MapComponent extends React.Component {
 			this.setState({ enriching: true }, async () => {
 				if (mapAPILoaded) {
 					try {
-						clone = await enrichFeature(clone);
+						clone = await enrichFeature(clone, map);
 					} catch(e) {
 						debug(e);	
 					}

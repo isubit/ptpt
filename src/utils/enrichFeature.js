@@ -1,4 +1,5 @@
 import calcArea from '@turf/area';
+import calcBbox from '@turf/bbox';
 import _ from 'lodash';
 
 import csrRent from 'references/csr_rent.json';
@@ -10,7 +11,7 @@ import {
 
 import { getTreeRows } from './sources';
 
-export async function enrichFeature(feature) {
+export async function enrichFeature(feature, map) {
 	const clone = _.cloneDeep(feature);
 
 	clone.properties = clone.properties || {};
@@ -46,6 +47,24 @@ export async function enrichFeature(feature) {
 			...clone.properties,
 			county: null,
 			rent: null,
+		};
+	}
+
+	// Soils
+	const bbox = calcBbox(boundingPolygon || clone);
+	let ssurgo;
+	try {
+		ssurgo = map.queryRenderedFeatures([[bbox[0], bbox[1]], [bbox[2], bbox[3]]], {
+			layers: ['ssurgo'],
+		});
+	} catch (e) {
+		console.warn(e);
+	}
+
+	if (ssurgo && ssurgo.length > 0) {
+		clone.properties = {
+			...clone.properties,
+			series: ssurgo[0].properties.compname,
 		};
 	}
 
