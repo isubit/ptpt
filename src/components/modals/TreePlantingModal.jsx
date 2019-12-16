@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-// modal is supposed to be reactive to the pathname
-
 const NumRowInput = (props) => {
 	const {
 		windbreak,
@@ -38,7 +36,7 @@ const NumRowInput = (props) => {
 			<div className="configInputs">
 				<div className="inputElement">
 					<span>Is this a windbreak?</span>
-					{/* <span className="inputLabel">Tree Rows</span> */}
+					<span className="inputLabel">Tree Rows</span>
 					<select value={windbreak ? 'Yes' : 'No'} onChange={(e) => handleWindbreakChange(e)}>
 						<option>Yes</option>
 						<option>No</option>
@@ -99,13 +97,13 @@ const RowDetailInput = (props) => {
 								<span>Row {i + 1}</span>
 							</div>
 							<div className="rowInputs inputElement">
-								<span>Tree Type</span>
+								<span className="inputLabel">Tree Type</span>
 								<select value={row.type.display} onChange={(e) => handleRowTypeChange(e, i)}>
 									<option>Type 1</option>
 									<option>Type 2</option>
 									<option>Type 3</option>
 								</select>
-								<span>Tree Species</span>
+								<span className="inputLabel">Tree Species</span>
 								<select value={row.species.display} onChange={(e) => handleRowSpeciesChange(e, i)}>
 									<option>Species 1</option>
 									<option>Species 2</option>
@@ -170,13 +168,13 @@ const RowSpacingInput = (props) => {
 
 	return (
 		<div className="ConfigForm">
-			<div className="formNumber">
+			<div className="stepNumber">
 				<img src="../../assets/step3.svg" alt="Step 3" />
 			</div>
 			<div className="configInputs">
 				<p>Choose the spacing you need in between the trees and what size you plan on purchasing the plantings. Recommendations based on your soil type and slope percentage are prefilled.</p>
 				<div className="inputElement">
-					<span>Spacing Between Rows</span>
+					<span className="inputLabel">Spacing Between Rows</span>
 					<select
 						value={row_spacing}
 						onChange={(e) => handleRowSpacingChange(e)}
@@ -187,7 +185,7 @@ const RowSpacingInput = (props) => {
 					</select>
 				</div>
 				<div className="inputElement">
-					<span>Spacing Between Trees</span>
+					<span className="inputLabel">Spacing Between Trees</span>
 					<select
 						value={tree_spacing}
 						onChange={(e) => handleTreeSpacingChange(e)}
@@ -198,7 +196,7 @@ const RowSpacingInput = (props) => {
 					</select>
 				</div>
 				<div className="inputElement">
-					<span>Planting Stock Size</span>
+					<span className="inputLabel">Planting Stock Size</span>
 					<select value={stock_size} onChange={(e) => handleStockSizeChange(e)}>
 						<option>Stock Size 1</option>
 						<option>Stock Size 2</option>
@@ -221,7 +219,7 @@ export class TreePlantingModal extends React.Component {
 			editingFeature,
 		} = props;
 
-		// const type = editingFeature.properties.type || 'tree';
+		const type = editingFeature.properties.type || 'tree';
 		const configs = editingFeature.properties.configs || (
 			{
 				windbreak: false,
@@ -244,13 +242,12 @@ export class TreePlantingModal extends React.Component {
 		);
 		this.state = {
 			...configs,
-			// type,
+			stepIndex: 0,
+			type,
 		};
 	}
 
 	componentDidUpdate() {
-		// check and determine if the forms are configured fully
-
 	}
 
 	componentDidMount() {
@@ -267,23 +264,23 @@ export class TreePlantingModal extends React.Component {
 					display: 'Species 3',
 				},
 			};
-			this.setState({ rows: [updateRows] });
+			this.setState(({ rows: [updateRows] }));
 		}
 
 		// set the recommended spacing and stock size
 	}
 
-	/* generateRecommendedRowConfig() {
-		// depending on soil type generate tree config for row
-	} */
+	// generateRecommendedRowConfig() {
+	// 	// depending on soil type generate tree config for row
+	// }
 
-	/* generateRecommendedTreeSpacing() {
-		// depending on soil type generate tree config for row
-	} */
+	// generateRecommendedTreeSpacing() {
+	// 	// depending on soil type generate tree config for row
+	// }
 
-	/* generateRecommendedRowSpacing() {
-		// depending on soil type generate tree config for row
-	} */
+	// generateRecommendedRowSpacing() {
+	// 	// depending on soil type generate tree config for row
+	// }
 
 	handleNumRowChange = (event) => {
 		const {
@@ -316,7 +313,7 @@ export class TreePlantingModal extends React.Component {
 
 	handleWindbreakChange = (event) => {
 		const updateWindbreak = (event.target.value === 'Yes') || false;
-		this.setState({ windbreak: updateWindbreak }, () => console.log(this.state));
+		this.setState({ windbreak: updateWindbreak });
 	}
 
 	handlePropgationChange = (event) => {
@@ -338,7 +335,7 @@ export class TreePlantingModal extends React.Component {
 				updatePropagation = null;
 				break;
 		}
-		this.setState({ propagation: updatePropagation }, () => console.log(this.state));
+		this.setState({ propagation: updatePropagation });
 	}
 
 	handleRowTypeChange = (event, rowIndex) => {
@@ -346,7 +343,7 @@ export class TreePlantingModal extends React.Component {
 			rows,
 		} = this.state;
 		rows[rowIndex].type.display = event.target.value;
-		this.setState({ rows }, () => console.log(this.state));
+		this.setState({ rows });
 	}
 
 	handleRowSpeciesChange = (event, rowIndex) => {
@@ -354,7 +351,7 @@ export class TreePlantingModal extends React.Component {
 			rows,
 		} = this.state;
 		rows[rowIndex].species.display = event.target.value;
-		this.setState({ rows }, () => console.log(this.state));
+		this.setState({ rows });
 	}
 
 	handleRowSpacingChange = (event) => {
@@ -394,40 +391,116 @@ export class TreePlantingModal extends React.Component {
 		this.setState({ drip_irrigation: updateDripIrrigation });
 	}
 
-	/* handleNextStep() {
-
-	} */
-
-	render() {
+	handleNextStep = () => {
 		const {
+			nextStep,
+			steps,
+		} = this.props;
+
+		this.setState((state) => ({
+			stepIndex: state.stepIndex + 1,
+		}), () => {
+			nextStep(`/plant/tree/${steps[this.state.stepIndex]}`);
+		});
+	}
+
+	handleSave = () => {
+		const {
+			props: {
+				editingFeature,
+				saveFeature,
+				setEditingFeature,
+			},
 			state: {
-				windbreak,
+				type,
 				propagation,
 				rows,
-				// step,
 				spacing_trees,
 				spacing_rows,
 				stock_size,
 				drip_irrigation,
+				windbreak,
+			},
+		} = this;
+
+		const properties = {
+			type,
+			configs: {
+				propagation,
+				windbreak,
+				rows,
+				spacing_rows,
+				spacing_trees,
+				stock_size,
+				drip_irrigation,
+			},
+		};
+
+		editingFeature.properties = properties;
+		setEditingFeature(editingFeature);
+		saveFeature();
+	}
+
+	render() {
+		const {
+			props: {
+				step,
+			},
+			state: {
+				windbreak,
+				propagation,
+				rows,
+				spacing_trees,
+				spacing_rows,
+				stock_size,
+				drip_irrigation,
+				stepIndex,
 			},
 		} = this;
 		return (
-			<div className="modal margin-center">
-				<Link to="/"><img className="CloseButton" src="../../assets/close_dropdown.svg" alt="Close Planting Modal" /></Link>
-				<h2 className="modal-header">Configure your tree rows below.</h2>
-				<div>
-					<p>Your soil types:</p>
-					<p>LiDAR slope percentage:</p>
+			<>
+				<div className="modal margin-center">
+					<Link to="/"><img className="CloseButton" src="../../assets/close_dropdown.svg" alt="Close Planting Modal" /></Link>
+					<h2 className="modal-header">Configure your tree rows below.</h2>
+					<NumRowInput windbreak={windbreak} propagation={propagation} numRows={rows.length} handleNumRowChange={this.handleNumRowChange} handleWindbreakChange={this.handleWindbreakChange} handlePropgationChange={this.handlePropgationChange} />
+					{
+						(step === 'species' || step === 'spacing') && (
+							<RowDetailInput rows={rows} handleRowTypeChange={this.handleRowTypeChange} handleRowSpeciesChange={this.handleRowSpeciesChange} />
+						)
+					}
+					{
+						(step === 'spacing') && (
+							<RowSpacingInput spacing_trees={spacing_trees} spacing_rows={spacing_rows} stock_size={stock_size} drip_irrigation={drip_irrigation} handleRowSpacingChange={this.handleRowSpacingChange} handleTreeSpacingChange={this.handleTreeSpacingChange} handleStockSizeChange={this.handleStockSizeChange} handleDripIrrigationChange={this.handleDripIrrigationChange} />
+						)
+					}
 				</div>
-				<NumRowInput windbreak={windbreak} propagation={propagation} numRows={rows.length} handleNumRowChange={this.handleNumRowChange} handleWindbreakChange={this.handleWindbreakChange} handlePropgationChange={this.handlePropgationChange} />
-				<RowDetailInput rows={rows} handleRowTypeChange={this.handleRowTypeChange} handleRowSpeciesChange={this.handleRowSpeciesChange} />
-				<RowSpacingInput spacing_trees={spacing_trees} spacing_rows={spacing_rows} stock_size={stock_size} drip_irrigation={drip_irrigation} handleRowSpacingChange={this.handleRowSpacingChange} handleTreeSpacingChange={this.handleTreeSpacingChange} handleStockSizeChange={this.handleStockSizeChange} handleDripIrrigationChange={this.handleDripIrrigationChange} />
-				<div className="button-wrap">
-					<div className="Button">
-						<span>Next</span>
-					</div>
+				<div className="button-wrap vertical-align">
+					{
+						stepIndex <= 1 && (
+							<button
+								type="button"
+								className="Button"
+								onClick={this.handleNextStep}
+								onKeyPress={this.handleNextStep}
+							>
+								<span>Next</span>
+							</button>
+						)
+					}
+					{
+						stepIndex === 2 && (
+							<button
+								type="button"
+								className="Button"
+								onClick={this.handleSave}
+								onKeyPress={this.handleSave}
+							>
+								<span>View Map</span>
+							</button>
+						)
+					}
 				</div>
-			</div>
+			</>
 		);
 	}
 }

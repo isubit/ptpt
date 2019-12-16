@@ -170,10 +170,12 @@ export class Planting extends React.Component {
 			},
 			// data,
 			// deleteFeature,
+			setEditingFeature,
 			editingFeature,
 			saveFeature,
 			nextStep,
 			type,
+			steps,
 		} = this.props;
 
 		if (!editingFeature) {
@@ -190,58 +192,7 @@ export class Planting extends React.Component {
 		// If we're on a config step, render the form.
 		return step ? (
 			<div className="Planting MapModeForm vertical-align">
-				{/* the modal below needs to be replaced with a prebuilt component */}
-				{/* <div className="modal margin-center">
-					<div>
-						<p>Some pre-filled properties for this {editingFeature.properties.type} polygon...</p>
-						{editingFeature.properties.type === 'tree' && (
-							<>
-								<p>Rows: {configs.rows.length}</p>
-								{
-									configs.rows.map((ea, i) => (
-										<div key={`row-${i + 1}`} className="spacer-left-1">
-											<p>Row {i + 1}</p>
-											<div className="spacer-left-1">
-												<p>Type: {ea.type.display}</p>
-												<p>Species: {ea.species.display}</p>
-											</div>
-										</div>
-									))
-								}
-								<p>Row Spacing: {configs.spacing_rows.value} {configs.spacing_rows.unit}</p>
-								<p>Tree Spacing: {configs.spacing_trees.value} {configs.spacing_trees.unit}</p>
-								<p>Drip Irrigation: {configs.drip_irrigation ? 'yes' : 'no'}</p>
-							</>
-						)}
-
-						{editingFeature.properties.type === 'prairie' && (
-							<>
-								<p>Seed: {configs.seed.value}</p>
-								<p>Management: {configs.management.display}</p>
-								<p>Cropping System: {configs.cropping_system.display}</p>
-								<p>Pest Control: {configs.pest_control.value}</p>
-							</>
-						)}
-
-						<div className="spacer-top-2 distribute">
-							{
-								data.get(editingFeature.id)
-									? (
-										<div>
-											<span onClick={() => deleteFeature(editingFeature.id)} onKeyDown={e => e.keyCode === 13 && deleteFeature(editingFeature.id)} role="button" tabIndex="0">Delete</span>
-										</div>
-									)
-									: (
-										<div>
-											<Link className="modal-link" to={`/plant/${type}`}>Start Over</Link>
-										</div>
-									)
-							}
-							<button onClick={saveFeature} className="Button" type="button">Done</button>
-						</div>
-					</div>
-				</div> */}
-				<TreePlantingModal editingFeature={editingFeature} saveFeature={saveFeature} nextStep={nextStep} />
+				<TreePlantingModal editingFeature={editingFeature} setEditingFeature={setEditingFeature} saveFeature={saveFeature} nextStep={nextStep} step={step} steps={steps} />
 			</div>
 		) : null;
 	}
