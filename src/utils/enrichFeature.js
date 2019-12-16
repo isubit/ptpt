@@ -52,14 +52,9 @@ export async function enrichFeature(feature, map) {
 
 	// Soils
 	const bbox = calcBbox(boundingPolygon || clone);
-	let ssurgo;
-	try {
-		ssurgo = map.queryRenderedFeatures([[bbox[0], bbox[1]], [bbox[2], bbox[3]]], {
-			layers: ['ssurgo'],
-		});
-	} catch (e) {
-		console.warn(e);
-	}
+	const ssurgo = map.queryRenderedFeatures([[bbox[0], bbox[1]], [bbox[2], bbox[3]]], {
+		layers: ['ssurgo'],
+	});
 
 	if (ssurgo && ssurgo.length > 0) {
 		clone.properties = {

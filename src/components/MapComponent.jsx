@@ -440,7 +440,7 @@ export class MapComponent extends React.Component {
 					{!cleanup && sourcesAdded
 						&& (
 							<>
-								{layers.ssurgo && <SSURGO map={map} />}
+								<SSURGO map={map} active={layers.ssurgo} />
 								<PrairieArea map={map} />
 								<PrairieOutline map={map} />
 								<TreeRows map={map} />
