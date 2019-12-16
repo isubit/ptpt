@@ -343,3 +343,41 @@ export function findMaximaVertices(feature) {
 		eastern,
 	};
 }
+
+// -----------------------------------
+
+// We need to determine the county that a polygon exists in.
+
+// getPolygonCounty
+// Find the county that the centroid of the given polygon exists in.
+// args:
+// <Polygon>
+// returns:
+// String, country
+// Protocol:
+// Find the centroid of the polygon.
+// Run the coordinates through Google Places API.
+export async function getPolygonCounty(feature) {
+	return new Promise((resolve, reject) => {
+		const clone = _.cloneDeep(feature);
+		
+		const centroid = calcCentroid(clone);
+		const {
+			geometry: {
+				coordinates,
+			},
+		} = centroid;
+	
+		const location = new google.maps.LatLng(coordinates[1], coordinates[0]);
+		const geocoder = google.maps.Geocoder();
+		geocoder.geocode({
+			location,
+		}, (res, status) => {
+			if (status !== 'OK') {
+				reject(new Error(`Geocoder status: ${status}`));
+			} else {
+				resolve(res);
+			}
+		});
+	});
+}

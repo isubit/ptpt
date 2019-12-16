@@ -18,6 +18,10 @@ import {
 	getTreeRows,
 } from 'utils/sources';
 
+import {
+	getPolygonCounty,
+} from 'utils/geometry';
+
 import TestTreePoly from 'test_data/tree.json'; // This is some test data so there is something to interact with.
 
 import { PrairieArea } from './map_layers/PrairieArea';
@@ -68,6 +72,7 @@ export class MapComponent extends React.Component {
 			editingFeature: null, // The current feature being edited.
 			sources: [], // The current sources loaded.
 			cleanup: false, // Is the map cleaning up? (unmounting)
+			saving: false, // Is the map currently saving a feature?
 		};
 		this.mapElement = React.createRef();
 		debug('Props:', props);
@@ -246,8 +251,15 @@ export class MapComponent extends React.Component {
 		} = this;
 
 		debug('Saving feature:', editingFeature);
-		addData(editingFeature);
-		history.push('/');
+
+		this.setState({ saving: true }, async () => {
+			const county = await getPolygonCounty(editingFeature);
+			console.log(county);
+			this.setState({ saving: false }, () => {
+				addData(editingFeature);
+				history.push('/');
+			});
+		});
 	}
 
 	deleteFeature = id => {
