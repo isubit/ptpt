@@ -23,6 +23,7 @@ import TestTreePoly from 'test_data/tree.json'; // This is some test data so the
 import { PrairieArea } from './map_layers/PrairieArea';
 import { EditIcons } from './map_layers/EditIcons';
 import { FeatureLabels } from './map_layers/FeatureLabels';
+import { GeolocationPosition } from './map_layers/GeolocationPosition';
 import { PrairieOutline } from './map_layers/PrairieOutline';
 import { SSURGO } from './map_layers/SSURGO';
 import { TreeRows } from './map_layers/TreeRows';
@@ -32,7 +33,7 @@ import { SimpleSelect } from './map_modes/SimpleSelect';
 import { DrawLineMode, Planting } from './map_modes/Planting';
 
 
-mapboxgl.accessToken = process.env.mapbox_api_key;
+mapboxgl.accessToken = process.env.mapbox_public_key;
 
 const debug = Debug('MapComponent');
 
@@ -297,6 +298,7 @@ export class MapComponent extends React.Component {
 			},
 			props: {
 				data = new Map(),
+				lastGeolocationResult,
 			},
 		} = this;
 
@@ -337,6 +339,15 @@ export class MapComponent extends React.Component {
 
 		// This is SSURGO.
 		process.env.mapbox_ssurgo_tileset_id && this.addSource('ssurgo', 'vector', `mapbox://${process.env.mapbox_ssurgo_tileset_id}`);
+
+		// This is the Geolocation position.
+		lastGeolocationResult && this.addSource('geolocation_position', 'geojson', {
+			type: 'Feature',
+			geometry: {
+				type: 'Point',
+				coordinates: lastGeolocationResult
+			},
+		});
 
 		!sourcesAdded && this.setState({ sourcesAdded: true });
 	}
@@ -419,6 +430,7 @@ export class MapComponent extends React.Component {
 								<Trees map={map} />
 								{!/^\/plant/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
 								<FeatureLabels map={map} />
+								{map.getSource('geolocation_position') && <GeolocationPosition map={map} />}
 							</>
 						)}
 				</div>

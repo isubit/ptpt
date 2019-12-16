@@ -2,10 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {
 	BrowserRouter as Router,
+	Redirect,
 	Route,
-	// Switch,
-	// Redirect,
-	// Link,
 } from 'react-router-dom';
 
 import 'styles/base.sass';
@@ -13,8 +11,11 @@ import 'styles/base.sass';
 import { MapWrapperDefault, MapWrapperSatellite } from 'components/MapComponent';
 import { Store } from 'contexts';
 import { Header } from 'components/Header';
-import { WelcomeModal } from 'components/modals/WelcomeModal';
+// import { LocationPrompt } from 'components/modals/LocationPrompt';
+// import { WelcomeModal } from 'components/modals/WelcomeModal';
+import { BigModal } from 'components/modals/BigModal';
 import { MapConsumer } from 'contexts/MapState';
+import { SettingsConsumer } from 'contexts/Settings';
 
 (function injectMapScript(w, s, id) {
 	const script = w.document.createElement(s);
@@ -41,7 +42,7 @@ const App = () => (
 					return <Header {...state} {...actions} />;
 				}}
 			</MapConsumer>
-			{/* <Route path="/:action?/:type?/:step?" render={(router) => <MapWrapper router={router} />} /> */}
+
 			<MapConsumer>
 				{(ctx) => {
 					const {
@@ -64,9 +65,16 @@ const App = () => (
 			{/* --- */}
 
 			{/* Routed components here. These will float over the map. */}
+			<SettingsConsumer>
+				{ctx => {
+					const { seenWelcome } = ctx.state;
+					return !seenWelcome ? <Redirect to="/#welcome" /> : null;
+				}}
+			</SettingsConsumer>
 			<Route path="/help" render={() => <h2>Help Page</h2>} />
-			<Route path="/welcome" render={() => <WelcomeModal />} />
+			<BigModal />
 			{/* ---- */}
+
 		</Router>
 	</Store>
 );
