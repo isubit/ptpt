@@ -16,20 +16,34 @@ export class Store extends React.Component {
 	componentDidMount() {
 		const {
 			MapState: {
+				lastGeolocationStatus,
 				mapAPILoaded,
 			},
 		} = this.state;
 
+		// Setup Google Places API script loading event.
 		if (!mapAPILoaded) {
-			const updateState = {
-				MapState: {
-					...this.state.MapState,
-					mapAPILoaded: true,
-				},
-			};
 			window.addEventListener('script.googleplaces', () => {
-				this.setState(updateState);
+				this.setState(state => ({
+					MapState: {
+						...state.MapState,
+						mapAPILoaded: true,
+					},
+				}));
 			});
+		}
+
+		// Query for the Geolocation API permission state.
+		if (!lastGeolocationStatus) {
+			navigator.permissions.query({ name: 'geolocation' })
+				.then(({ state: status }) => {
+					this.setState(state => ({
+						MapState: {
+							...state.MapState,
+							lastGeolocationStatus: status,
+						},
+					}));
+				});
 		}
 	}
 
