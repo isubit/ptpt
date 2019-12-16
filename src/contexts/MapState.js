@@ -23,6 +23,7 @@ export const MapDefaultState = {
 	awaitingGeolocation: false,
 	geolocationError: null,
 	lastGeolocationStatus: null,
+	lastGeolocationResult: null,
 
 	// Map State
 	defaultLatLng: [-93.624287, 41.587537],
@@ -225,6 +226,7 @@ export const MapActions = (that) => {
 								...state.MapState.currentMapDetails,
 								latlng: [longitude, latitude],
 							},
+							lastGeolocationResult: [longitude, latitude],
 						},
 					}));
 				}, err => {
@@ -234,6 +236,7 @@ export const MapActions = (that) => {
 							...state.MapState,
 							awaitingGeolocation: false,
 							geolocationError: err.code,
+							lastGeolocationResult: null,
 						},
 					}));
 				});
