@@ -3,6 +3,7 @@ import React from 'react';
 export const SettingsDefaultState = {
 	colorBlindMode: true,
 	dismissHelpers: false,
+	seenWelcome: false,
 };
 export const SettingsContext = React.createContext(SettingsDefaultState);
 export const SettingsProvider = SettingsContext.Provider;
@@ -11,22 +12,31 @@ export const SettingsConsumer = SettingsContext.Consumer;
 export const SettingsActions = (that) => {
 	const actions = {
 		toggleColorBlindMode() {
-			that.setState({
-				...that.state,
+			that.setState(state => ({
+				...state,
 				Settings: {
-					...that.state.Settings,
-					colorBlindMode: !that.state.Settings.colorBlindMode,
+					...state.Settings,
+					colorBlindMode: !state.Settings.colorBlindMode,
 				},
-			});
+			}));
 		},
 		toggleHelpers() {
-			that.setState({
-				...that.state,
+			that.setState(state => ({
+				...state,
 				Settings: {
-					...that.state.Settings,
-					dismissHelpers: !that.state.Settings.dismissHelpers,
+					...state.Settings,
+					dismissHelpers: !state.Settings.dismissHelpers,
 				},
-			});
+			}));
+		},
+		toggleSeenWelcome() {
+			that.setState(state => ({
+				...state,
+				Settings: {
+					...state.Settings,
+					seenWelcome: true,
+				},
+			}));
 		},
 	};
 	return actions;
