@@ -17,8 +17,8 @@ export const Contours = props => {
 		'source-layer': process.env.mapbox_contour_tileset_layer_name,
 		minzoom: 10,
 		paint: {
-			'line-color': color || 'black',
-			'line-width': width || 2,
+			'line-color': color || 'yellow',
+			'line-width': width || 0.5,
 		},
 	};
 

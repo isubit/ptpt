@@ -441,10 +441,11 @@ export class MapComponent extends React.Component {
 						)}
 
 					{/* Load layers. These self-contain their event listeners. */}
+					{/* SSURGO is conditionally rendered while contours layer is conditionally loaded because we need to be able to query SSURGO data. */}
 					{!cleanup && sourcesAdded
 						&& (
 							<>
-								<Contours map={map} />
+								{layers.contours && <Contours map={map} />}
 								<SSURGO map={map} active={layers.ssurgo} />
 								<PrairieArea map={map} />
 								<PrairieOutline map={map} />
