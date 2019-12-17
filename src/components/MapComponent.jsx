@@ -80,6 +80,7 @@ export class MapComponent extends React.Component {
 	componentDidMount() {
 		// On mount, we init the map in the container, then load in the things we need.
 		const {
+			basemap,
 			defaultLatLng,
 			defaultZoom,
 			defaultPitch,
@@ -109,6 +110,12 @@ export class MapComponent extends React.Component {
 			debug('Map loaded:', this.map);
 			if (this.state.setup) {
 				return false;
+			}
+
+			if (basemap === 'outdoor') {
+				// Disable the default 10-ft contour line included in the style.
+				this.map.setLayoutProperty('contour-line', 'visibility', 'none');
+				this.map.setLayoutProperty('contour-label', 'visibility', 'none');
 			}
 
 			// this.moveMapCenter();
