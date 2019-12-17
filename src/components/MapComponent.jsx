@@ -22,6 +22,7 @@ import { enrichFeature } from 'utils/enrichFeature';
 
 import csrRent from 'references/csr_rent.json';
 
+import { Contours } from './map_layers/Contours';
 import { PrairieArea } from './map_layers/PrairieArea';
 import { EditIcons } from './map_layers/EditIcons';
 import { FeatureLabels } from './map_layers/FeatureLabels';
@@ -357,6 +358,9 @@ export class MapComponent extends React.Component {
 		// This is SSURGO.
 		process.env.mapbox_ssurgo_tileset_id && this.addSource('ssurgo', 'vector', `mapbox://${process.env.mapbox_ssurgo_tileset_id}`);
 
+		// This is 2ft contour lines.
+		process.env.mapbox_contour_tileset_id && this.addSource('contours', 'vector', `mapbox://${process.env.mapbox_contour_tileset_id}`);
+
 		// This is the Geolocation position.
 		lastGeolocationResult && this.addSource('geolocation_position', 'geojson', {
 			type: 'Feature',
@@ -440,6 +444,7 @@ export class MapComponent extends React.Component {
 					{!cleanup && sourcesAdded
 						&& (
 							<>
+								<Contours map={map} />
 								<SSURGO map={map} active={layers.ssurgo} />
 								<PrairieArea map={map} />
 								<PrairieOutline map={map} />
