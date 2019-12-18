@@ -55,10 +55,6 @@
 .margin-center
     margin: 0 auto !important
 
-// @mixin for-desktop-only
-// 	@media (min-width: 900px)
-// 		@content
-
 @media (min-width: 900px)
 	.desktop-select-l-width
 		width: 240px
@@ -90,6 +86,10 @@
 @for $i from 1 through 100
 	.height-#{$i}
     	height: 1% * $i !important
+
+@media (min-width: 900px)
+	.nowrap
+		white-space: nowrap
 
 .warning
 	color: red

@@ -27,13 +27,13 @@ const NumRowInput = (props) => {
 					</select>
 				</div>
 				<div className="inputElement desktop-select-l-width">
-					<span className="inputDescriptor">How many tree rows would you like to plant?</span>
+					<span className="inputDescriptor nowrap">How many tree rows would you like to plant?</span>
 					<span className="inputLabel">Tree Rows</span>
 					<select value={numRows} onChange={(e) => handleNumRowChange(e)}>
 						{ _.range(1, 11).map(val => <option key={val} value={val}>{val}</option>)}
 					</select>
 				</div>
-				<div className="inputElement desktop-select-s-width">
+				<div className="inputElement desktop-select-s-width nowrap">
 					{/* <input type="checkbox" name="longest_length_rows" />
 					<span>Configure rows to fit the longest length</span> */}
 					<span className="inputDescriptor">Choose a direction to plant your rows in.</span>
