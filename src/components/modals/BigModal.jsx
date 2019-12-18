@@ -7,6 +7,7 @@ import {
 import { SettingsConsumer } from 'contexts/Settings';
 
 import { LocationPrompt } from './LocationPrompt';
+import { MapLegend } from './MapLegend';
 import { WelcomeModal } from './WelcomeModal';
 
 export const BigModal = props => {
@@ -15,8 +16,13 @@ export const BigModal = props => {
 
 	let Component;
 	switch (location.hash.replace('#', '')) {
+		case 'legend':
+			Component = MapLegend;
+			break;
+		case 'location':
+			Component = LocationPrompt;
+			break;
 		case 'welcome':
-			// Component = WelcomeModal;
 			Component = welcomeProps => (
 				<SettingsConsumer>
 					{ctx => {
@@ -25,9 +31,6 @@ export const BigModal = props => {
 					}}
 				</SettingsConsumer>
 			);
-			break;
-		case 'location':
-			Component = LocationPrompt;
 			break;
 		default:
 			Component = null;

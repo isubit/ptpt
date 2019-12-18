@@ -15,7 +15,7 @@ export class SideNav extends React.Component {
 	render() {
 		const { isNavOpen } = this.state;
 		return (
-			<>
+			<div>
 				<button type="button" className="SideNavButton" onClick={this.toggleNav} onKeyPress={this.toggleNav}>
 					<img className="narrow-sidenav" src="/assets/side_nav.svg" alt="Side Navigation Toggle" />
 					<img className="wide-sidenav" src="/assets/sidenav_wide.svg" alt="Side Navigation Toggle" />
@@ -44,7 +44,7 @@ export class SideNav extends React.Component {
 						</div>
 					</div>
 				</div>
-			</>
+			</div>
 		);
 	}
 }

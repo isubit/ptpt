@@ -407,6 +407,7 @@ export class MapComponent extends React.Component {
 				data,
 				layers,
 				router: {
+					history,
 					location: {
 						pathname,
 					},
@@ -463,6 +464,16 @@ export class MapComponent extends React.Component {
 								{map.getSource('geolocation_position') && <GeolocationPosition map={map} />}
 							</>
 						)}
+
+					{/* Misc controls. */}
+					<div className="ZoomControl">
+						<img src="/assets/plus.svg" alt="zoom in" onClick={() => map.zoomIn({ animate: true })} />
+						<hr />
+						<img src="/assets/minus.svg" alt="zoom out" onClick={() => map.zoomOut({ animate: true })} />
+					</div>
+					<div className="LegendControl">
+						<img src="/assets/legend.svg" alt="legend" onClick={() => history.push(`${location.pathname}#legend`)}/>
+					</div>
 				</div>
 			</>
 		);
