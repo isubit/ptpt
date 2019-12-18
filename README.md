@@ -25,3 +25,15 @@ This will serve `./public` at `localhost:8080`.
 
 ## Host
 Serve `./public` as static files.
+
+## Miscellaneous
+
+To convert Excel columns to CSV to JSON array, use the following tools:
+http://www.convertcsv.com/transpose-csv.htm
+https://onlinecsvtools.com/convert-csv-to-json
+
+Uncheck first row is column name.
+Use tab as field separator.
+
+For JSON dictionaries:
+https://shancarter.github.io/mr-data-converter/
