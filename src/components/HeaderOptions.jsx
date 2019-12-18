@@ -47,11 +47,11 @@ const DropdownCheckbox = ({
 		{/* <div>
 			<input type="checkbox" checked={layers.lidar} name="lidar" onChange={(e) => setMapLayer(e.target.name)} />
 			<span>LiDAR Hillshade</span>
-		</div>
+		</div> */}
 		<div>
 			<input type="checkbox" checked={layers.contours} name="contours" onChange={(e) => setMapLayer(e.target.name)} />
-			<span>(2 ft contours)</span>
-		</div> */}
+			<span>2-ft Contours</span>
+		</div>
 		<div>
 			<input
 				type="checkbox"
