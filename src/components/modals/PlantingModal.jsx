@@ -82,6 +82,7 @@ export class PlantingModal extends React.Component {
 				},
 			},
 		} = this.props;
+
 		if (type === 'tree') {
 			this.initializeTreeRows();
 		}
@@ -110,7 +111,6 @@ export class PlantingModal extends React.Component {
 	}
 
 	handleNumRowChange = (event) => {
-		// const { rows } = this.state;
 		const numRows = event.target.value;
 		this.setState((state) => {
 			let updateRows = [];
@@ -189,7 +189,7 @@ export class PlantingModal extends React.Component {
 				...state.spacing_trees,
 				value: spacingValue,
 			},
-		}), () => console.log(this.state));
+		}));
 	}
 
 	handleStockSizeChange = (event) => {
@@ -201,7 +201,7 @@ export class PlantingModal extends React.Component {
 					display: stockSize,
 				},
 			}
-		), () => console.log(this.state));
+		));
 	}
 
 	handleDripIrrigationChange = (event) => {
@@ -233,7 +233,7 @@ export class PlantingModal extends React.Component {
 					},
 				},
 			}
-		), () => console.log(this.state));
+		));
 	}
 
 	handleManagementChange = (event) => {
