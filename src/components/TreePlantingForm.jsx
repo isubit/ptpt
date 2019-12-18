@@ -1,4 +1,6 @@
 import React from 'react';
+import _ from 'lodash';
+import uuid from 'uuid/v4';
 
 const NumRowInput = (props) => {
 	const {
@@ -19,25 +21,16 @@ const NumRowInput = (props) => {
 				<div className="inputElement desktop-select-s-width">
 					<span className="inputDescriptor">Is this a windbreak?</span>
 					<span className="inputLabel">Windbreak</span>
-					<select value={windbreak ? 'Yes' : 'No'} onChange={(e) => handleWindbreakChange(e)}>
-						<option>Yes</option>
-						<option>No</option>
+					<select value={windbreak} onChange={(e) => handleWindbreakChange(e)}>
+						<option value="true">Yes</option>
+						<option value="false">No</option>
 					</select>
 				</div>
 				<div className="inputElement desktop-select-l-width">
 					<span className="inputDescriptor">How many tree rows would you like to plant?</span>
 					<span className="inputLabel">Tree Rows</span>
 					<select value={numRows} onChange={(e) => handleNumRowChange(e)}>
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>
-						<option>5</option>
-						<option>6</option>
-						<option>7</option>
-						<option>8</option>
-						<option>9</option>
-						<option>10</option>
+						{ _.range(1, 11).map(val => <option key={val} value={val}>{val}</option>)}
 					</select>
 				</div>
 				<div className="inputElement desktop-select-s-width">
@@ -76,24 +69,24 @@ const RowDetailInput = (props) => {
 				<p className="inputDescriptor">Choose a tree type and species for each row. Below are the recommended tree types and species based on your soil. You can change these by choosing a different option in each dropdown.</p>
 				{
 					rows.map((row, i) => (
-						<div className="rowDetails">
+						<div key={uuid()} className="rowDetails">
 							<div className="rowNumber">
 								<h4>Row {i + 1}</h4>
 							</div>
 							<div className="inputElement desktop-select-l-width">
 								<span className="inputLabel">Tree Type</span>
 								<select value={row.type.display} onChange={(e) => handleRowTypeChange(e, i)}>
-									<option>Type 1</option>
-									<option>Type 2</option>
-									<option>Type 3</option>
+									<option value="Type 1">Type 1</option>
+									<option value="Type 2">Type 2</option>
+									<option value="Type 3">Type 3</option>
 								</select>
 							</div>
 							<div className="inputElement desktop-select-l-width">
 								<span className="inputLabel">Tree Species</span>
 								<select value={row.species.display} onChange={(e) => handleRowSpeciesChange(e, i)}>
-									<option>Species 1</option>
-									<option>Species 2</option>
-									<option>Species 3</option>
+									<option value="Species 1">Species 1</option>
+									<option value="Species 2">Species 2</option>
+									<option value="Species 3">Species 3</option>
 								</select>
 							</div>
 						</div>
@@ -107,6 +100,12 @@ const RowDetailInput = (props) => {
 const RowSpacingInput = (props) => {
 	const {
 		drip_irrigation,
+		spacing_trees: {
+			value: tree_spacing,
+		},
+		spacing_rows: {
+			value: row_spacing,
+		},
 		stock_size: {
 			display: stock_size,
 		},
@@ -115,42 +114,6 @@ const RowSpacingInput = (props) => {
 		handleStockSizeChange,
 		handleDripIrrigationChange,
 	} = props;
-	let {
-		spacing_trees: {
-			value: tree_spacing,
-		},
-		spacing_rows: {
-			value: row_spacing,
-		},
-	} = props;
-
-	switch (row_spacing) {
-		case 3:
-			row_spacing = '3\'';
-			break;
-		case 4:
-			row_spacing = '4\'';
-			break;
-		case 5:
-			row_spacing = '5\'';
-			break;
-		default:
-			break;
-	}
-
-	switch (tree_spacing) {
-		case 3:
-			tree_spacing = '3\'';
-			break;
-		case 4:
-			tree_spacing = '4\'';
-			break;
-		case 5:
-			tree_spacing = '5\'';
-			break;
-		default:
-			break;
-	}
 
 	return (
 		<div className="ConfigForm">
@@ -165,9 +128,9 @@ const RowSpacingInput = (props) => {
 						value={row_spacing}
 						onChange={(e) => handleRowSpacingChange(e)}
 					>
-						<option>3&apos;</option>
-						<option>4&apos;</option>
-						<option>5&apos;</option>
+						<option value="3">3&apos;</option>
+						<option value="4">4&apos;</option>
+						<option value="5">5&apos;</option>
 					</select>
 				</div>
 				<div className="inputElement desktop-select-s-width">
@@ -176,9 +139,9 @@ const RowSpacingInput = (props) => {
 						value={tree_spacing}
 						onChange={(e) => handleTreeSpacingChange(e)}
 					>
-						<option>3&apos;</option>
-						<option>4&apos;</option>
-						<option>5&apos;</option>
+						<option value="3">3&apos;</option>
+						<option value="4">4&apos;</option>
+						<option value="5">5&apos;</option>
 					</select>
 				</div>
 				<div className="inputElement desktop-select-m-width">

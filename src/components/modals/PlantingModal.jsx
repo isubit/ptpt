@@ -110,34 +110,44 @@ export class PlantingModal extends React.Component {
 	}
 
 	handleNumRowChange = (event) => {
-		const { rows } = this.state;
-
-		let updateRows = [];
-		if (event.target.value < rows.length) {
-			updateRows = rows.splice(0, event.target.value);
-			this.setState({ rows: updateRows });
-		} else if (event.target.value > rows.length) {
-			// need to generate recommended row type/species
-			updateRows = [...rows];
-			for (let i = 0; i < event.target.value - rows.length; i += 1) {
-				// test data
-				updateRows.push({
-					type: {
-						id: 1,
-						display: 'Type 1',
-					},
-					species: {
-						id: 15,
-						display: 'Species 3',
-					},
-				});
+		// const { rows } = this.state;
+		const numRows = event.target.value;
+		this.setState((state) => {
+			let updateRows = [];
+			if (numRows < state.rows.length) {
+				updateRows = state.rows.splice(0, numRows);
+				return {
+					rows: updateRows,
+				};
 			}
-			this.setState({ rows: updateRows });
-		}
+			if (numRows > state.rows.length) {
+				updateRows = [...state.rows];
+				for (let i = 0; i < numRows - state.rows.length; i += 1) {
+					// test data
+					updateRows.push({
+						type: {
+							id: 1,
+							display: 'Type 1',
+						},
+						species: {
+							id: 15,
+							display: 'Species 3',
+						},
+					});
+				}
+				return {
+					rows: updateRows,
+				};
+			}
+			return null;
+		});
 	}
 
 	handleWindbreakChange = (event) => {
-		const updateWindbreak = (event.target.value === 'Yes') || false;
+		let updateWindbreak = event.target.value;
+		if (updateWindbreak === 'true' || updateWindbreak === 'false') {
+			updateWindbreak = JSON.parse(updateWindbreak);
+		}
 		this.setState({ windbreak: updateWindbreak });
 	}
 
@@ -163,7 +173,7 @@ export class PlantingModal extends React.Component {
 	}
 
 	handleRowSpacingChange = (event) => {
-		const spacingValue = Number(event.target.value.substring(0, 1));
+		const spacingValue = Number(event.target.value);
 		this.setState((state) => ({
 			spacing_rows: {
 				...state.spacing_rows,
@@ -173,7 +183,7 @@ export class PlantingModal extends React.Component {
 	}
 
 	handleTreeSpacingChange = (event) => {
-		const spacingValue = Number(event.target.value.substring(0, 1));
+		const spacingValue = Number(event.target.value);
 		this.setState((state) => ({
 			spacing_trees: {
 				...state.spacing_trees,
