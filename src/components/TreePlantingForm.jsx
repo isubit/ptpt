@@ -33,10 +33,10 @@ const NumRowInput = (props) => {
 						{ _.range(1, 11).map(val => <option key={val} value={val}>{val}</option>)}
 					</select>
 				</div>
-				<div className="inputElement desktop-select-s-width nowrap">
+				<div className="inputElement desktop-select-s-width spacer-top-1_5">
 					{/* <input type="checkbox" name="longest_length_rows" />
 					<span>Configure rows to fit the longest length</span> */}
-					<span className="inputDescriptor">Choose a direction to plant your rows in.</span>
+					<span className="inputDescriptor nowrap">Choose a direction to plant your rows in.</span>
 					<span className="inputLabel">Direction</span>
 					<select
 						value={propagation}
