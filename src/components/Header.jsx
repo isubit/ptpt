@@ -20,10 +20,12 @@ const Title = () => (
 );
 
 const SaveButton = ({ save }) => (
-	<button type="button" className="SaveButton" onClick={save} onKeyPress={save}>
-		<img className="narrow-save" src="/assets/save_narrow.svg" alt="Save" />
-		<img className="wide-save" src="/assets/save_wide.svg" alt="Save" />
-	</button>
+	<div className="Save">
+		<button type="button" className="SaveButton" onClick={save} onKeyPress={save}>
+			<img className="narrow-save" src="/assets/save_narrow.svg" alt="Save" />
+			<img className="wide-save" src="/assets/save_wide.svg" alt="Save" />
+		</button>
+	</div>
 );
 
 export const Header = () => (
