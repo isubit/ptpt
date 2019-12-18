@@ -8,7 +8,7 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw';
 // import tree from 'test_data/tree.json';
 // import prairie from 'test_data/prairie.json';
 import Debug from 'debug';
-import { TreePlantingModal } from '../modals/TreePlantingModal';
+import { PlantingModal } from '../modals/PlantingModal';
 
 const debug = Debug('MapComponent');
 
@@ -115,11 +115,9 @@ export class Planting extends React.Component {
 				map.off('draw.create', onCreate);
 				const feature = e.features[0];
 				// feature properties need to be populated with the planting modal
-				// feature.properties = {
-				// 	...feature.properties,
-				// 	type,
-				// 	configs: testData[type].properties.configs, // These are some default properties for testing.
-				// };
+				feature.properties = {
+					type,
+				};
 				// draw.add(feature);
 				debug('Created feature:', feature);
 				nextStep(`/plant/${type}/${steps[0]}`);
@@ -183,16 +181,18 @@ export class Planting extends React.Component {
 			return <Redirect to={`/plant/${type}`} />;
 		}
 
-		/* const {
-			properties: {
-				configs,
-			},
-		} = editingFeature; */
-
 		// If we're on a config step, render the form.
+		// if (type === 'tree' && step) {
+		// 	return (
+		// 		<div className="Planting MapModeForm vertical-align">
+		// 			<PlantingModal editingFeature={editingFeature} setEditingFeature={setEditingFeature} saveFeature={saveFeature} nextStep={nextStep} step={step} steps={steps} />
+		// 		</div>
+		// 	);
+		// }
+
 		return step ? (
 			<div className="Planting MapModeForm vertical-align">
-				<TreePlantingModal editingFeature={editingFeature} setEditingFeature={setEditingFeature} saveFeature={saveFeature} nextStep={nextStep} step={step} steps={steps} />
+				<PlantingModal editingFeature={editingFeature} setEditingFeature={setEditingFeature} saveFeature={saveFeature} nextStep={nextStep} step={step} steps={steps} />
 			</div>
 		) : null;
 	}
