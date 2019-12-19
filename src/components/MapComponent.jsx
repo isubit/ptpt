@@ -269,7 +269,7 @@ export class MapComponent extends React.Component {
 				},
 			},
 		} = this;
-
+		console.log(editingFeature);
 		debug('Saving feature:', editingFeature);
 
 		addData(editingFeature);
