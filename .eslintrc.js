@@ -25,6 +25,7 @@ module.exports = {
       "max-len": 0, // No max length
       "react/state-in-constructor": 0, // State doesn't need to be in constructor
       "react/jsx-one-expression-per-line": 0, // Don't need a new line...
+      "max-classes-per-file": 0 // Allow more than one class per file
     },
     "settings": {
       "import/resolver": {

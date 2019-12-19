@@ -1,7 +1,9 @@
 // import Debug from 'debug';
 import React from 'react';
+import {
+	Link,
+} from 'react-router-dom';
 import PlacesAutocomplete from 'react-places-autocomplete';
-
 
 import { MapConsumer } from '../contexts/MapState';
 
@@ -68,6 +70,7 @@ export class LocationInput extends React.Component {
 			currentMapDetails: {
 				latlng,
 			},
+			location,
 			locationAddress: {
 				locationSearchInput,
 			},
@@ -94,11 +97,14 @@ export class LocationInput extends React.Component {
 						getSuggestionItemProps,
 					}) => (
 						<div className="LocationInput">
-							<input {...getInputProps({
-								placeholder: 'Enter a location or address',
-								onKeyUp: e => this.handleKeyPress(e),
-							})}
-							/>
+							<div className="wrapper">
+								<input {...getInputProps({
+									placeholder: 'Enter a location or address',
+									onKeyUp: e => this.handleKeyPress(e),
+								})}
+								/>
+								<Link className="MyLocation" to={`${location.pathname}#location`} />
+							</div>
 							<LocationInputSuggestions getSuggestionItemProps={getSuggestionItemProps} suggestions={suggestions} />
 						</div>
 					)}
@@ -107,6 +113,7 @@ export class LocationInput extends React.Component {
 		}
 		return (
 			<div className="LocationInput">
+				<img src="/assets/my_location.svg" alt="my location" />
 				<input placeholder="Enter a location or address" />
 			</div>
 		);

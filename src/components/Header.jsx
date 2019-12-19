@@ -1,5 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {
+	Link,
+	useLocation,
+} from 'react-router-dom';
 
 import { MapConsumer } from 'contexts/MapState';
 
@@ -17,10 +20,12 @@ const Title = () => (
 );
 
 const SaveButton = ({ save }) => (
-	<button type="button" className="SaveButton" onClick={save} onKeyPress={save}>
-		<img className="narrow-save" src="/assets/save_narrow.svg" alt="Save" />
-		<img className="wide-save" src="/assets/save_wide.svg" alt="Save" />
-	</button>
+	<div className="Save">
+		<button type="button" className="SaveButton" onClick={save} onKeyPress={save}>
+			<img className="narrow-save" src="/assets/save_narrow.svg" alt="Save" />
+			<img className="wide-save" src="/assets/save_wide.svg" alt="Save" />
+		</button>
+	</div>
 );
 
 export const Header = () => (
@@ -28,14 +33,14 @@ export const Header = () => (
 		<div className="grid-row sidenav-btn">
 			<SideNav />
 			<Title />
-			<LocationInputWrapper />
+			<LocationInputWrapper location={useLocation()} />
 			<HeaderOptions />
 			<MapConsumer>
 				{ctx => <SaveButton save={ctx.save} />}
 			</MapConsumer>
 		</div>
 		<div className="search-save-btn">
-			<LocationInputWrapper />
+			<LocationInputWrapper location={useLocation()} />
 			<MapConsumer>
 				{ctx => <SaveButton save={ctx.save} />}
 			</MapConsumer>
