@@ -7,6 +7,7 @@ import { PrairiePlantingForm } from '../PrairiePlantingForm';
 export class PlantingModal extends React.Component {
 	constructor(props) {
 		super(props);
+		this.bottom = React.createRef();
 		const {
 			editingFeature: {
 				properties: {
@@ -85,6 +86,14 @@ export class PlantingModal extends React.Component {
 
 		if (type === 'tree') {
 			this.initializeTreeRows();
+		}
+	}
+
+	componentDidUpdate(prevProps) {
+		const { step: prevStep } = prevProps;
+		const { step: currentStep } = this.props;
+		if (prevStep !== currentStep) {
+			this.scrollToBottom();
 		}
 	}
 
@@ -272,6 +281,10 @@ export class PlantingModal extends React.Component {
 		));
 	}
 
+	scrollToBottom = () => {
+		this.bottom.current.scrollIntoView({ behavior: 'smooth' });
+	}
+
 	handleNextStep = () => {
 		const {
 			nextStep,
@@ -446,6 +459,7 @@ export class PlantingModal extends React.Component {
 					<Link to="/"><img className="CloseButton" src="../../assets/close_dropdown.svg" alt="Close Planting Modal" /></Link>
 					{ type === 'tree' && <TreePlantingForm {...formProps} /> }
 					{ type === 'prairie' && <PrairiePlantingForm {...formProps} /> }
+					<div ref={this.bottom} />
 				</div>
 				<div className="button-wrap vertical-align">
 					{
