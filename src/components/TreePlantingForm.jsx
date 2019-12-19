@@ -18,9 +18,8 @@ const NumRowInput = (props) => {
 				<h1>1</h1>
 			</div>
 			<div className="configInputs">
-				<div className="inputElement desktop-select-s-width">
+				<div className="inputElement desktop-select-s-width spacer-right-3">
 					<span className="inputDescriptor">Is this a windbreak?</span>
-					<span className="inputLabel">Windbreak</span>
 					<select value={windbreak} onChange={(e) => handleWindbreakChange(e)}>
 						<option value="true">Yes</option>
 						<option value="false">No</option>
@@ -28,7 +27,6 @@ const NumRowInput = (props) => {
 				</div>
 				<div className="inputElement desktop-select-l-width">
 					<span className="inputDescriptor nowrap">How many tree rows would you like to plant?</span>
-					<span className="inputLabel">Tree Rows</span>
 					<select value={numRows} onChange={(e) => handleNumRowChange(e)}>
 						{ _.range(1, 11).map(val => <option key={val} value={val}>{val}</option>)}
 					</select>
@@ -37,7 +35,6 @@ const NumRowInput = (props) => {
 					{/* <input type="checkbox" name="longest_length_rows" />
 					<span>Configure rows to fit the longest length</span> */}
 					<span className="inputDescriptor nowrap">Choose a direction to plant your rows in.</span>
-					<span className="inputLabel">Direction</span>
 					<select
 						value={propagation}
 						onChange={(e) => handlePropgationChange(e)}
@@ -55,7 +52,9 @@ const NumRowInput = (props) => {
 
 const RowDetailInput = (props) => {
 	const {
+		pasture_conversion,
 		rows,
+		handlePastureConversionChange,
 		handleRowTypeChange,
 		handleRowSpeciesChange,
 	} = props;
@@ -92,6 +91,10 @@ const RowDetailInput = (props) => {
 						</div>
 					))
 				}
+				<div className="checkboxElement">
+					<input type="checkbox" name="pasture_conversion" checked={pasture_conversion} onChange={(e) => handlePastureConversionChange(e)} />
+					<span className="inline">I&apos;m converting pasture</span>
+				</div>
 			</div>
 		</div>
 	);
