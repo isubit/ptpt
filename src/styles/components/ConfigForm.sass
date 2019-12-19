@@ -1,6 +1,11 @@
 .ConfigForm
 	display: flex
-	margin-top: 1.5rem
+	padding-top: 1.5rem
+	padding-bottom: 1.5rem
+	border-bottom: 1px solid $light-blue
+	&:nth-last-child(2)
+        padding-bottom: 0
+        border: none
 	.stepNumber
 		margin-right: 0.5rem
 		height: 36px	
@@ -53,7 +58,6 @@
 			
 @media (min-width: 900px)
 	.ConfigForm
-		margin-bottom: 1.5rem
 		.stepNumber
 				margin-right: 10px
 				height: 45px
@@ -79,6 +83,4 @@
 					margin-bottom: 0
 				.inputElement
 					margin: 0
-	.ConfigForm:last-of-type
-		margin-bottom: 0
 		
