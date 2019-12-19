@@ -42,6 +42,7 @@ export class PlantingModal extends React.Component {
 						display: 'Stock Size 1',
 					},
 					drip_irrigation: false,
+					pasture_conversion: false,
 				};
 			} else if (type === 'prairie') {
 				configs = {
@@ -163,6 +164,11 @@ export class PlantingModal extends React.Component {
 	handlePropgationChange = (event) => {
 		const updatePropagation = event.target.value;
 		this.setState({ propagation: updatePropagation });
+	}
+
+	handlePastureConversionChange = (event) => {
+		const updateConversion = event.target.value;
+		this.setState({ pasture_conversion: updateConversion });
 	}
 
 	handleRowTypeChange = (event, rowIndex) => {
