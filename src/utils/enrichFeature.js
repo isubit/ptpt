@@ -3,6 +3,7 @@ import calcBbox from '@turf/bbox';
 import _ from 'lodash';
 
 import csrRent from 'references/csr_rent.json';
+import soilSeriesCSG from 'references/soil_series_csg.json';
 
 import {
 	getPolygonCounty,
@@ -57,9 +58,12 @@ export async function enrichFeature(feature, map) {
 	});
 
 	if (ssurgo && ssurgo.length > 0) {
+		const series = ssurgo[0].properties.compname;
+		const csg = soilSeriesCSG[series] || null;
 		clone.properties = {
 			...clone.properties,
-			series: ssurgo[0].properties.compname,
+			series,
+			csg,
 		};
 	}
 
