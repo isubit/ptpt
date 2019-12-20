@@ -23,7 +23,8 @@ const config = {
 	entry: APP_DIR + '/app.jsx',
 	output: {
 		path: BUILD_DIR,
-		filename: 'bundle.js'
+		filename: 'bundle.js',
+		globalObject: 'this'
 	},
 	devtool: 'source-map',
 	devServer:{

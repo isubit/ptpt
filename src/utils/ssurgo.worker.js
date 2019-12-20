@@ -1,14 +1,39 @@
 /* eslint-disable */
-onmessage = (e) => {
-	// console.log('Worker: Message received from main script');
-	// const result = e.data[0] * e.data[1];
-	// // eslint-disable-next-line no-restricted-globals
-	// if (isNaN(result)) {
-	// 	postMessage('Please write two numbers');
-	// } else {
-	// 	const workerResult = `Result: ${result}`;
-	// 	console.log('Worker: Posting message back to main script');
-	// 	postMessage(workerResult);
-	// }
-	postMessage('hello world!', e);
+import calcIntersect from '@turf/intersect';
+import calcContains from '@turf/boolean-contains';
+import calcWithin from '@turf/boolean-within';
+import calcOverlap from '@turf/boolean-overlap';
+
+
+onmessage = e => {
+	const {
+		feature,
+		mapunits,
+	} = e.data;
+
+	const intersects = [];
+
+	function compute() {
+		if (mapunits.length === 0) {
+			console.timeEnd('intersects');
+			postMessage({intersects});
+		} else {
+			const mapunit = mapunits.shift();
+			let intersect;
+			try {
+				intersect = calcContains(mapunit, feature) || calcWithin(mapunit, feature) || calcOverlap(mapunit, feature);
+			} catch(e) {
+				intersect = false;
+			}
+			postMessage(mapunit.id);
+			intersect && intersects.push(mapunit.id);
+			setImmediate(compute);
+		}
+		return true;
+	}
+
+	postMessage('Received data.');
+
+	console.time('intersects');
+	compute();
 };
