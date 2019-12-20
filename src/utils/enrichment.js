@@ -72,44 +72,53 @@ const debug = Debug('Enrichment');
 // 		},
 // 	};
 // }
+let count = 0;
 
 async function findSSURGOIntersects(feature, mapunits) {
-	// const intersects = [];
-
-	// return new Promise(resolve => {
-	// 	function compute() {
-	// 		if (mapunits.length === 0) {
-	// 			console.timeEnd('intersects');
-	// 			resolve(intersects);
-	// 		} else {
-	// 			const mapunit = mapunits.shift();
-	// 			const intersect = calcIntersect(mapunit, feature);
-	// 			// console.log(mapunits.length, mapunit, intersect);
-	// 			intersect && intersects.push(intersect);
-	// 			setImmediate(compute);
-	// 		}
-	// 		return true;
-	// 	}
-
-	// 	console.time('intersects');
-	// 	compute();
-	// });
-
-	console.log(feature, mapunits);
-
 	const worker = new Worker();
 
-	worker.postMessage({ a: 1 });
+	return new Promise(resolve => {
+		worker.postMessage({
+			feature,
+			mapunits: mapunits.map(ea => ({
+				id: ea.properties.OBJECTID || null,
+				type: 'Feature',
+				geometry: ea.geometry,
+			})),
+		});
 
-	worker.onmessage = (event) => {
-		console.log(event);
-	};
+		worker.onmessage = (event) => {
+			if (event.data.intersects) {
+				console.log('intersects:', event.data.intersects);
+				resolve(event.data.intersects);
+			} else {
+				count += 1;
+				console.log('count:', count, event.data);
+			}
+		};
 
-	return worker;
+		// function compute() {
+		// 	if (mapunits.length === 0) {
+		// 		console.timeEnd('intersects');
+		// 		resolve(intersects);
+		// 	} else {
+		// 		const mapunit = mapunits.shift();
+		// 		const intersect = calcIntersect(mapunit, feature);
+		// 		// console.log(mapunits.length, mapunit, intersect);
+		// 		intersect && intersects.push(intersect);
+		// 		setImmediate(compute);
+		// 	}
+		// 	return true;
+		// }
+
+		// console.time('intersects');
+		// compute();
+	});
 }
 
 export async function enrichment(feature, map) {
 	debug('Enriching:', feature);
+	count = 0;
 	const clone = _.cloneDeep(feature);
 
 	clone.properties = clone.properties || {};
@@ -173,7 +182,36 @@ export async function enrichment(feature, map) {
 	});
 	console.log(ssurgo);
 	// .filter(ea => calcIntersect(ea, boundingPolygon || clone));
-	const intersects = await findSSURGOIntersects(boundingPolygon || clone, ssurgo || []);
+
+	// async function stagger() {
+	// 	return new Promise(resolve => {
+	// 		const results = [];
+	// 		const slices = [];
+	// 		const chunk = 50;
+	// 		const delay = 0;
+
+	// 		for (let i = 0, ii = ssurgo.length; i < ii; i += chunk) {
+	// 			const slice = ssurgo.slice(i, i + chunk);
+	// 			slices.push(slice);
+	// 		}
+
+	// 		async function run() {
+	// 			if (slices.length === 0) {
+	// 				resolve(results);
+	// 				return;
+	// 			}
+	// 			const slice = slices.shift();
+	// 			const result = await findSSURGOIntersects(boundingPolygon || clone, slice);
+	// 			results.push(result);
+	// 			setTimeout(run, delay);
+	// 		}
+
+	// 		run();
+	// 	});
+	// }
+
+	// const intersects = await stagger();
+	const intersects = await findSSURGOIntersects(boundingPolygon || clone, ssurgo);
 	console.log(intersects);
 
 	// if (ssurgo && ssurgo.length > 0) {

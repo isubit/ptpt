@@ -213,23 +213,25 @@ export class MapComponent extends React.Component {
 		if (feature) {
 			let clone = _.cloneDeep(feature);
 
-			const bbox = calcBbox(feature);
-			map.fitBounds(bbox, { padding: 200 });
+			// const bbox = calcBbox(feature);
+			// map.fitBounds(bbox, { padding: 200 });
 
-			map.once('zoomend', () => {
-				this.setState({ enriching: true }, async () => {
-					if (mapAPILoaded) {
-						try {
-							clone = await enrichment(clone, map);
-						} catch(e) {
-							debug(e);	
-						}
+			// map.once('zoomend', () => {
+				
+			// });
+
+			this.setState({ enriching: true }, async () => {
+				if (mapAPILoaded) {
+					try {
+						clone = await enrichment(clone, map);
+					} catch(e) {
+						debug(e);	
 					}
-		
-					this.setState({
-						enriching: false,
-						editingFeature: clone,
-					});
+				}
+	
+				this.setState({
+					enriching: false,
+					editingFeature: clone,
 				});
 			});
 		} else {
