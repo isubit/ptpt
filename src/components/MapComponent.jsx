@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import mapboxgl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
+import calcBbox from '@turf/bbox';
 import Debug from 'debug';
 
 import { MapConsumer } from 'contexts/MapState';
@@ -211,19 +212,24 @@ export class MapComponent extends React.Component {
 
 		if (feature) {
 			let clone = _.cloneDeep(feature);
-	
-			this.setState({ enriching: true }, async () => {
-				if (mapAPILoaded) {
-					try {
-						clone = await enrichment(clone, map);
-					} catch(e) {
-						debug(e);	
+
+			const bbox = calcBbox(feature);
+			map.fitBounds(bbox, { padding: 200 });
+
+			map.once('zoomend', () => {
+				this.setState({ enriching: true }, async () => {
+					if (mapAPILoaded) {
+						try {
+							clone = await enrichment(clone, map);
+						} catch(e) {
+							debug(e);	
+						}
 					}
-				}
-	
-				this.setState({
-					enriching: false,
-					editingFeature: clone,
+		
+					this.setState({
+						enriching: false,
+						editingFeature: clone,
+					});
 				});
 			});
 		} else {

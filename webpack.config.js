@@ -52,6 +52,15 @@ const config = {
 				// }]
 				}, 'eslint-loader'],
 			},
+			{
+				test: /\.worker\.js$/,
+				use: [{
+					loader: 'worker-loader',
+					options: {
+						publicPath: '/'
+					}
+				}, 'babel-loader']
+			},
 			// {
 			// 	test: /\.json/,
 			// 	include: APP_DIR,
