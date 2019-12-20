@@ -1,9 +1,10 @@
 import calcArea from '@turf/area';
-import calcIntersect from '@turf/intersect';
+// import calcIntersect from '@turf/intersect';
 import _ from 'lodash';
 import Debug from 'debug';
 
 import csrRent from 'references/csr_rent.json';
+// import soilSeriesClassification from 'references/soil_series_classification.json';
 
 import {
 	getPolygonCounty,
@@ -11,6 +12,9 @@ import {
 } from './geometry';
 
 import { getTreeRows } from './sources';
+
+// eslint-disable-next-line
+import Worker from './ssurgo.worker.js';
 
 const debug = Debug('Enrichment');
 
@@ -68,6 +72,41 @@ const debug = Debug('Enrichment');
 // 		},
 // 	};
 // }
+
+async function findSSURGOIntersects(feature, mapunits) {
+	// const intersects = [];
+
+	// return new Promise(resolve => {
+	// 	function compute() {
+	// 		if (mapunits.length === 0) {
+	// 			console.timeEnd('intersects');
+	// 			resolve(intersects);
+	// 		} else {
+	// 			const mapunit = mapunits.shift();
+	// 			const intersect = calcIntersect(mapunit, feature);
+	// 			// console.log(mapunits.length, mapunit, intersect);
+	// 			intersect && intersects.push(intersect);
+	// 			setImmediate(compute);
+	// 		}
+	// 		return true;
+	// 	}
+
+	// 	console.time('intersects');
+	// 	compute();
+	// });
+
+	console.log(feature, mapunits);
+
+	const worker = new Worker();
+
+	worker.postMessage({ a: 1 });
+
+	worker.onmessage = (event) => {
+		console.log(event);
+	};
+
+	return worker;
+}
 
 export async function enrichment(feature, map) {
 	debug('Enriching:', feature);
@@ -131,16 +170,20 @@ export async function enrichment(feature, map) {
 	// });
 	const ssurgo = map.querySourceFeatures('ssurgo', {
 		sourceLayer: 'default',
-	})
-		.filter(ea => calcIntersect(ea, boundingPolygon || clone));
+	});
+	console.log(ssurgo);
+	// .filter(ea => calcIntersect(ea, boundingPolygon || clone));
+	const intersects = await findSSURGOIntersects(boundingPolygon || clone, ssurgo || []);
+	console.log(intersects);
 
-	if (ssurgo && ssurgo.length > 0) {
-		clone.properties = {
-			...clone.properties,
-			series: ssurgo.map(ea => ea.properties.compname).filter(ea => !!ea),
-			csr: ssurgo.map(ea => ea.properties.iacornsr).filter(ea => !!ea),
-		};
-	}
+	// if (ssurgo && ssurgo.length > 0) {
+	// 	clone.properties = {
+	// 		...clone.properties,
+	// 		// eslint-disable-next-line no-confusing-arrow
+	// 		series: ssurgo.map(ea => soilSeriesClassification[ea.properties.compname] ? [ea.properties.compname, soilSeriesClassification[ea.properties.compname]] : null).filter(ea => !!ea),
+	// 		csr: ssurgo.map(ea => ea.properties.iacornsr).filter(ea => !!ea),
+	// 	};
+	// }
 
 	return clone;
 }
