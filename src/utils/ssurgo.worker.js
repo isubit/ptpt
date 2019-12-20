@@ -25,7 +25,6 @@ onmessage = e => {
 			} catch(e) {
 				intersect = false;
 			}
-			postMessage(mapunit.id);
 			intersect && intersects.push(mapunit.id);
 			setImmediate(compute);
 		}
