@@ -462,7 +462,7 @@ export class PlantingModal extends React.Component {
 		return (
 			<>
 				<div className="modal margin-center">
-					<Link to="/"><img className="CloseButton" src="../../assets/close_dropdown.svg" alt="Close Planting Modal" /></Link>
+					<Link className="CloseButton" to="/"><img src="../../assets/close_dropdown.svg" alt="Close Planting Modal" /></Link>
 					{ type === 'tree' && <TreePlantingForm {...formProps} /> }
 					{ type === 'prairie' && <PrairiePlantingForm {...formProps} /> }
 					<div ref={this.bottom} />
