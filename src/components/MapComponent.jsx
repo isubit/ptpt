@@ -18,7 +18,7 @@ import {
 	getTreeRows,
 } from 'utils/sources';
 
-import { enrichFeature } from 'utils/enrichFeature';
+import { enrichment } from 'utils/enrichment';
 
 import csrRent from 'references/csr_rent.json';
 
@@ -215,7 +215,7 @@ export class MapComponent extends React.Component {
 			this.setState({ enriching: true }, async () => {
 				if (mapAPILoaded) {
 					try {
-						clone = await enrichFeature(clone, map);
+						clone = await enrichment(clone, map);
 					} catch(e) {
 						debug(e);	
 					}
@@ -269,7 +269,7 @@ export class MapComponent extends React.Component {
 				},
 			},
 		} = this;
-
+		console.log(editingFeature);
 		debug('Saving feature:', editingFeature);
 
 		addData(editingFeature);
