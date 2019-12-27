@@ -166,6 +166,7 @@ const RowSpacingInput = (props) => {
 
 export const TreePlantingForm = (props) => {
 	const {
+		editingFeature,
 		step,
 		windbreak,
 		propagation,
@@ -184,9 +185,15 @@ export const TreePlantingForm = (props) => {
 		handleWindbreakChange,
 		handlePropgationChange,
 	} = props;
+
+	const series = editingFeature.properties.series ? new Map(editingFeature.properties.series) : new Map();
+
 	return (
 		<>
-			<h2 className="modal-header">Configure your tree rows below.</h2>
+			<div className="PlantingFormHeader">
+				<h2 className="modal-header">Configure your tree rows below.</h2>
+				{series.size > 0 && <p className="SoilTypes spacer-top-1">Your soil types: <span>{[...series.keys()].sort().toString().replace(/,/g, ', ')}</span></p>}
+			</div>
 			<NumRowInput windbreak={windbreak} propagation={propagation} numRows={rows.length} handleNumRowChange={handleNumRowChange} handleWindbreakChange={handleWindbreakChange} handlePropgationChange={handlePropgationChange} />
 			{
 				(step === 'species' || step === 'spacing') && (
