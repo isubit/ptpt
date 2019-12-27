@@ -101,7 +101,8 @@ export async function enrichment(feature, map) {
 	const ssurgo = map.querySourceFeatures('ssurgo', {
 		sourceLayer: 'default',
 	});
-		// .filter(ea => calcIntersect(ea, boundingPolygon || clone));
+	// .filter(ea => calcIntersect(ea, boundingPolygon || clone));
+	console.log(ssurgo);
 
 	// async function stagger() {
 	// 	return new Promise(resolve => {
@@ -132,6 +133,7 @@ export async function enrichment(feature, map) {
 	// const intersects = await stagger();
 
 	const intersects = await findSSURGOIntersects(boundingPolygon || clone, ssurgo);
+	console.log(intersects);
 	const ssurgoIntersects = intersects.map(ea => ssurgo.find(mapunit => mapunit.properties.OBJECTID === ea));
 
 	if (ssurgo && ssurgo.length > 0) {

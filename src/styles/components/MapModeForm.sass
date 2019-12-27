@@ -1,3 +1,5 @@
+@import "../mixins"
+
 .MapModeForm
     position: absolute
     z-index: 10
@@ -7,6 +9,12 @@
     height: 100%
     background: rgba(0,0,0, 0.4)
     flex-direction: column
+    .PlantingFormHeader
+        .SoilTypes
+            font-family: Merriweather, serif
+            color: $cool-grey
+            span
+                color: black
     .modal
         background: white
         width: 100%
@@ -27,6 +35,10 @@
 @media (min-width: 900px)
     .MapModeForm
         justify-content: center
+        .PlantingFormHeader
+            .SoilTypes
+                padding-left: 2rem
+                padding-right: 2rem
         .modal
             width: 670px
             height: 500px

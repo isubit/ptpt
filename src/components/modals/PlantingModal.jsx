@@ -377,6 +377,7 @@ export class PlantingModal extends React.Component {
 		const {
 			props: {
 				step,
+				editingFeature,
 				editingFeature: {
 					properties: {
 						type,
@@ -388,7 +389,11 @@ export class PlantingModal extends React.Component {
 			},
 		} = this;
 
-		let formProps = {};
+		let formProps = {
+			editingFeature,
+			step,
+		};
+
 		if (type === 'tree') {
 			const {
 				state: {
@@ -412,7 +417,7 @@ export class PlantingModal extends React.Component {
 			} = this;
 
 			formProps = {
-				step,
+				...formProps,
 				windbreak,
 				propagation,
 				rows,
@@ -446,7 +451,7 @@ export class PlantingModal extends React.Component {
 			} = this;
 
 			formProps = {
-				step,
+				...formProps,
 				seed,
 				management,
 				cropping_system,
