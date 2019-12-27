@@ -73604,7 +73604,7 @@ function (_React$Component) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapWrapperDefault", function() { return MapWrapperDefault; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapWrapperDefault", function() { return MapWrapperDefault; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapWrapperSatellite", function() { return MapWrapperSatellite; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapComponent", function() { return MapComponent; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
@@ -73688,7 +73688,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 
 
-mapbox_gl__WEBPACK_IMPORTED_MODULE_12___default.a.accessToken = process.env.mapbox_api_key;
+mapbox_gl__WEBPACK_IMPORTED_MODULE_12___default.a.accessToken = "pk.eyJ1IjoibnJlbXZlYiIsImEiOiJjazIweGM1eWQxZHMzM25tdWVsbm9wNHc5In0.sNlJy0ZYiaaquL_Js5PrZA";
 var debug = debug__WEBPACK_IMPORTED_MODULE_14___default()('MapComponent'); // Export two different MapWrappers to trigger a full component switch when styles change, for a clean refresh of the map.
 // This can be optimized in the future, but requires a lot of tweaking of lifecycle logic, because a style change means all sources and layers are wiped...
 
@@ -74204,7 +74204,6 @@ function (_React$Component) {
 
   return MapComponent;
 }(react__WEBPACK_IMPORTED_MODULE_10___default.a.Component);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
 
 /***/ }),
 
