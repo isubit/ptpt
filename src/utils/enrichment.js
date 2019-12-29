@@ -3,7 +3,8 @@ import _ from 'lodash';
 import Debug from 'debug';
 
 import csrRent from 'references/csr_rent.json';
-import soilSeriesClassification from 'references/soil_series_classification.json';
+import soilSeriesMoisture from 'references/soil_series_moisture.json';
+import soilSeriesCSG from 'references/soil_series_csg.json';
 
 import {
 	getPolygonCounty,
@@ -101,8 +102,7 @@ export async function enrichment(feature, map) {
 	const ssurgo = map.querySourceFeatures('ssurgo', {
 		sourceLayer: 'default',
 	});
-	// .filter(ea => calcIntersect(ea, boundingPolygon || clone));
-	console.log(ssurgo);
+		// .filter(ea => calcIntersect(ea, boundingPolygon || clone));
 
 	// async function stagger() {
 	// 	return new Promise(resolve => {
@@ -133,7 +133,6 @@ export async function enrichment(feature, map) {
 	// const intersects = await stagger();
 
 	const intersects = await findSSURGOIntersects(boundingPolygon || clone, ssurgo);
-	console.log(intersects);
 	const ssurgoIntersects = intersects.map(ea => ssurgo.find(mapunit => mapunit.properties.OBJECTID === ea));
 
 	if (ssurgo && ssurgo.length > 0) {
@@ -141,7 +140,10 @@ export async function enrichment(feature, map) {
 			...clone.properties,
 			ssurgo_intersect_data: ssurgoIntersects.map(ea => ea.properties),
 			// eslint-disable-next-line no-confusing-arrow
-			series: ssurgoIntersects.map(ea => soilSeriesClassification[ea.properties.compname] ? [ea.properties.compname, soilSeriesClassification[ea.properties.compname]] : null).filter(ea => !!ea),
+			series: ssurgoIntersects.map(ea => soilSeriesMoisture[ea.properties.compname] ? [ea.properties.compname, {
+				moisture: soilSeriesMoisture[ea.properties.compname],
+				csg: soilSeriesCSG[ea.properties.compname],
+			}] : null).filter(ea => !!ea),
 			csr: ssurgoIntersects.map(ea => ea.properties.iacornsr).filter(ea => !!ea),
 		};
 	}

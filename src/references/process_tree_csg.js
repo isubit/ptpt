@@ -1,58 +1,64 @@
 import _ from 'lodash';
+import shortid from 'shortid';
 
 import tree_csg from './tree_csg_raw.json';
 
 // run with quokka
 
 const csgs = Object.keys(tree_csg);
-const processed = csgs.reduce((newObj, key) => {
-	const arr = tree_csg[key]
+const types = [
+	[shortid(), 'hardwood'],
+	[shortid(), 'evergreen'],
+	[shortid(), 'shrub'],
+];
+const reverseTypes = types.map(ea => [...ea].reverse());
+
+const classification = csgs.reduce((obj, key) => {
+	const typeClassificationMap = obj.type;
+	const csgClassificationMap = obj.csg;
+
+	const list = tree_csg[key]
 		.map(col => col
 			.map(ea => {
 				let cleaned = ea.replace(/\s\(.+\)/, ''); // Remove parenthesis notes.
-					cleaned = cleaned.replace(/\s\-.+/, ''); // Remove dash notes.
-					cleaned = cleaned.replace(/\s$/, ''); // Remove trailing spaces.
-					cleaned = cleaned.replace(/E\.\s/, 'Eastern ');
-					cleaned = cleaned.replace(/W\.\s/, 'Western ');
-					cleaned = cleaned.replace(/N\.\s/, 'Northern ');
-					cleaned = cleaned.replace(/S\.\s/, 'Southern ');
-					return cleaned;
+				cleaned = cleaned.replace(/\s\-.+/, ''); // Remove dash notes.
+				cleaned = cleaned.replace(/\s$/, ''); // Remove trailing spaces.
+				cleaned = cleaned.replace(/E\.\s/, 'Eastern ');
+				cleaned = cleaned.replace(/W\.\s/, 'Western ');
+				cleaned = cleaned.replace(/N\.\s/, 'Northern ');
+				cleaned = cleaned.replace(/S\.\s/, 'Southern ');
+				return cleaned;
 			})
 			.filter(ea => ea.length > 0));
 
-	newObj.all = newObj.all || {};
-	arr.forEach((col, index) => {
-		let type;
-		switch (index) {
-			case 0:
-				type = 'hardwood';
-				break;
-			case 1:
-				type = 'evergreen';
-				break;
-			case 2:
-				type = 'shrub';
-				break;
-			default:
-		}
-		newObj.all[type] = [...new Set((newObj.all[type] || []).concat(col))];
+
+	list.forEach((col, i) => {
+		const type = types[i][1];
+		const typeList = typeClassificationMap.get(type) || [];
+		typeClassificationMap.set(type, [...new Set(typeList.concat(col))]);
 	});
 
-	newObj[key] = _.flatten(arr);
+	csgClassificationMap.set(key, [...new Set(_.flatten(list))]);
 
-	return newObj;
-}, {});
+	return obj;
+}, {
+	type: new Map(),
+	csg: new Map(),
+});
 
-// processed trees csg
-console.log('CSG:', JSON.stringify(
-	processed,
-	null,
-	4
-));
+let all = [];
 
-// all trees
-console.log('All:', JSON.stringify(
-	processed.all,
-	null,
-	4
-));
+// Iterate each tree in classification by type (unique by nature) to populate list of all trees.
+classification.type.forEach((list, type) => {
+	all.push(list.map(ea => ({
+		id: shortid(),
+		type: new Map(reverseTypes).get(type),
+		display: ea,
+		csgs: [...classification.csg.keys()].filter(where => classification.csg.get(where).includes(ea)),
+	})));
+});
+
+all = _.flatten([...all.values()]);
+
+console.log(JSON.stringify(types, null, 2));
+console.log(JSON.stringify(all, null, 2));

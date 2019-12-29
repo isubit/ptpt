@@ -2,6 +2,9 @@ import React from 'react';
 import _ from 'lodash';
 import uuid from 'uuid/v4';
 
+import treesList from 'references/trees_list.json';
+import treeTypes from 'references/tree_types.json';
+
 const NumRowInput = (props) => {
 	const {
 		windbreak,
@@ -54,11 +57,24 @@ const RowDetailInput = (props) => {
 	const {
 		pasture_conversion,
 		rows,
+		series,
 		handlePastureConversionChange,
 		handleRowTypeChange,
 		handleRowSpeciesChange,
 	} = props;
-	// build the controlled input fields
+
+	const csgs = [...new Set([...series.values()].map(ea => ea.csg))]; // CSGs without duplicate.
+
+	const treesByType = treesList.reduce((map, tree) => {
+		if (series.size > 0) {
+			if (csgs.every(csg => !tree.csgs.includes(csg))) {
+				return map;
+			}
+		}
+		map.set(tree.type, (map.get(tree.type) || []).concat(tree));
+		return map;
+	}, new Map());
+
 	return (
 		<div className="ConfigForm">
 			<div className="stepNumber">
@@ -75,19 +91,27 @@ const RowDetailInput = (props) => {
 							<div className="inputElement desktop-select-l-width">
 								<span className="inputLabel">Tree Type</span>
 								<select value={row.type.display} onChange={(e) => handleRowTypeChange(e, i)}>
-									<option value="Type 1">Type 1</option>
-									<option value="Type 2">Type 2</option>
-									<option value="Type 3">Type 3</option>
+									{[...treeTypes.entries()].map(ea => <option value={ea[0]} selected={ea[0] === row.type.id}>{ea[1]}</option>)}
 								</select>
 							</div>
-							<div className="inputElement desktop-select-l-width">
+							{
+								treesByType[row.type.id]
+									? (
+										<div className="inputElement desktop-select-l-width">
+											<span className="inputLabel">Tree Species</span>
+											<select value={row.species.display} onChange={(e) => handleRowSpeciesChange(e, i)}>
+												{treesByType[row.type.id].map(ea => <option value={ea.id} selected={ea.id === row.species.id}>{ea.display}</option>)}
+											</select>
+										</div>
+									)
+									: null
+							}
+							{/* <div className="inputElement desktop-select-l-width">
 								<span className="inputLabel">Tree Species</span>
 								<select value={row.species.display} onChange={(e) => handleRowSpeciesChange(e, i)}>
-									<option value="Species 1">Species 1</option>
-									<option value="Species 2">Species 2</option>
-									<option value="Species 3">Species 3</option>
+									{treesByType[row.type.id].map(ea => <option value={ea.id} selected={ea.id === row.species.id}>{ea.display}</option>)}
 								</select>
-							</div>
+							</div> */}
 						</div>
 					))
 				}
@@ -197,7 +221,7 @@ export const TreePlantingForm = (props) => {
 			<NumRowInput windbreak={windbreak} propagation={propagation} numRows={rows.length} handleNumRowChange={handleNumRowChange} handleWindbreakChange={handleWindbreakChange} handlePropgationChange={handlePropgationChange} />
 			{
 				(step === 'species' || step === 'spacing') && (
-					<RowDetailInput rows={rows} handleRowTypeChange={handleRowTypeChange} handleRowSpeciesChange={handleRowSpeciesChange} />
+					<RowDetailInput series={series} rows={rows} handleRowTypeChange={handleRowTypeChange} handleRowSpeciesChange={handleRowSpeciesChange} />
 				)
 			}
 			{
