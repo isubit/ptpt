@@ -1,9 +1,11 @@
+/* eslint-disable no-else-return */
 import React from 'react';
 import _ from 'lodash';
 import uuid from 'uuid/v4';
 
 import treesList from 'references/trees_list.json';
 import treeTypes from 'references/tree_types.json';
+import treeStockSizes from 'references/tree_stock_sizes.json';
 
 const NumRowInput = (props) => {
 	const {
@@ -66,10 +68,8 @@ const RowDetailInput = (props) => {
 	const csgs = [...new Set([...series.values()].map(ea => ea.csg))]; // CSGs without duplicate.
 
 	const treesByType = treesList.reduce((map, tree) => {
-		if (series.size > 0) {
-			if (csgs.every(csg => !tree.csgs.includes(csg))) {
-				return map;
-			}
+		if (csgs.length > 0 && csgs.every(csg => !tree.csgs.includes(csg))) {
+			return map;
 		}
 		map.set(tree.type, (map.get(tree.type) || []).concat(tree));
 		return map;
@@ -90,28 +90,18 @@ const RowDetailInput = (props) => {
 							</div>
 							<div className="inputElement desktop-select-l-width">
 								<span className="inputLabel">Tree Type</span>
-								<select value={row.type.display} onChange={(e) => handleRowTypeChange(e, i)}>
-									{[...treeTypes.entries()].map(ea => <option value={ea[0]} selected={ea[0] === row.type.id}>{ea[1]}</option>)}
+								<select value={row.type} onChange={(e) => handleRowTypeChange(e, i)}>
+									<option value="" disabled>Select a tree type</option>
+									{treeTypes.map(ea => <option key={ea.id} value={ea.id}>{ea.value}</option>)}
 								</select>
 							</div>
-							{
-								treesByType[row.type.id]
-									? (
-										<div className="inputElement desktop-select-l-width">
-											<span className="inputLabel">Tree Species</span>
-											<select value={row.species.display} onChange={(e) => handleRowSpeciesChange(e, i)}>
-												{treesByType[row.type.id].map(ea => <option value={ea.id} selected={ea.id === row.species.id}>{ea.display}</option>)}
-											</select>
-										</div>
-									)
-									: null
-							}
-							{/* <div className="inputElement desktop-select-l-width">
+							<div className="inputElement desktop-select-l-width">
 								<span className="inputLabel">Tree Species</span>
-								<select value={row.species.display} onChange={(e) => handleRowSpeciesChange(e, i)}>
-									{treesByType[row.type.id].map(ea => <option value={ea.id} selected={ea.id === row.species.id}>{ea.display}</option>)}
+								<select value={row.species} onChange={(e) => handleRowSpeciesChange(e, i)}>
+									<option value="" disabled>{!row.type ? 'Select a tree type first' : 'Select a tree species'}</option>
+									{treesByType.get(row.type) && treesByType.get(row.type).map(ea => <option key={ea.id} value={ea.id}>{ea.display}</option>)}
 								</select>
-							</div> */}
+							</div>
 						</div>
 					))
 				}
@@ -174,9 +164,24 @@ const RowSpacingInput = (props) => {
 				<div className="inputElement desktop-select-m-width">
 					<span className="inputLabel">Planting Stock Size</span>
 					<select value={stock_size} onChange={(e) => handleStockSizeChange(e)}>
-						<option>Stock Size 1</option>
-						<option>Stock Size 2</option>
-						<option>Stock Size 3</option>
+						<option value="" disabled>Select a stock size</option>
+						{treeStockSizes.map(ea => (
+							<option key={ea.id} value={ea.id}>
+								{ea.value.includes('container') ? ea.value.split('_').reduce((str, frag, i) => {
+									if (i === 0) {
+										return str + frag;
+									} else if (i === 1 && frag.includes('over')) {
+										return `${str} (${frag} `;
+									} else if (i === 1) {
+										return `${str} (${frag} - `;
+									} else if (i === 2) {
+										return `${str}${frag})`;
+									} else {
+										return `${str} ${frag}`;
+									}
+								}, '') : ea.value}
+							</option>
+						))}
 					</select>
 				</div>
 				<div className="checkboxElement">
@@ -199,6 +204,7 @@ export const TreePlantingForm = (props) => {
 		spacing_rows,
 		stock_size,
 		drip_irrigation,
+		pasture_conversion,
 		handleTreeSpacingChange,
 		handleDripIrrigationChange,
 		handleRowSpeciesChange,
@@ -208,6 +214,7 @@ export const TreePlantingForm = (props) => {
 		handleStockSizeChange,
 		handleWindbreakChange,
 		handlePropgationChange,
+		handlePastureConversionChange,
 	} = props;
 
 	const series = editingFeature.properties.series ? new Map(editingFeature.properties.series) : new Map();
@@ -221,7 +228,7 @@ export const TreePlantingForm = (props) => {
 			<NumRowInput windbreak={windbreak} propagation={propagation} numRows={rows.length} handleNumRowChange={handleNumRowChange} handleWindbreakChange={handleWindbreakChange} handlePropgationChange={handlePropgationChange} />
 			{
 				(step === 'species' || step === 'spacing') && (
-					<RowDetailInput series={series} rows={rows} handleRowTypeChange={handleRowTypeChange} handleRowSpeciesChange={handleRowSpeciesChange} />
+					<RowDetailInput series={series} rows={rows} pasture_conversion={pasture_conversion} handleRowTypeChange={handleRowTypeChange} handleRowSpeciesChange={handleRowSpeciesChange} handlePastureConversionChange={handlePastureConversionChange} />
 				)
 			}
 			{

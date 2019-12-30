@@ -28,7 +28,10 @@ export class PlantingModal extends React.Component {
 				configs = {
 					windbreak: false,
 					propagation: 'N',
-					rows: [],
+					rows: [{
+						type: '',
+						species: '',
+					}],
 					spacing_rows: {
 						value: 3, // placeholder value
 						unit: 'feet',
@@ -37,10 +40,7 @@ export class PlantingModal extends React.Component {
 						value: 3, //  placeholder value
 						unit: 'feet',
 					},
-					stock_size: {
-						id: 1, // placeholder id
-						display: 'Stock Size 1',
-					},
+					stock_size: '',
 					drip_irrigation: false,
 					pasture_conversion: false,
 				};
@@ -76,19 +76,15 @@ export class PlantingModal extends React.Component {
 		};
 	}
 
-	componentDidMount() {
-		const {
-			editingFeature: {
-				properties: {
-					type,
-				},
-			},
-		} = this.props;
-
-		if (type === 'tree') {
-			this.initializeTreeRows();
-		}
-	}
+	// componentDidMount() {
+	// 	const {
+	// 		editingFeature: {
+	// 			properties: {
+	// 				type,
+	// 			},
+	// 		},
+	// 	} = this.props;
+	// }
 
 	componentDidUpdate(prevProps) {
 		const { step: prevStep } = prevProps;
@@ -96,28 +92,6 @@ export class PlantingModal extends React.Component {
 		if (prevStep !== currentStep) {
 			this.scrollToBottom();
 		}
-	}
-
-	initializeTreeRows() {
-		// initialize first row if editingFeature has not been configured before (recommended type/species)
-		const { rows } = this.state;
-
-		if (rows.length === 0) {
-			// const updateRows = this.generateRecommendedRowConfig(...);
-			const updateRows = {
-				type: {
-					id: 1,
-					display: 'Type 1',
-				},
-				species: {
-					id: 15,
-					display: 'Species 3',
-				},
-			};
-			this.setState({ rows: [updateRows] });
-		}
-
-		// set the recommended spacing and stock size
 	}
 
 	handleNumRowChange = (event) => {
@@ -133,16 +107,9 @@ export class PlantingModal extends React.Component {
 			if (numRows > state.rows.length) {
 				updateRows = [...state.rows];
 				for (let i = 0; i < numRows - state.rows.length; i += 1) {
-					// test data
 					updateRows.push({
-						type: {
-							id: 1,
-							display: 'Type 1',
-						},
-						species: {
-							id: 15,
-							display: 'Species 3',
-						},
+						type: '',
+						species: '',
 					});
 				}
 				return {
@@ -175,7 +142,7 @@ export class PlantingModal extends React.Component {
 		const {
 			rows,
 		} = this.state;
-		rows[rowIndex].type.display = event.target.value;
+		rows[rowIndex].type = event.target.value;
 		this.setState({ rows });
 	}
 
@@ -183,7 +150,7 @@ export class PlantingModal extends React.Component {
 		const {
 			rows,
 		} = this.state;
-		rows[rowIndex].species.display = event.target.value;
+		rows[rowIndex].species = event.target.value;
 		this.setState({ rows });
 	}
 
@@ -194,7 +161,7 @@ export class PlantingModal extends React.Component {
 				...state.spacing_rows,
 				value: spacingValue,
 			},
-		}), () => console.log(this.state));
+		}));
 	}
 
 	handleTreeSpacingChange = (event) => {
@@ -208,15 +175,8 @@ export class PlantingModal extends React.Component {
 	}
 
 	handleStockSizeChange = (event) => {
-		const stockSize = event.target.value;
-		this.setState((state) => (
-			{
-				stock_size: {
-					...state.stock_size,
-					display: stockSize,
-				},
-			}
-		));
+		const stock_size = event.target.value;
+		this.setState(() => ({ stock_size }));
 	}
 
 	handleDripIrrigationChange = (event) => {
@@ -404,6 +364,7 @@ export class PlantingModal extends React.Component {
 					spacing_rows,
 					stock_size,
 					drip_irrigation,
+					pasture_conversion,
 				},
 				handleTreeSpacingChange,
 				handleDripIrrigationChange,
@@ -414,6 +375,7 @@ export class PlantingModal extends React.Component {
 				handleStockSizeChange,
 				handleWindbreakChange,
 				handlePropgationChange,
+				handlePastureConversionChange,
 			} = this;
 
 			formProps = {
@@ -425,6 +387,7 @@ export class PlantingModal extends React.Component {
 				spacing_rows,
 				stock_size,
 				drip_irrigation,
+				pasture_conversion,
 				handleTreeSpacingChange,
 				handleDripIrrigationChange,
 				handleRowSpeciesChange,
@@ -434,6 +397,7 @@ export class PlantingModal extends React.Component {
 				handleStockSizeChange,
 				handleWindbreakChange,
 				handlePropgationChange,
+				handlePastureConversionChange,
 			};
 		} else if (type === 'prairie') {
 			const {

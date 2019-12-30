@@ -60,5 +60,8 @@ classification.type.forEach((list, type) => {
 
 all = _.flatten([...all.values()]);
 
-console.log(JSON.stringify(types, null, 2));
-console.log(JSON.stringify(all, null, 2));
+console.log(JSON.stringify(types.map(ea => ({
+	id: ea[0],
+	value: ea[1],
+})), null, 4));
+console.log(JSON.stringify(all, null, 4));
