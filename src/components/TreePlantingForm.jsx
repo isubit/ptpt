@@ -1,6 +1,11 @@
+/* eslint-disable no-else-return */
 import React from 'react';
 import _ from 'lodash';
 import uuid from 'uuid/v4';
+
+import treesList from 'references/trees_list.json';
+import treeTypes from 'references/tree_types.json';
+import treeStockSizes from 'references/tree_stock_sizes.json';
 
 const NumRowInput = (props) => {
 	const {
@@ -28,7 +33,7 @@ const NumRowInput = (props) => {
 				<div className="inputElement desktop-select-l-width">
 					<span className="inputDescriptor nowrap">How many tree rows would you like to plant?</span>
 					<select value={numRows} onChange={(e) => handleNumRowChange(e)}>
-						{ _.range(1, 11).map(val => <option key={val} value={val}>{val}</option>)}
+						{_.range(1, windbreak ? 5 : 11).map(val => <option key={val} value={val}>{val}</option>)}
 					</select>
 				</div>
 				<div className="inputElement desktop-select-s-width spacer-top-1_5">
@@ -54,11 +59,22 @@ const RowDetailInput = (props) => {
 	const {
 		pasture_conversion,
 		rows,
+		series,
 		handlePastureConversionChange,
 		handleRowTypeChange,
 		handleRowSpeciesChange,
 	} = props;
-	// build the controlled input fields
+
+	const csgs = [...new Set([...series.values()].map(ea => ea.csg))]; // CSGs without duplicate.
+
+	const treesByType = treesList.reduce((map, tree) => {
+		if (csgs.length > 0 && csgs.every(csg => !tree.csgs.includes(csg))) {
+			return map;
+		}
+		map.set(tree.type, (map.get(tree.type) || []).concat(tree));
+		return map;
+	}, new Map());
+
 	return (
 		<div className="ConfigForm">
 			<div className="stepNumber">
@@ -74,18 +90,16 @@ const RowDetailInput = (props) => {
 							</div>
 							<div className="inputElement desktop-select-l-width">
 								<span className="inputLabel">Tree Type</span>
-								<select value={row.type.display} onChange={(e) => handleRowTypeChange(e, i)}>
-									<option value="Type 1">Type 1</option>
-									<option value="Type 2">Type 2</option>
-									<option value="Type 3">Type 3</option>
+								<select value={row.type} onChange={(e) => handleRowTypeChange(e, i)}>
+									<option value="" disabled>Select a tree type</option>
+									{treeTypes.map(ea => <option key={ea.id} value={ea.id}>{ea.value}</option>)}
 								</select>
 							</div>
 							<div className="inputElement desktop-select-l-width">
 								<span className="inputLabel">Tree Species</span>
-								<select value={row.species.display} onChange={(e) => handleRowSpeciesChange(e, i)}>
-									<option value="Species 1">Species 1</option>
-									<option value="Species 2">Species 2</option>
-									<option value="Species 3">Species 3</option>
+								<select value={row.species} onChange={(e) => handleRowSpeciesChange(e, i)}>
+									<option value="" disabled>{!row.type ? 'Select a tree type first' : 'Select a tree species'}</option>
+									{treesByType.get(row.type) && treesByType.get(row.type).map(ea => <option key={ea.id} value={ea.id}>{ea.display}</option>)}
 								</select>
 							</div>
 						</div>
@@ -150,9 +164,24 @@ const RowSpacingInput = (props) => {
 				<div className="inputElement desktop-select-m-width">
 					<span className="inputLabel">Planting Stock Size</span>
 					<select value={stock_size} onChange={(e) => handleStockSizeChange(e)}>
-						<option>Stock Size 1</option>
-						<option>Stock Size 2</option>
-						<option>Stock Size 3</option>
+						<option value="" disabled>Select a stock size</option>
+						{treeStockSizes.map(ea => (
+							<option key={ea.id} value={ea.id}>
+								{ea.value.includes('container') ? ea.value.split('_').reduce((str, frag, i) => {
+									if (i === 0) {
+										return str + frag;
+									} else if (i === 1 && frag.includes('over')) {
+										return `${str} (${frag} `;
+									} else if (i === 1) {
+										return `${str} (${frag} - `;
+									} else if (i === 2) {
+										return `${str}${frag})`;
+									} else {
+										return `${str} ${frag}`;
+									}
+								}, '') : ea.value}
+							</option>
+						))}
 					</select>
 				</div>
 				<div className="checkboxElement">
@@ -166,6 +195,7 @@ const RowSpacingInput = (props) => {
 
 export const TreePlantingForm = (props) => {
 	const {
+		editingFeature,
 		step,
 		windbreak,
 		propagation,
@@ -174,6 +204,7 @@ export const TreePlantingForm = (props) => {
 		spacing_rows,
 		stock_size,
 		drip_irrigation,
+		pasture_conversion,
 		handleTreeSpacingChange,
 		handleDripIrrigationChange,
 		handleRowSpeciesChange,
@@ -183,14 +214,21 @@ export const TreePlantingForm = (props) => {
 		handleStockSizeChange,
 		handleWindbreakChange,
 		handlePropgationChange,
+		handlePastureConversionChange,
 	} = props;
+
+	const series = editingFeature.properties.series ? new Map(editingFeature.properties.series) : new Map();
+
 	return (
 		<>
-			<h2 className="modal-header">Configure your tree rows below.</h2>
+			<div className="PlantingFormHeader">
+				<h2 className="modal-header">Configure your tree rows below.</h2>
+				{series.size > 0 && <p className="SoilTypes spacer-top-1">Your soil types: <span>{[...series.keys()].sort().toString().replace(/,/g, ', ')}</span></p>}
+			</div>
 			<NumRowInput windbreak={windbreak} propagation={propagation} numRows={rows.length} handleNumRowChange={handleNumRowChange} handleWindbreakChange={handleWindbreakChange} handlePropgationChange={handlePropgationChange} />
 			{
 				(step === 'species' || step === 'spacing') && (
-					<RowDetailInput rows={rows} handleRowTypeChange={handleRowTypeChange} handleRowSpeciesChange={handleRowSpeciesChange} />
+					<RowDetailInput series={series} rows={rows} pasture_conversion={pasture_conversion} handleRowTypeChange={handleRowTypeChange} handleRowSpeciesChange={handleRowSpeciesChange} handlePastureConversionChange={handlePastureConversionChange} />
 				)
 			}
 			{
