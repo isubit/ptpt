@@ -1,0 +1,151 @@
+[{
+        "id": "JyXcmn0d",
+        "display": "CP 25 Wet Rare and Declining Habitat 30/10",
+        "price": 127,
+        "type": "hydric"
+    },
+    {
+        "id": "uz7PvOEuX",
+        "display": "CP 25 Wet Pollinator Habitat Statewide 10/30",
+        "price": 239,
+        "type": "hydric"
+    },
+    {
+        "id": "SNrB00scR",
+        "display": "CP 42 Wet Pollinator Habitat",
+        "price": 187.8,
+        "type": "hydric"
+    },
+    {
+        "id": "jJhl8nGyg",
+        "display": "CP 43 Wet Prairie Strips",
+        "price": 185,
+        "type": "hydric"
+    },
+    {
+        "id": "63heus6FP",
+        "display": "CP 25 Wet-Mesic Rare and Declining Habitat 30/10",
+        "price": 115,
+        "type": "wet-mesic"
+    },
+    {
+        "id": "tYm-A8v2p",
+        "display": "CP 42 Wet-Mesic Pollinator Habitat 10/30",
+        "price": 200,
+        "type": "wet-mesic"
+    },
+    {
+        "id": "LI7YtDW3b",
+        "display": "CP 43 Wet-mesic Prairie Strip",
+        "price": 163,
+        "type": "wet-mesic"
+    },
+    {
+        "id": "jiEkpFNn_",
+        "display": "CP 25 Mesic Rare and Declining Habitat Standard 30/10 ",
+        "price": 145,
+        "type": "mesic"
+    },
+    {
+        "id": "n9MxbNWla",
+        "display": "CP 25 Mesic Rare and Declining HabitatEconomy 20/20",
+        "price": 130.5,
+        "type": "mesic"
+    },
+    {
+        "id": "ffDsyk50A",
+        "display": "CP 25 Mesic Rare and Declining Habitat Economy 30/10",
+        "price": 88.33,
+        "type": "mesic"
+    },
+    {
+        "id": "hqLlKXep2",
+        "display": "CP 25 Mesic Rare and Declining Habitat High Diversity 30/10",
+        "price": 169,
+        "type": "mesic"
+    },
+    {
+        "id": "2nuiIjo_F",
+        "display": "CP 25 Mesic Rare and Declining Habitat w/o Switchgrass 30/10 ",
+        "price": 115,
+        "type": "mesic"
+    },
+    {
+        "id": "L6wb-Ros4",
+        "display": "CP 42 Mesic Pollinator Habitat 10/30",
+        "price": 239.75,
+        "type": "mesic"
+    },
+    {
+        "id": "g6R3ZJTP-",
+        "display": "Monarch Mesic Pollinator 10/30 (EQIP)",
+        "price": 286,
+        "type": "mesic"
+    },
+    {
+        "id": "Irk3YVZt7",
+        "display": "Monarch Mesic w/ Little Bluestem (EQIP) ",
+        "price": 472,
+        "type": "mesic"
+    },
+    {
+        "id": "5ZymS_9WQ",
+        "display": "CP 42 Mesic Pollinator Habitat Standard ",
+        "price": 212.5,
+        "type": "mesic"
+    },
+    {
+        "id": "H7-TJe4iiL",
+        "display": "CP 42 Mesic Pollinator Habitat Economy ",
+        "price": 140,
+        "type": "mesic"
+    },
+    {
+        "id": "fgSWg-ds09",
+        "display": "CP 43 Mesic Prairie Strips ",
+        "price": 140,
+        "type": "mesic"
+    },
+    {
+        "id": "SDLOATVlKU",
+        "display": "CP 25 Dry-Mesic Rare and Declining Habitat Tall grass 20/20",
+        "price": 135,
+        "type": "dry-mesic"
+    },
+    {
+        "id": "OkD2sjQbYN",
+        "display": "CP 25 Dry-Mesic Rare and Declining Habitat Short  Prairie 30/10",
+        "price": 168,
+        "type": "dry-mesic"
+    },
+    {
+        "id": "A80OVoX9q4",
+        "display": "CP 42 Dry-Mesic Polllinator Habitat 10/30",
+        "price": 195.5,
+        "type": "dry-mesic"
+    },
+    {
+        "id": "kyXOdtUgVe",
+        "display": "CP 43 Dry-Mesic Prairie Strip",
+        "price": 135,
+        "type": "dry-mesic"
+    },
+    {
+        "id": "s7SPm0sDgH",
+        "display": "CP 25 Dry Rare and Declining Habitat Short  Prairie 30/10",
+        "price": 168,
+        "type": "xeric"
+    },
+    {
+        "id": "w7Cl4lWqio",
+        "display": "CP 42 Dry Polllinator Habitat 10/30",
+        "price": 195.5,
+        "type": "xeric"
+    },
+    {
+        "id": "KdD_Thf6CS",
+        "display": "CP 43 Dry Prairie Strip",
+        "price": 135,
+        "type": "xeric"
+    }
+]

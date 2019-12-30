@@ -33,7 +33,7 @@ const NumRowInput = (props) => {
 				<div className="inputElement desktop-select-l-width">
 					<span className="inputDescriptor nowrap">How many tree rows would you like to plant?</span>
 					<select value={numRows} onChange={(e) => handleNumRowChange(e)}>
-						{ _.range(1, 11).map(val => <option key={val} value={val}>{val}</option>)}
+						{_.range(1, windbreak ? 5 : 11).map(val => <option key={val} value={val}>{val}</option>)}
 					</select>
 				</div>
 				<div className="inputElement desktop-select-s-width spacer-top-1_5">

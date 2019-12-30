@@ -74225,7 +74225,7 @@ var SeedMixInput = function SeedMixInput(props) {
   // value and handlers
   var seed = props.seed,
       handleSeedMixChange = props.handleSeedMixChange,
-      handleSeedValueChange = props.handleSeedValueChange;
+      handleSeedPriceChange = props.handleSeedPriceChange;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "ConfigForm"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -74258,7 +74258,7 @@ var SeedMixInput = function SeedMixInput(props) {
     className: "ModalTextInput",
     value: seed.price.value,
     onChange: function onChange(e) {
-      return handleSeedValueChange(e);
+      return handleSeedPriceChange(e);
     }
   }))));
 };
@@ -74348,13 +74348,13 @@ var PrairiePlantingForm = function PrairiePlantingForm(props) {
       handlePestControlChange = props.handlePestControlChange,
       handleManagementChange = props.handleManagementChange,
       handleCroppingChange = props.handleCroppingChange,
-      handleSeedValueChange = props.handleSeedValueChange;
+      handleSeedPriceChange = props.handleSeedPriceChange;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     className: "modal-header"
   }, "Configure your prairie planting area below."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SeedMixInput, {
     seed: seed,
     handleSeedMixChange: handleSeedMixChange,
-    handleSeedValueChange: handleSeedValueChange
+    handleSeedPriceChange: handleSeedPriceChange
   }), (step === 'mgmt_1' || step === 'mgmt_2') && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(PrairieMgmt1, {
     management: management,
     handleManagementChange: handleManagementChange
@@ -76017,7 +76017,7 @@ function (_React$Component) {
       });
     });
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleSeedValueChange", function (event) {
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleSeedPriceChange", function (event) {
       var updateValue = event.target.value;
 
       _this.setState(function (state) {
@@ -76306,7 +76306,7 @@ function (_React$Component) {
             handlePestControlChange = this.handlePestControlChange,
             handleManagementChange = this.handleManagementChange,
             handleCroppingChange = this.handleCroppingChange,
-            handleSeedValueChange = this.handleSeedValueChange;
+            handleSeedPriceChange = this.handleSeedPriceChange;
         formProps = {
           step: step,
           seed: seed,
@@ -76317,7 +76317,7 @@ function (_React$Component) {
           handlePestControlChange: handlePestControlChange,
           handleManagementChange: handleManagementChange,
           handleCroppingChange: handleCroppingChange,
-          handleSeedValueChange: handleSeedValueChange
+          handleSeedPriceChange: handleSeedPriceChange
         };
       }
 
