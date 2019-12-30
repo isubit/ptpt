@@ -46,15 +46,8 @@ export class PlantingModal extends React.Component {
 				};
 			} else if (type === 'prairie') {
 				configs = {
-					seed: {
-						id: 14, // placeholder
-						value: 'Seed Mix 1', // placeholder
-						price: {
-							value: '',
-							per_unit: 'acre',
-							currency: '$_dollar',
-						},
-					},
+					seed: '',
+					seed_price: '',
 					management: {
 						id: 1,
 						display: 'Mow',
@@ -95,7 +88,7 @@ export class PlantingModal extends React.Component {
 	}
 
 	handleNumRowChange = (event) => {
-		const numRows = event.target.value;
+		const numRows = typeof event === 'number' ? event : event.target.value;
 		this.setState((state) => {
 			let updateRows = [];
 			if (numRows < state.rows.length) {
@@ -125,7 +118,11 @@ export class PlantingModal extends React.Component {
 		if (updateWindbreak === 'true' || updateWindbreak === 'false') {
 			updateWindbreak = JSON.parse(updateWindbreak);
 		}
-		this.setState({ windbreak: updateWindbreak });
+		this.setState({ windbreak: updateWindbreak }, () => {
+			if (this.state.rows.length > 4) {
+				this.handleNumRowChange(4);
+			}
+		});
 	}
 
 	handlePropgationChange = (event) => {
@@ -186,65 +183,27 @@ export class PlantingModal extends React.Component {
 
 	handleSeedMixChange = (event) => {
 		const updateSeedMix = event.target.value;
-		this.setState((state) => (
-			{
-				seed: {
-					...state.seed,
-					value: updateSeedMix,
-				},
-			}
-		));
+		this.setState(() => ({ seed: updateSeedMix }));
 	}
 
-	handleSeedValueChange = (event) => {
-		const updateValue = event.target.value;
-		this.setState((state) => (
-			{
-				seed: {
-					...state.seed,
-					price: {
-						...state.seed.price,
-						value: updateValue,
-					},
-				},
-			}
-		));
+	handleSeedPriceChange = (event) => {
+		const updateValue = typeof event === 'number' ? event : event.target.value;
+		this.setState(() => ({ seed_price: updateValue }));
 	}
 
 	handleManagementChange = (event) => {
 		const updateManagement = event.target.value;
-		this.setState((state) => (
-			{
-				management: {
-					...state.management,
-					display: updateManagement,
-				},
-			}
-		));
+		this.setState(() => ({ management: updateManagement }));
 	}
 
 	handleCroppingChange = (event) => {
 		const updateCropping = event.target.value;
-		this.setState((state) => (
-			{
-				cropping_system: {
-					...state.cropping,
-					display: updateCropping,
-				},
-			}
-		));
+		this.setState(() => ({ cropping_system: updateCropping }));
 	}
 
 	handlePestControlChange = (event) => {
 		const updatePestControl = event.target.value;
-		this.setState((state) => (
-			{
-				pest_control: {
-					...state.pest_control,
-					display: updatePestControl,
-				},
-			}
-		));
+		this.setState(() => ({ pest_control: updatePestControl }));
 	}
 
 	scrollToBottom = () => {
@@ -287,6 +246,7 @@ export class PlantingModal extends React.Component {
 		if (type === 'tree') {
 			const {
 				state: {
+					pasture_conversion,
 					propagation,
 					rows,
 					spacing_trees,
@@ -300,6 +260,7 @@ export class PlantingModal extends React.Component {
 			properties = {
 				type,
 				configs: {
+					pasture_conversion,
 					propagation,
 					windbreak,
 					rows,
@@ -312,6 +273,7 @@ export class PlantingModal extends React.Component {
 		} else if (type === 'prairie') {
 			const {
 				seed,
+				seed_price,
 				management,
 				cropping_system,
 				pest_control,
@@ -321,6 +283,7 @@ export class PlantingModal extends React.Component {
 				type,
 				configs: {
 					seed,
+					seed_price,
 					management,
 					cropping_system,
 					pest_control,
@@ -403,6 +366,7 @@ export class PlantingModal extends React.Component {
 			const {
 				state: {
 					seed,
+					seed_price,
 					management,
 					cropping_system,
 					pest_control,
@@ -411,12 +375,13 @@ export class PlantingModal extends React.Component {
 				handlePestControlChange,
 				handleManagementChange,
 				handleCroppingChange,
-				handleSeedValueChange,
+				handleSeedPriceChange,
 			} = this;
 
 			formProps = {
 				...formProps,
 				seed,
+				seed_price,
 				management,
 				cropping_system,
 				pest_control,
@@ -424,7 +389,7 @@ export class PlantingModal extends React.Component {
 				handlePestControlChange,
 				handleManagementChange,
 				handleCroppingChange,
-				handleSeedValueChange,
+				handleSeedPriceChange,
 			};
 		}
 
