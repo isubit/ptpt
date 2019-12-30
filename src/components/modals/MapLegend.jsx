@@ -11,7 +11,7 @@ export const MapLegend = ({
 	<div className="MapLegend modal">
 		<div className="grid-row">
 			<div className="grid-wrap">
-				<Link to={pathname}><img className="CloseButton" src="../../assets/close_dropdown.svg" alt="Close Welcome Modal" /></Link>
+				<Link className="CloseButton" to={pathname}><img className="CloseButton" src="../../assets/close_dropdown.svg" alt="close legend modal" /></Link>
 				<h2 className="modal-header">Map Legend</h2>
 				<div className="modal-text">
 					<div className="SSURGO">

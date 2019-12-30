@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import mapboxgl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
+import calcBbox from '@turf/bbox';
 import Debug from 'debug';
 
 import { MapConsumer } from 'contexts/MapState';
@@ -98,7 +99,7 @@ export class MapComponent extends React.Component {
 		const mapConfig = {
 			container: this.mapElement.current,
 			style: styleURL,
-			minZoom: 12,
+			minZoom: window.innerWidth * window.innerHeight > 1000000 ? 15 : 12,
 			center: latlng || defaultLatLng,
 			zoom: zoom || defaultZoom,
 			pitch: pitch || defaultPitch,
@@ -211,7 +212,14 @@ export class MapComponent extends React.Component {
 
 		if (feature) {
 			let clone = _.cloneDeep(feature);
-	
+
+			// const bbox = calcBbox(feature);
+			// map.fitBounds(bbox, { padding: 200 });
+
+			// map.once('zoomend', () => {
+				
+			// });
+
 			this.setState({ enriching: true }, async () => {
 				if (mapAPILoaded) {
 					try {

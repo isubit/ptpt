@@ -55,7 +55,7 @@ export class Component extends React.Component {
 			<div className="LocationPrompt modal">
 				<div className="grid-row">
 					<div className="grid-wrap">
-						<Link to={location.pathname} replace><img className="CloseButton" src="../../assets/close_dropdown.svg" alt="close modal" /></Link>
+						<Link className="CloseButton" to={location.pathname} replace><img src="../../assets/close_dropdown.svg" alt="close location prompt" /></Link>
 						<h3 className="modal-header">Allow the Prairie &amp; Tree Planting application to access your location while using the app?</h3>
 						<div className="content modal-text">
 							<div className="distribute">
