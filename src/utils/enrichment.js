@@ -142,7 +142,7 @@ export async function enrichment(feature, map) {
 			// eslint-disable-next-line no-confusing-arrow
 			series: ssurgoIntersects.map(ea => soilSeriesMoisture[ea.properties.compname] ? [ea.properties.compname, {
 				moisture: soilSeriesMoisture[ea.properties.compname],
-				csg: soilSeriesCSG[ea.properties.compname],
+				csg: soilSeriesCSG[ea.properties.compname].toString(),
 			}] : null).filter(ea => !!ea),
 			csr: ssurgoIntersects.map(ea => ea.properties.iacornsr).filter(ea => !!ea),
 		};
