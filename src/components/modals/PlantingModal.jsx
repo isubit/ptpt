@@ -65,14 +65,13 @@ export class PlantingModal extends React.Component {
 		}
 		this.state = {
 			...configs,
-			stepIndex: 0,
 		};
 	}
 
 	componentDidUpdate(prevProps) {
-		const { step: prevStep } = prevProps;
-		const { step: currentStep } = this.props;
-		if (prevStep !== currentStep) {
+		const { stepIndex: prevStepIndex } = prevProps;
+		const { stepIndex: currentStepIndex } = this.props;
+		if (currentStepIndex > prevStepIndex) {
 			this.scrollToBottom();
 		}
 	}
@@ -122,7 +121,7 @@ export class PlantingModal extends React.Component {
 
 	handlePastureConversionChange = (event) => {
 		const updateConversion = event.target.value;
-		this.setState({ pasture_conversion: updateConversion });
+		this.setState({ pasture_conversion: updateConversion === 'on' });
 	}
 
 	handleRowTypeChange = (event, rowIndex) => {
@@ -204,6 +203,7 @@ export class PlantingModal extends React.Component {
 		const {
 			nextStep,
 			steps,
+			stepIndex,
 			editingFeature: {
 				properties: {
 					type,
@@ -211,11 +211,13 @@ export class PlantingModal extends React.Component {
 			},
 		} = this.props;
 
-		this.setState((state) => ({
-			stepIndex: state.stepIndex + 1,
-		}), () => {
-			nextStep(`/plant/${type}/${steps[this.state.stepIndex]}`);
-		});
+		// this.setState((state) => ({
+		// 	stepIndex: state.stepIndex + 1,
+		// }), () => {
+		// 	nextStep(`/plant/${type}/${steps[this.state.stepIndex]}`);
+		// });
+
+		nextStep(`/plant/${type}/${steps[stepIndex + 1]}`);
 	}
 
 	handleSave = () => {
@@ -288,15 +290,14 @@ export class PlantingModal extends React.Component {
 		const {
 			props: {
 				step,
+				stepIndex,
+				steps,
 				editingFeature,
 				editingFeature: {
 					properties: {
 						type,
 					},
 				},
-			},
-			state: {
-				stepIndex,
 			},
 		} = this;
 
@@ -391,28 +392,27 @@ export class PlantingModal extends React.Component {
 				</div>
 				<div className="button-wrap vertical-align">
 					{
-						stepIndex <= 1 && (
-							<button
-								type="button"
-								className="Button"
-								onClick={this.handleNextStep}
-								onKeyPress={this.handleNextStep}
-							>
-								<span>Next</span>
-							</button>
-						)
-					}
-					{
-						stepIndex === 2 && (
-							<button
-								type="button"
-								className="Button"
-								onClick={this.handleSave}
-								onKeyPress={this.handleSave}
-							>
-								<span>View Map</span>
-							</button>
-						)
+						stepIndex === steps.length - 1
+							? (
+								<button
+									type="button"
+									className="Button"
+									onClick={this.handleSave}
+									onKeyPress={this.handleSave}
+								>
+									<span>View Map</span>
+								</button>
+							)
+							: (
+								<button
+									type="button"
+									className="Button"
+									onClick={this.handleNextStep}
+									onKeyPress={this.handleNextStep}
+								>
+									<span>Next</span>
+								</button>
+							)
 					}
 				</div>
 			</>
