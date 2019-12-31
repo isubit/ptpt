@@ -57,7 +57,6 @@ const SeedMixInput = (props) => {
 							? <input type="text" className="ModalTextInput" value={seed_price} onChange={(e) => handleSeedPriceChange(e)} />
 							: <span className="SeedPrice">{Number(seed_price) ? `$${seed_price.toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,')}` : 'Unknown'}</span>
 					}
-					{/* <input type="text" className="ModalTextInput" value={seed.price.value} onChange={(e) => handleSeedPriceChange(e)} readOnly={seed.value !== 'custom'} /> */}
 				</div>
 			</div>
 		</div>
