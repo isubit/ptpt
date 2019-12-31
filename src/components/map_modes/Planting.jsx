@@ -156,7 +156,7 @@ export class Planting extends React.Component {
 				},
 			},
 			// data,
-			// deleteFeature,
+			deleteFeature,
 			setEditingFeature,
 			editingFeature,
 			saveFeature,
@@ -170,14 +170,16 @@ export class Planting extends React.Component {
 			return <Redirect to={`/plant/${type}`} />;
 		}
 
-		if (!step) {
+		const stepIndex = steps.indexOf(step);
+
+		if (stepIndex === -1) {
 			return <Redirect to={`/plant/${type}/${steps[0]}`} />;
 		}
 
-		return step ? (
+		return (
 			<div className="Planting MapModeForm vertical-align">
-				<PlantingModal editingFeature={editingFeature} setEditingFeature={setEditingFeature} saveFeature={saveFeature} nextStep={nextStep} step={step} steps={steps} />
+				<PlantingModal editingFeature={editingFeature} setEditingFeature={setEditingFeature} deleteFeature={deleteFeature} saveFeature={saveFeature} nextStep={nextStep} step={step} steps={steps} stepIndex={stepIndex} />
 			</div>
-		) : null;
+		);
 	}
 }
