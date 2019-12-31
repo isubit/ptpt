@@ -69,16 +69,6 @@ export class PlantingModal extends React.Component {
 		};
 	}
 
-	// componentDidMount() {
-	// 	const {
-	// 		editingFeature: {
-	// 			properties: {
-	// 				type,
-	// 			},
-	// 		},
-	// 	} = this.props;
-	// }
-
 	componentDidUpdate(prevProps) {
 		const { step: prevStep } = prevProps;
 		const { step: currentStep } = this.props;
@@ -233,7 +223,6 @@ export class PlantingModal extends React.Component {
 			props: {
 				editingFeature,
 				saveFeature,
-				setEditingFeature,
 				editingFeature: {
 					properties: {
 						type,
@@ -292,8 +281,7 @@ export class PlantingModal extends React.Component {
 		}
 
 		editingFeature.properties = properties;
-		setEditingFeature(editingFeature);
-		saveFeature();
+		saveFeature(editingFeature);
 	}
 
 	render() {
