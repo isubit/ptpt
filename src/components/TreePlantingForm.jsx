@@ -74,7 +74,6 @@ const RowDetailInput = (props) => {
 		map.set(tree.type, (map.get(tree.type) || []).concat(tree));
 		return map;
 	}, new Map());
-	console.log(treesByType);
 
 	return (
 		<div className="ConfigForm">
