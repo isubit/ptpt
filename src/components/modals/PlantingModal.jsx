@@ -66,6 +66,8 @@ export class PlantingModal extends React.Component {
 		this.state = {
 			...configs,
 		};
+
+		this.form = React.createRef();
 	}
 
 	componentDidUpdate(prevProps) {
@@ -211,13 +213,16 @@ export class PlantingModal extends React.Component {
 			},
 		} = this.props;
 
-		// this.setState((state) => ({
-		// 	stepIndex: state.stepIndex + 1,
-		// }), () => {
-		// 	nextStep(`/plant/${type}/${steps[this.state.stepIndex]}`);
-		// });
 
-		nextStep(`/plant/${type}/${steps[stepIndex + 1]}`);
+		if (this.form.current && this.form.current.checkValidity()) {
+			this.setState(() => ({
+				formError: null,
+			}), () => nextStep(`/plant/${type}/${steps[stepIndex + 1]}`));
+		} else {
+			this.setState(() => ({
+				formError: 'Please fill in all fields before moving onto the next step.',
+			}));
+		}
 	}
 
 	handleSave = () => {
@@ -282,8 +287,18 @@ export class PlantingModal extends React.Component {
 			};
 		}
 
-		editingFeature.properties = properties;
-		saveFeature(editingFeature);
+		if (this.form.current && this.form.current.checkValidity()) {
+			this.setState(() => ({
+				formError: null,
+			}), () => {
+				editingFeature.properties = properties;
+				saveFeature(editingFeature);
+			});
+		} else {
+			this.setState(() => ({
+				formError: 'Please fill in all fields before saving.',
+			}));
+		}
 	}
 
 	render() {
@@ -299,11 +314,17 @@ export class PlantingModal extends React.Component {
 					},
 				},
 			},
+			state: {
+				formError,
+			},
+			form,
 		} = this;
 
 		let formProps = {
 			editingFeature,
 			step,
+			form,
+			formError,
 		};
 
 		if (type === 'tree') {
@@ -391,6 +412,7 @@ export class PlantingModal extends React.Component {
 					<div ref={this.bottom} />
 				</div>
 				<div className="button-wrap vertical-align">
+					{formError && <p className="warning">{formError}</p>}
 					{
 						stepIndex === steps.length - 1
 							? (
