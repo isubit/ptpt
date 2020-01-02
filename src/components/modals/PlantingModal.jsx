@@ -65,24 +65,15 @@ export class PlantingModal extends React.Component {
 		}
 		this.state = {
 			...configs,
-			stepIndex: 0,
 		};
+
+		this.form = React.createRef();
 	}
 
-	// componentDidMount() {
-	// 	const {
-	// 		editingFeature: {
-	// 			properties: {
-	// 				type,
-	// 			},
-	// 		},
-	// 	} = this.props;
-	// }
-
 	componentDidUpdate(prevProps) {
-		const { step: prevStep } = prevProps;
-		const { step: currentStep } = this.props;
-		if (prevStep !== currentStep) {
+		const { stepIndex: prevStepIndex } = prevProps;
+		const { stepIndex: currentStepIndex } = this.props;
+		if (currentStepIndex > prevStepIndex) {
 			this.scrollToBottom();
 		}
 	}
@@ -132,7 +123,7 @@ export class PlantingModal extends React.Component {
 
 	handlePastureConversionChange = (event) => {
 		const updateConversion = event.target.value;
-		this.setState({ pasture_conversion: updateConversion });
+		this.setState({ pasture_conversion: updateConversion === 'on' });
 	}
 
 	handleRowTypeChange = (event, rowIndex) => {
@@ -214,6 +205,7 @@ export class PlantingModal extends React.Component {
 		const {
 			nextStep,
 			steps,
+			stepIndex,
 			editingFeature: {
 				properties: {
 					type,
@@ -221,11 +213,16 @@ export class PlantingModal extends React.Component {
 			},
 		} = this.props;
 
-		this.setState((state) => ({
-			stepIndex: state.stepIndex + 1,
-		}), () => {
-			nextStep(`/plant/${type}/${steps[this.state.stepIndex]}`);
-		});
+
+		if (this.form.current && this.form.current.checkValidity()) {
+			this.setState(() => ({
+				formError: null,
+			}), () => nextStep(`/plant/${type}/${steps[stepIndex + 1]}`));
+		} else {
+			this.setState(() => ({
+				formError: 'Please fill in all fields before moving onto the next step.',
+			}));
+		}
 	}
 
 	handleSave = () => {
@@ -233,7 +230,6 @@ export class PlantingModal extends React.Component {
 			props: {
 				editingFeature,
 				saveFeature,
-				setEditingFeature,
 				editingFeature: {
 					properties: {
 						type,
@@ -291,15 +287,26 @@ export class PlantingModal extends React.Component {
 			};
 		}
 
-		editingFeature.properties = properties;
-		setEditingFeature(editingFeature);
-		saveFeature();
+		if (this.form.current && this.form.current.checkValidity()) {
+			this.setState(() => ({
+				formError: null,
+			}), () => {
+				editingFeature.properties = properties;
+				saveFeature(editingFeature);
+			});
+		} else {
+			this.setState(() => ({
+				formError: 'Please fill in all fields before saving.',
+			}));
+		}
 	}
 
 	render() {
 		const {
 			props: {
 				step,
+				stepIndex,
+				steps,
 				editingFeature,
 				editingFeature: {
 					properties: {
@@ -308,13 +315,16 @@ export class PlantingModal extends React.Component {
 				},
 			},
 			state: {
-				stepIndex,
+				formError,
 			},
+			form,
 		} = this;
 
 		let formProps = {
 			editingFeature,
 			step,
+			form,
+			formError,
 		};
 
 		if (type === 'tree') {
@@ -402,29 +412,29 @@ export class PlantingModal extends React.Component {
 					<div ref={this.bottom} />
 				</div>
 				<div className="button-wrap vertical-align">
+					{formError && <p className="warning">{formError}</p>}
 					{
-						stepIndex <= 1 && (
-							<button
-								type="button"
-								className="Button"
-								onClick={this.handleNextStep}
-								onKeyPress={this.handleNextStep}
-							>
-								<span>Next</span>
-							</button>
-						)
-					}
-					{
-						stepIndex === 2 && (
-							<button
-								type="button"
-								className="Button"
-								onClick={this.handleSave}
-								onKeyPress={this.handleSave}
-							>
-								<span>View Map</span>
-							</button>
-						)
+						stepIndex === steps.length - 1
+							? (
+								<button
+									type="button"
+									className="Button"
+									onClick={this.handleSave}
+									onKeyPress={this.handleSave}
+								>
+									<span>View Map</span>
+								</button>
+							)
+							: (
+								<button
+									type="button"
+									className="Button"
+									onClick={this.handleNextStep}
+									onKeyPress={this.handleNextStep}
+								>
+									<span>Next</span>
+								</button>
+							)
 					}
 				</div>
 			</>

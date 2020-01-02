@@ -103,7 +103,7 @@ export async function enrichment(feature, map) {
 		sourceLayer: 'default',
 	});
 		// .filter(ea => calcIntersect(ea, boundingPolygon || clone));
-
+	console.log(ssurgo.length);
 	// async function stagger() {
 	// 	return new Promise(resolve => {
 	// 		const results = [];
