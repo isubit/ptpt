@@ -3,12 +3,17 @@ import React from 'react';
 import _ from 'lodash';
 import uuid from 'uuid/v4';
 
+import {
+	findSlope,
+} from 'utils/geometry';
+
 import treesList from 'references/trees_list.json';
 import treeTypes from 'references/tree_types.json';
 import treeStockSizes from 'references/tree_stock_sizes.json';
 
 const NumRowInput = (props) => {
 	const {
+		editingFeature,
 		windbreak,
 		numRows,
 		handleNumRowChange,
@@ -16,6 +21,8 @@ const NumRowInput = (props) => {
 		handlePropgationChange,
 		propagation,
 	} = props;
+
+	const slope = findSlope(editingFeature);
 
 	return (
 		<div className="ConfigForm">
@@ -39,16 +46,27 @@ const NumRowInput = (props) => {
 				<div className="inputElement desktop-select-s-width spacer-top-1_5">
 					{/* <input type="checkbox" name="longest_length_rows" />
 					<span>Configure rows to fit the longest length</span> */}
-					<span className="inputDescriptor nowrap">Choose a direction to plant your rows in.</span>
+					<span className="inputDescriptor nowrap">Choose a direction to add rows from your starting line.</span>
 					<select
 						value={propagation}
 						onChange={(e) => handlePropgationChange(e)}
 						required
 					>
-						<option value="N">North</option>
-						<option value="S">South</option>
-						<option value="W">West</option>
-						<option value="E">East</option>
+						{
+							slope > 1 || slope < -1
+								? (
+									<>
+										<option value="W">West</option>
+										<option value="E">East</option>
+									</>
+								)
+								: (
+									<>
+										<option value="N">North</option>
+										<option value="S">South</option>
+									</>
+								)
+						}
 					</select>
 				</div>
 			</div>
@@ -230,7 +248,7 @@ export const TreePlantingForm = (props) => {
 				{series.size > 0 && <p className="SoilTypes spacer-top-1">Your soil types: <span>{[...series.keys()].sort().toString().replace(/,/g, ', ')}</span></p>}
 			</div>
 			<form ref={form}>
-				<NumRowInput windbreak={windbreak} propagation={propagation} numRows={rows.length} handleNumRowChange={handleNumRowChange} handleWindbreakChange={handleWindbreakChange} handlePropgationChange={handlePropgationChange} />
+				<NumRowInput editingFeature={editingFeature} windbreak={windbreak} propagation={propagation} numRows={rows.length} handleNumRowChange={handleNumRowChange} handleWindbreakChange={handleWindbreakChange} handlePropgationChange={handlePropgationChange} />
 				{
 					(step === 'species' || step === 'spacing') && (
 						<RowDetailInput series={series} rows={rows} pasture_conversion={pasture_conversion} handleRowTypeChange={handleRowTypeChange} handleRowSpeciesChange={handleRowSpeciesChange} handlePastureConversionChange={handlePastureConversionChange} />
