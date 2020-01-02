@@ -33,7 +33,7 @@ export const GeolocationPosition = props => {
 
 	return (
 		<>
-			<Layer map={map} layer={labelLayer} />,
+			<Layer map={map} layer={labelLayer} />
 			<Layer map={map} layer={circleLayer} />
 		</>
 	);
