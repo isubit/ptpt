@@ -7,30 +7,6 @@
     margin-top: 1em
     margin-bottom: 1em
 
-.modal-header
-    padding-bottom: 1rem
-    position: relative
-    &::after
-        content: ''
-        position: absolute
-        bottom: -2px
-        left: 0
-        height: 2px
-        width: 135px
-        background-color: $dark-green
-
-.modal-text
-    padding-top: 1.5rem
-
-.modal-link
-    font-family: Merriweather
-    font-style: italic
-    font-weight: normal
-    font-size: 0.751rem
-    line-height: 21px
-    text-decoration-line: underline
-    color: $bright-blue
-
 .suggestion-item--active
 	background-color: #fafafa
 	cursor: pointer
@@ -38,11 +14,6 @@
 .suggestion-item
 	background-color: #ffffff
 	cursor: pointer
-
-@media (min-width: 900px)
-    .modal-header
-        &::after            
-            left: 2rem
 
 .vertical-align
 	display: flex
@@ -54,6 +25,17 @@
 
 .margin-center
     margin: 0 auto !important
+
+@media (min-width: 900px)
+	.desktop-select-l-width
+		width: 240px
+	.desktop-select-s-width
+		width: 160px
+	.desktop-select-m-width
+		width: 210px
+
+.spacer-top-1_5
+	margin-top: 1.5rem !important
 
 @for $i from 0 through 4
 	.spacer-top-#{$i}
@@ -78,6 +60,10 @@
 @for $i from 1 through 100
 	.height-#{$i}
     	height: 1% * $i !important
+
+@media (min-width: 900px)
+	.nowrap
+		white-space: nowrap
 
 .warning
 	color: red

@@ -1,0 +1,577 @@
+{
+  "type": "Feature",
+  "properties": {
+    "OBJECTID": 1,
+    "areasymbol": "IA065",
+    "spatialver": 11,
+    "musym": "5010",
+    "muname": "Pits, sand and gravel",
+    "mukind": "Consociation",
+    "farmlndcl": "Not prime farmland",
+    "interpfocus": null,
+    "invesintens": "Order 2",
+    "iacornsr": null,
+    "projectscale": 15840,
+    "saversion": 23,
+    "tabularversion": 23,
+    "slopegraddcp": 6,
+    "slopegradwta": 5.699999809265137,
+    "brockdepmin": null,
+    "wtdepannmin": null,
+    "wtdepaprjunmin": null,
+    "flodfreqdcd": "None",
+    "flodfreqmax": "None",
+    "pondfreqprs": 0,
+    "aws025wta": null,
+    "aws050wta": null,
+    "aws0100wta": null,
+    "aws0150wta": null,
+    "drclassdcd": "Excessively drained",
+    "drclasswettest": "Excessively drained",
+    "hydgrpdcd": null,
+    "iccdcd": null,
+    "iccdcdpct": 100,
+    "niccdcd": null,
+    "niccdcdpct": 100,
+    "engdwobdcd": "Not rated",
+    "engdwbdcd": "Not rated",
+    "engdwbll": "Not rated",
+    "engdwbml": "Not rated",
+    "engstafdcd": "Not rated",
+    "engstafll": "Not rated",
+    "engstafml": "Not rated",
+    "engsldcd": "Not rated",
+    "engsldcp": "Not rated",
+    "englrsdcd": "Not rated",
+    "engcmssdcd": "Not rated",
+    "engcmssmp": "Not rated",
+    "urbrecptdcd": "Not rated",
+    "urbrecptwta": null,
+    "forpehrtdcp": "Not rated",
+    "hydclprs": 0,
+    "awmmfpwwta": null,
+    "comppct_l": 90,
+    "comppct_r": 95,
+    "comppct_h": 100,
+    "compname": "Pits",
+    "compkind": "Miscellaneous area",
+    "otherph": null,
+    "localphase": "sand and gravel",
+    "runoff": null,
+    "tfact": null,
+    "wei": null,
+    "weg": null,
+    "erocl": null,
+    "earthcovkind1": "Barren land",
+    "earthcovkind2": "Sand and gravel",
+    "hydricon": null,
+    "hydricrating": "Unranked",
+    "aspectccwise": 0,
+    "aspectrep": 180,
+    "aspectcwise": 360,
+    "geomdesc": "borrow pits, sand pits",
+    "nirrcapscl": null,
+    "nirrcapunit": null,
+    "irrcapscl": null,
+    "irrcapunit": null,
+    "constreeshrubgrp": null,
+    "wlgrain": null,
+    "wlgrass": null,
+    "wlherbaceous": null,
+    "wlshrub": null,
+    "wlconiferous": null,
+    "wlhardwood": null,
+    "wlwetplant": null,
+    "wlshallowwat": null,
+    "wlrangeland": null,
+    "wlopenland": null,
+    "wlwoodland": null,
+    "wlwetland": null,
+    "soilslippot": null,
+    "frostact": null,
+    "corcon": null,
+    "corsteel": null,
+    "taxclname": null,
+    "taxorder": null,
+    "taxsuborder": null,
+    "taxgrtgroup": null,
+    "taxsubgrp": null,
+    "taxpartsize": null,
+    "taxpartsizemod": null,
+    "taxceactcl": null,
+    "taxreaction": null,
+    "taxtempcl": null,
+    "taxmoistscl": null,
+    "taxtempregime": null,
+    "soiltaxedition": null,
+    "castorieindex": null,
+    "cokey": "16179075",
+    "slope_l": 2,
+    "slope_r": 6,
+    "slope_h": 14,
+    "slopelen_l": null,
+    "slopelen_r": 46,
+    "slopelen_h": null,
+    "elev_l": 160,
+    "elev_r": 280,
+    "elev_h": 400,
+    "albedodry_l": null,
+    "albedodry_r": null,
+    "albedodry_h": null,
+    "airtempa_l": 6,
+    "airtempa_r": 9,
+    "airtempa_h": 12,
+    "map_l": 585,
+    "map_r": 735,
+    "map_h": 1040,
+    "reannualpr_l": null,
+    "reannualpr_r": null,
+    "reannualpr_h": null,
+    "ffd_l": 155,
+    "ffd_r": 180,
+    "ffd_h": 210,
+    "rsprod_l": null,
+    "rsprod_r": null,
+    "rsprod_h": null,
+    "initsub_l": null,
+    "initsub_r": null,
+    "initsub_h": null,
+    "totalsub_l": null,
+    "totalsub_r": null,
+    "totalsub_h": null,
+    "cropprodindex": 0,
+    "esrisymbology": "No Soil",
+    "kffact": null,
+    "alfisols_pct": null,
+    "andisols_pct": null,
+    "aridisols_pct": null,
+    "entisols_pct": null,
+    "gelisols_pct": null,
+    "histosols_pct": null,
+    "inceptisols_pct": null,
+    "mollisols_pct": null,
+    "oxisols_pct": null,
+    "spodosols_pct": null,
+    "ultisols_pct": null,
+    "vertisols_pct": null,
+    "soilorderdomcond": null,
+    "popupstring": "<font color=\"77416F\"><i>Frost Free Period</i><br><b>180 days</b><br><i><small>Median length of the frost free season based on the period from 1961-1990. Values rounded to the nearest 5 days.</small></i></font><br><br><i>Fields with No Data</i><br><font color=\"888888\"><i><small>Available Water Storage 0 - 150 cm</small></i><br><i><small>Soil Loss Tolerance Factor</small></i><br><i><small>Annual Minimum Water Table Depth</small></i><br><i><small>Minimum Depth to Bedrock</small></i><br><i><small>Total Subsidence</small></i><br><i><small>Crop Productivity Index</small></i><br><i><small>Range Forage Annual Potential</small></i><br></font>",
+    "mukey": "3051799",
+    "cornnonirr": null,
+    "cornirr": null,
+    "cottonnonirr": null,
+    "cottonirr": null,
+    "soybeansnonirr": null,
+    "soybeansirr": null,
+    "wheatnonirr": null,
+    "wheatirr": null,
+    "nccpi3corn": null,
+    "nccpi3cot": null,
+    "nccpi3soy": null,
+    "nccpi3sg": null,
+    "nccpi3all": null,
+    "rootznemc": null,
+    "rootznaws": null,
+    "droughty": null,
+    "pwsl1pomu": 5,
+    "ksat": null,
+    "Shape_Length": 2006.9943357581035,
+    "Shape_Area": 82963
+  },
+  "geometry": {
+    "type": "MultiPolygon",
+    "coordinates": [
+      [
+        [
+          [
+            -10198079,
+            5264988,
+            0
+          ],
+          [
+            -10198046,
+            5264991,
+            0
+          ],
+          [
+            -10198035,
+            5264988,
+            0
+          ],
+          [
+            -10198036,
+            5264968,
+            0
+          ],
+          [
+            -10198032,
+            5264948,
+            0
+          ],
+          [
+            -10198014,
+            5264906,
+            0
+          ],
+          [
+            -10198005,
+            5264897,
+            0
+          ],
+          [
+            -10197992,
+            5264896,
+            0
+          ],
+          [
+            -10197963,
+            5264908,
+            0
+          ],
+          [
+            -10197949,
+            5264909,
+            0
+          ],
+          [
+            -10197938,
+            5264915,
+            0
+          ],
+          [
+            -10197910,
+            5264906,
+            0
+          ],
+          [
+            -10197902,
+            5264908,
+            0
+          ],
+          [
+            -10197878,
+            5264895,
+            0
+          ],
+          [
+            -10197863,
+            5264882,
+            0
+          ],
+          [
+            -10197859,
+            5264862,
+            0
+          ],
+          [
+            -10197866,
+            5264820,
+            0
+          ],
+          [
+            -10197869,
+            5264784,
+            0
+          ],
+          [
+            -10197868,
+            5264780,
+            0
+          ],
+          [
+            -10197853,
+            5264762,
+            0
+          ],
+          [
+            -10197837,
+            5264759,
+            0
+          ],
+          [
+            -10197825,
+            5264760,
+            0
+          ],
+          [
+            -10197815,
+            5264766,
+            0
+          ],
+          [
+            -10197734,
+            5264757,
+            0
+          ],
+          [
+            -10197728,
+            5264758,
+            0
+          ],
+          [
+            -10197716,
+            5264754,
+            0
+          ],
+          [
+            -10197707,
+            5264749,
+            0
+          ],
+          [
+            -10197705,
+            5264745,
+            0
+          ],
+          [
+            -10197697,
+            5264698,
+            0
+          ],
+          [
+            -10197700,
+            5264688,
+            0
+          ],
+          [
+            -10197699,
+            5264625,
+            0
+          ],
+          [
+            -10197702,
+            5264610,
+            0
+          ],
+          [
+            -10197710,
+            5264602,
+            0
+          ],
+          [
+            -10197742,
+            5264597,
+            0
+          ],
+          [
+            -10197809,
+            5264592,
+            0
+          ],
+          [
+            -10197821,
+            5264588,
+            0
+          ],
+          [
+            -10197900,
+            5264583,
+            0
+          ],
+          [
+            -10197922,
+            5264591,
+            0
+          ],
+          [
+            -10197963,
+            5264594,
+            0
+          ],
+          [
+            -10198057,
+            5264592,
+            0
+          ],
+          [
+            -10198068,
+            5264600,
+            0
+          ],
+          [
+            -10198075,
+            5264613,
+            0
+          ],
+          [
+            -10198081,
+            5264658,
+            0
+          ],
+          [
+            -10198073,
+            5264707,
+            0
+          ],
+          [
+            -10198069,
+            5264789,
+            0
+          ],
+          [
+            -10198070,
+            5264795,
+            0
+          ],
+          [
+            -10198077,
+            5264955,
+            0
+          ],
+          [
+            -10198082,
+            5264963,
+            0
+          ],
+          [
+            -10198079,
+            5264988,
+            0
+          ]
+        ],
+        [
+          [
+            -10197806,
+            5264626,
+            0
+          ],
+          [
+            -10197794,
+            5264628,
+            0
+          ],
+          [
+            -10197784,
+            5264635,
+            0
+          ],
+          [
+            -10197779,
+            5264643,
+            0
+          ],
+          [
+            -10197776,
+            5264657,
+            0
+          ],
+          [
+            -10197778,
+            5264677,
+            0
+          ],
+          [
+            -10197804,
+            5264699,
+            0
+          ],
+          [
+            -10197820,
+            5264704,
+            0
+          ],
+          [
+            -10197847,
+            5264702,
+            0
+          ],
+          [
+            -10197873,
+            5264725,
+            0
+          ],
+          [
+            -10197897,
+            5264732,
+            0
+          ],
+          [
+            -10197903,
+            5264737,
+            0
+          ],
+          [
+            -10197924,
+            5264748,
+            0
+          ],
+          [
+            -10197944,
+            5264746,
+            0
+          ],
+          [
+            -10197959,
+            5264736,
+            0
+          ],
+          [
+            -10197960,
+            5264726,
+            0
+          ],
+          [
+            -10197954,
+            5264717,
+            0
+          ],
+          [
+            -10197962,
+            5264678,
+            0
+          ],
+          [
+            -10197950,
+            5264659,
+            0
+          ],
+          [
+            -10197924,
+            5264640,
+            0
+          ],
+          [
+            -10197912,
+            5264637,
+            0
+          ],
+          [
+            -10197901,
+            5264640,
+            0
+          ],
+          [
+            -10197880,
+            5264654,
+            0
+          ],
+          [
+            -10197868,
+            5264656,
+            0
+          ],
+          [
+            -10197864,
+            5264655,
+            0
+          ],
+          [
+            -10197842,
+            5264638,
+            0
+          ],
+          [
+            -10197831,
+            5264632,
+            0
+          ],
+          [
+            -10197806,
+            5264626,
+            0
+          ]
+        ]
+      ]
+    ]
+  }
+}
