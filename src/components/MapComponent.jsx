@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import mapboxgl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
+import calcBbox from '@turf/bbox';
 import Debug from 'debug';
 
 import { MapConsumer } from 'contexts/MapState';
@@ -18,11 +19,15 @@ import {
 	getTreeRows,
 } from 'utils/sources';
 
-import TestTreePoly from 'test_data/tree.json'; // This is some test data so there is something to interact with.
+import { enrichment } from 'utils/enrichment';
 
+import csrRent from 'references/csr_rent.json';
+
+import { Contours } from './map_layers/Contours';
 import { PrairieArea } from './map_layers/PrairieArea';
 import { EditIcons } from './map_layers/EditIcons';
 import { FeatureLabels } from './map_layers/FeatureLabels';
+import { GeolocationPosition } from './map_layers/GeolocationPosition';
 import { PrairieOutline } from './map_layers/PrairieOutline';
 import { SSURGO } from './map_layers/SSURGO';
 import { TreeRows } from './map_layers/TreeRows';
@@ -31,8 +36,7 @@ import { Trees } from './map_layers/Trees';
 import { SimpleSelect } from './map_modes/SimpleSelect';
 import { DrawLineMode, Planting } from './map_modes/Planting';
 
-
-mapboxgl.accessToken = process.env.mapbox_api_key;
+mapboxgl.accessToken = process.env.mapbox_public_key;
 
 const debug = Debug('MapComponent');
 
@@ -68,6 +72,7 @@ export class MapComponent extends React.Component {
 			editingFeature: null, // The current feature being edited.
 			sources: [], // The current sources loaded.
 			cleanup: false, // Is the map cleaning up? (unmounting)
+			enriching: false, // Is the map currently enriching a feature?
 		};
 		this.mapElement = React.createRef();
 		debug('Props:', props);
@@ -76,6 +81,7 @@ export class MapComponent extends React.Component {
 	componentDidMount() {
 		// On mount, we init the map in the container, then load in the things we need.
 		const {
+			basemap,
 			defaultLatLng,
 			defaultZoom,
 			defaultPitch,
@@ -93,7 +99,7 @@ export class MapComponent extends React.Component {
 		const mapConfig = {
 			container: this.mapElement.current,
 			style: styleURL,
-			minZoom: 12,
+			minZoom: window.innerWidth * window.innerHeight > 1000000 ? 15 : 12,
 			center: latlng || defaultLatLng,
 			zoom: zoom || defaultZoom,
 			pitch: pitch || defaultPitch,
@@ -105,6 +111,12 @@ export class MapComponent extends React.Component {
 			debug('Map loaded:', this.map);
 			if (this.state.setup) {
 				return false;
+			}
+
+			if (basemap === 'outdoor') {
+				// Disable the default 10-ft contour line included in the style.
+				this.map.setLayoutProperty('contour-line', 'visibility', 'none');
+				this.map.setLayoutProperty('contour-label', 'visibility', 'none');
 			}
 
 			// this.moveMapCenter();
@@ -120,7 +132,6 @@ export class MapComponent extends React.Component {
 					src: '/assets/plant_tree_option.svg',
 				},
 			]);
-			// this.loadSomeTestData(); // Load some test data.
 
 			// Add the draw controller.
 			this.draw = new MapboxDraw({
@@ -138,7 +149,7 @@ export class MapComponent extends React.Component {
 			return true;
 		});
 
-		this.map.on('moveend', () => {
+		const updatePosition = () => {
 			const { lat, lng } = this.map.getCenter();
 			const latlng = [lng, lat];
 			const zoom = this.map.getZoom();
@@ -150,7 +161,10 @@ export class MapComponent extends React.Component {
 				bearing,
 				pitch,
 			});
-		});
+		};
+
+		this.map.on('moveend', updatePosition);
+		this.map.on('zoomend', updatePosition);
 	}
 
 	componentDidUpdate() {
@@ -176,34 +190,53 @@ export class MapComponent extends React.Component {
 		return params;
 	}
 
-	loadSomeTestData() {
-		// This is just so we have a polygon to work with on the map.
-		const {
-			addData,
-		} = this.props;
-
-		addData(TestTreePoly);
-	}
-
 	nextStep = step => {
 		// This simply pushes a desired URL into the router.
 		const {
 			router: {
 				history,
-				// location: {
-				// 	pathname,
-				// },
 			},
 		} = this.props;
 
 		history.push(step);
 	}
 
-	setEditingFeature = feature => {
+	setEditingFeature = (feature, cb = () => {}) => {
 		// This sets the feature that is currently being edited to state.
-		this.setState({
-			editingFeature: feature,
-		});
+		const {
+			map,
+			props: {
+				mapAPILoaded,
+			},
+		} = this;
+
+		const time = new Date().getTime();
+
+		if (feature) {
+			let clone = _.cloneDeep(feature);
+
+			const bbox = calcBbox(feature);
+			map.fitBounds(bbox, { padding: 200 });
+
+			map.once('zoomend', () => {
+				this.setState({ enriching: true }, async () => {
+					if (mapAPILoaded) {
+						try {
+							clone = await enrichment(clone, map);
+						} catch(e) {
+							debug(e);	
+						}
+					}
+		
+					this.setState(() => ({
+						enriching: false,
+						editingFeature: clone,
+					}), cb);
+				});
+			});
+		} else {
+			this.setState(() => ({ editingFeature: null }), cb);
+		}
 	}
 
 	moveMapCenter() {
@@ -231,12 +264,9 @@ export class MapComponent extends React.Component {
 		}
 	}
 
-	saveFeature = () => {
+	saveFeature = feature => {
 		// This saves the feature to context.
 		const {
-			state: {
-				editingFeature,
-			},
 			props: {
 				addData,
 				router: {
@@ -245,8 +275,9 @@ export class MapComponent extends React.Component {
 			},
 		} = this;
 
-		debug('Saving feature:', editingFeature);
-		addData(editingFeature);
+		debug('Saving feature:', feature);
+
+		addData(feature);
 		history.push('/');
 	}
 
@@ -297,6 +328,7 @@ export class MapComponent extends React.Component {
 			},
 			props: {
 				data = new Map(),
+				lastGeolocationResult,
 			},
 		} = this;
 
@@ -338,6 +370,18 @@ export class MapComponent extends React.Component {
 		// This is SSURGO.
 		process.env.mapbox_ssurgo_tileset_id && this.addSource('ssurgo', 'vector', `mapbox://${process.env.mapbox_ssurgo_tileset_id}`);
 
+		// This is 2ft contour lines.
+		process.env.mapbox_contour_tileset_id && this.addSource('contours', 'vector', `mapbox://${process.env.mapbox_contour_tileset_id}`);
+
+		// This is the Geolocation position.
+		lastGeolocationResult && this.addSource('geolocation_position', 'geojson', {
+			type: 'Feature',
+			geometry: {
+				type: 'Point',
+				coordinates: lastGeolocationResult
+			},
+		});
+
 		!sourcesAdded && this.setState({ sourcesAdded: true });
 	}
 
@@ -368,6 +412,7 @@ export class MapComponent extends React.Component {
 				data,
 				layers,
 				router: {
+					history,
 					location: {
 						pathname,
 					},
@@ -402,25 +447,38 @@ export class MapComponent extends React.Component {
 						&& (
 							<Switch>
 								<Route path="/plant/tree/:step?" render={router => <Planting router={router} type="tree" steps={['rows', 'species', 'spacing']} {...mapModeProps} />} />
-								<Route path="/plant/prairie/:step?" render={router => <Planting router={router} type="prairie" steps={['seed', 'mgmt_1', 'mgmt_2']} {...mapModeProps} />} />
-								<Route path="/" render={router => <SimpleSelect router={router} {...mapModeProps} />} />
+								<Route path="/plant/prairie/:step?" render={router => <Planting router={router} type="prairie" steps={['seed', 'mgmt_1']} {...mapModeProps} />} />
+								<Route exact path="/" render={router => <SimpleSelect router={router} {...mapModeProps} />} />
 								<Redirect to="/" />
 							</Switch>
 						)}
 
 					{/* Load layers. These self-contain their event listeners. */}
+					{/* SSURGO is conditionally rendered while contours layer is conditionally loaded because we need to be able to query SSURGO data. */}
 					{!cleanup && sourcesAdded
 						&& (
 							<>
-								{layers.ssurgo && <SSURGO map={map} />}
+								{layers.contours && <Contours map={map} />}
+								<SSURGO map={map} active={layers.ssurgo} />
 								<PrairieArea map={map} />
 								<PrairieOutline map={map} />
 								<TreeRows map={map} />
 								<Trees map={map} />
 								{!/^\/plant/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
 								<FeatureLabels map={map} />
+								{map.getSource('geolocation_position') && <GeolocationPosition map={map} />}
 							</>
 						)}
+
+					{/* Misc controls. */}
+					<div className="ZoomControl">
+						<img src="/assets/plus.svg" alt="zoom in" onClick={() => map.zoomIn({ animate: true })} />
+						<hr />
+						<img src="/assets/minus.svg" alt="zoom out" onClick={() => map.zoomOut({ animate: true })} />
+					</div>
+					<div className="LegendControl">
+						<img src="/assets/legend.svg" alt="legend" onClick={() => history.push(`${location.pathname}#legend`)}/>
+					</div>
 				</div>
 			</>
 		);

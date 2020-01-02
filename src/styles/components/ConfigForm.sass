@@ -1,0 +1,89 @@
+.ConfigForm
+	display: flex
+	padding-top: 1.5rem
+	padding-bottom: 1.5rem
+	border-bottom: 1px solid $light-blue
+	&:nth-last-child(2)
+        padding-bottom: 0
+        border: none
+	.stepNumber
+		margin-right: 0.5rem
+		height: 36px	
+		text-align: center
+		border-radius: 18px
+		background-color: #CAC7A7
+		flex: 0 0 36px
+		h1
+			width: 36px
+			line-height: 36px
+			color: white
+	.inputDescriptor
+		margin-bottom: 1.5rem
+	.configInputs
+		flex-grow: 1
+		> .inputElement
+			margin-top: 0px
+		> .inputElement ~ .inputElement
+			margin-top: 1.5rem
+		.inputElement
+			span
+				display: block
+				font-size: .909rem
+			.ModalTextInput
+				font-size: .909rem
+				padding: 7px
+				line-height: 1rem
+				width: 100%
+			select
+				width: 100%
+				// margin-top: 1.5rem
+				text-transform: capitalize
+			.inputLabel
+				font-size: 0.826rem
+				color: $cool-grey
+				margin-bottom: 2px
+			.SeedPrice
+				padding: 7px
+		.rowDetails:last-of-type
+			margin-bottom: 0
+		.rowDetails
+			margin-bottom: 2rem
+			.rowNumber
+				margin-bottom: 0.5rem
+				h4
+					color: $cool-grey
+			.inputElement
+				margin-bottom: 1.5rem
+			> .inputElement ~ .inputElement
+				margin-bottom: 0
+		.checkboxElement
+			margin-top: 1.5rem
+			
+@media (min-width: 900px)
+	.ConfigForm
+		.stepNumber
+				margin-right: 10px
+				height: 45px
+				border-radius: 23px
+				h1
+					width: 45px
+					line-height: 45px
+					font-size: 1.948rem
+		.configInputs
+			.inputDescriptor
+				margin-bottom: 1rem
+				// white-space: nowrap
+			.inputElement
+				display: inline-block
+				margin-right: 0.5rem
+			> .inputElement ~ .inputElement
+				margin-top: 0
+			.rowDetails
+				display: flex
+				justify-content: space-between
+				.rowNumber
+					align-self: flex-end
+					margin-bottom: 0
+				.inputElement
+					margin: 0
+		
