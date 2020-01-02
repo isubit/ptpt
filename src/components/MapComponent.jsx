@@ -149,7 +149,7 @@ export class MapComponent extends React.Component {
 			return true;
 		});
 
-		this.map.on('moveend', () => {
+		const updatePosition = () => {
 			const { lat, lng } = this.map.getCenter();
 			const latlng = [lng, lat];
 			const zoom = this.map.getZoom();
@@ -161,7 +161,10 @@ export class MapComponent extends React.Component {
 				bearing,
 				pitch,
 			});
-		});
+		};
+
+		this.map.on('moveend', updatePosition);
+		this.map.on('zoomend', updatePosition);
 	}
 
 	componentDidUpdate() {
@@ -192,16 +195,13 @@ export class MapComponent extends React.Component {
 		const {
 			router: {
 				history,
-				// location: {
-				// 	pathname,
-				// },
 			},
 		} = this.props;
 
 		history.push(step);
 	}
 
-	setEditingFeature = feature => {
+	setEditingFeature = (feature, cb = () => {}) => {
 		// This sets the feature that is currently being edited to state.
 		const {
 			map,
@@ -210,32 +210,32 @@ export class MapComponent extends React.Component {
 			},
 		} = this;
 
+		const time = new Date().getTime();
+
 		if (feature) {
 			let clone = _.cloneDeep(feature);
 
-			// const bbox = calcBbox(feature);
-			// map.fitBounds(bbox, { padding: 200 });
+			const bbox = calcBbox(feature);
+			map.fitBounds(bbox, { padding: 200 });
 
-			// map.once('zoomend', () => {
-				
-			// });
-
-			this.setState({ enriching: true }, async () => {
-				if (mapAPILoaded) {
-					try {
-						clone = await enrichment(clone, map);
-					} catch(e) {
-						debug(e);	
+			map.once('zoomend', () => {
+				this.setState({ enriching: true }, async () => {
+					if (mapAPILoaded) {
+						try {
+							clone = await enrichment(clone, map);
+						} catch(e) {
+							debug(e);	
+						}
 					}
-				}
-	
-				this.setState({
-					enriching: false,
-					editingFeature: clone,
+		
+					this.setState(() => ({
+						enriching: false,
+						editingFeature: clone,
+					}), cb);
 				});
 			});
 		} else {
-			this.setState({ editingFeature: null });
+			this.setState(() => ({ editingFeature: null }), cb);
 		}
 	}
 
@@ -264,12 +264,9 @@ export class MapComponent extends React.Component {
 		}
 	}
 
-	saveFeature = () => {
+	saveFeature = feature => {
 		// This saves the feature to context.
 		const {
-			state: {
-				editingFeature,
-			},
 			props: {
 				addData,
 				router: {
@@ -277,10 +274,10 @@ export class MapComponent extends React.Component {
 				},
 			},
 		} = this;
-		console.log(editingFeature);
-		debug('Saving feature:', editingFeature);
 
-		addData(editingFeature);
+		debug('Saving feature:', feature);
+
+		addData(feature);
 		history.push('/');
 	}
 
@@ -450,8 +447,8 @@ export class MapComponent extends React.Component {
 						&& (
 							<Switch>
 								<Route path="/plant/tree/:step?" render={router => <Planting router={router} type="tree" steps={['rows', 'species', 'spacing']} {...mapModeProps} />} />
-								<Route path="/plant/prairie/:step?" render={router => <Planting router={router} type="prairie" steps={['seed', 'mgmt_1', 'mgmt_2']} {...mapModeProps} />} />
-								<Route path="/" render={router => <SimpleSelect router={router} {...mapModeProps} />} />
+								<Route path="/plant/prairie/:step?" render={router => <Planting router={router} type="prairie" steps={['seed', 'mgmt_1']} {...mapModeProps} />} />
+								<Route exact path="/" render={router => <SimpleSelect router={router} {...mapModeProps} />} />
 								<Redirect to="/" />
 							</Switch>
 						)}

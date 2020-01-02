@@ -23,10 +23,12 @@ export const EditIcons = props => {
 	const events = new Map([
 		['click', e => {
 			const editingIcon = e.features[0];
-			const { for: featureId } = editingIcon.properties;
+			const {
+				for: featureId,
+				type,
+			} = editingIcon.properties;
 			const feature = data.get(featureId);
-			setEditingFeature(feature);
-			nextStep('/plant/tree/rows');
+			setEditingFeature(feature, () => nextStep(`/plant/${type}`));
 		}],
 	]);
 

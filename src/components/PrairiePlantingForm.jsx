@@ -57,7 +57,6 @@ const SeedMixInput = (props) => {
 							? <input type="text" className="ModalTextInput" value={seed_price} onChange={(e) => handleSeedPriceChange(e)} />
 							: <span className="SeedPrice">{Number(seed_price) ? `$${seed_price.toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,')}` : 'Unknown'}</span>
 					}
-					{/* <input type="text" className="ModalTextInput" value={seed.price.value} onChange={(e) => handleSeedPriceChange(e)} readOnly={seed.value !== 'custom'} /> */}
 				</div>
 			</div>
 		</div>
@@ -125,6 +124,7 @@ const PrairieMgmt2 = (props) => {
 
 export const PrairiePlantingForm = (props) => {
 	const {
+		form,
 		editingFeature,
 		step,
 		seed,
@@ -147,17 +147,19 @@ export const PrairiePlantingForm = (props) => {
 				<h2 className="modal-header">Configure your prairie planting area below.</h2>
 				{series.size > 0 && <p className="SoilTypes spacer-top-1">Your soil types: <span>{[...series.keys()].sort().toString().replace(/,/g, ', ')}</span></p>}
 			</div>
-			<SeedMixInput series={series} seed={seed} seed_price={seed_price} handleSeedMixChange={handleSeedMixChange} handleSeedPriceChange={handleSeedPriceChange} />
-			{
-				(step === 'mgmt_1' || step === 'mgmt_2') && (
-					<PrairieMgmt1 management={management} handleManagementChange={handleManagementChange} />
-				)
-			}
-			{
-				(step === 'mgmt_2') && (
-					<PrairieMgmt2 pest_control={pest_control} cropping_system={cropping_system} handlePestControlChange={handlePestControlChange} handleCroppingChange={handleCroppingChange} />
-				)
-			}
+			<form ref={form}>
+				<SeedMixInput series={series} seed={seed} seed_price={seed_price} handleSeedMixChange={handleSeedMixChange} handleSeedPriceChange={handleSeedPriceChange} />
+				{
+					(step === 'mgmt_1' || step === 'mgmt_2') && (
+						<PrairieMgmt1 management={management} handleManagementChange={handleManagementChange} />
+					)
+				}
+				{
+					(step === 'mgmt_2') && (
+						<PrairieMgmt2 pest_control={pest_control} cropping_system={cropping_system} handlePestControlChange={handlePestControlChange} handleCroppingChange={handleCroppingChange} />
+					)
+				}
+			</form>
 		</>
 	);
 };
