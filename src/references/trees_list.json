@@ -1,0 +1,754 @@
+[{
+        "id": "iovTQuCC9",
+        "type": "9EmOC874",
+        "display": "Bur Oak",
+        "csgs": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "8W"
+        ]
+    },
+    {
+        "id": "bCZzj69Cl",
+        "type": "9EmOC874",
+        "display": "Pin Oak",
+        "csgs": [
+            "1",
+            "2"
+        ]
+    },
+    {
+        "id": "i9EPNTpZ4",
+        "type": "9EmOC874",
+        "display": "Swamp White Oak",
+        "csgs": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "6"
+        ]
+    },
+    {
+        "id": "rK9SIxkuM",
+        "type": "9EmOC874",
+        "display": "Walnut",
+        "csgs": [
+            "1",
+            "3",
+            "4",
+            "5",
+            "6"
+        ]
+    },
+    {
+        "id": "AUkE_fQXE",
+        "type": "9EmOC874",
+        "display": "Pecan",
+        "csgs": [
+            "1",
+            "3",
+            "4"
+        ]
+    },
+    {
+        "id": "94bzYJimE",
+        "type": "9EmOC874",
+        "display": "Hackberry",
+        "csgs": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "8W"
+        ]
+    },
+    {
+        "id": "9jNWCkaYj",
+        "type": "9EmOC874",
+        "display": "Kentucky Coffee Tree",
+        "csgs": [
+            "1",
+            "3",
+            "4",
+            "6"
+        ]
+    },
+    {
+        "id": "W85HaxeUr",
+        "type": "9EmOC874",
+        "display": "Shellbark Hickory",
+        "csgs": [
+            "1",
+            "2",
+            "8W"
+        ]
+    },
+    {
+        "id": "onz9wUD_j",
+        "type": "9EmOC874",
+        "display": "River Birch",
+        "csgs": [
+            "1",
+            "2",
+            "8W"
+        ]
+    },
+    {
+        "id": "XM2ddv7LM",
+        "type": "9EmOC874",
+        "display": "Silver Maple",
+        "csgs": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "6",
+            "9"
+        ]
+    },
+    {
+        "id": "FrG3Ef9FY",
+        "type": "9EmOC874",
+        "display": "Sycamore",
+        "csgs": [
+            "1",
+            "2",
+            "6",
+            "8W"
+        ]
+    },
+    {
+        "id": "041ezRmp_",
+        "type": "9EmOC874",
+        "display": "Cottonwood",
+        "csgs": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "6",
+            "8",
+            "9",
+            "8W"
+        ]
+    },
+    {
+        "id": "p_3RUq1xo",
+        "type": "9EmOC874",
+        "display": "Hybrid Poplar",
+        "csgs": [
+            "1",
+            "3",
+            "4",
+            "6",
+            "8"
+        ]
+    },
+    {
+        "id": "Xo2V7HS71d",
+        "type": "9EmOC874",
+        "display": "Willow",
+        "csgs": [
+            "1",
+            "2",
+            "9",
+            "8W"
+        ]
+    },
+    {
+        "id": "xYmlHbRELv",
+        "type": "9EmOC874",
+        "display": "Black Oak",
+        "csgs": [
+            "3",
+            "5",
+            "6",
+            "7"
+        ]
+    },
+    {
+        "id": "LSp15RnJq-",
+        "type": "9EmOC874",
+        "display": "Chinkapin Oak",
+        "csgs": [
+            "3",
+            "5",
+            "8"
+        ]
+    },
+    {
+        "id": "a7wryzls1Q",
+        "type": "9EmOC874",
+        "display": "Red Oak",
+        "csgs": [
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+        ]
+    },
+    {
+        "id": "hsB7qC5cJ8",
+        "type": "9EmOC874",
+        "display": "White Oak",
+        "csgs": [
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+        ]
+    },
+    {
+        "id": "Z2Sh5ATXyk",
+        "type": "9EmOC874",
+        "display": "Basswood",
+        "csgs": [
+            "3",
+            "4",
+            "6"
+        ]
+    },
+    {
+        "id": "6m-MQwx6y3",
+        "type": "9EmOC874",
+        "display": "Black Cherry",
+        "csgs": [
+            "3",
+            "4",
+            "5",
+            "6"
+        ]
+    },
+    {
+        "id": "PZx4TGimVY",
+        "type": "9EmOC874",
+        "display": "Shagbark Hickory",
+        "csgs": [
+            "3",
+            "4",
+            "8"
+        ]
+    },
+    {
+        "id": "1JNsJZ_Nok",
+        "type": "9EmOC874",
+        "display": "Hard Maple",
+        "csgs": [
+            "3",
+            "4",
+            "6"
+        ]
+    },
+    {
+        "id": "v5deek8wi9",
+        "type": "9EmOC874",
+        "display": "Butternut",
+        "csgs": [
+            "3",
+            "5",
+            "6",
+            "7"
+        ]
+    },
+    {
+        "id": "e0saAueD8h",
+        "type": "9EmOC874",
+        "display": "Pin Pak",
+        "csgs": [
+            "4"
+        ]
+    },
+    {
+        "id": "F_1E76wqp4",
+        "type": "9EmOC874",
+        "display": "Hickory",
+        "csgs": [
+            "5",
+            "6",
+            "7"
+        ]
+    },
+    {
+        "id": "G49XliiXfU",
+        "type": "9EmOC874",
+        "display": "Swamp White",
+        "csgs": [
+            "8W"
+        ]
+    },
+    {
+        "id": "cOMTQi8tJt",
+        "type": "77l_gl54Q",
+        "display": "Eastern Red Cedar",
+        "csgs": [
+            "1",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "8W"
+        ]
+    },
+    {
+        "id": "IiigTpFthZ",
+        "type": "77l_gl54Q",
+        "display": "Tamarack",
+        "csgs": [
+            "1",
+            "2"
+        ]
+    },
+    {
+        "id": "QJ6h4oHD7L",
+        "type": "77l_gl54Q",
+        "display": "European Larch",
+        "csgs": [
+            "1",
+            "3",
+            "4",
+            "6"
+        ]
+    },
+    {
+        "id": "2uQkqmTKGO",
+        "type": "77l_gl54Q",
+        "display": "Bald Cypress",
+        "csgs": [
+            "1",
+            "2"
+        ]
+    },
+    {
+        "id": "J8lpymM5E7",
+        "type": "77l_gl54Q",
+        "display": "Eastern White Pine",
+        "csgs": [
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ]
+    },
+    {
+        "id": "00SrGSjqwU",
+        "type": "77l_gl54Q",
+        "display": "Jack Pine",
+        "csgs": [
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "8W"
+        ]
+    },
+    {
+        "id": "6KmLxdJqdY",
+        "type": "77l_gl54Q",
+        "display": "Red Pine",
+        "csgs": [
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ]
+    },
+    {
+        "id": "DifVgU7w8s",
+        "type": "77l_gl54Q",
+        "display": "Norway Spruce",
+        "csgs": [
+            "3",
+            "4",
+            "5",
+            "6"
+        ]
+    },
+    {
+        "id": "c4Hfc4jqQD",
+        "type": "77l_gl54Q",
+        "display": "White Spruce",
+        "csgs": [
+            "3",
+            "4",
+            "5",
+            "6"
+        ]
+    },
+    {
+        "id": "dknk8dlURn",
+        "type": "77l_gl54Q",
+        "display": "White/Concolor Fir",
+        "csgs": [
+            "3",
+            "4",
+            "6"
+        ]
+    },
+    {
+        "id": "6iI_E4bBud",
+        "type": "77l_gl54Q",
+        "display": "Arborvitae",
+        "csgs": [
+            "3",
+            "4",
+            "6"
+        ]
+    },
+    {
+        "id": "r7RWHbq14y",
+        "type": "77l_gl54Q",
+        "display": "Serbian Spruce",
+        "csgs": [
+            "3",
+            "4",
+            "5"
+        ]
+    },
+    {
+        "id": "3J2Sqy9Fd0",
+        "type": "77l_gl54Q",
+        "display": "Cannan Fir",
+        "csgs": [
+            "3"
+        ]
+    },
+    {
+        "id": "LLW0ItjhDD",
+        "type": "77l_gl54Q",
+        "display": "Concolor fir",
+        "csgs": [
+            "5",
+            "7"
+        ]
+    },
+    {
+        "id": "2AccoyhbGd",
+        "type": "lJEh5tsIx",
+        "display": "American Plum",
+        "csgs": [
+            "1",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "8W"
+        ]
+    },
+    {
+        "id": "yZG1nFDwvo",
+        "type": "lJEh5tsIx",
+        "display": "Arrowwood",
+        "csgs": [
+            "1",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ]
+    },
+    {
+        "id": "bt3x5SyDGi",
+        "type": "lJEh5tsIx",
+        "display": "Buttonbush",
+        "csgs": [
+            "1",
+            "2",
+            "3",
+            "5",
+            "6",
+            "9"
+        ]
+    },
+    {
+        "id": "ENcB3AMDJW",
+        "type": "lJEh5tsIx",
+        "display": "Choke Cherry",
+        "csgs": [
+            "1",
+            "3"
+        ]
+    },
+    {
+        "id": "f7gcHSxjW7",
+        "type": "lJEh5tsIx",
+        "display": "Crabapple",
+        "csgs": [
+            "1",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ]
+    },
+    {
+        "id": "zgFrzi8t9W",
+        "type": "lJEh5tsIx",
+        "display": "Dogwood, Gray",
+        "csgs": [
+            "1",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "8W"
+        ]
+    },
+    {
+        "id": "36BAMLGu3e",
+        "type": "lJEh5tsIx",
+        "display": "Dogwood, Silky",
+        "csgs": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "6",
+            "9"
+        ]
+    },
+    {
+        "id": "hD2mThEOTR",
+        "type": "lJEh5tsIx",
+        "display": "Dogwood, Redosier",
+        "csgs": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "6"
+        ]
+    },
+    {
+        "id": "bbNEqTbsy_",
+        "type": "lJEh5tsIx",
+        "display": "Elderberry",
+        "csgs": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "6",
+            "9"
+        ]
+    },
+    {
+        "id": "7TqpVBBC7T",
+        "type": "lJEh5tsIx",
+        "display": "Hawthorn",
+        "csgs": [
+            "1",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ]
+    },
+    {
+        "id": "KPGrCsefy1",
+        "type": "lJEh5tsIx",
+        "display": "Hazelnut",
+        "csgs": [
+            "1",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ]
+    },
+    {
+        "id": "Cz4TpCmWaL",
+        "type": "lJEh5tsIx",
+        "display": "Highbush Cranberry",
+        "csgs": [
+            "1",
+            "3",
+            "4",
+            "5",
+            "6"
+        ]
+    },
+    {
+        "id": "fw20SZbIjF",
+        "type": "lJEh5tsIx",
+        "display": "Nanking Cherry",
+        "csgs": [
+            "1",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "8W"
+        ]
+    },
+    {
+        "id": "Ad4QTpDw0i",
+        "type": "lJEh5tsIx",
+        "display": "Nannyberry",
+        "csgs": [
+            "1",
+            "3",
+            "4",
+            "5",
+            "6",
+            "8",
+            "8W"
+        ]
+    },
+    {
+        "id": "oCChtWlsJA",
+        "type": "lJEh5tsIx",
+        "display": "Ninebark",
+        "csgs": [
+            "1",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "8W"
+        ]
+    },
+    {
+        "id": "-CbefAGeRa",
+        "type": "lJEh5tsIx",
+        "display": "Eastern Redbud",
+        "csgs": [
+            "1",
+            "3",
+            "4",
+            "6"
+        ]
+    },
+    {
+        "id": "T81S56wXLa",
+        "type": "lJEh5tsIx",
+        "display": "Sandbar Willow",
+        "csgs": [
+            "1"
+        ]
+    },
+    {
+        "id": "mndhyHS6ad",
+        "type": "lJEh5tsIx",
+        "display": "Serviceberry",
+        "csgs": [
+            "1",
+            "3",
+            "4",
+            "5",
+            "6"
+        ]
+    },
+    {
+        "id": "juSbU5SCYS",
+        "type": "lJEh5tsIx",
+        "display": "Viburnum spp.",
+        "csgs": [
+            "1",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7"
+        ]
+    },
+    {
+        "id": "eWqicahsWJ",
+        "type": "lJEh5tsIx",
+        "display": "Paw Paw",
+        "csgs": [
+            "1",
+            "3",
+            "5",
+            "6"
+        ]
+    },
+    {
+        "id": "1eocFNPPO7",
+        "type": "lJEh5tsIx",
+        "display": "Winterberry",
+        "csgs": [
+            "1",
+            "2"
+        ]
+    },
+    {
+        "id": "qunNx3f92o",
+        "type": "lJEh5tsIx",
+        "display": "Blackhaw",
+        "csgs": [
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8"
+        ]
+    },
+    {
+        "id": "Z4aVwkt7Z5",
+        "type": "lJEh5tsIx",
+        "display": "Black Chokeberry",
+        "csgs": [
+            "3",
+            "4"
+        ]
+    },
+    {
+        "id": "SA4r9iESQa",
+        "type": "lJEh5tsIx",
+        "display": "Chokecherry",
+        "csgs": [
+            "5",
+            "7"
+        ]
+    },
+    {
+        "id": "TizXtoGw_A",
+        "type": "lJEh5tsIx",
+        "display": "Black Chokeberry (Aronia",
+        "csgs": [
+            "5"
+        ]
+    },
+    {
+        "id": "_ESYLhsl0v",
+        "type": "lJEh5tsIx",
+        "display": "Common Liliac",
+        "csgs": [
+            "8"
+        ]
+    }
+]

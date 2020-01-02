@@ -1,20 +1,13 @@
 import React from 'react';
 import {
-	Link,
 	Redirect,
 } from 'react-router-dom';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 
-import tree from 'test_data/tree.json';
-import prairie from 'test_data/prairie.json';
 import Debug from 'debug';
+import { PlantingModal } from '../modals/PlantingModal';
 
 const debug = Debug('MapComponent');
-
-const testData = {
-	tree,
-	prairie,
-};
 
 export const DrawLineMode = MapboxDraw.modes.draw_line_string;
 
@@ -48,7 +41,6 @@ DrawLineMode.onStop = function onStop(state) {
 		});
 	} else {
 		this.deleteFeature([state.line.id], { silent: true });
-		// this.changeMode('simple_select', {}, { silent: true }); // Unsure if this is necessary.
 	}
 };
 
@@ -94,7 +86,15 @@ export class Planting extends React.Component {
 			steps,
 		} = this.props;
 
-		if (!step) {
+		if (editingFeature) {
+			// Else, if we're on a config step and there is a feature being edited, enter direct_select mode.
+			// This actually doesn't matter too much because if we're on a config step the modal overlay blocks map interactivity.
+			debug('Entering direct_select mode.', editingFeature);
+			if (!draw.get(editingFeature.id)) {
+				draw.add(editingFeature);
+			}
+			draw.changeMode('direct_select', { featureId: editingFeature.id });
+		} else if (!step) {
 			// If not on a config step, that means we're drawing, so enter draw_polygon mode with a clean slate.
 			debug('Entering draw_polygon mode.');
 
@@ -113,26 +113,15 @@ export class Planting extends React.Component {
 			const onCreate = e => {
 				map.off('draw.create', onCreate);
 				const feature = e.features[0];
+				// feature properties need to be populated with the planting modal
 				feature.properties = {
-					...feature.properties,
 					type,
-					configs: testData[type].properties.configs, // These are some default properties for testing.
 				};
-				draw.add(feature);
 				debug('Created feature:', feature);
-				nextStep(`/plant/${type}/${steps[0]}`);
-				setEditingFeature(feature);
+				setEditingFeature(feature, () => nextStep(`/plant/${type}/${steps[0]}`));
 			};
 			map.on('draw.create', onCreate);
 			this.events.set('draw.create', onCreate);
-		} else if (editingFeature) {
-			// Else, if we're on a config step and there is a feature being edited, enter direct_select mode.
-			// This actually doesn't matter too much because if we're on a config step the modal overlay blocks map interactivity.
-			debug('Entering direct_select mode.', editingFeature);
-			if (!draw.get(editingFeature.id)) {
-				draw.add(editingFeature);
-			}
-			draw.changeMode('direct_select', { featureId: editingFeature.id });
 		}
 	}
 
@@ -166,11 +155,14 @@ export class Planting extends React.Component {
 					},
 				},
 			},
-			data,
+			// data,
 			deleteFeature,
+			setEditingFeature,
 			editingFeature,
 			saveFeature,
+			nextStep,
 			type,
+			steps,
 		} = this.props;
 
 		if (!editingFeature) {
@@ -178,67 +170,16 @@ export class Planting extends React.Component {
 			return <Redirect to={`/plant/${type}`} />;
 		}
 
-		const {
-			properties: {
-				configs,
-			},
-		} = editingFeature;
+		const stepIndex = steps.indexOf(step);
 
-		// If we're on a config step, render the form.
-		return step ? (
+		if (stepIndex === -1) {
+			return <Redirect to={`/plant/${type}/${steps[0]}`} />;
+		}
+
+		return (
 			<div className="Planting MapModeForm vertical-align">
-				{/* the modal below needs to be replaced with a prebuilt component */}
-				<div className="modal margin-center">
-					<div>
-						<p>Some pre-filled properties for this {editingFeature.properties.type} polygon...</p>
-						{editingFeature.properties.type === 'tree' && (
-							<>
-								<p>Rows: {configs.rows.length}</p>
-								{
-									configs.rows.map((ea, i) => (
-										<div key={`row-${i + 1}`} className="spacer-left-1">
-											<p>Row {i + 1}</p>
-											<div className="spacer-left-1">
-												<p>Type: {ea.type.display}</p>
-												<p>Species: {ea.species.display}</p>
-											</div>
-										</div>
-									))
-								}
-								<p>Row Spacing: {configs.spacing_rows.value} {configs.spacing_rows.unit}</p>
-								<p>Tree Spacing: {configs.spacing_trees.value} {configs.spacing_trees.unit}</p>
-								<p>Drip Irrigation: {configs.drip_irrigation ? 'yes' : 'no'}</p>
-							</>
-						)}
-
-						{editingFeature.properties.type === 'prairie' && (
-							<>
-								<p>Seed: {configs.seed.value}</p>
-								<p>Management: {configs.management.display}</p>
-								<p>Cropping System: {configs.cropping_system.display}</p>
-								<p>Pest Control: {configs.pest_control.value}</p>
-							</>
-						)}
-
-						<div className="spacer-top-2 distribute">
-							{
-								data.get(editingFeature.id)
-									? (
-										<div>
-											<span onClick={() => deleteFeature(editingFeature.id)} onKeyDown={e => e.keyCode === 13 && deleteFeature(editingFeature.id)} role="button" tabIndex="0">Delete</span>
-										</div>
-									)
-									: (
-										<div>
-											<Link className="modal-link" to={`/plant/${type}`}>Start Over</Link>
-										</div>
-									)
-							}
-							<button onClick={saveFeature} className="Button" type="button">Done</button>
-						</div>
-					</div>
-				</div>
+				<PlantingModal editingFeature={editingFeature} setEditingFeature={setEditingFeature} deleteFeature={deleteFeature} saveFeature={saveFeature} nextStep={nextStep} step={step} steps={steps} stepIndex={stepIndex} />
 			</div>
-		) : null;
+		);
 	}
 }

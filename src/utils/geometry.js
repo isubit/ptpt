@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import along from '@turf/along';
 import calcBbox from '@turf/bbox';
 import calcBearing from '@turf/bearing';
@@ -311,12 +312,51 @@ export function dotLine(line, distance) {
 	return points;
 }
 
+// linesToPolygon
+// Find the polygon that contains the lines.
+// args:
+// Array<LineString>
+// returns:
+// <Polygon>
+// Protocol:
+// Assume the lines are parallel, and of the same length. This algorithm will not work otherwise.
+// Flatten the coordinates of all given lines.
+// Find the maxima vertices of the array of coordinates.
+// Create a polygon from those maxima.
+export function linesToPolygon(lines) {
+	const coords = _.flatten(lines.map(ea => ea.geometry.coordinates));
+	// eslint-disable-next-line no-use-before-define
+	const maxima = findMaximaVertices({
+		type: 'Feature',
+		geometry: {
+			type: 'LineString',
+			coordinates: coords,
+		},
+	});
+	const polygonVertices = Object.keys(maxima).reduce((obj, ea) => ({ ...obj, [ea]: maxima[ea].geometry.coordinates }), {});
+
+	return {
+		type: 'Feature',
+		geometry: {
+			type: 'Polygon',
+			coordinates: [
+				[
+					polygonVertices.northern,
+					polygonVertices.western,
+					polygonVertices.southern,
+					polygonVertices.eastern,
+				],
+			],
+		},
+	};
+}
+
 // -----------------------------------
 
 // We need to generate the edit icon, in the southern-most vertex of the polygon.
 
 // findMaximaVertices
-// Find the vertices of the given polygon that are northern-most, eastern-most, western-most, and southern-most.
+// Find the vertices of the given feature that are northern-most, eastern-most, western-most, and southern-most.
 // args:
 // <Polygon> | <LineString>
 // returns:
@@ -342,4 +382,50 @@ export function findMaximaVertices(feature) {
 		western,
 		eastern,
 	};
+}
+
+// -----------------------------------
+
+// We need to determine the county that a polygon exists in.
+
+// getPolygonCounty
+// Find the county that the centroid of the given polygon exists in.
+// args:
+// <Polygon>
+// returns:
+// String, country
+// Protocol:
+// Find the centroid of the polygon.
+// Run the coordinates through Google Places API.
+export async function getPolygonCounty(feature) {
+	return new Promise((resolve, reject) => {
+		const clone = _.cloneDeep(feature);
+
+		const centroid = calcCentroid(clone);
+		const {
+			geometry: {
+				coordinates,
+			},
+		} = centroid;
+
+		const location = new google.maps.LatLng(coordinates[1], coordinates[0]);
+		const geocoder = new google.maps.Geocoder();
+		geocoder.geocode({
+			location,
+		}, (res, status) => {
+			if (status !== 'OK') {
+				reject(new Error(`Geocoder status: ${status}`));
+			} else if (res.length > 0) {
+				const countyResult = (res.find(ea => ea.types.includes('administrative_area_level_2')) || {}).address_components || [];
+				const countyComponent = countyResult.find(ea => ea.types.includes('administrative_area_level_2'));
+				if (countyComponent) {
+					resolve(countyComponent.long_name.replace(/\sCounty/, ''));
+				} else {
+					reject(new Error('No results.'));
+				}
+			} else {
+				reject(new Error('No results.'));
+			}
+		});
+	});
 }
