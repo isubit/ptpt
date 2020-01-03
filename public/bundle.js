@@ -86,6 +86,178 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/@babel/runtime/helpers/arrayWithHoles.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/arrayWithHoles.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+
+module.exports = _arrayWithHoles;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/arrayWithoutHoles.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/arrayWithoutHoles.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) {
+    for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
+      arr2[i] = arr[i];
+    }
+
+    return arr2;
+  }
+}
+
+module.exports = _arrayWithoutHoles;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+
+  return self;
+}
+
+module.exports = _assertThisInitialized;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/asyncToGenerator.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+
+function _asyncToGenerator(fn) {
+  return function () {
+    var self = this,
+        args = arguments;
+    return new Promise(function (resolve, reject) {
+      var gen = fn.apply(self, args);
+
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+      }
+
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+
+      _next(undefined);
+    });
+  };
+}
+
+module.exports = _asyncToGenerator;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/classCallCheck.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/classCallCheck.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+module.exports = _classCallCheck;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/createClass.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/createClass.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+module.exports = _createClass;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/defineProperty.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/defineProperty.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+module.exports = _defineProperty;
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/helpers/esm/extends.js":
 /*!************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/esm/extends.js ***!
@@ -161,6 +333,81 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 /***/ }),
 
+/***/ "./node_modules/@babel/runtime/helpers/extends.js":
+/*!********************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/extends.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _extends() {
+  module.exports = _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+module.exports = _extends;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/getPrototypeOf.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _getPrototypeOf(o) {
+  module.exports = _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+module.exports = _getPrototypeOf;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/inherits.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/inherits.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var setPrototypeOf = __webpack_require__(/*! ./setPrototypeOf */ "./node_modules/@babel/runtime/helpers/setPrototypeOf.js");
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (superClass) setPrototypeOf(subClass, superClass);
+}
+
+module.exports = _inherits;
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/helpers/inheritsLoose.js":
 /*!**************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/inheritsLoose.js ***!
@@ -175,6 +422,214 @@ function _inheritsLoose(subClass, superClass) {
 }
 
 module.exports = _inheritsLoose;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/iterableToArray.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/iterableToArray.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _iterableToArray(iter) {
+  if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+}
+
+module.exports = _iterableToArray;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _iterableToArrayLimit(arr, i) {
+  if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) {
+    return;
+  }
+
+  var _arr = [];
+  var _n = true;
+  var _d = false;
+  var _e = undefined;
+
+  try {
+    for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+      _arr.push(_s.value);
+
+      if (i && _arr.length === i) break;
+    }
+  } catch (err) {
+    _d = true;
+    _e = err;
+  } finally {
+    try {
+      if (!_n && _i["return"] != null) _i["return"]();
+    } finally {
+      if (_d) throw _e;
+    }
+  }
+
+  return _arr;
+}
+
+module.exports = _iterableToArrayLimit;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/nonIterableRest.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/nonIterableRest.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance");
+}
+
+module.exports = _nonIterableRest;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/nonIterableSpread.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/nonIterableSpread.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance");
+}
+
+module.exports = _nonIterableSpread;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js ***!
+  \**************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _typeof = __webpack_require__(/*! ../helpers/typeof */ "./node_modules/@babel/runtime/helpers/typeof.js");
+
+var assertThisInitialized = __webpack_require__(/*! ./assertThisInitialized */ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js");
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  }
+
+  return assertThisInitialized(self);
+}
+
+module.exports = _possibleConstructorReturn;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/setPrototypeOf.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/setPrototypeOf.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _setPrototypeOf(o, p) {
+  module.exports = _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+
+  return _setPrototypeOf(o, p);
+}
+
+module.exports = _setPrototypeOf;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/slicedToArray.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/slicedToArray.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayWithHoles = __webpack_require__(/*! ./arrayWithHoles */ "./node_modules/@babel/runtime/helpers/arrayWithHoles.js");
+
+var iterableToArrayLimit = __webpack_require__(/*! ./iterableToArrayLimit */ "./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js");
+
+var nonIterableRest = __webpack_require__(/*! ./nonIterableRest */ "./node_modules/@babel/runtime/helpers/nonIterableRest.js");
+
+function _slicedToArray(arr, i) {
+  return arrayWithHoles(arr) || iterableToArrayLimit(arr, i) || nonIterableRest();
+}
+
+module.exports = _slicedToArray;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/toConsumableArray.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/toConsumableArray.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var arrayWithoutHoles = __webpack_require__(/*! ./arrayWithoutHoles */ "./node_modules/@babel/runtime/helpers/arrayWithoutHoles.js");
+
+var iterableToArray = __webpack_require__(/*! ./iterableToArray */ "./node_modules/@babel/runtime/helpers/iterableToArray.js");
+
+var nonIterableSpread = __webpack_require__(/*! ./nonIterableSpread */ "./node_modules/@babel/runtime/helpers/nonIterableSpread.js");
+
+function _toConsumableArray(arr) {
+  return arrayWithoutHoles(arr) || iterableToArray(arr) || nonIterableSpread();
+}
+
+module.exports = _toConsumableArray;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/typeof.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/typeof.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function _typeof(obj) {
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    module.exports = _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    module.exports = _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+module.exports = _typeof;
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/regenerator/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/regenerator-runtime/runtime.js");
+
 
 /***/ }),
 
@@ -6075,6 +6530,132 @@ exports.default = along;
 
 /***/ }),
 
+/***/ "./node_modules/@turf/area/index.js":
+/*!******************************************!*\
+  !*** ./node_modules/@turf/area/index.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var meta_1 = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/index.js");
+// Note: change RADIUS => earthRadius
+var RADIUS = 6378137;
+/**
+ * Takes one or more features and returns their area in square meters.
+ *
+ * @name area
+ * @param {GeoJSON} geojson input GeoJSON feature(s)
+ * @returns {number} area in square meters
+ * @example
+ * var polygon = turf.polygon([[[125, -15], [113, -22], [154, -27], [144, -15], [125, -15]]]);
+ *
+ * var area = turf.area(polygon);
+ *
+ * //addToMap
+ * var addToMap = [polygon]
+ * polygon.properties.area = area
+ */
+function area(geojson) {
+    return meta_1.geomReduce(geojson, function (value, geom) {
+        return value + calculateArea(geom);
+    }, 0);
+}
+exports.default = area;
+/**
+ * Calculate Area
+ *
+ * @private
+ * @param {Geometry} geom GeoJSON Geometries
+ * @returns {number} area
+ */
+function calculateArea(geom) {
+    var total = 0;
+    var i;
+    switch (geom.type) {
+        case "Polygon":
+            return polygonArea(geom.coordinates);
+        case "MultiPolygon":
+            for (i = 0; i < geom.coordinates.length; i++) {
+                total += polygonArea(geom.coordinates[i]);
+            }
+            return total;
+        case "Point":
+        case "MultiPoint":
+        case "LineString":
+        case "MultiLineString":
+            return 0;
+    }
+    return 0;
+}
+function polygonArea(coords) {
+    var total = 0;
+    if (coords && coords.length > 0) {
+        total += Math.abs(ringArea(coords[0]));
+        for (var i = 1; i < coords.length; i++) {
+            total -= Math.abs(ringArea(coords[i]));
+        }
+    }
+    return total;
+}
+/**
+ * @private
+ * Calculate the approximate area of the polygon were it projected onto the earth.
+ * Note that this area will be positive if ring is oriented clockwise, otherwise it will be negative.
+ *
+ * Reference:
+ * Robert. G. Chamberlain and William H. Duquette, "Some Algorithms for Polygons on a Sphere",
+ * JPL Publication 07-03, Jet Propulsion
+ * Laboratory, Pasadena, CA, June 2007 http://trs-new.jpl.nasa.gov/dspace/handle/2014/40409
+ *
+ * @param {Array<Array<number>>} coords Ring Coordinates
+ * @returns {number} The approximate signed geodesic area of the polygon in square meters.
+ */
+function ringArea(coords) {
+    var p1;
+    var p2;
+    var p3;
+    var lowerIndex;
+    var middleIndex;
+    var upperIndex;
+    var i;
+    var total = 0;
+    var coordsLength = coords.length;
+    if (coordsLength > 2) {
+        for (i = 0; i < coordsLength; i++) {
+            if (i === coordsLength - 2) {
+                lowerIndex = coordsLength - 2;
+                middleIndex = coordsLength - 1;
+                upperIndex = 0;
+            }
+            else if (i === coordsLength - 1) {
+                lowerIndex = coordsLength - 1;
+                middleIndex = 0;
+                upperIndex = 1;
+            }
+            else {
+                lowerIndex = i;
+                middleIndex = i + 1;
+                upperIndex = i + 2;
+            }
+            p1 = coords[lowerIndex];
+            p2 = coords[middleIndex];
+            p3 = coords[upperIndex];
+            total += (rad(p3[0]) - rad(p1[0])) * Math.sin(rad(p2[1]));
+        }
+        total = total * RADIUS * RADIUS / 2;
+    }
+    return total;
+}
+function rad(num) {
+    return num * Math.PI / 180;
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/@turf/bbox/index.js":
 /*!******************************************!*\
   !*** ./node_modules/@turf/bbox/index.js ***!
@@ -6085,7 +6666,7 @@ exports.default = along;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var meta_1 = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/main.es.js");
+var meta_1 = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/index.js");
 /**
  * Takes a set of features, calculates the bbox of all input features, and returns a bounding box.
  *
@@ -6336,7 +6917,7 @@ function inBBox(pt, bbox) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var meta_1 = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/main.es.js");
+var meta_1 = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/index.js");
 var helpers_1 = __webpack_require__(/*! @turf/helpers */ "./node_modules/@turf/helpers/index.js");
 /**
  * Takes one or more features and calculates the centroid using the mean of all vertices.
@@ -7606,7 +8187,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var helpers_1 = __webpack_require__(/*! @turf/helpers */ "./node_modules/@turf/helpers/index.js");
 var invariant_1 = __webpack_require__(/*! @turf/invariant */ "./node_modules/@turf/invariant/index.js");
 var line_segment_1 = __importDefault(__webpack_require__(/*! @turf/line-segment */ "./node_modules/@turf/line-segment/main.es.js"));
-var meta_1 = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/main.es.js");
+var meta_1 = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/index.js");
 var geojson_rbush_1 = __importDefault(__webpack_require__(/*! geojson-rbush */ "./node_modules/geojson-rbush/index.js"));
 /**
  * Takes any LineString or Polygon GeoJSON and returns the intersecting point(s).
@@ -7723,7 +8304,8 @@ exports.default = lineIntersect;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _turf_meta__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/main.es.js");
+/* harmony import */ var _turf_meta__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/index.js");
+/* harmony import */ var _turf_meta__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_turf_meta__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _turf_invariant__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @turf/invariant */ "./node_modules/@turf/invariant/index.js");
 /* harmony import */ var _turf_invariant__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_turf_invariant__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _turf_helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @turf/helpers */ "./node_modules/@turf/helpers/index.js");
@@ -7975,7 +8557,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _turf_helpers__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_turf_helpers__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _turf_invariant__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @turf/invariant */ "./node_modules/@turf/invariant/index.js");
 /* harmony import */ var _turf_invariant__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_turf_invariant__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _turf_meta__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/main.es.js");
+/* harmony import */ var _turf_meta__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/index.js");
+/* harmony import */ var _turf_meta__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_turf_meta__WEBPACK_IMPORTED_MODULE_2__);
 
 
 
@@ -8094,7 +8677,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _turf_nearest_point_on_line__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @turf/nearest-point-on-line */ "./node_modules/@turf/nearest-point-on-line/main.es.js");
 /* harmony import */ var _turf_invariant__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @turf/invariant */ "./node_modules/@turf/invariant/index.js");
 /* harmony import */ var _turf_invariant__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_turf_invariant__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _turf_meta__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/main.es.js");
+/* harmony import */ var _turf_meta__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/index.js");
+/* harmony import */ var _turf_meta__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_turf_meta__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _turf_helpers__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @turf/helpers */ "./node_modules/@turf/helpers/index.js");
 /* harmony import */ var _turf_helpers__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_turf_helpers__WEBPACK_IMPORTED_MODULE_9__);
 
@@ -8305,35 +8889,19 @@ function pointsEquals(pt1, pt2) {
 
 /***/ }),
 
-/***/ "./node_modules/@turf/meta/main.es.js":
-/*!********************************************!*\
-  !*** ./node_modules/@turf/meta/main.es.js ***!
-  \********************************************/
-/*! exports provided: coordEach, coordReduce, propEach, propReduce, featureEach, featureReduce, coordAll, geomEach, geomReduce, flattenEach, flattenReduce, segmentEach, segmentReduce, lineEach, lineReduce, findSegment, findPoint */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "./node_modules/@turf/meta/index.js":
+/*!******************************************!*\
+  !*** ./node_modules/@turf/meta/index.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "coordEach", function() { return coordEach; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "coordReduce", function() { return coordReduce; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "propEach", function() { return propEach; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "propReduce", function() { return propReduce; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "featureEach", function() { return featureEach; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "featureReduce", function() { return featureReduce; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "coordAll", function() { return coordAll; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "geomEach", function() { return geomEach; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "geomReduce", function() { return geomReduce; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "flattenEach", function() { return flattenEach; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "flattenReduce", function() { return flattenReduce; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "segmentEach", function() { return segmentEach; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "segmentReduce", function() { return segmentReduce; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "lineEach", function() { return lineEach; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "lineReduce", function() { return lineReduce; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findSegment", function() { return findSegment; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findPoint", function() { return findPoint; });
-/* harmony import */ var _turf_helpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @turf/helpers */ "./node_modules/@turf/helpers/index.js");
-/* harmony import */ var _turf_helpers__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_turf_helpers__WEBPACK_IMPORTED_MODULE_0__);
 
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var helpers = __webpack_require__(/*! @turf/helpers */ "./node_modules/@turf/helpers/index.js");
 
 /**
  * Callback for coordEach
@@ -8443,7 +9011,7 @@ function coordEach(geojson, callback, excludeWrapCoord) {
                 break;
             case 'MultiPolygon':
                 for (j = 0; j < coords.length; j++) {
-                    if (geomType === 'MultiPolygon') geometryIndex = 0;
+                    geometryIndex = 0;
                     for (k = 0; k < coords[j].length; k++) {
                         for (l = 0; l < coords[j][k].length - wrapShrink; l++) {
                             if (callback(coords[j][k][l], coordIndex, featureIndex, multiFeatureIndex, geometryIndex) === false) return false;
@@ -8926,7 +9494,7 @@ function flattenEach(geojson, callback) {
         case 'Point':
         case 'LineString':
         case 'Polygon':
-            if (callback(Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_0__["feature"])(geometry, properties, {bbox: bbox, id: id}), featureIndex, 0) === false) return false;
+            if (callback(helpers.feature(geometry, properties, {bbox: bbox, id: id}), featureIndex, 0) === false) return false;
             return;
         }
 
@@ -8951,7 +9519,7 @@ function flattenEach(geojson, callback) {
                 type: geomType,
                 coordinates: coordinate
             };
-            if (callback(Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_0__["feature"])(geom, properties), featureIndex, multiFeatureIndex) === false) return false;
+            if (callback(helpers.feature(geom, properties), featureIndex, multiFeatureIndex) === false) return false;
         }
     });
 }
@@ -9047,24 +9615,31 @@ function flattenReduce(geojson, callback, initialValue) {
  * });
  */
 function segmentEach(geojson, callback) {
-    flattenEach(geojson, function (feature$$1, featureIndex, multiFeatureIndex) {
+    flattenEach(geojson, function (feature, featureIndex, multiFeatureIndex) {
         var segmentIndex = 0;
 
         // Exclude null Geometries
-        if (!feature$$1.geometry) return;
+        if (!feature.geometry) return;
         // (Multi)Point geometries do not contain segments therefore they are ignored during this operation.
-        var type = feature$$1.geometry.type;
+        var type = feature.geometry.type;
         if (type === 'Point' || type === 'MultiPoint') return;
 
         // Generate 2-vertex line segments
         var previousCoords;
-        if (coordEach(feature$$1, function (currentCoord, coordIndex, featureIndexCoord, mutliPartIndexCoord, geometryIndex) {
+        var previousFeatureIndex = 0;
+        var previousMultiIndex = 0;
+        var prevGeomIndex = 0;
+        if (coordEach(feature, function (currentCoord, coordIndex, featureIndexCoord, multiPartIndexCoord, geometryIndex) {
             // Simulating a meta.coordReduce() since `reduce` operations cannot be stopped by returning `false`
-            if (previousCoords === undefined) {
+            if (previousCoords === undefined || featureIndex > previousFeatureIndex || multiPartIndexCoord > previousMultiIndex || geometryIndex > prevGeomIndex) {
                 previousCoords = currentCoord;
+                previousFeatureIndex = featureIndex;
+                previousMultiIndex = multiPartIndexCoord;
+                prevGeomIndex = geometryIndex;
+                segmentIndex = 0;
                 return;
             }
-            var currentSegment = Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_0__["lineString"])([previousCoords, currentCoord], feature$$1.properties);
+            var currentSegment = helpers.lineString([previousCoords, currentCoord], feature.properties);
             if (callback(currentSegment, featureIndex, multiFeatureIndex, geometryIndex, segmentIndex) === false) return false;
             segmentIndex++;
             previousCoords = currentCoord;
@@ -9170,17 +9745,17 @@ function lineEach(geojson, callback) {
     // validation
     if (!geojson) throw new Error('geojson is required');
 
-    flattenEach(geojson, function (feature$$1, featureIndex, multiFeatureIndex) {
-        if (feature$$1.geometry === null) return;
-        var type = feature$$1.geometry.type;
-        var coords = feature$$1.geometry.coordinates;
+    flattenEach(geojson, function (feature, featureIndex, multiFeatureIndex) {
+        if (feature.geometry === null) return;
+        var type = feature.geometry.type;
+        var coords = feature.geometry.coordinates;
         switch (type) {
         case 'LineString':
-            if (callback(feature$$1, featureIndex, multiFeatureIndex, 0, 0) === false) return false;
+            if (callback(feature, featureIndex, multiFeatureIndex, 0, 0) === false) return false;
             break;
         case 'Polygon':
             for (var geometryIndex = 0; geometryIndex < coords.length; geometryIndex++) {
-                if (callback(Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_0__["lineString"])(coords[geometryIndex], feature$$1.properties), featureIndex, multiFeatureIndex, geometryIndex) === false) return false;
+                if (callback(helpers.lineString(coords[geometryIndex], feature.properties), featureIndex, multiFeatureIndex, geometryIndex) === false) return false;
             }
             break;
         }
@@ -9279,7 +9854,7 @@ function lineReduce(geojson, callback, initialValue) {
 function findSegment(geojson, options) {
     // Optional Parameters
     options = options || {};
-    if (!Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_0__["isObject"])(options)) throw new Error('options is invalid');
+    if (!helpers.isObject(options)) throw new Error('options is invalid');
     var featureIndex = options.featureIndex || 0;
     var multiFeatureIndex = options.multiFeatureIndex || 0;
     var geometryIndex = options.geometryIndex || 0;
@@ -9321,20 +9896,20 @@ function findSegment(geojson, options) {
         return null;
     case 'LineString':
         if (segmentIndex < 0) segmentIndex = coords.length + segmentIndex - 1;
-        return Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_0__["lineString"])([coords[segmentIndex], coords[segmentIndex + 1]], properties, options);
+        return helpers.lineString([coords[segmentIndex], coords[segmentIndex + 1]], properties, options);
     case 'Polygon':
         if (geometryIndex < 0) geometryIndex = coords.length + geometryIndex;
         if (segmentIndex < 0) segmentIndex = coords[geometryIndex].length + segmentIndex - 1;
-        return Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_0__["lineString"])([coords[geometryIndex][segmentIndex], coords[geometryIndex][segmentIndex + 1]], properties, options);
+        return helpers.lineString([coords[geometryIndex][segmentIndex], coords[geometryIndex][segmentIndex + 1]], properties, options);
     case 'MultiLineString':
         if (multiFeatureIndex < 0) multiFeatureIndex = coords.length + multiFeatureIndex;
         if (segmentIndex < 0) segmentIndex = coords[multiFeatureIndex].length + segmentIndex - 1;
-        return Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_0__["lineString"])([coords[multiFeatureIndex][segmentIndex], coords[multiFeatureIndex][segmentIndex + 1]], properties, options);
+        return helpers.lineString([coords[multiFeatureIndex][segmentIndex], coords[multiFeatureIndex][segmentIndex + 1]], properties, options);
     case 'MultiPolygon':
         if (multiFeatureIndex < 0) multiFeatureIndex = coords.length + multiFeatureIndex;
         if (geometryIndex < 0) geometryIndex = coords[multiFeatureIndex].length + geometryIndex;
         if (segmentIndex < 0) segmentIndex = coords[multiFeatureIndex][geometryIndex].length - segmentIndex - 1;
-        return Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_0__["lineString"])([coords[multiFeatureIndex][geometryIndex][segmentIndex], coords[multiFeatureIndex][geometryIndex][segmentIndex + 1]], properties, options);
+        return helpers.lineString([coords[multiFeatureIndex][geometryIndex][segmentIndex], coords[multiFeatureIndex][geometryIndex][segmentIndex + 1]], properties, options);
     }
     throw new Error('geojson is invalid');
 }
@@ -9375,7 +9950,7 @@ function findSegment(geojson, options) {
 function findPoint(geojson, options) {
     // Optional Parameters
     options = options || {};
-    if (!Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_0__["isObject"])(options)) throw new Error('options is invalid');
+    if (!helpers.isObject(options)) throw new Error('options is invalid');
     var featureIndex = options.featureIndex || 0;
     var multiFeatureIndex = options.multiFeatureIndex || 0;
     var geometryIndex = options.geometryIndex || 0;
@@ -9413,31 +9988,47 @@ function findPoint(geojson, options) {
     var coords = geometry.coordinates;
     switch (geometry.type) {
     case 'Point':
-        return Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_0__["point"])(coords, properties, options);
+        return helpers.point(coords, properties, options);
     case 'MultiPoint':
         if (multiFeatureIndex < 0) multiFeatureIndex = coords.length + multiFeatureIndex;
-        return Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_0__["point"])(coords[multiFeatureIndex], properties, options);
+        return helpers.point(coords[multiFeatureIndex], properties, options);
     case 'LineString':
         if (coordIndex < 0) coordIndex = coords.length + coordIndex;
-        return Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_0__["point"])(coords[coordIndex], properties, options);
+        return helpers.point(coords[coordIndex], properties, options);
     case 'Polygon':
         if (geometryIndex < 0) geometryIndex = coords.length + geometryIndex;
         if (coordIndex < 0) coordIndex = coords[geometryIndex].length + coordIndex;
-        return Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_0__["point"])(coords[geometryIndex][coordIndex], properties, options);
+        return helpers.point(coords[geometryIndex][coordIndex], properties, options);
     case 'MultiLineString':
         if (multiFeatureIndex < 0) multiFeatureIndex = coords.length + multiFeatureIndex;
         if (coordIndex < 0) coordIndex = coords[multiFeatureIndex].length + coordIndex;
-        return Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_0__["point"])(coords[multiFeatureIndex][coordIndex], properties, options);
+        return helpers.point(coords[multiFeatureIndex][coordIndex], properties, options);
     case 'MultiPolygon':
         if (multiFeatureIndex < 0) multiFeatureIndex = coords.length + multiFeatureIndex;
         if (geometryIndex < 0) geometryIndex = coords[multiFeatureIndex].length + geometryIndex;
         if (coordIndex < 0) coordIndex = coords[multiFeatureIndex][geometryIndex].length - coordIndex;
-        return Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_0__["point"])(coords[multiFeatureIndex][geometryIndex][coordIndex], properties, options);
+        return helpers.point(coords[multiFeatureIndex][geometryIndex][coordIndex], properties, options);
     }
     throw new Error('geojson is invalid');
 }
 
-
+exports.coordEach = coordEach;
+exports.coordReduce = coordReduce;
+exports.propEach = propEach;
+exports.propReduce = propReduce;
+exports.featureEach = featureEach;
+exports.featureReduce = featureReduce;
+exports.coordAll = coordAll;
+exports.geomEach = geomEach;
+exports.geomReduce = geomReduce;
+exports.flattenEach = flattenEach;
+exports.flattenReduce = flattenReduce;
+exports.segmentEach = segmentEach;
+exports.segmentReduce = segmentReduce;
+exports.lineEach = lineEach;
+exports.lineReduce = lineReduce;
+exports.findSegment = findSegment;
+exports.findPoint = findPoint;
 
 
 /***/ }),
@@ -9459,7 +10050,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _turf_destination__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_turf_destination__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _turf_line_intersect__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @turf/line-intersect */ "./node_modules/@turf/line-intersect/index.js");
 /* harmony import */ var _turf_line_intersect__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_turf_line_intersect__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _turf_meta__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/main.es.js");
+/* harmony import */ var _turf_meta__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/index.js");
+/* harmony import */ var _turf_meta__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_turf_meta__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _turf_helpers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @turf/helpers */ "./node_modules/@turf/helpers/index.js");
 /* harmony import */ var _turf_helpers__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_turf_helpers__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _turf_invariant__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @turf/invariant */ "./node_modules/@turf/invariant/index.js");
@@ -9723,7 +10315,8 @@ function square(bbox) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _turf_meta__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/main.es.js");
+/* harmony import */ var _turf_meta__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/index.js");
+/* harmony import */ var _turf_meta__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_turf_meta__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _turf_helpers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @turf/helpers */ "./node_modules/@turf/helpers/index.js");
 /* harmony import */ var _turf_helpers__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_turf_helpers__WEBPACK_IMPORTED_MODULE_1__);
 
@@ -9845,13 +10438,14 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 // Imports
 exports.i(__webpack_require__(/*! -!../../node_modules/css-loader/dist/cjs.js!@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css"), "");
 exports.i(__webpack_require__(/*! -!../../node_modules/css-loader/dist/cjs.js!mapbox-gl/dist/mapbox-gl.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/mapbox-gl/dist/mapbox-gl.css"), "");
-exports.push([module.i, "@import url(https://fonts.googleapis.com/css?family=Merriweather:400i&display=swap);", ""]);
 var getUrl = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/getUrl.js */ "./node_modules/css-loader/dist/runtime/getUrl.js");
 var ___CSS_LOADER_URL___0___ = getUrl(__webpack_require__(/*! ../assets/checkmark.svg */ "./src/assets/checkmark.svg"));
-var ___CSS_LOADER_URL___1___ = getUrl(__webpack_require__(/*! ../assets/search_small.svg */ "./src/assets/search_small.svg"));
-var ___CSS_LOADER_URL___2___ = getUrl(__webpack_require__(/*! ../assets/search_wide.svg */ "./src/assets/search_wide.svg"));
+var ___CSS_LOADER_URL___1___ = getUrl(__webpack_require__(/*! ../assets/select_dropdown_icon.svg */ "./src/assets/select_dropdown_icon.svg"));
+var ___CSS_LOADER_URL___2___ = getUrl(__webpack_require__(/*! ../assets/my_location.svg */ "./src/assets/my_location.svg"));
+var ___CSS_LOADER_URL___3___ = getUrl(__webpack_require__(/*! ../assets/search_small.svg */ "./src/assets/search_small.svg"));
+var ___CSS_LOADER_URL___4___ = getUrl(__webpack_require__(/*! ../assets/search_wide.svg */ "./src/assets/search_wide.svg"));
 // Module
-exports.push([module.i, ".mapbox-gl-draw_ctrl-draw-btn {\n  display: none !important; }\n\n.grid-row {\n  display: grid;\n  grid-template-columns: repeat(6, 1fr);\n  grid-column-gap: 1rem;\n  padding: 0px 5.625%;\n  max-width: 1680px; }\n\n.grid-wrap {\n  grid-column: 1 / -1; }\n\n@media (min-width: 900px) {\n  .grid-row {\n    grid-template-columns: repeat(12, 1fr); } }\n\n@media (min-width: 1280px) {\n  .grid-row {\n    grid-template-columns: repeat(14, 1fr);\n    padding: 0px 2.5%; } }\n\n.modal-header {\n  padding-bottom: 1rem;\n  position: relative; }\n  .modal-header::after {\n    content: '';\n    position: absolute;\n    bottom: -2px;\n    left: 0;\n    height: 2px;\n    width: 135px;\n    background-color: #76881D; }\n\n.modal-text {\n  padding-top: 1.5rem; }\n\n.modal-link {\n  font-family: Merriweather;\n  font-style: italic;\n  font-weight: normal;\n  font-size: 0.751rem;\n  line-height: 21px;\n  text-decoration-line: underline;\n  color: #006BA6; }\n\n.suggestion-item--active {\n  background-color: #fafafa;\n  cursor: pointer; }\n\n.suggestion-item {\n  background-color: #ffffff;\n  cursor: pointer; }\n\n@media (min-width: 900px) {\n  .modal-header::after {\n    left: 2rem; } }\n\n.vertical-align {\n  display: flex;\n  align-items: center; }\n\n.distribute {\n  display: flex;\n  justify-content: space-between; }\n\n.margin-center {\n  margin: 0 auto !important; }\n\n.spacer-top-0 {\n  margin-top: 0rem !important; }\n\n.spacer-top-1 {\n  margin-top: 1rem !important; }\n\n.spacer-top-2 {\n  margin-top: 2rem !important; }\n\n.spacer-top-3 {\n  margin-top: 3rem !important; }\n\n.spacer-top-4 {\n  margin-top: 4rem !important; }\n\n.spacer-bottom-0 {\n  margin-bottom: 0rem !important; }\n\n.spacer-bottom-1 {\n  margin-bottom: 1rem !important; }\n\n.spacer-bottom-2 {\n  margin-bottom: 2rem !important; }\n\n.spacer-bottom-3 {\n  margin-bottom: 3rem !important; }\n\n.spacer-bottom-4 {\n  margin-bottom: 4rem !important; }\n\n.spacer-left-0 {\n  margin-left: 0rem !important; }\n\n.spacer-left-1 {\n  margin-left: 1rem !important; }\n\n.spacer-left-2 {\n  margin-left: 2rem !important; }\n\n.spacer-left-3 {\n  margin-left: 3rem !important; }\n\n.spacer-left-4 {\n  margin-left: 4rem !important; }\n\n.spacer-right-0 {\n  margin-right: 0rem !important; }\n\n.spacer-right-1 {\n  margin-right: 1rem !important; }\n\n.spacer-right-2 {\n  margin-right: 2rem !important; }\n\n.spacer-right-3 {\n  margin-right: 3rem !important; }\n\n.spacer-right-4 {\n  margin-right: 4rem !important; }\n\n.width-1 {\n  width: 1% !important; }\n\n.width-2 {\n  width: 2% !important; }\n\n.width-3 {\n  width: 3% !important; }\n\n.width-4 {\n  width: 4% !important; }\n\n.width-5 {\n  width: 5% !important; }\n\n.width-6 {\n  width: 6% !important; }\n\n.width-7 {\n  width: 7% !important; }\n\n.width-8 {\n  width: 8% !important; }\n\n.width-9 {\n  width: 9% !important; }\n\n.width-10 {\n  width: 10% !important; }\n\n.width-11 {\n  width: 11% !important; }\n\n.width-12 {\n  width: 12% !important; }\n\n.width-13 {\n  width: 13% !important; }\n\n.width-14 {\n  width: 14% !important; }\n\n.width-15 {\n  width: 15% !important; }\n\n.width-16 {\n  width: 16% !important; }\n\n.width-17 {\n  width: 17% !important; }\n\n.width-18 {\n  width: 18% !important; }\n\n.width-19 {\n  width: 19% !important; }\n\n.width-20 {\n  width: 20% !important; }\n\n.width-21 {\n  width: 21% !important; }\n\n.width-22 {\n  width: 22% !important; }\n\n.width-23 {\n  width: 23% !important; }\n\n.width-24 {\n  width: 24% !important; }\n\n.width-25 {\n  width: 25% !important; }\n\n.width-26 {\n  width: 26% !important; }\n\n.width-27 {\n  width: 27% !important; }\n\n.width-28 {\n  width: 28% !important; }\n\n.width-29 {\n  width: 29% !important; }\n\n.width-30 {\n  width: 30% !important; }\n\n.width-31 {\n  width: 31% !important; }\n\n.width-32 {\n  width: 32% !important; }\n\n.width-33 {\n  width: 33% !important; }\n\n.width-34 {\n  width: 34% !important; }\n\n.width-35 {\n  width: 35% !important; }\n\n.width-36 {\n  width: 36% !important; }\n\n.width-37 {\n  width: 37% !important; }\n\n.width-38 {\n  width: 38% !important; }\n\n.width-39 {\n  width: 39% !important; }\n\n.width-40 {\n  width: 40% !important; }\n\n.width-41 {\n  width: 41% !important; }\n\n.width-42 {\n  width: 42% !important; }\n\n.width-43 {\n  width: 43% !important; }\n\n.width-44 {\n  width: 44% !important; }\n\n.width-45 {\n  width: 45% !important; }\n\n.width-46 {\n  width: 46% !important; }\n\n.width-47 {\n  width: 47% !important; }\n\n.width-48 {\n  width: 48% !important; }\n\n.width-49 {\n  width: 49% !important; }\n\n.width-50 {\n  width: 50% !important; }\n\n.width-51 {\n  width: 51% !important; }\n\n.width-52 {\n  width: 52% !important; }\n\n.width-53 {\n  width: 53% !important; }\n\n.width-54 {\n  width: 54% !important; }\n\n.width-55 {\n  width: 55% !important; }\n\n.width-56 {\n  width: 56% !important; }\n\n.width-57 {\n  width: 57% !important; }\n\n.width-58 {\n  width: 58% !important; }\n\n.width-59 {\n  width: 59% !important; }\n\n.width-60 {\n  width: 60% !important; }\n\n.width-61 {\n  width: 61% !important; }\n\n.width-62 {\n  width: 62% !important; }\n\n.width-63 {\n  width: 63% !important; }\n\n.width-64 {\n  width: 64% !important; }\n\n.width-65 {\n  width: 65% !important; }\n\n.width-66 {\n  width: 66% !important; }\n\n.width-67 {\n  width: 67% !important; }\n\n.width-68 {\n  width: 68% !important; }\n\n.width-69 {\n  width: 69% !important; }\n\n.width-70 {\n  width: 70% !important; }\n\n.width-71 {\n  width: 71% !important; }\n\n.width-72 {\n  width: 72% !important; }\n\n.width-73 {\n  width: 73% !important; }\n\n.width-74 {\n  width: 74% !important; }\n\n.width-75 {\n  width: 75% !important; }\n\n.width-76 {\n  width: 76% !important; }\n\n.width-77 {\n  width: 77% !important; }\n\n.width-78 {\n  width: 78% !important; }\n\n.width-79 {\n  width: 79% !important; }\n\n.width-80 {\n  width: 80% !important; }\n\n.width-81 {\n  width: 81% !important; }\n\n.width-82 {\n  width: 82% !important; }\n\n.width-83 {\n  width: 83% !important; }\n\n.width-84 {\n  width: 84% !important; }\n\n.width-85 {\n  width: 85% !important; }\n\n.width-86 {\n  width: 86% !important; }\n\n.width-87 {\n  width: 87% !important; }\n\n.width-88 {\n  width: 88% !important; }\n\n.width-89 {\n  width: 89% !important; }\n\n.width-90 {\n  width: 90% !important; }\n\n.width-91 {\n  width: 91% !important; }\n\n.width-92 {\n  width: 92% !important; }\n\n.width-93 {\n  width: 93% !important; }\n\n.width-94 {\n  width: 94% !important; }\n\n.width-95 {\n  width: 95% !important; }\n\n.width-96 {\n  width: 96% !important; }\n\n.width-97 {\n  width: 97% !important; }\n\n.width-98 {\n  width: 98% !important; }\n\n.width-99 {\n  width: 99% !important; }\n\n.width-100 {\n  width: 100% !important; }\n\n.height-1 {\n  height: 1% !important; }\n\n.height-2 {\n  height: 2% !important; }\n\n.height-3 {\n  height: 3% !important; }\n\n.height-4 {\n  height: 4% !important; }\n\n.height-5 {\n  height: 5% !important; }\n\n.height-6 {\n  height: 6% !important; }\n\n.height-7 {\n  height: 7% !important; }\n\n.height-8 {\n  height: 8% !important; }\n\n.height-9 {\n  height: 9% !important; }\n\n.height-10 {\n  height: 10% !important; }\n\n.height-11 {\n  height: 11% !important; }\n\n.height-12 {\n  height: 12% !important; }\n\n.height-13 {\n  height: 13% !important; }\n\n.height-14 {\n  height: 14% !important; }\n\n.height-15 {\n  height: 15% !important; }\n\n.height-16 {\n  height: 16% !important; }\n\n.height-17 {\n  height: 17% !important; }\n\n.height-18 {\n  height: 18% !important; }\n\n.height-19 {\n  height: 19% !important; }\n\n.height-20 {\n  height: 20% !important; }\n\n.height-21 {\n  height: 21% !important; }\n\n.height-22 {\n  height: 22% !important; }\n\n.height-23 {\n  height: 23% !important; }\n\n.height-24 {\n  height: 24% !important; }\n\n.height-25 {\n  height: 25% !important; }\n\n.height-26 {\n  height: 26% !important; }\n\n.height-27 {\n  height: 27% !important; }\n\n.height-28 {\n  height: 28% !important; }\n\n.height-29 {\n  height: 29% !important; }\n\n.height-30 {\n  height: 30% !important; }\n\n.height-31 {\n  height: 31% !important; }\n\n.height-32 {\n  height: 32% !important; }\n\n.height-33 {\n  height: 33% !important; }\n\n.height-34 {\n  height: 34% !important; }\n\n.height-35 {\n  height: 35% !important; }\n\n.height-36 {\n  height: 36% !important; }\n\n.height-37 {\n  height: 37% !important; }\n\n.height-38 {\n  height: 38% !important; }\n\n.height-39 {\n  height: 39% !important; }\n\n.height-40 {\n  height: 40% !important; }\n\n.height-41 {\n  height: 41% !important; }\n\n.height-42 {\n  height: 42% !important; }\n\n.height-43 {\n  height: 43% !important; }\n\n.height-44 {\n  height: 44% !important; }\n\n.height-45 {\n  height: 45% !important; }\n\n.height-46 {\n  height: 46% !important; }\n\n.height-47 {\n  height: 47% !important; }\n\n.height-48 {\n  height: 48% !important; }\n\n.height-49 {\n  height: 49% !important; }\n\n.height-50 {\n  height: 50% !important; }\n\n.height-51 {\n  height: 51% !important; }\n\n.height-52 {\n  height: 52% !important; }\n\n.height-53 {\n  height: 53% !important; }\n\n.height-54 {\n  height: 54% !important; }\n\n.height-55 {\n  height: 55% !important; }\n\n.height-56 {\n  height: 56% !important; }\n\n.height-57 {\n  height: 57% !important; }\n\n.height-58 {\n  height: 58% !important; }\n\n.height-59 {\n  height: 59% !important; }\n\n.height-60 {\n  height: 60% !important; }\n\n.height-61 {\n  height: 61% !important; }\n\n.height-62 {\n  height: 62% !important; }\n\n.height-63 {\n  height: 63% !important; }\n\n.height-64 {\n  height: 64% !important; }\n\n.height-65 {\n  height: 65% !important; }\n\n.height-66 {\n  height: 66% !important; }\n\n.height-67 {\n  height: 67% !important; }\n\n.height-68 {\n  height: 68% !important; }\n\n.height-69 {\n  height: 69% !important; }\n\n.height-70 {\n  height: 70% !important; }\n\n.height-71 {\n  height: 71% !important; }\n\n.height-72 {\n  height: 72% !important; }\n\n.height-73 {\n  height: 73% !important; }\n\n.height-74 {\n  height: 74% !important; }\n\n.height-75 {\n  height: 75% !important; }\n\n.height-76 {\n  height: 76% !important; }\n\n.height-77 {\n  height: 77% !important; }\n\n.height-78 {\n  height: 78% !important; }\n\n.height-79 {\n  height: 79% !important; }\n\n.height-80 {\n  height: 80% !important; }\n\n.height-81 {\n  height: 81% !important; }\n\n.height-82 {\n  height: 82% !important; }\n\n.height-83 {\n  height: 83% !important; }\n\n.height-84 {\n  height: 84% !important; }\n\n.height-85 {\n  height: 85% !important; }\n\n.height-86 {\n  height: 86% !important; }\n\n.height-87 {\n  height: 87% !important; }\n\n.height-88 {\n  height: 88% !important; }\n\n.height-89 {\n  height: 89% !important; }\n\n.height-90 {\n  height: 90% !important; }\n\n.height-91 {\n  height: 91% !important; }\n\n.height-92 {\n  height: 92% !important; }\n\n.height-93 {\n  height: 93% !important; }\n\n.height-94 {\n  height: 94% !important; }\n\n.height-95 {\n  height: 95% !important; }\n\n.height-96 {\n  height: 96% !important; }\n\n.height-97 {\n  height: 97% !important; }\n\n.height-98 {\n  height: 98% !important; }\n\n.height-99 {\n  height: 99% !important; }\n\n.height-100 {\n  height: 100% !important; }\n\n.warning {\n  color: red; }\n\n.block {\n  display: block !important; }\n\n.inline {\n  display: inline !important; }\n\n.inline-block {\n  display: inline-block !important; }\n\n.clickable {\n  pointer-events: auto !important; }\n  .clickable * {\n    pointer-events: auto !important; }\n\n.unclickable {\n  pointer-events: none !important; }\n\n.Button {\n  padding: 0.5rem 22px;\n  font-size: .909rem;\n  display: inline-block;\n  border-radius: 5px;\n  background-color: #006BA6;\n  cursor: pointer;\n  color: white; }\n  .Button span {\n    color: white;\n    line-height: 1.5rem; }\n\ndiv {\n  display: block; }\n  div input[type=\"checkbox\"] {\n    -webkit-appearance: none;\n    border-radius: 3px;\n    border: 1px solid #A8ACAE;\n    width: 18px;\n    box-sizing: border-box;\n    height: 18px;\n    margin: 0px 0.5rem 0px 0px;\n    vertical-align: middle; }\n    div input[type=\"checkbox\"]:focus {\n      border: 1px solid #333333;\n      outline: none; }\n      div input[type=\"checkbox\"]:focus + span {\n        color: black; }\n    div input[type=\"checkbox\"]:checked {\n      background-color: #006BA6;\n      background-image: url(" + ___CSS_LOADER_URL___0___ + ");\n      background-repeat: no-repeat;\n      border: 1px solid #006BA6; }\n      div input[type=\"checkbox\"]:checked + span {\n        color: #333333; }\n    div input[type=\"checkbox\"]:disabled {\n      background-color: #ECF1F3;\n      border: 1px solid #ECF1F3; }\n      div input[type=\"checkbox\"]:disabled + span {\n        color: #A8ACAE; }\n  div span {\n    font-size: .909rem;\n    color: #707372;\n    line-height: 2rem; }\n\n.CloseButton {\n  position: absolute;\n  z-index: 1;\n  top: 18px;\n  right: 18px;\n  cursor: pointer;\n  padding: 0;\n  border: none;\n  background-color: inherit; }\n\n.dropdown-checkbox {\n  margin-top: 1.5em;\n  margin-bottom: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-checkbox .Button {\n    margin-top: 1rem;\n    margin-bottom: 3rem; }\n  .dropdown-checkbox > img:last-of-type {\n    position: absolute;\n    bottom: 18px;\n    right: 18px;\n    cursor: pointer; }\n\n@media (min-width: 900px) {\n  .dropdown-checkbox {\n    margin-top: 1em;\n    margin-bottom: 1em; }\n    .dropdown-checkbox .Button {\n      display: block;\n      text-align: center;\n      margin: 0.5rem auto 2.5rem auto; }\n    .dropdown-checkbox > img:last-of-type {\n      bottom: 9px;\n      right: 9px; } }\n\n.dropdown-list {\n  margin-top: 1.5em;\n  margin-bottom: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-list ul {\n    display: block;\n    padding: 0; }\n    .dropdown-list ul li a {\n      text-decoration: none;\n      font-size: 0.909rem;\n      line-height: 2.75em; }\n    .dropdown-list ul li:last-child {\n      border-top: 1px solid #ECF1F3;\n      padding: 1em 0; }\n      .dropdown-list ul li:last-child a {\n        line-height: 1.5em; }\n\n@media (min-width: 900px) {\n  .dropdown-list {\n    margin-top: 1em;\n    margin-top: 1em;\n    margin-bottom: 1em; }\n    .dropdown-list ul li a {\n      line-height: 2em;\n      padding: 0; }\n    .dropdown-list ul li:nth-of-type(3) {\n      padding-bottom: 1em; } }\n\n.Header {\n  position: relative;\n  z-index: 1;\n  width: 100%;\n  height: 99px;\n  background-color: #FFFFFF;\n  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); }\n  .Header > .grid-row {\n    grid-template-columns: auto repeat(5, 1fr); }\n    .Header > .grid-row.sidenav-btn {\n      padding: 0; }\n      .Header > .grid-row.sidenav-btn .SideNavButton {\n        background-color: #FFFFFF;\n        grid-column: 1 / 2;\n        cursor: pointer;\n        padding: 0;\n        border: none; }\n        .Header > .grid-row.sidenav-btn .SideNavButton img {\n          display: block; }\n        .Header > .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n          display: none; }\n      .Header > .grid-row.sidenav-btn .Title {\n        grid-column: 2 / 4; }\n      .Header > .grid-row.sidenav-btn .LocationInput {\n        display: none; }\n      .Header > .grid-row.sidenav-btn .HeaderOptions {\n        grid-column: 4 / -1; }\n      .Header > .grid-row.sidenav-btn .SaveButton {\n        display: none; }\n  .Header .search-save-btn .SaveButton .wide-save {\n    display: none; }\n\n@media (min-width: 900px) {\n  .Header {\n    height: 72px; }\n    .Header > .grid-row {\n      height: 72px;\n      grid-template-columns: repeat(12, 1fr); }\n      .Header > .grid-row.sidenav-btn .SideNavButton .narrow-sidenav {\n        display: none; }\n      .Header > .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n        display: block; }\n      .Header > .grid-row.sidenav-btn .Title {\n        grid-column: 2 / 4; }\n      .Header > .grid-row.sidenav-btn .LocationInput {\n        grid-column: 4 / 8;\n        display: block; }\n      .Header > .grid-row.sidenav-btn .HeaderOptions {\n        grid-column: 8 / 12; }\n      .Header > .grid-row.sidenav-btn .SaveButton {\n        display: block; }\n        .Header > .grid-row.sidenav-btn .SaveButton .narrow-save {\n          display: none; }\n    .Header .search-save-btn {\n      display: none; } }\n\n@media (min-width: 1280px) {\n  .Header > .grid-row {\n    grid-template-columns: repeat(14, 1fr); }\n    .Header > .grid-row.sidenav-btn .Title {\n      grid-column: 2 / 4; }\n    .Header > .grid-row.sidenav-btn .LocationInput {\n      grid-column: 4 / 9; }\n    .Header > .grid-row.sidenav-btn .HeaderOptions {\n      grid-column: 9 / 14; } }\n\n.HeaderOptions > ul {\n  margin: 0;\n  padding: 0;\n  display: flex;\n  justify-content: flex-end;\n  display: grid;\n  grid-template-columns: repeat(4, minmax(35px, 60px));\n  height: 100%; }\n  .HeaderOptions > ul .option {\n    display: flex;\n    align-items: center;\n    padding: 0px 4px; }\n    .HeaderOptions > ul .option a {\n      display: block;\n      margin: 0 auto; }\n      .HeaderOptions > ul .option a .option-active {\n        display: none; }\n      .HeaderOptions > ul .option a .option-name {\n        display: none; }\n      .HeaderOptions > ul .option a img {\n        display: block;\n        width: 100%;\n        max-width: 45px; }\n    .HeaderOptions > ul .option.active {\n      background-color: #006BA6; }\n      .HeaderOptions > ul .option.active a .option-inactive {\n        display: none; }\n      .HeaderOptions > ul .option.active a .option-active {\n        display: block; }\n      .HeaderOptions > ul .option.active .OptionsDropdown {\n        display: grid; }\n\n@media (min-width: 400px) {\n  .HeaderOptions {\n    padding-right: 15px; } }\n\n@media (min-width: 900px) {\n  .HeaderOptions {\n    padding-right: 0px;\n    margin-left: 0;\n    padding-left: 0; }\n    .HeaderOptions > ul {\n      grid-template-rows: 1fr;\n      grid-template-columns: repeat(4, 1fr);\n      width: 100%; }\n      .HeaderOptions > ul .option {\n        grid-row: 1;\n        width: 100%;\n        padding: 0; } }\n\n@media (min-width: 1280px) {\n  .HeaderOptions ul .option a .option-name {\n    display: inline-block;\n    vertical-align: middle;\n    padding-left: 5px; }\n    .HeaderOptions ul .option a .option-name p {\n      display: block;\n      margin: 0;\n      font-size: 0.683rem;\n      line-height: 0.683rem; }\n  .HeaderOptions ul .option a .option-inactive {\n    display: inline-block;\n    vertical-align: middle; }\n  .HeaderOptions ul .option.active a .option-active {\n    display: inline-block;\n    vertical-align: middle; } }\n\n.Map {\n  width: 100%;\n  height: calc(100vh - 99px); }\n\n@media (min-width: 900px) {\n  .Map {\n    height: calc(100vh - 72px); } }\n\n.MapModeForm {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.4); }\n  .MapModeForm .modal {\n    background: white;\n    width: 100%;\n    height: 100%;\n    padding: 2rem 4rem; }\n\n@media (min-width: 900px) {\n  .MapModeForm .modal {\n    width: 600px;\n    height: 500px; } }\n\n.NavOptions {\n  position: absolute;\n  height: 100vh;\n  background-color: #3E4827;\n  display: none;\n  z-index: 10; }\n  .NavOptions.active {\n    display: block; }\n  .NavOptions .grid-wrap {\n    padding-top: 4rem; }\n    .NavOptions .grid-wrap ul {\n      border-bottom: 2px solid #656D52;\n      padding-bottom: 1rem; }\n      .NavOptions .grid-wrap ul li a {\n        line-height: 2.75rem;\n        text-decoration: none;\n        color: #FFFFFF;\n        font-size: .909rem; }\n    .NavOptions .grid-wrap div p {\n      margin: 0;\n      font-family: Merriweather;\n      font-style: italic;\n      color: #FFFFFF;\n      font-size: 0.683rem;\n      line-height: 1rem;\n      padding-top: 1.5rem; }\n\n@media (min-width: 900px) {\n  .NavOptions {\n    width: 270px; } }\n\n.OptionsDropdown {\n  position: absolute;\n  top: 54px;\n  left: 0;\n  right: 0;\n  background-color: #FFFFFF;\n  border-top: 2px solid #006BA6;\n  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);\n  display: none; }\n\n@media (min-width: 900px) {\n  .OptionsDropdown {\n    width: 180px;\n    top: 72px;\n    padding: 0 1em;\n    left: auto;\n    right: auto; }\n    .OptionsDropdown.grid-row {\n      grid-column-gap: 0rem; }\n    .OptionsDropdown .CloseButton {\n      display: none; } }\n\n.SaveButton {\n  display: inline-block;\n  border: none;\n  padding: 0; }\n  .SaveButton img {\n    display: block;\n    margin-left: auto; }\n\n.LocationInput {\n  width: calc(100% - 54px);\n  height: 45px;\n  vertical-align: top;\n  display: inline-block; }\n  .LocationInput input {\n    width: 100%;\n    height: 100%;\n    -webkit-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    box-sizing: border-box;\n    -webkit-appearance: none;\n    border: none;\n    padding: 0 0px 0px 18px;\n    background-color: #ECF1F3;\n    background-repeat: no-repeat;\n    background-position: 95%;\n    background-image: url(" + ___CSS_LOADER_URL___1___ + "); }\n    .LocationInput input::-webkit-input-placeholder {\n      font-family: Merriweather;\n      font-style: italic;\n      font-weight: normal;\n      font-size: 0.683rem;\n      line-height: 1rem; }\n\n@media (min-width: 900px) {\n  .LocationInput {\n    height: auto;\n    width: auto;\n    padding-bottom: 9px;\n    padding-top: 9px;\n    position: relative; }\n    .LocationInput input {\n      background-image: url(" + ___CSS_LOADER_URL___2___ + "); }\n      .LocationInput input::-webkit-input-placeholder {\n        font-size: 0.826rem; } }\n\n.LocationInputSuggestions {\n  background-color: #FFFFFF;\n  position: absolute;\n  left: 0;\n  right: 0; }\n  .LocationInputSuggestions > div {\n    padding: 0rem 1rem 0rem 1rem; }\n\n.Title {\n  display: flex;\n  align-items: center; }\n  .Title .wide-logo {\n    display: none; }\n  .Title .narrow-logo {\n    width: 100%;\n    max-width: 82px;\n    min-width: 63px; }\n\n@media (min-width: 900px) {\n  .Title .narrow-logo {\n    display: none; }\n  .Title .wide-logo {\n    display: block;\n    width: 100%;\n    max-width: 154px; } }\n\n.WelcomeModal {\n  display: grid;\n  height: 100vh;\n  position: absolute;\n  top: 0;\n  z-index: 1;\n  background-color: #FFFFFF; }\n  .WelcomeModal .grid-wrap > div:last-of-type {\n    position: absolute;\n    padding: 0px 5.625%;\n    left: 0;\n    right: 0;\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    bottom: 0;\n    padding: 1.5rem;\n    background-color: #ECF1F3; }\n  .WelcomeModal .grid-wrap .modal-header {\n    padding-top: 4rem; }\n  .WelcomeModal .grid-wrap .button-wrap > *:last-child {\n    display: none; }\n\n@media (min-width: 900px) {\n  .WelcomeModal {\n    height: 100vh;\n    align-items: center; }\n    .WelcomeModal.grid-row {\n      background-color: rgba(51, 51, 51, 0.7); }\n    .WelcomeModal .grid-wrap {\n      max-height: 450px;\n      display: flex;\n      flex-direction: column;\n      grid-column: 2 / 12;\n      background-color: #FFFFFF;\n      box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);\n      position: relative; }\n      .WelcomeModal .grid-wrap > div:last-of-type {\n        position: initial;\n        margin-top: auto;\n        padding: 1.5rem 2rem 1.5rem 2rem;\n        align-items: baseline; }\n      .WelcomeModal .grid-wrap .modal-header {\n        padding-top: 3.5rem; }\n      .WelcomeModal .grid-wrap .modal-text {\n        padding-bottom: 3rem; }\n      .WelcomeModal .grid-wrap .modal-header, .WelcomeModal .grid-wrap .modal-text {\n        padding-left: 2rem;\n        padding-right: 2rem; }\n      .WelcomeModal .grid-wrap .button-wrap > *:last-child {\n        color: #7A99AC;\n        display: block;\n        padding-top: 0.5rem;\n        font-size: .909rem; } }\n\n@media (min-width: 1280px) {\n  .WelcomeModal .grid-wrap {\n    grid-column: 4 / 12; } }\n\nhtml, body {\n  font-size: 18px;\n  font-family: Nimbus Sans;\n  margin: 0;\n  min-width: 305px; }\n\nul {\n  list-style: none;\n  padding: 0;\n  margin: 0; }\n\nh1 {\n  font-size: 1.464rem;\n  line-height: 2rem;\n  margin: 0; }\n\nh2 {\n  font-size: 1.331rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\nh3 {\n  font-size: 1rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\nh4, p {\n  font-size: 0.909rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\na {\n  text-decoration: none; }\n\nspan.link {\n  color: blue;\n  cursor: pointer; }\n", ""]);
+exports.push([module.i, ".mapbox-gl-draw_ctrl-draw-btn {\n  display: none !important; }\n\n.mapboxgl-map {\n  position: initial; }\n\n.grid-row {\n  display: grid;\n  grid-template-columns: repeat(6, 1fr);\n  grid-column-gap: 1rem;\n  padding: 0px 5.625%;\n  max-width: 1680px; }\n\n.grid-wrap {\n  grid-column: 1 / -1; }\n\n@media (min-width: 900px) {\n  .grid-row {\n    grid-template-columns: repeat(12, 1fr); } }\n\n@media (min-width: 1280px) {\n  .grid-row {\n    grid-template-columns: repeat(14, 1fr);\n    padding: 0px 2.5%; } }\n\n.suggestion-item--active {\n  background-color: #fafafa;\n  cursor: pointer; }\n\n.suggestion-item {\n  background-color: #ffffff;\n  cursor: pointer; }\n\n.vertical-align {\n  display: flex;\n  align-items: center; }\n\n.distribute {\n  display: flex;\n  justify-content: space-between; }\n\n.margin-center {\n  margin: 0 auto !important; }\n\n@media (min-width: 900px) {\n  .desktop-select-l-width {\n    width: 240px; }\n  .desktop-select-s-width {\n    width: 160px; }\n  .desktop-select-m-width {\n    width: 210px; } }\n\n.spacer-top-1_5 {\n  margin-top: 1.5rem !important; }\n\n.spacer-top-0 {\n  margin-top: 0rem !important; }\n\n.spacer-top-1 {\n  margin-top: 1rem !important; }\n\n.spacer-top-2 {\n  margin-top: 2rem !important; }\n\n.spacer-top-3 {\n  margin-top: 3rem !important; }\n\n.spacer-top-4 {\n  margin-top: 4rem !important; }\n\n.spacer-bottom-0 {\n  margin-bottom: 0rem !important; }\n\n.spacer-bottom-1 {\n  margin-bottom: 1rem !important; }\n\n.spacer-bottom-2 {\n  margin-bottom: 2rem !important; }\n\n.spacer-bottom-3 {\n  margin-bottom: 3rem !important; }\n\n.spacer-bottom-4 {\n  margin-bottom: 4rem !important; }\n\n.spacer-left-0 {\n  margin-left: 0rem !important; }\n\n.spacer-left-1 {\n  margin-left: 1rem !important; }\n\n.spacer-left-2 {\n  margin-left: 2rem !important; }\n\n.spacer-left-3 {\n  margin-left: 3rem !important; }\n\n.spacer-left-4 {\n  margin-left: 4rem !important; }\n\n.spacer-right-0 {\n  margin-right: 0rem !important; }\n\n.spacer-right-1 {\n  margin-right: 1rem !important; }\n\n.spacer-right-2 {\n  margin-right: 2rem !important; }\n\n.spacer-right-3 {\n  margin-right: 3rem !important; }\n\n.spacer-right-4 {\n  margin-right: 4rem !important; }\n\n.width-1 {\n  width: 1% !important; }\n\n.width-2 {\n  width: 2% !important; }\n\n.width-3 {\n  width: 3% !important; }\n\n.width-4 {\n  width: 4% !important; }\n\n.width-5 {\n  width: 5% !important; }\n\n.width-6 {\n  width: 6% !important; }\n\n.width-7 {\n  width: 7% !important; }\n\n.width-8 {\n  width: 8% !important; }\n\n.width-9 {\n  width: 9% !important; }\n\n.width-10 {\n  width: 10% !important; }\n\n.width-11 {\n  width: 11% !important; }\n\n.width-12 {\n  width: 12% !important; }\n\n.width-13 {\n  width: 13% !important; }\n\n.width-14 {\n  width: 14% !important; }\n\n.width-15 {\n  width: 15% !important; }\n\n.width-16 {\n  width: 16% !important; }\n\n.width-17 {\n  width: 17% !important; }\n\n.width-18 {\n  width: 18% !important; }\n\n.width-19 {\n  width: 19% !important; }\n\n.width-20 {\n  width: 20% !important; }\n\n.width-21 {\n  width: 21% !important; }\n\n.width-22 {\n  width: 22% !important; }\n\n.width-23 {\n  width: 23% !important; }\n\n.width-24 {\n  width: 24% !important; }\n\n.width-25 {\n  width: 25% !important; }\n\n.width-26 {\n  width: 26% !important; }\n\n.width-27 {\n  width: 27% !important; }\n\n.width-28 {\n  width: 28% !important; }\n\n.width-29 {\n  width: 29% !important; }\n\n.width-30 {\n  width: 30% !important; }\n\n.width-31 {\n  width: 31% !important; }\n\n.width-32 {\n  width: 32% !important; }\n\n.width-33 {\n  width: 33% !important; }\n\n.width-34 {\n  width: 34% !important; }\n\n.width-35 {\n  width: 35% !important; }\n\n.width-36 {\n  width: 36% !important; }\n\n.width-37 {\n  width: 37% !important; }\n\n.width-38 {\n  width: 38% !important; }\n\n.width-39 {\n  width: 39% !important; }\n\n.width-40 {\n  width: 40% !important; }\n\n.width-41 {\n  width: 41% !important; }\n\n.width-42 {\n  width: 42% !important; }\n\n.width-43 {\n  width: 43% !important; }\n\n.width-44 {\n  width: 44% !important; }\n\n.width-45 {\n  width: 45% !important; }\n\n.width-46 {\n  width: 46% !important; }\n\n.width-47 {\n  width: 47% !important; }\n\n.width-48 {\n  width: 48% !important; }\n\n.width-49 {\n  width: 49% !important; }\n\n.width-50 {\n  width: 50% !important; }\n\n.width-51 {\n  width: 51% !important; }\n\n.width-52 {\n  width: 52% !important; }\n\n.width-53 {\n  width: 53% !important; }\n\n.width-54 {\n  width: 54% !important; }\n\n.width-55 {\n  width: 55% !important; }\n\n.width-56 {\n  width: 56% !important; }\n\n.width-57 {\n  width: 57% !important; }\n\n.width-58 {\n  width: 58% !important; }\n\n.width-59 {\n  width: 59% !important; }\n\n.width-60 {\n  width: 60% !important; }\n\n.width-61 {\n  width: 61% !important; }\n\n.width-62 {\n  width: 62% !important; }\n\n.width-63 {\n  width: 63% !important; }\n\n.width-64 {\n  width: 64% !important; }\n\n.width-65 {\n  width: 65% !important; }\n\n.width-66 {\n  width: 66% !important; }\n\n.width-67 {\n  width: 67% !important; }\n\n.width-68 {\n  width: 68% !important; }\n\n.width-69 {\n  width: 69% !important; }\n\n.width-70 {\n  width: 70% !important; }\n\n.width-71 {\n  width: 71% !important; }\n\n.width-72 {\n  width: 72% !important; }\n\n.width-73 {\n  width: 73% !important; }\n\n.width-74 {\n  width: 74% !important; }\n\n.width-75 {\n  width: 75% !important; }\n\n.width-76 {\n  width: 76% !important; }\n\n.width-77 {\n  width: 77% !important; }\n\n.width-78 {\n  width: 78% !important; }\n\n.width-79 {\n  width: 79% !important; }\n\n.width-80 {\n  width: 80% !important; }\n\n.width-81 {\n  width: 81% !important; }\n\n.width-82 {\n  width: 82% !important; }\n\n.width-83 {\n  width: 83% !important; }\n\n.width-84 {\n  width: 84% !important; }\n\n.width-85 {\n  width: 85% !important; }\n\n.width-86 {\n  width: 86% !important; }\n\n.width-87 {\n  width: 87% !important; }\n\n.width-88 {\n  width: 88% !important; }\n\n.width-89 {\n  width: 89% !important; }\n\n.width-90 {\n  width: 90% !important; }\n\n.width-91 {\n  width: 91% !important; }\n\n.width-92 {\n  width: 92% !important; }\n\n.width-93 {\n  width: 93% !important; }\n\n.width-94 {\n  width: 94% !important; }\n\n.width-95 {\n  width: 95% !important; }\n\n.width-96 {\n  width: 96% !important; }\n\n.width-97 {\n  width: 97% !important; }\n\n.width-98 {\n  width: 98% !important; }\n\n.width-99 {\n  width: 99% !important; }\n\n.width-100 {\n  width: 100% !important; }\n\n.height-1 {\n  height: 1% !important; }\n\n.height-2 {\n  height: 2% !important; }\n\n.height-3 {\n  height: 3% !important; }\n\n.height-4 {\n  height: 4% !important; }\n\n.height-5 {\n  height: 5% !important; }\n\n.height-6 {\n  height: 6% !important; }\n\n.height-7 {\n  height: 7% !important; }\n\n.height-8 {\n  height: 8% !important; }\n\n.height-9 {\n  height: 9% !important; }\n\n.height-10 {\n  height: 10% !important; }\n\n.height-11 {\n  height: 11% !important; }\n\n.height-12 {\n  height: 12% !important; }\n\n.height-13 {\n  height: 13% !important; }\n\n.height-14 {\n  height: 14% !important; }\n\n.height-15 {\n  height: 15% !important; }\n\n.height-16 {\n  height: 16% !important; }\n\n.height-17 {\n  height: 17% !important; }\n\n.height-18 {\n  height: 18% !important; }\n\n.height-19 {\n  height: 19% !important; }\n\n.height-20 {\n  height: 20% !important; }\n\n.height-21 {\n  height: 21% !important; }\n\n.height-22 {\n  height: 22% !important; }\n\n.height-23 {\n  height: 23% !important; }\n\n.height-24 {\n  height: 24% !important; }\n\n.height-25 {\n  height: 25% !important; }\n\n.height-26 {\n  height: 26% !important; }\n\n.height-27 {\n  height: 27% !important; }\n\n.height-28 {\n  height: 28% !important; }\n\n.height-29 {\n  height: 29% !important; }\n\n.height-30 {\n  height: 30% !important; }\n\n.height-31 {\n  height: 31% !important; }\n\n.height-32 {\n  height: 32% !important; }\n\n.height-33 {\n  height: 33% !important; }\n\n.height-34 {\n  height: 34% !important; }\n\n.height-35 {\n  height: 35% !important; }\n\n.height-36 {\n  height: 36% !important; }\n\n.height-37 {\n  height: 37% !important; }\n\n.height-38 {\n  height: 38% !important; }\n\n.height-39 {\n  height: 39% !important; }\n\n.height-40 {\n  height: 40% !important; }\n\n.height-41 {\n  height: 41% !important; }\n\n.height-42 {\n  height: 42% !important; }\n\n.height-43 {\n  height: 43% !important; }\n\n.height-44 {\n  height: 44% !important; }\n\n.height-45 {\n  height: 45% !important; }\n\n.height-46 {\n  height: 46% !important; }\n\n.height-47 {\n  height: 47% !important; }\n\n.height-48 {\n  height: 48% !important; }\n\n.height-49 {\n  height: 49% !important; }\n\n.height-50 {\n  height: 50% !important; }\n\n.height-51 {\n  height: 51% !important; }\n\n.height-52 {\n  height: 52% !important; }\n\n.height-53 {\n  height: 53% !important; }\n\n.height-54 {\n  height: 54% !important; }\n\n.height-55 {\n  height: 55% !important; }\n\n.height-56 {\n  height: 56% !important; }\n\n.height-57 {\n  height: 57% !important; }\n\n.height-58 {\n  height: 58% !important; }\n\n.height-59 {\n  height: 59% !important; }\n\n.height-60 {\n  height: 60% !important; }\n\n.height-61 {\n  height: 61% !important; }\n\n.height-62 {\n  height: 62% !important; }\n\n.height-63 {\n  height: 63% !important; }\n\n.height-64 {\n  height: 64% !important; }\n\n.height-65 {\n  height: 65% !important; }\n\n.height-66 {\n  height: 66% !important; }\n\n.height-67 {\n  height: 67% !important; }\n\n.height-68 {\n  height: 68% !important; }\n\n.height-69 {\n  height: 69% !important; }\n\n.height-70 {\n  height: 70% !important; }\n\n.height-71 {\n  height: 71% !important; }\n\n.height-72 {\n  height: 72% !important; }\n\n.height-73 {\n  height: 73% !important; }\n\n.height-74 {\n  height: 74% !important; }\n\n.height-75 {\n  height: 75% !important; }\n\n.height-76 {\n  height: 76% !important; }\n\n.height-77 {\n  height: 77% !important; }\n\n.height-78 {\n  height: 78% !important; }\n\n.height-79 {\n  height: 79% !important; }\n\n.height-80 {\n  height: 80% !important; }\n\n.height-81 {\n  height: 81% !important; }\n\n.height-82 {\n  height: 82% !important; }\n\n.height-83 {\n  height: 83% !important; }\n\n.height-84 {\n  height: 84% !important; }\n\n.height-85 {\n  height: 85% !important; }\n\n.height-86 {\n  height: 86% !important; }\n\n.height-87 {\n  height: 87% !important; }\n\n.height-88 {\n  height: 88% !important; }\n\n.height-89 {\n  height: 89% !important; }\n\n.height-90 {\n  height: 90% !important; }\n\n.height-91 {\n  height: 91% !important; }\n\n.height-92 {\n  height: 92% !important; }\n\n.height-93 {\n  height: 93% !important; }\n\n.height-94 {\n  height: 94% !important; }\n\n.height-95 {\n  height: 95% !important; }\n\n.height-96 {\n  height: 96% !important; }\n\n.height-97 {\n  height: 97% !important; }\n\n.height-98 {\n  height: 98% !important; }\n\n.height-99 {\n  height: 99% !important; }\n\n.height-100 {\n  height: 100% !important; }\n\n@media (min-width: 900px) {\n  .nowrap {\n    white-space: nowrap; } }\n\n.warning {\n  color: red; }\n\n.block {\n  display: block !important; }\n\n.inline {\n  display: inline !important; }\n\n.inline-block {\n  display: inline-block !important; }\n\n.clickable {\n  pointer-events: auto !important; }\n  .clickable * {\n    pointer-events: auto !important; }\n\n.unclickable {\n  pointer-events: none !important; }\n\n.Button {\n  padding: 0.5rem 22px;\n  font-size: .909rem;\n  display: inline-block;\n  border-radius: 5px;\n  background-color: #006BA6;\n  cursor: pointer;\n  color: white;\n  line-height: 1.5rem;\n  outline: none;\n  border: none; }\n\n.checkboxElement {\n  display: block; }\n  .checkboxElement input[type=\"checkbox\"] {\n    -webkit-appearance: none;\n    border-radius: 3px;\n    border: 1px solid #A8ACAE;\n    width: 18px;\n    box-sizing: border-box;\n    height: 18px;\n    margin: 0px 0.5rem 0px 0px;\n    vertical-align: middle;\n    /* &:focus\n            border: 1px solid $black\n            outline: none\n            + span\n                color: black */ }\n    .checkboxElement input[type=\"checkbox\"]:focus {\n      outline: none; }\n    .checkboxElement input[type=\"checkbox\"]:checked {\n      background-color: #006BA6;\n      background-image: url(" + ___CSS_LOADER_URL___0___ + ");\n      background-repeat: no-repeat;\n      border: 1px solid #006BA6; }\n      .checkboxElement input[type=\"checkbox\"]:checked + span {\n        color: #333333; }\n    .checkboxElement input[type=\"checkbox\"]:disabled {\n      background-color: #ECF1F3;\n      border: 1px solid #ECF1F3; }\n      .checkboxElement input[type=\"checkbox\"]:disabled + span {\n        color: #A8ACAE; }\n  .checkboxElement span {\n    font-size: .909rem;\n    color: #707372;\n    line-height: 2rem; }\n\nselect {\n  -webkit-appearance: none;\n  border: 1px solid #A8ACAE;\n  box-sizing: border-box;\n  border-radius: 5px;\n  font-size: .909rem;\n  padding: 7px 45px 7px 7px;\n  line-height: 1rem;\n  background: transparent;\n  background-image: url(" + ___CSS_LOADER_URL___1___ + ");\n  background-repeat: no-repeat;\n  background-position: right; }\n  select:focus {\n    outline: none; }\n\n.CloseButton {\n  position: absolute;\n  z-index: 1;\n  top: 18px;\n  right: 18px;\n  cursor: pointer;\n  padding: 0;\n  border: none;\n  background-color: inherit; }\n\n.dropdown-checkbox {\n  margin-top: 1.5em;\n  margin-bottom: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-checkbox .Button {\n    margin-top: 1rem;\n    margin-bottom: 3rem; }\n  .dropdown-checkbox > img:last-of-type {\n    position: absolute;\n    bottom: 18px;\n    right: 18px;\n    cursor: pointer; }\n\n@media (min-width: 900px) {\n  .dropdown-checkbox {\n    margin-top: 1em;\n    margin-bottom: 1em; }\n    .dropdown-checkbox .Button {\n      display: block;\n      text-align: center;\n      margin: 0.5rem auto 2.5rem auto; }\n    .dropdown-checkbox > img:last-of-type {\n      bottom: 9px;\n      right: 9px; } }\n\n.dropdown-list {\n  margin-top: 1.5em;\n  margin-bottom: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-list ul {\n    display: block;\n    padding: 0; }\n    .dropdown-list ul li a {\n      text-decoration: none;\n      font-size: 0.909rem;\n      line-height: 2.75em; }\n    .dropdown-list ul li:last-child {\n      border-top: 1px solid #ECF1F3;\n      padding: 1em 0; }\n      .dropdown-list ul li:last-child a {\n        line-height: 1.5em; }\n\n@media (min-width: 900px) {\n  .dropdown-list {\n    margin-top: 1em;\n    margin-top: 1em;\n    margin-bottom: 1em; }\n    .dropdown-list ul li a {\n      line-height: 2em;\n      padding: 0; }\n    .dropdown-list ul li:nth-of-type(3) {\n      padding-bottom: 1em; } }\n\n.Header {\n  position: relative;\n  z-index: 2;\n  width: 100%;\n  height: 99px;\n  background-color: #FFFFFF;\n  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); }\n  .Header > .grid-row {\n    grid-template-columns: auto repeat(5, 1fr); }\n    .Header > .grid-row.sidenav-btn {\n      padding: 0; }\n      .Header > .grid-row.sidenav-btn .SideNavButton {\n        background-color: #FFFFFF;\n        grid-column: 1 / 2;\n        cursor: pointer;\n        padding: 0;\n        border: none; }\n        .Header > .grid-row.sidenav-btn .SideNavButton img {\n          display: block; }\n        .Header > .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n          display: none; }\n      .Header > .grid-row.sidenav-btn .Title {\n        grid-column: 2 / 4; }\n      .Header > .grid-row.sidenav-btn .LocationInput {\n        display: none; }\n      .Header > .grid-row.sidenav-btn .HeaderOptions {\n        grid-column: 4 / -1; }\n      .Header > .grid-row.sidenav-btn .SaveButton {\n        display: none; }\n  .Header .search-save-btn .Save {\n    display: inline-block; }\n    .Header .search-save-btn .Save .SaveButton .wide-save {\n      display: none; }\n\n@media (min-width: 900px) {\n  .Header {\n    height: 72px; }\n    .Header > .grid-row {\n      height: 72px;\n      grid-template-columns: repeat(12, 1fr); }\n      .Header > .grid-row > * {\n        max-height: 72px; }\n      .Header > .grid-row.sidenav-btn .SideNavButton .narrow-sidenav {\n        display: none; }\n      .Header > .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n        display: block; }\n      .Header > .grid-row.sidenav-btn .Title {\n        grid-column: 2 / 4; }\n      .Header > .grid-row.sidenav-btn .LocationInput {\n        grid-column: 4 / 8;\n        display: block; }\n      .Header > .grid-row.sidenav-btn .HeaderOptions {\n        grid-column: 8 / 12; }\n      .Header > .grid-row.sidenav-btn .SaveButton {\n        display: block; }\n        .Header > .grid-row.sidenav-btn .SaveButton .narrow-save {\n          display: none; }\n    .Header .search-save-btn {\n      display: none; } }\n\n@media (min-width: 1280px) {\n  .Header > .grid-row {\n    grid-template-columns: repeat(14, 1fr); }\n    .Header > .grid-row.sidenav-btn .Title {\n      grid-column: 2 / 4; }\n    .Header > .grid-row.sidenav-btn .LocationInput {\n      grid-column: 4 / 9; }\n    .Header > .grid-row.sidenav-btn .HeaderOptions {\n      grid-column: 9 / 14; } }\n\n.HeaderOptions > ul {\n  margin: 0;\n  padding: 0;\n  display: flex;\n  justify-content: flex-end;\n  display: grid;\n  grid-template-columns: repeat(4, minmax(35px, 60px));\n  height: 100%; }\n  .HeaderOptions > ul .option {\n    display: flex;\n    align-items: center;\n    padding: 0px 4px; }\n    .HeaderOptions > ul .option a {\n      display: block;\n      margin: 0 auto; }\n      .HeaderOptions > ul .option a .option-active {\n        display: none; }\n      .HeaderOptions > ul .option a .option-name {\n        display: none; }\n      .HeaderOptions > ul .option a img {\n        display: block;\n        width: 100%;\n        max-width: 45px; }\n    .HeaderOptions > ul .option.active {\n      background-color: #006BA6; }\n      .HeaderOptions > ul .option.active a .option-inactive {\n        display: none; }\n      .HeaderOptions > ul .option.active a .option-active {\n        display: block; }\n      .HeaderOptions > ul .option.active .OptionsDropdown {\n        display: grid; }\n\n@media (min-width: 400px) {\n  .HeaderOptions {\n    padding-right: 15px; } }\n\n@media (min-width: 900px) {\n  .HeaderOptions {\n    padding-right: 0px;\n    margin-left: 0;\n    padding-left: 0; }\n    .HeaderOptions > ul {\n      grid-template-rows: 1fr;\n      grid-template-columns: repeat(4, 1fr);\n      width: 100%; }\n      .HeaderOptions > ul .option {\n        grid-row: 1;\n        width: 100%;\n        padding: 0; }\n        .HeaderOptions > ul .option .option-name {\n          width: 40px;\n          font-size: 0.5rem; } }\n\n@media (min-width: 1280px) {\n  .HeaderOptions ul .option a .option-name {\n    display: inline-block;\n    vertical-align: middle;\n    padding-left: 5px; }\n  .HeaderOptions ul .option a .option-inactive {\n    display: inline-block;\n    vertical-align: middle; }\n  .HeaderOptions ul .option.active a .option-active {\n    display: inline-block;\n    vertical-align: middle; } }\n\n.Map {\n  width: 100%;\n  height: calc(100vh - 99px);\n  position: relative; }\n  .Map .ZoomControl {\n    position: absolute;\n    bottom: 2rem;\n    right: 2rem;\n    z-index: 1;\n    display: flex;\n    flex-flow: column nowrap;\n    justify-content: center;\n    align-items: center;\n    background: white;\n    padding: 6px; }\n    .Map .ZoomControl hr {\n      width: 80%;\n      opacity: 0.4;\n      transform: translateY(2px); }\n    .Map .ZoomControl img {\n      cursor: pointer; }\n  .Map .LegendControl {\n    position: absolute;\n    bottom: 2rem;\n    right: 4.5rem;\n    z-index: 1;\n    background: white;\n    padding: 6px;\n    line-height: 0; }\n    .Map .LegendControl img {\n      cursor: pointer; }\n\n@media (min-width: 900px) {\n  .Map {\n    height: calc(100vh - 72px); } }\n\n.MapModeForm {\n  position: absolute;\n  z-index: 10;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.4);\n  flex-direction: column; }\n  .MapModeForm .PlantingFormHeader .SoilTypes {\n    font-family: Merriweather, serif;\n    color: #707372; }\n    .MapModeForm .PlantingFormHeader .SoilTypes span {\n      color: black; }\n  .MapModeForm .modal {\n    background: white;\n    width: 100%;\n    height: calc(100vh - 99px);\n    padding: 0 1.5rem 3rem 1.5rem;\n    box-sizing: border-box;\n    position: relative;\n    overflow: scroll; }\n  .MapModeForm .button-wrap {\n    height: 99px;\n    width: 100%;\n    background-color: gray;\n    justify-content: flex-end;\n    background-color: #ECF1F3; }\n    .MapModeForm .button-wrap .Button {\n      margin: 1.5rem; }\n\n@media (min-width: 900px) {\n  .MapModeForm {\n    justify-content: center; }\n    .MapModeForm .PlantingFormHeader .SoilTypes {\n      padding-left: 2rem;\n      padding-right: 2rem; }\n    .MapModeForm .modal {\n      width: 670px;\n      height: 500px; }\n    .MapModeForm .button-wrap {\n      width: 670px; } }\n\n.MapLegend .SSURGO .gradient {\n  width: 200px;\n  height: 20px;\n  background: linear-gradient(90deg, #f8f601 0%, #888900 50%, #909090 100%);\n  opacity: 0.6; }\n\n.MapLegend .SSURGO .labels {\n  width: 200px; }\n\n.modal {\n  display: grid;\n  height: 100vh;\n  width: 100vw;\n  position: absolute;\n  top: 0;\n  z-index: 3;\n  background-color: rgba(51, 51, 51, 0.7); }\n  .modal .grid-row {\n    background-color: #FFFFFF; }\n    .modal .grid-row .grid-wrap {\n      max-width: 800px;\n      background-color: #FFFFFF; }\n  .modal .modal-footer {\n    position: absolute;\n    padding: 0px 5.625%;\n    left: 0;\n    right: 0;\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    bottom: 0;\n    padding: 1.5rem;\n    background-color: #ECF1F3; }\n  .modal .modal-header {\n    padding-top: 4rem;\n    padding-bottom: 0.5rem;\n    position: relative; }\n    .modal .modal-header::after {\n      content: '';\n      position: absolute;\n      bottom: -2px;\n      left: 0;\n      height: 2px;\n      width: 135px;\n      background-color: #76881D; }\n  .modal .button-wrap > *:last-child {\n    display: none; }\n  .modal .modal-text {\n    padding-top: 1.5rem; }\n  .modal .modal-link {\n    font-family: Merriweather;\n    font-style: italic;\n    font-weight: normal;\n    font-size: 0.751rem;\n    line-height: 21px;\n    text-decoration-line: underline;\n    color: #006BA6; }\n\n@media (min-width: 900px) {\n  .modal {\n    height: 100vh;\n    align-items: center;\n    justify-content: center; }\n    .modal .grid-row {\n      background: none; }\n      .modal .grid-row .grid-wrap {\n        min-height: 400px;\n        min-width: 600px;\n        max-height: 450px;\n        display: flex;\n        flex-direction: column;\n        grid-column: 2 / 12;\n        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);\n        position: relative; }\n    .modal .modal-footer {\n      position: initial;\n      margin-top: auto;\n      padding: 1.5rem 2rem 1.5rem 2rem;\n      align-items: baseline; }\n    .modal .modal-header {\n      padding-top: 3.5rem; }\n      .modal .modal-header::after {\n        left: 2rem; }\n    .modal .modal-text {\n      padding-bottom: 3rem; }\n    .modal .modal-header, .modal .modal-text {\n      padding-left: 2rem;\n      padding-right: 2rem; }\n    .modal .button-wrap > *:last-child {\n      color: #7A99AC;\n      display: block;\n      padding-top: 0.5rem;\n      font-size: .909rem; } }\n\n@media (min-width: 1280px) {\n  .modal .grid-wrap {\n    grid-column: 4 / 12; } }\n\n.NavOptions {\n  position: fixed;\n  bottom: 0;\n  height: 100vh;\n  background-color: #3E4827;\n  display: none;\n  z-index: 10; }\n  .NavOptions.active {\n    display: block; }\n  .NavOptions .grid-wrap {\n    padding-top: 4rem; }\n    .NavOptions .grid-wrap ul {\n      border-bottom: 2px solid #656D52;\n      padding-bottom: 1rem; }\n      .NavOptions .grid-wrap ul li a {\n        line-height: 2.75rem;\n        text-decoration: none;\n        color: #FFFFFF;\n        font-size: .909rem; }\n    .NavOptions .grid-wrap div p {\n      margin: 0;\n      font-family: Merriweather;\n      font-style: italic;\n      color: #FFFFFF;\n      font-size: 0.683rem;\n      line-height: 1rem;\n      padding-top: 1.5rem; }\n\n@media (min-width: 900px) {\n  .NavOptions {\n    width: 270px; } }\n\n.OptionsDropdown {\n  position: absolute;\n  top: 54px;\n  left: 0;\n  right: 0;\n  background-color: #FFFFFF;\n  border-top: 2px solid #006BA6;\n  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);\n  display: none; }\n\n@media (min-width: 900px) {\n  .OptionsDropdown {\n    width: 180px;\n    top: 72px;\n    padding: 0 1em;\n    left: auto;\n    right: auto; }\n    .OptionsDropdown.grid-row {\n      grid-column-gap: 0rem; }\n    .OptionsDropdown .CloseButton {\n      display: none; } }\n\n.SaveButton {\n  display: inline-block;\n  border: none;\n  padding: 0; }\n  .SaveButton img {\n    display: block;\n    margin-left: auto; }\n\n.LocationInput {\n  width: calc(100% - 54px);\n  height: 45px;\n  vertical-align: top;\n  display: inline-block; }\n  .LocationInput .wrapper {\n    display: flex;\n    align-items: center;\n    height: 100%;\n    width: 100%;\n    position: relative; }\n  .LocationInput .MyLocation {\n    width: 30px;\n    height: 30px;\n    background-size: 30px;\n    display: inline-block;\n    position: absolute;\n    right: 22.5px;\n    background-color: #ECF1F3;\n    background-repeat: no-repeat;\n    background-image: url(" + ___CSS_LOADER_URL___2___ + "); }\n  .LocationInput input {\n    width: 100%;\n    height: 100%;\n    -webkit-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    box-sizing: border-box;\n    -webkit-appearance: none;\n    border: none;\n    padding: 0 0px 0px 75px;\n    background-color: #ECF1F3;\n    background-repeat: no-repeat;\n    background-position: 5%;\n    background-image: url(" + ___CSS_LOADER_URL___3___ + ");\n    background-size: 20px; }\n    .LocationInput input::-webkit-input-placeholder {\n      font-family: Merriweather;\n      font-style: italic;\n      font-weight: normal;\n      font-size: 0.683rem;\n      line-height: 1rem; }\n\n@media (min-width: 900px) {\n  .LocationInput {\n    height: auto;\n    width: auto;\n    padding-bottom: 9px;\n    padding-top: 9px;\n    position: relative; }\n    .LocationInput .MyLocation {\n      width: 40px;\n      height: 40px;\n      background-size: 40px; }\n    .LocationInput input {\n      background-image: url(" + ___CSS_LOADER_URL___4___ + "); }\n      .LocationInput input::-webkit-input-placeholder {\n        font-size: 0.826rem; } }\n\n.LocationInputSuggestions {\n  background-color: #FFFFFF;\n  position: absolute;\n  left: 0;\n  right: 0; }\n  .LocationInputSuggestions > div {\n    padding: 0rem 1rem 0rem 1rem; }\n\n.Title {\n  display: flex;\n  align-items: center; }\n  .Title .wide-logo {\n    display: none; }\n  .Title .narrow-logo {\n    width: 100%;\n    max-width: 82px;\n    min-width: 63px; }\n\n@media (min-width: 900px) {\n  .Title .narrow-logo {\n    display: none; }\n  .Title .wide-logo {\n    display: block;\n    width: 100%;\n    max-width: 154px; } }\n\n.ConfigForm {\n  display: flex;\n  padding-top: 1.5rem;\n  padding-bottom: 1.5rem;\n  border-bottom: 1px solid #ECF1F3; }\n  .ConfigForm:nth-last-child(2) {\n    padding-bottom: 0;\n    border: none; }\n  .ConfigForm .stepNumber {\n    margin-right: 0.5rem;\n    height: 36px;\n    text-align: center;\n    border-radius: 18px;\n    background-color: #CAC7A7;\n    flex: 0 0 36px; }\n    .ConfigForm .stepNumber h1 {\n      width: 36px;\n      line-height: 36px;\n      color: white; }\n  .ConfigForm .inputDescriptor {\n    margin-bottom: 1.5rem; }\n  .ConfigForm .configInputs {\n    flex-grow: 1; }\n    .ConfigForm .configInputs > .inputElement {\n      margin-top: 0px; }\n    .ConfigForm .configInputs > .inputElement ~ .inputElement {\n      margin-top: 1.5rem; }\n    .ConfigForm .configInputs .inputElement span {\n      display: block;\n      font-size: .909rem; }\n    .ConfigForm .configInputs .inputElement .ModalTextInput {\n      font-size: .909rem;\n      padding: 7px;\n      line-height: 1rem;\n      width: 100%; }\n    .ConfigForm .configInputs .inputElement select {\n      width: 100%;\n      text-transform: capitalize; }\n    .ConfigForm .configInputs .inputElement .inputLabel {\n      font-size: 0.826rem;\n      color: #707372;\n      margin-bottom: 2px; }\n    .ConfigForm .configInputs .inputElement .SeedPrice {\n      padding: 7px; }\n    .ConfigForm .configInputs .rowDetails:last-of-type {\n      margin-bottom: 0; }\n    .ConfigForm .configInputs .rowDetails {\n      margin-bottom: 2rem; }\n      .ConfigForm .configInputs .rowDetails .rowNumber {\n        margin-bottom: 0.5rem; }\n        .ConfigForm .configInputs .rowDetails .rowNumber h4 {\n          color: #707372; }\n      .ConfigForm .configInputs .rowDetails .inputElement {\n        margin-bottom: 1.5rem; }\n      .ConfigForm .configInputs .rowDetails > .inputElement ~ .inputElement {\n        margin-bottom: 0; }\n    .ConfigForm .configInputs .checkboxElement {\n      margin-top: 1.5rem; }\n\n@media (min-width: 900px) {\n  .ConfigForm .stepNumber {\n    margin-right: 10px;\n    height: 45px;\n    border-radius: 23px; }\n    .ConfigForm .stepNumber h1 {\n      width: 45px;\n      line-height: 45px;\n      font-size: 1.948rem; }\n  .ConfigForm .configInputs .inputDescriptor {\n    margin-bottom: 1rem; }\n  .ConfigForm .configInputs .inputElement {\n    display: inline-block;\n    margin-right: 0.5rem; }\n  .ConfigForm .configInputs > .inputElement ~ .inputElement {\n    margin-top: 0; }\n  .ConfigForm .configInputs .rowDetails {\n    display: flex;\n    justify-content: space-between; }\n    .ConfigForm .configInputs .rowDetails .rowNumber {\n      align-self: flex-end;\n      margin-bottom: 0; }\n    .ConfigForm .configInputs .rowDetails .inputElement {\n      margin: 0; } }\n\n.ModalTextInput {\n  -webkit-appearance: none;\n  border: 1px solid #A8ACAE;\n  box-sizing: border-box;\n  border-radius: 5px;\n  background: transparent; }\n  .ModalTextInput:focus {\n    outline: none; }\n\nhtml, body {\n  font-size: 18px;\n  font-family: Nimbus Sans, Arial;\n  margin: 0;\n  min-width: 305px; }\n\nul {\n  list-style: none;\n  padding: 0;\n  margin: 0; }\n\nh1 {\n  font-size: 1.464rem;\n  line-height: 2rem;\n  margin: 0; }\n\nh2 {\n  font-size: 1.331rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\nh3 {\n  font-size: 1rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\nh4, p {\n  font-size: 0.909rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\na {\n  text-decoration: none; }\n\nspan.link {\n  color: blue;\n  cursor: pointer; }\n", ""]);
 
 
 /***/ }),
@@ -10220,7 +10814,7 @@ function load() {
 
 	// If debug isn't set in LS, and we're in Electron, try to load $DEBUG
 	if (!r && typeof process !== 'undefined' && 'env' in process) {
-		r = process.env.DEBUG;
+		r = "Enrichment,MapComponent,MapState";
 	}
 
 	return r;
@@ -10568,7 +11162,8 @@ module.exports=function e(t){switch(t&&t.type||null){case"FeatureCollection":ret
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _rbush__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./rbush */ "./node_modules/geojson-rbush/rbush.js");
-/* harmony import */ var _turf_meta__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/main.es.js");
+/* harmony import */ var _turf_meta__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/index.js");
+/* harmony import */ var _turf_meta__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_turf_meta__WEBPACK_IMPORTED_MODULE_1__);
 
 
 
@@ -67187,6 +67782,743 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/regenerator-runtime/runtime.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/regenerator-runtime/runtime.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+var runtime = (function (exports) {
+  "use strict";
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var undefined; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+    return generator;
+  }
+  exports.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  IteratorPrototype[iteratorSymbol] = function () {
+    return this;
+  };
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunctionPrototype[toStringTagSymbol] =
+    GeneratorFunction.displayName = "GeneratorFunction";
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      prototype[method] = function(arg) {
+        return this._invoke(method, arg);
+      };
+    });
+  }
+
+  exports.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
+
+  exports.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      if (!(toStringTagSymbol in genFun)) {
+        genFun[toStringTagSymbol] = "GeneratorFunction";
+      }
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
+
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  exports.awrap = function(arg) {
+    return { __await: arg };
+  };
+
+  function AsyncIterator(generator) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return Promise.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return Promise.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration.
+          result.value = unwrapped;
+          resolve(result);
+        }, function(error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new Promise(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
+    }
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    this._invoke = enqueue;
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+    return this;
+  };
+  exports.AsyncIterator = AsyncIterator;
+
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  exports.async = function(innerFn, outerFn, self, tryLocsList) {
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList)
+    );
+
+    return exports.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
+
+        // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+    if (method === undefined) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
+
+      if (context.method === "throw") {
+        // Note: ["return"] must be used for ES3 parsing compatibility.
+        if (delegate.iterator["return"]) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined;
+          maybeInvokeDelegate(delegate, context);
+
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
+
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  Gp[toStringTagSymbol] = "Generator";
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  Gp[iteratorSymbol] = function() {
+    return this;
+  };
+
+  Gp.toString = function() {
+    return "[object Generator]";
+  };
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  exports.keys = function(object) {
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    // Return an iterator with no values.
+    return { next: doneResult };
+  }
+  exports.values = values;
+
+  function doneResult() {
+    return { value: undefined, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined;
+          }
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+
+  // Regardless of whether this script is executing as a CommonJS module
+  // or not, return the runtime object so that we can declare the variable
+  // regeneratorRuntime in the outer scope, which allows this module to be
+  // injected easily by `bin/regenerator --include-runtime script.js`.
+  return exports;
+
+}(
+  // If this script is executing as a CommonJS module, use module.exports
+  // as the regeneratorRuntime namespace. Otherwise create a new empty
+  // object. Either way, the resulting object will be used to initialize
+  // the regeneratorRuntime variable at the top of this file.
+   true ? module.exports : undefined
+));
+
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  // This module should not be running in strict mode, so the above
+  // assignment should always work unless something is misconfigured. Just
+  // in case runtime.js accidentally runs in strict mode, we can escape
+  // strict mode using a global Function call. This could conceivably fail
+  // if a Content Security Policy forbids using Function, but in that case
+  // the proper solution is to fix the accidental strict mode problem. If
+  // you've misconfigured your bundler to force strict mode and applied a
+  // CSP to forbid Function, and you're not willing to fix either of those
+  // problems, please detail your unique predicament in a GitHub issue.
+  Function("r", "regeneratorRuntime = r")(runtime);
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/resolve-pathname/esm/resolve-pathname.js":
 /*!***************************************************************!*\
   !*** ./node_modules/resolve-pathname/esm/resolve-pathname.js ***!
@@ -69744,25 +71076,30 @@ function extend() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var styles_base_sass__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! styles/base.sass */ "./src/styles/base.sass");
-/* harmony import */ var styles_base_sass__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(styles_base_sass__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var components_MapComponent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! components/MapComponent */ "./src/components/MapComponent.jsx");
-/* harmony import */ var contexts__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! contexts */ "./src/contexts/index.js");
-/* harmony import */ var components_Header__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! components/Header */ "./src/components/Header.jsx");
-/* harmony import */ var components_modals_WelcomeModal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! components/modals/WelcomeModal */ "./src/components/modals/WelcomeModal.jsx");
-/* harmony import */ var contexts_MapState__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! contexts/MapState */ "./src/contexts/MapState.js");
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js");
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var styles_base_sass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! styles/base.sass */ "./src/styles/base.sass");
+/* harmony import */ var styles_base_sass__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(styles_base_sass__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var components_MapComponent__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! components/MapComponent */ "./src/components/MapComponent.jsx");
+/* harmony import */ var contexts__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! contexts */ "./src/contexts/index.js");
+/* harmony import */ var components_Header__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! components/Header */ "./src/components/Header.jsx");
+/* harmony import */ var components_modals_BigModal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! components/modals/BigModal */ "./src/components/modals/BigModal.jsx");
+/* harmony import */ var contexts_MapState__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! contexts/MapState */ "./src/contexts/MapState.js");
+/* harmony import */ var contexts_Settings__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! contexts/Settings */ "./src/contexts/Settings.js");
 
 
 
 
 
 
+
+ // import { LocationPrompt } from 'components/modals/LocationPrompt';
+// import { WelcomeModal } from 'components/modals/WelcomeModal';
 
 
 
@@ -69784,41 +71121,41 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 })(window, 'script', 'google_places_api_key');
 
 var App = function App() {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts__WEBPACK_IMPORTED_MODULE_5__["Store"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_8__["MapConsumer"], null, function (ctx) {
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(contexts__WEBPACK_IMPORTED_MODULE_6__["Store"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_9__["MapConsumer"], null, function (ctx) {
     var state = ctx.state,
         actions = ctx.actions;
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_Header__WEBPACK_IMPORTED_MODULE_6__["Header"], _extends({}, state, actions));
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_8__["MapConsumer"], null, function (ctx) {
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(components_Header__WEBPACK_IMPORTED_MODULE_7__["Header"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, state, actions));
+  }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_9__["MapConsumer"], null, function (ctx) {
     var basemap = ctx.state.basemap; // If satellite style is selected render satellite styled map component, otherwise render the default outdoors style.
 
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Route"], {
       path: "/",
       render: function render(router) {
         if (basemap === 'satellite') {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_MapComponent__WEBPACK_IMPORTED_MODULE_4__["MapWrapperSatellite"], {
+          return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(components_MapComponent__WEBPACK_IMPORTED_MODULE_5__["MapWrapperSatellite"], {
             router: router
           });
         }
 
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_MapComponent__WEBPACK_IMPORTED_MODULE_4__["MapWrapperDefault"], {
+        return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(components_MapComponent__WEBPACK_IMPORTED_MODULE_5__["MapWrapperDefault"], {
           router: router
         });
       }
     });
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+  }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(contexts_Settings__WEBPACK_IMPORTED_MODULE_10__["SettingsConsumer"], null, function (ctx) {
+    var seenWelcome = ctx.state.seenWelcome;
+    return !seenWelcome ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Redirect"], {
+      to: "/#welcome"
+    }) : null;
+  }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Route"], {
     path: "/help",
     render: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Help Page");
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h2", null, "Help Page");
     }
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
-    path: "/welcome",
-    render: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(components_modals_WelcomeModal__WEBPACK_IMPORTED_MODULE_7__["WelcomeModal"], null);
-    }
-  })));
+  }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(components_modals_BigModal__WEBPACK_IMPORTED_MODULE_8__["BigModal"], null)));
 };
 
-react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(App, null), document.getElementById('root'));
+react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render(react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(App, null), document.getElementById('root'));
 
 /***/ }),
 
@@ -69833,6 +71170,17 @@ module.exports = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTIi
 
 /***/ }),
 
+/***/ "./src/assets/my_location.svg":
+/*!************************************!*\
+  !*** ./src/assets/my_location.svg ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgaGVpZ2h0PSIxMjhweCIgZmlsbD0iIzAwNkJBNiIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgMTI4IDEyOCIgd2lkdGg9IjEyOHB4IiB4bWw6c3BhY2U9InByZXNlcnZlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4KICAgIDxwYXRoIHN0cm9rZT0iIzAwNkJBNiIgZD0iTTYzLjk5OSwxMDQuNzUyYy0yMi40NDQsMC00MC43MDQtMTguMjYtNDAuNzA0LTQwLjcwNGMwLTIyLjQ0NCwxOC4yNi00MC43MDMsNDAuNzA0LTQwLjcwM3M0MC43MDQsMTguMjU5LDQwLjcwNCw0MC43MDMgIEMxMDQuNzAzLDg2LjQ5Miw4Ni40NDMsMTA0Ljc1Miw2My45OTksMTA0Ljc1MnogTTYzLjk5OSwyNy4zNDVjLTIwLjIzOCwwLTM2LjcwNCwxNi40NjUtMzYuNzA0LDM2LjcwMyAgYzAsMjAuMjM5LDE2LjQ2NiwzNi43MDQsMzYuNzA0LDM2LjcwNHMzNi43MDQtMTYuNDY1LDM2LjcwNC0zNi43MDRDMTAwLjcwMyw0My44MSw4NC4yMzcsMjcuMzQ1LDYzLjk5OSwyNy4zNDV6IiAvPgogICAgPHBhdGggc3Ryb2tlPSIjMDA2QkE2IiBkPSJNNjMuOTk5LDgzLjk2MmMtMTAuOTgxLDAtMTkuOTE1LTguOTMzLTE5LjkxNS0xOS45MTRzOC45MzQtMTkuOTE2LDE5LjkxNS0xOS45MTZzMTkuOTE2LDguOTM0LDE5LjkxNiwxOS45MTYgIFM3NC45OCw4My45NjIsNjMuOTk5LDgzLjk2MnogTTYzLjk5OSw0OC4xMzJjLTguNzc1LDAtMTUuOTE1LDcuMTQtMTUuOTE1LDE1LjkxNmMwLDguNzc0LDcuMTQsMTUuOTE0LDE1LjkxNSwxNS45MTQgIGM4Ljc3NiwwLDE1LjkxNi03LjE0LDE1LjkxNi0xNS45MTRDNzkuOTE1LDU1LjI3Miw3Mi43NzUsNDguMTMyLDYzLjk5OSw0OC4xMzJ6IiAvPgogICAgPHBhdGggc3Ryb2tlPSIjMDA2QkE2IiBkPSJNNjMuOTk5LDI3LjM0NWMtMS4xMDQsMC0yLTAuODk2LTItMlYxMi44ODJjMC0xLjEwNCwwLjg5Ni0yLDItMnMyLDAuODk2LDIsMnYxMi40NjIgIEM2NS45OTksMjYuNDQ5LDY1LjEwNCwyNy4zNDUsNjMuOTk5LDI3LjM0NXoiIC8+CiAgICA8cGF0aCBzdHJva2U9IiMwMDZCQTYiIGQ9Ik02My45OTksMTE3LjE0NmMtMS4xMDQsMC0yLTAuODk2LTItMnYtMTIuMzk0YzAtMS4xMDQsMC44OTYtMiwyLTJzMiwwLjg5NiwyLDJ2MTIuMzk0ICBDNjUuOTk5LDExNi4yNSw2NS4xMDQsMTE3LjE0Niw2My45OTksMTE3LjE0NnoiIC8+CiAgICA8cGF0aCBzdHJva2U9IiMwMDZCQTYiIGQ9Ik0yNS4yOTUsNjYuMDQ4SDEyLjg2OGMtMS4xMDQsMC0yLTAuODk2LTItMmMwLTEuMTA1LDAuODk2LTIsMi0yaDEyLjQyN2MxLjEwNCwwLDIsMC44OTUsMiwyICBDMjcuMjk1LDY1LjE1MiwyNi4zOTksNjYuMDQ4LDI1LjI5NSw2Ni4wNDh6IiAvPgogICAgPHBhdGggc3Ryb2tlPSIjMDA2QkE2IiBkPSJNMTE1LjEzMiw2Ni4wNDhoLTEyLjQyOWMtMS4xMDQsMC0yLTAuODk2LTItMmMwLTEuMTA1LDAuODk2LTIsMi0yaDEyLjQyOWMxLjEwNCwwLDIsMC44OTUsMiwyICBDMTE3LjEzMiw2NS4xNTIsMTE2LjIzNiw2Ni4wNDgsMTE1LjEzMiw2Ni4wNDh6IiAvPgo8L3N2Zz4="
+
+/***/ }),
+
 /***/ "./src/assets/search_small.svg":
 /*!*************************************!*\
   !*** ./src/assets/search_small.svg ***!
@@ -69840,7 +71188,7 @@ module.exports = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTIi
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkiIGhlaWdodD0iMTkiIHZpZXdCb3g9IjAgMCAxOSAxOSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE1IDcuOTk5OTlDMTUgMTEuODY2IDExLjg2NiAxNSA3Ljk5OTk5IDE1QzQuMTM0IDE1IDEgMTEuODY2IDEgNy45OTk5OUMxIDQuMTM0IDQuMTM0IDEgNy45OTk5OSAxQzExLjg2NiAxIDE1IDQuMTM0IDE1IDcuOTk5OTlaIiBzdHJva2U9IiMwMDZCQTYiIHN0cm9rZS13aWR0aD0iMiIvPgo8cGF0aCBkPSJNMTMgMTNMMTggMTgiIHN0cm9rZT0iIzAwNkJBNiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPgo="
+module.exports = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkiIGhlaWdodD0iMTkiIHZpZXdCb3g9IjAgMCAxOSAxOSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE1IDcuOTk5OTlDMTUgMTEuODY2IDExLjg2NiAxNSA3Ljk5OTk5IDE1QzQuMTM0IDE1IDEgMTEuODY2IDEgNy45OTk5OUMxIDQuMTM0IDQuMTM0IDEgNy45OTk5OSAxQzExLjg2NiAxIDE1IDQuMTM0IDE1IDcuOTk5OTlaIiBzdHJva2U9ImdyZXkiIHN0cm9rZS13aWR0aD0iMiIvPgo8cGF0aCBkPSJNMTMgMTNMMTggMTgiIHN0cm9rZT0iZ3JleSIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPgo="
 
 /***/ }),
 
@@ -69851,7 +71199,18 @@ module.exports = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkiIGhlaWdodD0iMTki
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgiIGhlaWdodD0iMjgiIHZpZXdCb3g9IjAgMCAyOCAyOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIzLjAwMDcgMTIuMDAwNEMyMy4wMDA3IDE4LjA3NTcgMTguMDc1NyAyMy4wMDA3IDEyLjAwMDQgMjMuMDAwN0M1LjkyNTAzIDIzLjAwMDcgMSAxOC4wNzU3IDEgMTIuMDAwNEMxIDUuOTI1MDMgNS45MjUwMyAxIDEyLjAwMDQgMUMxOC4wNzU3IDEgMjMuMDAwNyA1LjkyNTAzIDIzLjAwMDcgMTIuMDAwNFoiIHN0cm9rZT0iIzAwNkJBNiIgc3Ryb2tlLXdpZHRoPSIyIi8+CjxwYXRoIGQ9Ik0xOS41MDA2IDE5LjUwMDZMMjcuMDAwOCAyNy4wMDA5IiBzdHJva2U9IiMwMDZCQTYiIHN0cm9rZS13aWR0aD0iMiIvPgo8L3N2Zz4K"
+module.exports = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgiIGhlaWdodD0iMjgiIHZpZXdCb3g9IjAgMCAyOCAyOCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIzLjAwMDcgMTIuMDAwNEMyMy4wMDA3IDE4LjA3NTcgMTguMDc1NyAyMy4wMDA3IDEyLjAwMDQgMjMuMDAwN0M1LjkyNTAzIDIzLjAwMDcgMSAxOC4wNzU3IDEgMTIuMDAwNEMxIDUuOTI1MDMgNS45MjUwMyAxIDEyLjAwMDQgMUMxOC4wNzU3IDEgMjMuMDAwNyA1LjkyNTAzIDIzLjAwMDcgMTIuMDAwNFoiIHN0cm9rZT0iZ3JleSIgc3Ryb2tlLXdpZHRoPSIyIi8+CjxwYXRoIGQ9Ik0xOS41MDA2IDE5LjUwMDZMMjcuMDAwOCAyNy4wMDA5IiBzdHJva2U9ImdyZXkiIHN0cm9rZS13aWR0aD0iMiIvPgo8L3N2Zz4K"
+
+/***/ }),
+
+/***/ "./src/assets/select_dropdown_icon.svg":
+/*!*********************************************!*\
+  !*** ./src/assets/select_dropdown_icon.svg ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzYiIGhlaWdodD0iMzYiIHZpZXdCb3g9IjAgMCAzNiAzNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTAgMEgzMUMzMy43NjE0IDAgMzYgMi4yMzg1OCAzNiA1VjMxQzM2IDMzLjc2MTQgMzMuNzYxNCAzNiAzMSAzNkgwVjBaIiBmaWxsPSIjMDA2QkE2Ii8+CjxwYXRoIGQ9Ik0xNC40MSAxNUwxOSAxOS41OEwyMy41OSAxNUwyNSAxNi40MUwxOSAyMi40MUwxMyAxNi40MUwxNC40MSAxNVoiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo="
 
 /***/ }),
 
@@ -69897,7 +71256,9 @@ var Title = function Title() {
 
 var SaveButton = function SaveButton(_ref) {
   var save = _ref.save;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "Save"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
     type: "button",
     className: "SaveButton",
     onClick: save,
@@ -69910,7 +71271,7 @@ var SaveButton = function SaveButton(_ref) {
     className: "wide-save",
     src: "/assets/save_wide.svg",
     alt: "Save"
-  }));
+  })));
 };
 
 var Header = function Header() {
@@ -69918,13 +71279,17 @@ var Header = function Header() {
     className: "Header"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "grid-row sidenav-btn"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideNav__WEBPACK_IMPORTED_MODULE_3__["SideNav"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Title, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LocationInput__WEBPACK_IMPORTED_MODULE_5__["LocationInputWrapper"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HeaderOptions__WEBPACK_IMPORTED_MODULE_4__["HeaderOptions"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_2__["MapConsumer"], null, function (ctx) {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideNav__WEBPACK_IMPORTED_MODULE_3__["SideNav"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Title, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LocationInput__WEBPACK_IMPORTED_MODULE_5__["LocationInputWrapper"], {
+    location: Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useLocation"])()
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HeaderOptions__WEBPACK_IMPORTED_MODULE_4__["HeaderOptions"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_2__["MapConsumer"], null, function (ctx) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SaveButton, {
       save: ctx.save
     });
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "search-save-btn"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LocationInput__WEBPACK_IMPORTED_MODULE_5__["LocationInputWrapper"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_2__["MapConsumer"], null, function (ctx) {
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LocationInput__WEBPACK_IMPORTED_MODULE_5__["LocationInputWrapper"], {
+    location: Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useLocation"])()
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_2__["MapConsumer"], null, function (ctx) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SaveButton, {
       save: ctx.save
     });
@@ -69943,33 +71308,35 @@ var Header = function Header() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HeaderOptions", function() { return HeaderOptions; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _contexts_MapState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../contexts/MapState */ "./src/contexts/MapState.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js");
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _contexts_MapState__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../contexts/MapState */ "./src/contexts/MapState.js");
+
+
+
+
+
+
+
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 
 
@@ -70009,38 +71376,51 @@ var DropdownCheckbox = function DropdownCheckbox(_ref) {
       setMapLayer = _ref.setMapLayer,
       layers = _ref.layers,
       basemap = _ref.basemap;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  return react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
     className: "dropdown-checkbox"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+    className: "checkboxElement"
+  }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("input", {
     type: "checkbox",
     checked: layers.ssurgo,
     name: "ssurgo",
     onChange: function onChange(e) {
       return setMapLayer(e.target.name);
     }
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "gSSURGO - CSR")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("span", null, "gSSURGO - CSR")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+    className: "checkboxElement"
+  }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("input", {
+    type: "checkbox",
+    checked: layers.contours,
+    name: "contours",
+    onChange: function onChange(e) {
+      return setMapLayer(e.target.name);
+    }
+  }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("span", null, "2-ft Contours")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+    className: "checkboxElement"
+  }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("input", {
     type: "checkbox",
     checked: basemap === 'satellite',
     name: "satellite",
     onChange: function onChange(e) {
       e.target.checked ? setBasemap(e.target.name) : setBasemap('outdoor');
     }
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Satellite")));
+  }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("span", null, "Satellite")));
 };
 
 var HeaderOptions =
 /*#__PURE__*/
 function (_React$Component) {
-  _inherits(HeaderOptions, _React$Component);
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default()(HeaderOptions, _React$Component);
 
   function HeaderOptions(props) {
     var _this;
 
-    _classCallCheck(this, HeaderOptions);
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, HeaderOptions);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(HeaderOptions).call(this, props));
+    _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default()(HeaderOptions).call(this, props));
 
-    _defineProperty(_assertThisInitialized(_this), "handleCheckboxChange", function (event) {
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this), "handleCheckboxChange", function (event) {
       var checkboxName = event.target.name;
       var layerStates = _this.state.layerStates; // toggle on or off
 
@@ -70051,7 +71431,7 @@ function (_React$Component) {
       });
     });
 
-    _defineProperty(_assertThisInitialized(_this), "toggleActiveClass", function (optionName) {
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this), "toggleActiveClass", function (optionName) {
       var optionStates = _this.state.optionStates;
       var prevActiveState;
       var optionStateKeys = Object.keys(optionStates);
@@ -70093,7 +71473,7 @@ function (_React$Component) {
     return _this;
   }
 
-  _createClass(HeaderOptions, [{
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(HeaderOptions, [{
     key: "render",
     value: function render() {
       var _this2 = this;
@@ -70103,106 +71483,106 @@ function (_React$Component) {
           prairieOptionActive = _this$state$optionSta.prairieOptionActive,
           layerOptionActive = _this$state$optionSta.layerOptionActive,
           reportOptionActive = _this$state$optionSta.reportOptionActive;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
         className: "HeaderOptions"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("li", {
         className: treeOptionActive ? 'option active' : 'option'
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Link"], {
         to: "/plant/tree",
         onClick: function onClick() {
           return _this2.toggleActiveClass('treeOption');
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
         className: "option-inactive",
         src: "/assets/plant_tree_option.svg",
         alt: "Plant trees"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
         className: "option-active",
         src: "/assets/tree_active.svg",
         alt: "Plant trees"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
         className: "option-name"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Plant"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Trees")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "Plant Trees"))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("li", {
         className: prairieOptionActive ? 'option active' : 'option'
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Link"], {
         to: "/plant/prairie",
         onClick: function onClick() {
           return _this2.toggleActiveClass('prairieOption');
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
         className: "option-inactive",
         src: "/assets/plant_prairie.svg",
         alt: "Plant prairies"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
         className: "option-active",
         src: "/assets/prairieOption_active.svg",
         alt: "Plant prairies"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
         className: "option-name"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Plant"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Prairies")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "Plant Prairies"))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("li", {
         className: layerOptionActive ? 'option active' : 'option'
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Link"], {
         to: "/#",
         onClick: function onClick() {
           return _this2.toggleActiveClass('layerOption');
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
         className: "option-inactive",
         src: "/assets/map_layers.svg",
         alt: "Show layers"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
         className: "option-active",
         src: "/assets/layerOption_active.svg",
         alt: "Show layers"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
         className: "option-name"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "View Map"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Layers"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "View Map Layers")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
         className: "OptionsDropdown grid-row"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("button", {
         type: "button",
         className: "CloseButton",
         onClick: function onClick() {
           return _this2.toggleActiveClass('layerOption');
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
         src: "/assets/close_dropdown.svg",
         alt: "Close"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_contexts_MapState__WEBPACK_IMPORTED_MODULE_2__["MapConsumer"], null, function (ctx) {
+      })), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(_contexts_MapState__WEBPACK_IMPORTED_MODULE_9__["MapConsumer"], null, function (ctx) {
         var _ctx$state = ctx.state,
             layers = _ctx$state.layers,
             basemap = _ctx$state.basemap,
             _ctx$actions = ctx.actions,
             setBasemap = _ctx$actions.setBasemap,
             setMapLayer = _ctx$actions.setMapLayer;
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(DropdownCheckbox, {
+        return react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(DropdownCheckbox, {
           setBasemap: setBasemap,
           setMapLayer: setMapLayer,
           layers: layers,
           basemap: basemap
         });
-      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("li", {
         className: reportOptionActive ? 'option active' : 'option'
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Link"], {
         to: "/#",
         onClick: function onClick() {
           return _this2.toggleActiveClass('reportOption');
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
         className: "option-inactive",
         src: "/assets/view_report.svg",
         alt: "View report"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
         className: "option-active",
         src: "/assets/reportOption_active.svg",
         alt: "View report"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
         className: "option-name"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "View"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Report"))))));
+      }, "View Report")))));
     }
   }]);
 
   return HeaderOptions;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+}(react__WEBPACK_IMPORTED_MODULE_7___default.a.Component);
 
 /***/ }),
 
@@ -70217,69 +71597,69 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LocationInputWrapper", function() { return LocationInputWrapper; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LocationInput", function() { return LocationInput; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_places_autocomplete__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-places-autocomplete */ "./node_modules/react-places-autocomplete/dist/index.js");
-/* harmony import */ var react_places_autocomplete__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _contexts_MapState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../contexts/MapState */ "./src/contexts/MapState.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js");
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var react_places_autocomplete__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-places-autocomplete */ "./node_modules/react-places-autocomplete/dist/index.js");
+/* harmony import */ var react_places_autocomplete__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _contexts_MapState__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../contexts/MapState */ "./src/contexts/MapState.js");
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 // import Debug from 'debug';
+
 
 
  // const debug = Debug('LocationInput');
 
 var LocationInputWrapper = function LocationInputWrapper(props) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_contexts_MapState__WEBPACK_IMPORTED_MODULE_2__["MapConsumer"], null, function (ctx) {
+  return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(_contexts_MapState__WEBPACK_IMPORTED_MODULE_9__["MapConsumer"], null, function (ctx) {
     var state = ctx.state,
         actions = ctx.actions;
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(LocationInput, _extends({}, state, actions, props));
+    return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(LocationInput, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_5___default()({}, state, actions, props));
   });
 };
 
 var LocationInputSuggestions = function LocationInputSuggestions(props) {
   var suggestions = props.suggestions,
       getSuggestionItemProps = props.getSuggestionItemProps;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", {
     className: "LocationInputSuggestions"
   }, suggestions.map(function (suggestion) {
     var className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", getSuggestionItemProps(suggestion, {
+    return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", getSuggestionItemProps(suggestion, {
       className: className
-    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, suggestion.description));
+    }), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("span", null, suggestion.description));
   }));
 };
 
 var LocationInput =
 /*#__PURE__*/
 function (_React$Component) {
-  _inherits(LocationInput, _React$Component);
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default()(LocationInput, _React$Component);
 
   function LocationInput() {
-    _classCallCheck(this, LocationInput);
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, LocationInput);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(LocationInput).apply(this, arguments));
+    return _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default()(LocationInput).apply(this, arguments));
   }
 
-  _createClass(LocationInput, [{
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(LocationInput, [{
     key: "handleOnChange",
     value: function handleOnChange(e) {
       var setLocationSearchInput = this.props.setLocationSearchInput;
@@ -70309,11 +71689,13 @@ function (_React$Component) {
 
       var _this$props = this.props,
           mapAPILoaded = _this$props.mapAPILoaded,
+          defaultLatLng = _this$props.defaultLatLng,
           latlng = _this$props.currentMapDetails.latlng,
+          location = _this$props.location,
           locationSearchInput = _this$props.locationAddress.locationSearchInput;
 
       if (mapAPILoaded) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_1___default.a, {
+        return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_8___default.a, {
           value: locationSearchInput,
           onChange: function onChange(e) {
             return _this.handleOnChange(e);
@@ -70323,7 +71705,7 @@ function (_React$Component) {
           },
           searchOptions: {
             // eslint-disable-next-line no-undef
-            location: new google.maps.LatLng(latlng[1], latlng[0]),
+            location: new google.maps.LatLng(latlng ? latlng[1] : defaultLatLng[1], latlng ? latlng[0] : defaultLatLng[0]),
             radius: 20000,
             types: ['address']
           }
@@ -70331,30 +71713,38 @@ function (_React$Component) {
           var getInputProps = _ref.getInputProps,
               suggestions = _ref.suggestions,
               getSuggestionItemProps = _ref.getSuggestionItemProps;
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", {
             className: "LocationInput"
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", getInputProps({
+          }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", {
+            className: "wrapper"
+          }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("input", getInputProps({
             placeholder: 'Enter a location or address',
             onKeyUp: function onKeyUp(e) {
               return _this.handleKeyPress(e);
             }
-          })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(LocationInputSuggestions, {
+          })), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__["Link"], {
+            className: "MyLocation",
+            to: "".concat(location.pathname, "#location")
+          })), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(LocationInputSuggestions, {
             getSuggestionItemProps: getSuggestionItemProps,
             suggestions: suggestions
           }));
         });
       }
 
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", {
         className: "LocationInput"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("img", {
+        src: "/assets/my_location.svg",
+        alt: "my location"
+      }), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("input", {
         placeholder: "Enter a location or address"
       }));
     }
   }]);
 
   return LocationInput;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+}(react__WEBPACK_IMPORTED_MODULE_6___default.a.Component);
 
 /***/ }),
 
@@ -70370,53 +71760,67 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapWrapperDefault", function() { return MapWrapperDefault; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapWrapperSatellite", function() { return MapWrapperSatellite; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapComponent", function() { return MapComponent; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! mapbox-gl */ "./node_modules/mapbox-gl/dist/mapbox-gl.js");
-/* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(mapbox_gl__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mapbox/mapbox-gl-draw */ "./node_modules/@mapbox/mapbox-gl-draw/index.js");
-/* harmony import */ var _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var contexts_MapState__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! contexts/MapState */ "./src/contexts/MapState.js");
-/* harmony import */ var utils_sources__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! utils/sources */ "./src/utils/sources.js");
-/* harmony import */ var test_data_tree_json__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! test_data/tree.json */ "./src/test_data/tree.json");
-var test_data_tree_json__WEBPACK_IMPORTED_MODULE_7___namespace = /*#__PURE__*/__webpack_require__.t(/*! test_data/tree.json */ "./src/test_data/tree.json", 1);
-/* harmony import */ var _map_layers_PrairieArea__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./map_layers/PrairieArea */ "./src/components/map_layers/PrairieArea.jsx");
-/* harmony import */ var _map_layers_EditIcons__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./map_layers/EditIcons */ "./src/components/map_layers/EditIcons.jsx");
-/* harmony import */ var _map_layers_FeatureLabels__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./map_layers/FeatureLabels */ "./src/components/map_layers/FeatureLabels.jsx");
-/* harmony import */ var _map_layers_PrairieOutline__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./map_layers/PrairieOutline */ "./src/components/map_layers/PrairieOutline.jsx");
-/* harmony import */ var _map_layers_SSURGO__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./map_layers/SSURGO */ "./src/components/map_layers/SSURGO.jsx");
-/* harmony import */ var _map_layers_TreeRows__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./map_layers/TreeRows */ "./src/components/map_layers/TreeRows.jsx");
-/* harmony import */ var _map_layers_Trees__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./map_layers/Trees */ "./src/components/map_layers/Trees.jsx");
-/* harmony import */ var _map_modes_SimpleSelect__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./map_modes/SimpleSelect */ "./src/components/map_modes/SimpleSelect.jsx");
-/* harmony import */ var _map_modes_Planting__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./map_modes/Planting */ "./src/components/map_modes/Planting.jsx");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js");
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js");
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! mapbox-gl */ "./node_modules/mapbox-gl/dist/mapbox-gl.js");
+/* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(mapbox_gl__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @mapbox/mapbox-gl-draw */ "./node_modules/@mapbox/mapbox-gl-draw/index.js");
+/* harmony import */ var _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var _turf_bbox__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @turf/bbox */ "./node_modules/@turf/bbox/index.js");
+/* harmony import */ var _turf_bbox__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_turf_bbox__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var contexts_MapState__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! contexts/MapState */ "./src/contexts/MapState.js");
+/* harmony import */ var utils_sources__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! utils/sources */ "./src/utils/sources.js");
+/* harmony import */ var utils_enrichment__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! utils/enrichment */ "./src/utils/enrichment.js");
+/* harmony import */ var references_csr_rent_json__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! references/csr_rent.json */ "./src/references/csr_rent.json");
+var references_csr_rent_json__WEBPACK_IMPORTED_MODULE_19___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/csr_rent.json */ "./src/references/csr_rent.json", 1);
+/* harmony import */ var _map_layers_Contours__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./map_layers/Contours */ "./src/components/map_layers/Contours.jsx");
+/* harmony import */ var _map_layers_PrairieArea__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./map_layers/PrairieArea */ "./src/components/map_layers/PrairieArea.jsx");
+/* harmony import */ var _map_layers_EditIcons__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./map_layers/EditIcons */ "./src/components/map_layers/EditIcons.jsx");
+/* harmony import */ var _map_layers_FeatureLabels__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./map_layers/FeatureLabels */ "./src/components/map_layers/FeatureLabels.jsx");
+/* harmony import */ var _map_layers_GeolocationPosition__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./map_layers/GeolocationPosition */ "./src/components/map_layers/GeolocationPosition.jsx");
+/* harmony import */ var _map_layers_PrairieOutline__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./map_layers/PrairieOutline */ "./src/components/map_layers/PrairieOutline.jsx");
+/* harmony import */ var _map_layers_SSURGO__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./map_layers/SSURGO */ "./src/components/map_layers/SSURGO.jsx");
+/* harmony import */ var _map_layers_TreeRows__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./map_layers/TreeRows */ "./src/components/map_layers/TreeRows.jsx");
+/* harmony import */ var _map_layers_Trees__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./map_layers/Trees */ "./src/components/map_layers/Trees.jsx");
+/* harmony import */ var _map_modes_SimpleSelect__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./map_modes/SimpleSelect */ "./src/components/map_modes/SimpleSelect.jsx");
+/* harmony import */ var _map_modes_Planting__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./map_modes/Planting */ "./src/components/map_modes/Planting.jsx");
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_9___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /* eslint-disable */
 
@@ -70426,7 +71830,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
- // This is some test data so there is something to interact with.
 
 
 
@@ -70437,24 +71840,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-mapbox_gl__WEBPACK_IMPORTED_MODULE_2___default.a.accessToken = "pk.eyJ1IjoibnJlbXZlYiIsImEiOiJjazJmNTk2engwM3MyM2NsaG85emJkd2RuIn0.YrKRBD0_Z-X-mnw-veNiZg";
-var debug = debug__WEBPACK_IMPORTED_MODULE_4___default()('MapComponent'); // Export two different MapWrappers to trigger a full component switch when styles change, for a clean refresh of the map.
+
+
+
+
+mapbox_gl__WEBPACK_IMPORTED_MODULE_12___default.a.accessToken = "pk.eyJ1IjoibnJlbXZlYiIsImEiOiJjazIweGM1eWQxZHMzM25tdWVsbm9wNHc5In0.sNlJy0ZYiaaquL_Js5PrZA";
+var debug = debug__WEBPACK_IMPORTED_MODULE_15___default()('MapComponent'); // Export two different MapWrappers to trigger a full component switch when styles change, for a clean refresh of the map.
 // This can be optimized in the future, but requires a lot of tweaking of lifecycle logic, because a style change means all sources and layers are wiped...
 
 var MapWrapperDefault = function MapWrapperDefault(props) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_5__["MapConsumer"], null, function (mapCtx) {
+  return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_16__["MapConsumer"], null, function (mapCtx) {
     var ctx = _objectSpread({}, mapCtx.state, {}, mapCtx.actions);
 
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(MapComponent, _extends({}, ctx, props, {
+    return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(MapComponent, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default()({}, ctx, props, {
       styleURL: "mapbox://styles/mapbox/outdoors-v11"
     }));
   });
 };
 var MapWrapperSatellite = function MapWrapperSatellite(props) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_5__["MapConsumer"], null, function (mapCtx) {
+  return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_16__["MapConsumer"], null, function (mapCtx) {
     var ctx = _objectSpread({}, mapCtx.state, {}, mapCtx.actions);
 
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(MapComponent, _extends({}, ctx, props, {
+    return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(MapComponent, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default()({}, ctx, props, {
       styleURL: "mapbox://styles/mapbox/satellite-v9"
     }));
   });
@@ -70462,46 +71869,111 @@ var MapWrapperSatellite = function MapWrapperSatellite(props) {
 var MapComponent =
 /*#__PURE__*/
 function (_React$Component) {
-  _inherits(MapComponent, _React$Component);
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_7___default()(MapComponent, _React$Component);
 
   function MapComponent(props) {
     var _this;
 
-    _classCallCheck(this, MapComponent);
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_2___default()(this, MapComponent);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MapComponent).call(this, props));
+    _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_4___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_5___default()(MapComponent).call(this, props));
 
-    _defineProperty(_assertThisInitialized(_this), "nextStep", function (step) {
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_9___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this), "nextStep", function (step) {
       // This simply pushes a desired URL into the router.
       var history = _this.props.router.history;
       history.push(step);
     });
 
-    _defineProperty(_assertThisInitialized(_this), "setEditingFeature", function (feature) {
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_9___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this), "setEditingFeature", function (feature) {
+      var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
+
       // This sets the feature that is currently being edited to state.
-      _this.setState({
-        editingFeature: feature
-      });
+      var _assertThisInitialize = _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this),
+          map = _assertThisInitialize.map,
+          mapAPILoaded = _assertThisInitialize.props.mapAPILoaded;
+
+      var time = new Date().getTime();
+
+      if (feature) {
+        var clone = _.cloneDeep(feature);
+
+        var bbox = _turf_bbox__WEBPACK_IMPORTED_MODULE_14___default()(feature);
+        map.fitBounds(bbox, {
+          padding: 200
+        });
+        map.once('zoomend', function () {
+          _this.setState({
+            enriching: true
+          },
+          /*#__PURE__*/
+          _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()(
+          /*#__PURE__*/
+          _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    if (!mapAPILoaded) {
+                      _context.next = 10;
+                      break;
+                    }
+
+                    _context.prev = 1;
+                    _context.next = 4;
+                    return Object(utils_enrichment__WEBPACK_IMPORTED_MODULE_18__["enrichment"])(clone, map);
+
+                  case 4:
+                    clone = _context.sent;
+                    _context.next = 10;
+                    break;
+
+                  case 7:
+                    _context.prev = 7;
+                    _context.t0 = _context["catch"](1);
+                    debug(_context.t0);
+
+                  case 10:
+                    _this.setState(function () {
+                      return {
+                        enriching: false,
+                        editingFeature: clone
+                      };
+                    }, cb);
+
+                  case 11:
+                  case "end":
+                    return _context.stop();
+                }
+              }
+            }, _callee, null, [[1, 7]]);
+          })));
+        });
+      } else {
+        _this.setState(function () {
+          return {
+            editingFeature: null
+          };
+        }, cb);
+      }
     });
 
-    _defineProperty(_assertThisInitialized(_this), "saveFeature", function () {
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_9___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this), "saveFeature", function (feature) {
       // This saves the feature to context.
-      var _assertThisInitialize = _assertThisInitialized(_this),
-          editingFeature = _assertThisInitialize.state.editingFeature,
-          _assertThisInitialize2 = _assertThisInitialize.props,
-          addData = _assertThisInitialize2.addData,
-          history = _assertThisInitialize2.router.history;
+      var _assertThisInitialize2 = _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this),
+          _assertThisInitialize3 = _assertThisInitialize2.props,
+          addData = _assertThisInitialize3.addData,
+          history = _assertThisInitialize3.router.history;
 
-      debug('Saving feature:', editingFeature);
-      addData(editingFeature);
+      debug('Saving feature:', feature);
+      addData(feature);
       history.push('/');
     });
 
-    _defineProperty(_assertThisInitialized(_this), "deleteFeature", function (id) {
-      var _assertThisInitialize3 = _assertThisInitialized(_this),
-          _assertThisInitialize4 = _assertThisInitialize3.props,
-          deleteData = _assertThisInitialize4.deleteData,
-          history = _assertThisInitialize4.router.history;
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_9___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this), "deleteFeature", function (id) {
+      var _assertThisInitialize4 = _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this),
+          _assertThisInitialize5 = _assertThisInitialize4.props,
+          deleteData = _assertThisInitialize5.deleteData,
+          history = _assertThisInitialize5.router.history;
 
       deleteData(id);
       history.push('/');
@@ -70518,37 +71990,59 @@ function (_React$Component) {
       // The current feature being edited.
       sources: [],
       // The current sources loaded.
-      cleanup: false // Is the map cleaning up? (unmounting)
+      cleanup: false,
+      // Is the map cleaning up? (unmounting)
+      enriching: false // Is the map currently enriching a feature?
 
     };
-    _this.mapElement = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
+    _this.mapElement = react__WEBPACK_IMPORTED_MODULE_10___default.a.createRef();
     debug('Props:', props);
     return _this;
   }
 
-  _createClass(MapComponent, [{
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3___default()(MapComponent, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
 
       // On mount, we init the map in the container, then load in the things we need.
       var _this$props = this.props,
+          basemap = _this$props.basemap,
           defaultLatLng = _this$props.defaultLatLng,
           defaultZoom = _this$props.defaultZoom,
-          updateCurrentMapDetails = _this$props.updateCurrentMapDetails;
-      this.map = new mapbox_gl__WEBPACK_IMPORTED_MODULE_2___default.a.Map({
+          defaultPitch = _this$props.defaultPitch,
+          defaultBearing = _this$props.defaultBearing,
+          styleURL = _this$props.styleURL,
+          updateCurrentMapDetails = _this$props.updateCurrentMapDetails,
+          _this$props$currentMa = _this$props.currentMapDetails,
+          latlng = _this$props$currentMa.latlng,
+          zoom = _this$props$currentMa.zoom,
+          pitch = _this$props$currentMa.pitch,
+          bearing = _this$props$currentMa.bearing;
+      var mapConfig = {
         container: this.mapElement.current,
-        center: defaultLatLng,
-        zoom: defaultZoom,
         style: styleURL,
-        minZoom: 12
-      });
+        minZoom: window.innerWidth * window.innerHeight > 1000000 ? 15 : 12,
+        center: latlng || defaultLatLng,
+        zoom: zoom || defaultZoom,
+        pitch: pitch || defaultPitch,
+        bearing: bearing || defaultBearing
+      };
+      this.map = new mapbox_gl__WEBPACK_IMPORTED_MODULE_12___default.a.Map(mapConfig);
       this.map.on('load', function () {
         debug('Map loaded:', _this2.map);
 
         if (_this2.state.setup) {
           return false;
         }
+
+        if (basemap === 'outdoor') {
+          // Disable the default 10-ft contour line included in the style.
+          _this2.map.setLayoutProperty('contour-line', 'visibility', 'none');
+
+          _this2.map.setLayoutProperty('contour-label', 'visibility', 'none');
+        } // this.moveMapCenter();
+
 
         _this2.loadSources(); // Load the data sources.
 
@@ -70560,14 +72054,13 @@ function (_React$Component) {
         }, {
           alt: 'Tree Placement',
           src: '/assets/plant_tree_option.svg'
-        }]); // this.loadSomeTestData(); // Load some test data.
-        // Add the draw controller.
+        }]); // Add the draw controller.
 
 
-        _this2.draw = new _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_3___default.a({
+        _this2.draw = new _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_13___default.a({
           modes: _objectSpread({
-            draw_line: _map_modes_Planting__WEBPACK_IMPORTED_MODULE_16__["DrawLineMode"]
-          }, _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_3___default.a.modes)
+            draw_line: _map_modes_Planting__WEBPACK_IMPORTED_MODULE_30__["DrawLineMode"]
+          }, _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_13___default.a.modes)
         });
 
         _this2.map.addControl(_this2.draw, 'top-right');
@@ -70578,7 +72071,8 @@ function (_React$Component) {
 
         return true;
       });
-      this.map.on('moveend', function () {
+
+      var updatePosition = function updatePosition() {
         var _this2$map$getCenter = _this2.map.getCenter(),
             lat = _this2$map$getCenter.lat,
             lng = _this2$map$getCenter.lng;
@@ -70597,7 +72091,10 @@ function (_React$Component) {
           bearing: bearing,
           pitch: pitch
         });
-      });
+      };
+
+      this.map.on('moveend', updatePosition);
+      this.map.on('zoomend', updatePosition);
     }
   }, {
     key: "componentDidUpdate",
@@ -70621,35 +72118,30 @@ function (_React$Component) {
       });
     }
   }, {
-    key: "loadSomeTestData",
-    value: function loadSomeTestData() {
-      // This is just so we have a polygon to work with on the map.
-      var addData = this.props.addData;
-      addData(test_data_tree_json__WEBPACK_IMPORTED_MODULE_7__);
-    }
-  }, {
     key: "moveMapCenter",
     value: function moveMapCenter() {
-      var _this$props$currentMa = this.props.currentMapDetails,
-          latlng = _this$props$currentMa.latlng,
-          pitch = _this$props$currentMa.pitch,
-          bearing = _this$props$currentMa.bearing,
-          zoom = _this$props$currentMa.zoom;
+      var _this$props$currentMa2 = this.props.currentMapDetails,
+          latlng = _this$props$currentMa2.latlng,
+          pitch = _this$props$currentMa2.pitch,
+          bearing = _this$props$currentMa2.bearing,
+          zoom = _this$props$currentMa2.zoom;
 
       var _this$map$getCenter = this.map.getCenter(),
           lat = _this$map$getCenter.lat,
           lng = _this$map$getCenter.lng;
 
-      if (latlng[0] !== lng && latlng[1] !== lat) {
-        this.map.easeTo({
-          center: {
-            lat: latlng[1],
-            lng: latlng[0]
-          },
-          pitch: pitch,
-          bearing: bearing,
-          zoom: zoom
-        });
+      if (latlng) {
+        if (latlng[0] !== lng && latlng[1] !== lat) {
+          this.map.easeTo({
+            center: {
+              lat: latlng[1],
+              lng: latlng[0]
+            },
+            pitch: pitch,
+            bearing: bearing,
+            zoom: zoom
+          });
+        }
       }
     }
   }, {
@@ -70687,42 +72179,54 @@ function (_React$Component) {
     value: function loadSources() {
       // This passes the data from context to source.
       var sourcesAdded = this.state.sourcesAdded,
-          _this$props$data = this.props.data,
-          data = _this$props$data === void 0 ? new Map() : _this$props$data; // These are the polygons for the prairies.
+          _this$props2 = this.props,
+          _this$props2$data = _this$props2.data,
+          data = _this$props2$data === void 0 ? new Map() : _this$props2$data,
+          lastGeolocationResult = _this$props2.lastGeolocationResult; // These are the polygons for the prairies.
 
       this.addSource('feature_data_prairie', 'geojson', {
         type: 'FeatureCollection',
-        features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_6__["getFeatures"])(data).filter(function (ea) {
+        features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_17__["getFeatures"])(data).filter(function (ea) {
           return ea.properties.type === 'prairie';
         })
       }); // These are the tree rows.
 
       this.addSource('feature_data_tree_rows', 'geojson', {
         type: 'FeatureCollection',
-        features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_6__["getFeatures"])(data).filter(function (ea) {
+        features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_17__["getFeatures"])(data).filter(function (ea) {
           return ea.properties.type === 'tree';
         }).reduce(function (features, line) {
-          var rows = Object(utils_sources__WEBPACK_IMPORTED_MODULE_6__["getTreeRows"])(line);
+          var rows = Object(utils_sources__WEBPACK_IMPORTED_MODULE_17__["getTreeRows"])(line);
           return features.concat(rows);
         }, [])
       }); // These are the tree placements.
 
       this.addSource('feature_data_trees', 'geojson', {
         type: 'FeatureCollection',
-        features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_6__["getFeatures"])(data).filter(function (ea) {
+        features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_17__["getFeatures"])(data).filter(function (ea) {
           return ea.properties.type === 'tree';
         }).reduce(function (features, line) {
-          var trees = Object(utils_sources__WEBPACK_IMPORTED_MODULE_6__["getOptimalTreePlacements"])(line);
+          var trees = Object(utils_sources__WEBPACK_IMPORTED_MODULE_17__["getOptimalTreePlacements"])(line);
           return features.concat(trees);
         }, [])
       }); // These are the edit icons and labels.
 
       this.addSource('feature_data_southern_vertices', 'geojson', {
         type: 'FeatureCollection',
-        features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_6__["getSouthernVertices"])(data)
+        features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_17__["getSouthernVertices"])(data)
       }); // This is SSURGO.
 
-       true && this.addSource('ssurgo', 'vector', "mapbox://".concat("johnwildspring.7ub1ysq1"));
+       true && this.addSource('ssurgo', 'vector', "mapbox://".concat("nremveb.ssurgo")); // This is 2ft contour lines.
+
+       true && this.addSource('contours', 'vector', "mapbox://".concat("nremveb.2ft-contour")); // This is the Geolocation position.
+
+      lastGeolocationResult && this.addSource('geolocation_position', 'geojson', {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: lastGeolocationResult
+        }
+      });
       !sourcesAdded && this.setState({
         sourcesAdded: true
       });
@@ -70759,10 +72263,12 @@ function (_React$Component) {
           draw = this.draw,
           map = this.map,
           nextStep = this.nextStep,
-          _this$props2 = this.props,
-          data = _this$props2.data,
-          layers = _this$props2.layers,
-          pathname = _this$props2.router.location.pathname,
+          _this$props3 = this.props,
+          data = _this$props3.data,
+          layers = _this$props3.layers,
+          _this$props3$router = _this$props3.router,
+          history = _this$props3$router.history,
+          pathname = _this$props3$router.location.pathname,
           setEditingFeature = this.setEditingFeature,
           saveFeature = this.saveFeature,
           _this$state = this.state,
@@ -70780,53 +72286,85 @@ function (_React$Component) {
         setEditingFeature: setEditingFeature,
         saveFeature: saveFeature
       };
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_10___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement("div", {
         className: "Map",
         ref: this.mapElement
-      }, !cleanup && drawInit && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+      }, !cleanup && drawInit && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
         path: "/plant/tree/:step?",
         render: function render(router) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_modes_Planting__WEBPACK_IMPORTED_MODULE_16__["Planting"], _extends({
+          return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_modes_Planting__WEBPACK_IMPORTED_MODULE_30__["Planting"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default()({
             router: router,
             type: "tree",
             steps: ['rows', 'species', 'spacing']
           }, mapModeProps));
         }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
         path: "/plant/prairie/:step?",
         render: function render(router) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_modes_Planting__WEBPACK_IMPORTED_MODULE_16__["Planting"], _extends({
+          return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_modes_Planting__WEBPACK_IMPORTED_MODULE_30__["Planting"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default()({
             router: router,
             type: "prairie",
-            steps: ['seed', 'mgmt_1', 'mgmt_2']
+            steps: ['seed', 'mgmt_1']
           }, mapModeProps));
         }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
+        exact: true,
         path: "/",
         render: function render(router) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_modes_SimpleSelect__WEBPACK_IMPORTED_MODULE_15__["SimpleSelect"], _extends({
+          return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_modes_SimpleSelect__WEBPACK_IMPORTED_MODULE_29__["SimpleSelect"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default()({
             router: router
           }, mapModeProps));
         }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Redirect"], {
         to: "/"
-      })), !cleanup && sourcesAdded && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, layers.ssurgo && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_layers_SSURGO__WEBPACK_IMPORTED_MODULE_12__["SSURGO"], {
+      })), !cleanup && sourcesAdded && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_10___default.a.Fragment, null, layers.contours && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_Contours__WEBPACK_IMPORTED_MODULE_20__["Contours"], {
         map: map
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_layers_PrairieArea__WEBPACK_IMPORTED_MODULE_8__["PrairieArea"], {
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_SSURGO__WEBPACK_IMPORTED_MODULE_26__["SSURGO"], {
+        map: map,
+        active: layers.ssurgo
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_PrairieArea__WEBPACK_IMPORTED_MODULE_21__["PrairieArea"], {
         map: map
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_layers_PrairieOutline__WEBPACK_IMPORTED_MODULE_11__["PrairieOutline"], {
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_PrairieOutline__WEBPACK_IMPORTED_MODULE_25__["PrairieOutline"], {
         map: map
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_layers_TreeRows__WEBPACK_IMPORTED_MODULE_13__["TreeRows"], {
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_TreeRows__WEBPACK_IMPORTED_MODULE_27__["TreeRows"], {
         map: map
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_layers_Trees__WEBPACK_IMPORTED_MODULE_14__["Trees"], {
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_Trees__WEBPACK_IMPORTED_MODULE_28__["Trees"], {
         map: map
-      }), !/^\/plant/.test(pathname) && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_layers_EditIcons__WEBPACK_IMPORTED_MODULE_9__["EditIcons"], {
+      }), !/^\/plant/.test(pathname) && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_EditIcons__WEBPACK_IMPORTED_MODULE_22__["EditIcons"], {
         map: map,
         data: data,
         setEditingFeature: setEditingFeature,
         nextStep: nextStep
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_map_layers_FeatureLabels__WEBPACK_IMPORTED_MODULE_10__["FeatureLabels"], {
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_FeatureLabels__WEBPACK_IMPORTED_MODULE_23__["FeatureLabels"], {
         map: map
+      }), map.getSource('geolocation_position') && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_GeolocationPosition__WEBPACK_IMPORTED_MODULE_24__["GeolocationPosition"], {
+        map: map
+      })), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement("div", {
+        className: "ZoomControl"
+      }, react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement("img", {
+        src: "/assets/plus.svg",
+        alt: "zoom in",
+        onClick: function onClick() {
+          return map.zoomIn({
+            animate: true
+          });
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement("hr", null), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement("img", {
+        src: "/assets/minus.svg",
+        alt: "zoom out",
+        onClick: function onClick() {
+          return map.zoomOut({
+            animate: true
+          });
+        }
+      })), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement("div", {
+        className: "LegendControl"
+      }, react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement("img", {
+        src: "/assets/legend.svg",
+        alt: "legend",
+        onClick: function onClick() {
+          return history.push("".concat(location.pathname, "#legend"));
+        }
       }))));
     }
   }, {
@@ -70838,7 +72376,224 @@ function (_React$Component) {
   }]);
 
   return MapComponent;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+}(react__WEBPACK_IMPORTED_MODULE_10___default.a.Component);
+
+/***/ }),
+
+/***/ "./src/components/PrairiePlantingForm.jsx":
+/*!************************************************!*\
+  !*** ./src/components/PrairiePlantingForm.jsx ***!
+  \************************************************/
+/*! exports provided: PrairiePlantingForm */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PrairiePlantingForm", function() { return PrairiePlantingForm; });
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var references_prairie_classification_prices_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! references/prairie_classification_prices.json */ "./src/references/prairie_classification_prices.json");
+var references_prairie_classification_prices_json__WEBPACK_IMPORTED_MODULE_2___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/prairie_classification_prices.json */ "./src/references/prairie_classification_prices.json", 1);
+/* harmony import */ var references_prairie_mgmt_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! references/prairie_mgmt.json */ "./src/references/prairie_mgmt.json");
+var references_prairie_mgmt_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/prairie_mgmt.json */ "./src/references/prairie_mgmt.json", 1);
+
+
+
+
+
+var SeedMixInput = function SeedMixInput(props) {
+  // value and handlers
+  var series = props.series,
+      seed = props.seed,
+      seed_price = props.seed_price,
+      handleSeedMixChange = props.handleSeedMixChange,
+      handleSeedPriceChange = props.handleSeedPriceChange;
+
+  var moistureClasses = _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(new Set(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(series.values()).map(function (ea) {
+    return ea.moisture;
+  }))); // Moisture classifications without duplicate.
+
+
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "ConfigForm"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "stepNumber"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", null, "1")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "configInputs"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+    className: "inputDescriptor"
+  }, "Choose your seed mix."), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "inputElement desktop-select-l-width"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    className: "inputLabel"
+  }, "Seed Mix"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+    value: seed,
+    onChange: function onChange(e) {
+      var seedPrice = (references_prairie_classification_prices_json__WEBPACK_IMPORTED_MODULE_2__.find(function (where) {
+        return where.id === e.target.value;
+      }) || {}).price || 0;
+      handleSeedMixChange(e);
+      handleSeedPriceChange(seedPrice);
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "",
+    disabled: true
+  }, "Select a seed mix"), moistureClasses.map(function (type) {
+    var seedPrices = references_prairie_classification_prices_json__WEBPACK_IMPORTED_MODULE_2__.filter(function (where) {
+      return where.type === type;
+    });
+
+    if (seedPrices.length === 0) {
+      return null;
+    }
+
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("optgroup", {
+      key: type,
+      label: type
+    }, seedPrices.map(function (ea) {
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        key: ea.id,
+        value: ea.id
+      }, ea.display, ": $", ea.price.toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,'));
+    }));
+  }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("optgroup", {
+    label: "Use a custom seed mix"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "custom"
+  }, "custom")))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "inputElement"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    className: "inputLabel"
+  }, seed === 'custom' ? 'Enter ' : '', "Price Per Acre"), seed === 'custom' ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+    type: "text",
+    className: "ModalTextInput",
+    value: seed_price,
+    onChange: function onChange(e) {
+      return handleSeedPriceChange(e);
+    }
+  }) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    className: "SeedPrice"
+  }, Number(seed_price) ? "$".concat(seed_price.toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,')) : 'Unknown'))));
+};
+
+var PrairieMgmt1 = function PrairieMgmt1(props) {
+  var management = props.management,
+      handleManagementChange = props.handleManagementChange;
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "ConfigForm"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "stepNumber"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", null, "2")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "configInputs"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+    className: "inputDescriptor"
+  }, "Choose a way to manage your prairie."), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "inputElement desktop-select-l-width"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    className: "inputLabel"
+  }, "Prairie Management"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+    value: management,
+    onChange: function onChange(e) {
+      return handleManagementChange(e);
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "",
+    disabled: true
+  }, "Select a management method"), references_prairie_mgmt_json__WEBPACK_IMPORTED_MODULE_3__.map(function (ea) {
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+      key: ea.id,
+      value: ea.id
+    }, ea.value);
+  })))));
+};
+
+var PrairieMgmt2 = function PrairieMgmt2(props) {
+  var cropping_system = props.cropping_system,
+      pest_control = props.pest_control,
+      handlePestControlChange = props.handlePestControlChange,
+      handleCroppingChange = props.handleCroppingChange;
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "ConfigForm"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "stepNumber"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", null, "3")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "configInputs"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+    className: "inputDescriptor"
+  }, "Choose a cropping system and pest control that you plan on using in the adjacent fields."), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "inputElement desktop-select-l-width"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    className: "inputLabel"
+  }, "Cropping System"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+    value: cropping_system,
+    onChange: function onChange(e) {
+      return handleCroppingChange(e);
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "Corn Rotation"
+  }, "Corn Rotation"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "Cropping System 2"
+  }, "Cropping System 2"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "Cropping System 3"
+  }, "Cropping System 3"))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "inputElement desktop-select-l-width"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    className: "inputLabel"
+  }, "Pest Control"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+    value: pest_control,
+    onChange: function onChange(e) {
+      return handlePestControlChange(e);
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "Pest Control"
+  }, "Pest Control"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "Pest Control 2"
+  }, "Pest Control 2"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "Pest Control 3"
+  }, "Pest Control 3")))));
+};
+
+var PrairiePlantingForm = function PrairiePlantingForm(props) {
+  var form = props.form,
+      editingFeature = props.editingFeature,
+      step = props.step,
+      seed = props.seed,
+      seed_price = props.seed_price,
+      management = props.management,
+      cropping_system = props.cropping_system,
+      pest_control = props.pest_control,
+      handleSeedMixChange = props.handleSeedMixChange,
+      handlePestControlChange = props.handlePestControlChange,
+      handleManagementChange = props.handleManagementChange,
+      handleCroppingChange = props.handleCroppingChange,
+      handleSeedPriceChange = props.handleSeedPriceChange;
+  var series = editingFeature.properties.series ? new Map(editingFeature.properties.series) : new Map();
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "PlantingFormHeader"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h2", {
+    className: "modal-header"
+  }, "Configure your prairie planting area below."), series.size > 0 && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+    className: "SoilTypes spacer-top-1"
+  }, "Your soil types: ", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(series.keys()).sort().toString().replace(/,/g, ', ')))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
+    ref: form
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(SeedMixInput, {
+    series: series,
+    seed: seed,
+    seed_price: seed_price,
+    handleSeedMixChange: handleSeedMixChange,
+    handleSeedPriceChange: handleSeedPriceChange
+  }), (step === 'mgmt_1' || step === 'mgmt_2') && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(PrairieMgmt1, {
+    management: management,
+    handleManagementChange: handleManagementChange
+  }), step === 'mgmt_2' && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(PrairieMgmt2, {
+    pest_control: pest_control,
+    cropping_system: cropping_system,
+    handlePestControlChange: handlePestControlChange,
+    handleCroppingChange: handleCroppingChange
+  })));
+};
 
 /***/ }),
 
@@ -70852,44 +72607,45 @@ function (_React$Component) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SideNav", function() { return SideNav; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js");
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
 var SideNav =
 /*#__PURE__*/
 function (_React$Component) {
-  _inherits(SideNav, _React$Component);
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default()(SideNav, _React$Component);
 
   function SideNav(props) {
     var _this;
 
-    _classCallCheck(this, SideNav);
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, SideNav);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(SideNav).call(this, props));
+    _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default()(SideNav).call(this, props));
 
-    _defineProperty(_assertThisInitialized(_this), "toggleNav", function () {
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this), "toggleNav", function () {
       var isNavOpen = _this.state.isNavOpen;
 
       _this.setState({
@@ -70903,49 +72659,432 @@ function (_React$Component) {
     return _this;
   }
 
-  _createClass(SideNav, [{
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(SideNav, [{
     key: "render",
     value: function render() {
       var isNavOpen = this.state.isNavOpen;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      return react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("button", {
         type: "button",
         className: "SideNavButton",
         onClick: this.toggleNav,
         onKeyPress: this.toggleNav
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
         className: "narrow-sidenav",
         src: "/assets/side_nav.svg",
         alt: "Side Navigation Toggle"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
         className: "wide-sidenav",
         src: "/assets/sidenav_wide.svg",
         alt: "Side Navigation Toggle"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
         className: isNavOpen ? 'NavOptions grid-row active' : 'NavOptions grid-row'
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("button", {
         type: "button",
         className: "CloseButton",
         onClick: this.toggleNav,
         onKeyPress: this.toggleNav
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
         src: "/assets/sidebar-close.svg",
         alt: "Close Side Navigation"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
         className: "grid-wrap"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Link"], {
         to: "/settings"
-      }, "Settings")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      }, "Settings")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Link"], {
         to: "/help"
-      }, "Help")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      }, "Help")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Link"], {
         to: "/about"
-      }, "About")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      }, "About")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("li", null, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Link"], {
         to: "/activate"
-      }, "Activate Helper Popups"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Any additonal info like copyright information or sponsorship can go here.")))));
+      }, "Activate Helper Popups"))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("p", null, "Any additonal info like copyright information or sponsorship can go here.")))));
     }
   }]);
 
   return SideNav;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+}(react__WEBPACK_IMPORTED_MODULE_7___default.a.Component);
+
+/***/ }),
+
+/***/ "./src/components/TreePlantingForm.jsx":
+/*!*********************************************!*\
+  !*** ./src/components/TreePlantingForm.jsx ***!
+  \*********************************************/
+/*! exports provided: TreePlantingForm */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TreePlantingForm", function() { return TreePlantingForm; });
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! uuid/v4 */ "./node_modules/uuid/v4.js");
+/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(uuid_v4__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var utils_geometry__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! utils/geometry */ "./src/utils/geometry.js");
+/* harmony import */ var references_trees_list_json__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! references/trees_list.json */ "./src/references/trees_list.json");
+var references_trees_list_json__WEBPACK_IMPORTED_MODULE_5___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/trees_list.json */ "./src/references/trees_list.json", 1);
+/* harmony import */ var references_tree_types_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! references/tree_types.json */ "./src/references/tree_types.json");
+var references_tree_types_json__WEBPACK_IMPORTED_MODULE_6___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/tree_types.json */ "./src/references/tree_types.json", 1);
+/* harmony import */ var references_tree_stock_sizes_json__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! references/tree_stock_sizes.json */ "./src/references/tree_stock_sizes.json");
+var references_tree_stock_sizes_json__WEBPACK_IMPORTED_MODULE_7___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/tree_stock_sizes.json */ "./src/references/tree_stock_sizes.json", 1);
+
+
+/* eslint-disable no-else-return */
+
+
+
+
+
+
+
+
+var NumRowInput = function NumRowInput(props) {
+  var editingFeature = props.editingFeature,
+      windbreak = props.windbreak,
+      numRows = props.numRows,
+      handleNumRowChange = props.handleNumRowChange,
+      handleWindbreakChange = props.handleWindbreakChange,
+      handlePropgationChange = props.handlePropgationChange,
+      propagation = props.propagation;
+  var slope = Object(utils_geometry__WEBPACK_IMPORTED_MODULE_4__["findSlope"])(editingFeature);
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "ConfigForm"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "stepNumber"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", null, "1")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "configInputs"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "inputElement desktop-select-s-width spacer-right-3"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    className: "inputDescriptor"
+  }, "Is this a windbreak?"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+    value: windbreak,
+    onChange: function onChange(e) {
+      return handleWindbreakChange(e);
+    },
+    required: true
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "true"
+  }, "Yes"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "false"
+  }, "No"))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "inputElement desktop-select-l-width"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    className: "inputDescriptor nowrap"
+  }, "How many tree rows would you like to plant?"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+    value: numRows,
+    onChange: function onChange(e) {
+      return handleNumRowChange(e);
+    },
+    required: true
+  }, lodash__WEBPACK_IMPORTED_MODULE_2___default.a.range(1, windbreak ? 5 : 11).map(function (val) {
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+      key: val,
+      value: val
+    }, val);
+  }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "inputElement desktop-select-s-width spacer-top-1_5"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    className: "inputDescriptor nowrap"
+  }, "Choose a direction to add rows from your starting line."), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+    value: propagation,
+    onChange: function onChange(e) {
+      return handlePropgationChange(e);
+    },
+    required: true
+  }, slope > 1 || slope < -1 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "W"
+  }, "West"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "E"
+  }, "East")) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "N"
+  }, "North"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "S"
+  }, "South"))))));
+};
+
+var RowDetailInput = function RowDetailInput(props) {
+  var pasture_conversion = props.pasture_conversion,
+      rows = props.rows,
+      series = props.series,
+      handlePastureConversionChange = props.handlePastureConversionChange,
+      handleRowTypeChange = props.handleRowTypeChange,
+      handleRowSpeciesChange = props.handleRowSpeciesChange;
+
+  var csgs = _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(new Set(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(series.values()).map(function (ea) {
+    return ea.csg;
+  }))); // CSGs without duplicate.
+
+
+  var treesByType = references_trees_list_json__WEBPACK_IMPORTED_MODULE_5__.reduce(function (map, tree) {
+    if (csgs.length > 0 && csgs.every(function (csg) {
+      return !tree.csgs.includes(csg);
+    })) {
+      return map;
+    }
+
+    map.set(tree.type, (map.get(tree.type) || []).concat(tree));
+    return map;
+  }, new Map());
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "ConfigForm"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "stepNumber"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", null, "2")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "configInputs"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+    className: "inputDescriptor"
+  }, "Choose a tree type and species for each row. Below are the recommended tree types and species based on your soil. You can change these by choosing a different option in each dropdown."), rows.map(function (row, i) {
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      key: uuid_v4__WEBPACK_IMPORTED_MODULE_3___default()(),
+      className: "rowDetails"
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      className: "rowNumber"
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h4", null, "Row ", i + 1)), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      className: "inputElement desktop-select-l-width"
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      className: "inputLabel"
+    }, "Tree Type"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+      value: row.type,
+      onChange: function onChange(e) {
+        return handleRowTypeChange(e, i);
+      },
+      required: true
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+      value: "",
+      disabled: true
+    }, "Select a tree type"), references_tree_types_json__WEBPACK_IMPORTED_MODULE_6__.map(function (ea) {
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        key: ea.id,
+        value: ea.id
+      }, ea.value);
+    }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      className: "inputElement desktop-select-l-width"
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+      className: "inputLabel"
+    }, "Tree Species"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+      value: row.species,
+      onChange: function onChange(e) {
+        return handleRowSpeciesChange(e, i);
+      },
+      required: true
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+      value: "",
+      disabled: true
+    }, !row.type ? 'Select a tree type first' : 'Select a tree species'), treesByType.get(row.type) && treesByType.get(row.type).map(function (ea) {
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        key: ea.id,
+        value: ea.id
+      }, ea.display);
+    }))));
+  }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "checkboxElement"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+    type: "checkbox",
+    name: "pasture_conversion",
+    checked: pasture_conversion,
+    onChange: function onChange(e) {
+      return handlePastureConversionChange(e);
+    }
+  }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    className: "inline"
+  }, "I'm converting pasture"))));
+};
+
+var RowSpacingInput = function RowSpacingInput(props) {
+  var drip_irrigation = props.drip_irrigation,
+      tree_spacing = props.spacing_trees.value,
+      row_spacing = props.spacing_rows.value,
+      stock_size = props.stock_size.display,
+      handleRowSpacingChange = props.handleRowSpacingChange,
+      handleTreeSpacingChange = props.handleTreeSpacingChange,
+      handleStockSizeChange = props.handleStockSizeChange,
+      handleDripIrrigationChange = props.handleDripIrrigationChange;
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "ConfigForm"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "stepNumber"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", null, "3")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "configInputs"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+    className: "inputDescriptor"
+  }, "Choose the spacing you need in between the trees and what size you plan on purchasing the plantings. Recommendations based on your soil type and slope percentage are prefilled."), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "inputElement desktop-select-s-width"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    className: "inputLabel"
+  }, "Spacing Between Rows"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+    value: row_spacing,
+    onChange: function onChange(e) {
+      return handleRowSpacingChange(e);
+    },
+    required: true
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "3"
+  }, "3'"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "4"
+  }, "4'"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "5"
+  }, "5'"))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "inputElement desktop-select-s-width"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    className: "inputLabel"
+  }, "Spacing Between Trees"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+    value: tree_spacing,
+    onChange: function onChange(e) {
+      return handleTreeSpacingChange(e);
+    },
+    required: true
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "3"
+  }, "3'"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "4"
+  }, "4'"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "5"
+  }, "5'"))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "inputElement desktop-select-m-width"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    className: "inputLabel"
+  }, "Planting Stock Size"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+    value: stock_size,
+    onChange: function onChange(e) {
+      return handleStockSizeChange(e);
+    },
+    required: true
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "",
+    disabled: true
+  }, "Select a stock size"), references_tree_stock_sizes_json__WEBPACK_IMPORTED_MODULE_7__.map(function (ea) {
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+      key: ea.id,
+      value: ea.id
+    }, ea.value.includes('container') ? ea.value.split('_').reduce(function (str, frag, i) {
+      if (i === 0) {
+        return str + frag;
+      } else if (i === 1 && frag.includes('over')) {
+        return "".concat(str, " (").concat(frag, " ");
+      } else if (i === 1) {
+        return "".concat(str, " (").concat(frag, " - ");
+      } else if (i === 2) {
+        return "".concat(str).concat(frag, ")");
+      } else {
+        return "".concat(str, " ").concat(frag);
+      }
+    }, '') : ea.value);
+  }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "checkboxElement"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+    type: "checkbox",
+    name: "drip_irrigation",
+    checked: drip_irrigation,
+    onChange: function onChange(e) {
+      return handleDripIrrigationChange(e);
+    }
+  }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    className: "inline"
+  }, "I'm using drip irrigation"))));
+};
+
+var TreePlantingForm = function TreePlantingForm(props) {
+  var form = props.form,
+      editingFeature = props.editingFeature,
+      step = props.step,
+      windbreak = props.windbreak,
+      propagation = props.propagation,
+      rows = props.rows,
+      spacing_trees = props.spacing_trees,
+      spacing_rows = props.spacing_rows,
+      stock_size = props.stock_size,
+      drip_irrigation = props.drip_irrigation,
+      pasture_conversion = props.pasture_conversion,
+      handleTreeSpacingChange = props.handleTreeSpacingChange,
+      handleDripIrrigationChange = props.handleDripIrrigationChange,
+      handleRowSpeciesChange = props.handleRowSpeciesChange,
+      handleRowTypeChange = props.handleRowTypeChange,
+      handleNumRowChange = props.handleNumRowChange,
+      handleRowSpacingChange = props.handleRowSpacingChange,
+      handleStockSizeChange = props.handleStockSizeChange,
+      handleWindbreakChange = props.handleWindbreakChange,
+      handlePropgationChange = props.handlePropgationChange,
+      handlePastureConversionChange = props.handlePastureConversionChange;
+  var series = editingFeature.properties.series ? new Map(editingFeature.properties.series) : new Map();
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "PlantingFormHeader"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h2", {
+    className: "modal-header"
+  }, "Configure your tree rows below."), series.size > 0 && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+    className: "SoilTypes spacer-top-1"
+  }, "Your soil types: ", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(series.keys()).sort().toString().replace(/,/g, ', ')))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
+    ref: form
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(NumRowInput, {
+    editingFeature: editingFeature,
+    windbreak: windbreak,
+    propagation: propagation,
+    numRows: rows.length,
+    handleNumRowChange: handleNumRowChange,
+    handleWindbreakChange: handleWindbreakChange,
+    handlePropgationChange: handlePropgationChange
+  }), (step === 'species' || step === 'spacing') && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RowDetailInput, {
+    series: series,
+    rows: rows,
+    pasture_conversion: pasture_conversion,
+    handleRowTypeChange: handleRowTypeChange,
+    handleRowSpeciesChange: handleRowSpeciesChange,
+    handlePastureConversionChange: handlePastureConversionChange
+  }), step === 'spacing' && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RowSpacingInput, {
+    spacing_trees: spacing_trees,
+    spacing_rows: spacing_rows,
+    stock_size: stock_size,
+    drip_irrigation: drip_irrigation,
+    handleRowSpacingChange: handleRowSpacingChange,
+    handleTreeSpacingChange: handleTreeSpacingChange,
+    handleStockSizeChange: handleStockSizeChange,
+    handleDripIrrigationChange: handleDripIrrigationChange
+  })));
+};
+
+/***/ }),
+
+/***/ "./src/components/map_layers/Contours.jsx":
+/*!************************************************!*\
+  !*** ./src/components/map_layers/Contours.jsx ***!
+  \************************************************/
+/*! exports provided: Contours */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Contours", function() { return Contours; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Layer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Layer */ "./src/components/map_layers/Layer.jsx");
+/* eslint-disable no-useless-escape */
+
+/* eslint-disable indent */
+
+
+var Contours = function Contours(props) {
+  var color = props.color,
+      map = props.map,
+      width = props.width;
+  var layer = {
+    id: 'contours',
+    type: 'line',
+    source: 'contours',
+    'source-layer': "default",
+    minzoom: 10,
+    paint: {
+      'line-color': color || 'yellow',
+      'line-width': width || 0.5
+    }
+  };
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layer__WEBPACK_IMPORTED_MODULE_1__["Layer"], {
+    map: map,
+    layer: layer
+  });
+};
 
 /***/ }),
 
@@ -70981,10 +73120,13 @@ var EditIcons = function EditIcons(props) {
   };
   var events = new Map([['click', function (e) {
     var editingIcon = e.features[0];
-    var featureId = editingIcon.properties["for"];
+    var _editingIcon$properti = editingIcon.properties,
+        featureId = _editingIcon$properti["for"],
+        type = _editingIcon$properti.type;
     var feature = data.get(featureId);
-    setEditingFeature(feature);
-    nextStep('/plant/tree/rows');
+    setEditingFeature(feature, function () {
+      return nextStep("/plant/".concat(type));
+    });
   }]]);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layer__WEBPACK_IMPORTED_MODULE_1__["Layer"], {
     map: map,
@@ -71021,14 +73163,64 @@ var FeatureLabels = function FeatureLabels(props) {
       'text-anchor': 'bottom',
       'text-offset': [0, 3],
       'text-allow-overlap': true,
-      'text-justify': 'auto' // 'icon-image': ['concat', ['get', 'icon'], '-15'],
-
+      'text-justify': 'auto'
     }
   };
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layer__WEBPACK_IMPORTED_MODULE_1__["Layer"], {
     map: map,
     layer: layer
   });
+};
+
+/***/ }),
+
+/***/ "./src/components/map_layers/GeolocationPosition.jsx":
+/*!***********************************************************!*\
+  !*** ./src/components/map_layers/GeolocationPosition.jsx ***!
+  \***********************************************************/
+/*! exports provided: GeolocationPosition */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GeolocationPosition", function() { return GeolocationPosition; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Layer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Layer */ "./src/components/map_layers/Layer.jsx");
+
+
+var GeolocationPosition = function GeolocationPosition(props) {
+  var map = props.map;
+  var labelLayer = {
+    id: 'geolocation_position_label',
+    type: 'symbol',
+    source: 'geolocation_position',
+    layout: {
+      'text-field': 'You are here',
+      'text-anchor': 'bottom',
+      'text-offset': [0, 2],
+      'text-allow-overlap': true,
+      'text-justify': 'auto'
+    }
+  };
+  var circleLayer = {
+    id: 'geolocation_position_circle',
+    type: 'circle',
+    source: 'geolocation_position',
+    paint: {
+      'circle-radius': 5,
+      'circle-color': 'blue',
+      'circle-stroke-width': 3,
+      'circle-stroke-color': 'white'
+    }
+  };
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layer__WEBPACK_IMPORTED_MODULE_1__["Layer"], {
+    map: map,
+    layer: labelLayer
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layer__WEBPACK_IMPORTED_MODULE_1__["Layer"], {
+    map: map,
+    layer: circleLayer
+  }));
 };
 
 /***/ }),
@@ -71043,57 +73235,58 @@ var FeatureLabels = function FeatureLabels(props) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Layer", function() { return Layer; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_1__);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js");
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_8__);
 
 
 
-var debug = debug__WEBPACK_IMPORTED_MODULE_1___default()('MapComponent');
+
+
+
+
+
+
+var debug = debug__WEBPACK_IMPORTED_MODULE_8___default()('MapComponent');
 var Layer =
 /*#__PURE__*/
 function (_React$Component) {
-  _inherits(Layer, _React$Component);
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default()(Layer, _React$Component);
 
   function Layer() {
     var _getPrototypeOf2;
 
     var _this;
 
-    _classCallCheck(this, Layer);
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, Layer);
 
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(Layer)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default()(this, (_getPrototypeOf2 = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default()(Layer)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    _defineProperty(_assertThisInitialized(_this), "events", new Map());
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this), "events", new Map());
 
     return _this;
   }
 
-  _createClass(Layer, [{
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(Layer, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var layer = this.props.layer;
@@ -71165,7 +73358,7 @@ function (_React$Component) {
   }]);
 
   return Layer;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+}(react__WEBPACK_IMPORTED_MODULE_7___default.a.Component);
 
 /***/ }),
 
@@ -71267,11 +73460,11 @@ var SSURGO = function SSURGO(props) {
     id: 'ssurgo',
     type: 'fill',
     source: 'ssurgo',
-    'source-layer': "muname",
+    'source-layer': "default",
     minzoom: 10,
     paint: {
-      'fill-color': ['case', ['==', ['get', 'taxorder'], 'Alfisols'], 'hsl(37, 93%, 49%)', ['==', ['get', 'taxorder'], 'Entisols'], 'hsl(70, 89%, 51%)', ['==', ['get', 'taxorder'], 'Histosols'], 'hsl(108, 88%, 42%)', ['==', ['get', 'taxorder'], 'Inceptisols'], 'hsl(169, 87%, 48%)', ['==', ['get', 'taxorder'], 'Mollisols'], 'hsl(242, 85%, 56%)', ['==', ['get', 'taxorder'], 'Vertisols'], 'hsl(294, 80%, 63%)', 'rgba(0,0,0,0)'],
-      'fill-opacity': 0.3,
+      'fill-color': ['interpolate', ['linear'], ['to-number', ['get', 'iacornsr']], 0, '#909090', 50, '#888900', 100, '#f8f601'],
+      'fill-opacity': props.active ? 0.6 : 0,
       'fill-antialias': false
     }
   };
@@ -71372,40 +73565,28 @@ var Trees = function Trees(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DrawLineMode", function() { return DrawLineMode; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Planting", function() { return Planting; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @mapbox/mapbox-gl-draw */ "./node_modules/@mapbox/mapbox-gl-draw/index.js");
-/* harmony import */ var _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var test_data_tree_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! test_data/tree.json */ "./src/test_data/tree.json");
-var test_data_tree_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! test_data/tree.json */ "./src/test_data/tree.json", 1);
-/* harmony import */ var test_data_prairie_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! test_data/prairie.json */ "./src/test_data/prairie.json");
-var test_data_prairie_json__WEBPACK_IMPORTED_MODULE_4___namespace = /*#__PURE__*/__webpack_require__.t(/*! test_data/prairie.json */ "./src/test_data/prairie.json", 1);
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_5__);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js");
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @mapbox/mapbox-gl-draw */ "./node_modules/@mapbox/mapbox-gl-draw/index.js");
+/* harmony import */ var _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _modals_PlantingModal__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../modals/PlantingModal */ "./src/components/modals/PlantingModal.jsx");
 
 
 
@@ -71413,12 +73594,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-var debug = debug__WEBPACK_IMPORTED_MODULE_5___default()('MapComponent');
-var testData = {
-  tree: test_data_tree_json__WEBPACK_IMPORTED_MODULE_3__,
-  prairie: test_data_prairie_json__WEBPACK_IMPORTED_MODULE_4__
-};
-var DrawLineMode = _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_2___default.a.modes.draw_line_string;
+
+
+
+
+
+var debug = debug__WEBPACK_IMPORTED_MODULE_10___default()('MapComponent');
+var DrawLineMode = _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_9___default.a.modes.draw_line_string;
 
 DrawLineMode.clickAnywhere = function clickAnywhere(state, e) {
   // This ends the drawing after the user creates a second point, triggering this.onStop
@@ -71457,34 +73639,34 @@ DrawLineMode.onStop = function onStop(state) {
   } else {
     this.deleteFeature([state.line.id], {
       silent: true
-    }); // this.changeMode('simple_select', {}, { silent: true }); // Unsure if this is necessary.
+    });
   }
 };
 
 var Planting =
 /*#__PURE__*/
 function (_React$Component) {
-  _inherits(Planting, _React$Component);
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default()(Planting, _React$Component);
 
   function Planting() {
     var _getPrototypeOf2;
 
     var _this;
 
-    _classCallCheck(this, Planting);
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, Planting);
 
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(Planting)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default()(this, (_getPrototypeOf2 = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default()(Planting)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
-    _defineProperty(_assertThisInitialized(_this), "events", new Map());
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this), "events", new Map());
 
     return _this;
   }
 
-  _createClass(Planting, [{
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(Planting, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       this.setDrawMode();
@@ -71514,7 +73696,19 @@ function (_React$Component) {
           type = _this$props.type,
           steps = _this$props.steps;
 
-      if (!step) {
+      if (editingFeature) {
+        // Else, if we're on a config step and there is a feature being edited, enter direct_select mode.
+        // This actually doesn't matter too much because if we're on a config step the modal overlay blocks map interactivity.
+        debug('Entering direct_select mode.', editingFeature);
+
+        if (!draw.get(editingFeature.id)) {
+          draw.add(editingFeature);
+        }
+
+        draw.changeMode('direct_select', {
+          featureId: editingFeature.id
+        });
+      } else if (!step) {
         // If not on a config step, that means we're drawing, so enter draw_polygon mode with a clean slate.
         debug('Entering draw_polygon mode.');
         draw.deleteAll();
@@ -71531,32 +73725,19 @@ function (_React$Component) {
 
         var onCreate = function onCreate(e) {
           map.off('draw.create', onCreate);
-          var feature = e.features[0];
-          feature.properties = _objectSpread({}, feature.properties, {
-            type: type,
-            configs: testData[type].properties.configs // These are some default properties for testing.
+          var feature = e.features[0]; // feature properties need to be populated with the planting modal
 
-          });
-          draw.add(feature);
+          feature.properties = {
+            type: type
+          };
           debug('Created feature:', feature);
-          nextStep("/plant/".concat(type, "/").concat(steps[0]));
-          setEditingFeature(feature);
+          setEditingFeature(feature, function () {
+            return nextStep("/plant/".concat(type, "/").concat(steps[0]));
+          });
         };
 
         map.on('draw.create', onCreate);
         this.events.set('draw.create', onCreate);
-      } else if (editingFeature) {
-        // Else, if we're on a config step and there is a feature being edited, enter direct_select mode.
-        // This actually doesn't matter too much because if we're on a config step the modal overlay blocks map interactivity.
-        debug('Entering direct_select mode.', editingFeature);
-
-        if (!draw.get(editingFeature.id)) {
-          draw.add(editingFeature);
-        }
-
-        draw.changeMode('direct_select', {
-          featureId: editingFeature.id
-        });
       }
     }
   }, {
@@ -71581,56 +73762,46 @@ function (_React$Component) {
     value: function render() {
       var _this$props3 = this.props,
           step = _this$props3.router.match.params.step,
-          data = _this$props3.data,
           deleteFeature = _this$props3.deleteFeature,
+          setEditingFeature = _this$props3.setEditingFeature,
           editingFeature = _this$props3.editingFeature,
           saveFeature = _this$props3.saveFeature,
-          type = _this$props3.type;
+          nextStep = _this$props3.nextStep,
+          type = _this$props3.type,
+          steps = _this$props3.steps;
 
       if (!editingFeature) {
         // If there isn't a feature being edited, navigate to the draw step.
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Redirect"], {
+        return react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Redirect"], {
           to: "/plant/".concat(type)
         });
       }
 
-      var configs = editingFeature.properties.configs; // If we're on a config step, render the form.
+      var stepIndex = steps.indexOf(step);
 
-      return step ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      if (stepIndex === -1) {
+        return react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Redirect"], {
+          to: "/plant/".concat(type, "/").concat(steps[0])
+        });
+      }
+
+      return react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
         className: "Planting MapModeForm vertical-align"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "modal margin-center"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Some pre-filled properties for this ", editingFeature.properties.type, " polygon..."), editingFeature.properties.type === 'tree' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Rows: ", configs.rows.length), configs.rows.map(function (ea, i) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          key: "row-".concat(i + 1),
-          className: "spacer-left-1"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Row ", i + 1), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "spacer-left-1"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Type: ", ea.type.display), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Species: ", ea.species.display)));
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Row Spacing: ", configs.spacing_rows.value, " ", configs.spacing_rows.unit), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Tree Spacing: ", configs.spacing_trees.value, " ", configs.spacing_trees.unit), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Drip Irrigation: ", configs.drip_irrigation ? 'yes' : 'no')), editingFeature.properties.type === 'prairie' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Seed: ", configs.seed.value), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Management: ", configs.management.display), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Cropping System: ", configs.cropping_system.display), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Pest Control: ", configs.pest_control.value)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "spacer-top-2 distribute"
-      }, data.get(editingFeature.id) ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        onClick: function onClick() {
-          return deleteFeature(editingFeature.id);
-        },
-        onKeyDown: function onKeyDown(e) {
-          return e.keyCode === 13 && deleteFeature(editingFeature.id);
-        },
-        role: "button",
-        tabIndex: "0"
-      }, "Delete")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        className: "modal-link",
-        to: "/plant/".concat(type)
-      }, "Start Over")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        onClick: saveFeature,
-        className: "Button",
-        type: "button"
-      }, "Done"))))) : null;
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(_modals_PlantingModal__WEBPACK_IMPORTED_MODULE_11__["PlantingModal"], {
+        editingFeature: editingFeature,
+        setEditingFeature: setEditingFeature,
+        deleteFeature: deleteFeature,
+        saveFeature: saveFeature,
+        nextStep: nextStep,
+        step: step,
+        steps: steps,
+        stepIndex: stepIndex
+      }));
     }
   }]);
 
   return Planting;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+}(react__WEBPACK_IMPORTED_MODULE_7___default.a.Component);
 
 /***/ }),
 
@@ -71644,45 +73815,50 @@ function (_React$Component) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SimpleSelect", function() { return SimpleSelect; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_6__);
 
 
+
+
+
+
+
+var debug = debug__WEBPACK_IMPORTED_MODULE_6___default()('MapComponent');
 var SimpleSelect =
 /*#__PURE__*/
 function (_React$Component) {
-  _inherits(SimpleSelect, _React$Component);
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default()(SimpleSelect, _React$Component);
 
   function SimpleSelect() {
-    _classCallCheck(this, SimpleSelect);
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, SimpleSelect);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(SimpleSelect).apply(this, arguments));
+    return _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default()(SimpleSelect).apply(this, arguments));
   }
 
-  _createClass(SimpleSelect, [{
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(SimpleSelect, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var draw = this.props.draw; // This actually doesn't matter much because in simple_select mode, the draw data has been cleared, so there is nothing to select.
-      // We use this mode only because we don't want to remove the whole draw controller from the map.
+      var _this$props = this.props,
+          draw = _this$props.draw,
+          setEditingFeature = _this$props.setEditingFeature; // We use this mode because we don't want to remove the whole draw controller from the map.
 
-      draw.changeMode('simple_select');
+      debug('Entering simple_select mode.');
+      setEditingFeature(null, function () {
+        return draw.changeMode('simple_select');
+      });
     }
   }, {
     key: "render",
@@ -71692,7 +73868,782 @@ function (_React$Component) {
   }]);
 
   return SimpleSelect;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+}(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component);
+
+/***/ }),
+
+/***/ "./src/components/modals/BigModal.jsx":
+/*!********************************************!*\
+  !*** ./src/components/modals/BigModal.jsx ***!
+  \********************************************/
+/*! exports provided: BigModal */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BigModal", function() { return BigModal; });
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js");
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var contexts_Settings__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! contexts/Settings */ "./src/contexts/Settings.js");
+/* harmony import */ var _LocationPrompt__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./LocationPrompt */ "./src/components/modals/LocationPrompt.jsx");
+/* harmony import */ var _MapLegend__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./MapLegend */ "./src/components/modals/MapLegend.jsx");
+/* harmony import */ var _WelcomeModal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./WelcomeModal */ "./src/components/modals/WelcomeModal.jsx");
+
+
+
+
+
+
+
+var BigModal = function BigModal(props) {
+  var location = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["useLocation"])();
+  var history = Object(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["useHistory"])();
+  var Component;
+
+  switch (location.hash.replace('#', '')) {
+    case 'legend':
+      Component = _MapLegend__WEBPACK_IMPORTED_MODULE_5__["MapLegend"];
+      break;
+
+    case 'location':
+      Component = _LocationPrompt__WEBPACK_IMPORTED_MODULE_4__["LocationPrompt"];
+      break;
+
+    case 'welcome':
+      Component = function Component(welcomeProps) {
+        return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(contexts_Settings__WEBPACK_IMPORTED_MODULE_3__["SettingsConsumer"], null, function (ctx) {
+          var toggleSeenWelcome = ctx.actions.toggleSeenWelcome;
+          return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_WelcomeModal__WEBPACK_IMPORTED_MODULE_6__["WelcomeModal"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({
+            toggleSeenWelcome: toggleSeenWelcome
+          }, welcomeProps));
+        });
+      };
+
+      break;
+
+    default:
+      Component = null;
+  }
+
+  return Component ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(Component, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, props, {
+    router: {
+      location: location,
+      history: history
+    }
+  })) : null;
+};
+
+/***/ }),
+
+/***/ "./src/components/modals/LocationPrompt.jsx":
+/*!**************************************************!*\
+  !*** ./src/components/modals/LocationPrompt.jsx ***!
+  \**************************************************/
+/*! exports provided: Component, LocationPrompt */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Component", function() { return Component; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LocationPrompt", function() { return LocationPrompt; });
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js");
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var contexts_MapState__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! contexts/MapState */ "./src/contexts/MapState.js");
+
+
+
+
+
+
+
+
+
+var Component =
+/*#__PURE__*/
+function (_React$Component) {
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default()(Component, _React$Component);
+
+  function Component() {
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, Component);
+
+    return _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default()(Component).apply(this, arguments));
+  }
+
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(Component, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var promptCurrentGeolocation = this.props.promptCurrentGeolocation;
+      promptCurrentGeolocation();
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      var _this$props = this.props,
+          awaitingGeolocation = _this$props.awaitingGeolocation,
+          geolocationError = _this$props.geolocationError,
+          lastGeolocationStatus = _this$props.lastGeolocationStatus,
+          _this$props$router = _this$props.router,
+          location = _this$props$router.location,
+          history = _this$props$router.history; // If no longer waiting on geolocation and there was no error, then replace location with current path without hash, i.e. exits out of modal.
+
+      if (prevProps.awaitingGeolocation === true && awaitingGeolocation === false && !geolocationError || lastGeolocationStatus === 'granted') {
+        history.replace(location.pathname);
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props2 = this.props,
+          geolocationError = _this$props2.geolocationError,
+          lastGeolocationStatus = _this$props2.lastGeolocationStatus,
+          location = _this$props2.router.location; // If geolocationError code > 1, that means there was an issue retrieving the location data.
+
+      var errorMsg;
+
+      if (geolocationError > 1) {
+        errorMsg = 'Your device was unable to provide us with location information.';
+      } else if (geolocationError === 1) {
+        errorMsg = 'You\'re currently blocking this app from using your location information. To use this feature, unblock this app in your browser permission settings.';
+      } // If geolocation status is granted, don't show the modal.
+
+
+      if (lastGeolocationStatus === 'granted') {
+        return null;
+      }
+
+      return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", {
+        className: "LocationPrompt modal"
+      }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", {
+        className: "grid-row"
+      }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", {
+        className: "grid-wrap"
+      }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__["Link"], {
+        className: "CloseButton",
+        to: location.pathname,
+        replace: true
+      }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("img", {
+        src: "../../assets/close_dropdown.svg",
+        alt: "close location prompt"
+      })), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("h3", {
+        className: "modal-header"
+      }, "Allow the Prairie & Tree Planting application to access your location while using the app?"), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", {
+        className: "content modal-text"
+      }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", {
+        className: "distribute"
+      }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("img", {
+        className: "spacer-right-2",
+        src: "https://via.placeholder.com/250x150",
+        alt: "browser location prompt"
+      }), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("p", {
+        className: "spacer-left-2"
+      }, errorMsg && geolocationError === 1 ? errorMsg : 'Select \'Allow\' to pan the map to your current location. We don\'t use your location information for any other purposes. Blocking this feature will still allow you to use all other functionality in the app.')), errorMsg && geolocationError > 1 && react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("p", {
+        className: "warning spacer-top-2"
+      }, errorMsg, " Click the link below or close this popup to continue without this feature.")), errorMsg && react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", {
+        className: "modal-footer"
+      }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__["Link"], {
+        className: "modal-link block",
+        to: location.pathname
+      }, "Continue without my location")))));
+    }
+  }]);
+
+  return Component;
+}(react__WEBPACK_IMPORTED_MODULE_6___default.a.Component);
+var LocationPrompt = function LocationPrompt(props) {
+  return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_8__["MapConsumer"], null, function (ctx) {
+    var state = ctx.state,
+        actions = ctx.actions;
+    return react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(Component, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, state, actions, props));
+  });
+};
+
+/***/ }),
+
+/***/ "./src/components/modals/MapLegend.jsx":
+/*!*********************************************!*\
+  !*** ./src/components/modals/MapLegend.jsx ***!
+  \*********************************************/
+/*! exports provided: MapLegend */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapLegend", function() { return MapLegend; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+
+var MapLegend = function MapLegend(_ref) {
+  var pathname = _ref.router.location.pathname;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "MapLegend modal"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "grid-row"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "grid-wrap"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    className: "CloseButton",
+    to: pathname
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    className: "CloseButton",
+    src: "../../assets/close_dropdown.svg",
+    alt: "close legend modal"
+  })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+    className: "modal-header"
+  }, "Map Legend"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "modal-text"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "SSURGO"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+    className: "spacer-bottom-1"
+  }, "SSURGO / CSR"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "gradient"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "labels distribute"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "100"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "50"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "0")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "Contours spacer-top-2"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+    className: "spacer-bottom-1"
+  }, "Contours"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "vertical-align"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    className: "spacer-right-1",
+    src: "/assets/contour_legend.svg",
+    alt: "contour lines"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "2' Contours"))))))));
+};
+
+/***/ }),
+
+/***/ "./src/components/modals/PlantingModal.jsx":
+/*!*************************************************!*\
+  !*** ./src/components/modals/PlantingModal.jsx ***!
+  \*************************************************/
+/*! exports provided: PlantingModal */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PlantingModal", function() { return PlantingModal; });
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js");
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _TreePlantingForm__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../TreePlantingForm */ "./src/components/TreePlantingForm.jsx");
+/* harmony import */ var _PrairiePlantingForm__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../PrairiePlantingForm */ "./src/components/PrairiePlantingForm.jsx");
+
+
+
+
+
+
+
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+
+
+
+
+var PlantingModal =
+/*#__PURE__*/
+function (_React$Component) {
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6___default()(PlantingModal, _React$Component);
+
+  function PlantingModal(props) {
+    var _this;
+
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, PlantingModal);
+
+    _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default()(PlantingModal).call(this, props));
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleNumRowChange", function (event) {
+      var numRows = typeof event === 'number' ? event : event.target.value;
+
+      _this.setState(function (state) {
+        var updateRows = [];
+
+        if (numRows < state.rows.length) {
+          updateRows = state.rows.splice(0, numRows);
+          return {
+            rows: updateRows
+          };
+        }
+
+        if (numRows > state.rows.length) {
+          updateRows = _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(state.rows);
+
+          for (var i = 0; i < numRows - state.rows.length; i += 1) {
+            updateRows.push({
+              type: '',
+              species: ''
+            });
+          }
+
+          return {
+            rows: updateRows
+          };
+        }
+
+        return null;
+      });
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleWindbreakChange", function (event) {
+      var updateWindbreak = event.target.value;
+
+      if (updateWindbreak === 'true' || updateWindbreak === 'false') {
+        updateWindbreak = JSON.parse(updateWindbreak);
+      }
+
+      _this.setState({
+        windbreak: updateWindbreak
+      }, function () {
+        if (_this.state.rows.length > 4) {
+          _this.handleNumRowChange(4);
+        }
+      });
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handlePropgationChange", function (event) {
+      var updatePropagation = event.target.value;
+
+      _this.setState({
+        propagation: updatePropagation
+      });
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handlePastureConversionChange", function (event) {
+      var updateConversion = event.target.value;
+
+      _this.setState({
+        pasture_conversion: updateConversion === 'on'
+      });
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleRowTypeChange", function (event, rowIndex) {
+      var rows = _this.state.rows;
+      rows[rowIndex].type = event.target.value;
+
+      _this.setState({
+        rows: rows
+      });
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleRowSpeciesChange", function (event, rowIndex) {
+      var rows = _this.state.rows;
+      rows[rowIndex].species = event.target.value;
+
+      _this.setState({
+        rows: rows
+      });
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleRowSpacingChange", function (event) {
+      var spacingValue = Number(event.target.value);
+
+      _this.setState(function (state) {
+        return {
+          spacing_rows: _objectSpread({}, state.spacing_rows, {
+            value: spacingValue
+          })
+        };
+      });
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleTreeSpacingChange", function (event) {
+      var spacingValue = Number(event.target.value);
+
+      _this.setState(function (state) {
+        return {
+          spacing_trees: _objectSpread({}, state.spacing_trees, {
+            value: spacingValue
+          })
+        };
+      });
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleStockSizeChange", function (event) {
+      var stock_size = event.target.value;
+
+      _this.setState(function () {
+        return {
+          stock_size: stock_size
+        };
+      });
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleDripIrrigationChange", function (event) {
+      var updateDripIrrigation = event.target.checked;
+
+      _this.setState({
+        drip_irrigation: updateDripIrrigation
+      });
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleSeedMixChange", function (event) {
+      var updateSeedMix = event.target.value;
+
+      _this.setState(function () {
+        return {
+          seed: updateSeedMix
+        };
+      });
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleSeedPriceChange", function (event) {
+      var updateValue = typeof event === 'number' ? event : event.target.value;
+
+      _this.setState(function () {
+        return {
+          seed_price: updateValue
+        };
+      });
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleManagementChange", function (event) {
+      var updateManagement = event.target.value;
+
+      _this.setState(function () {
+        return {
+          management: updateManagement
+        };
+      });
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleCroppingChange", function (event) {
+      var updateCropping = event.target.value;
+
+      _this.setState(function () {
+        return {
+          cropping_system: updateCropping
+        };
+      });
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handlePestControlChange", function (event) {
+      var updatePestControl = event.target.value;
+
+      _this.setState(function () {
+        return {
+          pest_control: updatePestControl
+        };
+      });
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "scrollToBottom", function () {
+      _this.bottom.current.scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleNextStep", function () {
+      var _this$props = _this.props,
+          nextStep = _this$props.nextStep,
+          steps = _this$props.steps,
+          stepIndex = _this$props.stepIndex,
+          type = _this$props.editingFeature.properties.type;
+
+      if (_this.form.current && _this.form.current.checkValidity()) {
+        _this.setState(function () {
+          return {
+            formError: null
+          };
+        }, function () {
+          return nextStep("/plant/".concat(type, "/").concat(steps[stepIndex + 1]));
+        });
+      } else {
+        _this.setState(function () {
+          return {
+            formError: 'Please fill in all fields before moving onto the next step.'
+          };
+        });
+      }
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleSave", function () {
+      var _assertThisInitialize = _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this),
+          _assertThisInitialize2 = _assertThisInitialize.props,
+          editingFeature = _assertThisInitialize2.editingFeature,
+          saveFeature = _assertThisInitialize2.saveFeature,
+          type = _assertThisInitialize2.editingFeature.properties.type;
+
+      var properties = {};
+
+      if (type === 'tree') {
+        var _assertThisInitialize3 = _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this),
+            _assertThisInitialize4 = _assertThisInitialize3.state,
+            pasture_conversion = _assertThisInitialize4.pasture_conversion,
+            propagation = _assertThisInitialize4.propagation,
+            rows = _assertThisInitialize4.rows,
+            spacing_trees = _assertThisInitialize4.spacing_trees,
+            spacing_rows = _assertThisInitialize4.spacing_rows,
+            stock_size = _assertThisInitialize4.stock_size,
+            drip_irrigation = _assertThisInitialize4.drip_irrigation,
+            windbreak = _assertThisInitialize4.windbreak;
+
+        properties = {
+          type: type,
+          configs: {
+            pasture_conversion: pasture_conversion,
+            propagation: propagation,
+            windbreak: windbreak,
+            rows: rows,
+            spacing_rows: spacing_rows,
+            spacing_trees: spacing_trees,
+            stock_size: stock_size,
+            drip_irrigation: drip_irrigation
+          }
+        };
+      } else if (type === 'prairie') {
+        var _this$state = _this.state,
+            seed = _this$state.seed,
+            seed_price = _this$state.seed_price,
+            management = _this$state.management,
+            cropping_system = _this$state.cropping_system,
+            pest_control = _this$state.pest_control;
+        properties = {
+          type: type,
+          configs: {
+            seed: seed,
+            seed_price: seed_price,
+            management: management,
+            cropping_system: cropping_system,
+            pest_control: pest_control
+          }
+        };
+      }
+
+      if (_this.form.current && _this.form.current.checkValidity()) {
+        _this.setState(function () {
+          return {
+            formError: null
+          };
+        }, function () {
+          editingFeature.properties = properties;
+          saveFeature(editingFeature);
+        });
+      } else {
+        _this.setState(function () {
+          return {
+            formError: 'Please fill in all fields before saving.'
+          };
+        });
+      }
+    });
+
+    _this.bottom = react__WEBPACK_IMPORTED_MODULE_8___default.a.createRef();
+    var _type = props.editingFeature.properties.type;
+    var _props$editingFeature = props.editingFeature.properties.configs,
+        configs = _props$editingFeature === void 0 ? null : _props$editingFeature;
+
+    if (!configs) {
+      if (_type === 'tree') {
+        configs = {
+          windbreak: false,
+          propagation: 'N',
+          rows: [{
+            type: '',
+            species: ''
+          }],
+          spacing_rows: {
+            value: 3,
+            // placeholder value
+            unit: 'feet'
+          },
+          spacing_trees: {
+            value: 3,
+            //  placeholder value
+            unit: 'feet'
+          },
+          stock_size: '',
+          drip_irrigation: false,
+          pasture_conversion: false
+        };
+      } else if (_type === 'prairie') {
+        configs = {
+          seed: '',
+          seed_price: '',
+          management: {
+            id: 1,
+            display: 'Mow'
+          },
+          cropping_system: {
+            id: 1,
+            display: 'Corn Rotation'
+          },
+          pest_control: {
+            id: 1,
+            display: 'Pest Control'
+          }
+        };
+      }
+    }
+
+    _this.state = _objectSpread({}, configs);
+    _this.form = react__WEBPACK_IMPORTED_MODULE_8___default.a.createRef();
+    return _this;
+  }
+
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(PlantingModal, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      var prevStepIndex = prevProps.stepIndex;
+      var currentStepIndex = this.props.stepIndex;
+
+      if (currentStepIndex > prevStepIndex) {
+        this.scrollToBottom();
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props2 = this.props,
+          step = _this$props2.step,
+          stepIndex = _this$props2.stepIndex,
+          steps = _this$props2.steps,
+          editingFeature = _this$props2.editingFeature,
+          type = _this$props2.editingFeature.properties.type,
+          formError = this.state.formError,
+          form = this.form;
+      var formProps = {
+        editingFeature: editingFeature,
+        step: step,
+        form: form,
+        formError: formError
+      };
+
+      if (type === 'tree') {
+        var _this$state2 = this.state,
+            windbreak = _this$state2.windbreak,
+            propagation = _this$state2.propagation,
+            rows = _this$state2.rows,
+            spacing_trees = _this$state2.spacing_trees,
+            spacing_rows = _this$state2.spacing_rows,
+            stock_size = _this$state2.stock_size,
+            drip_irrigation = _this$state2.drip_irrigation,
+            pasture_conversion = _this$state2.pasture_conversion,
+            handleTreeSpacingChange = this.handleTreeSpacingChange,
+            handleDripIrrigationChange = this.handleDripIrrigationChange,
+            handleRowSpeciesChange = this.handleRowSpeciesChange,
+            handleRowTypeChange = this.handleRowTypeChange,
+            handleNumRowChange = this.handleNumRowChange,
+            handleRowSpacingChange = this.handleRowSpacingChange,
+            handleStockSizeChange = this.handleStockSizeChange,
+            handleWindbreakChange = this.handleWindbreakChange,
+            handlePropgationChange = this.handlePropgationChange,
+            handlePastureConversionChange = this.handlePastureConversionChange;
+        formProps = _objectSpread({}, formProps, {
+          windbreak: windbreak,
+          propagation: propagation,
+          rows: rows,
+          spacing_trees: spacing_trees,
+          spacing_rows: spacing_rows,
+          stock_size: stock_size,
+          drip_irrigation: drip_irrigation,
+          pasture_conversion: pasture_conversion,
+          handleTreeSpacingChange: handleTreeSpacingChange,
+          handleDripIrrigationChange: handleDripIrrigationChange,
+          handleRowSpeciesChange: handleRowSpeciesChange,
+          handleRowTypeChange: handleRowTypeChange,
+          handleNumRowChange: handleNumRowChange,
+          handleRowSpacingChange: handleRowSpacingChange,
+          handleStockSizeChange: handleStockSizeChange,
+          handleWindbreakChange: handleWindbreakChange,
+          handlePropgationChange: handlePropgationChange,
+          handlePastureConversionChange: handlePastureConversionChange
+        });
+      } else if (type === 'prairie') {
+        var _this$state3 = this.state,
+            seed = _this$state3.seed,
+            seed_price = _this$state3.seed_price,
+            management = _this$state3.management,
+            cropping_system = _this$state3.cropping_system,
+            pest_control = _this$state3.pest_control,
+            handleSeedMixChange = this.handleSeedMixChange,
+            handlePestControlChange = this.handlePestControlChange,
+            handleManagementChange = this.handleManagementChange,
+            handleCroppingChange = this.handleCroppingChange,
+            handleSeedPriceChange = this.handleSeedPriceChange;
+        formProps = _objectSpread({}, formProps, {
+          seed: seed,
+          seed_price: seed_price,
+          management: management,
+          cropping_system: cropping_system,
+          pest_control: pest_control,
+          handleSeedMixChange: handleSeedMixChange,
+          handlePestControlChange: handlePestControlChange,
+          handleManagementChange: handleManagementChange,
+          handleCroppingChange: handleCroppingChange,
+          handleSeedPriceChange: handleSeedPriceChange
+        });
+      }
+
+      return react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_8___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("div", {
+        className: "modal margin-center"
+      }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__["Link"], {
+        className: "CloseButton",
+        to: "/"
+      }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("img", {
+        src: "../../assets/close_dropdown.svg",
+        alt: "Close Planting Modal"
+      })), type === 'tree' && react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement(_TreePlantingForm__WEBPACK_IMPORTED_MODULE_10__["TreePlantingForm"], formProps), type === 'prairie' && react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement(_PrairiePlantingForm__WEBPACK_IMPORTED_MODULE_11__["PrairiePlantingForm"], formProps), react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("div", {
+        ref: this.bottom
+      })), react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("div", {
+        className: "button-wrap vertical-align"
+      }, formError && react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("p", {
+        className: "warning"
+      }, formError), stepIndex === steps.length - 1 ? react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("button", {
+        type: "button",
+        className: "Button",
+        onClick: this.handleSave,
+        onKeyPress: this.handleSave
+      }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("span", null, "View Map")) : react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("button", {
+        type: "button",
+        className: "Button",
+        onClick: this.handleNextStep,
+        onKeyPress: this.handleNextStep
+      }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("span", null, "Next"))));
+    }
+  }]);
+
+  return PlantingModal;
+}(react__WEBPACK_IMPORTED_MODULE_8___default.a.Component);
 
 /***/ }),
 
@@ -71706,94 +74657,112 @@ function (_React$Component) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WelcomeModal", function() { return WelcomeModal; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js");
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
 var WelcomeModal =
 /*#__PURE__*/
 function (_React$Component) {
-  _inherits(WelcomeModal, _React$Component);
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_5___default()(WelcomeModal, _React$Component);
 
   function WelcomeModal(props) {
     var _this;
 
-    _classCallCheck(this, WelcomeModal);
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, WelcomeModal);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(WelcomeModal).call(this, props));
+    _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default()(WelcomeModal).call(this, props));
 
-    _defineProperty(_assertThisInitialized(_this), "clickFileInput", function () {
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this), "clickFileInput", function () {
       _this.fileInput.current.click();
     });
 
-    _this.fileInput = react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
+    _this.fileInput = react__WEBPACK_IMPORTED_MODULE_7___default.a.createRef();
     return _this;
   }
 
-  _createClass(WelcomeModal, [{
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(WelcomeModal, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var toggleSeenWelcome = this.props.toggleSeenWelcome;
+      toggleSeenWelcome();
+    }
+  }, {
     key: "render",
     value: function render() {
       var clickFileInput = this.clickFileInput,
           fileInput = this.fileInput;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "WelcomeModal grid-row"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      var location = this.props.router.location;
+      if (location.pathname !== '/') return react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Redirect"], {
+        to: "/#welcome"
+      });
+      return react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "WelcomeModal modal"
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "grid-row"
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
         className: "grid-wrap"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        to: "/"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Link"], {
         className: "CloseButton",
+        to: "/"
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
         src: "../../assets/close_dropdown.svg",
-        alt: "Close Welcome Modal"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        alt: "close welcome modal"
+      })), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("h2", {
         className: "modal-header"
-      }, "Welcome to the Prairie & Tree Planting Tool"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      }, "Welcome to the Prairie & Tree Planting Tool"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("p", {
         className: "modal-text"
-      }, "To get started, you can use your current location, add a location or address in the bar above. You can also pan to an area on the map. Once you have your location on the map, use the planting tools in the upper right side to plant your trees and prairies. If you need additional help, you can read the", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      }, "To get started, you can use your current location or enter a coordinate or address in the bar above. You can also pan to an area on the map. Once you have your location on the map, use the planting tools in the upper right side to plant your trees and prairies. If you need additional help, you can read the", react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Link"], {
         to: "/help"
-      }, " help documentation"), "."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      }, " help documentation"), "."), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "modal-footer"
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("span", {
         className: "modal-link"
-      }, "Dismiss helper popups"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Dismiss helper popups"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
         className: "button-wrap"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "Button"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Let's Get Started")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Or "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Link"], {
+        to: "/#location"
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("button", {
+        className: "Button",
+        type: "button"
+      }, "Let's Get Started")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("span", null, "Or "), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("span", {
         className: "link",
         onClick: clickFileInput,
         onKeyPress: clickFileInput,
         role: "button",
         tabIndex: "0"
-      }, "Upload a saved file", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, "Upload a saved file", react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("input", {
         type: "file",
         hidden: true,
         ref: fileInput
-      })))))));
+      }))))))));
     }
   }]);
 
   return WelcomeModal;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+}(react__WEBPACK_IMPORTED_MODULE_7___default.a.Component);
 
 /***/ }),
 
@@ -71811,31 +74780,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapProvider", function() { return MapProvider; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapConsumer", function() { return MapConsumer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapActions", function() { return MapActions; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _mapbox_geojsonhint__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @mapbox/geojsonhint */ "./node_modules/@mapbox/geojsonhint/lib/index.js");
-/* harmony import */ var _mapbox_geojsonhint__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_mapbox_geojsonhint__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! uuid/v4 */ "./node_modules/uuid/v4.js");
-/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(uuid_v4__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react_places_autocomplete__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-places-autocomplete */ "./node_modules/react-places-autocomplete/dist/index.js");
-/* harmony import */ var react_places_autocomplete__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_5__);
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/slicedToArray.js");
+/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _mapbox_geojsonhint__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mapbox/geojsonhint */ "./node_modules/@mapbox/geojsonhint/lib/index.js");
+/* harmony import */ var _mapbox_geojsonhint__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_mapbox_geojsonhint__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! uuid/v4 */ "./node_modules/uuid/v4.js");
+/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(uuid_v4__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_places_autocomplete__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-places-autocomplete */ "./node_modules/react-places-autocomplete/dist/index.js");
+/* harmony import */ var react_places_autocomplete__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_7__);
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
 
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 
 
@@ -71843,25 +74809,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-var debug = debug__WEBPACK_IMPORTED_MODULE_4___default()('MapState');
+var debug = debug__WEBPACK_IMPORTED_MODULE_6___default()('MapState');
 var MapDefaultState = {
+  // Data
   data: new Map(),
+  // Google Maps API
   mapAPILoaded: false,
+  // Device / Browser Geolocation API
+  geolocationSupported: !!(navigator && navigator.geolocation && navigator.geolocation.getCurrentPosition),
+  awaitingGeolocation: false,
+  geolocationError: null,
+  lastGeolocationStatus: null,
+  lastGeolocationResult: null,
+  // Map State
   defaultLatLng: [-93.624287, 41.587537],
   defaultZoom: 13,
   defaultBearing: 0,
   defaultPitch: 0,
   currentMapDetails: {
-    latlng: [-93.624287, 41.587537],
-    zoom: 13,
-    bearing: 0,
-    pitch: 0
+    latlng: null,
+    zoom: null,
+    bearing: null,
+    pitch: null
   },
+  // Location Input
   locationAddress: {
     locationSearchInput: '',
     addressName: '',
     latlng: null
   },
+  // Map Layer States
   basemap: 'outdoor',
   layers: {
     ssurgo: false,
@@ -71869,7 +74846,7 @@ var MapDefaultState = {
     contours: false
   }
 };
-var MapContext = react__WEBPACK_IMPORTED_MODULE_0___default.a.createContext(MapDefaultState);
+var MapContext = react__WEBPACK_IMPORTED_MODULE_2___default.a.createContext(MapDefaultState);
 var MapProvider = MapContext.Provider;
 var MapConsumer = MapContext.Consumer;
 var MapActions = function MapActions(that) {
@@ -71878,7 +74855,7 @@ var MapActions = function MapActions(that) {
       var _this = this;
 
       // Add geojson feature data.
-      var errors = _mapbox_geojsonhint__WEBPACK_IMPORTED_MODULE_1___default.a.hint(geojson);
+      var errors = _mapbox_geojsonhint__WEBPACK_IMPORTED_MODULE_3___default.a.hint(geojson);
 
       if (!errors || errors.length === 0 || errors.length === 1 && errors[0].message.includes('right-hand rule')) {
         if (geojson.type === 'FeatureCollection') {
@@ -71889,21 +74866,22 @@ var MapActions = function MapActions(that) {
           // Create new map.
           var data = new Map(that.state.MapState.data); // Clone the geojson.
 
-          var feature = lodash__WEBPACK_IMPORTED_MODULE_3___default.a.cloneDeep(geojson); // If feature doesn't have an id, give it one first.
+          var feature = lodash__WEBPACK_IMPORTED_MODULE_5___default.a.cloneDeep(geojson); // If feature doesn't have an id, give it one first.
 
 
           if (!feature.id) {
-            feature.id = uuid_v4__WEBPACK_IMPORTED_MODULE_2___default()();
+            feature.id = uuid_v4__WEBPACK_IMPORTED_MODULE_4___default()();
           }
 
           data.set(feature.id, feature); // Rebuild a new state object with new data.
 
-          var updateState = {
-            MapState: _objectSpread({}, that.state.MapState, {
-              data: data
-            })
-          };
-          that.setState(updateState);
+          that.setState(function (state) {
+            return {
+              MapState: _objectSpread({}, state.MapState, {
+                data: data
+              })
+            };
+          });
         }
       } else {
         debug('Error adding data to context:', errors);
@@ -71913,18 +74891,21 @@ var MapActions = function MapActions(that) {
       // Delete data using id.
       var data = new Map(that.state.MapState.data);
       data["delete"](id);
-      var updateState = {
-        MapState: _objectSpread({}, that.state.MapState, {
-          data: data
-        })
-      };
-      that.setState(updateState);
+      that.setState(function (state) {
+        return {
+          MapState: _objectSpread({}, state.MapState, {
+            data: data
+          })
+        };
+      });
     },
     setBasemap: function setBasemap(basemapName) {
-      that.setState({
-        MapState: _objectSpread({}, that.state.MapState, {
-          basemap: basemapName
-        })
+      that.setState(function (state) {
+        return {
+          MapState: _objectSpread({}, state.MapState, {
+            basemap: basemapName
+          })
+        };
       });
     },
     setMapLayer: function setMapLayer(layerName) {
@@ -71935,27 +74916,32 @@ var MapActions = function MapActions(that) {
         layers[layerName] = !layers[layerName];
       }
 
-      var updateState = {
-        MapState: _objectSpread({}, that.state.MapState, {
-          layers: layers
-        })
-      };
-      that.setState(updateState);
+      that.setState(function (state) {
+        return {
+          MapState: _objectSpread({}, state.MapState, {
+            layers: layers
+          })
+        };
+      });
     },
     setMapAPILoaded: function setMapAPILoaded() {
       if (!that.state.mapAPILoaded) {
-        that.setState({
-          MapState: _objectSpread({}, that.state.MapState, {
-            mapAPILoaded: true
-          })
+        that.setState(function (state) {
+          return {
+            MapState: _objectSpread({}, state.MapState, {
+              mapAPILoaded: true
+            })
+          };
         });
       }
     },
     updateCurrentMapDetails: function updateCurrentMapDetails(mapDetails) {
-      that.setState({
-        MapState: _objectSpread({}, that.state.MapState, {
-          currentMapDetails: _objectSpread({}, mapDetails)
-        })
+      that.setState(function (state) {
+        return {
+          MapState: _objectSpread({}, state.MapState, {
+            currentMapDetails: _objectSpread({}, mapDetails)
+          })
+        };
       });
     },
     setAddressLatLng: function setAddressLatLng() {
@@ -71964,8 +74950,8 @@ var MapActions = function MapActions(that) {
           defaultBearing = _that$state$MapState.defaultBearing,
           defaultPitch = _that$state$MapState.defaultPitch,
           locationSearchInput = _that$state$MapState.locationAddress.locationSearchInput;
-      return Object(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_5__["geocodeByAddress"])(locationSearchInput).then(function (results) {
-        return Promise.all([results, Object(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_5__["getLatLng"])(results[0])]);
+      return Object(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_7__["geocodeByAddress"])(locationSearchInput).then(function (results) {
+        return Promise.all([results, Object(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_7__["getLatLng"])(results[0])]);
       }).then(function (results) {
         var address = results[0];
         var _results$ = results[1],
@@ -71977,26 +74963,28 @@ var MapActions = function MapActions(that) {
         } else {
           var _address = address;
 
-          var _address2 = _slicedToArray(_address, 1);
+          var _address2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_address, 1);
 
           address = _address2[0];
         }
 
         var addressName = "".concat(address.address_components[0].long_name, ", ").concat(address.address_components[1].long_name);
-        that.setState({
-          MapState: _objectSpread({}, that.state.MapState, {
-            // reset zoom, bearing, and pitch
-            currentMapDetails: {
-              zoom: defaultZoom,
-              bearing: defaultBearing,
-              pitch: defaultPitch,
-              latlng: [lng, lat]
-            },
-            locationAddress: _objectSpread({}, that.state.MapState.locationAddress, {
-              addressName: addressName,
-              latlng: [lng, lat]
+        that.setState(function (state) {
+          return {
+            MapState: _objectSpread({}, state.MapState, {
+              // reset zoom, bearing, and pitch
+              currentMapDetails: {
+                zoom: defaultZoom,
+                bearing: defaultBearing,
+                pitch: defaultPitch,
+                latlng: [lng, lat]
+              },
+              locationAddress: _objectSpread({}, state.MapState.locationAddress, {
+                addressName: addressName,
+                latlng: [lng, lat]
+              })
             })
-          })
+          };
         });
       })["catch"](function (error) {
         return debug('React places geocode error:', error);
@@ -72004,17 +74992,97 @@ var MapActions = function MapActions(that) {
     },
     setLocationSearchInput: function setLocationSearchInput(locationSearchInput) {
       var callbackSetLatLng = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      that.setState({
-        MapState: _objectSpread({}, that.state.MapState, {
-          locationAddress: _objectSpread({}, that.state.MapState.locationAddress, {
-            locationSearchInput: locationSearchInput
+      that.setState(function (state) {
+        return {
+          MapState: _objectSpread({}, state.MapState, {
+            locationAddress: _objectSpread({}, state.MapState.locationAddress, {
+              locationSearchInput: locationSearchInput
+            })
           })
-        })
+        };
       }, function () {
         if (callbackSetLatLng) {
           actions.setAddressLatLng();
         }
       });
+    },
+    setMapPreviouslyLoaded: function setMapPreviouslyLoaded() {
+      that.setState(function (state) {
+        return {
+          MapState: _objectSpread({}, state.MapState, {
+            mapPreviouslyLoaded: true
+          })
+        };
+      });
+    },
+    promptCurrentGeolocation: function promptCurrentGeolocation() {
+      function get() {
+        navigator.geolocation.getCurrentPosition(function (pos) {
+          debug('Current geolocation:', pos);
+          var _pos$coords = pos.coords,
+              latitude = _pos$coords.latitude,
+              longitude = _pos$coords.longitude;
+          that.setState(function (state) {
+            return {
+              MapState: _objectSpread({}, state.MapState, {
+                awaitingGeolocation: false,
+                currentMapDetails: _objectSpread({}, state.MapState.currentMapDetails, {
+                  latlng: [longitude, latitude]
+                }),
+                lastGeolocationResult: [longitude, latitude]
+              })
+            };
+          });
+        }, function (err) {
+          debug('Geolocation error:', err);
+          that.setState(function (state) {
+            return {
+              MapState: _objectSpread({}, state.MapState, {
+                awaitingGeolocation: false,
+                geolocationError: err.code,
+                lastGeolocationResult: null
+              })
+            };
+          });
+        });
+      }
+
+      if (that.state.MapState.geolocationSupported) {
+        navigator.permissions.query({
+          name: 'geolocation'
+        }).then(function (_ref) {
+          var status = _ref.state;
+          that.setState(function (state) {
+            return {
+              MapState: _objectSpread({}, state.MapState, {
+                lastGeolocationStatus: status
+              })
+            };
+          }, function () {
+            if (status === 'granted') {
+              get();
+            } else {
+              that.setState(function (state) {
+                return {
+                  MapState: _objectSpread({}, state.MapState, {
+                    awaitingGeolocation: true
+                  })
+                };
+              }, get);
+            }
+          });
+        });
+      } else {
+        debug('Geolocation not supported.');
+        that.setState(function (state) {
+          return {
+            MapState: _objectSpread({}, state.MapState, {
+              awaitingGeolocation: false,
+              geolocationError: 2
+            })
+          };
+        });
+      }
     }
   };
   return actions;
@@ -72036,31 +75104,56 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SettingsProvider", function() { return SettingsProvider; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SettingsConsumer", function() { return SettingsConsumer; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SettingsActions", function() { return SettingsActions; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 
 var SettingsDefaultState = {
-  colorBlindMode: true
+  colorBlindMode: true,
+  dismissHelpers: false,
+  seenWelcome: false
 };
-var SettingsContext = react__WEBPACK_IMPORTED_MODULE_0___default.a.createContext(SettingsDefaultState);
+var SettingsContext = react__WEBPACK_IMPORTED_MODULE_1___default.a.createContext(SettingsDefaultState);
 var SettingsProvider = SettingsContext.Provider;
 var SettingsConsumer = SettingsContext.Consumer;
 var SettingsActions = function SettingsActions(that) {
-  return {
+  var actions = {
     toggleColorBlindMode: function toggleColorBlindMode() {
-      that.setState(_objectSpread({}, that.state, {
-        Settings: _objectSpread({}, that.state.Settings, {
-          colorBlindMode: !that.state.Settings.colorBlindMode
-        })
-      }));
+      that.setState(function (state) {
+        return _objectSpread({}, state, {
+          Settings: _objectSpread({}, state.Settings, {
+            colorBlindMode: !state.Settings.colorBlindMode
+          })
+        });
+      });
+    },
+    toggleHelpers: function toggleHelpers() {
+      that.setState(function (state) {
+        return _objectSpread({}, state, {
+          Settings: _objectSpread({}, state.Settings, {
+            dismissHelpers: !state.Settings.dismissHelpers
+          })
+        });
+      });
+    },
+    toggleSeenWelcome: function toggleSeenWelcome() {
+      that.setState(function (state) {
+        return _objectSpread({}, state, {
+          Settings: _objectSpread({}, state.Settings, {
+            seenWelcome: true
+          })
+        });
+      });
     }
   };
+  return actions;
 };
 
 /***/ }),
@@ -72075,43 +75168,40 @@ var SettingsActions = function SettingsActions(that) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Store", function() { return Store; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var js_file_download__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! js-file-download */ "./node_modules/js-file-download/file-download.js");
-/* harmony import */ var js_file_download__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(js_file_download__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _Settings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Settings */ "./src/contexts/Settings.js");
-/* harmony import */ var _MapState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./MapState */ "./src/contexts/MapState.js");
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js");
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var js_file_download__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! js-file-download */ "./node_modules/js-file-download/file-download.js");
+/* harmony import */ var js_file_download__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(js_file_download__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _Settings__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Settings */ "./src/contexts/Settings.js");
+/* harmony import */ var _MapState__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./MapState */ "./src/contexts/MapState.js");
+
+
+
+
+
+
+
+
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 
 
@@ -72120,16 +75210,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var Store =
 /*#__PURE__*/
 function (_React$Component) {
-  _inherits(Store, _React$Component);
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6___default()(Store, _React$Component);
 
   function Store(props) {
     var _this;
 
-    _classCallCheck(this, Store);
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, Store);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Store).call(this, props));
+    _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default()(Store).call(this, props));
 
-    _defineProperty(_assertThisInitialized(_this), "save", function () {
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "save", function () {
       var date = new Date();
       var contents = JSON.stringify({
         data: _this.state,
@@ -72137,42 +75227,62 @@ function (_React$Component) {
         version: '1.0'
       }, function (name, val) {
         if (val instanceof Map) {
-          return _toConsumableArray(val.entries());
+          return _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(val.entries());
         }
 
         return val;
       }, 4);
-      js_file_download__WEBPACK_IMPORTED_MODULE_1___default()(contents, "prairie_tree_planting_tool_savefile_".concat(date.getDate(), "-").concat(date.getMonth(), "-").concat(date.getFullYear(), ".json"));
+      js_file_download__WEBPACK_IMPORTED_MODULE_9___default()(contents, "prairie_tree_planting_tool_savefile_".concat(date.getDate(), "-").concat(date.getMonth(), "-").concat(date.getFullYear(), ".json"));
     });
 
-    _defineProperty(_assertThisInitialized(_this), "load", function (file) {
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "load", function (file) {
       if (file.data) {
         _this.setState(file.data);
       }
     });
 
     _this.state = {
-      Settings: _Settings__WEBPACK_IMPORTED_MODULE_2__["SettingsDefaultState"],
-      MapState: _MapState__WEBPACK_IMPORTED_MODULE_3__["MapDefaultState"]
+      Settings: _Settings__WEBPACK_IMPORTED_MODULE_10__["SettingsDefaultState"],
+      MapState: _MapState__WEBPACK_IMPORTED_MODULE_11__["MapDefaultState"]
     };
     return _this;
   }
 
-  _createClass(Store, [{
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(Store, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
 
-      var mapAPILoaded = this.state.MapState.mapAPILoaded;
+      var _this$state$MapState = this.state.MapState,
+          lastGeolocationStatus = _this$state$MapState.lastGeolocationStatus,
+          mapAPILoaded = _this$state$MapState.mapAPILoaded; // Setup Google Places API script loading event.
 
       if (!mapAPILoaded) {
-        var updateState = {
-          MapState: _objectSpread({}, this.state.MapState, {
-            mapAPILoaded: true
-          })
-        };
         window.addEventListener('script.googleplaces', function () {
-          _this2.setState(updateState);
+          _this2.setState(function (state) {
+            return {
+              MapState: _objectSpread({}, state.MapState, {
+                mapAPILoaded: true
+              })
+            };
+          });
+        });
+      } // Query for the Geolocation API permission state.
+
+
+      if (!lastGeolocationStatus) {
+        navigator.permissions.query({
+          name: 'geolocation'
+        }).then(function (_ref) {
+          var status = _ref.state;
+
+          _this2.setState(function (state) {
+            return {
+              MapState: _objectSpread({}, state.MapState, {
+                lastGeolocationStatus: status
+              })
+            };
+          });
         });
       }
     }
@@ -72181,15 +75291,15 @@ function (_React$Component) {
     value: function render() {
       var state = this.state,
           save = this.save;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Settings__WEBPACK_IMPORTED_MODULE_2__["SettingsProvider"], {
+      return react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement(_Settings__WEBPACK_IMPORTED_MODULE_10__["SettingsProvider"], {
         value: {
           state: state.Settings,
-          actions: Object(_Settings__WEBPACK_IMPORTED_MODULE_2__["SettingsActions"])(this)
+          actions: Object(_Settings__WEBPACK_IMPORTED_MODULE_10__["SettingsActions"])(this)
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MapState__WEBPACK_IMPORTED_MODULE_3__["MapProvider"], {
+      }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement(_MapState__WEBPACK_IMPORTED_MODULE_11__["MapProvider"], {
         value: {
           state: state.MapState,
-          actions: Object(_MapState__WEBPACK_IMPORTED_MODULE_3__["MapActions"])(this),
+          actions: Object(_MapState__WEBPACK_IMPORTED_MODULE_11__["MapActions"])(this),
           save: save
         }
       }, this.props.children));
@@ -72197,7 +75307,95 @@ function (_React$Component) {
   }]);
 
   return Store;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
+}(react__WEBPACK_IMPORTED_MODULE_8___default.a.Component);
+
+/***/ }),
+
+/***/ "./src/references/csr_rent.json":
+/*!**************************************!*\
+  !*** ./src/references/csr_rent.json ***!
+  \**************************************/
+/*! exports provided: Cherokee, Clay, Dickenson, Emmet, Lyon, O'Brien, Osceola, Palo Alto, Plymouth, Pocahontas, Sioux, Butler, Cerro Gordo, Floyd, Franklin, Hancock, Humboldt, Kossuth, Mitchell, Winnebago, Worth, Wright, Allamakee & Fayette, Blackhawk, Bremer, Buchanan, Chikasaw, Clayton, Delaware, Dubuque, Howard, Winneshiek, Audubon, Calhoun, Carroll, Crawford, Greene, Guthrie, Harrison, Ida, Monona, Sac, Shelby, Woodbury, Boone, Dallas, Grundy, Hamilton, Hardin, Jasper, Marshall, Polk, Powehiek, Story, Tama, Webster, Benton, Cedar, Clinton, Iowa, Jackson, Johnson, Jones, Linn, Muscatine, Scott, Adair, Adams, Cass, Fremont, Mills, Montgomery, Page, Pottawatamie, Taylor, Appanoose & Monroe, Clarke, Decatur, Lucas, Madison, Marion, Ringgold, Union, Warren, Wayne, Davis & Jefferson, Des Moines, Henry, Keokuk, Lee, Louisa, Mahaska, Van Buren, Wapello, Washington, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"Cherokee\":2.84,\"Clay\":2.27,\"Dickenson\":2.29,\"Emmet\":2.09,\"Lyon\":3.06,\"O'Brien\":2.56,\"Osceola\":2.83,\"Palo Alto\":2.55,\"Plymouth\":3.05,\"Pocahontas\":2.64,\"Sioux\":3,\"Butler\":2.9,\"Cerro Gordo\":2.79,\"Floyd\":2.4,\"Franklin\":2.76,\"Hancock\":2.67,\"Humboldt\":2.47,\"Kossuth\":2.64,\"Mitchell\":2.57,\"Winnebago\":2.56,\"Worth\":2.57,\"Wright\":2.56,\"Allamakee & Fayette\":3.1,\"Blackhawk\":2.92,\"Bremer\":3.08,\"Buchanan\":2.83,\"Chikasaw\":2.69,\"Clayton\":3.2,\"Delaware\":3.37,\"Dubuque\":3.38,\"Howard\":2.4,\"Winneshiek\":2.99,\"Audubon\":3.14,\"Calhoun\":2.56,\"Carroll\":2.91,\"Crawford\":3.2,\"Greene\":2.69,\"Guthrie\":2.8,\"Harrison\":3.18,\"Ida\":3.09,\"Monona\":3.22,\"Sac\":2.91,\"Shelby\":3.21,\"Woodbury\":3.34,\"Boone\":2.69,\"Dallas\":2.42,\"Grundy\":3,\"Hamilton\":2.57,\"Hardin\":2.73,\"Jasper\":2.84,\"Marshall\":2.82,\"Polk\":2.48,\"Powehiek\":2.85,\"Story\":2.59,\"Tama\":2.96,\"Webster\":2.7,\"Benton\":2.78,\"Cedar\":2.72,\"Clinton\":3.12,\"Iowa\":2.53,\"Jackson\":3.54,\"Johnson\":2.67,\"Jones\":3,\"Linn\":2.77,\"Muscatine\":2.48,\"Scott\":2.89,\"Adair\":2.36,\"Adams\":2.87,\"Cass\":2.67,\"Fremont\":2.49,\"Mills\":2.75,\"Montgomery\":2.68,\"Page\":2.51,\"Pottawatamie\":3.04,\"Taylor\":2.61,\"Appanoose & Monroe\":2.38,\"Clarke\":1.88,\"Decatur\":1.95,\"Lucas\":2.11,\"Madison\":2.32,\"Marion\":2.27,\"Ringgold\":2.72,\"Union\":2.48,\"Warren\":2.26,\"Wayne\":2.48,\"Davis & Jefferson\":2.45,\"Des Moines\":2.48,\"Henry\":2.81,\"Keokuk\":2.69,\"Lee\":2.78,\"Louisa\":2.89,\"Mahaska\":2.51,\"Van Buren\":2.28,\"Wapello\":2.53,\"Washington\":2.93}");
+
+/***/ }),
+
+/***/ "./src/references/prairie_classification_prices.json":
+/*!***********************************************************!*\
+  !*** ./src/references/prairie_classification_prices.json ***!
+  \***********************************************************/
+/*! exports provided: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("[{\"id\":\"JyXcmn0d\",\"display\":\"CP 25 Wet Rare and Declining Habitat 30/10\",\"price\":127,\"type\":\"hydric\"},{\"id\":\"uz7PvOEuX\",\"display\":\"CP 25 Wet Pollinator Habitat Statewide 10/30\",\"price\":239,\"type\":\"hydric\"},{\"id\":\"SNrB00scR\",\"display\":\"CP 42 Wet Pollinator Habitat\",\"price\":187.8,\"type\":\"hydric\"},{\"id\":\"jJhl8nGyg\",\"display\":\"CP 43 Wet Prairie Strips\",\"price\":185,\"type\":\"hydric\"},{\"id\":\"63heus6FP\",\"display\":\"CP 25 Wet-Mesic Rare and Declining Habitat 30/10\",\"price\":115,\"type\":\"wet-mesic\"},{\"id\":\"tYm-A8v2p\",\"display\":\"CP 42 Wet-Mesic Pollinator Habitat 10/30\",\"price\":200,\"type\":\"wet-mesic\"},{\"id\":\"LI7YtDW3b\",\"display\":\"CP 43 Wet-mesic Prairie Strip\",\"price\":163,\"type\":\"wet-mesic\"},{\"id\":\"jiEkpFNn_\",\"display\":\"CP 25 Mesic Rare and Declining Habitat Standard 30/10 \",\"price\":145,\"type\":\"mesic\"},{\"id\":\"n9MxbNWla\",\"display\":\"CP 25 Mesic Rare and Declining HabitatEconomy 20/20\",\"price\":130.5,\"type\":\"mesic\"},{\"id\":\"ffDsyk50A\",\"display\":\"CP 25 Mesic Rare and Declining Habitat Economy 30/10\",\"price\":88.33,\"type\":\"mesic\"},{\"id\":\"hqLlKXep2\",\"display\":\"CP 25 Mesic Rare and Declining Habitat High Diversity 30/10\",\"price\":169,\"type\":\"mesic\"},{\"id\":\"2nuiIjo_F\",\"display\":\"CP 25 Mesic Rare and Declining Habitat w/o Switchgrass 30/10 \",\"price\":115,\"type\":\"mesic\"},{\"id\":\"L6wb-Ros4\",\"display\":\"CP 42 Mesic Pollinator Habitat 10/30\",\"price\":239.75,\"type\":\"mesic\"},{\"id\":\"g6R3ZJTP-\",\"display\":\"Monarch Mesic Pollinator 10/30 (EQIP)\",\"price\":286,\"type\":\"mesic\"},{\"id\":\"Irk3YVZt7\",\"display\":\"Monarch Mesic w/ Little Bluestem (EQIP) \",\"price\":472,\"type\":\"mesic\"},{\"id\":\"5ZymS_9WQ\",\"display\":\"CP 42 Mesic Pollinator Habitat Standard \",\"price\":212.5,\"type\":\"mesic\"},{\"id\":\"H7-TJe4iiL\",\"display\":\"CP 42 Mesic Pollinator Habitat Economy \",\"price\":140,\"type\":\"mesic\"},{\"id\":\"fgSWg-ds09\",\"display\":\"CP 43 Mesic Prairie Strips \",\"price\":140,\"type\":\"mesic\"},{\"id\":\"SDLOATVlKU\",\"display\":\"CP 25 Dry-Mesic Rare and Declining Habitat Tall grass 20/20\",\"price\":135,\"type\":\"dry-mesic\"},{\"id\":\"OkD2sjQbYN\",\"display\":\"CP 25 Dry-Mesic Rare and Declining Habitat Short  Prairie 30/10\",\"price\":168,\"type\":\"dry-mesic\"},{\"id\":\"A80OVoX9q4\",\"display\":\"CP 42 Dry-Mesic Polllinator Habitat 10/30\",\"price\":195.5,\"type\":\"dry-mesic\"},{\"id\":\"kyXOdtUgVe\",\"display\":\"CP 43 Dry-Mesic Prairie Strip\",\"price\":135,\"type\":\"dry-mesic\"},{\"id\":\"s7SPm0sDgH\",\"display\":\"CP 25 Dry Rare and Declining Habitat Short  Prairie 30/10\",\"price\":168,\"type\":\"xeric\"},{\"id\":\"w7Cl4lWqio\",\"display\":\"CP 42 Dry Polllinator Habitat 10/30\",\"price\":195.5,\"type\":\"xeric\"},{\"id\":\"KdD_Thf6CS\",\"display\":\"CP 43 Dry Prairie Strip\",\"price\":135,\"type\":\"xeric\"}]");
+
+/***/ }),
+
+/***/ "./src/references/prairie_mgmt.json":
+/*!******************************************!*\
+  !*** ./src/references/prairie_mgmt.json ***!
+  \******************************************/
+/*! exports provided: 0, 1, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("[{\"id\":\"M6z9fsAW\",\"value\":\"burn\"},{\"id\":\"J8wEfx7P\",\"value\":\"mow\"}]");
+
+/***/ }),
+
+/***/ "./src/references/soil_series_csg.json":
+/*!*********************************************!*\
+  !*** ./src/references/soil_series_csg.json ***!
+  \*********************************************/
+/*! exports provided: Adair, Adco, Amana, Arispe, Armstrong, Atterberry, Bearpen, Blake, Blencoe, Blend, Brady, Bucknell, Canoe, Cantril, Cerlin, Collinwood, Cooper, Coppock, Corwith, Creal, Crippin, Curran, Cylinder, Dells, Denrock variant, Dockery, Donnan, Dunkerton, Elrin, Ely, Floyd, Fostoria, Franklin, Galland, Given, Gorin, Grantcenter, Grundy, Guckeen, Hayfield, Hoopeston, Hornick, Jacwin, Kandiyohi, Kensett, Keomah, Kingston, Klinger, Klingmore, Kniffin, Koszta, Lamoni, Larpenteur, Lawler, Lawson, La Sueur, Lerdal, Linder, Lineville, Lossing, Luther, Macksburg, Mahaska, Malvern, McCreath, Moville, Muscatine, Mystic, Nevin, Nicollet, Oakton, Ocheda, Oran, Orion, Ottosen, Pershing, Pinicon, Primghar, Protivin, Radford, Ransom, Rathbun, Readlyn, Riceville, Rowley, Schley, Seymour, Shaffton, Shorewood, Shullsburg, Sigglekov, Smithland, Snider, Spillco, Stronghurst, Toolesboro, Turlin, Watseka, Wilmonton, Afton, Albaton, Ambraw, Ames, Ansgar, Appanoose, Aquents, Aquolls, Beckwith, Belinda, Belmann, Biscay, Bremer, Brownton, Calamine, Calcousta, Caneek, Canisteo, Carlow, Chequest, Clarinda, Clearfield, Clyde, Coland, Colo, Cordova, Corley, Cosmos, Darfur, Darwin, Delft, Dolbee, Dundas, Edina, Elvers, Elvira, Faxon, Fieldon, Fluvaquents, Forney, Garwin, Gilford, Gillett Grove, Granby, Haig, Hanska, Havana, Humeston, Jameston, Kalona, Klossner, Kossuth, Lanyon, Letri, Luton, Madelia, Marcus, Marna, Marshan, Maxfield, Maxmore, Minden, Minnetonka, Mt. Sterling, Niota, Okaw, Okoboji, Ossian, Otter, Owego, Psammaquents, Quiver, Racoon, Rinda, Rolfe, Rubio, Rushmore, Rushville, Sable, Sawmill, Shandep, Soloman, Sperry, Taintor, Thorp, Titus, Traer, Tripoli, Tuskeego, Udolpho, Vesser, Wabash, Wacousta, Waldorf, Walford, Webster, Winterset, Woodbury, Zook, Zwingle, Allamakee, Angus, Ankeny, Annieville, Anthon, Arbor, Aredale, Arenzville, Arthur, Ashdale, Ashgrove, Atkinson, Bassett, Bertrand, Bode, Burcham, Burchard, Caleb, Camden, Chaseburg, Churchtown, Clarion, Coggon, Cokato, Coyne, Cresco, Danbury, Davis, Deloit, Dinsdale, Dinsmore, Douds, Downs, DuPage, Egan, Eitzen, Eleroy, Ella, Everly, Exette, Exira, Farrar, Fayette, Festina, Floris, Galva, Gara, Garmore, Graceville, Hanlon, Hayden, Hedrick, Huntsville, Inton, Ion, Jackson, Judson, Kasson, Kennebec, Kenyon, Keosaqua, Killduff, Knox, Lester, Limecreek, Lindley, Liscomb, Lourdes, Lycurgus, Marquis, Marshall, Martinsburg, Massbach, Moingona, Monona, Mt. Carroll, Napier, Nasset, New Glarus, New Vienna, Nira, Nodaway, Northboro, Norville, Ocheyedan, Olmitz, Omadi, Omsrud, Orwood, Ostrander, Port Byron, Racine, Raddle, Renova, Richwood, Ridgeton, Roine, Rossfield, Rozetta, Russell, Sac, Salix variant, Seaton, Shelby, Spillville, Strahan, Tallula, Tama, Terril, Thebes, Timula, Trent, Truman, Village, Watkins, Waubeek, Waucoma, Wentworth, Wiota, Worthen, Yellowriver, Ainsworth, Benclare, Bucklick, Clanton, Clinton, Cornell, Creskin, Goss, Kamrar, Kenmoor, Keswick, Kilkenny, Ladoga, Mayberry, Medary, Otley, Paint Creek, Rollingstone, Sharpsburg, Vinje, Weller, Aureola, Billett, Bolan, Carr, Cott, Dickinson, Elrick, Fairhaven, Flagler, Kanaranzi Variant, Keg, Klum, Lacrescent, Lamont, Landes, Luana, Marlean, May City, Olin, Pillot, Reeds Creek, Ridgeport, Sattre, Saude, Sunburg, Tell, Volney, Wadena, Wapsie, Waukee, Waukegan, Whittier, Zenor, Allendorf, Backbone, Bauer, Bertram, Bixby, Boone, Dempster, Derinda, Dodgeville, Donatus, Dubuque, Eleva, Frankville, Gale, Gosport, Hesch Variant, Hixton, Montieth, Moody, Ripon, Rockton, Roseville, Schapville, Van Meter, Whalan, Winneshiek, Buckney, Burkhardt, Chelsea, Chute, Dickman, Estherville, Finchford, Fruitfield, Hawick, Lilah, Morconick, Perks, Salida, Sarpy, Sparta, Bentonsport, Castana, Crofton, Dorchester, Dow, Grable, Hamburg, Haynie, Ida, Liston, Millington, Moneta, Mottland, Mula, Rawles, Shellwood, Steinauer, Storden, Ticonic, Vore, Wilsey, Calco, Elon, Harcot, Harps, Harpster, Havelock, Holly Springs, Knoke, Lemond, Mayer, McPaul, Modale, Nishna, Onawa, Percival, Revere, Rocksan, Rodney, Scroll, Spicer, Talcot, Tieville, Tilfer, Uturin, Napa, Adrian, Alluvial Land, Animal Waste, Blue Earth, Boots, Borrow Pit, Built Wetland, Copaston, Dumps, Dunbarton, Emeline, Fill Land, Gasconade, Gravel Pits, Gullied Land, Histosols, Houghton, Loamy terrace escarpments, Muck, Muskego, Nordness, Orthents, Palms, Pits, Pits, Clay, Pits, Sand & Gravel, Quarries, River Wash, Rock Outcrop, Sandy Escarpments, Sewage lagoon, Sogn, Steep Rock Land, Strip Mine Spoils, Udifluvents, Udorthents, Urban land, Waste Treatment, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"Adair\":1,\"Adco\":1,\"Amana\":1,\"Arispe\":1,\"Armstrong\":1,\"Atterberry\":1,\"Bearpen\":1,\"Blake\":1,\"Blencoe\":1,\"Blend\":1,\"Brady\":1,\"Bucknell\":1,\"Canoe\":1,\"Cantril\":1,\"Cerlin\":1,\"Collinwood\":1,\"Cooper\":1,\"Coppock\":1,\"Corwith\":1,\"Creal\":1,\"Crippin\":1,\"Curran\":1,\"Cylinder\":1,\"Dells\":1,\"Denrock variant\":1,\"Dockery\":1,\"Donnan\":1,\"Dunkerton\":1,\"Elrin\":1,\"Ely\":1,\"Floyd\":1,\"Fostoria\":1,\"Franklin\":1,\"Galland\":1,\"Given\":1,\"Gorin\":1,\"Grantcenter\":1,\"Grundy\":1,\"Guckeen\":1,\"Hayfield\":1,\"Hoopeston\":1,\"Hornick\":1,\"Jacwin\":1,\"Kandiyohi\":1,\"Kensett\":1,\"Keomah\":1,\"Kingston\":1,\"Klinger\":1,\"Klingmore\":1,\"Kniffin\":1,\"Koszta\":1,\"Lamoni\":1,\"Larpenteur\":1,\"Lawler\":1,\"Lawson\":1,\"La Sueur\":1,\"Lerdal\":1,\"Linder\":1,\"Lineville\":1,\"Lossing\":1,\"Luther\":1,\"Macksburg\":1,\"Mahaska\":1,\"Malvern\":1,\"McCreath\":1,\"Moville\":1,\"Muscatine\":1,\"Mystic\":1,\"Nevin\":1,\"Nicollet\":1,\"Oakton\":1,\"Ocheda\":1,\"Oran\":1,\"Orion\":1,\"Ottosen\":1,\"Pershing\":1,\"Pinicon\":1,\"Primghar\":1,\"Protivin\":1,\"Radford\":1,\"Ransom\":1,\"Rathbun\":1,\"Readlyn\":1,\"Riceville\":1,\"Rowley\":1,\"Schley\":1,\"Seymour\":1,\"Shaffton\":1,\"Shorewood\":1,\"Shullsburg\":1,\"Sigglekov\":1,\"Smithland\":1,\"Snider\":1,\"Spillco\":1,\"Stronghurst\":1,\"Toolesboro\":1,\"Turlin\":1,\"Watseka\":1,\"Wilmonton\":1,\"Afton\":2,\"Albaton\":2,\"Ambraw\":2,\"Ames\":2,\"Ansgar\":2,\"Appanoose\":2,\"Aquents\":2,\"Aquolls\":2,\"Beckwith\":2,\"Belinda\":2,\"Belmann\":2,\"Biscay\":2,\"Bremer\":2,\"Brownton\":2,\"Calamine\":2,\"Calcousta\":2,\"Caneek\":2,\"Canisteo\":2,\"Carlow\":2,\"Chequest\":2,\"Clarinda\":2,\"Clearfield\":2,\"Clyde\":2,\"Coland\":2,\"Colo\":2,\"Cordova\":2,\"Corley\":2,\"Cosmos\":2,\"Darfur\":2,\"Darwin\":2,\"Delft\":2,\"Dolbee\":2,\"Dundas\":2,\"Edina\":2,\"Elvers\":2,\"Elvira\":2,\"Faxon\":2,\"Fieldon\":2,\"Fluvaquents\":2,\"Forney\":2,\"Garwin\":2,\"Gilford\":2,\"Gillett Grove\":2,\"Granby\":2,\"Haig\":2,\"Hanska\":2,\"Havana\":2,\"Humeston\":2,\"Jameston\":2,\"Kalona\":2,\"Klossner\":2,\"Kossuth\":2,\"Lanyon\":2,\"Letri\":2,\"Luton\":2,\"Madelia\":2,\"Marcus\":2,\"Marna\":2,\"Marshan\":2,\"Maxfield\":2,\"Maxmore\":2,\"Minden\":2,\"Minnetonka\":2,\"Mt. Sterling\":2,\"Niota\":2,\"Okaw\":2,\"Okoboji\":2,\"Ossian\":2,\"Otter\":2,\"Owego\":2,\"Psammaquents\":2,\"Quiver\":2,\"Racoon\":2,\"Rinda\":2,\"Rolfe\":2,\"Rubio\":2,\"Rushmore\":2,\"Rushville\":2,\"Sable\":2,\"Sawmill\":2,\"Shandep\":2,\"Soloman\":2,\"Sperry\":2,\"Taintor\":2,\"Thorp\":2,\"Titus\":2,\"Traer\":2,\"Tripoli\":2,\"Tuskeego\":2,\"Udolpho\":2,\"Vesser\":2,\"Wabash\":2,\"Wacousta\":2,\"Waldorf\":2,\"Walford\":2,\"Webster\":2,\"Winterset\":2,\"Woodbury\":2,\"Zook\":2,\"Zwingle\":2,\"Allamakee\":3,\"Angus\":3,\"Ankeny\":3,\"Annieville\":3,\"Anthon\":3,\"Arbor\":3,\"Aredale\":3,\"Arenzville\":3,\"Arthur\":3,\"Ashdale\":3,\"Ashgrove\":3,\"Atkinson\":3,\"Bassett\":3,\"Bertrand\":3,\"Bode\":3,\"Burcham\":3,\"Burchard\":3,\"Caleb\":3,\"Camden\":3,\"Chaseburg\":3,\"Churchtown\":3,\"Clarion\":3,\"Coggon\":3,\"Cokato\":3,\"Coyne\":3,\"Cresco\":3,\"Danbury\":3,\"Davis\":3,\"Deloit\":3,\"Dinsdale\":3,\"Dinsmore\":3,\"Douds\":3,\"Downs\":3,\"DuPage\":3,\"Egan\":3,\"Eitzen\":3,\"Eleroy\":3,\"Ella\":3,\"Everly\":3,\"Exette\":3,\"Exira\":3,\"Farrar\":3,\"Fayette\":3,\"Festina\":3,\"Floris\":3,\"Galva\":3,\"Gara\":3,\"Garmore\":3,\"Graceville\":3,\"Hanlon\":3,\"Hayden\":3,\"Hedrick\":3,\"Huntsville\":3,\"Inton\":3,\"Ion\":3,\"Jackson\":3,\"Judson\":3,\"Kasson\":3,\"Kennebec\":3,\"Kenyon\":3,\"Keosaqua\":3,\"Killduff\":3,\"Knox\":3,\"Lester\":3,\"Limecreek\":3,\"Lindley\":3,\"Liscomb\":3,\"Lourdes\":3,\"Lycurgus\":3,\"Marquis\":3,\"Marshall\":3,\"Martinsburg\":3,\"Massbach\":3,\"Moingona\":3,\"Monona\":3,\"Mt. Carroll\":3,\"Napier\":3,\"Nasset\":3,\"New Glarus\":3,\"New Vienna\":3,\"Nira\":3,\"Nodaway\":3,\"Northboro\":3,\"Norville\":3,\"Ocheyedan\":3,\"Olmitz\":3,\"Omadi\":3,\"Omsrud\":3,\"Orwood\":3,\"Ostrander\":3,\"Port Byron\":3,\"Racine\":3,\"Raddle\":3,\"Renova\":3,\"Richwood\":3,\"Ridgeton\":3,\"Roine\":3,\"Rossfield\":3,\"Rozetta\":3,\"Russell\":3,\"Sac\":3,\"Salix variant\":3,\"Seaton\":3,\"Shelby\":3,\"Spillville\":3,\"Strahan\":3,\"Tallula\":3,\"Tama\":3,\"Terril\":3,\"Thebes\":3,\"Timula\":3,\"Trent\":3,\"Truman\":3,\"Village\":3,\"Watkins\":3,\"Waubeek\":3,\"Waucoma\":3,\"Wentworth\":3,\"Wiota\":3,\"Worthen\":3,\"Yellowriver\":3,\"Ainsworth\":4,\"Benclare\":4,\"Bucklick\":4,\"Clanton\":4,\"Clinton\":4,\"Cornell\":4,\"Creskin\":4,\"Goss\":4,\"Kamrar\":4,\"Kenmoor\":4,\"Keswick\":4,\"Kilkenny\":4,\"Ladoga\":4,\"Mayberry\":4,\"Medary\":4,\"Otley\":4,\"Paint Creek\":4,\"Rollingstone\":4,\"Sharpsburg\":4,\"Vinje\":4,\"Weller\":4,\"Aureola\":5,\"Billett\":5,\"Bolan\":5,\"Carr\":5,\"Cott\":5,\"Dickinson\":5,\"Elrick\":5,\"Fairhaven\":5,\"Flagler\":5,\"Kanaranzi Variant\":5,\"Keg\":5,\"Klum\":5,\"Lacrescent\":5,\"Lamont\":5,\"Landes\":5,\"Luana\":5,\"Marlean\":5,\"May City\":5,\"Olin\":5,\"Pillot\":5,\"Reeds Creek\":5,\"Ridgeport\":5,\"Sattre\":5,\"Saude\":5,\"Sunburg\":5,\"Tell\":5,\"Volney\":5,\"Wadena\":5,\"Wapsie\":5,\"Waukee\":5,\"Waukegan\":5,\"Whittier\":5,\"Zenor\":5,\"Allendorf\":6,\"Backbone\":6,\"Bauer\":6,\"Bertram\":6,\"Bixby\":6,\"Boone\":6,\"Dempster\":6,\"Derinda\":6,\"Dodgeville\":6,\"Donatus\":6,\"Dubuque\":6,\"Eleva\":6,\"Frankville\":6,\"Gale\":6,\"Gosport\":6,\"Hesch Variant\":6,\"Hixton\":6,\"Montieth\":6,\"Moody\":6,\"Ripon\":6,\"Rockton\":6,\"Roseville\":6,\"Schapville\":6,\"Van Meter\":6,\"Whalan\":6,\"Winneshiek\":6,\"Buckney\":7,\"Burkhardt\":7,\"Chelsea\":7,\"Chute\":7,\"Dickman\":7,\"Estherville\":7,\"Finchford\":7,\"Fruitfield\":7,\"Hawick\":7,\"Lilah\":7,\"Morconick\":7,\"Perks\":7,\"Salida\":7,\"Sarpy\":7,\"Sparta\":7,\"Bentonsport\":8,\"Castana\":8,\"Crofton\":8,\"Dorchester\":8,\"Dow\":8,\"Grable\":8,\"Hamburg\":8,\"Haynie\":8,\"Ida\":8,\"Liston\":8,\"Millington\":8,\"Moneta\":8,\"Mottland\":8,\"Mula\":8,\"Rawles\":8,\"Shellwood\":8,\"Steinauer\":8,\"Storden\":8,\"Ticonic\":8,\"Vore\":8,\"Wilsey\":8,\"Calco\":\"8W\",\"Elon\":\"8W\",\"Harcot\":\"8W\",\"Harps\":\"8W\",\"Harpster\":\"8W\",\"Havelock\":\"8W\",\"Holly Springs\":\"8W\",\"Knoke\":\"8W\",\"Lemond\":\"8W\",\"Mayer\":\"8W\",\"McPaul\":\"8W\",\"Modale\":\"8W\",\"Nishna\":\"8W\",\"Onawa\":\"8W\",\"Percival\":\"8W\",\"Revere\":\"8W\",\"Rocksan\":\"8W\",\"Rodney\":\"8W\",\"Scroll\":\"8W\",\"Spicer\":\"8W\",\"Talcot\":\"8W\",\"Tieville\":\"8W\",\"Tilfer\":\"8W\",\"Uturin\":\"8W\",\"Napa\":9,\"Adrian\":10,\"Alluvial Land\":10,\"Animal Waste\":10,\"Blue Earth\":10,\"Boots\":10,\"Borrow Pit\":10,\"Built Wetland\":10,\"Copaston\":10,\"Dumps\":10,\"Dunbarton\":10,\"Emeline\":10,\"Fill Land\":10,\"Gasconade\":10,\"Gravel Pits\":10,\"Gullied Land\":10,\"Histosols\":10,\"Houghton\":10,\"Loamy terrace escarpments\":10,\"Muck\":10,\"Muskego\":10,\"Nordness\":10,\"Orthents\":10,\"Palms\":10,\"Pits\":10,\"Pits, Clay\":10,\"Pits, Sand & Gravel\":10,\"Quarries\":10,\"River Wash\":10,\"Rock Outcrop\":10,\"Sandy Escarpments\":10,\"Sewage lagoon\":10,\"Sogn\":10,\"Steep Rock Land\":10,\"Strip Mine Spoils\":10,\"Udifluvents\":10,\"Udorthents\":10,\"Urban land\":10,\"Waste Treatment\":10}");
+
+/***/ }),
+
+/***/ "./src/references/soil_series_moisture.json":
+/*!**************************************************!*\
+  !*** ./src/references/soil_series_moisture.json ***!
+  \**************************************************/
+/*! exports provided: Burkhardt, Dickman, Emeline, Flager, Hamburg, May City, Zenor, Afton, Ames, Ansgar, Appanoose, Ashgrove, Beckwith, Belinda, Biscay, Blend, Bremer, Calco, Calcousta, Caneek, Canisteo, Chequest, Clarinda, Clearfield, Clyde, Coland, Colo, Coppock, Corley, Dolbee, Edina, Elvira, Forney, Garwin, Gillett Grove, Haig, Harcot, Harps, Havelock, Holly Springs, Houghton muck, Humeston, Jameston, Kalona, Klossner, Knoke, Kossuth, Lanyon, Letri, Luton, Marcus, Marshan, Maxfield, Maxmore, Millington, Mt. Sterling, Nevin, Nishna, Okoboji, Ossian, Owego, Rinda, Rocksan, Rodney, Rolfe, Rubio, Sawmill, Shandep, Sperry, Spicer, Taintor, Thorp, Tieville, Tilfer, Traer, Tripoli, Tuskeego, Uturin, Vesser, Wacousta, Waldorf, Walford, Webster, Winterset, Woodbury, Zook, Zwingle, Belmann, Albaton, Ainsworth, Allamakee, Allendorf, Ankeny, Annieville, Anthon, Arbor, Aredale, Arenzville, Arthur, Atkinson, Aureola, Backbone, Bassett, Bauer, Belview, Bentonsport, Billett, Bode, Bolan, Caleb, Calmar, Castana, Churchtown, Clanton, Clarion, Clinton, Coggon, Cornell, Cott, Cresken, Danbury, Deloit, Dempster, Dinsdale, Donatus, Dorchester, Douds, Dow , Downs, Dubuque, Elrick, Everly, Exette, Exira, Farrar, Fayette, Festina, Floris, Fort Dodge, Frankville, Galva, Gara, Garmore, Gosport, Grable, Hanlon, Hayden, Haynie, Hedrick, Ida, Inton, Ion, Judson, Kamrar, Kasson, Keg, Kennebec, Kenyon, Keosauqua, Killduff, Klum, Lacrescent, Ladoga, Lamont, Lester, Limecreek, Lindley, Liscomb, Liston, Lourdes, Luana, Lycurgus, Marlean, Marquis, Marshall, Martinsburg, Moingona, Moneta, Monona, Morconick, Mt. Carroll, Mula, Munterville, Napier, Newvienna, Nira, Nordness, Northboro, Norville, Ocheyedan, Olin, Olmitz, Orwood, Ostrander, Otley, Paintcreek, Pershing, Racine, Raddle, Rawles, Reedscreek, Rockton, Roine, Rossfield, Sac, Salix, Sattre, Saude, Sharpsburg, Shelby, Shellwood, Steinauer, Storden, Strahan, Tama, Terril, Ticonic, Ulster, Vanmeter, Village, Vinje, Volney, Vore, Wadena, Wapsie, Watkins, Waubeek, Waubonsie, Waukee, Waukegan, Weller, Whittier, Wilsey, Winneshiek, Wiota, Worthen, Yellowriver, Ackmore, Adair, Amana, Arispe, Armstrong, Blake, Blencoe, Bucknell, Burcham, Cantril, Cerlin, Cooper, Corwith, Cresco, Crippin, Cylinder, Donnan, Dunkerton, Elon, Elrin, Ely, Floyd, Franklin, Galland, Givin, Grantcenter, Hayfield, Hoopeston, Hornick, Jacwin, Kensett, Keomah, Keswick, Klinger, Klingmore, Kniffin, Koszta, Lakeport, Lamoni, Larpenteur, Le Sueur, Linder, Lineville, Lossing, Luther, Macksburg, Mahaska, Malvern, McCreath, McPaul, Minden, Modale, Muscatine, Mystic, Nodaway, Oakton, Oran, Ottosen, Percival, Pinicon, Primghar, Protivin, Rathbun, Readlyn, Riceville, Schley, Scroll, Seymour, Shaffton, Sigglekov, Smithland, Snider, Spillco, Spillville, Toolesboro, Turlin, Fostoria, Nicollet, Lawler, Onawa, Bertram, Buckney, Chelsea, Dickinson, Finchford, Flagler, Fruitfield, Lilah, Montieth, Perks, Ridgeport, Sparta, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"Burkhardt\":\"dry-mesic\",\"Dickman\":\"dry-mesic\",\"Emeline\":\"dry-mesic\",\"Flager\":\"dry-mesic\",\"Hamburg\":\"dry-mesic\",\"May City\":\"dry-mesic\",\"Zenor\":\"dry-mesic\",\"Afton\":\"hydric\",\"Ames\":\"hydric\",\"Ansgar\":\"hydric\",\"Appanoose\":\"hydric\",\"Ashgrove\":\"hydric\",\"Beckwith\":\"hydric\",\"Belinda\":\"hydric\",\"Biscay\":\"hydric\",\"Blend\":\"hydric\",\"Bremer\":\"hydric\",\"Calco\":\"hydric\",\"Calcousta\":\"hydric\",\"Caneek\":\"hydric\",\"Canisteo\":\"hydric\",\"Chequest\":\"hydric\",\"Clarinda\":\"hydric\",\"Clearfield\":\"hydric\",\"Clyde\":\"hydric\",\"Coland\":\"hydric\",\"Colo\":\"hydric\",\"Coppock\":\"hydric\",\"Corley\":\"hydric\",\"Dolbee\":\"hydric\",\"Edina\":\"hydric\",\"Elvira\":\"hydric\",\"Forney\":\"hydric\",\"Garwin\":\"hydric\",\"Gillett Grove\":\"hydric\",\"Haig\":\"hydric\",\"Harcot\":\"hydric\",\"Harps\":\"hydric\",\"Havelock\":\"hydric\",\"Holly Springs\":\"hydric\",\"Houghton muck\":\"hydric\",\"Humeston\":\"hydric\",\"Jameston\":\"hydric\",\"Kalona\":\"hydric\",\"Klossner\":\"hydric\",\"Knoke\":\"hydric\",\"Kossuth\":\"hydric\",\"Lanyon\":\"hydric\",\"Letri\":\"hydric\",\"Luton\":\"hydric\",\"Marcus\":\"hydric\",\"Marshan\":\"hydric\",\"Maxfield\":\"hydric\",\"Maxmore\":\"hydric\",\"Millington\":\"hydric\",\"Mt. Sterling\":\"hydric\",\"Nevin\":\"hydric\",\"Nishna\":\"hydric\",\"Okoboji\":\"hydric\",\"Ossian\":\"hydric\",\"Owego\":\"hydric\",\"Rinda\":\"hydric\",\"Rocksan\":\"hydric\",\"Rodney\":\"hydric\",\"Rolfe\":\"hydric\",\"Rubio\":\"hydric\",\"Sawmill\":\"hydric\",\"Shandep\":\"hydric\",\"Sperry\":\"hydric\",\"Spicer\":\"hydric\",\"Taintor\":\"hydric\",\"Thorp\":\"hydric\",\"Tieville\":\"hydric\",\"Tilfer\":\"hydric\",\"Traer\":\"hydric\",\"Tripoli\":\"hydric\",\"Tuskeego\":\"hydric\",\"Uturin\":\"hydric\",\"Vesser\":\"hydric\",\"Wacousta\":\"hydric\",\"Waldorf\":\"hydric\",\"Walford\":\"hydric\",\"Webster\":\"hydric\",\"Winterset\":\"hydric\",\"Woodbury\":\"hydric\",\"Zook\":\"hydric\",\"Zwingle\":\"hydric\",\"Belmann\":\"hydric \",\"Albaton\":\"hydric  \",\"Ainsworth\":\"mesic\",\"Allamakee\":\"mesic\",\"Allendorf\":\"mesic\",\"Ankeny\":\"mesic\",\"Annieville\":\"mesic\",\"Anthon\":\"mesic\",\"Arbor\":\"mesic\",\"Aredale\":\"mesic\",\"Arenzville\":\"mesic\",\"Arthur\":\"mesic\",\"Atkinson\":\"mesic\",\"Aureola\":\"mesic\",\"Backbone\":\"mesic\",\"Bassett\":\"mesic\",\"Bauer\":\"mesic\",\"Belview\":\"mesic\",\"Bentonsport\":\"mesic\",\"Billett\":\"mesic\",\"Bode\":\"mesic\",\"Bolan\":\"mesic\",\"Caleb\":\"mesic\",\"Calmar\":\"mesic\",\"Castana\":\"mesic\",\"Churchtown\":\"mesic\",\"Clanton\":\"mesic\",\"Clarion\":\"mesic\",\"Clinton\":\"mesic\",\"Coggon\":\"mesic\",\"Cornell\":\"mesic\",\"Cott\":\"mesic\",\"Cresken\":\"mesic\",\"Danbury\":\"mesic\",\"Deloit\":\"mesic\",\"Dempster\":\"mesic\",\"Dinsdale\":\"mesic\",\"Donatus\":\"mesic\",\"Dorchester\":\"mesic\",\"Douds\":\"mesic\",\"Dow \":\"mesic\",\"Downs\":\"mesic\",\"Dubuque\":\"mesic\",\"Elrick\":\"mesic\",\"Everly\":\"mesic\",\"Exette\":\"mesic\",\"Exira\":\"mesic\",\"Farrar\":\"mesic\",\"Fayette\":\"mesic\",\"Festina\":\"mesic\",\"Floris\":\"mesic\",\"Fort Dodge\":\"mesic\",\"Frankville\":\"mesic\",\"Galva\":\"mesic\",\"Gara\":\"mesic\",\"Garmore\":\"mesic\",\"Gosport\":\"mesic\",\"Grable\":\"mesic\",\"Hanlon\":\"mesic\",\"Hayden\":\"mesic\",\"Haynie\":\"mesic\",\"Hedrick\":\"mesic\",\"Ida\":\"mesic\",\"Inton\":\"mesic\",\"Ion\":\"mesic\",\"Judson\":\"mesic\",\"Kamrar\":\"mesic\",\"Kasson\":\"mesic\",\"Keg\":\"mesic\",\"Kennebec\":\"mesic\",\"Kenyon\":\"mesic\",\"Keosauqua\":\"mesic\",\"Killduff\":\"mesic\",\"Klum\":\"mesic\",\"Lacrescent\":\"mesic\",\"Ladoga\":\"mesic\",\"Lamont\":\"mesic\",\"Lester\":\"mesic\",\"Limecreek\":\"mesic\",\"Lindley\":\"mesic\",\"Liscomb\":\"mesic\",\"Liston\":\"mesic\",\"Lourdes\":\"mesic\",\"Luana\":\"mesic\",\"Lycurgus\":\"mesic\",\"Marlean\":\"mesic\",\"Marquis\":\"mesic\",\"Marshall\":\"mesic\",\"Martinsburg\":\"mesic\",\"Moingona\":\"mesic\",\"Moneta\":\"mesic\",\"Monona\":\"mesic\",\"Morconick\":\"mesic\",\"Mt. Carroll\":\"mesic\",\"Mula\":\"mesic\",\"Munterville\":\"mesic\",\"Napier\":\"mesic\",\"Newvienna\":\"mesic\",\"Nira\":\"mesic\",\"Nordness\":\"mesic\",\"Northboro\":\"mesic\",\"Norville\":\"mesic\",\"Ocheyedan\":\"mesic\",\"Olin\":\"mesic\",\"Olmitz\":\"mesic\",\"Orwood\":\"mesic\",\"Ostrander\":\"mesic\",\"Otley\":\"mesic\",\"Paintcreek\":\"mesic\",\"Pershing\":\"mesic\",\"Racine\":\"mesic\",\"Raddle\":\"mesic\",\"Rawles\":\"mesic\",\"Reedscreek\":\"mesic\",\"Rockton\":\"mesic\",\"Roine\":\"mesic\",\"Rossfield\":\"mesic\",\"Sac\":\"mesic\",\"Salix\":\"mesic\",\"Sattre\":\"mesic\",\"Saude\":\"mesic\",\"Sharpsburg\":\"mesic\",\"Shelby\":\"mesic\",\"Shellwood\":\"mesic\",\"Steinauer\":\"mesic\",\"Storden\":\"mesic\",\"Strahan\":\"mesic\",\"Tama\":\"mesic\",\"Terril\":\"mesic\",\"Ticonic\":\"mesic\",\"Ulster\":\"mesic\",\"Vanmeter\":\"mesic\",\"Village\":\"mesic\",\"Vinje\":\"mesic\",\"Volney\":\"mesic\",\"Vore\":\"mesic\",\"Wadena\":\"mesic\",\"Wapsie\":\"mesic\",\"Watkins\":\"mesic\",\"Waubeek\":\"mesic\",\"Waubonsie\":\"mesic\",\"Waukee\":\"mesic\",\"Waukegan\":\"mesic\",\"Weller\":\"mesic\",\"Whittier\":\"mesic\",\"Wilsey\":\"mesic\",\"Winneshiek\":\"mesic\",\"Wiota\":\"mesic\",\"Worthen\":\"mesic\",\"Yellowriver\":\"mesic\",\"Ackmore\":\"wet-mesic\",\"Adair\":\"wet-mesic\",\"Amana\":\"wet-mesic\",\"Arispe\":\"wet-mesic\",\"Armstrong\":\"wet-mesic\",\"Blake\":\"wet-mesic\",\"Blencoe\":\"wet-mesic\",\"Bucknell\":\"wet-mesic\",\"Burcham\":\"wet-mesic\",\"Cantril\":\"wet-mesic\",\"Cerlin\":\"wet-mesic\",\"Cooper\":\"wet-mesic\",\"Corwith\":\"wet-mesic\",\"Cresco\":\"wet-mesic\",\"Crippin\":\"wet-mesic\",\"Cylinder\":\"wet-mesic\",\"Donnan\":\"wet-mesic\",\"Dunkerton\":\"wet-mesic\",\"Elon\":\"wet-mesic\",\"Elrin\":\"wet-mesic\",\"Ely\":\"wet-mesic\",\"Floyd\":\"wet-mesic\",\"Franklin\":\"wet-mesic\",\"Galland\":\"wet-mesic\",\"Givin\":\"wet-mesic\",\"Grantcenter\":\"wet-mesic\",\"Hayfield\":\"wet-mesic\",\"Hoopeston\":\"wet-mesic\",\"Hornick\":\"wet-mesic\",\"Jacwin\":\"wet-mesic\",\"Kensett\":\"wet-mesic\",\"Keomah\":\"wet-mesic\",\"Keswick\":\"wet-mesic\",\"Klinger\":\"wet-mesic\",\"Klingmore\":\"wet-mesic\",\"Kniffin\":\"wet-mesic\",\"Koszta\":\"wet-mesic\",\"Lakeport\":\"wet-mesic\",\"Lamoni\":\"wet-mesic\",\"Larpenteur\":\"wet-mesic\",\"Le Sueur\":\"wet-mesic\",\"Linder\":\"wet-mesic\",\"Lineville\":\"wet-mesic\",\"Lossing\":\"wet-mesic\",\"Luther\":\"wet-mesic\",\"Macksburg\":\"wet-mesic\",\"Mahaska\":\"wet-mesic\",\"Malvern\":\"wet-mesic\",\"McCreath\":\"wet-mesic\",\"McPaul\":\"wet-mesic\",\"Minden\":\"wet-mesic\",\"Modale\":\"wet-mesic\",\"Muscatine\":\"wet-mesic\",\"Mystic\":\"wet-mesic\",\"Nodaway\":\"wet-mesic\",\"Oakton\":\"wet-mesic\",\"Oran\":\"wet-mesic\",\"Ottosen\":\"wet-mesic\",\"Percival\":\"wet-mesic\",\"Pinicon\":\"wet-mesic\",\"Primghar\":\"wet-mesic\",\"Protivin\":\"wet-mesic\",\"Rathbun\":\"wet-mesic\",\"Readlyn\":\"wet-mesic\",\"Riceville\":\"wet-mesic\",\"Schley\":\"wet-mesic\",\"Scroll\":\"wet-mesic\",\"Seymour\":\"wet-mesic\",\"Shaffton\":\"wet-mesic\",\"Sigglekov\":\"wet-mesic\",\"Smithland\":\"wet-mesic\",\"Snider\":\"wet-mesic\",\"Spillco\":\"wet-mesic\",\"Spillville\":\"wet-mesic\",\"Toolesboro\":\"wet-mesic\",\"Turlin\":\"wet-mesic\",\"Fostoria\":\"wet-mesic \",\"Nicollet\":\"wet-mesic \",\"Lawler\":\"wet-mesic  \",\"Onawa\":\"wet-mesic  \",\"Bertram\":\"xeric\",\"Buckney\":\"xeric\",\"Chelsea\":\"xeric\",\"Dickinson\":\"xeric\",\"Finchford\":\"xeric\",\"Flagler\":\"xeric\",\"Fruitfield\":\"xeric\",\"Lilah\":\"xeric\",\"Montieth\":\"xeric\",\"Perks\":\"xeric\",\"Ridgeport\":\"xeric\",\"Sparta\":\"xeric\"}");
+
+/***/ }),
+
+/***/ "./src/references/tree_stock_sizes.json":
+/*!**********************************************!*\
+  !*** ./src/references/tree_stock_sizes.json ***!
+  \**********************************************/
+/*! exports provided: 0, 1, 2, 3, 4, 5, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("[{\"id\":\"MncAVRtr\",\"value\":\"bareroot\"},{\"id\":\"fL_j0l400\",\"value\":\"container_18in_24in\"},{\"id\":\"ZXrCnom3T\",\"value\":\"container_2ft_3ft\"},{\"id\":\"rDFUVsplI\",\"value\":\"container_3ft_4ft\"},{\"id\":\"3Rrd5veAL\",\"value\":\"container_4ft_5ft\"},{\"id\":\"5cltl3sdD\",\"value\":\"container_over_5ft\"}]");
+
+/***/ }),
+
+/***/ "./src/references/tree_types.json":
+/*!****************************************!*\
+  !*** ./src/references/tree_types.json ***!
+  \****************************************/
+/*! exports provided: 0, 1, 2, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("[{\"id\":\"9EmOC874\",\"value\":\"hardwood\"},{\"id\":\"77l_gl54Q\",\"value\":\"evergreen\"},{\"id\":\"lJEh5tsIx\",\"value\":\"shrub\"}]");
+
+/***/ }),
+
+/***/ "./src/references/trees_list.json":
+/*!****************************************!*\
+  !*** ./src/references/trees_list.json ***!
+  \****************************************/
+/*! exports provided: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("[{\"id\":\"iovTQuCC9\",\"type\":\"9EmOC874\",\"display\":\"Bur Oak\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"bCZzj69Cl\",\"type\":\"9EmOC874\",\"display\":\"Pin Oak\",\"csgs\":[\"1\",\"2\"]},{\"id\":\"i9EPNTpZ4\",\"type\":\"9EmOC874\",\"display\":\"Swamp White Oak\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"6\"]},{\"id\":\"rK9SIxkuM\",\"type\":\"9EmOC874\",\"display\":\"Walnut\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\"]},{\"id\":\"AUkE_fQXE\",\"type\":\"9EmOC874\",\"display\":\"Pecan\",\"csgs\":[\"1\",\"3\",\"4\"]},{\"id\":\"94bzYJimE\",\"type\":\"9EmOC874\",\"display\":\"Hackberry\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"9jNWCkaYj\",\"type\":\"9EmOC874\",\"display\":\"Kentucky Coffee Tree\",\"csgs\":[\"1\",\"3\",\"4\",\"6\"]},{\"id\":\"W85HaxeUr\",\"type\":\"9EmOC874\",\"display\":\"Shellbark Hickory\",\"csgs\":[\"1\",\"2\",\"8W\"]},{\"id\":\"onz9wUD_j\",\"type\":\"9EmOC874\",\"display\":\"River Birch\",\"csgs\":[\"1\",\"2\",\"8W\"]},{\"id\":\"XM2ddv7LM\",\"type\":\"9EmOC874\",\"display\":\"Silver Maple\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"6\",\"9\"]},{\"id\":\"FrG3Ef9FY\",\"type\":\"9EmOC874\",\"display\":\"Sycamore\",\"csgs\":[\"1\",\"2\",\"6\",\"8W\"]},{\"id\":\"041ezRmp_\",\"type\":\"9EmOC874\",\"display\":\"Cottonwood\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"6\",\"8\",\"9\",\"8W\"]},{\"id\":\"p_3RUq1xo\",\"type\":\"9EmOC874\",\"display\":\"Hybrid Poplar\",\"csgs\":[\"1\",\"3\",\"4\",\"6\",\"8\"]},{\"id\":\"Xo2V7HS71d\",\"type\":\"9EmOC874\",\"display\":\"Willow\",\"csgs\":[\"1\",\"2\",\"9\",\"8W\"]},{\"id\":\"xYmlHbRELv\",\"type\":\"9EmOC874\",\"display\":\"Black Oak\",\"csgs\":[\"3\",\"5\",\"6\",\"7\"]},{\"id\":\"LSp15RnJq-\",\"type\":\"9EmOC874\",\"display\":\"Chinkapin Oak\",\"csgs\":[\"3\",\"5\",\"8\"]},{\"id\":\"a7wryzls1Q\",\"type\":\"9EmOC874\",\"display\":\"Red Oak\",\"csgs\":[\"3\",\"4\",\"5\",\"6\",\"7\",\"8\"]},{\"id\":\"hsB7qC5cJ8\",\"type\":\"9EmOC874\",\"display\":\"White Oak\",\"csgs\":[\"3\",\"4\",\"5\",\"6\",\"7\",\"8\"]},{\"id\":\"Z2Sh5ATXyk\",\"type\":\"9EmOC874\",\"display\":\"Basswood\",\"csgs\":[\"3\",\"4\",\"6\"]},{\"id\":\"6m-MQwx6y3\",\"type\":\"9EmOC874\",\"display\":\"Black Cherry\",\"csgs\":[\"3\",\"4\",\"5\",\"6\"]},{\"id\":\"PZx4TGimVY\",\"type\":\"9EmOC874\",\"display\":\"Shagbark Hickory\",\"csgs\":[\"3\",\"4\",\"8\"]},{\"id\":\"1JNsJZ_Nok\",\"type\":\"9EmOC874\",\"display\":\"Hard Maple\",\"csgs\":[\"3\",\"4\",\"6\"]},{\"id\":\"v5deek8wi9\",\"type\":\"9EmOC874\",\"display\":\"Butternut\",\"csgs\":[\"3\",\"5\",\"6\",\"7\"]},{\"id\":\"e0saAueD8h\",\"type\":\"9EmOC874\",\"display\":\"Pin Pak\",\"csgs\":[\"4\"]},{\"id\":\"F_1E76wqp4\",\"type\":\"9EmOC874\",\"display\":\"Hickory\",\"csgs\":[\"5\",\"6\",\"7\"]},{\"id\":\"G49XliiXfU\",\"type\":\"9EmOC874\",\"display\":\"Swamp White\",\"csgs\":[\"8W\"]},{\"id\":\"cOMTQi8tJt\",\"type\":\"77l_gl54Q\",\"display\":\"Eastern Red Cedar\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"IiigTpFthZ\",\"type\":\"77l_gl54Q\",\"display\":\"Tamarack\",\"csgs\":[\"1\",\"2\"]},{\"id\":\"QJ6h4oHD7L\",\"type\":\"77l_gl54Q\",\"display\":\"European Larch\",\"csgs\":[\"1\",\"3\",\"4\",\"6\"]},{\"id\":\"2uQkqmTKGO\",\"type\":\"77l_gl54Q\",\"display\":\"Bald Cypress\",\"csgs\":[\"1\",\"2\"]},{\"id\":\"J8lpymM5E7\",\"type\":\"77l_gl54Q\",\"display\":\"Eastern White Pine\",\"csgs\":[\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"00SrGSjqwU\",\"type\":\"77l_gl54Q\",\"display\":\"Jack Pine\",\"csgs\":[\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"6KmLxdJqdY\",\"type\":\"77l_gl54Q\",\"display\":\"Red Pine\",\"csgs\":[\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"DifVgU7w8s\",\"type\":\"77l_gl54Q\",\"display\":\"Norway Spruce\",\"csgs\":[\"3\",\"4\",\"5\",\"6\"]},{\"id\":\"c4Hfc4jqQD\",\"type\":\"77l_gl54Q\",\"display\":\"White Spruce\",\"csgs\":[\"3\",\"4\",\"5\",\"6\"]},{\"id\":\"dknk8dlURn\",\"type\":\"77l_gl54Q\",\"display\":\"White/Concolor Fir\",\"csgs\":[\"3\",\"4\",\"6\"]},{\"id\":\"6iI_E4bBud\",\"type\":\"77l_gl54Q\",\"display\":\"Arborvitae\",\"csgs\":[\"3\",\"4\",\"6\"]},{\"id\":\"r7RWHbq14y\",\"type\":\"77l_gl54Q\",\"display\":\"Serbian Spruce\",\"csgs\":[\"3\",\"4\",\"5\"]},{\"id\":\"3J2Sqy9Fd0\",\"type\":\"77l_gl54Q\",\"display\":\"Cannan Fir\",\"csgs\":[\"3\"]},{\"id\":\"LLW0ItjhDD\",\"type\":\"77l_gl54Q\",\"display\":\"Concolor fir\",\"csgs\":[\"5\",\"7\"]},{\"id\":\"2AccoyhbGd\",\"type\":\"lJEh5tsIx\",\"display\":\"American Plum\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"yZG1nFDwvo\",\"type\":\"lJEh5tsIx\",\"display\":\"Arrowwood\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"bt3x5SyDGi\",\"type\":\"lJEh5tsIx\",\"display\":\"Buttonbush\",\"csgs\":[\"1\",\"2\",\"3\",\"5\",\"6\",\"9\"]},{\"id\":\"ENcB3AMDJW\",\"type\":\"lJEh5tsIx\",\"display\":\"Choke Cherry\",\"csgs\":[\"1\",\"3\"]},{\"id\":\"f7gcHSxjW7\",\"type\":\"lJEh5tsIx\",\"display\":\"Crabapple\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"zgFrzi8t9W\",\"type\":\"lJEh5tsIx\",\"display\":\"Dogwood, Gray\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"36BAMLGu3e\",\"type\":\"lJEh5tsIx\",\"display\":\"Dogwood, Silky\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"6\",\"9\"]},{\"id\":\"hD2mThEOTR\",\"type\":\"lJEh5tsIx\",\"display\":\"Dogwood, Redosier\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"6\"]},{\"id\":\"bbNEqTbsy_\",\"type\":\"lJEh5tsIx\",\"display\":\"Elderberry\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"6\",\"9\"]},{\"id\":\"7TqpVBBC7T\",\"type\":\"lJEh5tsIx\",\"display\":\"Hawthorn\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"KPGrCsefy1\",\"type\":\"lJEh5tsIx\",\"display\":\"Hazelnut\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"Cz4TpCmWaL\",\"type\":\"lJEh5tsIx\",\"display\":\"Highbush Cranberry\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\"]},{\"id\":\"fw20SZbIjF\",\"type\":\"lJEh5tsIx\",\"display\":\"Nanking Cherry\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"Ad4QTpDw0i\",\"type\":\"lJEh5tsIx\",\"display\":\"Nannyberry\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"8\",\"8W\"]},{\"id\":\"oCChtWlsJA\",\"type\":\"lJEh5tsIx\",\"display\":\"Ninebark\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"-CbefAGeRa\",\"type\":\"lJEh5tsIx\",\"display\":\"Eastern Redbud\",\"csgs\":[\"1\",\"3\",\"4\",\"6\"]},{\"id\":\"T81S56wXLa\",\"type\":\"lJEh5tsIx\",\"display\":\"Sandbar Willow\",\"csgs\":[\"1\"]},{\"id\":\"mndhyHS6ad\",\"type\":\"lJEh5tsIx\",\"display\":\"Serviceberry\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\"]},{\"id\":\"juSbU5SCYS\",\"type\":\"lJEh5tsIx\",\"display\":\"Viburnum spp.\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"eWqicahsWJ\",\"type\":\"lJEh5tsIx\",\"display\":\"Paw Paw\",\"csgs\":[\"1\",\"3\",\"5\",\"6\"]},{\"id\":\"1eocFNPPO7\",\"type\":\"lJEh5tsIx\",\"display\":\"Winterberry\",\"csgs\":[\"1\",\"2\"]},{\"id\":\"qunNx3f92o\",\"type\":\"lJEh5tsIx\",\"display\":\"Blackhaw\",\"csgs\":[\"3\",\"4\",\"5\",\"6\",\"7\",\"8\"]},{\"id\":\"Z4aVwkt7Z5\",\"type\":\"lJEh5tsIx\",\"display\":\"Black Chokeberry\",\"csgs\":[\"3\",\"4\"]},{\"id\":\"SA4r9iESQa\",\"type\":\"lJEh5tsIx\",\"display\":\"Chokecherry\",\"csgs\":[\"5\",\"7\"]},{\"id\":\"TizXtoGw_A\",\"type\":\"lJEh5tsIx\",\"display\":\"Black Chokeberry (Aronia\",\"csgs\":[\"5\"]},{\"id\":\"_ESYLhsl0v\",\"type\":\"lJEh5tsIx\",\"display\":\"Common Liliac\",\"csgs\":[\"8\"]}]");
 
 /***/ }),
 
@@ -72228,25 +75426,255 @@ if (content.locals) {
 
 /***/ }),
 
-/***/ "./src/test_data/prairie.json":
-/*!************************************!*\
-  !*** ./src/test_data/prairie.json ***!
-  \************************************/
-/*! exports provided: type, properties, geometry, default */
-/***/ (function(module) {
-
-module.exports = JSON.parse("{\"type\":\"Feature\",\"properties\":{\"type\":\"prairie\",\"configs\":{\"seed\":{\"id\":14,\"value\":\"Some Seed Mix\",\"price\":{\"value\":24.16,\"per_unit\":\"acre\",\"currency\":\"$_dollar\"}},\"management\":{\"id\":1,\"display\":\"Mow\"},\"cropping_system\":{\"id\":1,\"display\":\"Corn Rotation\"},\"pest_control\":{\"id\":1,\"display\":\"Pest Control\"}}},\"geometry\":{\"type\":\"Polygon\",\"coordinates\":[[[-93.58695030212402,41.59143877963822],[-93.58712196350098,41.585340200380344],[-93.57373237609862,41.584441413680075],[-93.56961250305176,41.59118200897135],[-93.58695030212402,41.59143877963822]]]}}");
-
-/***/ }),
-
-/***/ "./src/test_data/tree.json":
+/***/ "./src/utils/enrichment.js":
 /*!*********************************!*\
-  !*** ./src/test_data/tree.json ***!
+  !*** ./src/utils/enrichment.js ***!
   \*********************************/
-/*! exports provided: type, properties, geometry, default */
-/***/ (function(module) {
+/*! exports provided: enrichment */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = JSON.parse("{\"type\":\"Feature\",\"properties\":{\"type\":\"tree\",\"configs\":{\"propagation\":\"N\",\"rows\":[{\"type\":{\"id\":1,\"display\":\"Evergreen\"},\"species\":{\"id\":15,\"display\":\"Jack Pine\"}},{\"type\":{\"id\":1,\"display\":\"Evergreen\"},\"species\":{\"id\":15,\"display\":\"Jack Pine\"}},{\"type\":{\"id\":1,\"display\":\"Evergreen\"},\"species\":{\"id\":15,\"display\":\"Jack Pine\"}}],\"spacing_rows\":{\"value\":3,\"unit\":\"feet\"},\"spacing_trees\":{\"value\":3,\"unit\":\"feet\"},\"stock_size\":{\"id\":1,\"display\":\"Bareroot\"},\"drip_irrigation\":true}},\"geometry\":{\"coordinates\":[[-93.21597121673544,41.22536138968471],[-93.23219321685778,41.2263942656609],[-93.21605704742409,41.22536138968471]],\"type\":\"LineString\"}}");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enrichment", function() { return enrichment; });
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _turf_area__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @turf/area */ "./node_modules/@turf/area/index.js");
+/* harmony import */ var _turf_area__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_turf_area__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var references_csr_rent_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! references/csr_rent.json */ "./src/references/csr_rent.json");
+var references_csr_rent_json__WEBPACK_IMPORTED_MODULE_6___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/csr_rent.json */ "./src/references/csr_rent.json", 1);
+/* harmony import */ var references_soil_series_moisture_json__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! references/soil_series_moisture.json */ "./src/references/soil_series_moisture.json");
+var references_soil_series_moisture_json__WEBPACK_IMPORTED_MODULE_7___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/soil_series_moisture.json */ "./src/references/soil_series_moisture.json", 1);
+/* harmony import */ var references_soil_series_csg_json__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! references/soil_series_csg.json */ "./src/references/soil_series_csg.json");
+var references_soil_series_csg_json__WEBPACK_IMPORTED_MODULE_8___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/soil_series_csg.json */ "./src/references/soil_series_csg.json", 1);
+/* harmony import */ var _geometry__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./geometry */ "./src/utils/geometry.js");
+/* harmony import */ var _sources__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./sources */ "./src/utils/sources.js");
+/* harmony import */ var _ssurgo_worker_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./ssurgo.worker.js */ "./src/utils/ssurgo.worker.js");
+/* harmony import */ var _ssurgo_worker_js__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_ssurgo_worker_js__WEBPACK_IMPORTED_MODULE_11__);
+
+
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+
+
+
+
+
+
+
+ // eslint-disable-next-line
+
+
+var debug = debug__WEBPACK_IMPORTED_MODULE_5___default()('Enrichment');
+
+function findSSURGOIntersects(_x, _x2) {
+  return _findSSURGOIntersects.apply(this, arguments);
+}
+
+function _findSSURGOIntersects() {
+  _findSSURGOIntersects = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()(
+  /*#__PURE__*/
+  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee(feature, mapunits) {
+    var worker;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            worker = new _ssurgo_worker_js__WEBPACK_IMPORTED_MODULE_11___default.a();
+            return _context.abrupt("return", new Promise(function (resolve) {
+              worker.postMessage({
+                feature: feature,
+                mapunits: mapunits.map(function (ea) {
+                  return {
+                    id: ea.properties.OBJECTID || null,
+                    type: 'Feature',
+                    geometry: ea.geometry
+                  };
+                })
+              });
+
+              worker.onmessage = function (event) {
+                if (event.data.intersects) {
+                  resolve(event.data.intersects);
+                }
+              };
+            }));
+
+          case 2:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return _findSSURGOIntersects.apply(this, arguments);
+}
+
+function enrichment(_x3, _x4) {
+  return _enrichment.apply(this, arguments);
+}
+
+function _enrichment() {
+  _enrichment = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()(
+  /*#__PURE__*/
+  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee2(feature, map) {
+    var clone, boundingPolygon, county, ssurgo, intersects, ssurgoIntersects;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            debug('Enriching:', feature);
+            clone = lodash__WEBPACK_IMPORTED_MODULE_4___default.a.cloneDeep(feature);
+            clone.properties = clone.properties || {};
+
+            if (clone.properties.type === 'tree') {
+              boundingPolygon = Object(_geometry__WEBPACK_IMPORTED_MODULE_9__["linesToPolygon"])(Object(_sources__WEBPACK_IMPORTED_MODULE_10__["getTreeRows"])(_objectSpread({}, clone, {
+                properties: _objectSpread({}, clone.properties, {
+                  configs: _objectSpread({}, clone.properties.configs || {}, {
+                    rows: [{}, {}, {}],
+                    spacing_rows: {
+                      value: 3,
+                      unit: 'feet'
+                    },
+                    propagation: 'N' // Placeholder, because it doesn't really matter, the width of the number of rows isn't large enough to span multiple ssurgo areas.
+
+                  })
+                })
+              })));
+            } // Acreage
+
+
+            clone.properties.acreage = (boundingPolygon ? _turf_area__WEBPACK_IMPORTED_MODULE_3___default()(boundingPolygon) : _turf_area__WEBPACK_IMPORTED_MODULE_3___default()(clone)) * 0.000247105; // County and CSR Rent
+
+            _context2.prev = 5;
+            _context2.next = 8;
+            return Object(_geometry__WEBPACK_IMPORTED_MODULE_9__["getPolygonCounty"])(clone);
+
+          case 8:
+            county = _context2.sent;
+
+            if (county) {
+              _context2.next = 11;
+              break;
+            }
+
+            throw new Error('No country returned.');
+
+          case 11:
+            if (references_csr_rent_json__WEBPACK_IMPORTED_MODULE_6__[county]) {
+              _context2.next = 13;
+              break;
+            }
+
+            throw new Error("Couldn't find CSR rent for county: ".concat(county));
+
+          case 13:
+            clone.properties = _objectSpread({}, clone.properties, {
+              county: county,
+              rent: references_csr_rent_json__WEBPACK_IMPORTED_MODULE_6__[county]
+            });
+            _context2.next = 19;
+            break;
+
+          case 16:
+            _context2.prev = 16;
+            _context2.t0 = _context2["catch"](5);
+            clone.properties = _objectSpread({}, clone.properties, {
+              county: null,
+              rent: null
+            });
+
+          case 19:
+            // Soils
+            // For whatever reason, queryRenderedFeatures is inaccurate and only returns one polygon that doesn't even intersect the bbox.
+            // const bbox = calcBbox(boundingPolygon || clone);
+            // console.log(bbox);
+            // const ssurgo = map.queryRenderedFeatures([[bbox[0], bbox[1]], [bbox[2], bbox[3]]], {
+            // 	layers: ['ssurgo'],
+            // });
+            ssurgo = map.querySourceFeatures('ssurgo', {
+              sourceLayer: 'default'
+            }); // .filter(ea => calcIntersect(ea, boundingPolygon || clone));
+            // async function stagger() {
+            // 	return new Promise(resolve => {
+            // 		const results = [];
+            // 		const slices = [];
+            // 		const chunk = 50;
+            // 		const delay = 0;
+            // 		for (let i = 0, ii = ssurgo.length; i < ii; i += chunk) {
+            // 			const slice = ssurgo.slice(i, i + chunk);
+            // 			slices.push(slice);
+            // 		}
+            // 		async function run() {
+            // 			if (slices.length === 0) {
+            // 				resolve(results);
+            // 				return;
+            // 			}
+            // 			const slice = slices.shift();
+            // 			const result = await findSSURGOIntersects(boundingPolygon || clone, slice);
+            // 			results.push(result);
+            // 			setTimeout(run, delay);
+            // 		}
+            // 		run();
+            // 	});
+            // }
+            // const intersects = await stagger();
+
+            _context2.next = 22;
+            return findSSURGOIntersects(boundingPolygon || clone, ssurgo);
+
+          case 22:
+            intersects = _context2.sent;
+            ssurgoIntersects = intersects.map(function (ea) {
+              return ssurgo.find(function (mapunit) {
+                return mapunit.properties.OBJECTID === ea;
+              });
+            });
+
+            if (ssurgo && ssurgo.length > 0) {
+              clone.properties = _objectSpread({}, clone.properties, {
+                ssurgo_intersect_data: ssurgoIntersects.map(function (ea) {
+                  return ea.properties;
+                }),
+                // eslint-disable-next-line no-confusing-arrow
+                series: ssurgoIntersects.map(function (ea) {
+                  return references_soil_series_moisture_json__WEBPACK_IMPORTED_MODULE_7__[ea.properties.compname] ? [ea.properties.compname, {
+                    moisture: references_soil_series_moisture_json__WEBPACK_IMPORTED_MODULE_7__[ea.properties.compname],
+                    csg: references_soil_series_csg_json__WEBPACK_IMPORTED_MODULE_8__[ea.properties.compname].toString()
+                  }] : null;
+                }).filter(function (ea) {
+                  return !!ea;
+                }),
+                csr: ssurgoIntersects.map(function (ea) {
+                  return ea.properties.iacornsr;
+                }).filter(function (ea) {
+                  return !!ea;
+                })
+              });
+            }
+
+            return _context2.abrupt("return", clone);
+
+          case 26:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2, null, [[5, 16]]);
+  }));
+  return _enrichment.apply(this, arguments);
+}
 
 /***/ }),
 
@@ -72254,7 +75682,7 @@ module.exports = JSON.parse("{\"type\":\"Feature\",\"properties\":{\"type\":\"tr
 /*!*******************************!*\
   !*** ./src/utils/geometry.js ***!
   \*******************************/
-/*! exports provided: fitLine, findSlope, castLineToBbox, findLongestParallel, findPerpendicularLine, findBearing, findLineWithBearing, offsetLine, dotLine, findMaximaVertices */
+/*! exports provided: fitLine, findSlope, castLineToBbox, findLongestParallel, findPerpendicularLine, findBearing, findLineWithBearing, offsetLine, dotLine, linesToPolygon, findMaximaVertices, getPolygonCounty */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72268,29 +75696,46 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findLineWithBearing", function() { return findLineWithBearing; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "offsetLine", function() { return offsetLine; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dotLine", function() { return dotLine; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "linesToPolygon", function() { return linesToPolygon; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "findMaximaVertices", function() { return findMaximaVertices; });
-/* harmony import */ var _turf_along__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @turf/along */ "./node_modules/@turf/along/index.js");
-/* harmony import */ var _turf_along__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_turf_along__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _turf_bbox__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @turf/bbox */ "./node_modules/@turf/bbox/index.js");
-/* harmony import */ var _turf_bbox__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_turf_bbox__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _turf_bearing__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @turf/bearing */ "./node_modules/@turf/bearing/index.js");
-/* harmony import */ var _turf_bearing__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_turf_bearing__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _turf_boolean_point_in_polygon__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @turf/boolean-point-in-polygon */ "./node_modules/@turf/boolean-point-in-polygon/index.js");
-/* harmony import */ var _turf_boolean_point_in_polygon__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_turf_boolean_point_in_polygon__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _turf_centroid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @turf/centroid */ "./node_modules/@turf/centroid/index.js");
-/* harmony import */ var _turf_centroid__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_turf_centroid__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _turf_distance__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @turf/distance */ "./node_modules/@turf/distance/index.js");
-/* harmony import */ var _turf_distance__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_turf_distance__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _turf_line_arc__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @turf/line-arc */ "./node_modules/@turf/line-arc/index.js");
-/* harmony import */ var _turf_line_arc__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_turf_line_arc__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _turf_line_offset__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @turf/line-offset */ "./node_modules/@turf/line-offset/main.es.js");
-/* harmony import */ var _turf_line_split__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @turf/line-split */ "./node_modules/@turf/line-split/main.es.js");
-/* harmony import */ var _turf_helpers__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @turf/helpers */ "./node_modules/@turf/helpers/index.js");
-/* harmony import */ var _turf_helpers__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_turf_helpers__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var _turf_polygon_to_line__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @turf/polygon-to-line */ "./node_modules/@turf/polygon-to-line/index.js");
-/* harmony import */ var _turf_polygon_to_line__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_turf_polygon_to_line__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getPolygonCounty", function() { return getPolygonCounty; });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _turf_along__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @turf/along */ "./node_modules/@turf/along/index.js");
+/* harmony import */ var _turf_along__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_turf_along__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _turf_bbox__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @turf/bbox */ "./node_modules/@turf/bbox/index.js");
+/* harmony import */ var _turf_bbox__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_turf_bbox__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _turf_bearing__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @turf/bearing */ "./node_modules/@turf/bearing/index.js");
+/* harmony import */ var _turf_bearing__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_turf_bearing__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _turf_boolean_point_in_polygon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @turf/boolean-point-in-polygon */ "./node_modules/@turf/boolean-point-in-polygon/index.js");
+/* harmony import */ var _turf_boolean_point_in_polygon__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_turf_boolean_point_in_polygon__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _turf_centroid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @turf/centroid */ "./node_modules/@turf/centroid/index.js");
+/* harmony import */ var _turf_centroid__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_turf_centroid__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _turf_distance__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @turf/distance */ "./node_modules/@turf/distance/index.js");
+/* harmony import */ var _turf_distance__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_turf_distance__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _turf_line_arc__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @turf/line-arc */ "./node_modules/@turf/line-arc/index.js");
+/* harmony import */ var _turf_line_arc__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_turf_line_arc__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _turf_line_offset__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @turf/line-offset */ "./node_modules/@turf/line-offset/main.es.js");
+/* harmony import */ var _turf_line_split__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @turf/line-split */ "./node_modules/@turf/line-split/main.es.js");
+/* harmony import */ var _turf_helpers__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @turf/helpers */ "./node_modules/@turf/helpers/index.js");
+/* harmony import */ var _turf_helpers__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_turf_helpers__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var _turf_polygon_to_line__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @turf/polygon-to-line */ "./node_modules/@turf/polygon-to-line/index.js");
+/* harmony import */ var _turf_polygon_to_line__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_turf_polygon_to_line__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_14__);
+
+
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+/* eslint-disable no-undef */
 
 
 
@@ -72337,11 +75782,11 @@ function fitLine(line, polygon) {
   var multiLine = line;
 
   if (line.geometry.type === 'LineString') {
-    multiLine = Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_9__["multiLineString"])([line.geometry.coordinates]);
+    multiLine = Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_12__["multiLineString"])([line.geometry.coordinates]);
   }
 
   multiLine.geometry.coordinates.forEach(function (part) {
-    var split = Object(_turf_line_split__WEBPACK_IMPORTED_MODULE_8__["default"])(Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_9__["lineString"])(part), polygon); // console.log(part, split.features.map(ea => ea.geometry.coordinates));
+    var split = Object(_turf_line_split__WEBPACK_IMPORTED_MODULE_11__["default"])(Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_12__["lineString"])(part), polygon); // console.log(part, split.features.map(ea => ea.geometry.coordinates));
     // lineSplit unfortunately doesn't guarantee the order of the line segments... so we have to find the first point and "connect the dots".
     // This "sweep algorithm" sorts the line segments by longitude (x-axis), then runs a sweep to determine if there are any matches between end and start points.
     // const sorted = split.features.sort((a, b) => a.geometry.coordinates[0][0] - b.geometry.coordinates[0][0]);
@@ -72354,7 +75799,7 @@ function fitLine(line, polygon) {
     // As long as we can determine if the starting point of the first line is "in" or "out", we can determine what the other lines are.
 
     var oddPair;
-    var inPoly = _turf_boolean_point_in_polygon__WEBPACK_IMPORTED_MODULE_3___default()(Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_9__["point"])(part[0]), polygon);
+    var inPoly = _turf_boolean_point_in_polygon__WEBPACK_IMPORTED_MODULE_6___default()(Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_12__["point"])(part[0]), polygon);
 
     if (inPoly) {
       oddPair = 0;
@@ -72420,10 +75865,10 @@ function castLineToBbox(slope, point, bbox) {
   var easternCoord = [bbox[2], slope * bbox[2] + yIntercept];
 
   if (useAxis === 'y') {
-    return Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_9__["lineString"])([southernCoord, northernCoord]);
+    return Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_12__["lineString"])([southernCoord, northernCoord]);
   }
 
-  return Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_9__["lineString"])([westernCoord, easternCoord]);
+  return Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_12__["lineString"])([westernCoord, easternCoord]);
 } // findLongestParallel
 // Find the line that runs parallel to the longest side of the given polygon, and intersects the centroid.
 // args:
@@ -72437,7 +75882,7 @@ function castLineToBbox(slope, point, bbox) {
 // Create a line that entends from the centroid in either direction, cast it to the ends of the bbox of the polygon.
 
 function findLongestParallel(polygon) {
-  var line = _turf_polygon_to_line__WEBPACK_IMPORTED_MODULE_10___default()(polygon);
+  var line = _turf_polygon_to_line__WEBPACK_IMPORTED_MODULE_13___default()(polygon);
   var coordinates = line.geometry.coordinates;
   var longestLine = coordinates.reduce(function (obj, coord, i) {
     var distance = obj.distance;
@@ -72447,14 +75892,14 @@ function findLongestParallel(polygon) {
       return obj;
     }
 
-    var thisDistance = _turf_distance__WEBPACK_IMPORTED_MODULE_5___default()(coord, nextCoord, {
+    var thisDistance = _turf_distance__WEBPACK_IMPORTED_MODULE_8___default()(coord, nextCoord, {
       units: 'meters'
     });
 
     if (thisDistance > distance) {
       return {
         distance: thisDistance,
-        line: Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_9__["lineString"])([coord, nextCoord])
+        line: Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_12__["lineString"])([coord, nextCoord])
       };
     }
 
@@ -72464,8 +75909,8 @@ function findLongestParallel(polygon) {
     line: null
   }).line;
   var slope = findSlope(longestLine);
-  var centroid = _turf_centroid__WEBPACK_IMPORTED_MODULE_4___default()(polygon);
-  var bbox = _turf_bbox__WEBPACK_IMPORTED_MODULE_1___default()(polygon);
+  var centroid = _turf_centroid__WEBPACK_IMPORTED_MODULE_7___default()(polygon);
+  var bbox = _turf_bbox__WEBPACK_IMPORTED_MODULE_4___default()(polygon);
   return castLineToBbox(slope, centroid, bbox);
 } // findPerpendicularLine
 // Find the line that is perpendicular to the given line, and intersects the given point, and is bound by the given polygon.
@@ -72483,7 +75928,7 @@ function findLongestParallel(polygon) {
 function findPerpendicularLine(line, point, polygon) {
   var slope = findSlope(line);
   var negativeReciprocal = -1 / slope;
-  var bbox = _turf_bbox__WEBPACK_IMPORTED_MODULE_1___default()(polygon);
+  var bbox = _turf_bbox__WEBPACK_IMPORTED_MODULE_4___default()(polygon);
   return castLineToBbox(negativeReciprocal, point, bbox);
 } // findBearing
 // Find the bearing degree of a line.
@@ -72496,7 +75941,7 @@ function findPerpendicularLine(line, point, polygon) {
 
 function findBearing(line) {
   var coordinates = line.geometry.coordinates;
-  return _turf_bearing__WEBPACK_IMPORTED_MODULE_2___default()(coordinates[1], coordinates[0]);
+  return _turf_bearing__WEBPACK_IMPORTED_MODULE_5___default()(coordinates[1], coordinates[0]);
 } // findLineWithBearing
 // Find the line that intersects the given point, with a given bearing degree, and is bound by the given polygon.
 // args:
@@ -72511,15 +75956,15 @@ function findBearing(line) {
 // Create a line that extends from the given point in either direction, cast it to the ends of the coordinate system.
 
 function findLineWithBearing(point, bearing, polygon) {
-  var arc = _turf_line_arc__WEBPACK_IMPORTED_MODULE_6___default()(point, 1, 0, bearing);
+  var arc = _turf_line_arc__WEBPACK_IMPORTED_MODULE_9___default()(point, 1, 0, bearing);
   var coordinates = arc.geometry.coordinates;
   var finalPoint = coordinates[coordinates.length - 1];
-  var line = Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_9__["lineString"])([point.geometry.coordinates, finalPoint].sort(function (a, b) {
+  var line = Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_12__["lineString"])([point.geometry.coordinates, finalPoint].sort(function (a, b) {
     return a - b;
   }));
   var slope = findSlope(line);
-  var centroid = _turf_centroid__WEBPACK_IMPORTED_MODULE_4___default()(polygon);
-  var bbox = _turf_bbox__WEBPACK_IMPORTED_MODULE_1___default()(polygon);
+  var centroid = _turf_centroid__WEBPACK_IMPORTED_MODULE_7___default()(polygon);
+  var bbox = _turf_bbox__WEBPACK_IMPORTED_MODULE_4___default()(polygon);
   return castLineToBbox(slope, centroid, bbox);
 } // offsetLine
 // Find the line that is offset the given line by a given distance.
@@ -72532,7 +75977,7 @@ function findLineWithBearing(point, bearing, polygon) {
 // Find the lineOffset of the given line with the given distance.
 
 function offsetLine(line, distance) {
-  return Object(_turf_line_offset__WEBPACK_IMPORTED_MODULE_7__["default"])(line, distance * 0.3048, {
+  return Object(_turf_line_offset__WEBPACK_IMPORTED_MODULE_10__["default"])(line, distance * 0.3048, {
     units: 'meters'
   });
 } // dotLine
@@ -72547,23 +75992,58 @@ function offsetLine(line, distance) {
 
 function dotLine(line, distance) {
   var coordinates = line.geometry.coordinates;
-  var length = _turf_distance__WEBPACK_IMPORTED_MODULE_5___default()(coordinates[0], coordinates[1], {
+  var length = _turf_distance__WEBPACK_IMPORTED_MODULE_8___default()(coordinates[0], coordinates[1], {
     units: 'meters'
   });
   var interations = length / (distance * 0.3048);
   var points = [];
 
   for (var i = 0, ii = Math.min(interations, 10000); i < ii; i += 1) {
-    points.push(_turf_along__WEBPACK_IMPORTED_MODULE_0___default()(line, distance * 0.3048 * i, {
+    points.push(_turf_along__WEBPACK_IMPORTED_MODULE_3___default()(line, distance * 0.3048 * i, {
       units: 'meters'
     }));
   }
 
   return points;
+} // linesToPolygon
+// Find the polygon that contains the lines.
+// args:
+// Array<LineString>
+// returns:
+// <Polygon>
+// Protocol:
+// Assume the lines are parallel, and of the same length. This algorithm will not work otherwise.
+// Flatten the coordinates of all given lines.
+// Find the maxima vertices of the array of coordinates.
+// Create a polygon from those maxima.
+
+function linesToPolygon(lines) {
+  var coords = lodash__WEBPACK_IMPORTED_MODULE_14___default.a.flatten(lines.map(function (ea) {
+    return ea.geometry.coordinates;
+  })); // eslint-disable-next-line no-use-before-define
+
+
+  var maxima = findMaximaVertices({
+    type: 'Feature',
+    geometry: {
+      type: 'LineString',
+      coordinates: coords
+    }
+  });
+  var polygonVertices = Object.keys(maxima).reduce(function (obj, ea) {
+    return _objectSpread({}, obj, _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_2___default()({}, ea, maxima[ea].geometry.coordinates));
+  }, {});
+  return {
+    type: 'Feature',
+    geometry: {
+      type: 'Polygon',
+      coordinates: [[polygonVertices.northern, polygonVertices.western, polygonVertices.southern, polygonVertices.eastern]]
+    }
+  };
 } // -----------------------------------
 // We need to generate the edit icon, in the southern-most vertex of the polygon.
 // findMaximaVertices
-// Find the vertices of the given polygon that are northern-most, eastern-most, western-most, and southern-most.
+// Find the vertices of the given feature that are northern-most, eastern-most, western-most, and southern-most.
 // args:
 // <Polygon> | <LineString>
 // returns:
@@ -72572,20 +76052,20 @@ function dotLine(line, distance) {
 // Sort the vertices by latitude. Find the point with the smallest latitude.
 
 function findMaximaVertices(feature) {
-  var clone = lodash__WEBPACK_IMPORTED_MODULE_11___default.a.cloneDeep(feature);
+  var clone = lodash__WEBPACK_IMPORTED_MODULE_14___default.a.cloneDeep(feature);
 
   var coordinates = clone.geometry.coordinates;
   var vertices = clone.geometry.type === 'Polygon' ? coordinates[0] : coordinates;
-  var northern = Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_9__["point"])(vertices.sort(function (a, b) {
+  var northern = Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_12__["point"])(vertices.sort(function (a, b) {
     return b[1] - a[1];
   })[0]);
-  var southern = Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_9__["point"])(vertices.sort(function (a, b) {
+  var southern = Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_12__["point"])(vertices.sort(function (a, b) {
     return a[1] - b[1];
   })[0]);
-  var western = Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_9__["point"])(vertices.sort(function (a, b) {
+  var western = Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_12__["point"])(vertices.sort(function (a, b) {
     return a[0] - b[0];
   })[0]);
-  var eastern = Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_9__["point"])(vertices.sort(function (a, b) {
+  var eastern = Object(_turf_helpers__WEBPACK_IMPORTED_MODULE_12__["point"])(vertices.sort(function (a, b) {
     return b[0] - a[0];
   })[0]);
   return {
@@ -72594,6 +76074,69 @@ function findMaximaVertices(feature) {
     western: western,
     eastern: eastern
   };
+} // -----------------------------------
+// We need to determine the county that a polygon exists in.
+// getPolygonCounty
+// Find the county that the centroid of the given polygon exists in.
+// args:
+// <Polygon>
+// returns:
+// String, country
+// Protocol:
+// Find the centroid of the polygon.
+// Run the coordinates through Google Places API.
+
+function getPolygonCounty(_x) {
+  return _getPolygonCounty.apply(this, arguments);
+}
+
+function _getPolygonCounty() {
+  _getPolygonCounty = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()(
+  /*#__PURE__*/
+  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(feature) {
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            return _context.abrupt("return", new Promise(function (resolve, reject) {
+              var clone = lodash__WEBPACK_IMPORTED_MODULE_14___default.a.cloneDeep(feature);
+
+              var centroid = _turf_centroid__WEBPACK_IMPORTED_MODULE_7___default()(clone);
+              var coordinates = centroid.geometry.coordinates;
+              var location = new google.maps.LatLng(coordinates[1], coordinates[0]);
+              var geocoder = new google.maps.Geocoder();
+              geocoder.geocode({
+                location: location
+              }, function (res, status) {
+                if (status !== 'OK') {
+                  reject(new Error("Geocoder status: ".concat(status)));
+                } else if (res.length > 0) {
+                  var countyResult = (res.find(function (ea) {
+                    return ea.types.includes('administrative_area_level_2');
+                  }) || {}).address_components || [];
+                  var countyComponent = countyResult.find(function (ea) {
+                    return ea.types.includes('administrative_area_level_2');
+                  });
+
+                  if (countyComponent) {
+                    resolve(countyComponent.long_name.replace(/\sCounty/, ''));
+                  } else {
+                    reject(new Error('No results.'));
+                  }
+                } else {
+                  reject(new Error('No results.'));
+                }
+              });
+            }));
+
+          case 1:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return _getPolygonCounty.apply(this, arguments);
 }
 
 /***/ }),
@@ -72611,22 +76154,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getSouthernVertices", function() { return getSouthernVertices; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTreeRows", function() { return getTreeRows; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOptimalTreePlacements", function() { return getOptimalTreePlacements; });
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _geometry__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./geometry */ "./src/utils/geometry.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _geometry__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./geometry */ "./src/utils/geometry.js");
+
+
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 /* eslint-disable no-unused-vars */
 // import calcCentroid from '@turf/centroid';
@@ -72636,13 +76176,13 @@ function getFeatures() {
   var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Map();
 
   var mapIndex = function mapIndex(ea, i) {
-    var clone = lodash__WEBPACK_IMPORTED_MODULE_0___default.a.cloneDeep(ea);
+    var clone = lodash__WEBPACK_IMPORTED_MODULE_2___default.a.cloneDeep(ea);
 
     clone.properties.index = i + 1;
     return clone;
   };
 
-  var features = _toConsumableArray(data.values());
+  var features = _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_1___default()(data.values());
 
   var tree = features.filter(function (ea) {
     return ea.properties.type === 'tree';
@@ -72650,12 +76190,12 @@ function getFeatures() {
   var prairie = features.filter(function (ea) {
     return ea.properties.type === 'prairie';
   }).map(mapIndex);
-  return [].concat(_toConsumableArray(tree), _toConsumableArray(prairie));
+  return [].concat(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_1___default()(tree), _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_1___default()(prairie));
 }
 function getSouthernVertices() {
   var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Map();
   var features = getFeatures(data).map(function (ea) {
-    var vertex = Object(_geometry__WEBPACK_IMPORTED_MODULE_1__["findMaximaVertices"])(ea).southern;
+    var vertex = Object(_geometry__WEBPACK_IMPORTED_MODULE_3__["findMaximaVertices"])(ea).southern;
     vertex.properties = _objectSpread({}, ea.properties, {
       label: "".concat(ea.properties.type.replace(/^\w/, function (c) {
         return c.toUpperCase();
@@ -72688,7 +76228,7 @@ function getTreeRows(line) {
   } // If slope is actually negative, reverse direction.
 
 
-  var slope = Object(_geometry__WEBPACK_IMPORTED_MODULE_1__["findSlope"])(line);
+  var slope = Object(_geometry__WEBPACK_IMPORTED_MODULE_3__["findSlope"])(line);
 
   if (slope < 0) {
     direction = 0 - direction;
@@ -72697,7 +76237,7 @@ function getTreeRows(line) {
   var offsets = [];
 
   for (var i = 0, ii = quantity; i < ii; i += 1) {
-    offsets.push(Object(_geometry__WEBPACK_IMPORTED_MODULE_1__["offsetLine"])(line, rowDistance * direction * i));
+    offsets.push(Object(_geometry__WEBPACK_IMPORTED_MODULE_3__["offsetLine"])(line, rowDistance * direction * i));
   }
 
   return offsets;
@@ -72708,12 +76248,25 @@ function getOptimalTreePlacements(line) {
   var treeDistance = spacing_trees.value;
   var offsets = getTreeRows(line);
 
-  var trees = lodash__WEBPACK_IMPORTED_MODULE_0___default.a.flatten(offsets.map(function (ea) {
-    return Object(_geometry__WEBPACK_IMPORTED_MODULE_1__["dotLine"])(ea, treeDistance);
+  var trees = lodash__WEBPACK_IMPORTED_MODULE_2___default.a.flatten(offsets.map(function (ea) {
+    return Object(_geometry__WEBPACK_IMPORTED_MODULE_3__["dotLine"])(ea, treeDistance);
   }));
 
   return trees;
 }
+
+/***/ }),
+
+/***/ "./src/utils/ssurgo.worker.js":
+/*!************************************!*\
+  !*** ./src/utils/ssurgo.worker.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function () {
+  return new Worker("/" + "9e251e2cd2fbae0e3b8a.worker.js");
+};
 
 /***/ })
 
