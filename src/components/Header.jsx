@@ -4,8 +4,6 @@ import {
 	withRouter,
 } from 'react-router-dom';
 
-import { MapConsumer } from 'contexts/MapState';
-
 import { SideNav } from './SideNav';
 import { HeaderOptions } from './HeaderOptions';
 import { LocationInputWrapper } from './LocationInput';
@@ -19,12 +17,14 @@ const Title = () => (
 	</div>
 );
 
-const SaveButton = ({ save }) => (
+const SaveButton = () => (
 	<div className="Save">
-		<button type="button" className="SaveButton" onClick={save} onKeyPress={save}>
-			<img className="narrow-save" src="/assets/save_narrow.svg" alt="Save" />
-			<img className="wide-save" src="/assets/save_wide.svg" alt="Save" />
-		</button>
+		<Link to="/#save">
+			<button type="button" className="SaveButton">
+				<img className="narrow-save" src="/assets/save_narrow.svg" alt="Save" />
+				<img className="wide-save" src="/assets/save_wide.svg" alt="Save" />
+			</button>
+		</Link>
 	</div>
 );
 
@@ -41,15 +41,17 @@ const Header = (props) => {
 				<Title />
 				<LocationInputWrapper location={location} />
 				<HeaderOptions location={location} history={history} />
-				<MapConsumer>
-					{ctx => <SaveButton save={ctx.save} />}
-				</MapConsumer>
+				{/* <MapConsumer>
+					{ctx => }
+				</MapConsumer> */}
+				<SaveButton />
 			</div>
 			<div className="search-save-btn">
 				<LocationInputWrapper location={location} />
-				<MapConsumer>
+				{/* <MapConsumer>
 					{ctx => <SaveButton save={ctx.save} />}
-				</MapConsumer>
+				</MapConsumer> */}
+				<SaveButton />
 			</div>
 		</div>
 	);

@@ -9,6 +9,7 @@ import { SettingsConsumer } from 'contexts/Settings';
 import { LocationPrompt } from './LocationPrompt';
 import { MapLegend } from './MapLegend';
 import { WelcomeModal } from './WelcomeModal';
+import { SaveModal } from './SaveModal';
 
 export const BigModal = props => {
 	const location = useLocation();
@@ -21,6 +22,9 @@ export const BigModal = props => {
 			break;
 		case 'location':
 			Component = LocationPrompt;
+			break;
+		case 'save':
+			Component = SaveModal;
 			break;
 		case 'welcome':
 			Component = welcomeProps => (
