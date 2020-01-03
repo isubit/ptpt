@@ -238,7 +238,7 @@ export class PlantingModal extends React.Component {
 			},
 		} = this;
 
-		let properties = {};
+		let properties;
 		if (type === 'tree') {
 			const {
 				state: {
@@ -291,7 +291,10 @@ export class PlantingModal extends React.Component {
 			this.setState(() => ({
 				formError: null,
 			}), () => {
-				editingFeature.properties = properties;
+				editingFeature.properties = {
+					...editingFeature.properties,
+					...properties,
+				};
 				saveFeature(editingFeature);
 			});
 		} else {
