@@ -190,7 +190,7 @@ export class HeaderOptions extends React.Component {
 						</div>
 					</li>
 					<li className={reportOptionActive ? 'option active' : 'option'}>
-						<Link to="/#" onClick={() => this.toggleActiveClass('reportOption')}>
+						<Link to="/report" onClick={() => this.toggleActiveClass('reportOption')}>
 							<img className="option-inactive" src="/assets/view_report.svg" alt="View report" />
 							<img className="option-active" src="/assets/reportOption_active.svg" alt="View report" />
 							<div className="option-name">
