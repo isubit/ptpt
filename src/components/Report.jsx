@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 // if no editingFeature, default to first tree area
 // if no features, empty table
 
-// logic for report will be included later, simply need to create the UI
 
 // report heading text
 
