@@ -23,7 +23,8 @@ const config = {
 	entry: APP_DIR + '/app.jsx',
 	output: {
 		path: BUILD_DIR,
-		filename: 'bundle.js'
+		filename: 'bundle.js',
+		globalObject: 'this'
 	},
 	devtool: 'source-map',
 	devServer:{
@@ -46,10 +47,20 @@ const config = {
 						plugins: [
 							'@babel/plugin-proposal-class-properties',
 							'@babel/plugin-proposal-optional-chaining',
+							'@babel/plugin-transform-runtime',
 						].map(require.resolve),
 					},
 				// }]
 				}, 'eslint-loader'],
+			},
+			{
+				test: /\.worker\.js$/,
+				use: [{
+					loader: 'worker-loader',
+					options: {
+						publicPath: '/'
+					}
+				}, 'babel-loader']
 			},
 			// {
 			// 	test: /\.json/,

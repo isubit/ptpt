@@ -12,8 +12,20 @@ import {
 const debug = Debug('MapState');
 
 export const MapDefaultState = {
+	// Data
 	data: new Map(),
+
+	// Google Maps API
 	mapAPILoaded: false,
+
+	// Device / Browser Geolocation API
+	geolocationSupported: !!(navigator && navigator.geolocation && navigator.geolocation.getCurrentPosition),
+	awaitingGeolocation: false,
+	geolocationError: null,
+	lastGeolocationStatus: null,
+	lastGeolocationResult: null,
+
+	// Map State
 	defaultLatLng: [-93.624287, 41.587537],
 	defaultZoom: 13,
 	defaultBearing: 0,
@@ -24,11 +36,15 @@ export const MapDefaultState = {
 		bearing: null,
 		pitch: null,
 	},
+
+	// Location Input
 	locationAddress: {
 		locationSearchInput: '',
 		addressName: '',
 		latlng: null,
 	},
+
+	// Map Layer States
 	basemap: 'outdoor',
 	layers: {
 		ssurgo: false,
@@ -63,13 +79,12 @@ export const MapActions = (that) => {
 					data.set(feature.id, feature);
 
 					// Rebuild a new state object with new data.
-					const updateState = {
+					that.setState(state => ({
 						MapState: {
-							...that.state.MapState,
+							...state.MapState,
 							data,
 						},
-					};
-					that.setState(updateState);
+					}));
 				}
 			} else {
 				debug('Error adding data to context:', errors);
@@ -80,21 +95,20 @@ export const MapActions = (that) => {
 			const data = new Map(that.state.MapState.data);
 			data.delete(id);
 
-			const updateState = {
+			that.setState(state => ({
 				MapState: {
-					...that.state.MapState,
+					...state.MapState,
 					data,
 				},
-			};
-			that.setState(updateState);
+			}));
 		},
 		setBasemap(basemapName) {
-			that.setState({
+			that.setState(state => ({
 				MapState: {
-					...that.state.MapState,
+					...state.MapState,
 					basemap: basemapName,
 				},
-			});
+			}));
 		},
 		setMapLayer(layerName) {
 			// Set map layer given layer name
@@ -102,33 +116,32 @@ export const MapActions = (that) => {
 			if (Object.prototype.hasOwnProperty.call(layers, layerName)) {
 				layers[layerName] = !layers[layerName];
 			}
-			const updateState = {
+			that.setState(state => ({
 				MapState: {
-					...that.state.MapState,
+					...state.MapState,
 					layers,
 				},
-			};
-			that.setState(updateState);
+			}));
 		},
 		setMapAPILoaded() {
 			if (!that.state.mapAPILoaded) {
-				that.setState({
+				that.setState(state => ({
 					MapState: {
-						...that.state.MapState,
+						...state.MapState,
 						mapAPILoaded: true,
 					},
-				});
+				}));
 			}
 		},
 		updateCurrentMapDetails(mapDetails) {
-			that.setState({
+			that.setState(state => ({
 				MapState: {
-					...that.state.MapState,
+					...state.MapState,
 					currentMapDetails: {
 						...mapDetails,
 					},
 				},
-			});
+			}));
 		},
 		setAddressLatLng() {
 			const {
@@ -153,9 +166,9 @@ export const MapActions = (that) => {
 						[address] = address;
 					}
 					const addressName = `${address.address_components[0].long_name}, ${address.address_components[1].long_name}`;
-					that.setState({
+					that.setState(state => ({
 						MapState: {
-							...that.state.MapState,
+							...state.MapState,
 							// reset zoom, bearing, and pitch
 							currentMapDetails: {
 								zoom: defaultZoom,
@@ -164,29 +177,102 @@ export const MapActions = (that) => {
 								latlng: [lng, lat],
 							},
 							locationAddress: {
-								...that.state.MapState.locationAddress,
+								...state.MapState.locationAddress,
 								addressName,
 								latlng: [lng, lat],
 							},
 						},
-					});
+					}));
 				})
 				.catch(error => debug('React places geocode error:', error));
 		},
 		setLocationSearchInput(locationSearchInput, callbackSetLatLng = false) {
-			that.setState({
+			that.setState(state => ({
 				MapState: {
-					...that.state.MapState,
+					...state.MapState,
 					locationAddress: {
-						...that.state.MapState.locationAddress,
+						...state.MapState.locationAddress,
 						locationSearchInput,
 					},
 				},
-			}, () => {
+			}), () => {
 				if (callbackSetLatLng) {
 					actions.setAddressLatLng();
 				}
 			});
+		},
+		setMapPreviouslyLoaded() {
+			that.setState(state => ({
+				MapState: {
+					...state.MapState,
+					mapPreviouslyLoaded: true,
+				},
+			}));
+		},
+		promptCurrentGeolocation() {
+			function get() {
+				navigator.geolocation.getCurrentPosition(pos => {
+					debug('Current geolocation:', pos);
+					const {
+						latitude,
+						longitude,
+					} = pos.coords;
+
+					that.setState(state => ({
+						MapState: {
+							...state.MapState,
+							awaitingGeolocation: false,
+							currentMapDetails: {
+								...state.MapState.currentMapDetails,
+								latlng: [longitude, latitude],
+							},
+							lastGeolocationResult: [longitude, latitude],
+						},
+					}));
+				}, err => {
+					debug('Geolocation error:', err);
+					that.setState(state => ({
+						MapState: {
+							...state.MapState,
+							awaitingGeolocation: false,
+							geolocationError: err.code,
+							lastGeolocationResult: null,
+						},
+					}));
+				});
+			}
+
+			if (that.state.MapState.geolocationSupported) {
+				navigator.permissions.query({ name: 'geolocation' })
+					.then(({ state: status }) => {
+						that.setState(state => ({
+							MapState: {
+								...state.MapState,
+								lastGeolocationStatus: status,
+							},
+						}), () => {
+							if (status === 'granted') {
+								get();
+							} else {
+								that.setState(state => ({
+									MapState: {
+										...state.MapState,
+										awaitingGeolocation: true,
+									},
+								}), get);
+							}
+						});
+					});
+			} else {
+				debug('Geolocation not supported.');
+				that.setState(state => ({
+					MapState: {
+						...state.MapState,
+						awaitingGeolocation: false,
+						geolocationError: 2,
+					},
+				}));
+			}
 		},
 	};
 	return actions;

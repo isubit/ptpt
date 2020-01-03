@@ -42,19 +42,19 @@ const DropdownCheckbox = ({
 	basemap,
 }) => (
 	<div className="dropdown-checkbox">
-		<div>
+		<div className="checkboxElement">
 			<input type="checkbox" checked={layers.ssurgo} name="ssurgo" onChange={(e) => setMapLayer(e.target.name)} />
 			<span>gSSURGO - CSR</span>
 		</div>
 		{/* <div>
 			<input type="checkbox" checked={layers.lidar} name="lidar" onChange={(e) => setMapLayer(e.target.name)} />
 			<span>LiDAR Hillshade</span>
-		</div>
-		<div>
-			<input type="checkbox" checked={layers.contours} name="contours" onChange={(e) => setMapLayer(e.target.name)} />
-			<span>(2 ft contours)</span>
 		</div> */}
-		<div>
+		<div className="checkboxElement">
+			<input type="checkbox" checked={layers.contours} name="contours" onChange={(e) => setMapLayer(e.target.name)} />
+			<span>2-ft Contours</span>
+		</div>
+		<div className="checkboxElement">
 			<input
 				type="checkbox"
 				checked={basemap === 'satellite'}
@@ -147,8 +147,7 @@ export class HeaderOptions extends React.Component {
 							<img className="option-inactive" src="/assets/plant_tree_option.svg" alt="Plant trees" />
 							<img className="option-active" src="/assets/tree_active.svg" alt="Plant trees" />
 							<div className="option-name">
-								<p>Plant</p>
-								<p>Trees</p>
+								Plant Trees
 							</div>
 						</Link>
 					</li>
@@ -157,8 +156,7 @@ export class HeaderOptions extends React.Component {
 							<img className="option-inactive" src="/assets/plant_prairie.svg" alt="Plant prairies" />
 							<img className="option-active" src="/assets/prairieOption_active.svg" alt="Plant prairies" />
 							<div className="option-name">
-								<p>Plant</p>
-								<p>Prairies</p>
+								Plant Prairies
 							</div>
 						</Link>
 					</li>
@@ -167,8 +165,7 @@ export class HeaderOptions extends React.Component {
 							<img className="option-inactive" src="/assets/map_layers.svg" alt="Show layers" />
 							<img className="option-active" src="/assets/layerOption_active.svg" alt="Show layers" />
 							<div className="option-name">
-								<p>View Map</p>
-								<p>Layers</p>
+								View Map Layers
 							</div>
 						</Link>
 						<div className="OptionsDropdown grid-row">
@@ -197,8 +194,7 @@ export class HeaderOptions extends React.Component {
 							<img className="option-inactive" src="/assets/view_report.svg" alt="View report" />
 							<img className="option-active" src="/assets/reportOption_active.svg" alt="View report" />
 							<div className="option-name">
-								<p>View</p>
-								<p>Report</p>
+								View Report
 							</div>
 						</Link>
 					</li>

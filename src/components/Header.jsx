@@ -20,10 +20,12 @@ const Title = () => (
 );
 
 const SaveButton = ({ save }) => (
-	<button type="button" className="SaveButton" onClick={save} onKeyPress={save}>
-		<img className="narrow-save" src="/assets/save_narrow.svg" alt="Save" />
-		<img className="wide-save" src="/assets/save_wide.svg" alt="Save" />
-	</button>
+	<div className="Save">
+		<button type="button" className="SaveButton" onClick={save} onKeyPress={save}>
+			<img className="narrow-save" src="/assets/save_narrow.svg" alt="Save" />
+			<img className="wide-save" src="/assets/save_wide.svg" alt="Save" />
+		</button>
+	</div>
 );
 
 const Header = (props) => {
@@ -37,14 +39,14 @@ const Header = (props) => {
 			<div className="grid-row sidenav-btn">
 				<SideNav />
 				<Title />
-				<LocationInputWrapper />
+				<LocationInputWrapper location={location} />
 				<HeaderOptions location={location} history={history} />
 				<MapConsumer>
 					{ctx => <SaveButton save={ctx.save} />}
 				</MapConsumer>
 			</div>
 			<div className="search-save-btn">
-				<LocationInputWrapper />
+				<LocationInputWrapper location={location} />
 				<MapConsumer>
 					{ctx => <SaveButton save={ctx.save} />}
 				</MapConsumer>
