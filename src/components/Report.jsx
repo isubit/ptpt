@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { MapConsumer } from 'contexts/MapState';
+
 // include editingFeature into props
 // if editingFeature, then show report for editingFeature
 // if no editingFeature, default to first tree area
 // if no features, empty table
-
 
 // report heading text
 
@@ -16,9 +17,28 @@ import { Link } from 'react-router-dom';
 // create the table (mobile and desktop)
 // add in placeholder text for the rows
 
-export class Report extends React.Component {
+export const ReportWrapper = () => (
+	<MapConsumer>
+		{ mapCtx => {
+			const ctx = { ...mapCtx.state, ...mapCtx.actions };
+			return <Report {...ctx} />;
+		}}
+	</MapConsumer>
+);
+
+class Report extends React.Component {
+	// need to get a list of all the features somehow
 	state = {
 		reportArea: this.props.editingFeature || null,
+	}
+
+	componentDidMount() {
+		const { data } = this.props;
+		console.log(data);
+	}
+
+	componentDidUpdate() {
+		// whenever the reportArea changes update the table
 	}
 
 	render() {
@@ -51,16 +71,7 @@ export class Report extends React.Component {
 				</div>
 				<div className="table-wrap">
 					<h1>{ reportArea }</h1>
-					<div className="reportTable">
-						<ul className="reportNav">
-							<li>Site Preparation</li>
-							<li>Purchase</li>
-							<li>Planting</li>
-							<li>Replanting</li>
-							<li>Annual</li>
-							<li>Total</li>
-						</ul>
-					</div>
+					{/* <ReportTable  reportArea={reportArea} /> */}
 				</div>
 			</div>
 		);
