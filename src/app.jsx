@@ -16,7 +16,7 @@ import { Header } from 'components/Header';
 import { BigModal } from 'components/modals/BigModal';
 import { MapConsumer } from 'contexts/MapState';
 import { SettingsConsumer } from 'contexts/Settings';
-import { Report } from 'components/Report';
+import { ReportWrapper } from 'components/Report';
 
 (function injectMapScript(w, s, id) {
 	const script = w.document.createElement(s);
@@ -66,7 +66,7 @@ const App = () => (
 			{/* --- */}
 
 			{/* Routed components here. These will float over the map. */}
-			<Route path="/report" render={() => <Report />} />
+			<Route path="/report" render={() => <ReportWrapper />} />
 			<SettingsConsumer>
 				{ctx => {
 					const { seenWelcome } = ctx.state;
