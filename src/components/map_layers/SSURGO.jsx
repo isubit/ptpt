@@ -18,7 +18,7 @@ export const SSURGO = props => {
 			'fill-color': [
 				'interpolate',
 				['linear'],
-				['get', 'iacornsr'],
+				['to-number', ['get', 'iacornsr']],
 				0,
 				'#909090',
 				50,

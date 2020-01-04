@@ -10,9 +10,7 @@ import 'styles/base.sass';
 
 import { MapWrapperDefault, MapWrapperSatellite } from 'components/MapComponent';
 import { Store } from 'contexts';
-import { Header } from 'components/Header';
-// import { LocationPrompt } from 'components/modals/LocationPrompt';
-// import { WelcomeModal } from 'components/modals/WelcomeModal';
+import { HeaderWithRouter } from 'components/Header';
 import { BigModal } from 'components/modals/BigModal';
 import { MapConsumer } from 'contexts/MapState';
 import { SettingsConsumer } from 'contexts/Settings';
@@ -40,7 +38,7 @@ const App = () => (
 			<MapConsumer>
 				{ctx => {
 					const { state, actions } = ctx;
-					return <Header {...state} {...actions} />;
+					return <HeaderWithRouter {...state} {...actions} />;
 				}}
 			</MapConsumer>
 
@@ -49,7 +47,6 @@ const App = () => (
 					const {
 						basemap,
 					} = ctx.state;
-					// If satellite style is selected render satellite styled map component, otherwise render the default outdoors style.
 					return (
 						<Route
 							path="/"

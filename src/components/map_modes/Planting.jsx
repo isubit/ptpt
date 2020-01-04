@@ -1,21 +1,13 @@
 import React from 'react';
 import {
-	// Link,
 	Redirect,
 } from 'react-router-dom';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 
-// import tree from 'test_data/tree.json';
-// import prairie from 'test_data/prairie.json';
 import Debug from 'debug';
 import { PlantingModal } from '../modals/PlantingModal';
 
 const debug = Debug('MapComponent');
-
-/* const testData = {
-	tree,
-	prairie,
-}; */
 
 export const DrawLineMode = MapboxDraw.modes.draw_line_string;
 
@@ -49,7 +41,6 @@ DrawLineMode.onStop = function onStop(state) {
 		});
 	} else {
 		this.deleteFeature([state.line.id], { silent: true });
-		// this.changeMode('simple_select', {}, { silent: true }); // Unsure if this is necessary.
 	}
 };
 
@@ -95,7 +86,15 @@ export class Planting extends React.Component {
 			steps,
 		} = this.props;
 
-		if (!step) {
+		if (editingFeature) {
+			// Else, if we're on a config step and there is a feature being edited, enter direct_select mode.
+			// This actually doesn't matter too much because if we're on a config step the modal overlay blocks map interactivity.
+			debug('Entering direct_select mode.', editingFeature);
+			if (!draw.get(editingFeature.id)) {
+				draw.add(editingFeature);
+			}
+			draw.changeMode('direct_select', { featureId: editingFeature.id });
+		} else if (!step) {
 			// If not on a config step, that means we're drawing, so enter draw_polygon mode with a clean slate.
 			debug('Entering draw_polygon mode.');
 
@@ -118,21 +117,11 @@ export class Planting extends React.Component {
 				feature.properties = {
 					type,
 				};
-				// draw.add(feature);
 				debug('Created feature:', feature);
-				nextStep(`/plant/${type}/${steps[0]}`);
-				setEditingFeature(feature);
+				setEditingFeature(feature, () => nextStep(`/plant/${type}/${steps[0]}`));
 			};
 			map.on('draw.create', onCreate);
 			this.events.set('draw.create', onCreate);
-		} else if (editingFeature) {
-			// Else, if we're on a config step and there is a feature being edited, enter direct_select mode.
-			// This actually doesn't matter too much because if we're on a config step the modal overlay blocks map interactivity.
-			debug('Entering direct_select mode.', editingFeature);
-			if (!draw.get(editingFeature.id)) {
-				draw.add(editingFeature);
-			}
-			draw.changeMode('direct_select', { featureId: editingFeature.id });
 		}
 	}
 
@@ -167,7 +156,7 @@ export class Planting extends React.Component {
 				},
 			},
 			// data,
-			// deleteFeature,
+			deleteFeature,
 			setEditingFeature,
 			editingFeature,
 			saveFeature,
@@ -181,19 +170,16 @@ export class Planting extends React.Component {
 			return <Redirect to={`/plant/${type}`} />;
 		}
 
-		// If we're on a config step, render the form.
-		// if (type === 'tree' && step) {
-		// 	return (
-		// 		<div className="Planting MapModeForm vertical-align">
-		// 			<PlantingModal editingFeature={editingFeature} setEditingFeature={setEditingFeature} saveFeature={saveFeature} nextStep={nextStep} step={step} steps={steps} />
-		// 		</div>
-		// 	);
-		// }
+		const stepIndex = steps.indexOf(step);
 
-		return step ? (
+		if (stepIndex === -1) {
+			return <Redirect to={`/plant/${type}/${steps[0]}`} />;
+		}
+
+		return (
 			<div className="Planting MapModeForm vertical-align">
-				<PlantingModal editingFeature={editingFeature} setEditingFeature={setEditingFeature} saveFeature={saveFeature} nextStep={nextStep} step={step} steps={steps} />
+				<PlantingModal editingFeature={editingFeature} setEditingFeature={setEditingFeature} deleteFeature={deleteFeature} saveFeature={saveFeature} nextStep={nextStep} step={step} steps={steps} stepIndex={stepIndex} />
 			</div>
-		) : null;
+		);
 	}
 }
