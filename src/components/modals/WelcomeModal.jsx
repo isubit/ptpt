@@ -41,7 +41,7 @@ export class WelcomeModal extends React.Component {
 			<div className="WelcomeModal modal">
 				<div className="grid-row">
 					<div className="grid-wrap">
-						<Link to="/"><img className="CloseButton" src="../../assets/close_dropdown.svg" alt="Close Welcome Modal" /></Link>
+						<Link className="CloseButton" to="/"><img src="../../assets/close_dropdown.svg" alt="close welcome modal" /></Link>
 						<h2 className="modal-header">Welcome to the Prairie &amp; Tree Planting Tool</h2>
 						<p className="modal-text">
 							{/* eslint-disable-next-line max-len */}

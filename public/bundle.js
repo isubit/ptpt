@@ -7862,127 +7862,6 @@ exports.convertDistance = convertDistance;
 
 /***/ }),
 
-/***/ "./node_modules/@turf/intersect/index.js":
-/*!***********************************************!*\
-  !*** ./node_modules/@turf/intersect/index.js ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var helpers_1 = __webpack_require__(/*! @turf/helpers */ "./node_modules/@turf/helpers/index.js");
-var invariant_1 = __webpack_require__(/*! @turf/invariant */ "./node_modules/@turf/invariant/index.js");
-var martinez = __importStar(__webpack_require__(/*! martinez-polygon-clipping */ "./node_modules/martinez-polygon-clipping/dist/martinez.umd.js"));
-/**
- * Takes two {@link Polygon|polygon} or {@link MultiPolygon|multi-polygon} geometries and
- * finds their polygonal intersection. If they don't intersect, returns null.
- *
- * @name intersect
- * @param {Feature<Polygon | MultiPolygon>} poly1 the first polygon or multipolygon
- * @param {Feature<Polygon | MultiPolygon>} poly2 the second polygon or multipolygon
- * @param {Object} [options={}] Optional Parameters
- * @param {Object} [options.properties={}] Translate GeoJSON Properties to Feature
- * @returns {Feature|null} returns a feature representing the area they share (either a {@link Polygon} or
- * {@link MultiPolygon}). If they do not share any area, returns `null`.
- * @example
- * var poly1 = turf.polygon([[
- *   [-122.801742, 45.48565],
- *   [-122.801742, 45.60491],
- *   [-122.584762, 45.60491],
- *   [-122.584762, 45.48565],
- *   [-122.801742, 45.48565]
- * ]]);
- *
- * var poly2 = turf.polygon([[
- *   [-122.520217, 45.535693],
- *   [-122.64038, 45.553967],
- *   [-122.720031, 45.526554],
- *   [-122.669906, 45.507309],
- *   [-122.723464, 45.446643],
- *   [-122.532577, 45.408574],
- *   [-122.487258, 45.477466],
- *   [-122.520217, 45.535693]
- * ]]);
- *
- * var intersection = turf.intersect(poly1, poly2);
- *
- * //addToMap
- * var addToMap = [poly1, poly2, intersection];
- */
-function intersect(poly1, poly2, options) {
-    if (options === void 0) { options = {}; }
-    var geom1 = invariant_1.getGeom(poly1);
-    var geom2 = invariant_1.getGeom(poly2);
-    if (geom1.type === "Polygon" && geom2.type === "Polygon") {
-        var intersection = martinez.intersection(geom1.coordinates, geom2.coordinates);
-        if (intersection === null || intersection.length === 0) {
-            return null;
-        }
-        if (intersection.length === 1) {
-            var start = intersection[0][0][0];
-            var end = intersection[0][0][intersection[0][0].length - 1];
-            if (start[0] === end[0] && start[1] === end[1]) {
-                return helpers_1.polygon(intersection[0], options.properties);
-            }
-            return null;
-        }
-        return helpers_1.multiPolygon(intersection, options.properties);
-    }
-    else if (geom1.type === "MultiPolygon") {
-        var resultCoords = [];
-        // iterate through the polygon and run intersect with each part, adding to the resultCoords.
-        for (var _i = 0, _a = geom1.coordinates; _i < _a.length; _i++) {
-            var coords = _a[_i];
-            var subGeom = invariant_1.getGeom(helpers_1.polygon(coords));
-            var subIntersection = intersect(subGeom, geom2);
-            if (subIntersection) {
-                var subIntGeom = invariant_1.getGeom(subIntersection);
-                if (subIntGeom.type === "Polygon") {
-                    resultCoords.push(subIntGeom.coordinates);
-                }
-                else if (subIntGeom.type === "MultiPolygon") {
-                    resultCoords = resultCoords.concat(subIntGeom.coordinates);
-                }
-                else {
-                    throw new Error("intersection is invalid");
-                }
-            }
-        }
-        // Make a polygon with the result
-        if (resultCoords.length === 0) {
-            return null;
-        }
-        if (resultCoords.length === 1) {
-            return helpers_1.polygon(resultCoords[0], options.properties);
-        }
-        else {
-            return helpers_1.multiPolygon(resultCoords, options.properties);
-        }
-    }
-    else if (geom2.type === "MultiPolygon") {
-        // geom1 is a polygon and geom2 a multiPolygon,
-        // put the multiPolygon first and fallback to the previous case.
-        return intersect(geom2, geom1);
-    }
-    else {
-        // handle invalid geometry types
-        throw new Error("poly1 and poly2 must be either polygons or multiPolygons");
-    }
-}
-exports.default = intersect;
-
-
-/***/ }),
-
 /***/ "./node_modules/@turf/invariant/index.js":
 /*!***********************************************!*\
   !*** ./node_modules/@turf/invariant/index.js ***!
@@ -10566,7 +10445,7 @@ var ___CSS_LOADER_URL___2___ = getUrl(__webpack_require__(/*! ../assets/my_locat
 var ___CSS_LOADER_URL___3___ = getUrl(__webpack_require__(/*! ../assets/search_small.svg */ "./src/assets/search_small.svg"));
 var ___CSS_LOADER_URL___4___ = getUrl(__webpack_require__(/*! ../assets/search_wide.svg */ "./src/assets/search_wide.svg"));
 // Module
-exports.push([module.i, ".mapbox-gl-draw_ctrl-draw-btn {\n  display: none !important; }\n\n.mapboxgl-map {\n  position: initial; }\n\n.grid-row {\n  display: grid;\n  grid-template-columns: repeat(6, 1fr);\n  grid-column-gap: 1rem;\n  padding: 0px 5.625%;\n  max-width: 1680px; }\n\n.grid-wrap {\n  grid-column: 1 / -1; }\n\n@media (min-width: 900px) {\n  .grid-row {\n    grid-template-columns: repeat(12, 1fr); } }\n\n@media (min-width: 1280px) {\n  .grid-row {\n    grid-template-columns: repeat(14, 1fr);\n    padding: 0px 2.5%; } }\n\n.suggestion-item--active {\n  background-color: #fafafa;\n  cursor: pointer; }\n\n.suggestion-item {\n  background-color: #ffffff;\n  cursor: pointer; }\n\n.vertical-align {\n  display: flex;\n  align-items: center; }\n\n.distribute {\n  display: flex;\n  justify-content: space-between; }\n\n.margin-center {\n  margin: 0 auto !important; }\n\n@media (min-width: 900px) {\n  .desktop-select-l-width {\n    width: 240px; }\n  .desktop-select-s-width {\n    width: 160px; }\n  .desktop-select-m-width {\n    width: 210px; } }\n\n.spacer-top-1_5 {\n  margin-top: 1.5rem !important; }\n\n.spacer-top-0 {\n  margin-top: 0rem !important; }\n\n.spacer-top-1 {\n  margin-top: 1rem !important; }\n\n.spacer-top-2 {\n  margin-top: 2rem !important; }\n\n.spacer-top-3 {\n  margin-top: 3rem !important; }\n\n.spacer-top-4 {\n  margin-top: 4rem !important; }\n\n.spacer-bottom-0 {\n  margin-bottom: 0rem !important; }\n\n.spacer-bottom-1 {\n  margin-bottom: 1rem !important; }\n\n.spacer-bottom-2 {\n  margin-bottom: 2rem !important; }\n\n.spacer-bottom-3 {\n  margin-bottom: 3rem !important; }\n\n.spacer-bottom-4 {\n  margin-bottom: 4rem !important; }\n\n.spacer-left-0 {\n  margin-left: 0rem !important; }\n\n.spacer-left-1 {\n  margin-left: 1rem !important; }\n\n.spacer-left-2 {\n  margin-left: 2rem !important; }\n\n.spacer-left-3 {\n  margin-left: 3rem !important; }\n\n.spacer-left-4 {\n  margin-left: 4rem !important; }\n\n.spacer-right-0 {\n  margin-right: 0rem !important; }\n\n.spacer-right-1 {\n  margin-right: 1rem !important; }\n\n.spacer-right-2 {\n  margin-right: 2rem !important; }\n\n.spacer-right-3 {\n  margin-right: 3rem !important; }\n\n.spacer-right-4 {\n  margin-right: 4rem !important; }\n\n.width-1 {\n  width: 1% !important; }\n\n.width-2 {\n  width: 2% !important; }\n\n.width-3 {\n  width: 3% !important; }\n\n.width-4 {\n  width: 4% !important; }\n\n.width-5 {\n  width: 5% !important; }\n\n.width-6 {\n  width: 6% !important; }\n\n.width-7 {\n  width: 7% !important; }\n\n.width-8 {\n  width: 8% !important; }\n\n.width-9 {\n  width: 9% !important; }\n\n.width-10 {\n  width: 10% !important; }\n\n.width-11 {\n  width: 11% !important; }\n\n.width-12 {\n  width: 12% !important; }\n\n.width-13 {\n  width: 13% !important; }\n\n.width-14 {\n  width: 14% !important; }\n\n.width-15 {\n  width: 15% !important; }\n\n.width-16 {\n  width: 16% !important; }\n\n.width-17 {\n  width: 17% !important; }\n\n.width-18 {\n  width: 18% !important; }\n\n.width-19 {\n  width: 19% !important; }\n\n.width-20 {\n  width: 20% !important; }\n\n.width-21 {\n  width: 21% !important; }\n\n.width-22 {\n  width: 22% !important; }\n\n.width-23 {\n  width: 23% !important; }\n\n.width-24 {\n  width: 24% !important; }\n\n.width-25 {\n  width: 25% !important; }\n\n.width-26 {\n  width: 26% !important; }\n\n.width-27 {\n  width: 27% !important; }\n\n.width-28 {\n  width: 28% !important; }\n\n.width-29 {\n  width: 29% !important; }\n\n.width-30 {\n  width: 30% !important; }\n\n.width-31 {\n  width: 31% !important; }\n\n.width-32 {\n  width: 32% !important; }\n\n.width-33 {\n  width: 33% !important; }\n\n.width-34 {\n  width: 34% !important; }\n\n.width-35 {\n  width: 35% !important; }\n\n.width-36 {\n  width: 36% !important; }\n\n.width-37 {\n  width: 37% !important; }\n\n.width-38 {\n  width: 38% !important; }\n\n.width-39 {\n  width: 39% !important; }\n\n.width-40 {\n  width: 40% !important; }\n\n.width-41 {\n  width: 41% !important; }\n\n.width-42 {\n  width: 42% !important; }\n\n.width-43 {\n  width: 43% !important; }\n\n.width-44 {\n  width: 44% !important; }\n\n.width-45 {\n  width: 45% !important; }\n\n.width-46 {\n  width: 46% !important; }\n\n.width-47 {\n  width: 47% !important; }\n\n.width-48 {\n  width: 48% !important; }\n\n.width-49 {\n  width: 49% !important; }\n\n.width-50 {\n  width: 50% !important; }\n\n.width-51 {\n  width: 51% !important; }\n\n.width-52 {\n  width: 52% !important; }\n\n.width-53 {\n  width: 53% !important; }\n\n.width-54 {\n  width: 54% !important; }\n\n.width-55 {\n  width: 55% !important; }\n\n.width-56 {\n  width: 56% !important; }\n\n.width-57 {\n  width: 57% !important; }\n\n.width-58 {\n  width: 58% !important; }\n\n.width-59 {\n  width: 59% !important; }\n\n.width-60 {\n  width: 60% !important; }\n\n.width-61 {\n  width: 61% !important; }\n\n.width-62 {\n  width: 62% !important; }\n\n.width-63 {\n  width: 63% !important; }\n\n.width-64 {\n  width: 64% !important; }\n\n.width-65 {\n  width: 65% !important; }\n\n.width-66 {\n  width: 66% !important; }\n\n.width-67 {\n  width: 67% !important; }\n\n.width-68 {\n  width: 68% !important; }\n\n.width-69 {\n  width: 69% !important; }\n\n.width-70 {\n  width: 70% !important; }\n\n.width-71 {\n  width: 71% !important; }\n\n.width-72 {\n  width: 72% !important; }\n\n.width-73 {\n  width: 73% !important; }\n\n.width-74 {\n  width: 74% !important; }\n\n.width-75 {\n  width: 75% !important; }\n\n.width-76 {\n  width: 76% !important; }\n\n.width-77 {\n  width: 77% !important; }\n\n.width-78 {\n  width: 78% !important; }\n\n.width-79 {\n  width: 79% !important; }\n\n.width-80 {\n  width: 80% !important; }\n\n.width-81 {\n  width: 81% !important; }\n\n.width-82 {\n  width: 82% !important; }\n\n.width-83 {\n  width: 83% !important; }\n\n.width-84 {\n  width: 84% !important; }\n\n.width-85 {\n  width: 85% !important; }\n\n.width-86 {\n  width: 86% !important; }\n\n.width-87 {\n  width: 87% !important; }\n\n.width-88 {\n  width: 88% !important; }\n\n.width-89 {\n  width: 89% !important; }\n\n.width-90 {\n  width: 90% !important; }\n\n.width-91 {\n  width: 91% !important; }\n\n.width-92 {\n  width: 92% !important; }\n\n.width-93 {\n  width: 93% !important; }\n\n.width-94 {\n  width: 94% !important; }\n\n.width-95 {\n  width: 95% !important; }\n\n.width-96 {\n  width: 96% !important; }\n\n.width-97 {\n  width: 97% !important; }\n\n.width-98 {\n  width: 98% !important; }\n\n.width-99 {\n  width: 99% !important; }\n\n.width-100 {\n  width: 100% !important; }\n\n.height-1 {\n  height: 1% !important; }\n\n.height-2 {\n  height: 2% !important; }\n\n.height-3 {\n  height: 3% !important; }\n\n.height-4 {\n  height: 4% !important; }\n\n.height-5 {\n  height: 5% !important; }\n\n.height-6 {\n  height: 6% !important; }\n\n.height-7 {\n  height: 7% !important; }\n\n.height-8 {\n  height: 8% !important; }\n\n.height-9 {\n  height: 9% !important; }\n\n.height-10 {\n  height: 10% !important; }\n\n.height-11 {\n  height: 11% !important; }\n\n.height-12 {\n  height: 12% !important; }\n\n.height-13 {\n  height: 13% !important; }\n\n.height-14 {\n  height: 14% !important; }\n\n.height-15 {\n  height: 15% !important; }\n\n.height-16 {\n  height: 16% !important; }\n\n.height-17 {\n  height: 17% !important; }\n\n.height-18 {\n  height: 18% !important; }\n\n.height-19 {\n  height: 19% !important; }\n\n.height-20 {\n  height: 20% !important; }\n\n.height-21 {\n  height: 21% !important; }\n\n.height-22 {\n  height: 22% !important; }\n\n.height-23 {\n  height: 23% !important; }\n\n.height-24 {\n  height: 24% !important; }\n\n.height-25 {\n  height: 25% !important; }\n\n.height-26 {\n  height: 26% !important; }\n\n.height-27 {\n  height: 27% !important; }\n\n.height-28 {\n  height: 28% !important; }\n\n.height-29 {\n  height: 29% !important; }\n\n.height-30 {\n  height: 30% !important; }\n\n.height-31 {\n  height: 31% !important; }\n\n.height-32 {\n  height: 32% !important; }\n\n.height-33 {\n  height: 33% !important; }\n\n.height-34 {\n  height: 34% !important; }\n\n.height-35 {\n  height: 35% !important; }\n\n.height-36 {\n  height: 36% !important; }\n\n.height-37 {\n  height: 37% !important; }\n\n.height-38 {\n  height: 38% !important; }\n\n.height-39 {\n  height: 39% !important; }\n\n.height-40 {\n  height: 40% !important; }\n\n.height-41 {\n  height: 41% !important; }\n\n.height-42 {\n  height: 42% !important; }\n\n.height-43 {\n  height: 43% !important; }\n\n.height-44 {\n  height: 44% !important; }\n\n.height-45 {\n  height: 45% !important; }\n\n.height-46 {\n  height: 46% !important; }\n\n.height-47 {\n  height: 47% !important; }\n\n.height-48 {\n  height: 48% !important; }\n\n.height-49 {\n  height: 49% !important; }\n\n.height-50 {\n  height: 50% !important; }\n\n.height-51 {\n  height: 51% !important; }\n\n.height-52 {\n  height: 52% !important; }\n\n.height-53 {\n  height: 53% !important; }\n\n.height-54 {\n  height: 54% !important; }\n\n.height-55 {\n  height: 55% !important; }\n\n.height-56 {\n  height: 56% !important; }\n\n.height-57 {\n  height: 57% !important; }\n\n.height-58 {\n  height: 58% !important; }\n\n.height-59 {\n  height: 59% !important; }\n\n.height-60 {\n  height: 60% !important; }\n\n.height-61 {\n  height: 61% !important; }\n\n.height-62 {\n  height: 62% !important; }\n\n.height-63 {\n  height: 63% !important; }\n\n.height-64 {\n  height: 64% !important; }\n\n.height-65 {\n  height: 65% !important; }\n\n.height-66 {\n  height: 66% !important; }\n\n.height-67 {\n  height: 67% !important; }\n\n.height-68 {\n  height: 68% !important; }\n\n.height-69 {\n  height: 69% !important; }\n\n.height-70 {\n  height: 70% !important; }\n\n.height-71 {\n  height: 71% !important; }\n\n.height-72 {\n  height: 72% !important; }\n\n.height-73 {\n  height: 73% !important; }\n\n.height-74 {\n  height: 74% !important; }\n\n.height-75 {\n  height: 75% !important; }\n\n.height-76 {\n  height: 76% !important; }\n\n.height-77 {\n  height: 77% !important; }\n\n.height-78 {\n  height: 78% !important; }\n\n.height-79 {\n  height: 79% !important; }\n\n.height-80 {\n  height: 80% !important; }\n\n.height-81 {\n  height: 81% !important; }\n\n.height-82 {\n  height: 82% !important; }\n\n.height-83 {\n  height: 83% !important; }\n\n.height-84 {\n  height: 84% !important; }\n\n.height-85 {\n  height: 85% !important; }\n\n.height-86 {\n  height: 86% !important; }\n\n.height-87 {\n  height: 87% !important; }\n\n.height-88 {\n  height: 88% !important; }\n\n.height-89 {\n  height: 89% !important; }\n\n.height-90 {\n  height: 90% !important; }\n\n.height-91 {\n  height: 91% !important; }\n\n.height-92 {\n  height: 92% !important; }\n\n.height-93 {\n  height: 93% !important; }\n\n.height-94 {\n  height: 94% !important; }\n\n.height-95 {\n  height: 95% !important; }\n\n.height-96 {\n  height: 96% !important; }\n\n.height-97 {\n  height: 97% !important; }\n\n.height-98 {\n  height: 98% !important; }\n\n.height-99 {\n  height: 99% !important; }\n\n.height-100 {\n  height: 100% !important; }\n\n@media (min-width: 900px) {\n  .nowrap {\n    white-space: nowrap; } }\n\n.warning {\n  color: red; }\n\n.block {\n  display: block !important; }\n\n.inline {\n  display: inline !important; }\n\n.inline-block {\n  display: inline-block !important; }\n\n.clickable {\n  pointer-events: auto !important; }\n  .clickable * {\n    pointer-events: auto !important; }\n\n.unclickable {\n  pointer-events: none !important; }\n\n.Button {\n  padding: 0.5rem 22px;\n  font-size: .909rem;\n  display: inline-block;\n  border-radius: 5px;\n  background-color: #006BA6;\n  cursor: pointer;\n  color: white;\n  line-height: 1.5rem;\n  outline: none;\n  border: none; }\n\n.checkboxElement {\n  display: block; }\n  .checkboxElement input[type=\"checkbox\"] {\n    -webkit-appearance: none;\n    border-radius: 3px;\n    border: 1px solid #A8ACAE;\n    width: 18px;\n    box-sizing: border-box;\n    height: 18px;\n    margin: 0px 0.5rem 0px 0px;\n    vertical-align: middle;\n    /* &:focus\n            border: 1px solid $black\n            outline: none\n            + span\n                color: black */ }\n    .checkboxElement input[type=\"checkbox\"]:focus {\n      outline: none; }\n    .checkboxElement input[type=\"checkbox\"]:checked {\n      background-color: #006BA6;\n      background-image: url(" + ___CSS_LOADER_URL___0___ + ");\n      background-repeat: no-repeat;\n      border: 1px solid #006BA6; }\n      .checkboxElement input[type=\"checkbox\"]:checked + span {\n        color: #333333; }\n    .checkboxElement input[type=\"checkbox\"]:disabled {\n      background-color: #ECF1F3;\n      border: 1px solid #ECF1F3; }\n      .checkboxElement input[type=\"checkbox\"]:disabled + span {\n        color: #A8ACAE; }\n  .checkboxElement span {\n    font-size: .909rem;\n    color: #707372;\n    line-height: 2rem; }\n\nselect {\n  -webkit-appearance: none;\n  border: 1px solid #A8ACAE;\n  box-sizing: border-box;\n  border-radius: 5px;\n  font-size: .909rem;\n  padding: 7px;\n  line-height: 1rem;\n  background: transparent;\n  background-image: url(" + ___CSS_LOADER_URL___1___ + ");\n  background-repeat: no-repeat;\n  background-position: right; }\n  select:focus {\n    outline: none; }\n\n.CloseButton {\n  position: absolute;\n  z-index: 1;\n  top: 18px;\n  right: 18px;\n  cursor: pointer;\n  padding: 0;\n  border: none;\n  background-color: inherit; }\n\n.dropdown-checkbox {\n  margin-top: 1.5em;\n  margin-bottom: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-checkbox .Button {\n    margin-top: 1rem;\n    margin-bottom: 3rem; }\n  .dropdown-checkbox > img:last-of-type {\n    position: absolute;\n    bottom: 18px;\n    right: 18px;\n    cursor: pointer; }\n\n@media (min-width: 900px) {\n  .dropdown-checkbox {\n    margin-top: 1em;\n    margin-bottom: 1em; }\n    .dropdown-checkbox .Button {\n      display: block;\n      text-align: center;\n      margin: 0.5rem auto 2.5rem auto; }\n    .dropdown-checkbox > img:last-of-type {\n      bottom: 9px;\n      right: 9px; } }\n\n.dropdown-list {\n  margin-top: 1.5em;\n  margin-bottom: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-list ul {\n    display: block;\n    padding: 0; }\n    .dropdown-list ul li a {\n      text-decoration: none;\n      font-size: 0.909rem;\n      line-height: 2.75em; }\n    .dropdown-list ul li:last-child {\n      border-top: 1px solid #ECF1F3;\n      padding: 1em 0; }\n      .dropdown-list ul li:last-child a {\n        line-height: 1.5em; }\n\n@media (min-width: 900px) {\n  .dropdown-list {\n    margin-top: 1em;\n    margin-top: 1em;\n    margin-bottom: 1em; }\n    .dropdown-list ul li a {\n      line-height: 2em;\n      padding: 0; }\n    .dropdown-list ul li:nth-of-type(3) {\n      padding-bottom: 1em; } }\n\n.Header {\n  position: relative;\n  z-index: 2;\n  width: 100%;\n  height: 99px;\n  background-color: #FFFFFF;\n  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); }\n  .Header > .grid-row {\n    grid-template-columns: auto repeat(5, 1fr); }\n    .Header > .grid-row.sidenav-btn {\n      padding: 0; }\n      .Header > .grid-row.sidenav-btn .SideNavButton {\n        background-color: #FFFFFF;\n        grid-column: 1 / 2;\n        cursor: pointer;\n        padding: 0;\n        border: none; }\n        .Header > .grid-row.sidenav-btn .SideNavButton img {\n          display: block; }\n        .Header > .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n          display: none; }\n      .Header > .grid-row.sidenav-btn .Title {\n        grid-column: 2 / 4; }\n      .Header > .grid-row.sidenav-btn .LocationInput {\n        display: none; }\n      .Header > .grid-row.sidenav-btn .HeaderOptions {\n        grid-column: 4 / -1; }\n      .Header > .grid-row.sidenav-btn .SaveButton {\n        display: none; }\n  .Header .search-save-btn .Save {\n    display: inline-block; }\n    .Header .search-save-btn .Save .SaveButton .wide-save {\n      display: none; }\n\n@media (min-width: 900px) {\n  .Header {\n    height: 72px; }\n    .Header > .grid-row {\n      height: 72px;\n      grid-template-columns: repeat(12, 1fr); }\n      .Header > .grid-row > * {\n        max-height: 72px; }\n      .Header > .grid-row.sidenav-btn .SideNavButton .narrow-sidenav {\n        display: none; }\n      .Header > .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n        display: block; }\n      .Header > .grid-row.sidenav-btn .Title {\n        grid-column: 2 / 4; }\n      .Header > .grid-row.sidenav-btn .LocationInput {\n        grid-column: 4 / 8;\n        display: block; }\n      .Header > .grid-row.sidenav-btn .HeaderOptions {\n        grid-column: 8 / 12; }\n      .Header > .grid-row.sidenav-btn .SaveButton {\n        display: block; }\n        .Header > .grid-row.sidenav-btn .SaveButton .narrow-save {\n          display: none; }\n    .Header .search-save-btn {\n      display: none; } }\n\n@media (min-width: 1280px) {\n  .Header > .grid-row {\n    grid-template-columns: repeat(14, 1fr); }\n    .Header > .grid-row.sidenav-btn .Title {\n      grid-column: 2 / 4; }\n    .Header > .grid-row.sidenav-btn .LocationInput {\n      grid-column: 4 / 9; }\n    .Header > .grid-row.sidenav-btn .HeaderOptions {\n      grid-column: 9 / 14; } }\n\n.HeaderOptions > ul {\n  margin: 0;\n  padding: 0;\n  display: flex;\n  justify-content: flex-end;\n  display: grid;\n  grid-template-columns: repeat(4, minmax(35px, 60px));\n  height: 100%; }\n  .HeaderOptions > ul .option {\n    display: flex;\n    align-items: center;\n    padding: 0px 4px; }\n    .HeaderOptions > ul .option a {\n      display: block;\n      margin: 0 auto; }\n      .HeaderOptions > ul .option a .option-active {\n        display: none; }\n      .HeaderOptions > ul .option a .option-name {\n        display: none; }\n      .HeaderOptions > ul .option a img {\n        display: block;\n        width: 100%;\n        max-width: 45px; }\n    .HeaderOptions > ul .option.active {\n      background-color: #006BA6; }\n      .HeaderOptions > ul .option.active a .option-inactive {\n        display: none; }\n      .HeaderOptions > ul .option.active a .option-active {\n        display: block; }\n      .HeaderOptions > ul .option.active .OptionsDropdown {\n        display: grid; }\n\n@media (min-width: 400px) {\n  .HeaderOptions {\n    padding-right: 15px; } }\n\n@media (min-width: 900px) {\n  .HeaderOptions {\n    padding-right: 0px;\n    margin-left: 0;\n    padding-left: 0; }\n    .HeaderOptions > ul {\n      grid-template-rows: 1fr;\n      grid-template-columns: repeat(4, 1fr);\n      width: 100%; }\n      .HeaderOptions > ul .option {\n        grid-row: 1;\n        width: 100%;\n        padding: 0; }\n        .HeaderOptions > ul .option .option-name {\n          width: 40px;\n          font-size: 0.5rem; } }\n\n@media (min-width: 1280px) {\n  .HeaderOptions ul .option a .option-name {\n    display: inline-block;\n    vertical-align: middle;\n    padding-left: 5px; }\n  .HeaderOptions ul .option a .option-inactive {\n    display: inline-block;\n    vertical-align: middle; }\n  .HeaderOptions ul .option.active a .option-active {\n    display: inline-block;\n    vertical-align: middle; } }\n\n.Map {\n  width: 100%;\n  height: calc(100vh - 99px);\n  position: relative; }\n  .Map .ZoomControl {\n    position: absolute;\n    bottom: 2rem;\n    right: 2rem;\n    z-index: 1;\n    display: flex;\n    flex-flow: column nowrap;\n    justify-content: center;\n    align-items: center;\n    background: white;\n    padding: 6px; }\n    .Map .ZoomControl hr {\n      width: 80%;\n      opacity: 0.4;\n      transform: translateY(2px); }\n    .Map .ZoomControl img {\n      cursor: pointer; }\n  .Map .LegendControl {\n    position: absolute;\n    bottom: 2rem;\n    right: 4.5rem;\n    z-index: 1;\n    background: white;\n    padding: 6px;\n    line-height: 0; }\n    .Map .LegendControl img {\n      cursor: pointer; }\n\n@media (min-width: 900px) {\n  .Map {\n    height: calc(100vh - 72px); } }\n\n.MapModeForm {\n  position: absolute;\n  z-index: 10;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.4);\n  flex-direction: column; }\n  .MapModeForm .modal {\n    background: white;\n    width: 100%;\n    height: calc(100vh - 99px);\n    padding: 4rem 1.5rem 3rem 1.5rem;\n    box-sizing: border-box;\n    position: relative;\n    overflow: scroll; }\n  .MapModeForm .button-wrap {\n    height: 99px;\n    width: 100%;\n    background-color: gray;\n    justify-content: flex-end;\n    background-color: #ECF1F3; }\n    .MapModeForm .button-wrap .Button {\n      margin: 1.5rem; }\n\n@media (min-width: 900px) {\n  .MapModeForm {\n    justify-content: center; }\n    .MapModeForm .modal {\n      width: 670px;\n      height: 500px; }\n    .MapModeForm .button-wrap {\n      width: 670px; } }\n\n.MapLegend .SSURGO .gradient {\n  width: 200px;\n  height: 20px;\n  background: linear-gradient(90deg, #f8f601 0%, #888900 50%, #909090 100%);\n  opacity: 0.6; }\n\n.MapLegend .SSURGO .labels {\n  width: 200px;\n  transform: translateY(-8px); }\n\n.modal {\n  display: grid;\n  height: 100vh;\n  width: 100vw;\n  position: absolute;\n  top: 0;\n  z-index: 3;\n  background-color: rgba(51, 51, 51, 0.7); }\n  .modal .grid-row {\n    background-color: #FFFFFF; }\n    .modal .grid-row .grid-wrap {\n      max-width: 800px;\n      background-color: #FFFFFF; }\n      .modal .grid-row .grid-wrap .modal-footer {\n        position: absolute;\n        padding: 0px 5.625%;\n        left: 0;\n        right: 0;\n        display: flex;\n        align-items: center;\n        justify-content: space-between;\n        bottom: 0;\n        padding: 1.5rem;\n        background-color: #ECF1F3; }\n      .modal .grid-row .grid-wrap .modal-header {\n        padding-top: 4rem;\n        padding-bottom: 0.5rem;\n        position: relative; }\n        .modal .grid-row .grid-wrap .modal-header::after {\n          content: '';\n          position: absolute;\n          bottom: -2px;\n          left: 0;\n          height: 2px;\n          width: 135px;\n          background-color: #76881D; }\n      .modal .grid-row .grid-wrap .button-wrap > *:last-child {\n        display: none; }\n      .modal .grid-row .grid-wrap .modal-text {\n        padding-top: 1.5rem; }\n      .modal .grid-row .grid-wrap .modal-link {\n        font-family: Merriweather;\n        font-style: italic;\n        font-weight: normal;\n        font-size: 0.751rem;\n        line-height: 21px;\n        text-decoration-line: underline;\n        color: #006BA6; }\n\n@media (min-width: 900px) {\n  .modal {\n    height: 100vh;\n    align-items: center;\n    justify-content: center; }\n    .modal .grid-row {\n      background: none; }\n      .modal .grid-row .grid-wrap {\n        min-height: 400px;\n        min-width: 600px;\n        max-height: 450px;\n        display: flex;\n        flex-direction: column;\n        grid-column: 2 / 12;\n        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);\n        position: relative; }\n        .modal .grid-row .grid-wrap .modal-footer {\n          position: initial;\n          margin-top: auto;\n          padding: 1.5rem 2rem 1.5rem 2rem;\n          align-items: baseline; }\n        .modal .grid-row .grid-wrap .modal-header {\n          padding-top: 3.5rem; }\n          .modal .grid-row .grid-wrap .modal-header::after {\n            left: 2rem; }\n        .modal .grid-row .grid-wrap .modal-text {\n          padding-bottom: 3rem; }\n        .modal .grid-row .grid-wrap .modal-header, .modal .grid-row .grid-wrap .modal-text {\n          padding-left: 2rem;\n          padding-right: 2rem; }\n        .modal .grid-row .grid-wrap .button-wrap > *:last-child {\n          color: #7A99AC;\n          display: block;\n          padding-top: 0.5rem;\n          font-size: .909rem; } }\n\n@media (min-width: 1280px) {\n  .modal .grid-wrap {\n    grid-column: 4 / 12; } }\n\n.NavOptions {\n  position: fixed;\n  bottom: 0;\n  height: 100vh;\n  background-color: #3E4827;\n  display: none;\n  z-index: 10; }\n  .NavOptions.active {\n    display: block; }\n  .NavOptions .grid-wrap {\n    padding-top: 4rem; }\n    .NavOptions .grid-wrap ul {\n      border-bottom: 2px solid #656D52;\n      padding-bottom: 1rem; }\n      .NavOptions .grid-wrap ul li a {\n        line-height: 2.75rem;\n        text-decoration: none;\n        color: #FFFFFF;\n        font-size: .909rem; }\n    .NavOptions .grid-wrap div p {\n      margin: 0;\n      font-family: Merriweather;\n      font-style: italic;\n      color: #FFFFFF;\n      font-size: 0.683rem;\n      line-height: 1rem;\n      padding-top: 1.5rem; }\n\n@media (min-width: 900px) {\n  .NavOptions {\n    width: 270px; } }\n\n.OptionsDropdown {\n  position: absolute;\n  top: 54px;\n  left: 0;\n  right: 0;\n  background-color: #FFFFFF;\n  border-top: 2px solid #006BA6;\n  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);\n  display: none; }\n\n@media (min-width: 900px) {\n  .OptionsDropdown {\n    width: 180px;\n    top: 72px;\n    padding: 0 1em;\n    left: auto;\n    right: auto; }\n    .OptionsDropdown.grid-row {\n      grid-column-gap: 0rem; }\n    .OptionsDropdown .CloseButton {\n      display: none; } }\n\n.SaveButton {\n  display: inline-block;\n  border: none;\n  padding: 0; }\n  .SaveButton img {\n    display: block;\n    margin-left: auto; }\n\n.LocationInput {\n  width: calc(100% - 54px);\n  height: 45px;\n  vertical-align: top;\n  display: inline-block; }\n  .LocationInput .wrapper {\n    display: flex;\n    align-items: center;\n    height: 100%;\n    width: 100%;\n    position: relative; }\n  .LocationInput .MyLocation {\n    width: 30px;\n    height: 30px;\n    background-size: 30px;\n    display: inline-block;\n    position: absolute;\n    right: 22.5px;\n    background-color: #ECF1F3;\n    background-repeat: no-repeat;\n    background-image: url(" + ___CSS_LOADER_URL___2___ + "); }\n  .LocationInput input {\n    width: 100%;\n    height: 100%;\n    -webkit-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    box-sizing: border-box;\n    -webkit-appearance: none;\n    border: none;\n    padding: 0 0px 0px 75px;\n    background-color: #ECF1F3;\n    background-repeat: no-repeat;\n    background-position: 5%;\n    background-image: url(" + ___CSS_LOADER_URL___3___ + ");\n    background-size: 20px; }\n    .LocationInput input::-webkit-input-placeholder {\n      font-family: Merriweather;\n      font-style: italic;\n      font-weight: normal;\n      font-size: 0.683rem;\n      line-height: 1rem; }\n\n@media (min-width: 900px) {\n  .LocationInput {\n    height: auto;\n    width: auto;\n    padding-bottom: 9px;\n    padding-top: 9px;\n    position: relative; }\n    .LocationInput .MyLocation {\n      width: 40px;\n      height: 40px;\n      background-size: 40px; }\n    .LocationInput input {\n      background-image: url(" + ___CSS_LOADER_URL___4___ + "); }\n      .LocationInput input::-webkit-input-placeholder {\n        font-size: 0.826rem; } }\n\n.LocationInputSuggestions {\n  background-color: #FFFFFF;\n  position: absolute;\n  left: 0;\n  right: 0; }\n  .LocationInputSuggestions > div {\n    padding: 0rem 1rem 0rem 1rem; }\n\n.Title {\n  display: flex;\n  align-items: center; }\n  .Title .wide-logo {\n    display: none; }\n  .Title .narrow-logo {\n    width: 100%;\n    max-width: 82px;\n    min-width: 63px; }\n\n@media (min-width: 900px) {\n  .Title .narrow-logo {\n    display: none; }\n  .Title .wide-logo {\n    display: block;\n    width: 100%;\n    max-width: 154px; } }\n\n.ConfigForm {\n  display: flex;\n  padding-top: 1.5rem;\n  padding-bottom: 1.5rem;\n  border-bottom: 1px solid #ECF1F3; }\n  .ConfigForm:nth-last-child(2) {\n    padding-bottom: 0;\n    border: none; }\n  .ConfigForm .stepNumber {\n    margin-right: 0.5rem;\n    height: 36px;\n    text-align: center;\n    border-radius: 18px;\n    background-color: #CAC7A7;\n    flex: 0 0 36px; }\n    .ConfigForm .stepNumber h1 {\n      width: 36px;\n      line-height: 36px;\n      color: white; }\n  .ConfigForm .inputDescriptor {\n    margin-bottom: 1.5rem; }\n  .ConfigForm .configInputs {\n    flex-grow: 1; }\n    .ConfigForm .configInputs > .inputElement {\n      margin-top: 0px; }\n    .ConfigForm .configInputs > .inputElement ~ .inputElement {\n      margin-top: 1.5rem; }\n    .ConfigForm .configInputs .inputElement span {\n      display: block;\n      font-size: .909rem; }\n    .ConfigForm .configInputs .inputElement .ModalTextInput {\n      font-size: .909rem;\n      padding: 7px;\n      line-height: 1rem;\n      width: 100%; }\n    .ConfigForm .configInputs .inputElement select {\n      width: 100%; }\n    .ConfigForm .configInputs .inputElement .inputLabel {\n      font-size: 0.826rem;\n      color: #707372;\n      margin-bottom: 2px; }\n    .ConfigForm .configInputs .rowDetails:last-of-type {\n      margin-bottom: 0; }\n    .ConfigForm .configInputs .rowDetails {\n      margin-bottom: 2rem; }\n      .ConfigForm .configInputs .rowDetails .rowNumber {\n        margin-bottom: 0.5rem; }\n        .ConfigForm .configInputs .rowDetails .rowNumber h4 {\n          color: #707372; }\n      .ConfigForm .configInputs .rowDetails .inputElement {\n        margin-bottom: 1.5rem; }\n      .ConfigForm .configInputs .rowDetails > .inputElement ~ .inputElement {\n        margin-bottom: 0; }\n    .ConfigForm .configInputs .checkboxElement {\n      margin-top: 1.5rem; }\n\n@media (min-width: 900px) {\n  .ConfigForm .stepNumber {\n    margin-right: 10px;\n    height: 45px;\n    border-radius: 23px; }\n    .ConfigForm .stepNumber h1 {\n      width: 45px;\n      line-height: 45px;\n      font-size: 1.948rem; }\n  .ConfigForm .configInputs .inputDescriptor {\n    margin-bottom: 1rem; }\n  .ConfigForm .configInputs .inputElement {\n    display: inline-block;\n    margin-right: 0.5rem; }\n  .ConfigForm .configInputs > .inputElement ~ .inputElement {\n    margin-top: 0; }\n  .ConfigForm .configInputs .rowDetails {\n    display: flex;\n    justify-content: space-between; }\n    .ConfigForm .configInputs .rowDetails .rowNumber {\n      align-self: flex-end;\n      margin-bottom: 0; }\n    .ConfigForm .configInputs .rowDetails .inputElement {\n      margin: 0; } }\n\n.ModalTextInput {\n  -webkit-appearance: none;\n  border: 1px solid #A8ACAE;\n  box-sizing: border-box;\n  border-radius: 5px;\n  background: transparent; }\n  .ModalTextInput:focus {\n    outline: none; }\n\nhtml, body {\n  font-size: 18px;\n  font-family: Nimbus Sans, Arial;\n  margin: 0;\n  min-width: 305px; }\n\nul {\n  list-style: none;\n  padding: 0;\n  margin: 0; }\n\nh1 {\n  font-size: 1.464rem;\n  line-height: 2rem;\n  margin: 0; }\n\nh2 {\n  font-size: 1.331rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\nh3 {\n  font-size: 1rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\nh4, p {\n  font-size: 0.909rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\na {\n  text-decoration: none; }\n\nspan.link {\n  color: blue;\n  cursor: pointer; }\n", ""]);
+exports.push([module.i, ".mapbox-gl-draw_ctrl-draw-btn {\n  display: none !important; }\n\n.mapboxgl-map {\n  position: initial; }\n\n.grid-row {\n  display: grid;\n  grid-template-columns: repeat(6, 1fr);\n  grid-column-gap: 1rem;\n  padding: 0px 5.625%;\n  max-width: 1680px; }\n\n.grid-wrap {\n  grid-column: 1 / -1; }\n\n@media (min-width: 900px) {\n  .grid-row {\n    grid-template-columns: repeat(12, 1fr); } }\n\n@media (min-width: 1280px) {\n  .grid-row {\n    grid-template-columns: repeat(14, 1fr);\n    padding: 0px 2.5%; } }\n\n.suggestion-item--active {\n  background-color: #fafafa;\n  cursor: pointer; }\n\n.suggestion-item {\n  background-color: #ffffff;\n  cursor: pointer; }\n\n.vertical-align {\n  display: flex;\n  align-items: center; }\n\n.distribute {\n  display: flex;\n  justify-content: space-between; }\n\n.margin-center {\n  margin: 0 auto !important; }\n\n@media (min-width: 900px) {\n  .desktop-select-l-width {\n    width: 240px; }\n  .desktop-select-s-width {\n    width: 160px; }\n  .desktop-select-m-width {\n    width: 210px; } }\n\n.spacer-top-1_5 {\n  margin-top: 1.5rem !important; }\n\n.spacer-top-0 {\n  margin-top: 0rem !important; }\n\n.spacer-top-1 {\n  margin-top: 1rem !important; }\n\n.spacer-top-2 {\n  margin-top: 2rem !important; }\n\n.spacer-top-3 {\n  margin-top: 3rem !important; }\n\n.spacer-top-4 {\n  margin-top: 4rem !important; }\n\n.spacer-bottom-0 {\n  margin-bottom: 0rem !important; }\n\n.spacer-bottom-1 {\n  margin-bottom: 1rem !important; }\n\n.spacer-bottom-2 {\n  margin-bottom: 2rem !important; }\n\n.spacer-bottom-3 {\n  margin-bottom: 3rem !important; }\n\n.spacer-bottom-4 {\n  margin-bottom: 4rem !important; }\n\n.spacer-left-0 {\n  margin-left: 0rem !important; }\n\n.spacer-left-1 {\n  margin-left: 1rem !important; }\n\n.spacer-left-2 {\n  margin-left: 2rem !important; }\n\n.spacer-left-3 {\n  margin-left: 3rem !important; }\n\n.spacer-left-4 {\n  margin-left: 4rem !important; }\n\n.spacer-right-0 {\n  margin-right: 0rem !important; }\n\n.spacer-right-1 {\n  margin-right: 1rem !important; }\n\n.spacer-right-2 {\n  margin-right: 2rem !important; }\n\n.spacer-right-3 {\n  margin-right: 3rem !important; }\n\n.spacer-right-4 {\n  margin-right: 4rem !important; }\n\n.width-1 {\n  width: 1% !important; }\n\n.width-2 {\n  width: 2% !important; }\n\n.width-3 {\n  width: 3% !important; }\n\n.width-4 {\n  width: 4% !important; }\n\n.width-5 {\n  width: 5% !important; }\n\n.width-6 {\n  width: 6% !important; }\n\n.width-7 {\n  width: 7% !important; }\n\n.width-8 {\n  width: 8% !important; }\n\n.width-9 {\n  width: 9% !important; }\n\n.width-10 {\n  width: 10% !important; }\n\n.width-11 {\n  width: 11% !important; }\n\n.width-12 {\n  width: 12% !important; }\n\n.width-13 {\n  width: 13% !important; }\n\n.width-14 {\n  width: 14% !important; }\n\n.width-15 {\n  width: 15% !important; }\n\n.width-16 {\n  width: 16% !important; }\n\n.width-17 {\n  width: 17% !important; }\n\n.width-18 {\n  width: 18% !important; }\n\n.width-19 {\n  width: 19% !important; }\n\n.width-20 {\n  width: 20% !important; }\n\n.width-21 {\n  width: 21% !important; }\n\n.width-22 {\n  width: 22% !important; }\n\n.width-23 {\n  width: 23% !important; }\n\n.width-24 {\n  width: 24% !important; }\n\n.width-25 {\n  width: 25% !important; }\n\n.width-26 {\n  width: 26% !important; }\n\n.width-27 {\n  width: 27% !important; }\n\n.width-28 {\n  width: 28% !important; }\n\n.width-29 {\n  width: 29% !important; }\n\n.width-30 {\n  width: 30% !important; }\n\n.width-31 {\n  width: 31% !important; }\n\n.width-32 {\n  width: 32% !important; }\n\n.width-33 {\n  width: 33% !important; }\n\n.width-34 {\n  width: 34% !important; }\n\n.width-35 {\n  width: 35% !important; }\n\n.width-36 {\n  width: 36% !important; }\n\n.width-37 {\n  width: 37% !important; }\n\n.width-38 {\n  width: 38% !important; }\n\n.width-39 {\n  width: 39% !important; }\n\n.width-40 {\n  width: 40% !important; }\n\n.width-41 {\n  width: 41% !important; }\n\n.width-42 {\n  width: 42% !important; }\n\n.width-43 {\n  width: 43% !important; }\n\n.width-44 {\n  width: 44% !important; }\n\n.width-45 {\n  width: 45% !important; }\n\n.width-46 {\n  width: 46% !important; }\n\n.width-47 {\n  width: 47% !important; }\n\n.width-48 {\n  width: 48% !important; }\n\n.width-49 {\n  width: 49% !important; }\n\n.width-50 {\n  width: 50% !important; }\n\n.width-51 {\n  width: 51% !important; }\n\n.width-52 {\n  width: 52% !important; }\n\n.width-53 {\n  width: 53% !important; }\n\n.width-54 {\n  width: 54% !important; }\n\n.width-55 {\n  width: 55% !important; }\n\n.width-56 {\n  width: 56% !important; }\n\n.width-57 {\n  width: 57% !important; }\n\n.width-58 {\n  width: 58% !important; }\n\n.width-59 {\n  width: 59% !important; }\n\n.width-60 {\n  width: 60% !important; }\n\n.width-61 {\n  width: 61% !important; }\n\n.width-62 {\n  width: 62% !important; }\n\n.width-63 {\n  width: 63% !important; }\n\n.width-64 {\n  width: 64% !important; }\n\n.width-65 {\n  width: 65% !important; }\n\n.width-66 {\n  width: 66% !important; }\n\n.width-67 {\n  width: 67% !important; }\n\n.width-68 {\n  width: 68% !important; }\n\n.width-69 {\n  width: 69% !important; }\n\n.width-70 {\n  width: 70% !important; }\n\n.width-71 {\n  width: 71% !important; }\n\n.width-72 {\n  width: 72% !important; }\n\n.width-73 {\n  width: 73% !important; }\n\n.width-74 {\n  width: 74% !important; }\n\n.width-75 {\n  width: 75% !important; }\n\n.width-76 {\n  width: 76% !important; }\n\n.width-77 {\n  width: 77% !important; }\n\n.width-78 {\n  width: 78% !important; }\n\n.width-79 {\n  width: 79% !important; }\n\n.width-80 {\n  width: 80% !important; }\n\n.width-81 {\n  width: 81% !important; }\n\n.width-82 {\n  width: 82% !important; }\n\n.width-83 {\n  width: 83% !important; }\n\n.width-84 {\n  width: 84% !important; }\n\n.width-85 {\n  width: 85% !important; }\n\n.width-86 {\n  width: 86% !important; }\n\n.width-87 {\n  width: 87% !important; }\n\n.width-88 {\n  width: 88% !important; }\n\n.width-89 {\n  width: 89% !important; }\n\n.width-90 {\n  width: 90% !important; }\n\n.width-91 {\n  width: 91% !important; }\n\n.width-92 {\n  width: 92% !important; }\n\n.width-93 {\n  width: 93% !important; }\n\n.width-94 {\n  width: 94% !important; }\n\n.width-95 {\n  width: 95% !important; }\n\n.width-96 {\n  width: 96% !important; }\n\n.width-97 {\n  width: 97% !important; }\n\n.width-98 {\n  width: 98% !important; }\n\n.width-99 {\n  width: 99% !important; }\n\n.width-100 {\n  width: 100% !important; }\n\n.height-1 {\n  height: 1% !important; }\n\n.height-2 {\n  height: 2% !important; }\n\n.height-3 {\n  height: 3% !important; }\n\n.height-4 {\n  height: 4% !important; }\n\n.height-5 {\n  height: 5% !important; }\n\n.height-6 {\n  height: 6% !important; }\n\n.height-7 {\n  height: 7% !important; }\n\n.height-8 {\n  height: 8% !important; }\n\n.height-9 {\n  height: 9% !important; }\n\n.height-10 {\n  height: 10% !important; }\n\n.height-11 {\n  height: 11% !important; }\n\n.height-12 {\n  height: 12% !important; }\n\n.height-13 {\n  height: 13% !important; }\n\n.height-14 {\n  height: 14% !important; }\n\n.height-15 {\n  height: 15% !important; }\n\n.height-16 {\n  height: 16% !important; }\n\n.height-17 {\n  height: 17% !important; }\n\n.height-18 {\n  height: 18% !important; }\n\n.height-19 {\n  height: 19% !important; }\n\n.height-20 {\n  height: 20% !important; }\n\n.height-21 {\n  height: 21% !important; }\n\n.height-22 {\n  height: 22% !important; }\n\n.height-23 {\n  height: 23% !important; }\n\n.height-24 {\n  height: 24% !important; }\n\n.height-25 {\n  height: 25% !important; }\n\n.height-26 {\n  height: 26% !important; }\n\n.height-27 {\n  height: 27% !important; }\n\n.height-28 {\n  height: 28% !important; }\n\n.height-29 {\n  height: 29% !important; }\n\n.height-30 {\n  height: 30% !important; }\n\n.height-31 {\n  height: 31% !important; }\n\n.height-32 {\n  height: 32% !important; }\n\n.height-33 {\n  height: 33% !important; }\n\n.height-34 {\n  height: 34% !important; }\n\n.height-35 {\n  height: 35% !important; }\n\n.height-36 {\n  height: 36% !important; }\n\n.height-37 {\n  height: 37% !important; }\n\n.height-38 {\n  height: 38% !important; }\n\n.height-39 {\n  height: 39% !important; }\n\n.height-40 {\n  height: 40% !important; }\n\n.height-41 {\n  height: 41% !important; }\n\n.height-42 {\n  height: 42% !important; }\n\n.height-43 {\n  height: 43% !important; }\n\n.height-44 {\n  height: 44% !important; }\n\n.height-45 {\n  height: 45% !important; }\n\n.height-46 {\n  height: 46% !important; }\n\n.height-47 {\n  height: 47% !important; }\n\n.height-48 {\n  height: 48% !important; }\n\n.height-49 {\n  height: 49% !important; }\n\n.height-50 {\n  height: 50% !important; }\n\n.height-51 {\n  height: 51% !important; }\n\n.height-52 {\n  height: 52% !important; }\n\n.height-53 {\n  height: 53% !important; }\n\n.height-54 {\n  height: 54% !important; }\n\n.height-55 {\n  height: 55% !important; }\n\n.height-56 {\n  height: 56% !important; }\n\n.height-57 {\n  height: 57% !important; }\n\n.height-58 {\n  height: 58% !important; }\n\n.height-59 {\n  height: 59% !important; }\n\n.height-60 {\n  height: 60% !important; }\n\n.height-61 {\n  height: 61% !important; }\n\n.height-62 {\n  height: 62% !important; }\n\n.height-63 {\n  height: 63% !important; }\n\n.height-64 {\n  height: 64% !important; }\n\n.height-65 {\n  height: 65% !important; }\n\n.height-66 {\n  height: 66% !important; }\n\n.height-67 {\n  height: 67% !important; }\n\n.height-68 {\n  height: 68% !important; }\n\n.height-69 {\n  height: 69% !important; }\n\n.height-70 {\n  height: 70% !important; }\n\n.height-71 {\n  height: 71% !important; }\n\n.height-72 {\n  height: 72% !important; }\n\n.height-73 {\n  height: 73% !important; }\n\n.height-74 {\n  height: 74% !important; }\n\n.height-75 {\n  height: 75% !important; }\n\n.height-76 {\n  height: 76% !important; }\n\n.height-77 {\n  height: 77% !important; }\n\n.height-78 {\n  height: 78% !important; }\n\n.height-79 {\n  height: 79% !important; }\n\n.height-80 {\n  height: 80% !important; }\n\n.height-81 {\n  height: 81% !important; }\n\n.height-82 {\n  height: 82% !important; }\n\n.height-83 {\n  height: 83% !important; }\n\n.height-84 {\n  height: 84% !important; }\n\n.height-85 {\n  height: 85% !important; }\n\n.height-86 {\n  height: 86% !important; }\n\n.height-87 {\n  height: 87% !important; }\n\n.height-88 {\n  height: 88% !important; }\n\n.height-89 {\n  height: 89% !important; }\n\n.height-90 {\n  height: 90% !important; }\n\n.height-91 {\n  height: 91% !important; }\n\n.height-92 {\n  height: 92% !important; }\n\n.height-93 {\n  height: 93% !important; }\n\n.height-94 {\n  height: 94% !important; }\n\n.height-95 {\n  height: 95% !important; }\n\n.height-96 {\n  height: 96% !important; }\n\n.height-97 {\n  height: 97% !important; }\n\n.height-98 {\n  height: 98% !important; }\n\n.height-99 {\n  height: 99% !important; }\n\n.height-100 {\n  height: 100% !important; }\n\n@media (min-width: 900px) {\n  .nowrap {\n    white-space: nowrap; } }\n\n.warning {\n  color: red; }\n\n.block {\n  display: block !important; }\n\n.inline {\n  display: inline !important; }\n\n.inline-block {\n  display: inline-block !important; }\n\n.clickable {\n  pointer-events: auto !important; }\n  .clickable * {\n    pointer-events: auto !important; }\n\n.unclickable {\n  pointer-events: none !important; }\n\n.Button {\n  padding: 0.5rem 22px;\n  font-size: .909rem;\n  display: inline-block;\n  border-radius: 5px;\n  background-color: #006BA6;\n  cursor: pointer;\n  color: white;\n  line-height: 1.5rem;\n  outline: none;\n  border: none; }\n\n.checkboxElement {\n  display: block; }\n  .checkboxElement input[type=\"checkbox\"] {\n    -webkit-appearance: none;\n    border-radius: 3px;\n    border: 1px solid #A8ACAE;\n    width: 18px;\n    box-sizing: border-box;\n    height: 18px;\n    margin: 0px 0.5rem 0px 0px;\n    vertical-align: middle;\n    /* &:focus\n            border: 1px solid $black\n            outline: none\n            + span\n                color: black */ }\n    .checkboxElement input[type=\"checkbox\"]:focus {\n      outline: none; }\n    .checkboxElement input[type=\"checkbox\"]:checked {\n      background-color: #006BA6;\n      background-image: url(" + ___CSS_LOADER_URL___0___ + ");\n      background-repeat: no-repeat;\n      border: 1px solid #006BA6; }\n      .checkboxElement input[type=\"checkbox\"]:checked + span {\n        color: #333333; }\n    .checkboxElement input[type=\"checkbox\"]:disabled {\n      background-color: #ECF1F3;\n      border: 1px solid #ECF1F3; }\n      .checkboxElement input[type=\"checkbox\"]:disabled + span {\n        color: #A8ACAE; }\n  .checkboxElement span {\n    font-size: .909rem;\n    color: #707372;\n    line-height: 2rem; }\n\nselect {\n  -webkit-appearance: none;\n  border: 1px solid #A8ACAE;\n  box-sizing: border-box;\n  border-radius: 5px;\n  font-size: .909rem;\n  padding: 7px 45px 7px 7px;\n  line-height: 1rem;\n  background: transparent;\n  background-image: url(" + ___CSS_LOADER_URL___1___ + ");\n  background-repeat: no-repeat;\n  background-position: right; }\n  select:focus {\n    outline: none; }\n\n.CloseButton {\n  position: absolute;\n  z-index: 1;\n  top: 18px;\n  right: 18px;\n  cursor: pointer;\n  padding: 0;\n  border: none;\n  background-color: inherit; }\n\n.dropdown-checkbox {\n  margin-top: 1.5em;\n  margin-bottom: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-checkbox .Button {\n    margin-top: 1rem;\n    margin-bottom: 3rem; }\n  .dropdown-checkbox > img:last-of-type {\n    position: absolute;\n    bottom: 18px;\n    right: 18px;\n    cursor: pointer; }\n\n@media (min-width: 900px) {\n  .dropdown-checkbox {\n    margin-top: 1em;\n    margin-bottom: 1em; }\n    .dropdown-checkbox .Button {\n      display: block;\n      text-align: center;\n      margin: 0.5rem auto 2.5rem auto; }\n    .dropdown-checkbox > img:last-of-type {\n      bottom: 9px;\n      right: 9px; } }\n\n.dropdown-list {\n  margin-top: 1.5em;\n  margin-bottom: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-list ul {\n    display: block;\n    padding: 0; }\n    .dropdown-list ul li a {\n      text-decoration: none;\n      font-size: 0.909rem;\n      line-height: 2.75em; }\n    .dropdown-list ul li:last-child {\n      border-top: 1px solid #ECF1F3;\n      padding: 1em 0; }\n      .dropdown-list ul li:last-child a {\n        line-height: 1.5em; }\n\n@media (min-width: 900px) {\n  .dropdown-list {\n    margin-top: 1em;\n    margin-top: 1em;\n    margin-bottom: 1em; }\n    .dropdown-list ul li a {\n      line-height: 2em;\n      padding: 0; }\n    .dropdown-list ul li:nth-of-type(3) {\n      padding-bottom: 1em; } }\n\n.Header {\n  position: relative;\n  z-index: 2;\n  width: 100%;\n  height: 99px;\n  background-color: #FFFFFF;\n  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); }\n  .Header > .grid-row {\n    grid-template-columns: auto repeat(5, 1fr); }\n    .Header > .grid-row.sidenav-btn {\n      padding: 0; }\n      .Header > .grid-row.sidenav-btn .SideNavButton {\n        background-color: #FFFFFF;\n        grid-column: 1 / 2;\n        cursor: pointer;\n        padding: 0;\n        border: none; }\n        .Header > .grid-row.sidenav-btn .SideNavButton img {\n          display: block; }\n        .Header > .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n          display: none; }\n      .Header > .grid-row.sidenav-btn .Title {\n        grid-column: 2 / 4; }\n      .Header > .grid-row.sidenav-btn .LocationInput {\n        display: none; }\n      .Header > .grid-row.sidenav-btn .HeaderOptions {\n        grid-column: 4 / -1; }\n      .Header > .grid-row.sidenav-btn .SaveButton {\n        display: none; }\n  .Header .search-save-btn .Save {\n    display: inline-block; }\n    .Header .search-save-btn .Save .SaveButton .wide-save {\n      display: none; }\n\n@media (min-width: 900px) {\n  .Header {\n    height: 72px; }\n    .Header > .grid-row {\n      height: 72px;\n      grid-template-columns: repeat(12, 1fr); }\n      .Header > .grid-row > * {\n        max-height: 72px; }\n      .Header > .grid-row.sidenav-btn .SideNavButton .narrow-sidenav {\n        display: none; }\n      .Header > .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n        display: block; }\n      .Header > .grid-row.sidenav-btn .Title {\n        grid-column: 2 / 4; }\n      .Header > .grid-row.sidenav-btn .LocationInput {\n        grid-column: 4 / 8;\n        display: block; }\n      .Header > .grid-row.sidenav-btn .HeaderOptions {\n        grid-column: 8 / 12; }\n      .Header > .grid-row.sidenav-btn .SaveButton {\n        display: block; }\n        .Header > .grid-row.sidenav-btn .SaveButton .narrow-save {\n          display: none; }\n    .Header .search-save-btn {\n      display: none; } }\n\n@media (min-width: 1280px) {\n  .Header > .grid-row {\n    grid-template-columns: repeat(14, 1fr); }\n    .Header > .grid-row.sidenav-btn .Title {\n      grid-column: 2 / 4; }\n    .Header > .grid-row.sidenav-btn .LocationInput {\n      grid-column: 4 / 9; }\n    .Header > .grid-row.sidenav-btn .HeaderOptions {\n      grid-column: 9 / 14; } }\n\n.HeaderOptions > ul {\n  margin: 0;\n  padding: 0;\n  display: flex;\n  justify-content: flex-end;\n  display: grid;\n  grid-template-columns: repeat(4, minmax(35px, 60px));\n  height: 100%; }\n  .HeaderOptions > ul .option {\n    display: flex;\n    align-items: center;\n    padding: 0px 4px; }\n    .HeaderOptions > ul .option a {\n      display: block;\n      margin: 0 auto; }\n      .HeaderOptions > ul .option a .option-active {\n        display: none; }\n      .HeaderOptions > ul .option a .option-name {\n        display: none; }\n      .HeaderOptions > ul .option a img {\n        display: block;\n        width: 100%;\n        max-width: 45px; }\n    .HeaderOptions > ul .option.active {\n      background-color: #006BA6; }\n      .HeaderOptions > ul .option.active a .option-inactive {\n        display: none; }\n      .HeaderOptions > ul .option.active a .option-active {\n        display: block; }\n      .HeaderOptions > ul .option.active .OptionsDropdown {\n        display: grid; }\n\n@media (min-width: 400px) {\n  .HeaderOptions {\n    padding-right: 15px; } }\n\n@media (min-width: 900px) {\n  .HeaderOptions {\n    padding-right: 0px;\n    margin-left: 0;\n    padding-left: 0; }\n    .HeaderOptions > ul {\n      grid-template-rows: 1fr;\n      grid-template-columns: repeat(4, 1fr);\n      width: 100%; }\n      .HeaderOptions > ul .option {\n        grid-row: 1;\n        width: 100%;\n        padding: 0; }\n        .HeaderOptions > ul .option .option-name {\n          width: 40px;\n          font-size: 0.5rem; } }\n\n@media (min-width: 1280px) {\n  .HeaderOptions ul .option a .option-name {\n    display: inline-block;\n    vertical-align: middle;\n    padding-left: 5px; }\n  .HeaderOptions ul .option a .option-inactive {\n    display: inline-block;\n    vertical-align: middle; }\n  .HeaderOptions ul .option.active a .option-active {\n    display: inline-block;\n    vertical-align: middle; } }\n\n.Map {\n  width: 100%;\n  height: calc(100vh - 99px);\n  position: relative; }\n  .Map .ZoomControl {\n    position: absolute;\n    bottom: 2rem;\n    right: 2rem;\n    z-index: 1;\n    display: flex;\n    flex-flow: column nowrap;\n    justify-content: center;\n    align-items: center;\n    background: white;\n    padding: 6px; }\n    .Map .ZoomControl hr {\n      width: 80%;\n      opacity: 0.4;\n      transform: translateY(2px); }\n    .Map .ZoomControl img {\n      cursor: pointer; }\n  .Map .LegendControl {\n    position: absolute;\n    bottom: 2rem;\n    right: 4.5rem;\n    z-index: 1;\n    background: white;\n    padding: 6px;\n    line-height: 0; }\n    .Map .LegendControl img {\n      cursor: pointer; }\n\n@media (min-width: 900px) {\n  .Map {\n    height: calc(100vh - 72px); } }\n\n.MapModeForm {\n  position: absolute;\n  z-index: 10;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.4);\n  flex-direction: column; }\n  .MapModeForm .PlantingFormHeader .SoilTypes {\n    font-family: Merriweather, serif;\n    color: #707372; }\n    .MapModeForm .PlantingFormHeader .SoilTypes span {\n      color: black; }\n  .MapModeForm .modal {\n    background: white;\n    width: 100%;\n    height: calc(100vh - 99px);\n    padding: 0 1.5rem 3rem 1.5rem;\n    box-sizing: border-box;\n    position: relative;\n    overflow: scroll; }\n  .MapModeForm .button-wrap {\n    height: 99px;\n    width: 100%;\n    background-color: gray;\n    justify-content: flex-end;\n    background-color: #ECF1F3; }\n    .MapModeForm .button-wrap .Button {\n      margin: 1.5rem; }\n\n@media (min-width: 900px) {\n  .MapModeForm {\n    justify-content: center; }\n    .MapModeForm .PlantingFormHeader .SoilTypes {\n      padding-left: 2rem;\n      padding-right: 2rem; }\n    .MapModeForm .modal {\n      width: 670px;\n      height: 500px; }\n    .MapModeForm .button-wrap {\n      width: 670px; } }\n\n.MapLegend .SSURGO .gradient {\n  width: 200px;\n  height: 20px;\n  background: linear-gradient(90deg, #f8f601 0%, #888900 50%, #909090 100%);\n  opacity: 0.6; }\n\n.MapLegend .SSURGO .labels {\n  width: 200px; }\n\n.modal {\n  display: grid;\n  height: 100vh;\n  width: 100vw;\n  position: absolute;\n  top: 0;\n  z-index: 3;\n  background-color: rgba(51, 51, 51, 0.7); }\n  .modal .grid-row {\n    background-color: #FFFFFF; }\n    .modal .grid-row .grid-wrap {\n      max-width: 800px;\n      background-color: #FFFFFF; }\n  .modal .modal-footer {\n    position: absolute;\n    padding: 0px 5.625%;\n    left: 0;\n    right: 0;\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    bottom: 0;\n    padding: 1.5rem;\n    background-color: #ECF1F3; }\n  .modal .modal-header {\n    padding-top: 4rem;\n    padding-bottom: 0.5rem;\n    position: relative; }\n    .modal .modal-header::after {\n      content: '';\n      position: absolute;\n      bottom: -2px;\n      left: 0;\n      height: 2px;\n      width: 135px;\n      background-color: #76881D; }\n  .modal .button-wrap > *:last-child {\n    display: none; }\n  .modal .modal-text {\n    padding-top: 1.5rem; }\n  .modal .modal-link {\n    font-family: Merriweather;\n    font-style: italic;\n    font-weight: normal;\n    font-size: 0.751rem;\n    line-height: 21px;\n    text-decoration-line: underline;\n    color: #006BA6; }\n\n@media (min-width: 900px) {\n  .modal {\n    height: 100vh;\n    align-items: center;\n    justify-content: center; }\n    .modal .grid-row {\n      background: none; }\n      .modal .grid-row .grid-wrap {\n        min-height: 400px;\n        min-width: 600px;\n        max-height: 450px;\n        display: flex;\n        flex-direction: column;\n        grid-column: 2 / 12;\n        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);\n        position: relative; }\n    .modal .modal-footer {\n      position: initial;\n      margin-top: auto;\n      padding: 1.5rem 2rem 1.5rem 2rem;\n      align-items: baseline; }\n    .modal .modal-header {\n      padding-top: 3.5rem; }\n      .modal .modal-header::after {\n        left: 2rem; }\n    .modal .modal-text {\n      padding-bottom: 3rem; }\n    .modal .modal-header, .modal .modal-text {\n      padding-left: 2rem;\n      padding-right: 2rem; }\n    .modal .button-wrap > *:last-child {\n      color: #7A99AC;\n      display: block;\n      padding-top: 0.5rem;\n      font-size: .909rem; } }\n\n@media (min-width: 1280px) {\n  .modal .grid-wrap {\n    grid-column: 4 / 12; } }\n\n.NavOptions {\n  position: fixed;\n  bottom: 0;\n  height: 100vh;\n  background-color: #3E4827;\n  display: none;\n  z-index: 10; }\n  .NavOptions.active {\n    display: block; }\n  .NavOptions .grid-wrap {\n    padding-top: 4rem; }\n    .NavOptions .grid-wrap ul {\n      border-bottom: 2px solid #656D52;\n      padding-bottom: 1rem; }\n      .NavOptions .grid-wrap ul li a {\n        line-height: 2.75rem;\n        text-decoration: none;\n        color: #FFFFFF;\n        font-size: .909rem; }\n    .NavOptions .grid-wrap div p {\n      margin: 0;\n      font-family: Merriweather;\n      font-style: italic;\n      color: #FFFFFF;\n      font-size: 0.683rem;\n      line-height: 1rem;\n      padding-top: 1.5rem; }\n\n@media (min-width: 900px) {\n  .NavOptions {\n    width: 270px; } }\n\n.OptionsDropdown {\n  position: absolute;\n  top: 54px;\n  left: 0;\n  right: 0;\n  background-color: #FFFFFF;\n  border-top: 2px solid #006BA6;\n  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);\n  display: none; }\n\n@media (min-width: 900px) {\n  .OptionsDropdown {\n    width: 180px;\n    top: 72px;\n    padding: 0 1em;\n    left: auto;\n    right: auto; }\n    .OptionsDropdown.grid-row {\n      grid-column-gap: 0rem; }\n    .OptionsDropdown .CloseButton {\n      display: none; } }\n\n.SaveButton {\n  display: inline-block;\n  border: none;\n  padding: 0; }\n  .SaveButton img {\n    display: block;\n    margin-left: auto; }\n\n.LocationInput {\n  width: calc(100% - 54px);\n  height: 45px;\n  vertical-align: top;\n  display: inline-block; }\n  .LocationInput .wrapper {\n    display: flex;\n    align-items: center;\n    height: 100%;\n    width: 100%;\n    position: relative; }\n  .LocationInput .MyLocation {\n    width: 30px;\n    height: 30px;\n    background-size: 30px;\n    display: inline-block;\n    position: absolute;\n    right: 22.5px;\n    background-color: #ECF1F3;\n    background-repeat: no-repeat;\n    background-image: url(" + ___CSS_LOADER_URL___2___ + "); }\n  .LocationInput input {\n    width: 100%;\n    height: 100%;\n    -webkit-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    box-sizing: border-box;\n    -webkit-appearance: none;\n    border: none;\n    padding: 0 0px 0px 75px;\n    background-color: #ECF1F3;\n    background-repeat: no-repeat;\n    background-position: 5%;\n    background-image: url(" + ___CSS_LOADER_URL___3___ + ");\n    background-size: 20px; }\n    .LocationInput input::-webkit-input-placeholder {\n      font-family: Merriweather;\n      font-style: italic;\n      font-weight: normal;\n      font-size: 0.683rem;\n      line-height: 1rem; }\n\n@media (min-width: 900px) {\n  .LocationInput {\n    height: auto;\n    width: auto;\n    padding-bottom: 9px;\n    padding-top: 9px;\n    position: relative; }\n    .LocationInput .MyLocation {\n      width: 40px;\n      height: 40px;\n      background-size: 40px; }\n    .LocationInput input {\n      background-image: url(" + ___CSS_LOADER_URL___4___ + "); }\n      .LocationInput input::-webkit-input-placeholder {\n        font-size: 0.826rem; } }\n\n.LocationInputSuggestions {\n  background-color: #FFFFFF;\n  position: absolute;\n  left: 0;\n  right: 0; }\n  .LocationInputSuggestions > div {\n    padding: 0rem 1rem 0rem 1rem; }\n\n.Title {\n  display: flex;\n  align-items: center; }\n  .Title .wide-logo {\n    display: none; }\n  .Title .narrow-logo {\n    width: 100%;\n    max-width: 82px;\n    min-width: 63px; }\n\n@media (min-width: 900px) {\n  .Title .narrow-logo {\n    display: none; }\n  .Title .wide-logo {\n    display: block;\n    width: 100%;\n    max-width: 154px; } }\n\n.ConfigForm {\n  display: flex;\n  padding-top: 1.5rem;\n  padding-bottom: 1.5rem;\n  border-bottom: 1px solid #ECF1F3; }\n  .ConfigForm:nth-last-child(2) {\n    padding-bottom: 0;\n    border: none; }\n  .ConfigForm .stepNumber {\n    margin-right: 0.5rem;\n    height: 36px;\n    text-align: center;\n    border-radius: 18px;\n    background-color: #CAC7A7;\n    flex: 0 0 36px; }\n    .ConfigForm .stepNumber h1 {\n      width: 36px;\n      line-height: 36px;\n      color: white; }\n  .ConfigForm .inputDescriptor {\n    margin-bottom: 1.5rem; }\n  .ConfigForm .configInputs {\n    flex-grow: 1; }\n    .ConfigForm .configInputs > .inputElement {\n      margin-top: 0px; }\n    .ConfigForm .configInputs > .inputElement ~ .inputElement {\n      margin-top: 1.5rem; }\n    .ConfigForm .configInputs .inputElement span {\n      display: block;\n      font-size: .909rem; }\n    .ConfigForm .configInputs .inputElement .ModalTextInput {\n      font-size: .909rem;\n      padding: 7px;\n      line-height: 1rem;\n      width: 100%; }\n    .ConfigForm .configInputs .inputElement select {\n      width: 100%;\n      text-transform: capitalize; }\n    .ConfigForm .configInputs .inputElement .inputLabel {\n      font-size: 0.826rem;\n      color: #707372;\n      margin-bottom: 2px; }\n    .ConfigForm .configInputs .inputElement .SeedPrice {\n      padding: 7px; }\n    .ConfigForm .configInputs .rowDetails:last-of-type {\n      margin-bottom: 0; }\n    .ConfigForm .configInputs .rowDetails {\n      margin-bottom: 2rem; }\n      .ConfigForm .configInputs .rowDetails .rowNumber {\n        margin-bottom: 0.5rem; }\n        .ConfigForm .configInputs .rowDetails .rowNumber h4 {\n          color: #707372; }\n      .ConfigForm .configInputs .rowDetails .inputElement {\n        margin-bottom: 1.5rem; }\n      .ConfigForm .configInputs .rowDetails > .inputElement ~ .inputElement {\n        margin-bottom: 0; }\n    .ConfigForm .configInputs .checkboxElement {\n      margin-top: 1.5rem; }\n\n@media (min-width: 900px) {\n  .ConfigForm .stepNumber {\n    margin-right: 10px;\n    height: 45px;\n    border-radius: 23px; }\n    .ConfigForm .stepNumber h1 {\n      width: 45px;\n      line-height: 45px;\n      font-size: 1.948rem; }\n  .ConfigForm .configInputs .inputDescriptor {\n    margin-bottom: 1rem; }\n  .ConfigForm .configInputs .inputElement {\n    display: inline-block;\n    margin-right: 0.5rem; }\n  .ConfigForm .configInputs > .inputElement ~ .inputElement {\n    margin-top: 0; }\n  .ConfigForm .configInputs .rowDetails {\n    display: flex;\n    justify-content: space-between; }\n    .ConfigForm .configInputs .rowDetails .rowNumber {\n      align-self: flex-end;\n      margin-bottom: 0; }\n    .ConfigForm .configInputs .rowDetails .inputElement {\n      margin: 0; } }\n\n.ModalTextInput {\n  -webkit-appearance: none;\n  border: 1px solid #A8ACAE;\n  box-sizing: border-box;\n  border-radius: 5px;\n  background: transparent; }\n  .ModalTextInput:focus {\n    outline: none; }\n\nhtml, body {\n  font-size: 18px;\n  font-family: Nimbus Sans, Arial;\n  margin: 0;\n  min-width: 305px; }\n\nul {\n  list-style: none;\n  padding: 0;\n  margin: 0; }\n\nh1 {\n  font-size: 1.464rem;\n  line-height: 2rem;\n  margin: 0; }\n\nh2 {\n  font-size: 1.331rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\nh3 {\n  font-size: 1rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\nh4, p {\n  font-size: 0.909rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\na {\n  text-decoration: none; }\n\nspan.link {\n  color: blue;\n  cursor: pointer; }\n", ""]);
 
 
 /***/ }),
@@ -10935,7 +10814,7 @@ function load() {
 
 	// If debug isn't set in LS, and we're in Electron, try to load $DEBUG
 	if (!r && typeof process !== 'undefined' && 'env' in process) {
-		r = "MapComponent,MapState";
+		r = "Enrichment,MapComponent,MapState";
 	}
 
 	return r;
@@ -33575,1732 +33454,6 @@ return mapboxgl;
 
 }));
 //# sourceMappingURL=mapbox-gl.js.map
-
-
-/***/ }),
-
-/***/ "./node_modules/martinez-polygon-clipping/dist/martinez.umd.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/martinez-polygon-clipping/dist/martinez.umd.js ***!
-  \*********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * martinez v0.4.3
- * Martinez polygon clipping algorithm, does boolean operation on polygons (multipolygons, polygons with holes etc): intersection, union, difference, xor
- *
- * @author Alex Milevski <info@w8r.name>
- * @license MIT
- * @preserve
- */
-
-(function (global, factory) {
-   true ? factory(exports) :
-  undefined;
-}(this, (function (exports) { 'use strict';
-
-  function DEFAULT_COMPARE (a, b) { return a > b ? 1 : a < b ? -1 : 0; }
-
-  var SplayTree = function SplayTree(compare, noDuplicates) {
-    if ( compare === void 0 ) compare = DEFAULT_COMPARE;
-    if ( noDuplicates === void 0 ) noDuplicates = false;
-
-    this._compare = compare;
-    this._root = null;
-    this._size = 0;
-    this._noDuplicates = !!noDuplicates;
-  };
-
-  var prototypeAccessors = { size: { configurable: true } };
-
-
-  SplayTree.prototype.rotateLeft = function rotateLeft (x) {
-    var y = x.right;
-    if (y) {
-      x.right = y.left;
-      if (y.left) { y.left.parent = x; }
-      y.parent = x.parent;
-    }
-
-    if (!x.parent)              { this._root = y; }
-    else if (x === x.parent.left) { x.parent.left = y; }
-    else                        { x.parent.right = y; }
-    if (y) { y.left = x; }
-    x.parent = y;
-  };
-
-
-  SplayTree.prototype.rotateRight = function rotateRight (x) {
-    var y = x.left;
-    if (y) {
-      x.left = y.right;
-      if (y.right) { y.right.parent = x; }
-      y.parent = x.parent;
-    }
-
-    if (!x.parent)             { this._root = y; }
-    else if(x === x.parent.left) { x.parent.left = y; }
-    else                       { x.parent.right = y; }
-    if (y) { y.right = x; }
-    x.parent = y;
-  };
-
-
-  SplayTree.prototype._splay = function _splay (x) {
-      var this$1 = this;
-
-    while (x.parent) {
-      var p = x.parent;
-      if (!p.parent) {
-        if (p.left === x) { this$1.rotateRight(p); }
-        else            { this$1.rotateLeft(p); }
-      } else if (p.left === x && p.parent.left === p) {
-        this$1.rotateRight(p.parent);
-        this$1.rotateRight(p);
-      } else if (p.right === x && p.parent.right === p) {
-        this$1.rotateLeft(p.parent);
-        this$1.rotateLeft(p);
-      } else if (p.left === x && p.parent.right === p) {
-        this$1.rotateRight(p);
-        this$1.rotateLeft(p);
-      } else {
-        this$1.rotateLeft(p);
-        this$1.rotateRight(p);
-      }
-    }
-  };
-
-
-  SplayTree.prototype.splay = function splay (x) {
-      var this$1 = this;
-
-    var p, gp, ggp, l, r;
-
-    while (x.parent) {
-      p = x.parent;
-      gp = p.parent;
-
-      if (gp && gp.parent) {
-        ggp = gp.parent;
-        if (ggp.left === gp) { ggp.left= x; }
-        else               { ggp.right = x; }
-        x.parent = ggp;
-      } else {
-        x.parent = null;
-        this$1._root = x;
-      }
-
-      l = x.left; r = x.right;
-
-      if (x === p.left) { // left
-        if (gp) {
-          if (gp.left === p) {
-            /* zig-zig */
-            if (p.right) {
-              gp.left = p.right;
-              gp.left.parent = gp;
-            } else { gp.left = null; }
-
-            p.right = gp;
-            gp.parent = p;
-          } else {
-            /* zig-zag */
-            if (l) {
-              gp.right = l;
-              l.parent = gp;
-            } else { gp.right = null; }
-
-            x.left  = gp;
-            gp.parent = x;
-          }
-        }
-        if (r) {
-          p.left = r;
-          r.parent = p;
-        } else { p.left = null; }
-
-        x.right= p;
-        p.parent = x;
-      } else { // right
-        if (gp) {
-          if (gp.right === p) {
-            /* zig-zig */
-            if (p.left) {
-              gp.right = p.left;
-              gp.right.parent = gp;
-            } else { gp.right = null; }
-
-            p.left = gp;
-            gp.parent = p;
-          } else {
-            /* zig-zag */
-            if (r) {
-              gp.left = r;
-              r.parent = gp;
-            } else { gp.left = null; }
-
-            x.right = gp;
-            gp.parent = x;
-          }
-        }
-        if (l) {
-          p.right = l;
-          l.parent = p;
-        } else { p.right = null; }
-
-        x.left = p;
-        p.parent = x;
-      }
-    }
-  };
-
-
-  SplayTree.prototype.replace = function replace (u, v) {
-    if (!u.parent) { this._root = v; }
-    else if (u === u.parent.left) { u.parent.left = v; }
-    else { u.parent.right = v; }
-    if (v) { v.parent = u.parent; }
-  };
-
-
-  SplayTree.prototype.minNode = function minNode (u) {
-      if ( u === void 0 ) u = this._root;
-
-    if (u) { while (u.left) { u = u.left; } }
-    return u;
-  };
-
-
-  SplayTree.prototype.maxNode = function maxNode (u) {
-      if ( u === void 0 ) u = this._root;
-
-    if (u) { while (u.right) { u = u.right; } }
-    return u;
-  };
-
-
-  SplayTree.prototype.insert = function insert (key, data) {
-    var z = this._root;
-    var p = null;
-    var comp = this._compare;
-    var cmp;
-
-    if (this._noDuplicates) {
-      while (z) {
-        p = z;
-        cmp = comp(z.key, key);
-        if (cmp === 0) { return; }
-        else if (comp(z.key, key) < 0) { z = z.right; }
-        else { z = z.left; }
-      }
-    } else {
-      while (z) {
-        p = z;
-        if (comp(z.key, key) < 0) { z = z.right; }
-        else { z = z.left; }
-      }
-    }
-
-    z = { key: key, data: data, left: null, right: null, parent: p };
-
-    if (!p)                        { this._root = z; }
-    else if (comp(p.key, z.key) < 0) { p.right = z; }
-    else                           { p.left= z; }
-
-    this.splay(z);
-    this._size++;
-    return z;
-  };
-
-
-  SplayTree.prototype.find = function find (key) {
-    var z  = this._root;
-    var comp = this._compare;
-    while (z) {
-      var cmp = comp(z.key, key);
-      if    (cmp < 0) { z = z.right; }
-      else if (cmp > 0) { z = z.left; }
-      else            { return z; }
-    }
-    return null;
-  };
-
-  /**
-   * Whether the tree contains a node with the given key
-   * @param{Key} key
-   * @return {boolean} true/false
-   */
-  SplayTree.prototype.contains = function contains (key) {
-    var node     = this._root;
-    var comparator = this._compare;
-    while (node){
-      var cmp = comparator(key, node.key);
-      if    (cmp === 0) { return true; }
-      else if (cmp < 0) { node = node.left; }
-      else              { node = node.right; }
-    }
-
-    return false;
-  };
-
-
-  SplayTree.prototype.remove = function remove (key) {
-    var z = this.find(key);
-
-    if (!z) { return false; }
-
-    this.splay(z);
-
-    if (!z.left) { this.replace(z, z.right); }
-    else if (!z.right) { this.replace(z, z.left); }
-    else {
-      var y = this.minNode(z.right);
-      if (y.parent !== z) {
-        this.replace(y, y.right);
-        y.right = z.right;
-        y.right.parent = y;
-      }
-      this.replace(z, y);
-      y.left = z.left;
-      y.left.parent = y;
-    }
-
-    this._size--;
-    return true;
-  };
-
-
-  SplayTree.prototype.removeNode = function removeNode (z) {
-    if (!z) { return false; }
-
-    this.splay(z);
-
-    if (!z.left) { this.replace(z, z.right); }
-    else if (!z.right) { this.replace(z, z.left); }
-    else {
-      var y = this.minNode(z.right);
-      if (y.parent !== z) {
-        this.replace(y, y.right);
-        y.right = z.right;
-        y.right.parent = y;
-      }
-      this.replace(z, y);
-      y.left = z.left;
-      y.left.parent = y;
-    }
-
-    this._size--;
-    return true;
-  };
-
-
-  SplayTree.prototype.erase = function erase (key) {
-    var z = this.find(key);
-    if (!z) { return; }
-
-    this.splay(z);
-
-    var s = z.left;
-    var t = z.right;
-
-    var sMax = null;
-    if (s) {
-      s.parent = null;
-      sMax = this.maxNode(s);
-      this.splay(sMax);
-      this._root = sMax;
-    }
-    if (t) {
-      if (s) { sMax.right = t; }
-      else { this._root = t; }
-      t.parent = sMax;
-    }
-
-    this._size--;
-  };
-
-  /**
-   * Removes and returns the node with smallest key
-   * @return {?Node}
-   */
-  SplayTree.prototype.pop = function pop () {
-    var node = this._root, returnValue = null;
-    if (node) {
-      while (node.left) { node = node.left; }
-      returnValue = { key: node.key, data: node.data };
-      this.remove(node.key);
-    }
-    return returnValue;
-  };
-
-
-  /* eslint-disable class-methods-use-this */
-
-  /**
-   * Successor node
-   * @param{Node} node
-   * @return {?Node}
-   */
-  SplayTree.prototype.next = function next (node) {
-    var successor = node;
-    if (successor) {
-      if (successor.right) {
-        successor = successor.right;
-        while (successor && successor.left) { successor = successor.left; }
-      } else {
-        successor = node.parent;
-        while (successor && successor.right === node) {
-          node = successor; successor = successor.parent;
-        }
-      }
-    }
-    return successor;
-  };
-
-
-  /**
-   * Predecessor node
-   * @param{Node} node
-   * @return {?Node}
-   */
-  SplayTree.prototype.prev = function prev (node) {
-    var predecessor = node;
-    if (predecessor) {
-      if (predecessor.left) {
-        predecessor = predecessor.left;
-        while (predecessor && predecessor.right) { predecessor = predecessor.right; }
-      } else {
-        predecessor = node.parent;
-        while (predecessor && predecessor.left === node) {
-          node = predecessor;
-          predecessor = predecessor.parent;
-        }
-      }
-    }
-    return predecessor;
-  };
-  /* eslint-enable class-methods-use-this */
-
-
-  /**
-   * @param{forEachCallback} callback
-   * @return {SplayTree}
-   */
-  SplayTree.prototype.forEach = function forEach (callback) {
-    var current = this._root;
-    var s = [], done = false, i = 0;
-
-    while (!done) {
-      // Reach the left most Node of the current Node
-      if (current) {
-        // Place pointer to a tree node on the stack
-        // before traversing the node's left subtree
-        s.push(current);
-        current = current.left;
-      } else {
-        // BackTrack from the empty subtree and visit the Node
-        // at the top of the stack; however, if the stack is
-        // empty you are done
-        if (s.length > 0) {
-          current = s.pop();
-          callback(current, i++);
-
-          // We have visited the node and its left
-          // subtree. Now, it's right subtree's turn
-          current = current.right;
-        } else { done = true; }
-      }
-    }
-    return this;
-  };
-
-
-  /**
-   * Walk key range from `low` to `high`. Stops if `fn` returns a value.
-   * @param{Key}    low
-   * @param{Key}    high
-   * @param{Function} fn
-   * @param{*?}     ctx
-   * @return {SplayTree}
-   */
-  SplayTree.prototype.range = function range (low, high, fn, ctx) {
-      var this$1 = this;
-
-    var Q = [];
-    var compare = this._compare;
-    var node = this._root, cmp;
-
-    while (Q.length !== 0 || node) {
-      if (node) {
-        Q.push(node);
-        node = node.left;
-      } else {
-        node = Q.pop();
-        cmp = compare(node.key, high);
-        if (cmp > 0) {
-          break;
-        } else if (compare(node.key, low) >= 0) {
-          if (fn.call(ctx, node)) { return this$1; } // stop if smth is returned
-        }
-        node = node.right;
-      }
-    }
-    return this;
-  };
-
-  /**
-   * Returns all keys in order
-   * @return {Array<Key>}
-   */
-  SplayTree.prototype.keys = function keys () {
-    var current = this._root;
-    var s = [], r = [], done = false;
-
-    while (!done) {
-      if (current) {
-        s.push(current);
-        current = current.left;
-      } else {
-        if (s.length > 0) {
-          current = s.pop();
-          r.push(current.key);
-          current = current.right;
-        } else { done = true; }
-      }
-    }
-    return r;
-  };
-
-
-  /**
-   * Returns `data` fields of all nodes in order.
-   * @return {Array<Value>}
-   */
-  SplayTree.prototype.values = function values () {
-    var current = this._root;
-    var s = [], r = [], done = false;
-
-    while (!done) {
-      if (current) {
-        s.push(current);
-        current = current.left;
-      } else {
-        if (s.length > 0) {
-          current = s.pop();
-          r.push(current.data);
-          current = current.right;
-        } else { done = true; }
-      }
-    }
-    return r;
-  };
-
-
-  /**
-   * Returns node at given index
-   * @param{number} index
-   * @return {?Node}
-   */
-  SplayTree.prototype.at = function at (index) {
-    // removed after a consideration, more misleading than useful
-    // index = index % this.size;
-    // if (index < 0) index = this.size - index;
-
-    var current = this._root;
-    var s = [], done = false, i = 0;
-
-    while (!done) {
-      if (current) {
-        s.push(current);
-        current = current.left;
-      } else {
-        if (s.length > 0) {
-          current = s.pop();
-          if (i === index) { return current; }
-          i++;
-          current = current.right;
-        } else { done = true; }
-      }
-    }
-    return null;
-  };
-
-  /**
-   * Bulk-load items. Both array have to be same size
-   * @param{Array<Key>}  keys
-   * @param{Array<Value>}[values]
-   * @param{Boolean}     [presort=false] Pre-sort keys and values, using
-   *                                       tree's comparator. Sorting is done
-   *                                       in-place
-   * @return {AVLTree}
-   */
-  SplayTree.prototype.load = function load (keys, values, presort) {
-      if ( keys === void 0 ) keys = [];
-      if ( values === void 0 ) values = [];
-      if ( presort === void 0 ) presort = false;
-
-    if (this._size !== 0) { throw new Error('bulk-load: tree is not empty'); }
-    var size = keys.length;
-    if (presort) { sort(keys, values, 0, size - 1, this._compare); }
-    this._root = loadRecursive(null, keys, values, 0, size);
-    this._size = size;
-    return this;
-  };
-
-
-  SplayTree.prototype.min = function min () {
-    var node = this.minNode(this._root);
-    if (node) { return node.key; }
-    else    { return null; }
-  };
-
-
-  SplayTree.prototype.max = function max () {
-    var node = this.maxNode(this._root);
-    if (node) { return node.key; }
-    else    { return null; }
-  };
-
-  SplayTree.prototype.isEmpty = function isEmpty () { return this._root === null; };
-  prototypeAccessors.size.get = function () { return this._size; };
-
-
-  /**
-   * Create a tree and load it with items
-   * @param{Array<Key>}        keys
-   * @param{Array<Value>?}      [values]
-
-   * @param{Function?}          [comparator]
-   * @param{Boolean?}           [presort=false] Pre-sort keys and values, using
-   *                                             tree's comparator. Sorting is done
-   *                                             in-place
-   * @param{Boolean?}           [noDuplicates=false] Allow duplicates
-   * @return {SplayTree}
-   */
-  SplayTree.createTree = function createTree (keys, values, comparator, presort, noDuplicates) {
-    return new SplayTree(comparator, noDuplicates).load(keys, values, presort);
-  };
-
-  Object.defineProperties( SplayTree.prototype, prototypeAccessors );
-
-
-  function loadRecursive (parent, keys, values, start, end) {
-    var size = end - start;
-    if (size > 0) {
-      var middle = start + Math.floor(size / 2);
-      var key    = keys[middle];
-      var data   = values[middle];
-      var node   = { key: key, data: data, parent: parent };
-      node.left    = loadRecursive(node, keys, values, start, middle);
-      node.right   = loadRecursive(node, keys, values, middle + 1, end);
-      return node;
-    }
-    return null;
-  }
-
-
-  function sort(keys, values, left, right, compare) {
-    if (left >= right) { return; }
-
-    var pivot = keys[(left + right) >> 1];
-    var i = left - 1;
-    var j = right + 1;
-
-    while (true) {
-      do { i++; } while (compare(keys[i], pivot) < 0);
-      do { j--; } while (compare(keys[j], pivot) > 0);
-      if (i >= j) { break; }
-
-      var tmp = keys[i];
-      keys[i] = keys[j];
-      keys[j] = tmp;
-
-      tmp = values[i];
-      values[i] = values[j];
-      values[j] = tmp;
-    }
-
-    sort(keys, values,  left,     j, compare);
-    sort(keys, values, j + 1, right, compare);
-  }
-
-  var NORMAL               = 0;
-  var NON_CONTRIBUTING     = 1;
-  var SAME_TRANSITION      = 2;
-  var DIFFERENT_TRANSITION = 3;
-
-  var INTERSECTION = 0;
-  var UNION        = 1;
-  var DIFFERENCE   = 2;
-  var XOR          = 3;
-
-  /**
-   * @param  {SweepEvent} event
-   * @param  {SweepEvent} prev
-   * @param  {Operation} operation
-   */
-  function computeFields (event, prev, operation) {
-    // compute inOut and otherInOut fields
-    if (prev === null) {
-      event.inOut      = false;
-      event.otherInOut = true;
-
-    // previous line segment in sweepline belongs to the same polygon
-    } else {
-      if (event.isSubject === prev.isSubject) {
-        event.inOut      = !prev.inOut;
-        event.otherInOut = prev.otherInOut;
-
-      // previous line segment in sweepline belongs to the clipping polygon
-      } else {
-        event.inOut      = !prev.otherInOut;
-        event.otherInOut = prev.isVertical() ? !prev.inOut : prev.inOut;
-      }
-
-      // compute prevInResult field
-      if (prev) {
-        event.prevInResult = (!inResult(prev, operation) || prev.isVertical())
-          ? prev.prevInResult : prev;
-      }
-    }
-
-    // check if the line segment belongs to the Boolean operation
-    event.inResult = inResult(event, operation);
-  }
-
-
-  /* eslint-disable indent */
-  function inResult(event, operation) {
-    switch (event.type) {
-      case NORMAL:
-        switch (operation) {
-          case INTERSECTION:
-            return !event.otherInOut;
-          case UNION:
-            return event.otherInOut;
-          case DIFFERENCE:
-            // return (event.isSubject && !event.otherInOut) ||
-            //         (!event.isSubject && event.otherInOut);
-            return (event.isSubject && event.otherInOut) ||
-                    (!event.isSubject && !event.otherInOut);
-          case XOR:
-            return true;
-        }
-        break;
-      case SAME_TRANSITION:
-        return operation === INTERSECTION || operation === UNION;
-      case DIFFERENT_TRANSITION:
-        return operation === DIFFERENCE;
-      case NON_CONTRIBUTING:
-        return false;
-    }
-    return false;
-  }
-  /* eslint-enable indent */
-
-  var SweepEvent = function SweepEvent (point, left, otherEvent, isSubject, edgeType) {
-
-    /**
-     * Is left endpoint?
-     * @type {Boolean}
-     */
-    this.left = left;
-
-    /**
-     * @type {Array.<Number>}
-     */
-    this.point = point;
-
-    /**
-     * Other edge reference
-     * @type {SweepEvent}
-     */
-    this.otherEvent = otherEvent;
-
-    /**
-     * Belongs to source or clipping polygon
-     * @type {Boolean}
-     */
-    this.isSubject = isSubject;
-
-    /**
-     * Edge contribution type
-     * @type {Number}
-     */
-    this.type = edgeType || NORMAL;
-
-
-    /**
-     * In-out transition for the sweepline crossing polygon
-     * @type {Boolean}
-     */
-    this.inOut = false;
-
-
-    /**
-     * @type {Boolean}
-     */
-    this.otherInOut = false;
-
-    /**
-     * Previous event in result?
-     * @type {SweepEvent}
-     */
-    this.prevInResult = null;
-
-    /**
-     * Does event belong to result?
-     * @type {Boolean}
-     */
-    this.inResult = false;
-
-
-    // connection step
-
-    /**
-     * @type {Boolean}
-     */
-    this.resultInOut = false;
-
-    this.isExteriorRing = true;
-  };
-
-
-  /**
-   * @param{Array.<Number>}p
-   * @return {Boolean}
-   */
-  SweepEvent.prototype.isBelow = function isBelow (p) {
-    var p0 = this.point, p1 = this.otherEvent.point;
-    return this.left
-      ? (p0[0] - p[0]) * (p1[1] - p[1]) - (p1[0] - p[0]) * (p0[1] - p[1]) > 0
-      // signedArea(this.point, this.otherEvent.point, p) > 0 :
-      : (p1[0] - p[0]) * (p0[1] - p[1]) - (p0[0] - p[0]) * (p1[1] - p[1]) > 0;
-      //signedArea(this.otherEvent.point, this.point, p) > 0;
-  };
-
-
-  /**
-   * @param{Array.<Number>}p
-   * @return {Boolean}
-   */
-  SweepEvent.prototype.isAbove = function isAbove (p) {
-    return !this.isBelow(p);
-  };
-
-
-  /**
-   * @return {Boolean}
-   */
-  SweepEvent.prototype.isVertical = function isVertical () {
-    return this.point[0] === this.otherEvent.point[0];
-  };
-
-
-  SweepEvent.prototype.clone = function clone () {
-    var copy = new SweepEvent(
-      this.point, this.left, this.otherEvent, this.isSubject, this.type);
-
-    copy.inResult     = this.inResult;
-    copy.prevInResult = this.prevInResult;
-    copy.isExteriorRing = this.isExteriorRing;
-    copy.inOut        = this.inOut;
-    copy.otherInOut   = this.otherInOut;
-
-    return copy;
-  };
-
-  function equals(p1, p2) {
-    if (p1[0] === p2[0]) {
-      if (p1[1] === p2[1]) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-    return false;
-  }
-
-  // const EPSILON = 1e-9;
-  // const abs = Math.abs;
-  // TODO https://github.com/w8r/martinez/issues/6#issuecomment-262847164
-  // Precision problem.
-  //
-  // module.exports = function equals(p1, p2) {
-  //   return abs(p1[0] - p2[0]) <= EPSILON && abs(p1[1] - p2[1]) <= EPSILON;
-  // };
-
-  /**
-   * Signed area of the triangle (p0, p1, p2)
-   * @param  {Array.<Number>} p0
-   * @param  {Array.<Number>} p1
-   * @param  {Array.<Number>} p2
-   * @return {Number}
-   */
-  function signedArea(p0, p1, p2) {
-    return (p0[0] - p2[0]) * (p1[1] - p2[1]) - (p1[0] - p2[0]) * (p0[1] - p2[1]);
-  }
-
-  /**
-   * @param  {SweepEvent} e1
-   * @param  {SweepEvent} e2
-   * @return {Number}
-   */
-  function compareEvents(e1, e2) {
-    var p1 = e1.point;
-    var p2 = e2.point;
-
-    // Different x-coordinate
-    if (p1[0] > p2[0]) { return 1; }
-    if (p1[0] < p2[0]) { return -1; }
-
-    // Different points, but same x-coordinate
-    // Event with lower y-coordinate is processed first
-    if (p1[1] !== p2[1]) { return p1[1] > p2[1] ? 1 : -1; }
-
-    return specialCases(e1, e2, p1, p2);
-  }
-
-
-  /* eslint-disable no-unused-vars */
-  function specialCases(e1, e2, p1, p2) {
-    // Same coordinates, but one is a left endpoint and the other is
-    // a right endpoint. The right endpoint is processed first
-    if (e1.left !== e2.left)
-      { return e1.left ? 1 : -1; }
-
-    // const p2 = e1.otherEvent.point, p3 = e2.otherEvent.point;
-    // const sa = (p1[0] - p3[0]) * (p2[1] - p3[1]) - (p2[0] - p3[0]) * (p1[1] - p3[1])
-    // Same coordinates, both events
-    // are left endpoints or right endpoints.
-    // not collinear
-    if (signedArea(p1, e1.otherEvent.point, e2.otherEvent.point) !== 0) {
-      // the event associate to the bottom segment is processed first
-      return (!e1.isBelow(e2.otherEvent.point)) ? 1 : -1;
-    }
-
-    return (!e1.isSubject && e2.isSubject) ? 1 : -1;
-  }
-  /* eslint-enable no-unused-vars */
-
-  /**
-   * @param  {SweepEvent} se
-   * @param  {Array.<Number>} p
-   * @param  {Queue} queue
-   * @return {Queue}
-   */
-  function divideSegment(se, p, queue)  {
-    var r = new SweepEvent(p, false, se,            se.isSubject);
-    var l = new SweepEvent(p, true,  se.otherEvent, se.isSubject);
-
-    /* eslint-disable no-console */
-    if (equals(se.point, se.otherEvent.point)) {
-
-      console.warn('what is that, a collapsed segment?', se);
-    }
-    /* eslint-enable no-console */
-
-    r.contourId = l.contourId = se.contourId;
-
-    // avoid a rounding error. The left event would be processed after the right event
-    if (compareEvents(l, se.otherEvent) > 0) {
-      se.otherEvent.left = true;
-      l.left = false;
-    }
-
-    // avoid a rounding error. The left event would be processed after the right event
-    // if (compareEvents(se, r) > 0) {}
-
-    se.otherEvent.otherEvent = l;
-    se.otherEvent = r;
-
-    queue.push(l);
-    queue.push(r);
-
-    return queue;
-  }
-
-  //const EPS = 1e-9;
-
-  /**
-   * Finds the magnitude of the cross product of two vectors (if we pretend
-   * they're in three dimensions)
-   *
-   * @param {Object} a First vector
-   * @param {Object} b Second vector
-   * @private
-   * @returns {Number} The magnitude of the cross product
-   */
-  function crossProduct(a, b) {
-    return (a[0] * b[1]) - (a[1] * b[0]);
-  }
-
-  /**
-   * Finds the dot product of two vectors.
-   *
-   * @param {Object} a First vector
-   * @param {Object} b Second vector
-   * @private
-   * @returns {Number} The dot product
-   */
-  function dotProduct(a, b) {
-    return (a[0] * b[0]) + (a[1] * b[1]);
-  }
-
-  /**
-   * Finds the intersection (if any) between two line segments a and b, given the
-   * line segments' end points a1, a2 and b1, b2.
-   *
-   * This algorithm is based on Schneider and Eberly.
-   * http://www.cimec.org.ar/~ncalvo/Schneider_Eberly.pdf
-   * Page 244.
-   *
-   * @param {Array.<Number>} a1 point of first line
-   * @param {Array.<Number>} a2 point of first line
-   * @param {Array.<Number>} b1 point of second line
-   * @param {Array.<Number>} b2 point of second line
-   * @param {Boolean=}       noEndpointTouch whether to skip single touchpoints
-   *                                         (meaning connected segments) as
-   *                                         intersections
-   * @returns {Array.<Array.<Number>>|Null} If the lines intersect, the point of
-   * intersection. If they overlap, the two end points of the overlapping segment.
-   * Otherwise, null.
-   */
-  function intersection (a1, a2, b1, b2, noEndpointTouch) {
-    // The algorithm expects our lines in the form P + sd, where P is a point,
-    // s is on the interval [0, 1], and d is a vector.
-    // We are passed two points. P can be the first point of each pair. The
-    // vector, then, could be thought of as the distance (in x and y components)
-    // from the first point to the second point.
-    // So first, let's make our vectors:
-    var va = [a2[0] - a1[0], a2[1] - a1[1]];
-    var vb = [b2[0] - b1[0], b2[1] - b1[1]];
-    // We also define a function to convert back to regular point form:
-
-    /* eslint-disable arrow-body-style */
-
-    function toPoint(p, s, d) {
-      return [
-        p[0] + s * d[0],
-        p[1] + s * d[1]
-      ];
-    }
-
-    /* eslint-enable arrow-body-style */
-
-    // The rest is pretty much a straight port of the algorithm.
-    var e = [b1[0] - a1[0], b1[1] - a1[1]];
-    var kross    = crossProduct(va, vb);
-    var sqrKross = kross * kross;
-    var sqrLenA  = dotProduct(va, va);
-    //const sqrLenB  = dotProduct(vb, vb);
-
-    // Check for line intersection. This works because of the properties of the
-    // cross product -- specifically, two vectors are parallel if and only if the
-    // cross product is the 0 vector. The full calculation involves relative error
-    // to account for possible very small line segments. See Schneider & Eberly
-    // for details.
-    if (sqrKross > 0/* EPS * sqrLenB * sqLenA */) {
-      // If they're not parallel, then (because these are line segments) they
-      // still might not actually intersect. This code checks that the
-      // intersection point of the lines is actually on both line segments.
-      var s = crossProduct(e, vb) / kross;
-      if (s < 0 || s > 1) {
-        // not on line segment a
-        return null;
-      }
-      var t = crossProduct(e, va) / kross;
-      if (t < 0 || t > 1) {
-        // not on line segment b
-        return null;
-      }
-      if (s === 0 || s === 1) {
-        // on an endpoint of line segment a
-        return noEndpointTouch ? null : [toPoint(a1, s, va)];
-      }
-      if (t === 0 || t === 1) {
-        // on an endpoint of line segment b
-        return noEndpointTouch ? null : [toPoint(b1, t, vb)];
-      }
-      return [toPoint(a1, s, va)];
-    }
-
-    // If we've reached this point, then the lines are either parallel or the
-    // same, but the segments could overlap partially or fully, or not at all.
-    // So we need to find the overlap, if any. To do that, we can use e, which is
-    // the (vector) difference between the two initial points. If this is parallel
-    // with the line itself, then the two lines are the same line, and there will
-    // be overlap.
-    //const sqrLenE = dotProduct(e, e);
-    kross = crossProduct(e, va);
-    sqrKross = kross * kross;
-
-    if (sqrKross > 0 /* EPS * sqLenB * sqLenE */) {
-    // Lines are just parallel, not the same. No overlap.
-      return null;
-    }
-
-    var sa = dotProduct(va, e) / sqrLenA;
-    var sb = sa + dotProduct(va, vb) / sqrLenA;
-    var smin = Math.min(sa, sb);
-    var smax = Math.max(sa, sb);
-
-    // this is, essentially, the FindIntersection acting on floats from
-    // Schneider & Eberly, just inlined into this function.
-    if (smin <= 1 && smax >= 0) {
-
-      // overlap on an end point
-      if (smin === 1) {
-        return noEndpointTouch ? null : [toPoint(a1, smin > 0 ? smin : 0, va)];
-      }
-
-      if (smax === 0) {
-        return noEndpointTouch ? null : [toPoint(a1, smax < 1 ? smax : 1, va)];
-      }
-
-      if (noEndpointTouch && smin === 0 && smax === 1) { return null; }
-
-      // There's overlap on a segment -- two points of intersection. Return both.
-      return [
-        toPoint(a1, smin > 0 ? smin : 0, va),
-        toPoint(a1, smax < 1 ? smax : 1, va)
-      ];
-    }
-
-    return null;
-  }
-
-  /**
-   * @param  {SweepEvent} se1
-   * @param  {SweepEvent} se2
-   * @param  {Queue}      queue
-   * @return {Number}
-   */
-  function possibleIntersection (se1, se2, queue) {
-    // that disallows self-intersecting polygons,
-    // did cost us half a day, so I'll leave it
-    // out of respect
-    // if (se1.isSubject === se2.isSubject) return;
-    var inter = intersection(
-      se1.point, se1.otherEvent.point,
-      se2.point, se2.otherEvent.point
-    );
-
-    var nintersections = inter ? inter.length : 0;
-    if (nintersections === 0) { return 0; } // no intersection
-
-    // the line segments intersect at an endpoint of both line segments
-    if ((nintersections === 1) &&
-        (equals(se1.point, se2.point) ||
-         equals(se1.otherEvent.point, se2.otherEvent.point))) {
-      return 0;
-    }
-
-    if (nintersections === 2 && se1.isSubject === se2.isSubject) {
-      // if(se1.contourId === se2.contourId){
-      // console.warn('Edges of the same polygon overlap',
-      //   se1.point, se1.otherEvent.point, se2.point, se2.otherEvent.point);
-      // }
-      //throw new Error('Edges of the same polygon overlap');
-      return 0;
-    }
-
-    // The line segments associated to se1 and se2 intersect
-    if (nintersections === 1) {
-
-      // if the intersection point is not an endpoint of se1
-      if (!equals(se1.point, inter[0]) && !equals(se1.otherEvent.point, inter[0])) {
-        divideSegment(se1, inter[0], queue);
-      }
-
-      // if the intersection point is not an endpoint of se2
-      if (!equals(se2.point, inter[0]) && !equals(se2.otherEvent.point, inter[0])) {
-        divideSegment(se2, inter[0], queue);
-      }
-      return 1;
-    }
-
-    // The line segments associated to se1 and se2 overlap
-    var events        = [];
-    var leftCoincide  = false;
-    var rightCoincide = false;
-
-    if (equals(se1.point, se2.point)) {
-      leftCoincide = true; // linked
-    } else if (compareEvents(se1, se2) === 1) {
-      events.push(se2, se1);
-    } else {
-      events.push(se1, se2);
-    }
-
-    if (equals(se1.otherEvent.point, se2.otherEvent.point)) {
-      rightCoincide = true;
-    } else if (compareEvents(se1.otherEvent, se2.otherEvent) === 1) {
-      events.push(se2.otherEvent, se1.otherEvent);
-    } else {
-      events.push(se1.otherEvent, se2.otherEvent);
-    }
-
-    if ((leftCoincide && rightCoincide) || leftCoincide) {
-      // both line segments are equal or share the left endpoint
-      se2.type = NON_CONTRIBUTING;
-      se1.type = (se2.inOut === se1.inOut)
-        ? SAME_TRANSITION : DIFFERENT_TRANSITION;
-
-      if (leftCoincide && !rightCoincide) {
-        // honestly no idea, but changing events selection from [2, 1]
-        // to [0, 1] fixes the overlapping self-intersecting polygons issue
-        divideSegment(events[1].otherEvent, events[0].point, queue);
-      }
-      return 2;
-    }
-
-    // the line segments share the right endpoint
-    if (rightCoincide) {
-      divideSegment(events[0], events[1].point, queue);
-      return 3;
-    }
-
-    // no line segment includes totally the other one
-    if (events[0] !== events[3].otherEvent) {
-      divideSegment(events[0], events[1].point, queue);
-      divideSegment(events[1], events[2].point, queue);
-      return 3;
-    }
-
-    // one line segment includes the other one
-    divideSegment(events[0], events[1].point, queue);
-    divideSegment(events[3].otherEvent, events[2].point, queue);
-
-    return 3;
-  }
-
-  /**
-   * @param  {SweepEvent} le1
-   * @param  {SweepEvent} le2
-   * @return {Number}
-   */
-  function compareSegments(le1, le2) {
-    if (le1 === le2) { return 0; }
-
-    // Segments are not collinear
-    if (signedArea(le1.point, le1.otherEvent.point, le2.point) !== 0 ||
-      signedArea(le1.point, le1.otherEvent.point, le2.otherEvent.point) !== 0) {
-
-      // If they share their left endpoint use the right endpoint to sort
-      if (equals(le1.point, le2.point)) { return le1.isBelow(le2.otherEvent.point) ? -1 : 1; }
-
-      // Different left endpoint: use the left endpoint to sort
-      if (le1.point[0] === le2.point[0]) { return le1.point[1] < le2.point[1] ? -1 : 1; }
-
-      // has the line segment associated to e1 been inserted
-      // into S after the line segment associated to e2 ?
-      if (compareEvents(le1, le2) === 1) { return le2.isAbove(le1.point) ? -1 : 1; }
-
-      // The line segment associated to e2 has been inserted
-      // into S after the line segment associated to e1
-      return le1.isBelow(le2.point) ? -1 : 1;
-    }
-
-    if (le1.isSubject === le2.isSubject) { // same polygon
-      var p1 = le1.point, p2 = le2.point;
-      if (p1[0] === p2[0] && p1[1] === p2[1]/*equals(le1.point, le2.point)*/) {
-        p1 = le1.otherEvent.point; p2 = le2.otherEvent.point;
-        if (p1[0] === p2[0] && p1[1] === p2[1]) { return 0; }
-        else { return le1.contourId > le2.contourId ? 1 : -1; }
-      }
-    } else { // Segments are collinear, but belong to separate polygons
-      return le1.isSubject ? -1 : 1;
-    }
-
-    return compareEvents(le1, le2) === 1 ? 1 : -1;
-  }
-
-  function subdivide(eventQueue, subject, clipping, sbbox, cbbox, operation) {
-    var sweepLine = new SplayTree(compareSegments);
-    var sortedEvents = [];
-
-    var rightbound = Math.min(sbbox[2], cbbox[2]);
-
-    var prev, next, begin;
-
-    while (eventQueue.length !== 0) {
-      var event = eventQueue.pop();
-      sortedEvents.push(event);
-
-      // optimization by bboxes for intersection and difference goes here
-      if ((operation === INTERSECTION && event.point[0] > rightbound) ||
-          (operation === DIFFERENCE   && event.point[0] > sbbox[2])) {
-        break;
-      }
-
-      if (event.left) {
-        next  = prev = sweepLine.insert(event);
-        begin = sweepLine.minNode();
-
-        if (prev !== begin) { prev = sweepLine.prev(prev); }
-        else                { prev = null; }
-
-        next = sweepLine.next(next);
-
-        var prevEvent = prev ? prev.key : null;
-        var prevprevEvent = (void 0);
-        computeFields(event, prevEvent, operation);
-        if (next) {
-          if (possibleIntersection(event, next.key, eventQueue) === 2) {
-            computeFields(event, prevEvent, operation);
-            computeFields(event, next.key, operation);
-          }
-        }
-
-        if (prev) {
-          if (possibleIntersection(prev.key, event, eventQueue) === 2) {
-            var prevprev = prev;
-            if (prevprev !== begin) { prevprev = sweepLine.prev(prevprev); }
-            else                    { prevprev = null; }
-
-            prevprevEvent = prevprev ? prevprev.key : null;
-            computeFields(prevEvent, prevprevEvent, operation);
-            computeFields(event,     prevEvent,     operation);
-          }
-        }
-      } else {
-        event = event.otherEvent;
-        next = prev = sweepLine.find(event);
-
-        if (prev && next) {
-
-          if (prev !== begin) { prev = sweepLine.prev(prev); }
-          else                { prev = null; }
-
-          next = sweepLine.next(next);
-          sweepLine.remove(event);
-
-          if (next && prev) {
-            possibleIntersection(prev.key, next.key, eventQueue);
-          }
-        }
-      }
-    }
-    return sortedEvents;
-  }
-
-  /**
-   * @param  {Array.<SweepEvent>} sortedEvents
-   * @return {Array.<SweepEvent>}
-   */
-  function orderEvents(sortedEvents) {
-    var event, i, len, tmp;
-    var resultEvents = [];
-    for (i = 0, len = sortedEvents.length; i < len; i++) {
-      event = sortedEvents[i];
-      if ((event.left && event.inResult) ||
-        (!event.left && event.otherEvent.inResult)) {
-        resultEvents.push(event);
-      }
-    }
-    // Due to overlapping edges the resultEvents array can be not wholly sorted
-    var sorted = false;
-    while (!sorted) {
-      sorted = true;
-      for (i = 0, len = resultEvents.length; i < len; i++) {
-        if ((i + 1) < len &&
-          compareEvents(resultEvents[i], resultEvents[i + 1]) === 1) {
-          tmp = resultEvents[i];
-          resultEvents[i] = resultEvents[i + 1];
-          resultEvents[i + 1] = tmp;
-          sorted = false;
-        }
-      }
-    }
-
-
-    for (i = 0, len = resultEvents.length; i < len; i++) {
-      event = resultEvents[i];
-      event.pos = i;
-    }
-
-    // imagine, the right event is found in the beginning of the queue,
-    // when his left counterpart is not marked yet
-    for (i = 0, len = resultEvents.length; i < len; i++) {
-      event = resultEvents[i];
-      if (!event.left) {
-        tmp = event.pos;
-        event.pos = event.otherEvent.pos;
-        event.otherEvent.pos = tmp;
-      }
-    }
-
-    return resultEvents;
-  }
-
-
-  /**
-   * @param  {Number} pos
-   * @param  {Array.<SweepEvent>} resultEvents
-   * @param  {Object>}    processed
-   * @return {Number}
-   */
-  function nextPos(pos, resultEvents, processed, origIndex) {
-    var newPos = pos + 1;
-    var length = resultEvents.length;
-    if (newPos > length - 1) { return pos - 1; }
-    var p  = resultEvents[pos].point;
-    var p1 = resultEvents[newPos].point;
-
-
-    // while in range and not the current one by value
-    while (newPos < length && p1[0] === p[0] && p1[1] === p[1]) {
-      if (!processed[newPos]) {
-        return newPos;
-      } else   {
-        newPos++;
-      }
-      p1 = resultEvents[newPos].point;
-    }
-
-    newPos = pos - 1;
-
-    while (processed[newPos] && newPos >= origIndex) {
-      newPos--;
-    }
-    return newPos;
-  }
-
-
-  /**
-   * @param  {Array.<SweepEvent>} sortedEvents
-   * @return {Array.<*>} polygons
-   */
-  function connectEdges(sortedEvents, operation) {
-    var i, len;
-    var resultEvents = orderEvents(sortedEvents);
-
-    // "false"-filled array
-    var processed = {};
-    var result = [];
-    var event;
-
-    for (i = 0, len = resultEvents.length; i < len; i++) {
-      if (processed[i]) { continue; }
-      var contour = [[]];
-
-      if (!resultEvents[i].isExteriorRing) {
-        if (operation === DIFFERENCE && !resultEvents[i].isSubject && result.length === 0) {
-          result.push(contour);
-        } else if (result.length === 0) {
-          result.push([[contour]]);
-        } else {
-          result[result.length - 1].push(contour[0]);
-        }
-      } else if (operation === DIFFERENCE && !resultEvents[i].isSubject && result.length > 1) {
-        result[result.length - 1].push(contour[0]);
-      } else {
-        result.push(contour);
-      }
-
-      var ringId = result.length - 1;
-      var pos = i;
-
-      var initial = resultEvents[i].point;
-      contour[0].push(initial);
-
-      while (pos >= i) {
-        event = resultEvents[pos];
-        processed[pos] = true;
-
-        if (event.left) {
-          event.resultInOut = false;
-          event.contourId   = ringId;
-        } else {
-          event.otherEvent.resultInOut = true;
-          event.otherEvent.contourId   = ringId;
-        }
-
-        pos = event.pos;
-        processed[pos] = true;
-        contour[0].push(resultEvents[pos].point);
-        pos = nextPos(pos, resultEvents, processed, i);
-      }
-
-      pos = pos === -1 ? i : pos;
-
-      event = resultEvents[pos];
-      processed[pos] = processed[event.pos] = true;
-      event.otherEvent.resultInOut = true;
-      event.otherEvent.contourId   = ringId;
-    }
-
-    // Handle if the result is a polygon (eg not multipoly)
-    // Commented it again, let's see what do we mean by that
-    // if (result.length === 1) result = result[0];
-    return result;
-  }
-
-  var tinyqueue = TinyQueue;
-  var default_1 = TinyQueue;
-
-  function TinyQueue(data, compare) {
-      var this$1 = this;
-
-      if (!(this instanceof TinyQueue)) { return new TinyQueue(data, compare); }
-
-      this.data = data || [];
-      this.length = this.data.length;
-      this.compare = compare || defaultCompare;
-
-      if (this.length > 0) {
-          for (var i = (this.length >> 1) - 1; i >= 0; i--) { this$1._down(i); }
-      }
-  }
-
-  function defaultCompare(a, b) {
-      return a < b ? -1 : a > b ? 1 : 0;
-  }
-
-  TinyQueue.prototype = {
-
-      push: function (item) {
-          this.data.push(item);
-          this.length++;
-          this._up(this.length - 1);
-      },
-
-      pop: function () {
-          if (this.length === 0) { return undefined; }
-
-          var top = this.data[0];
-          this.length--;
-
-          if (this.length > 0) {
-              this.data[0] = this.data[this.length];
-              this._down(0);
-          }
-          this.data.pop();
-
-          return top;
-      },
-
-      peek: function () {
-          return this.data[0];
-      },
-
-      _up: function (pos) {
-          var data = this.data;
-          var compare = this.compare;
-          var item = data[pos];
-
-          while (pos > 0) {
-              var parent = (pos - 1) >> 1;
-              var current = data[parent];
-              if (compare(item, current) >= 0) { break; }
-              data[pos] = current;
-              pos = parent;
-          }
-
-          data[pos] = item;
-      },
-
-      _down: function (pos) {
-          var this$1 = this;
-
-          var data = this.data;
-          var compare = this.compare;
-          var halfLength = this.length >> 1;
-          var item = data[pos];
-
-          while (pos < halfLength) {
-              var left = (pos << 1) + 1;
-              var right = left + 1;
-              var best = data[left];
-
-              if (right < this$1.length && compare(data[right], best) < 0) {
-                  left = right;
-                  best = data[right];
-              }
-              if (compare(best, item) >= 0) { break; }
-
-              data[pos] = best;
-              pos = left;
-          }
-
-          data[pos] = item;
-      }
-  };
-  tinyqueue.default = default_1;
-
-  var max = Math.max;
-  var min = Math.min;
-
-  var contourId = 0;
-
-
-  function processPolygon(contourOrHole, isSubject, depth, Q, bbox, isExteriorRing) {
-    var i, len, s1, s2, e1, e2;
-    for (i = 0, len = contourOrHole.length - 1; i < len; i++) {
-      s1 = contourOrHole[i];
-      s2 = contourOrHole[i + 1];
-      e1 = new SweepEvent(s1, false, undefined, isSubject);
-      e2 = new SweepEvent(s2, false, e1,        isSubject);
-      e1.otherEvent = e2;
-
-      if (s1[0] === s2[0] && s1[1] === s2[1]) {
-        continue; // skip collapsed edges, or it breaks
-      }
-
-      e1.contourId = e2.contourId = depth;
-      if (!isExteriorRing) {
-        e1.isExteriorRing = false;
-        e2.isExteriorRing = false;
-      }
-      if (compareEvents(e1, e2) > 0) {
-        e2.left = true;
-      } else {
-        e1.left = true;
-      }
-
-      var x = s1[0], y = s1[1];
-      bbox[0] = min(bbox[0], x);
-      bbox[1] = min(bbox[1], y);
-      bbox[2] = max(bbox[2], x);
-      bbox[3] = max(bbox[3], y);
-
-      // Pushing it so the queue is sorted from left to right,
-      // with object on the left having the highest priority.
-      Q.push(e1);
-      Q.push(e2);
-    }
-  }
-
-
-  function fillQueue(subject, clipping, sbbox, cbbox, operation) {
-    var eventQueue = new tinyqueue(null, compareEvents);
-    var polygonSet, isExteriorRing, i, ii, j, jj; //, k, kk;
-
-    for (i = 0, ii = subject.length; i < ii; i++) {
-      polygonSet = subject[i];
-      for (j = 0, jj = polygonSet.length; j < jj; j++) {
-        isExteriorRing = j === 0;
-        if (isExteriorRing) { contourId++; }
-        processPolygon(polygonSet[j], true, contourId, eventQueue, sbbox, isExteriorRing);
-      }
-    }
-
-    for (i = 0, ii = clipping.length; i < ii; i++) {
-      polygonSet = clipping[i];
-      for (j = 0, jj = polygonSet.length; j < jj; j++) {
-        isExteriorRing = j === 0;
-        if (operation === DIFFERENCE) { isExteriorRing = false; }
-        if (isExteriorRing) { contourId++; }
-        processPolygon(polygonSet[j], false, contourId, eventQueue, cbbox, isExteriorRing);
-      }
-    }
-
-    return eventQueue;
-  }
-
-  var EMPTY = [];
-
-
-  function trivialOperation(subject, clipping, operation) {
-    var result = null;
-    if (subject.length * clipping.length === 0) {
-      if        (operation === INTERSECTION) {
-        result = EMPTY;
-      } else if (operation === DIFFERENCE) {
-        result = subject;
-      } else if (operation === UNION ||
-                 operation === XOR) {
-        result = (subject.length === 0) ? clipping : subject;
-      }
-    }
-    return result;
-  }
-
-
-  function compareBBoxes(subject, clipping, sbbox, cbbox, operation) {
-    var result = null;
-    if (sbbox[0] > cbbox[2] ||
-        cbbox[0] > sbbox[2] ||
-        sbbox[1] > cbbox[3] ||
-        cbbox[1] > sbbox[3]) {
-      if        (operation === INTERSECTION) {
-        result = EMPTY;
-      } else if (operation === DIFFERENCE) {
-        result = subject;
-      } else if (operation === UNION ||
-                 operation === XOR) {
-        result = subject.concat(clipping);
-      }
-    }
-    return result;
-  }
-
-
-  function boolean(subject, clipping, operation) {
-    if (typeof subject[0][0][0] === 'number') {
-      subject = [subject];
-    }
-    if (typeof clipping[0][0][0] === 'number') {
-      clipping = [clipping];
-    }
-    var trivial = trivialOperation(subject, clipping, operation);
-    if (trivial) {
-      return trivial === EMPTY ? null : trivial;
-    }
-    var sbbox = [Infinity, Infinity, -Infinity, -Infinity];
-    var cbbox = [Infinity, Infinity, -Infinity, -Infinity];
-
-    //console.time('fill queue');
-    var eventQueue = fillQueue(subject, clipping, sbbox, cbbox, operation);
-    //console.timeEnd('fill queue');
-
-    trivial = compareBBoxes(subject, clipping, sbbox, cbbox, operation);
-    if (trivial) {
-      return trivial === EMPTY ? null : trivial;
-    }
-    //console.time('subdivide edges');
-    var sortedEvents = subdivide(eventQueue, subject, clipping, sbbox, cbbox, operation);
-    //console.timeEnd('subdivide edges');
-
-    //console.time('connect vertices');
-    var result = connectEdges(sortedEvents, operation);
-    //console.timeEnd('connect vertices');
-    return result;
-  }
-
-  function union (subject, clipping) {
-    return boolean(subject, clipping, UNION);
-  }
-
-  function diff (subject, clipping) {
-    return boolean(subject, clipping, DIFFERENCE);
-  }
-
-  function xor (subject, clipping){
-    return boolean(subject, clipping, XOR);
-  }
-
-  function intersection$1 (subject, clipping) {
-    return boolean(subject, clipping, INTERSECTION);
-  }
-
-  /**
-   * @enum {Number}
-   */
-  var operations = { UNION: UNION, DIFFERENCE: DIFFERENCE, INTERSECTION: INTERSECTION, XOR: XOR };
-
-  exports.union = union;
-  exports.diff = diff;
-  exports.xor = xor;
-  exports.intersection = intersection$1;
-  exports.operations = operations;
-
-  Object.defineProperty(exports, '__esModule', { value: true });
-
-})));
-//# sourceMappingURL=martinez.umd.js.map
 
 
 /***/ }),
@@ -73634,24 +71787,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(mapbox_gl__WEBPACK_IMPORTED_MODULE_12__);
 /* harmony import */ var _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @mapbox/mapbox-gl-draw */ "./node_modules/@mapbox/mapbox-gl-draw/index.js");
 /* harmony import */ var _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_14__);
-/* harmony import */ var contexts_MapState__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! contexts/MapState */ "./src/contexts/MapState.js");
-/* harmony import */ var utils_sources__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! utils/sources */ "./src/utils/sources.js");
-/* harmony import */ var utils_enrichment__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! utils/enrichment */ "./src/utils/enrichment.js");
-/* harmony import */ var references_csr_rent_json__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! references/csr_rent.json */ "./src/references/csr_rent.json");
-var references_csr_rent_json__WEBPACK_IMPORTED_MODULE_18___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/csr_rent.json */ "./src/references/csr_rent.json", 1);
-/* harmony import */ var _map_layers_Contours__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./map_layers/Contours */ "./src/components/map_layers/Contours.jsx");
-/* harmony import */ var _map_layers_PrairieArea__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./map_layers/PrairieArea */ "./src/components/map_layers/PrairieArea.jsx");
-/* harmony import */ var _map_layers_EditIcons__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./map_layers/EditIcons */ "./src/components/map_layers/EditIcons.jsx");
-/* harmony import */ var _map_layers_FeatureLabels__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./map_layers/FeatureLabels */ "./src/components/map_layers/FeatureLabels.jsx");
-/* harmony import */ var _map_layers_GeolocationPosition__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./map_layers/GeolocationPosition */ "./src/components/map_layers/GeolocationPosition.jsx");
-/* harmony import */ var _map_layers_PrairieOutline__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./map_layers/PrairieOutline */ "./src/components/map_layers/PrairieOutline.jsx");
-/* harmony import */ var _map_layers_SSURGO__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./map_layers/SSURGO */ "./src/components/map_layers/SSURGO.jsx");
-/* harmony import */ var _map_layers_TreeRows__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./map_layers/TreeRows */ "./src/components/map_layers/TreeRows.jsx");
-/* harmony import */ var _map_layers_Trees__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./map_layers/Trees */ "./src/components/map_layers/Trees.jsx");
-/* harmony import */ var _map_modes_SimpleSelect__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./map_modes/SimpleSelect */ "./src/components/map_modes/SimpleSelect.jsx");
-/* harmony import */ var _map_modes_Planting__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./map_modes/Planting */ "./src/components/map_modes/Planting.jsx");
+/* harmony import */ var _turf_bbox__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @turf/bbox */ "./node_modules/@turf/bbox/index.js");
+/* harmony import */ var _turf_bbox__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_turf_bbox__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var contexts_MapState__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! contexts/MapState */ "./src/contexts/MapState.js");
+/* harmony import */ var utils_sources__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! utils/sources */ "./src/utils/sources.js");
+/* harmony import */ var utils_enrichment__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! utils/enrichment */ "./src/utils/enrichment.js");
+/* harmony import */ var references_csr_rent_json__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! references/csr_rent.json */ "./src/references/csr_rent.json");
+var references_csr_rent_json__WEBPACK_IMPORTED_MODULE_19___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/csr_rent.json */ "./src/references/csr_rent.json", 1);
+/* harmony import */ var _map_layers_Contours__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./map_layers/Contours */ "./src/components/map_layers/Contours.jsx");
+/* harmony import */ var _map_layers_PrairieArea__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./map_layers/PrairieArea */ "./src/components/map_layers/PrairieArea.jsx");
+/* harmony import */ var _map_layers_EditIcons__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./map_layers/EditIcons */ "./src/components/map_layers/EditIcons.jsx");
+/* harmony import */ var _map_layers_FeatureLabels__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./map_layers/FeatureLabels */ "./src/components/map_layers/FeatureLabels.jsx");
+/* harmony import */ var _map_layers_GeolocationPosition__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./map_layers/GeolocationPosition */ "./src/components/map_layers/GeolocationPosition.jsx");
+/* harmony import */ var _map_layers_PrairieOutline__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./map_layers/PrairieOutline */ "./src/components/map_layers/PrairieOutline.jsx");
+/* harmony import */ var _map_layers_SSURGO__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./map_layers/SSURGO */ "./src/components/map_layers/SSURGO.jsx");
+/* harmony import */ var _map_layers_TreeRows__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./map_layers/TreeRows */ "./src/components/map_layers/TreeRows.jsx");
+/* harmony import */ var _map_layers_Trees__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./map_layers/Trees */ "./src/components/map_layers/Trees.jsx");
+/* harmony import */ var _map_modes_SimpleSelect__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./map_modes/SimpleSelect */ "./src/components/map_modes/SimpleSelect.jsx");
+/* harmony import */ var _map_modes_Planting__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./map_modes/Planting */ "./src/components/map_modes/Planting.jsx");
 
 
 
@@ -73688,12 +71843,13 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 
 
+
 mapbox_gl__WEBPACK_IMPORTED_MODULE_12___default.a.accessToken = "pk.eyJ1IjoibnJlbXZlYiIsImEiOiJjazIweGM1eWQxZHMzM25tdWVsbm9wNHc5In0.sNlJy0ZYiaaquL_Js5PrZA";
-var debug = debug__WEBPACK_IMPORTED_MODULE_14___default()('MapComponent'); // Export two different MapWrappers to trigger a full component switch when styles change, for a clean refresh of the map.
+var debug = debug__WEBPACK_IMPORTED_MODULE_15___default()('MapComponent'); // Export two different MapWrappers to trigger a full component switch when styles change, for a clean refresh of the map.
 // This can be optimized in the future, but requires a lot of tweaking of lifecycle logic, because a style change means all sources and layers are wiped...
 
 var MapWrapperDefault = function MapWrapperDefault(props) {
-  return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_15__["MapConsumer"], null, function (mapCtx) {
+  return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_16__["MapConsumer"], null, function (mapCtx) {
     var ctx = _objectSpread({}, mapCtx.state, {}, mapCtx.actions);
 
     return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(MapComponent, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default()({}, ctx, props, {
@@ -73702,7 +71858,7 @@ var MapWrapperDefault = function MapWrapperDefault(props) {
   });
 };
 var MapWrapperSatellite = function MapWrapperSatellite(props) {
-  return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_15__["MapConsumer"], null, function (mapCtx) {
+  return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_16__["MapConsumer"], null, function (mapCtx) {
     var ctx = _objectSpread({}, mapCtx.state, {}, mapCtx.actions);
 
     return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(MapComponent, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default()({}, ctx, props, {
@@ -73729,75 +71885,87 @@ function (_React$Component) {
     });
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_9___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this), "setEditingFeature", function (feature) {
+      var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
+
       // This sets the feature that is currently being edited to state.
       var _assertThisInitialize = _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this),
           map = _assertThisInitialize.map,
           mapAPILoaded = _assertThisInitialize.props.mapAPILoaded;
 
+      var time = new Date().getTime();
+
       if (feature) {
         var clone = _.cloneDeep(feature);
 
-        _this.setState({
-          enriching: true
-        },
-        /*#__PURE__*/
-        _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()(
-        /*#__PURE__*/
-        _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  if (!mapAPILoaded) {
+        var bbox = _turf_bbox__WEBPACK_IMPORTED_MODULE_14___default()(feature);
+        map.fitBounds(bbox, {
+          padding: 200
+        });
+        map.once('zoomend', function () {
+          _this.setState({
+            enriching: true
+          },
+          /*#__PURE__*/
+          _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()(
+          /*#__PURE__*/
+          _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    if (!mapAPILoaded) {
+                      _context.next = 10;
+                      break;
+                    }
+
+                    _context.prev = 1;
+                    _context.next = 4;
+                    return Object(utils_enrichment__WEBPACK_IMPORTED_MODULE_18__["enrichment"])(clone, map);
+
+                  case 4:
+                    clone = _context.sent;
                     _context.next = 10;
                     break;
-                  }
 
-                  _context.prev = 1;
-                  _context.next = 4;
-                  return Object(utils_enrichment__WEBPACK_IMPORTED_MODULE_17__["enrichment"])(clone, map);
+                  case 7:
+                    _context.prev = 7;
+                    _context.t0 = _context["catch"](1);
+                    debug(_context.t0);
 
-                case 4:
-                  clone = _context.sent;
-                  _context.next = 10;
-                  break;
+                  case 10:
+                    _this.setState(function () {
+                      return {
+                        enriching: false,
+                        editingFeature: clone
+                      };
+                    }, cb);
 
-                case 7:
-                  _context.prev = 7;
-                  _context.t0 = _context["catch"](1);
-                  debug(_context.t0);
-
-                case 10:
-                  _this.setState({
-                    enriching: false,
-                    editingFeature: clone
-                  });
-
-                case 11:
-                case "end":
-                  return _context.stop();
+                  case 11:
+                  case "end":
+                    return _context.stop();
+                }
               }
-            }
-          }, _callee, null, [[1, 7]]);
-        })));
-      } else {
-        _this.setState({
-          editingFeature: null
+            }, _callee, null, [[1, 7]]);
+          })));
         });
+      } else {
+        _this.setState(function () {
+          return {
+            editingFeature: null
+          };
+        }, cb);
       }
     });
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_9___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this), "saveFeature", function () {
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_9___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this), "saveFeature", function (feature) {
       // This saves the feature to context.
       var _assertThisInitialize2 = _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this),
-          editingFeature = _assertThisInitialize2.state.editingFeature,
           _assertThisInitialize3 = _assertThisInitialize2.props,
           addData = _assertThisInitialize3.addData,
           history = _assertThisInitialize3.router.history;
 
-      console.log(editingFeature);
-      debug('Saving feature:', editingFeature);
-      addData(editingFeature);
+      debug('Saving feature:', feature);
+      addData(feature);
       history.push('/');
     });
 
@@ -73854,7 +72022,7 @@ function (_React$Component) {
       var mapConfig = {
         container: this.mapElement.current,
         style: styleURL,
-        minZoom: 12,
+        minZoom: window.innerWidth * window.innerHeight > 1000000 ? 15 : 12,
         center: latlng || defaultLatLng,
         zoom: zoom || defaultZoom,
         pitch: pitch || defaultPitch,
@@ -73891,7 +72059,7 @@ function (_React$Component) {
 
         _this2.draw = new _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_13___default.a({
           modes: _objectSpread({
-            draw_line: _map_modes_Planting__WEBPACK_IMPORTED_MODULE_29__["DrawLineMode"]
+            draw_line: _map_modes_Planting__WEBPACK_IMPORTED_MODULE_30__["DrawLineMode"]
           }, _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_13___default.a.modes)
         });
 
@@ -73903,7 +72071,8 @@ function (_React$Component) {
 
         return true;
       });
-      this.map.on('moveend', function () {
+
+      var updatePosition = function updatePosition() {
         var _this2$map$getCenter = _this2.map.getCenter(),
             lat = _this2$map$getCenter.lat,
             lng = _this2$map$getCenter.lng;
@@ -73922,7 +72091,10 @@ function (_React$Component) {
           bearing: bearing,
           pitch: pitch
         });
-      });
+      };
+
+      this.map.on('moveend', updatePosition);
+      this.map.on('zoomend', updatePosition);
     }
   }, {
     key: "componentDidUpdate",
@@ -74014,34 +72186,34 @@ function (_React$Component) {
 
       this.addSource('feature_data_prairie', 'geojson', {
         type: 'FeatureCollection',
-        features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_16__["getFeatures"])(data).filter(function (ea) {
+        features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_17__["getFeatures"])(data).filter(function (ea) {
           return ea.properties.type === 'prairie';
         })
       }); // These are the tree rows.
 
       this.addSource('feature_data_tree_rows', 'geojson', {
         type: 'FeatureCollection',
-        features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_16__["getFeatures"])(data).filter(function (ea) {
+        features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_17__["getFeatures"])(data).filter(function (ea) {
           return ea.properties.type === 'tree';
         }).reduce(function (features, line) {
-          var rows = Object(utils_sources__WEBPACK_IMPORTED_MODULE_16__["getTreeRows"])(line);
+          var rows = Object(utils_sources__WEBPACK_IMPORTED_MODULE_17__["getTreeRows"])(line);
           return features.concat(rows);
         }, [])
       }); // These are the tree placements.
 
       this.addSource('feature_data_trees', 'geojson', {
         type: 'FeatureCollection',
-        features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_16__["getFeatures"])(data).filter(function (ea) {
+        features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_17__["getFeatures"])(data).filter(function (ea) {
           return ea.properties.type === 'tree';
         }).reduce(function (features, line) {
-          var trees = Object(utils_sources__WEBPACK_IMPORTED_MODULE_16__["getOptimalTreePlacements"])(line);
+          var trees = Object(utils_sources__WEBPACK_IMPORTED_MODULE_17__["getOptimalTreePlacements"])(line);
           return features.concat(trees);
         }, [])
       }); // These are the edit icons and labels.
 
       this.addSource('feature_data_southern_vertices', 'geojson', {
         type: 'FeatureCollection',
-        features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_16__["getSouthernVertices"])(data)
+        features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_17__["getSouthernVertices"])(data)
       }); // This is SSURGO.
 
        true && this.addSource('ssurgo', 'vector', "mapbox://".concat("nremveb.ssurgo")); // This is 2ft contour lines.
@@ -74120,7 +72292,7 @@ function (_React$Component) {
       }, !cleanup && drawInit && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
         path: "/plant/tree/:step?",
         render: function render(router) {
-          return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_modes_Planting__WEBPACK_IMPORTED_MODULE_29__["Planting"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default()({
+          return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_modes_Planting__WEBPACK_IMPORTED_MODULE_30__["Planting"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default()({
             router: router,
             type: "tree",
             steps: ['rows', 'species', 'spacing']
@@ -74129,42 +72301,43 @@ function (_React$Component) {
       }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
         path: "/plant/prairie/:step?",
         render: function render(router) {
-          return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_modes_Planting__WEBPACK_IMPORTED_MODULE_29__["Planting"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default()({
+          return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_modes_Planting__WEBPACK_IMPORTED_MODULE_30__["Planting"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default()({
             router: router,
             type: "prairie",
-            steps: ['seed', 'mgmt_1', 'mgmt_2']
+            steps: ['seed', 'mgmt_1']
           }, mapModeProps));
         }
       }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
+        exact: true,
         path: "/",
         render: function render(router) {
-          return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_modes_SimpleSelect__WEBPACK_IMPORTED_MODULE_28__["SimpleSelect"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default()({
+          return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_modes_SimpleSelect__WEBPACK_IMPORTED_MODULE_29__["SimpleSelect"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default()({
             router: router
           }, mapModeProps));
         }
       }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Redirect"], {
         to: "/"
-      })), !cleanup && sourcesAdded && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_10___default.a.Fragment, null, layers.contours && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_Contours__WEBPACK_IMPORTED_MODULE_19__["Contours"], {
+      })), !cleanup && sourcesAdded && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_10___default.a.Fragment, null, layers.contours && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_Contours__WEBPACK_IMPORTED_MODULE_20__["Contours"], {
         map: map
-      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_SSURGO__WEBPACK_IMPORTED_MODULE_25__["SSURGO"], {
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_SSURGO__WEBPACK_IMPORTED_MODULE_26__["SSURGO"], {
         map: map,
         active: layers.ssurgo
-      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_PrairieArea__WEBPACK_IMPORTED_MODULE_20__["PrairieArea"], {
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_PrairieArea__WEBPACK_IMPORTED_MODULE_21__["PrairieArea"], {
         map: map
-      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_PrairieOutline__WEBPACK_IMPORTED_MODULE_24__["PrairieOutline"], {
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_PrairieOutline__WEBPACK_IMPORTED_MODULE_25__["PrairieOutline"], {
         map: map
-      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_TreeRows__WEBPACK_IMPORTED_MODULE_26__["TreeRows"], {
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_TreeRows__WEBPACK_IMPORTED_MODULE_27__["TreeRows"], {
         map: map
-      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_Trees__WEBPACK_IMPORTED_MODULE_27__["Trees"], {
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_Trees__WEBPACK_IMPORTED_MODULE_28__["Trees"], {
         map: map
-      }), !/^\/plant/.test(pathname) && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_EditIcons__WEBPACK_IMPORTED_MODULE_21__["EditIcons"], {
+      }), !/^\/plant/.test(pathname) && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_EditIcons__WEBPACK_IMPORTED_MODULE_22__["EditIcons"], {
         map: map,
         data: data,
         setEditingFeature: setEditingFeature,
         nextStep: nextStep
-      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_FeatureLabels__WEBPACK_IMPORTED_MODULE_22__["FeatureLabels"], {
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_FeatureLabels__WEBPACK_IMPORTED_MODULE_23__["FeatureLabels"], {
         map: map
-      }), map.getSource('geolocation_position') && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_GeolocationPosition__WEBPACK_IMPORTED_MODULE_23__["GeolocationPosition"], {
+      }), map.getSource('geolocation_position') && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_GeolocationPosition__WEBPACK_IMPORTED_MODULE_24__["GeolocationPosition"], {
         map: map
       })), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement("div", {
         className: "ZoomControl"
@@ -74217,79 +72390,123 @@ function (_React$Component) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PrairiePlantingForm", function() { return PrairiePlantingForm; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var references_prairie_classification_prices_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! references/prairie_classification_prices.json */ "./src/references/prairie_classification_prices.json");
+var references_prairie_classification_prices_json__WEBPACK_IMPORTED_MODULE_2___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/prairie_classification_prices.json */ "./src/references/prairie_classification_prices.json", 1);
+/* harmony import */ var references_prairie_mgmt_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! references/prairie_mgmt.json */ "./src/references/prairie_mgmt.json");
+var references_prairie_mgmt_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/prairie_mgmt.json */ "./src/references/prairie_mgmt.json", 1);
+
+
+
 
 
 var SeedMixInput = function SeedMixInput(props) {
   // value and handlers
-  var seed = props.seed,
+  var series = props.series,
+      seed = props.seed,
+      seed_price = props.seed_price,
       handleSeedMixChange = props.handleSeedMixChange,
-      handleSeedValueChange = props.handleSeedValueChange;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      handleSeedPriceChange = props.handleSeedPriceChange;
+
+  var moistureClasses = _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(new Set(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(series.values()).map(function (ea) {
+    return ea.moisture;
+  }))); // Moisture classifications without duplicate.
+
+
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "ConfigForm"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "stepNumber"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "1")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", null, "1")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "configInputs"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
     className: "inputDescriptor"
-  }, "Choose your seed mix."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Choose your seed mix."), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "inputElement desktop-select-l-width"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "inputLabel"
-  }, "Seed Mix"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-    value: seed.value,
+  }, "Seed Mix"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+    value: seed,
     onChange: function onChange(e) {
-      return handleSeedMixChange(e);
+      var seedPrice = (references_prairie_classification_prices_json__WEBPACK_IMPORTED_MODULE_2__.find(function (where) {
+        return where.id === e.target.value;
+      }) || {}).price || 0;
+      handleSeedMixChange(e);
+      handleSeedPriceChange(seedPrice);
     }
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: "Seed Mix 1"
-  }, "Seed Mix 1"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: "Seed Mix 2"
-  }, "Seed Mix 2"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: "Seed Mix 3"
-  }, "Seed Mix 3"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "",
+    disabled: true
+  }, "Select a seed mix"), moistureClasses.map(function (type) {
+    var seedPrices = references_prairie_classification_prices_json__WEBPACK_IMPORTED_MODULE_2__.filter(function (where) {
+      return where.type === type;
+    });
+
+    if (seedPrices.length === 0) {
+      return null;
+    }
+
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("optgroup", {
+      key: type,
+      label: type
+    }, seedPrices.map(function (ea) {
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        key: ea.id,
+        value: ea.id
+      }, ea.display, ": $", ea.price.toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,'));
+    }));
+  }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("optgroup", {
+    label: "Use a custom seed mix"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "custom"
+  }, "custom")))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "inputElement"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "inputLabel"
-  }, "Enter Price Per Acre"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }, seed === 'custom' ? 'Enter ' : '', "Price Per Acre"), seed === 'custom' ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
     type: "text",
     className: "ModalTextInput",
-    value: seed.price.value,
+    value: seed_price,
     onChange: function onChange(e) {
-      return handleSeedValueChange(e);
+      return handleSeedPriceChange(e);
     }
-  }))));
+  }) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+    className: "SeedPrice"
+  }, Number(seed_price) ? "$".concat(seed_price.toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,')) : 'Unknown'))));
 };
 
 var PrairieMgmt1 = function PrairieMgmt1(props) {
   var management = props.management,
       handleManagementChange = props.handleManagementChange;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "ConfigForm"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "stepNumber"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "2")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", null, "2")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "configInputs"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
     className: "inputDescriptor"
-  }, "Choose a way to manage your prairie."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Choose a way to manage your prairie."), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "inputElement desktop-select-l-width"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "inputLabel"
-  }, "Prairie Management"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-    value: management.display,
+  }, "Prairie Management"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+    value: management,
     onChange: function onChange(e) {
       return handleManagementChange(e);
     }
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: "Burning"
-  }, "Burning"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: "Mow"
-  }, "Mow"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: "Management 3"
-  }, "Management 3")))));
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "",
+    disabled: true
+  }, "Select a management method"), references_prairie_mgmt_json__WEBPACK_IMPORTED_MODULE_3__.map(function (ea) {
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+      key: ea.id,
+      value: ea.id
+    }, ea.value);
+  })))));
 };
 
 var PrairieMgmt2 = function PrairieMgmt2(props) {
@@ -74297,50 +72514,53 @@ var PrairieMgmt2 = function PrairieMgmt2(props) {
       pest_control = props.pest_control,
       handlePestControlChange = props.handlePestControlChange,
       handleCroppingChange = props.handleCroppingChange;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "ConfigForm"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "stepNumber"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "3")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", null, "3")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "configInputs"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
     className: "inputDescriptor"
-  }, "Choose a cropping system and pest control that you plan on using in the adjacent fields."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Choose a cropping system and pest control that you plan on using in the adjacent fields."), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "inputElement desktop-select-l-width"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "inputLabel"
-  }, "Cropping System"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-    value: cropping_system.display,
+  }, "Cropping System"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+    value: cropping_system,
     onChange: function onChange(e) {
       return handleCroppingChange(e);
     }
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     value: "Corn Rotation"
-  }, "Corn Rotation"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+  }, "Corn Rotation"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     value: "Cropping System 2"
-  }, "Cropping System 2"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+  }, "Cropping System 2"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     value: "Cropping System 3"
-  }, "Cropping System 3"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Cropping System 3"))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "inputElement desktop-select-l-width"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "inputLabel"
-  }, "Pest Control"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-    value: pest_control.display,
+  }, "Pest Control"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+    value: pest_control,
     onChange: function onChange(e) {
       return handlePestControlChange(e);
     }
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     value: "Pest Control"
-  }, "Pest Control"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+  }, "Pest Control"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     value: "Pest Control 2"
-  }, "Pest Control 2"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+  }, "Pest Control 2"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     value: "Pest Control 3"
   }, "Pest Control 3")))));
 };
 
 var PrairiePlantingForm = function PrairiePlantingForm(props) {
-  var step = props.step,
+  var form = props.form,
+      editingFeature = props.editingFeature,
+      step = props.step,
       seed = props.seed,
+      seed_price = props.seed_price,
       management = props.management,
       cropping_system = props.cropping_system,
       pest_control = props.pest_control,
@@ -74348,22 +72568,31 @@ var PrairiePlantingForm = function PrairiePlantingForm(props) {
       handlePestControlChange = props.handlePestControlChange,
       handleManagementChange = props.handleManagementChange,
       handleCroppingChange = props.handleCroppingChange,
-      handleSeedValueChange = props.handleSeedValueChange;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+      handleSeedPriceChange = props.handleSeedPriceChange;
+  var series = editingFeature.properties.series ? new Map(editingFeature.properties.series) : new Map();
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "PlantingFormHeader"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h2", {
     className: "modal-header"
-  }, "Configure your prairie planting area below."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SeedMixInput, {
+  }, "Configure your prairie planting area below."), series.size > 0 && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+    className: "SoilTypes spacer-top-1"
+  }, "Your soil types: ", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(series.keys()).sort().toString().replace(/,/g, ', ')))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
+    ref: form
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(SeedMixInput, {
+    series: series,
     seed: seed,
+    seed_price: seed_price,
     handleSeedMixChange: handleSeedMixChange,
-    handleSeedValueChange: handleSeedValueChange
-  }), (step === 'mgmt_1' || step === 'mgmt_2') && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(PrairieMgmt1, {
+    handleSeedPriceChange: handleSeedPriceChange
+  }), (step === 'mgmt_1' || step === 'mgmt_2') && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(PrairieMgmt1, {
     management: management,
     handleManagementChange: handleManagementChange
-  }), step === 'mgmt_2' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(PrairieMgmt2, {
+  }), step === 'mgmt_2' && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(PrairieMgmt2, {
     pest_control: pest_control,
     cropping_system: cropping_system,
     handlePestControlChange: handlePestControlChange,
     handleCroppingChange: handleCroppingChange
-  }));
+  })));
 };
 
 /***/ }),
@@ -74486,138 +72715,181 @@ function (_React$Component) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TreePlantingForm", function() { return TreePlantingForm; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! uuid/v4 */ "./node_modules/uuid/v4.js");
-/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(uuid_v4__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! uuid/v4 */ "./node_modules/uuid/v4.js");
+/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(uuid_v4__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var utils_geometry__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! utils/geometry */ "./src/utils/geometry.js");
+/* harmony import */ var references_trees_list_json__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! references/trees_list.json */ "./src/references/trees_list.json");
+var references_trees_list_json__WEBPACK_IMPORTED_MODULE_5___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/trees_list.json */ "./src/references/trees_list.json", 1);
+/* harmony import */ var references_tree_types_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! references/tree_types.json */ "./src/references/tree_types.json");
+var references_tree_types_json__WEBPACK_IMPORTED_MODULE_6___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/tree_types.json */ "./src/references/tree_types.json", 1);
+/* harmony import */ var references_tree_stock_sizes_json__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! references/tree_stock_sizes.json */ "./src/references/tree_stock_sizes.json");
+var references_tree_stock_sizes_json__WEBPACK_IMPORTED_MODULE_7___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/tree_stock_sizes.json */ "./src/references/tree_stock_sizes.json", 1);
+
+
+/* eslint-disable no-else-return */
+
+
+
+
 
 
 
 
 var NumRowInput = function NumRowInput(props) {
-  var windbreak = props.windbreak,
+  var editingFeature = props.editingFeature,
+      windbreak = props.windbreak,
       numRows = props.numRows,
       handleNumRowChange = props.handleNumRowChange,
       handleWindbreakChange = props.handleWindbreakChange,
       handlePropgationChange = props.handlePropgationChange,
       propagation = props.propagation;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  var slope = Object(utils_geometry__WEBPACK_IMPORTED_MODULE_4__["findSlope"])(editingFeature);
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "ConfigForm"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "stepNumber"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "1")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", null, "1")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "configInputs"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "inputElement desktop-select-s-width spacer-right-3"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "inputDescriptor"
-  }, "Is this a windbreak?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+  }, "Is this a windbreak?"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
     value: windbreak,
     onChange: function onChange(e) {
       return handleWindbreakChange(e);
-    }
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    },
+    required: true
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     value: "true"
-  }, "Yes"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+  }, "Yes"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     value: "false"
-  }, "No"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "No"))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "inputElement desktop-select-l-width"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "inputDescriptor nowrap"
-  }, "How many tree rows would you like to plant?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+  }, "How many tree rows would you like to plant?"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
     value: numRows,
     onChange: function onChange(e) {
       return handleNumRowChange(e);
-    }
-  }, lodash__WEBPACK_IMPORTED_MODULE_1___default.a.range(1, 11).map(function (val) {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    },
+    required: true
+  }, lodash__WEBPACK_IMPORTED_MODULE_2___default.a.range(1, windbreak ? 5 : 11).map(function (val) {
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
       key: val,
       value: val
     }, val);
-  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "inputElement desktop-select-s-width spacer-top-1_5"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "inputDescriptor nowrap"
-  }, "Choose a direction to plant your rows in."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+  }, "Choose a direction to add rows from your starting line."), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
     value: propagation,
     onChange: function onChange(e) {
       return handlePropgationChange(e);
-    }
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: "N"
-  }, "North"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: "S"
-  }, "South"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    },
+    required: true
+  }, slope > 1 || slope < -1 ? react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     value: "W"
-  }, "West"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+  }, "West"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     value: "E"
-  }, "East")))));
+  }, "East")) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "N"
+  }, "North"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "S"
+  }, "South"))))));
 };
 
 var RowDetailInput = function RowDetailInput(props) {
   var pasture_conversion = props.pasture_conversion,
       rows = props.rows,
+      series = props.series,
       handlePastureConversionChange = props.handlePastureConversionChange,
       handleRowTypeChange = props.handleRowTypeChange,
-      handleRowSpeciesChange = props.handleRowSpeciesChange; // build the controlled input fields
+      handleRowSpeciesChange = props.handleRowSpeciesChange;
 
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  var csgs = _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(new Set(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(series.values()).map(function (ea) {
+    return ea.csg;
+  }))); // CSGs without duplicate.
+
+
+  var treesByType = references_trees_list_json__WEBPACK_IMPORTED_MODULE_5__.reduce(function (map, tree) {
+    if (csgs.length > 0 && csgs.every(function (csg) {
+      return !tree.csgs.includes(csg);
+    })) {
+      return map;
+    }
+
+    map.set(tree.type, (map.get(tree.type) || []).concat(tree));
+    return map;
+  }, new Map());
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "ConfigForm"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "stepNumber"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "2")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", null, "2")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "configInputs"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
     className: "inputDescriptor"
   }, "Choose a tree type and species for each row. Below are the recommended tree types and species based on your soil. You can change these by choosing a different option in each dropdown."), rows.map(function (row, i) {
-    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-      key: uuid_v4__WEBPACK_IMPORTED_MODULE_2___default()(),
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      key: uuid_v4__WEBPACK_IMPORTED_MODULE_3___default()(),
       className: "rowDetails"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
       className: "rowNumber"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Row ", i + 1)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h4", null, "Row ", i + 1)), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
       className: "inputElement desktop-select-l-width"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
       className: "inputLabel"
-    }, "Tree Type"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-      value: row.type.display,
+    }, "Tree Type"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+      value: row.type,
       onChange: function onChange(e) {
         return handleRowTypeChange(e, i);
-      }
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      value: "Type 1"
-    }, "Type 1"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      value: "Type 2"
-    }, "Type 2"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      value: "Type 3"
-    }, "Type 3"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      },
+      required: true
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+      value: "",
+      disabled: true
+    }, "Select a tree type"), references_tree_types_json__WEBPACK_IMPORTED_MODULE_6__.map(function (ea) {
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        key: ea.id,
+        value: ea.id
+      }, ea.value);
+    }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
       className: "inputElement desktop-select-l-width"
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
       className: "inputLabel"
-    }, "Tree Species"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-      value: row.species.display,
+    }, "Tree Species"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+      value: row.species,
       onChange: function onChange(e) {
         return handleRowSpeciesChange(e, i);
-      }
-    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      value: "Species 1"
-    }, "Species 1"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      value: "Species 2"
-    }, "Species 2"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-      value: "Species 3"
-    }, "Species 3"))));
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      },
+      required: true
+    }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+      value: "",
+      disabled: true
+    }, !row.type ? 'Select a tree type first' : 'Select a tree species'), treesByType.get(row.type) && treesByType.get(row.type).map(function (ea) {
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        key: ea.id,
+        value: ea.id
+      }, ea.display);
+    }))));
+  }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "checkboxElement"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
     type: "checkbox",
     name: "pasture_conversion",
     checked: pasture_conversion,
     onChange: function onChange(e) {
       return handlePastureConversionChange(e);
     }
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "inline"
   }, "I'm converting pasture"))));
 };
@@ -74631,69 +72903,94 @@ var RowSpacingInput = function RowSpacingInput(props) {
       handleTreeSpacingChange = props.handleTreeSpacingChange,
       handleStockSizeChange = props.handleStockSizeChange,
       handleDripIrrigationChange = props.handleDripIrrigationChange;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "ConfigForm"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "stepNumber"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "3")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", null, "3")), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "configInputs"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
     className: "inputDescriptor"
-  }, "Choose the spacing you need in between the trees and what size you plan on purchasing the plantings. Recommendations based on your soil type and slope percentage are prefilled."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "Choose the spacing you need in between the trees and what size you plan on purchasing the plantings. Recommendations based on your soil type and slope percentage are prefilled."), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "inputElement desktop-select-s-width"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "inputLabel"
-  }, "Spacing Between Rows"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+  }, "Spacing Between Rows"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
     value: row_spacing,
     onChange: function onChange(e) {
       return handleRowSpacingChange(e);
-    }
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    },
+    required: true
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     value: "3"
-  }, "3'"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+  }, "3'"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     value: "4"
-  }, "4'"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+  }, "4'"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     value: "5"
-  }, "5'"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "5'"))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "inputElement desktop-select-s-width"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "inputLabel"
-  }, "Spacing Between Trees"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+  }, "Spacing Between Trees"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
     value: tree_spacing,
     onChange: function onChange(e) {
       return handleTreeSpacingChange(e);
-    }
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    },
+    required: true
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     value: "3"
-  }, "3'"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+  }, "3'"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     value: "4"
-  }, "4'"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+  }, "4'"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     value: "5"
-  }, "5'"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }, "5'"))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "inputElement desktop-select-m-width"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "inputLabel"
-  }, "Planting Stock Size"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+  }, "Planting Stock Size"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
     value: stock_size,
     onChange: function onChange(e) {
       return handleStockSizeChange(e);
-    }
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Stock Size 1"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Stock Size 2"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Stock Size 3"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    },
+    required: true
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+    value: "",
+    disabled: true
+  }, "Select a stock size"), references_tree_stock_sizes_json__WEBPACK_IMPORTED_MODULE_7__.map(function (ea) {
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+      key: ea.id,
+      value: ea.id
+    }, ea.value.includes('container') ? ea.value.split('_').reduce(function (str, frag, i) {
+      if (i === 0) {
+        return str + frag;
+      } else if (i === 1 && frag.includes('over')) {
+        return "".concat(str, " (").concat(frag, " ");
+      } else if (i === 1) {
+        return "".concat(str, " (").concat(frag, " - ");
+      } else if (i === 2) {
+        return "".concat(str).concat(frag, ")");
+      } else {
+        return "".concat(str, " ").concat(frag);
+      }
+    }, '') : ea.value);
+  }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "checkboxElement"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
     type: "checkbox",
     name: "drip_irrigation",
     checked: drip_irrigation,
     onChange: function onChange(e) {
       return handleDripIrrigationChange(e);
     }
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+  }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "inline"
   }, "I'm using drip irrigation"))));
 };
 
 var TreePlantingForm = function TreePlantingForm(props) {
-  var step = props.step,
+  var form = props.form,
+      editingFeature = props.editingFeature,
+      step = props.step,
       windbreak = props.windbreak,
       propagation = props.propagation,
       rows = props.rows,
@@ -74701,6 +72998,7 @@ var TreePlantingForm = function TreePlantingForm(props) {
       spacing_rows = props.spacing_rows,
       stock_size = props.stock_size,
       drip_irrigation = props.drip_irrigation,
+      pasture_conversion = props.pasture_conversion,
       handleTreeSpacingChange = props.handleTreeSpacingChange,
       handleDripIrrigationChange = props.handleDripIrrigationChange,
       handleRowSpeciesChange = props.handleRowSpeciesChange,
@@ -74709,21 +73007,33 @@ var TreePlantingForm = function TreePlantingForm(props) {
       handleRowSpacingChange = props.handleRowSpacingChange,
       handleStockSizeChange = props.handleStockSizeChange,
       handleWindbreakChange = props.handleWindbreakChange,
-      handlePropgationChange = props.handlePropgationChange;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+      handlePropgationChange = props.handlePropgationChange,
+      handlePastureConversionChange = props.handlePastureConversionChange;
+  var series = editingFeature.properties.series ? new Map(editingFeature.properties.series) : new Map();
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+    className: "PlantingFormHeader"
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h2", {
     className: "modal-header"
-  }, "Configure your tree rows below."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(NumRowInput, {
+  }, "Configure your tree rows below."), series.size > 0 && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", {
+    className: "SoilTypes spacer-top-1"
+  }, "Your soil types: ", react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", null, _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(series.keys()).sort().toString().replace(/,/g, ', ')))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
+    ref: form
+  }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(NumRowInput, {
+    editingFeature: editingFeature,
     windbreak: windbreak,
     propagation: propagation,
     numRows: rows.length,
     handleNumRowChange: handleNumRowChange,
     handleWindbreakChange: handleWindbreakChange,
     handlePropgationChange: handlePropgationChange
-  }), (step === 'species' || step === 'spacing') && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RowDetailInput, {
+  }), (step === 'species' || step === 'spacing') && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RowDetailInput, {
+    series: series,
     rows: rows,
+    pasture_conversion: pasture_conversion,
     handleRowTypeChange: handleRowTypeChange,
-    handleRowSpeciesChange: handleRowSpeciesChange
-  }), step === 'spacing' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RowSpacingInput, {
+    handleRowSpeciesChange: handleRowSpeciesChange,
+    handlePastureConversionChange: handlePastureConversionChange
+  }), step === 'spacing' && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RowSpacingInput, {
     spacing_trees: spacing_trees,
     spacing_rows: spacing_rows,
     stock_size: stock_size,
@@ -74732,7 +73042,7 @@ var TreePlantingForm = function TreePlantingForm(props) {
     handleTreeSpacingChange: handleTreeSpacingChange,
     handleStockSizeChange: handleStockSizeChange,
     handleDripIrrigationChange: handleDripIrrigationChange
-  }));
+  })));
 };
 
 /***/ }),
@@ -74810,10 +73120,13 @@ var EditIcons = function EditIcons(props) {
   };
   var events = new Map([['click', function (e) {
     var editingIcon = e.features[0];
-    var featureId = editingIcon.properties["for"];
+    var _editingIcon$properti = editingIcon.properties,
+        featureId = _editingIcon$properti["for"],
+        type = _editingIcon$properti.type;
     var feature = data.get(featureId);
-    setEditingFeature(feature);
-    nextStep('/plant/tree/rows');
+    setEditingFeature(feature, function () {
+      return nextStep("/plant/".concat(type));
+    });
   }]]);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layer__WEBPACK_IMPORTED_MODULE_1__["Layer"], {
     map: map,
@@ -74904,7 +73217,7 @@ var GeolocationPosition = function GeolocationPosition(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layer__WEBPACK_IMPORTED_MODULE_1__["Layer"], {
     map: map,
     layer: labelLayer
-  }), ",", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layer__WEBPACK_IMPORTED_MODULE_1__["Layer"], {
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layer__WEBPACK_IMPORTED_MODULE_1__["Layer"], {
     map: map,
     layer: circleLayer
   }));
@@ -75150,7 +73463,7 @@ var SSURGO = function SSURGO(props) {
     'source-layer': "default",
     minzoom: 10,
     paint: {
-      'fill-color': ['interpolate', ['linear'], ['get', 'iacornsr'], 0, '#909090', 50, '#888900', 100, '#f8f601'],
+      'fill-color': ['interpolate', ['linear'], ['to-number', ['get', 'iacornsr']], 0, '#909090', 50, '#888900', 100, '#f8f601'],
       'fill-opacity': props.active ? 0.6 : 0,
       'fill-antialias': false
     }
@@ -75283,17 +73596,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // import tree from 'test_data/tree.json';
-// import prairie from 'test_data/prairie.json';
 
 
 
 var debug = debug__WEBPACK_IMPORTED_MODULE_10___default()('MapComponent');
-/* const testData = {
-	tree,
-	prairie,
-}; */
-
 var DrawLineMode = _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_9___default.a.modes.draw_line_string;
 
 DrawLineMode.clickAnywhere = function clickAnywhere(state, e) {
@@ -75333,7 +73639,7 @@ DrawLineMode.onStop = function onStop(state) {
   } else {
     this.deleteFeature([state.line.id], {
       silent: true
-    }); // this.changeMode('simple_select', {}, { silent: true }); // Unsure if this is necessary.
+    });
   }
 };
 
@@ -75390,7 +73696,19 @@ function (_React$Component) {
           type = _this$props.type,
           steps = _this$props.steps;
 
-      if (!step) {
+      if (editingFeature) {
+        // Else, if we're on a config step and there is a feature being edited, enter direct_select mode.
+        // This actually doesn't matter too much because if we're on a config step the modal overlay blocks map interactivity.
+        debug('Entering direct_select mode.', editingFeature);
+
+        if (!draw.get(editingFeature.id)) {
+          draw.add(editingFeature);
+        }
+
+        draw.changeMode('direct_select', {
+          featureId: editingFeature.id
+        });
+      } else if (!step) {
         // If not on a config step, that means we're drawing, so enter draw_polygon mode with a clean slate.
         debug('Entering draw_polygon mode.');
         draw.deleteAll();
@@ -75411,27 +73729,15 @@ function (_React$Component) {
 
           feature.properties = {
             type: type
-          }; // draw.add(feature);
-
+          };
           debug('Created feature:', feature);
-          nextStep("/plant/".concat(type, "/").concat(steps[0]));
-          setEditingFeature(feature);
+          setEditingFeature(feature, function () {
+            return nextStep("/plant/".concat(type, "/").concat(steps[0]));
+          });
         };
 
         map.on('draw.create', onCreate);
         this.events.set('draw.create', onCreate);
-      } else if (editingFeature) {
-        // Else, if we're on a config step and there is a feature being edited, enter direct_select mode.
-        // This actually doesn't matter too much because if we're on a config step the modal overlay blocks map interactivity.
-        debug('Entering direct_select mode.', editingFeature);
-
-        if (!draw.get(editingFeature.id)) {
-          draw.add(editingFeature);
-        }
-
-        draw.changeMode('direct_select', {
-          featureId: editingFeature.id
-        });
       }
     }
   }, {
@@ -75456,6 +73762,7 @@ function (_React$Component) {
     value: function render() {
       var _this$props3 = this.props,
           step = _this$props3.router.match.params.step,
+          deleteFeature = _this$props3.deleteFeature,
           setEditingFeature = _this$props3.setEditingFeature,
           editingFeature = _this$props3.editingFeature,
           saveFeature = _this$props3.saveFeature,
@@ -75468,26 +73775,28 @@ function (_React$Component) {
         return react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Redirect"], {
           to: "/plant/".concat(type)
         });
-      } // If we're on a config step, render the form.
-      // if (type === 'tree' && step) {
-      // 	return (
-      // 		<div className="Planting MapModeForm vertical-align">
-      // 			<PlantingModal editingFeature={editingFeature} setEditingFeature={setEditingFeature} saveFeature={saveFeature} nextStep={nextStep} step={step} steps={steps} />
-      // 		</div>
-      // 	);
-      // }
+      }
 
+      var stepIndex = steps.indexOf(step);
 
-      return step ? react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+      if (stepIndex === -1) {
+        return react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Redirect"], {
+          to: "/plant/".concat(type, "/").concat(steps[0])
+        });
+      }
+
+      return react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
         className: "Planting MapModeForm vertical-align"
       }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(_modals_PlantingModal__WEBPACK_IMPORTED_MODULE_11__["PlantingModal"], {
         editingFeature: editingFeature,
         setEditingFeature: setEditingFeature,
+        deleteFeature: deleteFeature,
         saveFeature: saveFeature,
         nextStep: nextStep,
         step: step,
-        steps: steps
-      })) : null;
+        steps: steps,
+        stepIndex: stepIndex
+      }));
     }
   }]);
 
@@ -75518,12 +73827,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_6__);
 
 
 
 
 
 
+
+var debug = debug__WEBPACK_IMPORTED_MODULE_6___default()('MapComponent');
 var SimpleSelect =
 /*#__PURE__*/
 function (_React$Component) {
@@ -75538,10 +73851,14 @@ function (_React$Component) {
   _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(SimpleSelect, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      var draw = this.props.draw; // This actually doesn't matter much because in simple_select mode, the draw data has been cleared, so there is nothing to select.
-      // We use this mode only because we don't want to remove the whole draw controller from the map.
+      var _this$props = this.props,
+          draw = _this$props.draw,
+          setEditingFeature = _this$props.setEditingFeature; // We use this mode because we don't want to remove the whole draw controller from the map.
 
-      draw.changeMode('simple_select');
+      debug('Entering simple_select mode.');
+      setEditingFeature(null, function () {
+        return draw.changeMode('simple_select');
+      });
     }
   }, {
     key: "render",
@@ -75717,12 +74034,12 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", {
         className: "grid-wrap"
       }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__["Link"], {
+        className: "CloseButton",
         to: location.pathname,
         replace: true
       }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("img", {
-        className: "CloseButton",
         src: "../../assets/close_dropdown.svg",
-        alt: "close modal"
+        alt: "close location prompt"
       })), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("h3", {
         className: "modal-header"
       }, "Allow the Prairie & Tree Planting application to access your location while using the app?"), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", {
@@ -75782,11 +74099,12 @@ var MapLegend = function MapLegend(_ref) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "grid-wrap"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    className: "CloseButton",
     to: pathname
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     className: "CloseButton",
     src: "../../assets/close_dropdown.svg",
-    alt: "Close Welcome Modal"
+    alt: "close legend modal"
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     className: "modal-header"
   }, "Map Legend"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -75875,7 +74193,7 @@ function (_React$Component) {
     _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default()(PlantingModal).call(this, props));
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleNumRowChange", function (event) {
-      var numRows = event.target.value;
+      var numRows = typeof event === 'number' ? event : event.target.value;
 
       _this.setState(function (state) {
         var updateRows = [];
@@ -75891,16 +74209,9 @@ function (_React$Component) {
           updateRows = _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(state.rows);
 
           for (var i = 0; i < numRows - state.rows.length; i += 1) {
-            // test data
             updateRows.push({
-              type: {
-                id: 1,
-                display: 'Type 1'
-              },
-              species: {
-                id: 15,
-                display: 'Species 3'
-              }
+              type: '',
+              species: ''
             });
           }
 
@@ -75922,6 +74233,10 @@ function (_React$Component) {
 
       _this.setState({
         windbreak: updateWindbreak
+      }, function () {
+        if (_this.state.rows.length > 4) {
+          _this.handleNumRowChange(4);
+        }
       });
     });
 
@@ -75937,13 +74252,13 @@ function (_React$Component) {
       var updateConversion = event.target.value;
 
       _this.setState({
-        pasture_conversion: updateConversion
+        pasture_conversion: updateConversion === 'on'
       });
     });
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleRowTypeChange", function (event, rowIndex) {
       var rows = _this.state.rows;
-      rows[rowIndex].type.display = event.target.value;
+      rows[rowIndex].type = event.target.value;
 
       _this.setState({
         rows: rows
@@ -75952,7 +74267,7 @@ function (_React$Component) {
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleRowSpeciesChange", function (event, rowIndex) {
       var rows = _this.state.rows;
-      rows[rowIndex].species.display = event.target.value;
+      rows[rowIndex].species = event.target.value;
 
       _this.setState({
         rows: rows
@@ -75968,8 +74283,6 @@ function (_React$Component) {
             value: spacingValue
           })
         };
-      }, function () {
-        return console.log(_this.state);
       });
     });
 
@@ -75986,13 +74299,11 @@ function (_React$Component) {
     });
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleStockSizeChange", function (event) {
-      var stockSize = event.target.value;
+      var stock_size = event.target.value;
 
-      _this.setState(function (state) {
+      _this.setState(function () {
         return {
-          stock_size: _objectSpread({}, state.stock_size, {
-            display: stockSize
-          })
+          stock_size: stock_size
         };
       });
     });
@@ -76008,25 +74319,19 @@ function (_React$Component) {
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleSeedMixChange", function (event) {
       var updateSeedMix = event.target.value;
 
-      _this.setState(function (state) {
+      _this.setState(function () {
         return {
-          seed: _objectSpread({}, state.seed, {
-            value: updateSeedMix
-          })
+          seed: updateSeedMix
         };
       });
     });
 
-    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleSeedValueChange", function (event) {
-      var updateValue = event.target.value;
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleSeedPriceChange", function (event) {
+      var updateValue = typeof event === 'number' ? event : event.target.value;
 
-      _this.setState(function (state) {
+      _this.setState(function () {
         return {
-          seed: _objectSpread({}, state.seed, {
-            price: _objectSpread({}, state.seed.price, {
-              value: updateValue
-            })
-          })
+          seed_price: updateValue
         };
       });
     });
@@ -76034,11 +74339,9 @@ function (_React$Component) {
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleManagementChange", function (event) {
       var updateManagement = event.target.value;
 
-      _this.setState(function (state) {
+      _this.setState(function () {
         return {
-          management: _objectSpread({}, state.management, {
-            display: updateManagement
-          })
+          management: updateManagement
         };
       });
     });
@@ -76046,11 +74349,9 @@ function (_React$Component) {
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleCroppingChange", function (event) {
       var updateCropping = event.target.value;
 
-      _this.setState(function (state) {
+      _this.setState(function () {
         return {
-          cropping_system: _objectSpread({}, state.cropping, {
-            display: updateCropping
-          })
+          cropping_system: updateCropping
         };
       });
     });
@@ -76058,11 +74359,9 @@ function (_React$Component) {
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handlePestControlChange", function (event) {
       var updatePestControl = event.target.value;
 
-      _this.setState(function (state) {
+      _this.setState(function () {
         return {
-          pest_control: _objectSpread({}, state.pest_control, {
-            display: updatePestControl
-          })
+          pest_control: updatePestControl
         };
       });
     });
@@ -76077,15 +74376,24 @@ function (_React$Component) {
       var _this$props = _this.props,
           nextStep = _this$props.nextStep,
           steps = _this$props.steps,
+          stepIndex = _this$props.stepIndex,
           type = _this$props.editingFeature.properties.type;
 
-      _this.setState(function (state) {
-        return {
-          stepIndex: state.stepIndex + 1
-        };
-      }, function () {
-        nextStep("/plant/".concat(type, "/").concat(steps[_this.state.stepIndex]));
-      });
+      if (_this.form.current && _this.form.current.checkValidity()) {
+        _this.setState(function () {
+          return {
+            formError: null
+          };
+        }, function () {
+          return nextStep("/plant/".concat(type, "/").concat(steps[stepIndex + 1]));
+        });
+      } else {
+        _this.setState(function () {
+          return {
+            formError: 'Please fill in all fields before moving onto the next step.'
+          };
+        });
+      }
     });
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleSave", function () {
@@ -76093,7 +74401,6 @@ function (_React$Component) {
           _assertThisInitialize2 = _assertThisInitialize.props,
           editingFeature = _assertThisInitialize2.editingFeature,
           saveFeature = _assertThisInitialize2.saveFeature,
-          setEditingFeature = _assertThisInitialize2.setEditingFeature,
           type = _assertThisInitialize2.editingFeature.properties.type;
 
       var properties = {};
@@ -76101,6 +74408,7 @@ function (_React$Component) {
       if (type === 'tree') {
         var _assertThisInitialize3 = _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this),
             _assertThisInitialize4 = _assertThisInitialize3.state,
+            pasture_conversion = _assertThisInitialize4.pasture_conversion,
             propagation = _assertThisInitialize4.propagation,
             rows = _assertThisInitialize4.rows,
             spacing_trees = _assertThisInitialize4.spacing_trees,
@@ -76112,6 +74420,7 @@ function (_React$Component) {
         properties = {
           type: type,
           configs: {
+            pasture_conversion: pasture_conversion,
             propagation: propagation,
             windbreak: windbreak,
             rows: rows,
@@ -76124,6 +74433,7 @@ function (_React$Component) {
       } else if (type === 'prairie') {
         var _this$state = _this.state,
             seed = _this$state.seed,
+            seed_price = _this$state.seed_price,
             management = _this$state.management,
             cropping_system = _this$state.cropping_system,
             pest_control = _this$state.pest_control;
@@ -76131,6 +74441,7 @@ function (_React$Component) {
           type: type,
           configs: {
             seed: seed,
+            seed_price: seed_price,
             management: management,
             cropping_system: cropping_system,
             pest_control: pest_control
@@ -76138,9 +74449,22 @@ function (_React$Component) {
         };
       }
 
-      editingFeature.properties = properties;
-      setEditingFeature(editingFeature);
-      saveFeature();
+      if (_this.form.current && _this.form.current.checkValidity()) {
+        _this.setState(function () {
+          return {
+            formError: null
+          };
+        }, function () {
+          editingFeature.properties = properties;
+          saveFeature(editingFeature);
+        });
+      } else {
+        _this.setState(function () {
+          return {
+            formError: 'Please fill in all fields before saving.'
+          };
+        });
+      }
     });
 
     _this.bottom = react__WEBPACK_IMPORTED_MODULE_8___default.a.createRef();
@@ -76153,7 +74477,10 @@ function (_React$Component) {
         configs = {
           windbreak: false,
           propagation: 'N',
-          rows: [],
+          rows: [{
+            type: '',
+            species: ''
+          }],
           spacing_rows: {
             value: 3,
             // placeholder value
@@ -76164,27 +74491,14 @@ function (_React$Component) {
             //  placeholder value
             unit: 'feet'
           },
-          stock_size: {
-            id: 1,
-            // placeholder id
-            display: 'Stock Size 1'
-          },
+          stock_size: '',
           drip_irrigation: false,
           pasture_conversion: false
         };
       } else if (_type === 'prairie') {
         configs = {
-          seed: {
-            id: 14,
-            // placeholder
-            value: 'Seed Mix 1',
-            // placeholder
-            price: {
-              value: '',
-              per_unit: 'acre',
-              currency: '$_dollar'
-            }
-          },
+          seed: '',
+          seed_price: '',
           management: {
             id: 1,
             display: 'Mow'
@@ -76201,63 +74515,38 @@ function (_React$Component) {
       }
     }
 
-    _this.state = _objectSpread({}, configs, {
-      stepIndex: 0
-    });
+    _this.state = _objectSpread({}, configs);
+    _this.form = react__WEBPACK_IMPORTED_MODULE_8___default.a.createRef();
     return _this;
   }
 
   _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(PlantingModal, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var type = this.props.editingFeature.properties.type;
-
-      if (type === 'tree') {
-        this.initializeTreeRows();
-      }
-    }
-  }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
-      var prevStep = prevProps.step;
-      var currentStep = this.props.step;
+      var prevStepIndex = prevProps.stepIndex;
+      var currentStepIndex = this.props.stepIndex;
 
-      if (prevStep !== currentStep) {
+      if (currentStepIndex > prevStepIndex) {
         this.scrollToBottom();
       }
-    }
-  }, {
-    key: "initializeTreeRows",
-    value: function initializeTreeRows() {
-      // initialize first row if editingFeature has not been configured before (recommended type/species)
-      var rows = this.state.rows;
-
-      if (rows.length === 0) {
-        // const updateRows = this.generateRecommendedRowConfig(...);
-        var updateRows = {
-          type: {
-            id: 1,
-            display: 'Type 1'
-          },
-          species: {
-            id: 15,
-            display: 'Species 3'
-          }
-        };
-        this.setState({
-          rows: [updateRows]
-        });
-      } // set the recommended spacing and stock size
-
     }
   }, {
     key: "render",
     value: function render() {
       var _this$props2 = this.props,
           step = _this$props2.step,
+          stepIndex = _this$props2.stepIndex,
+          steps = _this$props2.steps,
+          editingFeature = _this$props2.editingFeature,
           type = _this$props2.editingFeature.properties.type,
-          stepIndex = this.state.stepIndex;
-      var formProps = {};
+          formError = this.state.formError,
+          form = this.form;
+      var formProps = {
+        editingFeature: editingFeature,
+        step: step,
+        form: form,
+        formError: formError
+      };
 
       if (type === 'tree') {
         var _this$state2 = this.state,
@@ -76268,6 +74557,7 @@ function (_React$Component) {
             spacing_rows = _this$state2.spacing_rows,
             stock_size = _this$state2.stock_size,
             drip_irrigation = _this$state2.drip_irrigation,
+            pasture_conversion = _this$state2.pasture_conversion,
             handleTreeSpacingChange = this.handleTreeSpacingChange,
             handleDripIrrigationChange = this.handleDripIrrigationChange,
             handleRowSpeciesChange = this.handleRowSpeciesChange,
@@ -76276,9 +74566,9 @@ function (_React$Component) {
             handleRowSpacingChange = this.handleRowSpacingChange,
             handleStockSizeChange = this.handleStockSizeChange,
             handleWindbreakChange = this.handleWindbreakChange,
-            handlePropgationChange = this.handlePropgationChange;
-        formProps = {
-          step: step,
+            handlePropgationChange = this.handlePropgationChange,
+            handlePastureConversionChange = this.handlePastureConversionChange;
+        formProps = _objectSpread({}, formProps, {
           windbreak: windbreak,
           propagation: propagation,
           rows: rows,
@@ -76286,6 +74576,7 @@ function (_React$Component) {
           spacing_rows: spacing_rows,
           stock_size: stock_size,
           drip_irrigation: drip_irrigation,
+          pasture_conversion: pasture_conversion,
           handleTreeSpacingChange: handleTreeSpacingChange,
           handleDripIrrigationChange: handleDripIrrigationChange,
           handleRowSpeciesChange: handleRowSpeciesChange,
@@ -76294,11 +74585,13 @@ function (_React$Component) {
           handleRowSpacingChange: handleRowSpacingChange,
           handleStockSizeChange: handleStockSizeChange,
           handleWindbreakChange: handleWindbreakChange,
-          handlePropgationChange: handlePropgationChange
-        };
+          handlePropgationChange: handlePropgationChange,
+          handlePastureConversionChange: handlePastureConversionChange
+        });
       } else if (type === 'prairie') {
         var _this$state3 = this.state,
             seed = _this$state3.seed,
+            seed_price = _this$state3.seed_price,
             management = _this$state3.management,
             cropping_system = _this$state3.cropping_system,
             pest_control = _this$state3.pest_control,
@@ -76306,10 +74599,10 @@ function (_React$Component) {
             handlePestControlChange = this.handlePestControlChange,
             handleManagementChange = this.handleManagementChange,
             handleCroppingChange = this.handleCroppingChange,
-            handleSeedValueChange = this.handleSeedValueChange;
-        formProps = {
-          step: step,
+            handleSeedPriceChange = this.handleSeedPriceChange;
+        formProps = _objectSpread({}, formProps, {
           seed: seed,
+          seed_price: seed_price,
           management: management,
           cropping_system: cropping_system,
           pest_control: pest_control,
@@ -76317,33 +74610,35 @@ function (_React$Component) {
           handlePestControlChange: handlePestControlChange,
           handleManagementChange: handleManagementChange,
           handleCroppingChange: handleCroppingChange,
-          handleSeedValueChange: handleSeedValueChange
-        };
+          handleSeedPriceChange: handleSeedPriceChange
+        });
       }
 
       return react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_8___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("div", {
         className: "modal margin-center"
       }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__["Link"], {
+        className: "CloseButton",
         to: "/"
       }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("img", {
-        className: "CloseButton",
         src: "../../assets/close_dropdown.svg",
         alt: "Close Planting Modal"
       })), type === 'tree' && react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement(_TreePlantingForm__WEBPACK_IMPORTED_MODULE_10__["TreePlantingForm"], formProps), type === 'prairie' && react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement(_PrairiePlantingForm__WEBPACK_IMPORTED_MODULE_11__["PrairiePlantingForm"], formProps), react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("div", {
         ref: this.bottom
       })), react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("div", {
         className: "button-wrap vertical-align"
-      }, stepIndex <= 1 && react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("button", {
-        type: "button",
-        className: "Button",
-        onClick: this.handleNextStep,
-        onKeyPress: this.handleNextStep
-      }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("span", null, "Next")), stepIndex === 2 && react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("button", {
+      }, formError && react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("p", {
+        className: "warning"
+      }, formError), stepIndex === steps.length - 1 ? react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("button", {
         type: "button",
         className: "Button",
         onClick: this.handleSave,
         onKeyPress: this.handleSave
-      }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("span", null, "View Map"))));
+      }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("span", null, "View Map")) : react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("button", {
+        type: "button",
+        className: "Button",
+        onClick: this.handleNextStep,
+        onKeyPress: this.handleNextStep
+      }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("span", null, "Next"))));
     }
   }]);
 
@@ -76430,11 +74725,11 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
         className: "grid-wrap"
       }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Link"], {
+        className: "CloseButton",
         to: "/"
       }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
-        className: "CloseButton",
         src: "../../assets/close_dropdown.svg",
-        alt: "Close Welcome Modal"
+        alt: "close welcome modal"
       })), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("h2", {
         className: "modal-header"
       }, "Welcome to the Prairie & Tree Planting Tool"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("p", {
@@ -77027,6 +75322,83 @@ module.exports = JSON.parse("{\"Cherokee\":2.84,\"Clay\":2.27,\"Dickenson\":2.29
 
 /***/ }),
 
+/***/ "./src/references/prairie_classification_prices.json":
+/*!***********************************************************!*\
+  !*** ./src/references/prairie_classification_prices.json ***!
+  \***********************************************************/
+/*! exports provided: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("[{\"id\":\"JyXcmn0d\",\"display\":\"CP 25 Wet Rare and Declining Habitat 30/10\",\"price\":127,\"type\":\"hydric\"},{\"id\":\"uz7PvOEuX\",\"display\":\"CP 25 Wet Pollinator Habitat Statewide 10/30\",\"price\":239,\"type\":\"hydric\"},{\"id\":\"SNrB00scR\",\"display\":\"CP 42 Wet Pollinator Habitat\",\"price\":187.8,\"type\":\"hydric\"},{\"id\":\"jJhl8nGyg\",\"display\":\"CP 43 Wet Prairie Strips\",\"price\":185,\"type\":\"hydric\"},{\"id\":\"63heus6FP\",\"display\":\"CP 25 Wet-Mesic Rare and Declining Habitat 30/10\",\"price\":115,\"type\":\"wet-mesic\"},{\"id\":\"tYm-A8v2p\",\"display\":\"CP 42 Wet-Mesic Pollinator Habitat 10/30\",\"price\":200,\"type\":\"wet-mesic\"},{\"id\":\"LI7YtDW3b\",\"display\":\"CP 43 Wet-mesic Prairie Strip\",\"price\":163,\"type\":\"wet-mesic\"},{\"id\":\"jiEkpFNn_\",\"display\":\"CP 25 Mesic Rare and Declining Habitat Standard 30/10 \",\"price\":145,\"type\":\"mesic\"},{\"id\":\"n9MxbNWla\",\"display\":\"CP 25 Mesic Rare and Declining HabitatEconomy 20/20\",\"price\":130.5,\"type\":\"mesic\"},{\"id\":\"ffDsyk50A\",\"display\":\"CP 25 Mesic Rare and Declining Habitat Economy 30/10\",\"price\":88.33,\"type\":\"mesic\"},{\"id\":\"hqLlKXep2\",\"display\":\"CP 25 Mesic Rare and Declining Habitat High Diversity 30/10\",\"price\":169,\"type\":\"mesic\"},{\"id\":\"2nuiIjo_F\",\"display\":\"CP 25 Mesic Rare and Declining Habitat w/o Switchgrass 30/10 \",\"price\":115,\"type\":\"mesic\"},{\"id\":\"L6wb-Ros4\",\"display\":\"CP 42 Mesic Pollinator Habitat 10/30\",\"price\":239.75,\"type\":\"mesic\"},{\"id\":\"g6R3ZJTP-\",\"display\":\"Monarch Mesic Pollinator 10/30 (EQIP)\",\"price\":286,\"type\":\"mesic\"},{\"id\":\"Irk3YVZt7\",\"display\":\"Monarch Mesic w/ Little Bluestem (EQIP) \",\"price\":472,\"type\":\"mesic\"},{\"id\":\"5ZymS_9WQ\",\"display\":\"CP 42 Mesic Pollinator Habitat Standard \",\"price\":212.5,\"type\":\"mesic\"},{\"id\":\"H7-TJe4iiL\",\"display\":\"CP 42 Mesic Pollinator Habitat Economy \",\"price\":140,\"type\":\"mesic\"},{\"id\":\"fgSWg-ds09\",\"display\":\"CP 43 Mesic Prairie Strips \",\"price\":140,\"type\":\"mesic\"},{\"id\":\"SDLOATVlKU\",\"display\":\"CP 25 Dry-Mesic Rare and Declining Habitat Tall grass 20/20\",\"price\":135,\"type\":\"dry-mesic\"},{\"id\":\"OkD2sjQbYN\",\"display\":\"CP 25 Dry-Mesic Rare and Declining Habitat Short  Prairie 30/10\",\"price\":168,\"type\":\"dry-mesic\"},{\"id\":\"A80OVoX9q4\",\"display\":\"CP 42 Dry-Mesic Polllinator Habitat 10/30\",\"price\":195.5,\"type\":\"dry-mesic\"},{\"id\":\"kyXOdtUgVe\",\"display\":\"CP 43 Dry-Mesic Prairie Strip\",\"price\":135,\"type\":\"dry-mesic\"},{\"id\":\"s7SPm0sDgH\",\"display\":\"CP 25 Dry Rare and Declining Habitat Short  Prairie 30/10\",\"price\":168,\"type\":\"xeric\"},{\"id\":\"w7Cl4lWqio\",\"display\":\"CP 42 Dry Polllinator Habitat 10/30\",\"price\":195.5,\"type\":\"xeric\"},{\"id\":\"KdD_Thf6CS\",\"display\":\"CP 43 Dry Prairie Strip\",\"price\":135,\"type\":\"xeric\"}]");
+
+/***/ }),
+
+/***/ "./src/references/prairie_mgmt.json":
+/*!******************************************!*\
+  !*** ./src/references/prairie_mgmt.json ***!
+  \******************************************/
+/*! exports provided: 0, 1, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("[{\"id\":\"M6z9fsAW\",\"value\":\"burn\"},{\"id\":\"J8wEfx7P\",\"value\":\"mow\"}]");
+
+/***/ }),
+
+/***/ "./src/references/soil_series_csg.json":
+/*!*********************************************!*\
+  !*** ./src/references/soil_series_csg.json ***!
+  \*********************************************/
+/*! exports provided: Adair, Adco, Amana, Arispe, Armstrong, Atterberry, Bearpen, Blake, Blencoe, Blend, Brady, Bucknell, Canoe, Cantril, Cerlin, Collinwood, Cooper, Coppock, Corwith, Creal, Crippin, Curran, Cylinder, Dells, Denrock variant, Dockery, Donnan, Dunkerton, Elrin, Ely, Floyd, Fostoria, Franklin, Galland, Given, Gorin, Grantcenter, Grundy, Guckeen, Hayfield, Hoopeston, Hornick, Jacwin, Kandiyohi, Kensett, Keomah, Kingston, Klinger, Klingmore, Kniffin, Koszta, Lamoni, Larpenteur, Lawler, Lawson, La Sueur, Lerdal, Linder, Lineville, Lossing, Luther, Macksburg, Mahaska, Malvern, McCreath, Moville, Muscatine, Mystic, Nevin, Nicollet, Oakton, Ocheda, Oran, Orion, Ottosen, Pershing, Pinicon, Primghar, Protivin, Radford, Ransom, Rathbun, Readlyn, Riceville, Rowley, Schley, Seymour, Shaffton, Shorewood, Shullsburg, Sigglekov, Smithland, Snider, Spillco, Stronghurst, Toolesboro, Turlin, Watseka, Wilmonton, Afton, Albaton, Ambraw, Ames, Ansgar, Appanoose, Aquents, Aquolls, Beckwith, Belinda, Belmann, Biscay, Bremer, Brownton, Calamine, Calcousta, Caneek, Canisteo, Carlow, Chequest, Clarinda, Clearfield, Clyde, Coland, Colo, Cordova, Corley, Cosmos, Darfur, Darwin, Delft, Dolbee, Dundas, Edina, Elvers, Elvira, Faxon, Fieldon, Fluvaquents, Forney, Garwin, Gilford, Gillett Grove, Granby, Haig, Hanska, Havana, Humeston, Jameston, Kalona, Klossner, Kossuth, Lanyon, Letri, Luton, Madelia, Marcus, Marna, Marshan, Maxfield, Maxmore, Minden, Minnetonka, Mt. Sterling, Niota, Okaw, Okoboji, Ossian, Otter, Owego, Psammaquents, Quiver, Racoon, Rinda, Rolfe, Rubio, Rushmore, Rushville, Sable, Sawmill, Shandep, Soloman, Sperry, Taintor, Thorp, Titus, Traer, Tripoli, Tuskeego, Udolpho, Vesser, Wabash, Wacousta, Waldorf, Walford, Webster, Winterset, Woodbury, Zook, Zwingle, Allamakee, Angus, Ankeny, Annieville, Anthon, Arbor, Aredale, Arenzville, Arthur, Ashdale, Ashgrove, Atkinson, Bassett, Bertrand, Bode, Burcham, Burchard, Caleb, Camden, Chaseburg, Churchtown, Clarion, Coggon, Cokato, Coyne, Cresco, Danbury, Davis, Deloit, Dinsdale, Dinsmore, Douds, Downs, DuPage, Egan, Eitzen, Eleroy, Ella, Everly, Exette, Exira, Farrar, Fayette, Festina, Floris, Galva, Gara, Garmore, Graceville, Hanlon, Hayden, Hedrick, Huntsville, Inton, Ion, Jackson, Judson, Kasson, Kennebec, Kenyon, Keosaqua, Killduff, Knox, Lester, Limecreek, Lindley, Liscomb, Lourdes, Lycurgus, Marquis, Marshall, Martinsburg, Massbach, Moingona, Monona, Mt. Carroll, Napier, Nasset, New Glarus, New Vienna, Nira, Nodaway, Northboro, Norville, Ocheyedan, Olmitz, Omadi, Omsrud, Orwood, Ostrander, Port Byron, Racine, Raddle, Renova, Richwood, Ridgeton, Roine, Rossfield, Rozetta, Russell, Sac, Salix variant, Seaton, Shelby, Spillville, Strahan, Tallula, Tama, Terril, Thebes, Timula, Trent, Truman, Village, Watkins, Waubeek, Waucoma, Wentworth, Wiota, Worthen, Yellowriver, Ainsworth, Benclare, Bucklick, Clanton, Clinton, Cornell, Creskin, Goss, Kamrar, Kenmoor, Keswick, Kilkenny, Ladoga, Mayberry, Medary, Otley, Paint Creek, Rollingstone, Sharpsburg, Vinje, Weller, Aureola, Billett, Bolan, Carr, Cott, Dickinson, Elrick, Fairhaven, Flagler, Kanaranzi Variant, Keg, Klum, Lacrescent, Lamont, Landes, Luana, Marlean, May City, Olin, Pillot, Reeds Creek, Ridgeport, Sattre, Saude, Sunburg, Tell, Volney, Wadena, Wapsie, Waukee, Waukegan, Whittier, Zenor, Allendorf, Backbone, Bauer, Bertram, Bixby, Boone, Dempster, Derinda, Dodgeville, Donatus, Dubuque, Eleva, Frankville, Gale, Gosport, Hesch Variant, Hixton, Montieth, Moody, Ripon, Rockton, Roseville, Schapville, Van Meter, Whalan, Winneshiek, Buckney, Burkhardt, Chelsea, Chute, Dickman, Estherville, Finchford, Fruitfield, Hawick, Lilah, Morconick, Perks, Salida, Sarpy, Sparta, Bentonsport, Castana, Crofton, Dorchester, Dow, Grable, Hamburg, Haynie, Ida, Liston, Millington, Moneta, Mottland, Mula, Rawles, Shellwood, Steinauer, Storden, Ticonic, Vore, Wilsey, Calco, Elon, Harcot, Harps, Harpster, Havelock, Holly Springs, Knoke, Lemond, Mayer, McPaul, Modale, Nishna, Onawa, Percival, Revere, Rocksan, Rodney, Scroll, Spicer, Talcot, Tieville, Tilfer, Uturin, Napa, Adrian, Alluvial Land, Animal Waste, Blue Earth, Boots, Borrow Pit, Built Wetland, Copaston, Dumps, Dunbarton, Emeline, Fill Land, Gasconade, Gravel Pits, Gullied Land, Histosols, Houghton, Loamy terrace escarpments, Muck, Muskego, Nordness, Orthents, Palms, Pits, Pits, Clay, Pits, Sand & Gravel, Quarries, River Wash, Rock Outcrop, Sandy Escarpments, Sewage lagoon, Sogn, Steep Rock Land, Strip Mine Spoils, Udifluvents, Udorthents, Urban land, Waste Treatment, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"Adair\":1,\"Adco\":1,\"Amana\":1,\"Arispe\":1,\"Armstrong\":1,\"Atterberry\":1,\"Bearpen\":1,\"Blake\":1,\"Blencoe\":1,\"Blend\":1,\"Brady\":1,\"Bucknell\":1,\"Canoe\":1,\"Cantril\":1,\"Cerlin\":1,\"Collinwood\":1,\"Cooper\":1,\"Coppock\":1,\"Corwith\":1,\"Creal\":1,\"Crippin\":1,\"Curran\":1,\"Cylinder\":1,\"Dells\":1,\"Denrock variant\":1,\"Dockery\":1,\"Donnan\":1,\"Dunkerton\":1,\"Elrin\":1,\"Ely\":1,\"Floyd\":1,\"Fostoria\":1,\"Franklin\":1,\"Galland\":1,\"Given\":1,\"Gorin\":1,\"Grantcenter\":1,\"Grundy\":1,\"Guckeen\":1,\"Hayfield\":1,\"Hoopeston\":1,\"Hornick\":1,\"Jacwin\":1,\"Kandiyohi\":1,\"Kensett\":1,\"Keomah\":1,\"Kingston\":1,\"Klinger\":1,\"Klingmore\":1,\"Kniffin\":1,\"Koszta\":1,\"Lamoni\":1,\"Larpenteur\":1,\"Lawler\":1,\"Lawson\":1,\"La Sueur\":1,\"Lerdal\":1,\"Linder\":1,\"Lineville\":1,\"Lossing\":1,\"Luther\":1,\"Macksburg\":1,\"Mahaska\":1,\"Malvern\":1,\"McCreath\":1,\"Moville\":1,\"Muscatine\":1,\"Mystic\":1,\"Nevin\":1,\"Nicollet\":1,\"Oakton\":1,\"Ocheda\":1,\"Oran\":1,\"Orion\":1,\"Ottosen\":1,\"Pershing\":1,\"Pinicon\":1,\"Primghar\":1,\"Protivin\":1,\"Radford\":1,\"Ransom\":1,\"Rathbun\":1,\"Readlyn\":1,\"Riceville\":1,\"Rowley\":1,\"Schley\":1,\"Seymour\":1,\"Shaffton\":1,\"Shorewood\":1,\"Shullsburg\":1,\"Sigglekov\":1,\"Smithland\":1,\"Snider\":1,\"Spillco\":1,\"Stronghurst\":1,\"Toolesboro\":1,\"Turlin\":1,\"Watseka\":1,\"Wilmonton\":1,\"Afton\":2,\"Albaton\":2,\"Ambraw\":2,\"Ames\":2,\"Ansgar\":2,\"Appanoose\":2,\"Aquents\":2,\"Aquolls\":2,\"Beckwith\":2,\"Belinda\":2,\"Belmann\":2,\"Biscay\":2,\"Bremer\":2,\"Brownton\":2,\"Calamine\":2,\"Calcousta\":2,\"Caneek\":2,\"Canisteo\":2,\"Carlow\":2,\"Chequest\":2,\"Clarinda\":2,\"Clearfield\":2,\"Clyde\":2,\"Coland\":2,\"Colo\":2,\"Cordova\":2,\"Corley\":2,\"Cosmos\":2,\"Darfur\":2,\"Darwin\":2,\"Delft\":2,\"Dolbee\":2,\"Dundas\":2,\"Edina\":2,\"Elvers\":2,\"Elvira\":2,\"Faxon\":2,\"Fieldon\":2,\"Fluvaquents\":2,\"Forney\":2,\"Garwin\":2,\"Gilford\":2,\"Gillett Grove\":2,\"Granby\":2,\"Haig\":2,\"Hanska\":2,\"Havana\":2,\"Humeston\":2,\"Jameston\":2,\"Kalona\":2,\"Klossner\":2,\"Kossuth\":2,\"Lanyon\":2,\"Letri\":2,\"Luton\":2,\"Madelia\":2,\"Marcus\":2,\"Marna\":2,\"Marshan\":2,\"Maxfield\":2,\"Maxmore\":2,\"Minden\":2,\"Minnetonka\":2,\"Mt. Sterling\":2,\"Niota\":2,\"Okaw\":2,\"Okoboji\":2,\"Ossian\":2,\"Otter\":2,\"Owego\":2,\"Psammaquents\":2,\"Quiver\":2,\"Racoon\":2,\"Rinda\":2,\"Rolfe\":2,\"Rubio\":2,\"Rushmore\":2,\"Rushville\":2,\"Sable\":2,\"Sawmill\":2,\"Shandep\":2,\"Soloman\":2,\"Sperry\":2,\"Taintor\":2,\"Thorp\":2,\"Titus\":2,\"Traer\":2,\"Tripoli\":2,\"Tuskeego\":2,\"Udolpho\":2,\"Vesser\":2,\"Wabash\":2,\"Wacousta\":2,\"Waldorf\":2,\"Walford\":2,\"Webster\":2,\"Winterset\":2,\"Woodbury\":2,\"Zook\":2,\"Zwingle\":2,\"Allamakee\":3,\"Angus\":3,\"Ankeny\":3,\"Annieville\":3,\"Anthon\":3,\"Arbor\":3,\"Aredale\":3,\"Arenzville\":3,\"Arthur\":3,\"Ashdale\":3,\"Ashgrove\":3,\"Atkinson\":3,\"Bassett\":3,\"Bertrand\":3,\"Bode\":3,\"Burcham\":3,\"Burchard\":3,\"Caleb\":3,\"Camden\":3,\"Chaseburg\":3,\"Churchtown\":3,\"Clarion\":3,\"Coggon\":3,\"Cokato\":3,\"Coyne\":3,\"Cresco\":3,\"Danbury\":3,\"Davis\":3,\"Deloit\":3,\"Dinsdale\":3,\"Dinsmore\":3,\"Douds\":3,\"Downs\":3,\"DuPage\":3,\"Egan\":3,\"Eitzen\":3,\"Eleroy\":3,\"Ella\":3,\"Everly\":3,\"Exette\":3,\"Exira\":3,\"Farrar\":3,\"Fayette\":3,\"Festina\":3,\"Floris\":3,\"Galva\":3,\"Gara\":3,\"Garmore\":3,\"Graceville\":3,\"Hanlon\":3,\"Hayden\":3,\"Hedrick\":3,\"Huntsville\":3,\"Inton\":3,\"Ion\":3,\"Jackson\":3,\"Judson\":3,\"Kasson\":3,\"Kennebec\":3,\"Kenyon\":3,\"Keosaqua\":3,\"Killduff\":3,\"Knox\":3,\"Lester\":3,\"Limecreek\":3,\"Lindley\":3,\"Liscomb\":3,\"Lourdes\":3,\"Lycurgus\":3,\"Marquis\":3,\"Marshall\":3,\"Martinsburg\":3,\"Massbach\":3,\"Moingona\":3,\"Monona\":3,\"Mt. Carroll\":3,\"Napier\":3,\"Nasset\":3,\"New Glarus\":3,\"New Vienna\":3,\"Nira\":3,\"Nodaway\":3,\"Northboro\":3,\"Norville\":3,\"Ocheyedan\":3,\"Olmitz\":3,\"Omadi\":3,\"Omsrud\":3,\"Orwood\":3,\"Ostrander\":3,\"Port Byron\":3,\"Racine\":3,\"Raddle\":3,\"Renova\":3,\"Richwood\":3,\"Ridgeton\":3,\"Roine\":3,\"Rossfield\":3,\"Rozetta\":3,\"Russell\":3,\"Sac\":3,\"Salix variant\":3,\"Seaton\":3,\"Shelby\":3,\"Spillville\":3,\"Strahan\":3,\"Tallula\":3,\"Tama\":3,\"Terril\":3,\"Thebes\":3,\"Timula\":3,\"Trent\":3,\"Truman\":3,\"Village\":3,\"Watkins\":3,\"Waubeek\":3,\"Waucoma\":3,\"Wentworth\":3,\"Wiota\":3,\"Worthen\":3,\"Yellowriver\":3,\"Ainsworth\":4,\"Benclare\":4,\"Bucklick\":4,\"Clanton\":4,\"Clinton\":4,\"Cornell\":4,\"Creskin\":4,\"Goss\":4,\"Kamrar\":4,\"Kenmoor\":4,\"Keswick\":4,\"Kilkenny\":4,\"Ladoga\":4,\"Mayberry\":4,\"Medary\":4,\"Otley\":4,\"Paint Creek\":4,\"Rollingstone\":4,\"Sharpsburg\":4,\"Vinje\":4,\"Weller\":4,\"Aureola\":5,\"Billett\":5,\"Bolan\":5,\"Carr\":5,\"Cott\":5,\"Dickinson\":5,\"Elrick\":5,\"Fairhaven\":5,\"Flagler\":5,\"Kanaranzi Variant\":5,\"Keg\":5,\"Klum\":5,\"Lacrescent\":5,\"Lamont\":5,\"Landes\":5,\"Luana\":5,\"Marlean\":5,\"May City\":5,\"Olin\":5,\"Pillot\":5,\"Reeds Creek\":5,\"Ridgeport\":5,\"Sattre\":5,\"Saude\":5,\"Sunburg\":5,\"Tell\":5,\"Volney\":5,\"Wadena\":5,\"Wapsie\":5,\"Waukee\":5,\"Waukegan\":5,\"Whittier\":5,\"Zenor\":5,\"Allendorf\":6,\"Backbone\":6,\"Bauer\":6,\"Bertram\":6,\"Bixby\":6,\"Boone\":6,\"Dempster\":6,\"Derinda\":6,\"Dodgeville\":6,\"Donatus\":6,\"Dubuque\":6,\"Eleva\":6,\"Frankville\":6,\"Gale\":6,\"Gosport\":6,\"Hesch Variant\":6,\"Hixton\":6,\"Montieth\":6,\"Moody\":6,\"Ripon\":6,\"Rockton\":6,\"Roseville\":6,\"Schapville\":6,\"Van Meter\":6,\"Whalan\":6,\"Winneshiek\":6,\"Buckney\":7,\"Burkhardt\":7,\"Chelsea\":7,\"Chute\":7,\"Dickman\":7,\"Estherville\":7,\"Finchford\":7,\"Fruitfield\":7,\"Hawick\":7,\"Lilah\":7,\"Morconick\":7,\"Perks\":7,\"Salida\":7,\"Sarpy\":7,\"Sparta\":7,\"Bentonsport\":8,\"Castana\":8,\"Crofton\":8,\"Dorchester\":8,\"Dow\":8,\"Grable\":8,\"Hamburg\":8,\"Haynie\":8,\"Ida\":8,\"Liston\":8,\"Millington\":8,\"Moneta\":8,\"Mottland\":8,\"Mula\":8,\"Rawles\":8,\"Shellwood\":8,\"Steinauer\":8,\"Storden\":8,\"Ticonic\":8,\"Vore\":8,\"Wilsey\":8,\"Calco\":\"8W\",\"Elon\":\"8W\",\"Harcot\":\"8W\",\"Harps\":\"8W\",\"Harpster\":\"8W\",\"Havelock\":\"8W\",\"Holly Springs\":\"8W\",\"Knoke\":\"8W\",\"Lemond\":\"8W\",\"Mayer\":\"8W\",\"McPaul\":\"8W\",\"Modale\":\"8W\",\"Nishna\":\"8W\",\"Onawa\":\"8W\",\"Percival\":\"8W\",\"Revere\":\"8W\",\"Rocksan\":\"8W\",\"Rodney\":\"8W\",\"Scroll\":\"8W\",\"Spicer\":\"8W\",\"Talcot\":\"8W\",\"Tieville\":\"8W\",\"Tilfer\":\"8W\",\"Uturin\":\"8W\",\"Napa\":9,\"Adrian\":10,\"Alluvial Land\":10,\"Animal Waste\":10,\"Blue Earth\":10,\"Boots\":10,\"Borrow Pit\":10,\"Built Wetland\":10,\"Copaston\":10,\"Dumps\":10,\"Dunbarton\":10,\"Emeline\":10,\"Fill Land\":10,\"Gasconade\":10,\"Gravel Pits\":10,\"Gullied Land\":10,\"Histosols\":10,\"Houghton\":10,\"Loamy terrace escarpments\":10,\"Muck\":10,\"Muskego\":10,\"Nordness\":10,\"Orthents\":10,\"Palms\":10,\"Pits\":10,\"Pits, Clay\":10,\"Pits, Sand & Gravel\":10,\"Quarries\":10,\"River Wash\":10,\"Rock Outcrop\":10,\"Sandy Escarpments\":10,\"Sewage lagoon\":10,\"Sogn\":10,\"Steep Rock Land\":10,\"Strip Mine Spoils\":10,\"Udifluvents\":10,\"Udorthents\":10,\"Urban land\":10,\"Waste Treatment\":10}");
+
+/***/ }),
+
+/***/ "./src/references/soil_series_moisture.json":
+/*!**************************************************!*\
+  !*** ./src/references/soil_series_moisture.json ***!
+  \**************************************************/
+/*! exports provided: Burkhardt, Dickman, Emeline, Flager, Hamburg, May City, Zenor, Afton, Ames, Ansgar, Appanoose, Ashgrove, Beckwith, Belinda, Biscay, Blend, Bremer, Calco, Calcousta, Caneek, Canisteo, Chequest, Clarinda, Clearfield, Clyde, Coland, Colo, Coppock, Corley, Dolbee, Edina, Elvira, Forney, Garwin, Gillett Grove, Haig, Harcot, Harps, Havelock, Holly Springs, Houghton muck, Humeston, Jameston, Kalona, Klossner, Knoke, Kossuth, Lanyon, Letri, Luton, Marcus, Marshan, Maxfield, Maxmore, Millington, Mt. Sterling, Nevin, Nishna, Okoboji, Ossian, Owego, Rinda, Rocksan, Rodney, Rolfe, Rubio, Sawmill, Shandep, Sperry, Spicer, Taintor, Thorp, Tieville, Tilfer, Traer, Tripoli, Tuskeego, Uturin, Vesser, Wacousta, Waldorf, Walford, Webster, Winterset, Woodbury, Zook, Zwingle, Belmann, Albaton, Ainsworth, Allamakee, Allendorf, Ankeny, Annieville, Anthon, Arbor, Aredale, Arenzville, Arthur, Atkinson, Aureola, Backbone, Bassett, Bauer, Belview, Bentonsport, Billett, Bode, Bolan, Caleb, Calmar, Castana, Churchtown, Clanton, Clarion, Clinton, Coggon, Cornell, Cott, Cresken, Danbury, Deloit, Dempster, Dinsdale, Donatus, Dorchester, Douds, Dow , Downs, Dubuque, Elrick, Everly, Exette, Exira, Farrar, Fayette, Festina, Floris, Fort Dodge, Frankville, Galva, Gara, Garmore, Gosport, Grable, Hanlon, Hayden, Haynie, Hedrick, Ida, Inton, Ion, Judson, Kamrar, Kasson, Keg, Kennebec, Kenyon, Keosauqua, Killduff, Klum, Lacrescent, Ladoga, Lamont, Lester, Limecreek, Lindley, Liscomb, Liston, Lourdes, Luana, Lycurgus, Marlean, Marquis, Marshall, Martinsburg, Moingona, Moneta, Monona, Morconick, Mt. Carroll, Mula, Munterville, Napier, Newvienna, Nira, Nordness, Northboro, Norville, Ocheyedan, Olin, Olmitz, Orwood, Ostrander, Otley, Paintcreek, Pershing, Racine, Raddle, Rawles, Reedscreek, Rockton, Roine, Rossfield, Sac, Salix, Sattre, Saude, Sharpsburg, Shelby, Shellwood, Steinauer, Storden, Strahan, Tama, Terril, Ticonic, Ulster, Vanmeter, Village, Vinje, Volney, Vore, Wadena, Wapsie, Watkins, Waubeek, Waubonsie, Waukee, Waukegan, Weller, Whittier, Wilsey, Winneshiek, Wiota, Worthen, Yellowriver, Ackmore, Adair, Amana, Arispe, Armstrong, Blake, Blencoe, Bucknell, Burcham, Cantril, Cerlin, Cooper, Corwith, Cresco, Crippin, Cylinder, Donnan, Dunkerton, Elon, Elrin, Ely, Floyd, Franklin, Galland, Givin, Grantcenter, Hayfield, Hoopeston, Hornick, Jacwin, Kensett, Keomah, Keswick, Klinger, Klingmore, Kniffin, Koszta, Lakeport, Lamoni, Larpenteur, Le Sueur, Linder, Lineville, Lossing, Luther, Macksburg, Mahaska, Malvern, McCreath, McPaul, Minden, Modale, Muscatine, Mystic, Nodaway, Oakton, Oran, Ottosen, Percival, Pinicon, Primghar, Protivin, Rathbun, Readlyn, Riceville, Schley, Scroll, Seymour, Shaffton, Sigglekov, Smithland, Snider, Spillco, Spillville, Toolesboro, Turlin, Fostoria, Nicollet, Lawler, Onawa, Bertram, Buckney, Chelsea, Dickinson, Finchford, Flagler, Fruitfield, Lilah, Montieth, Perks, Ridgeport, Sparta, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"Burkhardt\":\"dry-mesic\",\"Dickman\":\"dry-mesic\",\"Emeline\":\"dry-mesic\",\"Flager\":\"dry-mesic\",\"Hamburg\":\"dry-mesic\",\"May City\":\"dry-mesic\",\"Zenor\":\"dry-mesic\",\"Afton\":\"hydric\",\"Ames\":\"hydric\",\"Ansgar\":\"hydric\",\"Appanoose\":\"hydric\",\"Ashgrove\":\"hydric\",\"Beckwith\":\"hydric\",\"Belinda\":\"hydric\",\"Biscay\":\"hydric\",\"Blend\":\"hydric\",\"Bremer\":\"hydric\",\"Calco\":\"hydric\",\"Calcousta\":\"hydric\",\"Caneek\":\"hydric\",\"Canisteo\":\"hydric\",\"Chequest\":\"hydric\",\"Clarinda\":\"hydric\",\"Clearfield\":\"hydric\",\"Clyde\":\"hydric\",\"Coland\":\"hydric\",\"Colo\":\"hydric\",\"Coppock\":\"hydric\",\"Corley\":\"hydric\",\"Dolbee\":\"hydric\",\"Edina\":\"hydric\",\"Elvira\":\"hydric\",\"Forney\":\"hydric\",\"Garwin\":\"hydric\",\"Gillett Grove\":\"hydric\",\"Haig\":\"hydric\",\"Harcot\":\"hydric\",\"Harps\":\"hydric\",\"Havelock\":\"hydric\",\"Holly Springs\":\"hydric\",\"Houghton muck\":\"hydric\",\"Humeston\":\"hydric\",\"Jameston\":\"hydric\",\"Kalona\":\"hydric\",\"Klossner\":\"hydric\",\"Knoke\":\"hydric\",\"Kossuth\":\"hydric\",\"Lanyon\":\"hydric\",\"Letri\":\"hydric\",\"Luton\":\"hydric\",\"Marcus\":\"hydric\",\"Marshan\":\"hydric\",\"Maxfield\":\"hydric\",\"Maxmore\":\"hydric\",\"Millington\":\"hydric\",\"Mt. Sterling\":\"hydric\",\"Nevin\":\"hydric\",\"Nishna\":\"hydric\",\"Okoboji\":\"hydric\",\"Ossian\":\"hydric\",\"Owego\":\"hydric\",\"Rinda\":\"hydric\",\"Rocksan\":\"hydric\",\"Rodney\":\"hydric\",\"Rolfe\":\"hydric\",\"Rubio\":\"hydric\",\"Sawmill\":\"hydric\",\"Shandep\":\"hydric\",\"Sperry\":\"hydric\",\"Spicer\":\"hydric\",\"Taintor\":\"hydric\",\"Thorp\":\"hydric\",\"Tieville\":\"hydric\",\"Tilfer\":\"hydric\",\"Traer\":\"hydric\",\"Tripoli\":\"hydric\",\"Tuskeego\":\"hydric\",\"Uturin\":\"hydric\",\"Vesser\":\"hydric\",\"Wacousta\":\"hydric\",\"Waldorf\":\"hydric\",\"Walford\":\"hydric\",\"Webster\":\"hydric\",\"Winterset\":\"hydric\",\"Woodbury\":\"hydric\",\"Zook\":\"hydric\",\"Zwingle\":\"hydric\",\"Belmann\":\"hydric \",\"Albaton\":\"hydric  \",\"Ainsworth\":\"mesic\",\"Allamakee\":\"mesic\",\"Allendorf\":\"mesic\",\"Ankeny\":\"mesic\",\"Annieville\":\"mesic\",\"Anthon\":\"mesic\",\"Arbor\":\"mesic\",\"Aredale\":\"mesic\",\"Arenzville\":\"mesic\",\"Arthur\":\"mesic\",\"Atkinson\":\"mesic\",\"Aureola\":\"mesic\",\"Backbone\":\"mesic\",\"Bassett\":\"mesic\",\"Bauer\":\"mesic\",\"Belview\":\"mesic\",\"Bentonsport\":\"mesic\",\"Billett\":\"mesic\",\"Bode\":\"mesic\",\"Bolan\":\"mesic\",\"Caleb\":\"mesic\",\"Calmar\":\"mesic\",\"Castana\":\"mesic\",\"Churchtown\":\"mesic\",\"Clanton\":\"mesic\",\"Clarion\":\"mesic\",\"Clinton\":\"mesic\",\"Coggon\":\"mesic\",\"Cornell\":\"mesic\",\"Cott\":\"mesic\",\"Cresken\":\"mesic\",\"Danbury\":\"mesic\",\"Deloit\":\"mesic\",\"Dempster\":\"mesic\",\"Dinsdale\":\"mesic\",\"Donatus\":\"mesic\",\"Dorchester\":\"mesic\",\"Douds\":\"mesic\",\"Dow \":\"mesic\",\"Downs\":\"mesic\",\"Dubuque\":\"mesic\",\"Elrick\":\"mesic\",\"Everly\":\"mesic\",\"Exette\":\"mesic\",\"Exira\":\"mesic\",\"Farrar\":\"mesic\",\"Fayette\":\"mesic\",\"Festina\":\"mesic\",\"Floris\":\"mesic\",\"Fort Dodge\":\"mesic\",\"Frankville\":\"mesic\",\"Galva\":\"mesic\",\"Gara\":\"mesic\",\"Garmore\":\"mesic\",\"Gosport\":\"mesic\",\"Grable\":\"mesic\",\"Hanlon\":\"mesic\",\"Hayden\":\"mesic\",\"Haynie\":\"mesic\",\"Hedrick\":\"mesic\",\"Ida\":\"mesic\",\"Inton\":\"mesic\",\"Ion\":\"mesic\",\"Judson\":\"mesic\",\"Kamrar\":\"mesic\",\"Kasson\":\"mesic\",\"Keg\":\"mesic\",\"Kennebec\":\"mesic\",\"Kenyon\":\"mesic\",\"Keosauqua\":\"mesic\",\"Killduff\":\"mesic\",\"Klum\":\"mesic\",\"Lacrescent\":\"mesic\",\"Ladoga\":\"mesic\",\"Lamont\":\"mesic\",\"Lester\":\"mesic\",\"Limecreek\":\"mesic\",\"Lindley\":\"mesic\",\"Liscomb\":\"mesic\",\"Liston\":\"mesic\",\"Lourdes\":\"mesic\",\"Luana\":\"mesic\",\"Lycurgus\":\"mesic\",\"Marlean\":\"mesic\",\"Marquis\":\"mesic\",\"Marshall\":\"mesic\",\"Martinsburg\":\"mesic\",\"Moingona\":\"mesic\",\"Moneta\":\"mesic\",\"Monona\":\"mesic\",\"Morconick\":\"mesic\",\"Mt. Carroll\":\"mesic\",\"Mula\":\"mesic\",\"Munterville\":\"mesic\",\"Napier\":\"mesic\",\"Newvienna\":\"mesic\",\"Nira\":\"mesic\",\"Nordness\":\"mesic\",\"Northboro\":\"mesic\",\"Norville\":\"mesic\",\"Ocheyedan\":\"mesic\",\"Olin\":\"mesic\",\"Olmitz\":\"mesic\",\"Orwood\":\"mesic\",\"Ostrander\":\"mesic\",\"Otley\":\"mesic\",\"Paintcreek\":\"mesic\",\"Pershing\":\"mesic\",\"Racine\":\"mesic\",\"Raddle\":\"mesic\",\"Rawles\":\"mesic\",\"Reedscreek\":\"mesic\",\"Rockton\":\"mesic\",\"Roine\":\"mesic\",\"Rossfield\":\"mesic\",\"Sac\":\"mesic\",\"Salix\":\"mesic\",\"Sattre\":\"mesic\",\"Saude\":\"mesic\",\"Sharpsburg\":\"mesic\",\"Shelby\":\"mesic\",\"Shellwood\":\"mesic\",\"Steinauer\":\"mesic\",\"Storden\":\"mesic\",\"Strahan\":\"mesic\",\"Tama\":\"mesic\",\"Terril\":\"mesic\",\"Ticonic\":\"mesic\",\"Ulster\":\"mesic\",\"Vanmeter\":\"mesic\",\"Village\":\"mesic\",\"Vinje\":\"mesic\",\"Volney\":\"mesic\",\"Vore\":\"mesic\",\"Wadena\":\"mesic\",\"Wapsie\":\"mesic\",\"Watkins\":\"mesic\",\"Waubeek\":\"mesic\",\"Waubonsie\":\"mesic\",\"Waukee\":\"mesic\",\"Waukegan\":\"mesic\",\"Weller\":\"mesic\",\"Whittier\":\"mesic\",\"Wilsey\":\"mesic\",\"Winneshiek\":\"mesic\",\"Wiota\":\"mesic\",\"Worthen\":\"mesic\",\"Yellowriver\":\"mesic\",\"Ackmore\":\"wet-mesic\",\"Adair\":\"wet-mesic\",\"Amana\":\"wet-mesic\",\"Arispe\":\"wet-mesic\",\"Armstrong\":\"wet-mesic\",\"Blake\":\"wet-mesic\",\"Blencoe\":\"wet-mesic\",\"Bucknell\":\"wet-mesic\",\"Burcham\":\"wet-mesic\",\"Cantril\":\"wet-mesic\",\"Cerlin\":\"wet-mesic\",\"Cooper\":\"wet-mesic\",\"Corwith\":\"wet-mesic\",\"Cresco\":\"wet-mesic\",\"Crippin\":\"wet-mesic\",\"Cylinder\":\"wet-mesic\",\"Donnan\":\"wet-mesic\",\"Dunkerton\":\"wet-mesic\",\"Elon\":\"wet-mesic\",\"Elrin\":\"wet-mesic\",\"Ely\":\"wet-mesic\",\"Floyd\":\"wet-mesic\",\"Franklin\":\"wet-mesic\",\"Galland\":\"wet-mesic\",\"Givin\":\"wet-mesic\",\"Grantcenter\":\"wet-mesic\",\"Hayfield\":\"wet-mesic\",\"Hoopeston\":\"wet-mesic\",\"Hornick\":\"wet-mesic\",\"Jacwin\":\"wet-mesic\",\"Kensett\":\"wet-mesic\",\"Keomah\":\"wet-mesic\",\"Keswick\":\"wet-mesic\",\"Klinger\":\"wet-mesic\",\"Klingmore\":\"wet-mesic\",\"Kniffin\":\"wet-mesic\",\"Koszta\":\"wet-mesic\",\"Lakeport\":\"wet-mesic\",\"Lamoni\":\"wet-mesic\",\"Larpenteur\":\"wet-mesic\",\"Le Sueur\":\"wet-mesic\",\"Linder\":\"wet-mesic\",\"Lineville\":\"wet-mesic\",\"Lossing\":\"wet-mesic\",\"Luther\":\"wet-mesic\",\"Macksburg\":\"wet-mesic\",\"Mahaska\":\"wet-mesic\",\"Malvern\":\"wet-mesic\",\"McCreath\":\"wet-mesic\",\"McPaul\":\"wet-mesic\",\"Minden\":\"wet-mesic\",\"Modale\":\"wet-mesic\",\"Muscatine\":\"wet-mesic\",\"Mystic\":\"wet-mesic\",\"Nodaway\":\"wet-mesic\",\"Oakton\":\"wet-mesic\",\"Oran\":\"wet-mesic\",\"Ottosen\":\"wet-mesic\",\"Percival\":\"wet-mesic\",\"Pinicon\":\"wet-mesic\",\"Primghar\":\"wet-mesic\",\"Protivin\":\"wet-mesic\",\"Rathbun\":\"wet-mesic\",\"Readlyn\":\"wet-mesic\",\"Riceville\":\"wet-mesic\",\"Schley\":\"wet-mesic\",\"Scroll\":\"wet-mesic\",\"Seymour\":\"wet-mesic\",\"Shaffton\":\"wet-mesic\",\"Sigglekov\":\"wet-mesic\",\"Smithland\":\"wet-mesic\",\"Snider\":\"wet-mesic\",\"Spillco\":\"wet-mesic\",\"Spillville\":\"wet-mesic\",\"Toolesboro\":\"wet-mesic\",\"Turlin\":\"wet-mesic\",\"Fostoria\":\"wet-mesic \",\"Nicollet\":\"wet-mesic \",\"Lawler\":\"wet-mesic  \",\"Onawa\":\"wet-mesic  \",\"Bertram\":\"xeric\",\"Buckney\":\"xeric\",\"Chelsea\":\"xeric\",\"Dickinson\":\"xeric\",\"Finchford\":\"xeric\",\"Flagler\":\"xeric\",\"Fruitfield\":\"xeric\",\"Lilah\":\"xeric\",\"Montieth\":\"xeric\",\"Perks\":\"xeric\",\"Ridgeport\":\"xeric\",\"Sparta\":\"xeric\"}");
+
+/***/ }),
+
+/***/ "./src/references/tree_stock_sizes.json":
+/*!**********************************************!*\
+  !*** ./src/references/tree_stock_sizes.json ***!
+  \**********************************************/
+/*! exports provided: 0, 1, 2, 3, 4, 5, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("[{\"id\":\"MncAVRtr\",\"value\":\"bareroot\"},{\"id\":\"fL_j0l400\",\"value\":\"container_18in_24in\"},{\"id\":\"ZXrCnom3T\",\"value\":\"container_2ft_3ft\"},{\"id\":\"rDFUVsplI\",\"value\":\"container_3ft_4ft\"},{\"id\":\"3Rrd5veAL\",\"value\":\"container_4ft_5ft\"},{\"id\":\"5cltl3sdD\",\"value\":\"container_over_5ft\"}]");
+
+/***/ }),
+
+/***/ "./src/references/tree_types.json":
+/*!****************************************!*\
+  !*** ./src/references/tree_types.json ***!
+  \****************************************/
+/*! exports provided: 0, 1, 2, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("[{\"id\":\"9EmOC874\",\"value\":\"hardwood\"},{\"id\":\"77l_gl54Q\",\"value\":\"evergreen\"},{\"id\":\"lJEh5tsIx\",\"value\":\"shrub\"}]");
+
+/***/ }),
+
+/***/ "./src/references/trees_list.json":
+/*!****************************************!*\
+  !*** ./src/references/trees_list.json ***!
+  \****************************************/
+/*! exports provided: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("[{\"id\":\"iovTQuCC9\",\"type\":\"9EmOC874\",\"display\":\"Bur Oak\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"bCZzj69Cl\",\"type\":\"9EmOC874\",\"display\":\"Pin Oak\",\"csgs\":[\"1\",\"2\"]},{\"id\":\"i9EPNTpZ4\",\"type\":\"9EmOC874\",\"display\":\"Swamp White Oak\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"6\"]},{\"id\":\"rK9SIxkuM\",\"type\":\"9EmOC874\",\"display\":\"Walnut\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\"]},{\"id\":\"AUkE_fQXE\",\"type\":\"9EmOC874\",\"display\":\"Pecan\",\"csgs\":[\"1\",\"3\",\"4\"]},{\"id\":\"94bzYJimE\",\"type\":\"9EmOC874\",\"display\":\"Hackberry\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"9jNWCkaYj\",\"type\":\"9EmOC874\",\"display\":\"Kentucky Coffee Tree\",\"csgs\":[\"1\",\"3\",\"4\",\"6\"]},{\"id\":\"W85HaxeUr\",\"type\":\"9EmOC874\",\"display\":\"Shellbark Hickory\",\"csgs\":[\"1\",\"2\",\"8W\"]},{\"id\":\"onz9wUD_j\",\"type\":\"9EmOC874\",\"display\":\"River Birch\",\"csgs\":[\"1\",\"2\",\"8W\"]},{\"id\":\"XM2ddv7LM\",\"type\":\"9EmOC874\",\"display\":\"Silver Maple\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"6\",\"9\"]},{\"id\":\"FrG3Ef9FY\",\"type\":\"9EmOC874\",\"display\":\"Sycamore\",\"csgs\":[\"1\",\"2\",\"6\",\"8W\"]},{\"id\":\"041ezRmp_\",\"type\":\"9EmOC874\",\"display\":\"Cottonwood\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"6\",\"8\",\"9\",\"8W\"]},{\"id\":\"p_3RUq1xo\",\"type\":\"9EmOC874\",\"display\":\"Hybrid Poplar\",\"csgs\":[\"1\",\"3\",\"4\",\"6\",\"8\"]},{\"id\":\"Xo2V7HS71d\",\"type\":\"9EmOC874\",\"display\":\"Willow\",\"csgs\":[\"1\",\"2\",\"9\",\"8W\"]},{\"id\":\"xYmlHbRELv\",\"type\":\"9EmOC874\",\"display\":\"Black Oak\",\"csgs\":[\"3\",\"5\",\"6\",\"7\"]},{\"id\":\"LSp15RnJq-\",\"type\":\"9EmOC874\",\"display\":\"Chinkapin Oak\",\"csgs\":[\"3\",\"5\",\"8\"]},{\"id\":\"a7wryzls1Q\",\"type\":\"9EmOC874\",\"display\":\"Red Oak\",\"csgs\":[\"3\",\"4\",\"5\",\"6\",\"7\",\"8\"]},{\"id\":\"hsB7qC5cJ8\",\"type\":\"9EmOC874\",\"display\":\"White Oak\",\"csgs\":[\"3\",\"4\",\"5\",\"6\",\"7\",\"8\"]},{\"id\":\"Z2Sh5ATXyk\",\"type\":\"9EmOC874\",\"display\":\"Basswood\",\"csgs\":[\"3\",\"4\",\"6\"]},{\"id\":\"6m-MQwx6y3\",\"type\":\"9EmOC874\",\"display\":\"Black Cherry\",\"csgs\":[\"3\",\"4\",\"5\",\"6\"]},{\"id\":\"PZx4TGimVY\",\"type\":\"9EmOC874\",\"display\":\"Shagbark Hickory\",\"csgs\":[\"3\",\"4\",\"8\"]},{\"id\":\"1JNsJZ_Nok\",\"type\":\"9EmOC874\",\"display\":\"Hard Maple\",\"csgs\":[\"3\",\"4\",\"6\"]},{\"id\":\"v5deek8wi9\",\"type\":\"9EmOC874\",\"display\":\"Butternut\",\"csgs\":[\"3\",\"5\",\"6\",\"7\"]},{\"id\":\"e0saAueD8h\",\"type\":\"9EmOC874\",\"display\":\"Pin Pak\",\"csgs\":[\"4\"]},{\"id\":\"F_1E76wqp4\",\"type\":\"9EmOC874\",\"display\":\"Hickory\",\"csgs\":[\"5\",\"6\",\"7\"]},{\"id\":\"G49XliiXfU\",\"type\":\"9EmOC874\",\"display\":\"Swamp White\",\"csgs\":[\"8W\"]},{\"id\":\"cOMTQi8tJt\",\"type\":\"77l_gl54Q\",\"display\":\"Eastern Red Cedar\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"IiigTpFthZ\",\"type\":\"77l_gl54Q\",\"display\":\"Tamarack\",\"csgs\":[\"1\",\"2\"]},{\"id\":\"QJ6h4oHD7L\",\"type\":\"77l_gl54Q\",\"display\":\"European Larch\",\"csgs\":[\"1\",\"3\",\"4\",\"6\"]},{\"id\":\"2uQkqmTKGO\",\"type\":\"77l_gl54Q\",\"display\":\"Bald Cypress\",\"csgs\":[\"1\",\"2\"]},{\"id\":\"J8lpymM5E7\",\"type\":\"77l_gl54Q\",\"display\":\"Eastern White Pine\",\"csgs\":[\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"00SrGSjqwU\",\"type\":\"77l_gl54Q\",\"display\":\"Jack Pine\",\"csgs\":[\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"6KmLxdJqdY\",\"type\":\"77l_gl54Q\",\"display\":\"Red Pine\",\"csgs\":[\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"DifVgU7w8s\",\"type\":\"77l_gl54Q\",\"display\":\"Norway Spruce\",\"csgs\":[\"3\",\"4\",\"5\",\"6\"]},{\"id\":\"c4Hfc4jqQD\",\"type\":\"77l_gl54Q\",\"display\":\"White Spruce\",\"csgs\":[\"3\",\"4\",\"5\",\"6\"]},{\"id\":\"dknk8dlURn\",\"type\":\"77l_gl54Q\",\"display\":\"White/Concolor Fir\",\"csgs\":[\"3\",\"4\",\"6\"]},{\"id\":\"6iI_E4bBud\",\"type\":\"77l_gl54Q\",\"display\":\"Arborvitae\",\"csgs\":[\"3\",\"4\",\"6\"]},{\"id\":\"r7RWHbq14y\",\"type\":\"77l_gl54Q\",\"display\":\"Serbian Spruce\",\"csgs\":[\"3\",\"4\",\"5\"]},{\"id\":\"3J2Sqy9Fd0\",\"type\":\"77l_gl54Q\",\"display\":\"Cannan Fir\",\"csgs\":[\"3\"]},{\"id\":\"LLW0ItjhDD\",\"type\":\"77l_gl54Q\",\"display\":\"Concolor fir\",\"csgs\":[\"5\",\"7\"]},{\"id\":\"2AccoyhbGd\",\"type\":\"lJEh5tsIx\",\"display\":\"American Plum\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"yZG1nFDwvo\",\"type\":\"lJEh5tsIx\",\"display\":\"Arrowwood\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"bt3x5SyDGi\",\"type\":\"lJEh5tsIx\",\"display\":\"Buttonbush\",\"csgs\":[\"1\",\"2\",\"3\",\"5\",\"6\",\"9\"]},{\"id\":\"ENcB3AMDJW\",\"type\":\"lJEh5tsIx\",\"display\":\"Choke Cherry\",\"csgs\":[\"1\",\"3\"]},{\"id\":\"f7gcHSxjW7\",\"type\":\"lJEh5tsIx\",\"display\":\"Crabapple\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"zgFrzi8t9W\",\"type\":\"lJEh5tsIx\",\"display\":\"Dogwood, Gray\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"36BAMLGu3e\",\"type\":\"lJEh5tsIx\",\"display\":\"Dogwood, Silky\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"6\",\"9\"]},{\"id\":\"hD2mThEOTR\",\"type\":\"lJEh5tsIx\",\"display\":\"Dogwood, Redosier\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"6\"]},{\"id\":\"bbNEqTbsy_\",\"type\":\"lJEh5tsIx\",\"display\":\"Elderberry\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"6\",\"9\"]},{\"id\":\"7TqpVBBC7T\",\"type\":\"lJEh5tsIx\",\"display\":\"Hawthorn\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"KPGrCsefy1\",\"type\":\"lJEh5tsIx\",\"display\":\"Hazelnut\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"Cz4TpCmWaL\",\"type\":\"lJEh5tsIx\",\"display\":\"Highbush Cranberry\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\"]},{\"id\":\"fw20SZbIjF\",\"type\":\"lJEh5tsIx\",\"display\":\"Nanking Cherry\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"Ad4QTpDw0i\",\"type\":\"lJEh5tsIx\",\"display\":\"Nannyberry\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"8\",\"8W\"]},{\"id\":\"oCChtWlsJA\",\"type\":\"lJEh5tsIx\",\"display\":\"Ninebark\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"-CbefAGeRa\",\"type\":\"lJEh5tsIx\",\"display\":\"Eastern Redbud\",\"csgs\":[\"1\",\"3\",\"4\",\"6\"]},{\"id\":\"T81S56wXLa\",\"type\":\"lJEh5tsIx\",\"display\":\"Sandbar Willow\",\"csgs\":[\"1\"]},{\"id\":\"mndhyHS6ad\",\"type\":\"lJEh5tsIx\",\"display\":\"Serviceberry\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\"]},{\"id\":\"juSbU5SCYS\",\"type\":\"lJEh5tsIx\",\"display\":\"Viburnum spp.\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"eWqicahsWJ\",\"type\":\"lJEh5tsIx\",\"display\":\"Paw Paw\",\"csgs\":[\"1\",\"3\",\"5\",\"6\"]},{\"id\":\"1eocFNPPO7\",\"type\":\"lJEh5tsIx\",\"display\":\"Winterberry\",\"csgs\":[\"1\",\"2\"]},{\"id\":\"qunNx3f92o\",\"type\":\"lJEh5tsIx\",\"display\":\"Blackhaw\",\"csgs\":[\"3\",\"4\",\"5\",\"6\",\"7\",\"8\"]},{\"id\":\"Z4aVwkt7Z5\",\"type\":\"lJEh5tsIx\",\"display\":\"Black Chokeberry\",\"csgs\":[\"3\",\"4\"]},{\"id\":\"SA4r9iESQa\",\"type\":\"lJEh5tsIx\",\"display\":\"Chokecherry\",\"csgs\":[\"5\",\"7\"]},{\"id\":\"TizXtoGw_A\",\"type\":\"lJEh5tsIx\",\"display\":\"Black Chokeberry (Aronia\",\"csgs\":[\"5\"]},{\"id\":\"_ESYLhsl0v\",\"type\":\"lJEh5tsIx\",\"display\":\"Common Liliac\",\"csgs\":[\"8\"]}]");
+
+/***/ }),
+
 /***/ "./src/styles/base.sass":
 /*!******************************!*\
   !*** ./src/styles/base.sass ***!
@@ -77064,31 +75436,35 @@ if (content.locals) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enrichment", function() { return enrichment; });
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
-/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js");
 /* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _turf_area__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @turf/area */ "./node_modules/@turf/area/index.js");
 /* harmony import */ var _turf_area__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_turf_area__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _turf_intersect__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @turf/intersect */ "./node_modules/@turf/intersect/index.js");
-/* harmony import */ var _turf_intersect__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_turf_intersect__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var references_csr_rent_json__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! references/csr_rent.json */ "./src/references/csr_rent.json");
-var references_csr_rent_json__WEBPACK_IMPORTED_MODULE_7___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/csr_rent.json */ "./src/references/csr_rent.json", 1);
-/* harmony import */ var _geometry__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./geometry */ "./src/utils/geometry.js");
-/* harmony import */ var _sources__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./sources */ "./src/utils/sources.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var references_csr_rent_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! references/csr_rent.json */ "./src/references/csr_rent.json");
+var references_csr_rent_json__WEBPACK_IMPORTED_MODULE_6___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/csr_rent.json */ "./src/references/csr_rent.json", 1);
+/* harmony import */ var references_soil_series_moisture_json__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! references/soil_series_moisture.json */ "./src/references/soil_series_moisture.json");
+var references_soil_series_moisture_json__WEBPACK_IMPORTED_MODULE_7___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/soil_series_moisture.json */ "./src/references/soil_series_moisture.json", 1);
+/* harmony import */ var references_soil_series_csg_json__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! references/soil_series_csg.json */ "./src/references/soil_series_csg.json");
+var references_soil_series_csg_json__WEBPACK_IMPORTED_MODULE_8___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/soil_series_csg.json */ "./src/references/soil_series_csg.json", 1);
+/* harmony import */ var _geometry__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./geometry */ "./src/utils/geometry.js");
+/* harmony import */ var _sources__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./sources */ "./src/utils/sources.js");
+/* harmony import */ var _ssurgo_worker_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./ssurgo.worker.js */ "./src/utils/ssurgo.worker.js");
+/* harmony import */ var _ssurgo_worker_js__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_ssurgo_worker_js__WEBPACK_IMPORTED_MODULE_11__);
 
 
 
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 
 
@@ -77097,77 +75473,73 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 
 
-var debug = debug__WEBPACK_IMPORTED_MODULE_6___default()('Enrichment'); // export async function enrichment(feature, map) {
-// 	const clone = _.cloneDeep(feature);
-// 	return {
-// 		boundingTreePolygon() {
-// 			return clone.properties.type === 'tree' && clone.properties.config ? linesToPolygon(getTreeRows({
-// 				...clone,
-// 				properties: {
-// 					...clone.properties,
-// 					config: {
-// 						...(clone.properties.config || {}),
-// 						propagation: 'N', // Placeholder, because it doesn't really matter, the width of the number of rows isn't large enough to span multiple ssurgo areas.
-// 					}
-// 				}
-// 			})) : null;
-// 		},
-// 		acreage() {
-// 			return calcArea(this.boundingTreePolygon() || clone) * 0.000247105;
-// 		},
-// 		async countyRent() {
-// 			let county = null;
-// 			let rent = null;
-// 			try {
-// 				county = await getPolygonCounty(clone);
-// 				rent = county ? csrRent[county] || null : null;
-// 			} catch (e) {
-// 				debug('There was an issue quering polygon county.');
-// 			}
-// 			return {
-// 				county,
-// 				rent,
-// 			};
-// 		},
-// 		ssurgo() {
-// 			const bbox = calcBbox(this.boundingTreePolygon() || clone);
-// 			const ssurgo = map.queryRenderedFeatures([[bbox[0], bbox[1]], [bbox[2], bbox[3]]], {
-// 				layers: ['ssurgo'],
-// 			});
-// 			console.log(ssurgo);
-// 			let series = [];
-// 			let csr = [];
-// 			if (ssurgo && ssurgo.length > 0) {
-// 				series = ssurgo.map(ea => ea.properties.compname);
-// 				csr = ssurgo.map(ea => ea.properties.iacornsr);
-// 			}
-// 			return {
-// 				series,
-// 				csr,
-// 			};
-// 		},
-// 	};
-// }
+ // eslint-disable-next-line
 
-function enrichment(_x, _x2) {
+
+var debug = debug__WEBPACK_IMPORTED_MODULE_5___default()('Enrichment');
+
+function findSSURGOIntersects(_x, _x2) {
+  return _findSSURGOIntersects.apply(this, arguments);
+}
+
+function _findSSURGOIntersects() {
+  _findSSURGOIntersects = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()(
+  /*#__PURE__*/
+  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee(feature, mapunits) {
+    var worker;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            worker = new _ssurgo_worker_js__WEBPACK_IMPORTED_MODULE_11___default.a();
+            return _context.abrupt("return", new Promise(function (resolve) {
+              worker.postMessage({
+                feature: feature,
+                mapunits: mapunits.map(function (ea) {
+                  return {
+                    id: ea.properties.OBJECTID || null,
+                    type: 'Feature',
+                    geometry: ea.geometry
+                  };
+                })
+              });
+
+              worker.onmessage = function (event) {
+                if (event.data.intersects) {
+                  resolve(event.data.intersects);
+                }
+              };
+            }));
+
+          case 2:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return _findSSURGOIntersects.apply(this, arguments);
+}
+
+function enrichment(_x3, _x4) {
   return _enrichment.apply(this, arguments);
 }
 
 function _enrichment() {
   _enrichment = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()(
   /*#__PURE__*/
-  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(feature, map) {
-    var clone, boundingPolygon, county, ssurgo;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee2(feature, map) {
+    var clone, boundingPolygon, county, ssurgo, intersects, ssurgoIntersects;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee2$(_context2) {
       while (1) {
-        switch (_context.prev = _context.next) {
+        switch (_context2.prev = _context2.next) {
           case 0:
             debug('Enriching:', feature);
-            clone = lodash__WEBPACK_IMPORTED_MODULE_5___default.a.cloneDeep(feature);
+            clone = lodash__WEBPACK_IMPORTED_MODULE_4___default.a.cloneDeep(feature);
             clone.properties = clone.properties || {};
 
             if (clone.properties.type === 'tree') {
-              boundingPolygon = Object(_geometry__WEBPACK_IMPORTED_MODULE_8__["linesToPolygon"])(Object(_sources__WEBPACK_IMPORTED_MODULE_9__["getTreeRows"])(_objectSpread({}, clone, {
+              boundingPolygon = Object(_geometry__WEBPACK_IMPORTED_MODULE_9__["linesToPolygon"])(Object(_sources__WEBPACK_IMPORTED_MODULE_10__["getTreeRows"])(_objectSpread({}, clone, {
                 properties: _objectSpread({}, clone.properties, {
                   configs: _objectSpread({}, clone.properties.configs || {}, {
                     rows: [{}, {}, {}],
@@ -77185,23 +75557,23 @@ function _enrichment() {
 
             clone.properties.acreage = (boundingPolygon ? _turf_area__WEBPACK_IMPORTED_MODULE_3___default()(boundingPolygon) : _turf_area__WEBPACK_IMPORTED_MODULE_3___default()(clone)) * 0.000247105; // County and CSR Rent
 
-            _context.prev = 5;
-            _context.next = 8;
-            return Object(_geometry__WEBPACK_IMPORTED_MODULE_8__["getPolygonCounty"])(clone);
+            _context2.prev = 5;
+            _context2.next = 8;
+            return Object(_geometry__WEBPACK_IMPORTED_MODULE_9__["getPolygonCounty"])(clone);
 
           case 8:
-            county = _context.sent;
+            county = _context2.sent;
 
             if (county) {
-              _context.next = 11;
+              _context2.next = 11;
               break;
             }
 
             throw new Error('No country returned.');
 
           case 11:
-            if (references_csr_rent_json__WEBPACK_IMPORTED_MODULE_7__[county]) {
-              _context.next = 13;
+            if (references_csr_rent_json__WEBPACK_IMPORTED_MODULE_6__[county]) {
+              _context2.next = 13;
               break;
             }
 
@@ -77210,14 +75582,14 @@ function _enrichment() {
           case 13:
             clone.properties = _objectSpread({}, clone.properties, {
               county: county,
-              rent: references_csr_rent_json__WEBPACK_IMPORTED_MODULE_7__[county]
+              rent: references_csr_rent_json__WEBPACK_IMPORTED_MODULE_6__[county]
             });
-            _context.next = 19;
+            _context2.next = 19;
             break;
 
           case 16:
-            _context.prev = 16;
-            _context.t0 = _context["catch"](5);
+            _context2.prev = 16;
+            _context2.t0 = _context2["catch"](5);
             clone.properties = _objectSpread({}, clone.properties, {
               county: null,
               rent: null
@@ -77233,18 +75605,58 @@ function _enrichment() {
             // });
             ssurgo = map.querySourceFeatures('ssurgo', {
               sourceLayer: 'default'
-            }).filter(function (ea) {
-              return _turf_intersect__WEBPACK_IMPORTED_MODULE_4___default()(ea, boundingPolygon || clone);
+            }); // .filter(ea => calcIntersect(ea, boundingPolygon || clone));
+            // async function stagger() {
+            // 	return new Promise(resolve => {
+            // 		const results = [];
+            // 		const slices = [];
+            // 		const chunk = 50;
+            // 		const delay = 0;
+            // 		for (let i = 0, ii = ssurgo.length; i < ii; i += chunk) {
+            // 			const slice = ssurgo.slice(i, i + chunk);
+            // 			slices.push(slice);
+            // 		}
+            // 		async function run() {
+            // 			if (slices.length === 0) {
+            // 				resolve(results);
+            // 				return;
+            // 			}
+            // 			const slice = slices.shift();
+            // 			const result = await findSSURGOIntersects(boundingPolygon || clone, slice);
+            // 			results.push(result);
+            // 			setTimeout(run, delay);
+            // 		}
+            // 		run();
+            // 	});
+            // }
+            // const intersects = await stagger();
+
+            _context2.next = 22;
+            return findSSURGOIntersects(boundingPolygon || clone, ssurgo);
+
+          case 22:
+            intersects = _context2.sent;
+            ssurgoIntersects = intersects.map(function (ea) {
+              return ssurgo.find(function (mapunit) {
+                return mapunit.properties.OBJECTID === ea;
+              });
             });
 
             if (ssurgo && ssurgo.length > 0) {
               clone.properties = _objectSpread({}, clone.properties, {
-                series: ssurgo.map(function (ea) {
-                  return ea.properties.compname;
+                ssurgo_intersect_data: ssurgoIntersects.map(function (ea) {
+                  return ea.properties;
+                }),
+                // eslint-disable-next-line no-confusing-arrow
+                series: ssurgoIntersects.map(function (ea) {
+                  return references_soil_series_moisture_json__WEBPACK_IMPORTED_MODULE_7__[ea.properties.compname] ? [ea.properties.compname, {
+                    moisture: references_soil_series_moisture_json__WEBPACK_IMPORTED_MODULE_7__[ea.properties.compname],
+                    csg: references_soil_series_csg_json__WEBPACK_IMPORTED_MODULE_8__[ea.properties.compname].toString()
+                  }] : null;
                 }).filter(function (ea) {
                   return !!ea;
                 }),
-                csr: ssurgo.map(function (ea) {
+                csr: ssurgoIntersects.map(function (ea) {
                   return ea.properties.iacornsr;
                 }).filter(function (ea) {
                   return !!ea;
@@ -77252,14 +75664,14 @@ function _enrichment() {
               });
             }
 
-            return _context.abrupt("return", clone);
+            return _context2.abrupt("return", clone);
 
-          case 22:
+          case 26:
           case "end":
-            return _context.stop();
+            return _context2.stop();
         }
       }
-    }, _callee, null, [[5, 16]]);
+    }, _callee2, null, [[5, 16]]);
   }));
   return _enrichment.apply(this, arguments);
 }
@@ -77842,6 +76254,19 @@ function getOptimalTreePlacements(line) {
 
   return trees;
 }
+
+/***/ }),
+
+/***/ "./src/utils/ssurgo.worker.js":
+/*!************************************!*\
+  !*** ./src/utils/ssurgo.worker.js ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function () {
+  return new Worker("/" + "9e251e2cd2fbae0e3b8a.worker.js");
+};
 
 /***/ })
 

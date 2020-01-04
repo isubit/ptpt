@@ -1,0 +1,94 @@
+[
+    {
+        "id": "KmaZOoiZ",
+        "windbreak": false,
+        "tree_type": "77l_gl54Q",
+        "stock_size": "MncAVRtr",
+        "price_model": "tree",
+        "price": 2.56,
+        "display": "Conifer establishment, bareroot"
+    },
+    {
+        "id": "nNBZAAZT",
+        "windbreak": false,
+        "tree_type": "77l_gl54Q",
+        "stock_size": "MncAVRtr",
+        "price_model": "acre",
+        "price": 607.88,
+        "display": "Conifer establishment, bareroot"
+    },
+    {
+        "id": "aV6w1jNc",
+        "windbreak": false,
+        "tree_type": "lJEh5tsIx",
+        "stock_size": "MncAVRtr",
+        "price_model": "tree",
+        "price": 0.61,
+        "display": "Bareroot trees / shrubs"
+    },
+    {
+        "id": "hKEPVUQq",
+        "windbreak": false,
+        "tree_type": "9EmOC874",
+        "stock_size": "MncAVRtr",
+        "price_model": "acre",
+        "price": 588.26,
+        "display": "Hardwood establishment, bareroot"
+    },
+    {
+        "id": "gXTj8scA",
+        "windbreak": false,
+        "tree_type": "9EmOC874",
+        "stock_size": "MncAVRtr",
+        "price_model": "acre",
+        "price": 370.13,
+        "display": "Hardwood establishment, pasture conversion"
+    },
+    {
+        "id": "4MqUo_Sp",
+        "windbreak": true,
+        "rows": 1,
+        "stock_size": "MncAVRtr",
+        "price_model": "feet",
+        "price": 0.29,
+        "display": "1 row windbreak, bareroot trees"
+    },
+    {
+        "id": "4dve_Y-b",
+        "windbreak": true,
+        "rows": 1,
+        "stock_size": "fL_j0l400",
+        "price_model": "feet",
+        "price": 0.60,
+        "display": "1 row windbreak, container trees, less than 2 gallons"
+    },
+    {
+        "id": "OpJCerBv",
+        "windbreak": true,
+        "rows": 3,
+        "stock_size": "MncAVRtr",
+        "price_model": "feet",
+        "price": 0.94,
+        "display": "3 row windbreak, bareroot seedling planting stock"
+    },
+    {
+        "id": "UJAOfGQu",
+        "windbreak": true,
+        "rows": 3,
+        "irrigation": true,
+        "stock_size": "MncAVRtr",
+        "price_model": "feet",
+        "price": 2.72,
+        "display": "3 row windbreak, bareroot seedling planting stock, temporary irrigation"
+    },
+    {
+        "id": "l_piMQsz",
+        "windbreak": true,
+        "rows": 3,
+        "irrigation": true,
+        "stock_size": ["ZXrCnom3T", "rDFUVsplI", "3Rrd5veAL", "5cltl3sdD"],
+        "price_model": "feet",
+        "price": 3.43,
+        "display": "3 row windbreak, containerized planting stock"
+    }
+]
