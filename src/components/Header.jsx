@@ -31,7 +31,6 @@ const SaveButton = ({ save }) => (
 const Header = (props) => {
 	const {
 		location,
-		history,
 	} = props;
 
 	return (
@@ -40,7 +39,7 @@ const Header = (props) => {
 				<SideNav />
 				<Title />
 				<LocationInputWrapper location={location} />
-				<HeaderOptions location={location} history={history} />
+				<HeaderOptions location={location} />
 				<MapConsumer>
 					{ctx => <SaveButton save={ctx.save} />}
 				</MapConsumer>

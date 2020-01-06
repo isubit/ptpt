@@ -63,13 +63,13 @@ const App = () => (
 			{/* --- */}
 
 			{/* Routed components here. These will float over the map. */}
-			<Route path="/report" render={() => <ReportWrapper />} />
 			<SettingsConsumer>
 				{ctx => {
 					const { seenWelcome } = ctx.state;
 					return !seenWelcome ? <Redirect to="/#welcome" /> : null;
 				}}
 			</SettingsConsumer>
+			<Route path="/report" render={() => <ReportWrapper />} />
 			<Route path="/help" render={() => <h2>Help Page</h2>} />
 			<BigModal />
 			{/* ---- */}
