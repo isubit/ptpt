@@ -99,6 +99,13 @@ class Report extends React.Component {
 	// }
 
 	calcPrairieReportData = (reportArea) => {
+		const {
+			properties: {
+				acreage,
+			},
+		} = reportArea;
+
+		// Site Preparation Data
 		const site_prep = {
 			title: 'Site Preparation',
 			table_columns: ['Site Preparation Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
@@ -107,7 +114,7 @@ class Report extends React.Component {
 					id: 'Tillage',
 					unit_cost: '$15.40',
 					units: '$/acre',
-					qty: reportArea.properties.acreage.toFixed(2),
+					qty: acreage.toFixed(2),
 					get totalCost() {
 						const totalCost = Number(this.unit_cost.substring(1)) * this.qty;
 						return `$${totalCost.toFixed(2)}`;
@@ -117,7 +124,7 @@ class Report extends React.Component {
 					id: 'Herb Product',
 					unit_cost: '$15.00',
 					units: '$/acre',
-					qty: reportArea.properties.acreage.toFixed(2),
+					qty: acreage.toFixed(2),
 					get totalCost() {
 						const totalCost = Number(this.unit_cost.substring(1)) * this.qty;
 						return `$${totalCost.toFixed(2)}`;
@@ -127,7 +134,7 @@ class Report extends React.Component {
 					id: 'Herb Application',
 					unit_cost: '$53.00',
 					units: '$/acre',
-					qty: reportArea.properties.acreage.toFixed(2),
+					qty: acreage.toFixed(2),
 					get totalCost() {
 						const totalCost = Number(this.unit_cost.substring(1)) * this.qty;
 						return `$${totalCost.toFixed(2)}`;
@@ -136,6 +143,7 @@ class Report extends React.Component {
 			],
 		};
 
+		// Establishment Data
 		const establishment = {
 			title: 'Establishment',
 			table_columns: ['Establishment Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
@@ -144,7 +152,7 @@ class Report extends React.Component {
 					id: 'Seed',
 					unit_cost: `$${reportArea.properties.configs.seed_price}`,
 					units: '$/acre',
-					qty: reportArea.properties.acreage.toFixed(2),
+					qty: acreage.toFixed(2),
 					get totalCost() {
 						const totalCost = Number(this.unit_cost.substring(1)) * this.qty;
 						return `$${totalCost.toFixed(2)}`;
@@ -154,7 +162,7 @@ class Report extends React.Component {
 					id: 'Seed Drilling',
 					unit_cost: '$18.00',
 					units: '$/acre',
-					qty: reportArea.properties.acreage.toFixed(2),
+					qty: acreage.toFixed(2),
 					get totalCost() {
 						const totalCost = Number(this.unit_cost.substring(1)) * this.qty;
 						return `$${totalCost.toFixed(2)}`;
@@ -164,7 +172,7 @@ class Report extends React.Component {
 					id: 'Culitpacking',
 					unit_cost: '$20.00',
 					units: '$/acre',
-					qty: reportArea.properties.acreage.toFixed(2),
+					qty: acreage.toFixed(2),
 					get totalCost() {
 						const totalCost = Number(this.unit_cost.substring(1)) * this.qty;
 						return `$${totalCost.toFixed(2)}`;
@@ -173,25 +181,87 @@ class Report extends React.Component {
 			],
 		};
 
+		// Management Data
 		const management = {
 			title: 'Management',
 			table_columns: ['Management Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
 		};
+		let management_row2;
+		let management_row3;
+		const management_row1 = {
+			id: 'Mowing (year 1: 3x)',
+			unit_cost: '$90.00',
+			present_value: '$88.24',
+			units: '$/acre',
+			qty: acreage.toFixed(2),
+			get totalCost() {
+				const totalCost = Number(this.present_value.substring(1)) * this.qty;
+				return `$${totalCost.toFixed(2)}`;
+			},
+		};
+		Object.defineProperty(management_row1, 'present_value', {
+			enumerable: false,
+		});
+		console.log(reportArea);
 		if (reportArea.properties.configs.management.display === 'Mow') {
-			management.table_rows = [
-				{
-					id: 'Mowing (year 1: 3x)',
-					unit_cost: '$90.00',
-					units: '$/acre',
-					qty: reportArea.properties.acreage.toFixed(2),
-					// get totalCost() {
-
-					// }
+			management_row2 = {
+				id: 'Mowing (year 2-15)',
+				unit_cost: '$30.00',
+				present_value: '$327.23',
+				units: '$/acre',
+				qty: acreage.toFixed(2),
+				get totalCost() {
+					const totalCost = Number(this.present_value.substring(1)) * this.qty;
+					return `$${totalCost.toFixed(2)}`;
 				},
-			];
+			};
+			management_row3 = {
+				id: 'Raking, Rowing, Baleing (year 2-15)',
+				unit_cost: '$35.85',
+				present_value: '$391.04',
+				units: '$/acre',
+				qty: acreage.toFixed(2),
+				get totalCost() {
+					const totalCost = Number(this.present_value.substring(1)) * this.qty;
+					return `$${totalCost.toFixed(2)}`;
+				},
+			};
+		} else if (reportArea.properties.configs.management.display === 'Burn') {
+			management_row2 = {
+				id: 'Burning (year 2-6)',
+				unit_costs: '$65.00',
+				present_value: '$237.89',
+				units: '$/acre',
+				qty: acreage.toFixed(2),
+				get totalCost() {
+					const totalCost = Number(this.present_value.substring(1)) * this.qty;
+					return `$${totalCost.toFixed(2)}`;
+				},
+			};
+			management_row3 = {
+				id: 'Burning (year 8, 10, 12, 14)',
+				unit_costs: '$65.00',
+				present_value: '$169.54',
+				units: '$/acre',
+				qty: acreage.toFixed(2),
+				get totalCost() {
+					const totalCost = Number(this.present_value.substring(1)) * this.qty;
+					return `$${totalCost.toFixed(2)}`;
+				},
+			};
 		}
+		console.log(management_row2);
+		Object.defineProperty(management_row2, 'present_value', {
+			enumerable: false,
+		});
+		Object.defineProperty(management_row3, 'present_value', {
+			enumerable: false,
+		});
+		management.table_rows = [management_row1, management_row2, management_row3];
 
-		const reportData = [site_prep, establishment];
+		// Opportunity Costs Data
+
+		const reportData = [site_prep, establishment, management];
 		return reportData;
 	}
 

@@ -184,7 +184,7 @@ export class PlantingModal extends React.Component {
 
 	handleManagementChange = (event) => {
 		const updateManagement = event.target.value;
-		this.setState(() => ({ management: updateManagement }));
+		this.setState(() => ({ management: updateManagement }), () => console.log(this.state));
 	}
 
 	handleCroppingChange = (event) => {
