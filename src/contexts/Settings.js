@@ -2,7 +2,8 @@ import React from 'react';
 
 export const SettingsDefaultState = {
 	colorBlindMode: true,
-	dismissHelpers: false,
+	helpersDismissed: false,
+	helper: null,
 	seenWelcome: false,
 };
 export const SettingsContext = React.createContext(SettingsDefaultState);
@@ -20,12 +21,22 @@ export const SettingsActions = (that) => {
 				},
 			}));
 		},
-		toggleHelpers() {
+		dismissHelpers() {
 			that.setState(state => ({
 				...state,
 				Settings: {
 					...state.Settings,
-					dismissHelpers: !state.Settings.dismissHelpers,
+					helpersDismissed: true,
+					helper: null,
+				},
+			}));
+		},
+		toggleHelper(options) {
+			that.setState(state => ({
+				...state,
+				Settings: {
+					...state.Settings,
+					helper: options,
 				},
 			}));
 		},
