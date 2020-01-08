@@ -4,36 +4,6 @@ import {
 } from 'react-router-dom';
 
 import { MapConsumer } from '../contexts/MapState';
-// import { Context } from 'mocha';
-
-/* export const OptionsDropdown = (props) => {
-	const { option } = props;
-	if (option === 'tree') {
-		return (
-			<>
-				<div className="OptionsDropdown grid-row">
-					<img className="CloseButton" src="/assets/close_dropdown.svg" alt="Close" />
-					<div className="dropdown-list">
-						<ul>
-							<li>
-								<Link to="/plant/tree_single">Plant Single Trees</Link>
-							</li>
-							<li>
-								<Link to="/plant/tree_row">Plant Tree Rows</Link>
-							</li>
-							<li>
-								<Link to="/plant/tree_plantation">Plant a Tree Plantation</Link>
-							</li>
-							<li>
-								<Link to="/upload">Upload a Shapefile</Link>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</>
-		);
-	}
-}; */
 
 const DropdownCheckbox = ({
 	setBasemap,
@@ -90,7 +60,6 @@ export class HeaderOptions extends React.Component {
 			location: {
 				pathname,
 			},
-			// history,
 		} = this.props;
 
 		if (pathname.includes('/plant/tree') && !treeOption) {

@@ -38,6 +38,7 @@
     {
         "id": "gXTj8scA",
         "windbreak": false,
+        "pasture_conversion": true,
         "tree_type": "9EmOC874",
         "stock_size": "MncAVRtr",
         "price_model": "acre",

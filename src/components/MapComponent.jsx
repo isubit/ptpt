@@ -449,7 +449,7 @@ export class MapComponent extends React.Component {
 								<Route path="/plant/tree/:step?" render={router => <Planting router={router} type="tree" steps={['rows', 'species', 'spacing']} {...mapModeProps} />} />
 								<Route path="/plant/prairie/:step?" render={router => <Planting router={router} type="prairie" steps={['seed', 'mgmt_1']} {...mapModeProps} />} />
 								<Route exact path="/" render={router => <SimpleSelect router={router} {...mapModeProps} />} />
-								<Redirect to="/" />
+								{/* <Redirect to="/" /> */}
 							</Switch>
 						)}
 
