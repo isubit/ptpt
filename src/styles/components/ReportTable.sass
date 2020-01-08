@@ -1,10 +1,22 @@
+.tableWrap
+	overflow: scroll
+	position: relative
+	width: 100vw
+	margin-left: -1.5rem
+	margin-right: -1.5rem
 .ReportTable
 	display: flex
-	flex-wrap: wrap
+	min-width: 650px
+	> .table-column
+		flex: auto
+
+.table-column
+	&:first-child
+		border-right: 1px solid rgba(168, 172, 174, .7)
+	> .table-cell
+		padding: 1rem 1.5rem
+		font-size: .826rem
+		white-space: nowrap
 
 .light-blue
 	background-color: $light-blue
-
-.table--5-cols
-	> .table-cell
-		width: 20%

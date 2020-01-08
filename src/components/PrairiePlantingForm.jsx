@@ -77,7 +77,7 @@ const PrairieMgmt1 = (props) => {
 				<p className="inputDescriptor">Choose a way to manage your prairie.</p>
 				<div className="inputElement desktop-select-l-width">
 					<span className="inputLabel">Prairie Management</span>
-					<select value={management} onChange={(e) => handleManagementChange(e)}>
+					<select value={management.id} onChange={(e) => handleManagementChange(e)}>
 						<option value="" disabled>Select a management method</option>
 						{prairieMgmt.map(ea => <option key={ea.id} value={ea.id}>{ea.value}</option>)}
 					</select>
