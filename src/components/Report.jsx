@@ -581,6 +581,7 @@ class Report extends React.Component {
 			costs: [
 				{
 					id: 'Cost Share 90% (year 1)',
+					// this is incorrect (should be calculated with site_prep: unit_costs and establishment: PV)
 					unit_cost: `$${((Number(totalSitePrepCost) + Number(totalEstablishmentCosts)) * 0.9).toFixed(2)}`,
 					units: '$/acre',
 					qty: acreage.toFixed(2),
