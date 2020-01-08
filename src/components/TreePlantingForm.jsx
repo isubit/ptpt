@@ -142,9 +142,7 @@ const RowSpacingInput = (props) => {
 		spacing_rows: {
 			value: row_spacing,
 		},
-		stock_size: {
-			display: stock_size,
-		},
+		stock_size,
 		handleRowSpacingChange,
 		handleTreeSpacingChange,
 		handleStockSizeChange,

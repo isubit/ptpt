@@ -164,6 +164,7 @@ export class PlantingModal extends React.Component {
 
 	handleStockSizeChange = (event) => {
 		const stock_size = event.target.value;
+		console.log(stock_size);
 		this.setState(() => ({ stock_size }));
 	}
 
