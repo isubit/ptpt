@@ -313,6 +313,7 @@ class Report extends React.Component {
 			totalCost: `$${totalInputCosts}`,
 		});
 
+		// need to
 		const {
 			properties: {
 				configs: {
@@ -321,7 +322,6 @@ class Report extends React.Component {
 			},
 		} = reportArea;
 		const treeQty = getOptimalTreePlacements(reportArea).length;
-
 		const tree_establishment = {
 			title: 'Tree Establishment',
 			labels: ['Tree Establishment Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
