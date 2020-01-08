@@ -69,7 +69,7 @@ const App = () => (
 					return !seenWelcome ? <Redirect to="/#welcome" /> : null;
 				}}
 			</SettingsConsumer>
-			<Route path="/report" render={() => <ReportWrapper />} />
+			<Route path="/report" render={router => <ReportWrapper router={router} />} />
 			<Route path="/help" render={() => <h2>Help Page</h2>} />
 			<BigModal />
 			{/* ---- */}
