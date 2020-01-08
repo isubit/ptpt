@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import uuid from 'uuid/v4';
 
+import { annualSeries } from 'utils/formulas';
 import { getFeatures } from 'utils/sources';
 import { MapConsumer } from 'contexts/MapState';
 
@@ -36,20 +37,48 @@ export const ReportWrapper = () => (
 const ReportTable = (props) => {
 	// build all of the tables here
 	const { reportData } = props;
+	// convert data into format that can be read into the table
+
+	// build columns
+
+	const tables = reportData.map(ea => {
+		const {
+			labels,
+			costs,
+		} = ea;
+		const ids = [labels[0]];
+		const unit_costs = [labels[1]];
+		const units = [labels[2]];
+		const qty = [labels[3]];
+		const total_costs = [labels[4]];
+		costs.forEach(cost => {
+			cost.id && ids.push(cost.id);
+			cost.unit_cost && unit_costs.push(cost.unit_cost);
+			cost.units && units.push(cost.units);
+			cost.qty && qty.push(cost.qty);
+			if (cost.totalCost) {
+				const total_cost = cost.totalCost;
+				total_costs.push(total_cost);
+			}
+		});
+		return [ids, unit_costs, units, qty, total_costs];
+	});
 	return (
-		reportData.map(ea => {
-			const numCols = ea.table_columns.length;
-			return (
-				<div className={`ReportTable table--${numCols}-cols`}>
+		tables.map(table => (
+			<div className="tableWrap">
+				<div className="ReportTable" key={uuid()}>
 					{
-						ea.table_columns.map(col => <div className="table-cell" key={uuid()}>{col}</div>)
-					}
-					{
-						ea.table_rows.map((row, index) => Object.values(row).map(val => <div className={index % 2 === 0 ? 'table-cell light-blue' : 'table-cell'} key={uuid()}>{val}</div>))
+						table.map(column => (
+							<div className="table-column" key={uuid()}>
+								{
+									column.map((element, index) => <div className={index % 2 === 0 ? 'table-cell' : 'table-cell light-blue'} key={uuid()}>{element}</div>)
+								}
+							</div>
+						))
 					}
 				</div>
-			);
-		})
+			</div>
+		))
 	);
 };
 
@@ -105,11 +134,21 @@ class Report extends React.Component {
 			},
 		} = reportArea;
 
+		const calcTotalCosts = (obj) => (
+			obj.costs.map(cost => {
+				const costTotal = cost.totalCost;
+				return costTotal;
+			}).reduce((a, b) => {
+				const cost = Number(b.substring(1));
+				return a + cost;
+			}, 0).toFixed(2)
+		);
+
 		// Site Preparation Data
 		const site_prep = {
 			title: 'Site Preparation',
-			table_columns: ['Site Preparation Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
-			table_rows: [
+			labels: ['Site Preparation Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			costs: [
 				{
 					id: 'Tillage',
 					unit_cost: '$15.40',
@@ -142,12 +181,18 @@ class Report extends React.Component {
 				},
 			],
 		};
+		// calculate total costs
+		const sitePrepCost = calcTotalCosts(site_prep);
+		site_prep.costs.push({
+			id: 'Site Preparation Total Cost',
+			totalCost: `$${sitePrepCost}`,
+		});
 
 		// Establishment Data
 		const establishment = {
 			title: 'Establishment',
-			table_columns: ['Establishment Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
-			table_rows: [
+			labels: ['Establishment Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			costs: [
 				{
 					id: 'Seed',
 					unit_cost: `$${reportArea.properties.configs.seed_price}`,
@@ -180,11 +225,16 @@ class Report extends React.Component {
 				},
 			],
 		};
+		const totalEstablishmentCosts = calcTotalCosts(establishment);
+		establishment.costs.push({
+			id: 'Total Establishment Costs',
+			totalCost: `$${totalEstablishmentCosts}`,
+		});
 
 		// Management Data
 		const management = {
 			title: 'Management',
-			table_columns: ['Management Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			labels: ['Management Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
 		};
 		let management_row2;
 		let management_row3;
@@ -199,11 +249,7 @@ class Report extends React.Component {
 				return `$${totalCost.toFixed(2)}`;
 			},
 		};
-		Object.defineProperty(management_row1, 'present_value', {
-			enumerable: false,
-		});
-		console.log(reportArea);
-		if (reportArea.properties.configs.management.display === 'Mow') {
+		if (reportArea.properties.configs.management.display === 'mow') {
 			management_row2 = {
 				id: 'Mowing (year 2-15)',
 				unit_cost: '$30.00',
@@ -226,10 +272,10 @@ class Report extends React.Component {
 					return `$${totalCost.toFixed(2)}`;
 				},
 			};
-		} else if (reportArea.properties.configs.management.display === 'Burn') {
+		} else if (reportArea.properties.configs.management.display === 'burn') {
 			management_row2 = {
 				id: 'Burning (year 2-6)',
-				unit_costs: '$65.00',
+				unit_cost: '$65.00',
 				present_value: '$237.89',
 				units: '$/acre',
 				qty: acreage.toFixed(2),
@@ -240,7 +286,7 @@ class Report extends React.Component {
 			};
 			management_row3 = {
 				id: 'Burning (year 8, 10, 12, 14)',
-				unit_costs: '$65.00',
+				unit_cost: '$65.00',
 				present_value: '$169.54',
 				units: '$/acre',
 				qty: acreage.toFixed(2),
@@ -250,18 +296,59 @@ class Report extends React.Component {
 				},
 			};
 		}
-		console.log(management_row2);
-		Object.defineProperty(management_row2, 'present_value', {
-			enumerable: false,
+		management.costs = [management_row1, management_row2, management_row3];
+		const totalManagementCosts = calcTotalCosts(management);
+		management.costs.push({
+			id: 'Total Management Costs',
+			totalCost: `$${totalManagementCosts}`,
 		});
-		Object.defineProperty(management_row3, 'present_value', {
-			enumerable: false,
-		});
-		management.table_rows = [management_row1, management_row2, management_row3];
 
 		// Opportunity Costs Data
-
-		const reportData = [site_prep, establishment, management];
+		const {
+			properties: {
+				rent,
+				csr,
+			},
+		} = reportArea;
+		const average_csr = csr.reduce((a, b) => a + b, 0) / csr.length;
+		const opportunity_cost = {
+			title: 'Opportunity Cost',
+			labels: ['Opportunity Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			costs: [
+				{
+					id: 'Land Rent (year 1-15)',
+					unit_cost: `$${(average_csr * rent).toFixed(2)}`,
+					units: '$/acre',
+					qty: acreage.toFixed(2),
+					get present_value() {
+						const unitCost = Number(this.unit_cost.substring(1));
+						const present_value = `$${annualSeries(unitCost, 0.02, 14).toFixed(2)}`;
+						return present_value;
+					},
+					get totalCost() {
+						const presentValue = Number(this.present_value.substring(1));
+						return `$${(presentValue * this.qty).toFixed(2)}`;
+					},
+				},
+				{
+					id: 'General Operation Costs (year 1-15)',
+					unit_cost: '$8.00',
+					units: '$/acre',
+					qty: acreage.toFixed(2),
+					present_value: '$102.79',
+					get totalCost() {
+						const presentValue = Number(this.present_value.substring(1));
+						return `$${(presentValue * this.qty).toFixed(2)}`;
+					},
+				},
+			],
+		};
+		const totalOpportunityCost = calcTotalCosts(opportunity_cost);
+		opportunity_cost.costs.push({
+			id: 'Total Opportunity Costs',
+			totalCost: `$${totalOpportunityCost}`,
+		});
+		const reportData = [site_prep, establishment, management, opportunity_cost];
 		return reportData;
 	}
 

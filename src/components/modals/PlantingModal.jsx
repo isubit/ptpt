@@ -49,8 +49,8 @@ export class PlantingModal extends React.Component {
 					seed: '',
 					seed_price: '',
 					management: {
-						id: 1,
-						display: 'Mow',
+						id: 'J8wEfx7P',
+						display: 'mow',
 					},
 					cropping_system: {
 						id: 1,
@@ -183,7 +183,12 @@ export class PlantingModal extends React.Component {
 	}
 
 	handleManagementChange = (event) => {
-		const updateManagement = event.target.value;
+		const id = event.target.value;
+		const display = event.target.options[event.target.selectedIndex].text;
+		const updateManagement = {
+			id,
+			display,
+		};
 		this.setState(() => ({ management: updateManagement }), () => console.log(this.state));
 	}
 
