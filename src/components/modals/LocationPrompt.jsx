@@ -58,9 +58,9 @@ export class Component extends React.Component {
 						<Link className="CloseButton" to={location.pathname} replace><img src="../../assets/close_dropdown.svg" alt="close location prompt" /></Link>
 						<h3 className="modal-header">Allow the Prairie &amp; Tree Planting application to access your location while using the app?</h3>
 						<div className="content modal-text">
-							<div className="distribute">
-								<img className="spacer-right-2" src="https://via.placeholder.com/250x150" alt="browser location prompt" />
-								<p className="spacer-left-2">
+							<div className="LocationPromptExplainer">
+								<img src="https://via.placeholder.com/250x150" alt="browser location prompt" />
+								<p>
 									{
 										errorMsg && geolocationError === 1
 											? errorMsg

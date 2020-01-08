@@ -1,5 +1,6 @@
-import calcArea from '@turf/area';
 import _ from 'lodash';
+import calcArea from '@turf/area';
+import calcBuffer from '@turf/buffer';
 import Debug from 'debug';
 
 import csrRent from 'references/csr_rent.json';
@@ -66,6 +67,14 @@ export async function enrichment(feature, map) {
 
 	// Acreage
 	clone.properties.acreage = (boundingPolygon ? calcArea(boundingPolygon) : calcArea(clone)) * 0.000247105;
+
+	if (clone.properties.type === 'prairie') {
+		clone.properties.buffer = calcBuffer({
+			type: clone.type,
+			geometry: clone.geometry,
+		}, 50, { units: 'feet' });
+		clone.properties.bufferAcreage = (calcArea(clone.properties.buffer) * 0.000247105) - clone.properties.acreage;
+	}
 
 	// County and CSR Rent
 	try {
