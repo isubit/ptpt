@@ -4,7 +4,7 @@
   "repository": "https://github.com/isubit/ptpt.git",
   "scripts": {
     "watch": "webpack -d --watch",
-    "serve": "webpack-dev-server --progress --inline --hot",
+    "serve": "webpack-dev-server --progress --inline --hot --https --host=0.0.0.0 --public $(hostname):8080",
     "build": "webpack --config webpack.config.js"
   },
   "dependencies": {
@@ -20,6 +20,7 @@
     "@turf/boolean-point-in-polygon": "^6.0.1",
     "@turf/boolean-point-on-line": "^6.0.1",
     "@turf/boolean-within": "^6.0.1",
+    "@turf/buffer": "^5.1.5",
     "@turf/centroid": "^6.0.2",
     "@turf/distance": "^6.0.1",
     "@turf/helpers": "^6.1.4",
