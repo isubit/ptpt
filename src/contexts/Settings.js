@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 
 export const SettingsDefaultState = {
@@ -32,7 +33,8 @@ export const SettingsActions = (that) => {
 			}));
 		},
 		toggleHelper(options) {
-			that.setState(state => ({
+			const same = _.isEqual(options, that.state.Settings.helper);
+			!same && that.setState(state => ({
 				...state,
 				Settings: {
 					...state.Settings,

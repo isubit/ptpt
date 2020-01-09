@@ -86,6 +86,7 @@ export class Planting extends React.Component {
 			map,
 			draw,
 			editingFeature,
+			toggleHelper,
 			type,
 			steps,
 		} = this.props;
@@ -107,8 +108,16 @@ export class Planting extends React.Component {
 
 			if (type === 'tree') {
 				draw.changeMode('draw_line');
+				toggleHelper({
+					text: 'Draw a tree row by clicking where you want the row to start and end. You can add more rows and define your trees during configuration.',
+					buttonText: 'No problem!',
+				});
 			} else {
 				draw.changeMode('draw_polygon');
+				toggleHelper({
+					text: 'Draw a prairie area by clicking to draw the corners of a shape. Click the starting point to finish drawing.',
+					buttonText: 'No problem!',
+				});
 			}
 
 			// Setup a new draw.create listener.
