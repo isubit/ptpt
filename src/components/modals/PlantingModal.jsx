@@ -122,8 +122,8 @@ export class PlantingModal extends React.Component {
 	}
 
 	handlePastureConversionChange = (event) => {
-		const updateConversion = event.target.value;
-		this.setState({ pasture_conversion: updateConversion === 'on' });
+		const updateConversion = event.target.checked;
+		this.setState({ pasture_conversion: updateConversion });
 	}
 
 	handleRowTypeChange = (event, rowIndex) => {

@@ -58,7 +58,7 @@ export const MapConsumer = MapContext.Consumer;
 
 export const MapActions = (that) => {
 	const actions = {
-		addData(geojson) {
+		async addData(geojson) {
 			// Add geojson feature data.
 			const errors = geojsonhint.hint(geojson);
 			if (!errors || errors.length === 0 || (errors.length === 1 && errors[0].message.includes('right-hand rule'))) {
@@ -84,7 +84,9 @@ export const MapActions = (that) => {
 							...state.MapState,
 							data,
 						},
-					}));
+					}), () => {
+						debug('Saved data:', that.state.MapState.data);
+					});
 				}
 			} else {
 				debug('Error adding data to context:', errors);
