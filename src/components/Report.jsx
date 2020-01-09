@@ -12,6 +12,9 @@ import {
 	getOptimalTreePlacements,
 } from 'utils/sources';
 import { MapConsumer } from 'contexts/MapState';
+import treeTypes from 'references/tree_types.json';
+import treeStockSizes from 'references/tree_stock_sizes.json';
+import treeCosts from 'references/tree_cost.json';
 
 // include editingFeature into props
 // if editingFeature, then show report for editingFeature
@@ -313,11 +316,13 @@ class Report extends React.Component {
 			totalCost: `$${totalInputCosts}`,
 		});
 
-		// need to
+		// tree establishment data
 		const {
 			properties: {
 				configs: {
 					drip_irrigation,
+					stock_size,
+					rows,
 				},
 			},
 		} = reportArea;
@@ -325,24 +330,40 @@ class Report extends React.Component {
 		const tree_establishment = {
 			title: 'Tree Establishment',
 			labels: ['Tree Establishment Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
-			costs: [
-				// {
-				// 	id: 'Trees (planting stock)',
-				// 	unit_cost: '',
-				// 	units: '$/tree',
-				// },
-				{
-					id: 'Plastic Mulch',
-					unit_cost: '$450.00',
-					units: '$/acre',
-					qty,
-					get totalCost() {
-						const totalCost = Number(this.unit_cost.substring(1)) * this.qty;
-						return `$${totalCost.toFixed(2)}`;
-					},
-				},
-			],
 		};
+		// calculate the average tree cost
+		// take the stock size to find the tree cost group
+		// take the tree type to find the price
+		rows.forEach(row => {
+			const { species } = row;
+			stock_group = treeCosts[stock_size];
+			if (value === 'evergreen') {
+
+			}
+		}
+		const tree_costs = {
+			id: 'Trees (planting stock)',
+			unit_cost: '',
+			units: '$/tree',
+		}
+		const tree_planting_bareoot_costs = {
+			id: 'Tree planting (bareroot/cutting)',
+			unit_cost: '$220.00',
+			units: '$/acre',
+		}
+		const tree_planting_containerized_costs = {
+			id: 'Tree planting (containerized)',
+		}
+		const plastic_mulch_costs = {
+			id: 'Plastic Mulch',
+			unit_cost: '$450.00',
+			units: '$/acre',
+			qty,
+			get totalCost() {
+				const totalCost = Number(this.unit_cost.substring(1)) * this.qty;
+				return `$${totalCost.toFixed(2)}`;
+			},
+		}
 		if (drip_irrigation) {
 			tree_establishment.costs.push({
 				id: 'Watering (drip irrigation)',
