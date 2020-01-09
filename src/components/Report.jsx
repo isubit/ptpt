@@ -12,13 +12,13 @@ import {
 	getOptimalTreePlacements,
 } from 'utils/sources';
 import { MapConsumer } from 'contexts/MapState';
-import treeTypes from 'references/tree_types.json';
-import treeStockSizes from 'references/tree_stock_sizes.json';
+// import treeTypes from 'references/tree_types.json';
+// import treeStockSizes from 'references/tree_stock_sizes.json';
 import treeCosts from 'references/tree_cost.json';
 
 // include editingFeature into props
 // if editingFeature, then show report for editingFeature
-// if no editingFeature, default to first tree area
+// if no editingFeature, default to first feature area
 // if no features, empty table
 
 // report heading text
@@ -194,7 +194,7 @@ class Report extends React.Component {
 			},
 		} = reportArea;
 		const qty = acreage.toFixed(2);
-		console.log(reportArea);
+
 		const site_prep = {
 			title: 'Site Preparation',
 			labels: ['Site Preparation Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
@@ -336,24 +336,23 @@ class Report extends React.Component {
 		// take the tree type to find the price
 		rows.forEach(row => {
 			const { species } = row;
-			stock_group = treeCosts[stock_size];
-			if (value === 'evergreen') {
-
-			}
-		}
+			const stock_group = treeCosts[stock_size];
+			console.log(stock_group);
+			console.log(species);
+		});
 		const tree_costs = {
 			id: 'Trees (planting stock)',
 			unit_cost: '',
 			units: '$/tree',
-		}
+		};
 		const tree_planting_bareoot_costs = {
 			id: 'Tree planting (bareroot/cutting)',
 			unit_cost: '$220.00',
 			units: '$/acre',
-		}
+		};
 		const tree_planting_containerized_costs = {
 			id: 'Tree planting (containerized)',
-		}
+		};
 		const plastic_mulch_costs = {
 			id: 'Plastic Mulch',
 			unit_cost: '$450.00',
@@ -363,7 +362,7 @@ class Report extends React.Component {
 				const totalCost = Number(this.unit_cost.substring(1)) * this.qty;
 				return `$${totalCost.toFixed(2)}`;
 			},
-		}
+		};
 		if (drip_irrigation) {
 			tree_establishment.costs.push({
 				id: 'Watering (drip irrigation)',
@@ -376,13 +375,14 @@ class Report extends React.Component {
 				},
 			});
 		}
+		const costs = [tree_costs, tree_planting_bareoot_costs, tree_planting_containerized_costs, plastic_mulch_costs];
 		const totalEstablishmentCosts = calcTotalCosts(tree_establishment);
-		tree_establishment.costs.push({
+		costs.push({
 			id: 'Total Tree Establishment Costs',
 			totalCost: `$${totalEstablishmentCosts}`,
 		});
-
-		const reportData = [site_prep, inputs, tree_establishment];
+		tree_establishment.costs = costs;
+		const reportData = [site_prep, inputs, tree_establishment, tree_establishment];
 		return reportData;
 	}
 
