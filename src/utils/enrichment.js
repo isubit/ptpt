@@ -53,13 +53,13 @@ export async function enrichment(feature, map) {
 			properties: {
 				...clone.properties,
 				configs: {
-					...(clone.properties.configs || {}),
 					rows: [{}, {}, {}],
 					spacing_rows: {
 						value: 3,
 						unit: 'feet',
 					},
 					propagation: 'N', // Placeholder, because it doesn't really matter, the width of the number of rows isn't large enough to span multiple ssurgo areas.
+					...(clone.properties.configs || {}),
 				},
 			},
 		});

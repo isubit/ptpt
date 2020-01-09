@@ -315,6 +315,7 @@ export class MapComponent extends React.Component {
 
 			this.setState(() => ({
 				enriching: false,
+				editingFeature: null,
 			}));
 
 			history.push('/');
