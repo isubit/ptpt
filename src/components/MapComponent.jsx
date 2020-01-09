@@ -288,8 +288,10 @@ export class MapComponent extends React.Component {
 	saveFeature = feature => {
 		// This saves the feature to context.
 		const {
+			map,
 			props: {
 				addData,
+				mapAPILoaded,
 				router: {
 					history,
 				},
@@ -298,8 +300,25 @@ export class MapComponent extends React.Component {
 
 		debug('Saving feature:', feature);
 
-		addData(feature);
-		history.push('/');
+		let clone = _.cloneDeep(feature);
+
+		// Re-enrich.
+		this.setState({ enriching: true }, async () => {
+			if (mapAPILoaded) {
+				try {
+					clone = await enrichment(clone, map);
+					addData(clone);
+				} catch(e) {
+					debug(e);	
+				}
+			}
+
+			this.setState(() => ({
+				enriching: false,
+			}));
+
+			history.push('/');
+		});
 	}
 
 	deleteFeature = id => {

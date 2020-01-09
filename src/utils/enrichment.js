@@ -48,7 +48,7 @@ export async function enrichment(feature, map) {
 
 	let boundingPolygon;
 	if (clone.properties.type === 'tree') {
-		boundingPolygon = linesToPolygon(getTreeRows({
+		const rows = getTreeRows({
 			...clone,
 			properties: {
 				...clone.properties,
@@ -62,7 +62,9 @@ export async function enrichment(feature, map) {
 					propagation: 'N', // Placeholder, because it doesn't really matter, the width of the number of rows isn't large enough to span multiple ssurgo areas.
 				},
 			},
-		}));
+		});
+		clone.properties.rows = rows;
+		boundingPolygon = linesToPolygon(rows);
 	}
 
 	// Acreage
