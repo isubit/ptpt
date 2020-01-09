@@ -12,6 +12,7 @@ import { MapWrapperDefault, MapWrapperSatellite } from 'components/MapComponent'
 import { Store } from 'contexts';
 import { HeaderWithRouter } from 'components/Header';
 import { BigModal } from 'components/modals/BigModal';
+import { SmallModal } from 'components/modals/SmallModal';
 import { MapConsumer } from 'contexts/MapState';
 import { SettingsConsumer } from 'contexts/Settings';
 import { ReportWrapper } from 'components/Report';
@@ -60,6 +61,16 @@ const App = () => (
 					);
 				}}
 			</MapConsumer>
+
+			{/* Helper modal. */}
+			<SettingsConsumer>
+				{ctx => {
+					const { helper, helpersDismissed } = ctx.state;
+					const { dismissHelpers, toggleHelper } = ctx.actions;
+					return helper && !helpersDismissed ? <SmallModal {...helper} dismissHelpers={dismissHelpers} toggleHelper={toggleHelper} /> : null;
+				}}
+			</SettingsConsumer>
+
 			{/* --- */}
 
 			{/* Routed components here. These will float over the map. */}
