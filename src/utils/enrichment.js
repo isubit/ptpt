@@ -1,5 +1,6 @@
-import calcArea from '@turf/area';
 import _ from 'lodash';
+import calcArea from '@turf/area';
+import calcBuffer from '@turf/buffer';
 import Debug from 'debug';
 
 import csrRent from 'references/csr_rent.json';
@@ -47,25 +48,38 @@ export async function enrichment(feature, map) {
 
 	let boundingPolygon;
 	if (clone.properties.type === 'tree') {
-		boundingPolygon = linesToPolygon(getTreeRows({
+		const rows = getTreeRows({
 			...clone,
 			properties: {
 				...clone.properties,
 				configs: {
-					...(clone.properties.configs || {}),
 					rows: [{}, {}, {}],
 					spacing_rows: {
 						value: 3,
 						unit: 'feet',
 					},
 					propagation: 'N', // Placeholder, because it doesn't really matter, the width of the number of rows isn't large enough to span multiple ssurgo areas.
+					...(clone.properties.configs || {}),
 				},
 			},
+		});
+		clone.properties.rows = rows.map(ea => ({
+			type: ea.type,
+			geometry: ea.geometry,
 		}));
+		boundingPolygon = linesToPolygon(rows);
 	}
 
 	// Acreage
 	clone.properties.acreage = (boundingPolygon ? calcArea(boundingPolygon) : calcArea(clone)) * 0.000247105;
+
+	if (clone.properties.type === 'prairie') {
+		clone.properties.buffer = calcBuffer({
+			type: clone.type,
+			geometry: clone.geometry,
+		}, 50, { units: 'feet' });
+		clone.properties.bufferAcreage = (calcArea(clone.properties.buffer) * 0.000247105) - clone.properties.acreage;
+	}
 
 	// County and CSR Rent
 	try {

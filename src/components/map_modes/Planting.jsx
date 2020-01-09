@@ -12,14 +12,18 @@ const debug = Debug('MapComponent');
 export const DrawLineMode = MapboxDraw.modes.draw_line_string;
 
 DrawLineMode.clickAnywhere = function clickAnywhere(state, e) {
+	debug('Clicked', state, e);
 	// This ends the drawing after the user creates a second point, triggering this.onStop
 	if (state.currentVertexPosition === 1) {
+		state.line.updateCoordinate(1, e.lngLat.lng, e.lngLat.lat);
 		return this.changeMode('simple_select', { featureIds: [state.line.id] }); // eslint-disable-line react/no-this-in-sfc
 	}
 
 	this.updateUIClasses({ mouse: 'add' }); // eslint-disable-line react/no-this-in-sfc
 	state.line.updateCoordinate(state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
+	debug('Update', state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
 	if (state.direction === 'forward') {
+		debug('Forward', state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
 		state.currentVertexPosition += 1; // eslint-disable-line no-param-reassign
 		state.line.updateCoordinate(state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
 	} else {

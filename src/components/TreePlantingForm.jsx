@@ -40,7 +40,14 @@ const NumRowInput = (props) => {
 				<div className="inputElement desktop-select-l-width">
 					<span className="inputDescriptor nowrap">How many tree rows would you like to plant?</span>
 					<select value={numRows} onChange={(e) => handleNumRowChange(e)} required>
-						{_.range(1, windbreak ? 5 : 11).map(val => <option key={val} value={val}>{val}</option>)}
+						{windbreak
+							? (
+								<>
+									<option key={1} value={1}>1</option>
+									<option key={3} value={3}>3</option>
+								</>
+							)
+							: _.range(1, windbreak ? 5 : 11).map(val => <option key={val} value={val}>{val}</option>)}
 					</select>
 				</div>
 				<div className="inputElement desktop-select-s-width spacer-top-1_5">
@@ -165,9 +172,11 @@ const RowSpacingInput = (props) => {
 						onChange={(e) => handleRowSpacingChange(e)}
 						required
 					>
-						<option value="3">3&apos;</option>
-						<option value="4">4&apos;</option>
-						<option value="5">5&apos;</option>
+						<option value="10">10&apos;</option>
+						<option value="20">20&apos;</option>
+						<option value="30">30&apos;</option>
+						<option value="40">40&apos;</option>
+						<option value="50">50&apos;</option>
 					</select>
 				</div>
 				<div className="inputElement desktop-select-s-width">
@@ -177,9 +186,11 @@ const RowSpacingInput = (props) => {
 						onChange={(e) => handleTreeSpacingChange(e)}
 						required
 					>
-						<option value="3">3&apos;</option>
-						<option value="4">4&apos;</option>
 						<option value="5">5&apos;</option>
+						<option value="10">10&apos;</option>
+						<option value="15">15&apos;</option>
+						<option value="20">20&apos;</option>
+						<option value="25">25&apos;</option>
 					</select>
 				</div>
 				<div className="inputElement desktop-select-m-width">

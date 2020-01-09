@@ -113,7 +113,8 @@ export class MapComponent extends React.Component {
 			zoom: zoom || defaultZoom,
 			pitch: pitch || defaultPitch,
 			bearing: bearing || defaultBearing,
-		}
+		};
+
 		this.map = new mapboxgl.Map(mapConfig);
 
 		this.map.on('load', () => {
@@ -158,22 +159,8 @@ export class MapComponent extends React.Component {
 			return true;
 		});
 
-		const updatePosition = () => {
-			const { lat, lng } = this.map.getCenter();
-			const latlng = [lng, lat];
-			const zoom = this.map.getZoom();
-			const bearing = this.map.getBearing();
-			const pitch = this.map.getPitch();
-			updateCurrentMapDetails({
-				latlng,
-				zoom,
-				bearing,
-				pitch,
-			});
-		};
-
-		this.map.on('moveend', updatePosition);
-		this.map.on('zoomend', updatePosition);
+		this.map.on('moveend', this.updatePosition);
+		this.map.on('zoomend', this.updatePosition);
 	}
 
 	componentDidUpdate() {
@@ -199,6 +186,24 @@ export class MapComponent extends React.Component {
 		return params;
 	}
 
+	updatePosition = () => {
+		const {
+			updateCurrentMapDetails,
+		} = this.props;
+
+		const { lat, lng } = this.map.getCenter();
+		const latlng = [lng, lat];
+		const zoom = this.map.getZoom();
+		const bearing = this.map.getBearing();
+		const pitch = this.map.getPitch();
+		updateCurrentMapDetails({
+			latlng,
+			zoom,
+			bearing,
+			pitch,
+		});
+	}
+
 	nextStep = step => {
 		// This simply pushes a desired URL into the router.
 		const {
@@ -217,6 +222,7 @@ export class MapComponent extends React.Component {
 			props: {
 				mapAPILoaded,
 			},
+			updatePosition,
 		} = this;
 
 		const time = new Date().getTime();
@@ -225,10 +231,16 @@ export class MapComponent extends React.Component {
 			let clone = _.cloneDeep(feature);
 
 			const bbox = calcBbox(feature);
-			map.fitBounds(bbox, { padding: 200 });
 
-			map.once('zoomend', () => {
-				this.setState({ enriching: true }, async () => {
+			map.fitBounds(bbox, {
+				duration: 400,
+				padding: 200,
+			});
+			
+			let ran = false;
+			const runEnrichment = () => {
+				updatePosition();
+				!ran && this.setState({ enriching: true }, async () => {
 					if (mapAPILoaded) {
 						try {
 							clone = await enrichment(clone, map);
@@ -242,6 +254,15 @@ export class MapComponent extends React.Component {
 						editingFeature: clone,
 					}), cb);
 				});
+				map.off('zoomend', runEnrichment);
+				ran = true;
+			};
+
+
+			setTimeout(runEnrichment, 1000);
+
+			map.once('zoomstart', () => {
+				map.once('zoomend', runEnrichment);
 			});
 		} else {
 			this.setState(() => ({ editingFeature: null }), cb);
@@ -276,8 +297,10 @@ export class MapComponent extends React.Component {
 	saveFeature = feature => {
 		// This saves the feature to context.
 		const {
+			map,
 			props: {
 				addData,
+				mapAPILoaded,
 				router: {
 					history,
 				},
@@ -286,8 +309,26 @@ export class MapComponent extends React.Component {
 
 		debug('Saving feature:', feature);
 
-		addData(feature);
-		history.push('/');
+		let clone = _.cloneDeep(feature);
+
+		// Re-enrich.
+		this.setState({ enriching: true }, async () => {
+			if (mapAPILoaded) {
+				try {
+					clone = await enrichment(clone, map);
+					addData(clone);
+				} catch(e) {
+					debug(e);	
+				}
+			}
+
+			this.setState(() => ({
+				enriching: false,
+				editingFeature: null,
+			}));
+
+			history.push('/');
+		});
 	}
 
 	deleteFeature = id => {
