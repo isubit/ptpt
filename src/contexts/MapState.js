@@ -84,7 +84,9 @@ export const MapActions = (that) => {
 							...state.MapState,
 							data,
 						},
-					}));
+					}), () => {
+						debug('Saved data:', that.state.MapState.data);
+					});
 				}
 			} else {
 				debug('Error adding data to context:', errors);
