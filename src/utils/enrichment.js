@@ -63,7 +63,10 @@ export async function enrichment(feature, map) {
 				},
 			},
 		});
-		clone.properties.rows = rows;
+		clone.properties.rows = rows.map(ea => ({
+			type: ea.type,
+			geometry: ea.geometry,
+		}));
 		boundingPolygon = linesToPolygon(rows);
 	}
 
