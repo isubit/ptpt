@@ -11,6 +11,7 @@ import calcBbox from '@turf/bbox';
 import Debug from 'debug';
 
 import { MapConsumer } from 'contexts/MapState';
+import { SettingsConsumer } from 'contexts/Settings';
 
 import {
 	getFeatures,
@@ -43,21 +44,29 @@ const debug = Debug('MapComponent');
 // Export two different MapWrappers to trigger a full component switch when styles change, for a clean refresh of the map.
 // This can be optimized in the future, but requires a lot of tweaking of lifecycle logic, because a style change means all sources and layers are wiped...
 export const MapWrapperDefault = (props) => (
-	<MapConsumer>
-		{(mapCtx) => {
-			const ctx = { ...mapCtx.state, ...mapCtx.actions };
-			return <MapComponent {...ctx} {...props} styleURL={process.env.mapbox_outdoor_url} />;
-		}}
-	</MapConsumer>
+	<SettingsConsumer>
+		{(settingsCtx) => (
+			<MapConsumer>
+				{(mapCtx) => {
+					const ctx = { ...mapCtx.state, ...mapCtx.actions, ...settingsCtx.state, ...settingsCtx.actions };
+					return <MapComponent {...ctx} {...props} styleURL={process.env.mapbox_outdoor_url} />;
+				}}
+			</MapConsumer>
+		)}
+	</SettingsConsumer>
 );
 
 export const MapWrapperSatellite = (props) => (
-	<MapConsumer>
-		{(mapCtx) => {
-			const ctx = { ...mapCtx.state, ...mapCtx.actions };
-			return <MapComponent {...ctx} {...props} styleURL={process.env.mapbox_satellite_url} />;
-		}}
-	</MapConsumer>
+	<SettingsConsumer>
+		{(settingsCtx) => (
+			<MapConsumer>
+				{(mapCtx) => {
+					const ctx = { ...mapCtx.state, ...mapCtx.actions, ...settingsCtx.state, ...settingsCtx.actions };
+					return <MapComponent {...ctx} {...props} styleURL={process.env.mapbox_satellite_url} />;
+				}}
+			</MapConsumer>
+		)}
+	</SettingsConsumer>
 );
 
 
@@ -458,6 +467,7 @@ export class MapComponent extends React.Component {
 						pathname,
 					},
 				},
+				toggleHelper,
 			},
 			setEditingFeature,
 			saveFeature,
@@ -478,6 +488,7 @@ export class MapComponent extends React.Component {
 			nextStep,
 			setEditingFeature,
 			saveFeature,
+			toggleHelper,
 		};
 
 		return (
