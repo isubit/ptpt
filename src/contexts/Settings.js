@@ -34,7 +34,7 @@ export const SettingsActions = (that) => {
 		},
 		toggleHelper(options) {
 			const same = _.isEqual(options, that.state.Settings.helper);
-			!same && that.setState(state => ({
+			(!same || options === null) && that.setState(state => ({
 				...state,
 				Settings: {
 					...state.Settings,
