@@ -9,20 +9,11 @@ export function annualSeries(cost, interest, years) {
 }
 
 export function calcTotalCosts(costObj) {
-	return (
-		costObj.costs.map(cost => {
-			const costTotal = cost.totalCost;
-			return costTotal;
-		}).reduce((a, b) => {
-			const cost = Number(b.substring(1));
-			return a + cost;
-		}, 0).toFixed(2)
-	);
+	return costObj.costs.map(cost => cost.totalCost).reduce((a, b) => a + b, 0);
 }
 
 export function findAverage(numArr) {
-	const average = (numArr.reduce((a, b) => a + b, 0) / numArr.length).toFixed(2);
-	return Number.isInteger(average) ? average : 0;
+	return (numArr.reduce((a, b) => a + b, 0) / numArr.length);
 }
 
 export function findTreeEQIP(properties) {
@@ -98,10 +89,10 @@ export function getEQIPCosts(programArr, qty, treeQty, rowLength) {
 			const bestProgram = totalCostPrograms.find(program => program.totalCost === largestTotal);
 			programCost = {
 				id: `Row ${index + 1} (${bestProgram.display})`,
-				unit_cost: `$${bestProgram.price}`,
+				unit_cost: bestProgram.price,
 				units: `$/${bestProgram.price_model}`,
 				get present_value() {
-					return Number(this.unit_cost.substring(1)) / 1.02;
+					return this.unit_cost / 1.02;
 				},
 			};
 			switch (bestProgram.price_model) {
@@ -112,19 +103,19 @@ export function getEQIPCosts(programArr, qty, treeQty, rowLength) {
 					programCost.qty = qty;
 					break;
 				case 'feet':
-					programCost.qty = (rowLength * 3.28084).toFixed(2);
+					programCost.qty = (rowLength * 3.28084);
 					break;
 				default:
 					break;
 			}
-			programCost.totalCost = `$${programCost.present_value * programCost.qty}`;
+			programCost.totalCost = programCost.present_value * programCost.qty;
 		}
 		programCost = {
 			id: `Row ${index + 1} (${ea[0].display})`,
-			unit_cost: `$${ea[0].price}`,
+			unit_cost: ea[0].price,
 			units: `$/${ea[0].price_model}`,
 			get present_value() {
-				return Number(this.unit_cost.substring(1)) / 1.02;
+				return this.unit_cost / 1.02;
 			},
 		};
 		switch (ea[0].price_model) {
@@ -135,12 +126,12 @@ export function getEQIPCosts(programArr, qty, treeQty, rowLength) {
 				programCost.qty = qty;
 				break;
 			case 'feet':
-				programCost.qty = (rowLength * 3.28084).toFixed(2);
+				programCost.qty = (rowLength * 3.28084);
 				break;
 			default:
 				break;
 		}
-		programCost.totalCost = `$${(programCost.present_value * programCost.qty).toFixed(2)}`;
+		programCost.totalCost = (programCost.present_value * programCost.qty);
 
 		return programCost;
 	});
