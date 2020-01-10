@@ -7,6 +7,8 @@ import {
 	annualSeries,
 	calcTotalCosts,
 	findAverage,
+	findTreeEQIP,
+	getEQIPCosts,
 } from 'utils/reportHelpers';
 import {
 	getFeatures,
@@ -197,6 +199,7 @@ class Report extends React.Component {
 		} = reportArea;
 		const qty = acreage.toFixed(2);
 
+		// Site Preparation costs
 		const site_prep = {
 			title: 'Site Preparation',
 			labels: ['Site Preparation Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
@@ -229,6 +232,7 @@ class Report extends React.Component {
 			totalCost: `$${totalSitePrepCost}`,
 		});
 
+		// Input costs
 		const inputs = {
 			title: 'Inputs',
 			labels: ['Input Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
@@ -300,13 +304,32 @@ class Report extends React.Component {
 					},
 				},
 				{
+					id: 'Monitoring (Spring)',
+					unit_cost: '$3.00',
+					units: '$/acre',
+					qty,
+					get present_value() {
+						const cost = Number(this.unit_cost.substring(1)) / (1.04 ** (4 / 12));
+						const presentValue = annualSeries(cost, 0.04, 14);
+						return presentValue;
+					},
+					get totalCost() {
+						const totalCost = this.present_value * this.qty;
+						return `$${totalCost.toFixed(2)}`;
+					},
+				},
+				{
 					id: 'Monitoring (Summer)',
 					unit_cost: '$3.00',
 					units: '$/acre',
-					present_value: '$65.52',
 					qty,
+					get present_value() {
+						const cost = Number(this.unit_cost.substring(1)) / (1.04 ** (7 / 12));
+						const presentValue = annualSeries(cost, 0.04, 14);
+						return presentValue;
+					},
 					get totalCost() {
-						const totalCost = Number(this.present_value.substring(1)) * this.qty;
+						const totalCost = this.present_value * this.qty;
 						return `$${totalCost.toFixed(2)}`;
 					},
 				},
@@ -379,7 +402,6 @@ class Report extends React.Component {
 				return `$${totalCost.toFixed(2)}`;
 			},
 		};
-
 		let tree_planting_costs;
 		const stockSizeValue = treeStockSizes.find(ea => ea.id === stock_size).value || null;
 		if (stockSizeValue) {
@@ -409,7 +431,6 @@ class Report extends React.Component {
 				};
 			}
 		}
-
 		const plastic_mulch_costs = {
 			id: 'Plastic Mulch',
 			unit_cost: '$450.00',
@@ -427,9 +448,10 @@ class Report extends React.Component {
 				id: 'Watering (drip irrigation)',
 				unit_cost: '$4.50',
 				units: '$/tree',
+				present_value: '$4.33',
 				qty: treeQty,
 				get totalCost() {
-					const totalCost = Number(this.unit_cost.substring(1)) * this.qty;
+					const totalCost = Number(this.present_value.substring(1)) * this.qty;
 					return `$${totalCost.toFixed(2)}`;
 				},
 			});
@@ -440,7 +462,115 @@ class Report extends React.Component {
 			totalCost: `$${totalEstablishmentCosts}`,
 		});
 
-		const reportData = [site_prep, inputs, tree_establishment];
+		// Tree Replacement costs
+		const tree_replacement_costs = {
+			title: 'Tree Replacement',
+			labels: ['Tree Replacement Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			costs: [
+				{
+					id: 'Tree replacement (natural mortality)',
+					unit_cost: tree_costs.unit_cost,
+					units: '$/tree',
+					qty: Math.round(treeQty * 0.1),
+					get present_value() {
+						return Number(this.unit_cost.substring(1)) / (1.02 ** 3);
+					},
+					get totalCost() {
+						const totalCost = this.present_value * this.qty;
+						return `$${totalCost.toFixed(2)}`;
+					},
+				},
+				{
+					id: 'Tree planting (by hand)',
+					unit_cost: '$1.50',
+					units: '$/tree',
+					qty: Math.round(treeQty * 0.1),
+					get present_value() {
+						return Number(this.unit_cost.substring(1)) / (1.02 ** 3);
+					},
+					get totalCost() {
+						const totalCost = this.present_value * this.qty;
+						return `$${totalCost.toFixed(2)}`;
+					},
+				},
+			],
+		};
+		const totalTreeReplacementCosts = calcTotalCosts(tree_replacement_costs);
+		tree_replacement_costs.costs.push({
+			id: 'Total Tree Replacement Costs',
+			totalCost: `$${totalTreeReplacementCosts}`,
+		});
+
+		// Opportunity costs
+		const {
+			properties: {
+				csr,
+				rent,
+				configs: {
+					pasture_conversion,
+				},
+			},
+		} = reportArea;
+		const opportunity_cost = {
+			title: 'Opportunity Costs',
+			labels: ['Opportunity Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			costs: [
+				{
+					id: 'Land rent row crop (non-irrigated)',
+					unit_cost: `$${findAverage(csr) * rent}`,
+					units: '$/acre',
+					qty,
+					get present_value() {
+						return annualSeries(Number(this.unit_cost.substring(1)), 0.04, 14);
+					},
+					get totalCost() {
+						const totalCost = this.present_value * this.qty;
+						return `$${totalCost.toFixed(2)}`;
+					},
+				},
+			],
+		};
+		if (pasture_conversion) {
+			opportunity_cost.costs.push({
+				id: 'Land rent pasture',
+				unit_cost: '$51.00',
+				units: '$/acre',
+				qty,
+				get present_value() {
+					return annualSeries(Number(this.unit_cost.substring(1)), 0.04, 14);
+				},
+				get totalCost() {
+					const totalCost = this.present_value * this.qty;
+					return `$${totalCost.toFixed(2)}`;
+				},
+			});
+		}
+		const totalOpportunityCost = calcTotalCosts(opportunity_cost);
+		opportunity_cost.costs.push({
+			id: 'Total Opportunity Costs',
+			totalCost: `$${totalOpportunityCost}`,
+		});
+
+		// EQIP
+		const {
+			properties: {
+				rowLength,
+			},
+		} = reportArea;
+		const eqip = findTreeEQIP(reportArea.properties);
+		console.log(eqip);
+		const eqip_costs = {
+			labels: ['Conservation Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			title: 'EQIP',
+		};
+		eqip_costs.costs = getEQIPCosts(eqip, qty, treeQty, rowLength);
+		const totalEQIPCosts = calcTotalCosts(eqip_costs) || 0;
+		eqip_costs.costs.push({
+			id: 'Total EQIP Costs',
+			totalCost: `$${totalEQIPCosts}`,
+		});
+
+		const reportData = [site_prep, inputs, tree_establishment, tree_replacement_costs, opportunity_cost, eqip_costs];
 		return reportData;
 	}
 
@@ -654,14 +784,29 @@ class Report extends React.Component {
 			id: 'Total Opportunity Costs',
 			totalCost: `$${totalOpportunityCost}`,
 		});
+
+		// Conservation costs
+		const totalSitePrepUnitCosts = site_prep.costs.map(cost => {
+			const unitCost = cost.unit_cost ? cost.unit_cost : null;
+			if (unitCost) {
+				return Number(unitCost.substring(1));
+			}
+			return 0;
+		}).reduce((a, b) => a + b, 0);
+		const totalEstablishmentUnitCosts = establishment.costs.map(cost => {
+			const unitCost = cost.unit_cost ? cost.unit_cost : null;
+			if (unitCost) {
+				return Number(unitCost.substring(1));
+			}
+			return 0;
+		}).reduce((a, b) => a + b, 0);
 		const conservation_program = {
 			title: 'Conservation Programs',
 			labels: ['Conservation Program', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
 			costs: [
 				{
 					id: 'Cost Share 90% (year 1)',
-					// this is incorrect (should be calculated with site_prep: unit_costs and establishment: PV)
-					unit_cost: `$${((Number(totalSitePrepCost) + Number(totalEstablishmentCosts)) * 0.9).toFixed(2)}`,
+					unit_cost: `$${((totalSitePrepUnitCosts + totalEstablishmentUnitCosts) * 0.9).toFixed(2)}`,
 					units: '$/acre',
 					qty: acreage.toFixed(2),
 					get totalCost() {
