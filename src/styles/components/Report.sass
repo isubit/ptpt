@@ -1,0 +1,66 @@
+.Report
+	position: absolute
+	top: 54px
+	bottom: 0
+	z-index: 10
+	background-color: $white
+	padding: 1.5rem 1.5rem 0rem 1.5rem
+	.reportActions
+		display: flex
+		align-items: center
+		margin-bottom: 2.5rem
+		.reportAction:nth-child(2)
+			border-right: 1px solid $light-blue
+			border-left: 1px solid $light-blue
+	.reportText
+		margin-bottom: 2rem
+		.header-large
+			margin-bottom: 0.5rem
+	.reportArea
+		margin-top: 2rem
+		.inputLabel
+			margin-bottom: 6px
+		select
+			width: 240px
+			margin-bottom: 2rem
+	.map-link
+		font-family: Merriweather
+		white-space: nowrap
+		font-style: italic
+		font-size: .826rem
+		line-height: 1rem
+		padding: 0rem 0.5rem
+	.reportAction
+		height: 18px
+		align-items: center
+		padding: 0rem 1rem
+		p
+			font-size: .683rem
+			line-height: 12px
+			color: $cool-grey
+			width: 55px
+			padding-left: 6px
+
+@media (min-width: 900px)
+	.Report
+		top: 72px
+		width: calc(100% - 3rem)
+		> div
+			max-width: 780px
+			margin: 0 auto
+		.reportArea
+			flex-direction: row
+			justify-content: space-between
+			align-items: flex-end
+			margin-bottom: 0.5rem
+			h1
+				order: 1
+			.selectWrap
+				float: right
+				order: 2
+				select
+					margin-bottom: 0
+
+
+
+

@@ -15,6 +15,7 @@ import { BigModal } from 'components/modals/BigModal';
 import { SmallModal } from 'components/modals/SmallModal';
 import { MapConsumer } from 'contexts/MapState';
 import { SettingsConsumer } from 'contexts/Settings';
+import { ReportWrapper } from 'components/Report';
 
 (function injectMapScript(w, s, id) {
 	const script = w.document.createElement(s);
@@ -79,6 +80,7 @@ const App = () => (
 					return !seenWelcome ? <Redirect to="/#welcome" /> : null;
 				}}
 			</SettingsConsumer>
+			<Route path="/report" render={router => <ReportWrapper router={router} />} />
 			<Route path="/help" render={() => <h2>Help Page</h2>} />
 			<BigModal />
 			{/* ---- */}

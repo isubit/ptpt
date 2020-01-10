@@ -32,6 +32,7 @@
     "@turf/polygon-to-line": "^6.0.3",
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
+    "exceljs": "^3.5.0",
     "immutable": "^4.0.0-rc.12",
     "js-file-download": "^0.4.8",
     "lodash": "^4.17.15",
