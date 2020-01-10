@@ -59,7 +59,7 @@ export class Store extends React.Component {
 			}
 			return val;
 		}, 4);
-		download(contents, `prairie_tree_planting_tool_savefile_${date.getDate()}-${date.getMonth()}-${date.getFullYear()}.json`);
+		download(contents, `prairie_tree_planting_tool_savefile_${date.getTime()}.json`);
 	}
 
 	load = file => {

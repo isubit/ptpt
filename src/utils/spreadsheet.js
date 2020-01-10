@@ -90,7 +90,7 @@ function prairieTemplate(feature, sheet) {
 			// Burn.
 			rows.push([
 				['(3) Management'],
-				['  Mowing (3x Year 1)', 90.00, terminatingAnnualSeriesFormula('B26', 1)],
+				['  Mowing (Year 1: 3x)', 90.00, terminatingAnnualSeriesFormula('B26', 1)],
 				['  Burning (Year 2-6)', 65.00, terminatingAnnualSeriesFormula('B27', 4, '/(1.02)^2')],
 				['  Burning (Year 8, 10, 12, 14)', 65.00, { formula: '$B$4*(B28/(1.02^8))+(B28/(1.02^10))+(B28/(1.02^12))+(B28/(1.02^14))' }],
 				[],
@@ -101,7 +101,7 @@ function prairieTemplate(feature, sheet) {
 			// Mow.
 			rows.push([
 				['(3) Management'],
-				['  Mowing (3x Year 1)', 90.00, terminatingAnnualSeriesFormula('B26', 1)],
+				['  Mowing (Year 1: 3x)', 90.00, terminatingAnnualSeriesFormula('B26', 1)],
 				['  Mowing (Year 2-15)', 30.00, terminatingAnnualSeriesFormula('B27', 14, '/(1.02)^2')],
 				['  Raking, Rowing, Baleing (Year 2-15)', 35.85, terminatingAnnualSeriesFormula('B28', 14, '/(1.02)^2')],
 				[],
@@ -113,7 +113,7 @@ function prairieTemplate(feature, sheet) {
 		// Opportunity Cost (32 - 37)
 		rows.push([
 			['(4) Opportunity Cost'],
-			['  Land Rent (Year 1-15)', 151.76, terminatingAnnualSeriesFormula('B33', 15)],
+			['  Land Rent (Year 1-15)', { formula: 'B9*B10' }, terminatingAnnualSeriesFormula('B33', 15)],
 			['  General Operation Costs (Year 1-15)', 8.00, terminatingAnnualSeriesFormula('B34', 15)],
 			[],
 			['Subtotal (4)', { formula: 'sum(B33:B34)' }, { formula: 'sum(C33:C34)' }],
@@ -186,7 +186,7 @@ export function spreadsheet(features) {
 		} = feature.properties;
 
 		if (type === 'tree') {
-			const sheet = book.addWorksheet(label);
+			// const sheet = book.addWorksheet(label);
 		} else if (type === 'prairie') {
 			const sheet = book.addWorksheet(label);
 			prairieTemplate(feature, sheet);
