@@ -116,7 +116,7 @@ export async function enrichment(feature, map) {
 	const ssurgo = map.querySourceFeatures('ssurgo', {
 		sourceLayer: 'default',
 	});
-		// .filter(ea => calcIntersect(ea, boundingPolygon || clone));
+	// .filter(ea => calcIntersect(ea, boundingPolygon || clone));
 
 	// async function stagger() {
 	// 	return new Promise(resolve => {

@@ -49,8 +49,8 @@ export class PlantingModal extends React.Component {
 					seed: '',
 					seed_price: '',
 					management: {
-						id: 1,
-						display: 'Mow',
+						id: 'J8wEfx7P',
+						display: 'mow',
 					},
 					cropping_system: {
 						id: 1,
@@ -183,8 +183,13 @@ export class PlantingModal extends React.Component {
 	}
 
 	handleManagementChange = (event) => {
-		const updateManagement = event.target.value;
-		this.setState(() => ({ management: updateManagement }));
+		const id = event.target.value;
+		const display = event.target.options[event.target.selectedIndex].text;
+		const updateManagement = {
+			id,
+			display,
+		};
+		this.setState(() => ({ management: updateManagement }), () => console.log(this.state));
 	}
 
 	handleCroppingChange = (event) => {
@@ -304,6 +309,16 @@ export class PlantingModal extends React.Component {
 		}
 	}
 
+	// routeToReport = () => {
+	// 	const {
+	// 		editingFeature,
+	// 		nextStep,
+	// 	} = this.props;
+
+	// 	this.handleSave();
+	// 	nextStep('/report', editingFeature)
+	// }
+
 	render() {
 		const {
 			props: {
@@ -419,14 +434,35 @@ export class PlantingModal extends React.Component {
 					{
 						stepIndex === steps.length - 1
 							? (
-								<button
-									type="button"
-									className="Button"
-									onClick={this.handleSave}
-									onKeyPress={this.handleSave}
-								>
-									<span>View Map</span>
-								</button>
+								<>
+									<button
+										type="button"
+										className="modal-link"
+										onClick={this.handleSave}
+										onKeyPress={this.handleSave}
+									>
+										<span>View Map</span>
+									</button>
+									<button
+										type="button"
+										className="Button"
+										onClick={this.handleSave}
+										onKeyPress={this.handleSave}
+									>
+										<span>View Report</span>
+									</button>
+									{/* <Link
+										onClick={this.handleSave}
+										onKeyPress={this.handleSave}
+										className="Button"
+										to={{
+											pathname: '/report',
+											state: editingFeature,
+										}}
+									>
+										<span>View Report</span>
+									</Link> */}
+								</>
 							)
 							: (
 								<button
