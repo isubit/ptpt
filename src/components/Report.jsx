@@ -932,7 +932,7 @@ class Report extends React.Component {
 				</div>
 				<div className="reportText">
 					<p className="header-large">Cost Report</p>
-					<p>Below is your econmic report for planting your tree area. You can use any of the options above to print, email or download your report.</p>
+					<p>Below is your economic report for planting your tree area. You can use any of the options above to print, email or download your report.</p>
 				</div>
 				{
 					features.length > 0 && (
