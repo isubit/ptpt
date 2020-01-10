@@ -7,9 +7,10 @@ export function annualSeries(cost, interest, years) {
 	const value = cost * (numerator / denominator);
 	return value;
 }
-export function calcTotalCosts(obj) {
+
+export function calcTotalCosts(costObj) {
 	return (
-		obj.costs.map(cost => {
+		costObj.costs.map(cost => {
 			const costTotal = cost.totalCost;
 			return costTotal;
 		}).reduce((a, b) => {
@@ -20,7 +21,8 @@ export function calcTotalCosts(obj) {
 }
 
 export function findAverage(numArr) {
-	return numArr.reduce((a, b) => a + b, 0) / numArr.length;
+	const average = (numArr.reduce((a, b) => a + b, 0) / numArr.length).toFixed(2);
+	return Number.isInteger(average) ? average : 0;
 }
 
 export function findTreeEQIP(properties) {
@@ -61,4 +63,87 @@ export function findTreeEQIP(properties) {
 	});
 
 	return qualifiedPerRow;
+}
+
+export function getEQIPCosts(programArr, qty, treeQty, rowLength) {
+	const costs = programArr.map((ea, index) => {
+		if (ea.length === 0) {
+			return {
+				id: `Row ${index + 1} (Does not qualify)`,
+				unit_cost: 'N/A',
+				qty: 'N/A',
+				units: 'N/A',
+				totalCost: 'N/A',
+			};
+		}
+		let programCost;
+		if (ea.length > 1) {
+			const totalCostArr = [];
+			const totalCostPrograms = ea.map(program => {
+				let totalCost;
+				if (program.price_model === 'tree') {
+					totalCost = program.price * treeQty;
+				} else if (program.price_model === 'acre') {
+					totalCost = program.price * qty;
+				} else if (program.price_model === 'feet') {
+					totalCost = program.price * rowLength;
+				}
+				totalCostArr.push(totalCost);
+				return {
+					...program,
+					totalCost,
+				};
+			});
+			const largestTotal = Math.max(...totalCostArr);
+			const bestProgram = totalCostPrograms.find(program => program.totalCost === largestTotal);
+			programCost = {
+				id: `Row ${index + 1} (${bestProgram.display})`,
+				unit_cost: `$${bestProgram.price}`,
+				units: `$/${bestProgram.price_model}`,
+				get present_value() {
+					return Number(this.unit_cost.substring(1)) / 1.02;
+				},
+			};
+			switch (bestProgram.price_model) {
+				case 'tree':
+					programCost.qty = treeQty;
+					break;
+				case 'acre':
+					programCost.qty = qty;
+					break;
+				case 'feet':
+					programCost.qty = (rowLength * 3.28084).toFixed(2);
+					break;
+				default:
+					break;
+			}
+			programCost.totalCost = `$${programCost.present_value * programCost.qty}`;
+		}
+		programCost = {
+			id: `Row ${index + 1} (${ea[0].display})`,
+			unit_cost: `$${ea[0].price}`,
+			units: `$/${ea[0].price_model}`,
+			get present_value() {
+				return Number(this.unit_cost.substring(1)) / 1.02;
+			},
+		};
+		switch (ea[0].price_model) {
+			case 'tree':
+				programCost.qty = treeQty;
+				break;
+			case 'acre':
+				programCost.qty = qty;
+				break;
+			case 'feet':
+				programCost.qty = (rowLength * 3.28084).toFixed(2);
+				break;
+			default:
+				break;
+		}
+		programCost.totalCost = `$${(programCost.present_value * programCost.qty).toFixed(2)}`;
+
+		return programCost;
+	});
+
+	return costs;
 }

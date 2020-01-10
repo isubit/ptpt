@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import calcArea from '@turf/area';
+import calcLength from '@turf/length';
 import calcBuffer from '@turf/buffer';
 import Debug from 'debug';
 
@@ -68,10 +69,11 @@ export async function enrichment(feature, map) {
 			geometry: ea.geometry,
 		}));
 		boundingPolygon = linesToPolygon(rows);
+		clone.properties.rowLength = calcLength(clone) * 1000; // meters
 	}
 
 	// Acreage
-	clone.properties.acreage = (boundingPolygon ? calcArea(boundingPolygon) : calcArea(clone)) * 0.000247105;
+	clone.properties.acreage = (clone.properties.rowLength ? (clone.properties.rows.length * clone.properties.rowLength * (clone.properties.configs.spacing_rows.value * 0.3048)) : calcArea(clone)) * 0.000247105;
 
 	if (clone.properties.type === 'prairie') {
 		clone.properties.buffer = calcBuffer({

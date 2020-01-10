@@ -294,16 +294,13 @@ export class MapComponent extends React.Component {
 		}
 	}
 
-	saveFeature = feature => {
+	saveFeature = (feature) => {
 		// This saves the feature to context.
 		const {
 			map,
 			props: {
 				addData,
 				mapAPILoaded,
-				router: {
-					history,
-				},
 			},
 		} = this;
 
@@ -326,10 +323,11 @@ export class MapComponent extends React.Component {
 				enriching: false,
 				editingFeature: null,
 			}));
-
-			history.push('/');
+			
+			this.nextStep('/');
 		});
 	}
+
 
 	deleteFeature = id => {
 		const {

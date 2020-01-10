@@ -33,11 +33,11 @@ export class PlantingModal extends React.Component {
 						species: '',
 					}],
 					spacing_rows: {
-						value: 3, // placeholder value
+						value: 10,
 						unit: 'feet',
 					},
 					spacing_trees: {
-						value: 3, //  placeholder value
+						value: 5,
 						unit: 'feet',
 					},
 					stock_size: '',
@@ -452,17 +452,6 @@ export class PlantingModal extends React.Component {
 									>
 										<span>View Report</span>
 									</button>
-									{/* <Link
-										onClick={this.handleSave}
-										onKeyPress={this.handleSave}
-										className="Button"
-										to={{
-											pathname: '/report',
-											state: editingFeature,
-										}}
-									>
-										<span>View Report</span>
-									</Link> */}
 								</>
 							)
 							: (
