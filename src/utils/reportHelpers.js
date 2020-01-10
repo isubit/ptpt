@@ -19,6 +19,10 @@ export function calcTotalCosts(obj) {
 	);
 }
 
+export function findAverage(numArr) {
+	return numArr.reduce((a, b) => a + b, 0) / numArr.length;
+}
+
 export function findTreeEQIP(properties) {
 	const {
 		configs: {

@@ -6,14 +6,16 @@ import uuid from 'uuid/v4';
 import {
 	annualSeries,
 	calcTotalCosts,
+	findAverage,
 } from 'utils/reportHelpers';
 import {
 	getFeatures,
 	getOptimalTreePlacements,
 } from 'utils/sources';
 import { MapConsumer } from 'contexts/MapState';
-// import treeTypes from 'references/tree_types.json';
-// import treeStockSizes from 'references/tree_stock_sizes.json';
+import treeStockSizes from 'references/tree_stock_sizes.json';
+import treeTypes from 'references/tree_types.json';
+import treeList from 'references/trees_list.json';
 import treeCosts from 'references/tree_cost.json';
 
 // include editingFeature into props
@@ -331,28 +333,83 @@ class Report extends React.Component {
 			title: 'Tree Establishment',
 			labels: ['Tree Establishment Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
 		};
-		// calculate the average tree cost
-		// take the stock size to find the tree cost group
-		// take the tree type to find the price
+
+		const tree_prices = [];
 		rows.forEach(row => {
-			const { species } = row;
-			const stock_group = treeCosts[stock_size];
-			console.log(stock_group);
-			console.log(species);
+			let treePrice;
+			const {
+				type,
+				species,
+			} = row;
+			const price_group = treeCosts[stock_size];
+			// find tree species in tree list
+			const treeDetails = treeList.find(tree => tree.id === species);
+			// pull the display and check if it contains 'Willow' || 'Eastern Red Cedar'
+			const treeName = treeDetails.display;
+			if (treeName === 'Eastern Red Cedar' || treeName.includes('Willow')) {
+				if (treeName === 'Eastern Red Cedar') {
+					treePrice = price_group[treeName];
+				} else if (treeName.includes('Willow')) {
+					treePrice = price_group['Hybrid willow'];
+				}
+			} else {
+				const treeTypeValue = treeTypes.find(ea => ea.id === type).value;
+				if (treeTypeValue === 'Hardwood') {
+					treePrice = price_group.Hardwoods;
+				} else if (treeTypeValue === 'Evergreen') {
+					treePrice = price_group.Conifers;
+				} else if (treeTypeValue === 'Shrub') {
+					treePrice = price_group.Shrubs;
+				}
+			}
+			tree_prices.push(treePrice);
 		});
+		const avgTreePrice = findAverage(tree_prices);
 		const tree_costs = {
 			id: 'Trees (planting stock)',
-			unit_cost: '',
+			unit_cost: `$${avgTreePrice}`,
 			units: '$/tree',
+			qty: treeQty,
+			get present_value() {
+				const unitCost = Number(this.unit_cost.substring(1));
+				return `$${unitCost / 1.04}`;
+			},
+			get totalCost() {
+				const totalCost = Number(this.present_value.substring(1)) * this.qty;
+				return `$${totalCost.toFixed(2)}`;
+			},
 		};
-		const tree_planting_bareoot_costs = {
-			id: 'Tree planting (bareroot/cutting)',
-			unit_cost: '$220.00',
-			units: '$/acre',
-		};
-		const tree_planting_containerized_costs = {
-			id: 'Tree planting (containerized)',
-		};
+
+		let tree_planting_costs;
+		const stockSizeValue = treeStockSizes.find(ea => ea.id === stock_size).value || null;
+		if (stockSizeValue) {
+			if (stockSizeValue === 'bareroot') {
+				tree_planting_costs = {
+					id: 'Tree planting (bareroot/cutting)',
+					unit_cost: '$220.00',
+					units: '$/acre',
+					present_value: '$211.54',
+					qty,
+					get totalCost() {
+						const totalCost = Number(this.present_value.substring(1)) * this.qty;
+						return `$${totalCost.toFixed(2)}`;
+					},
+				};
+			} else if (stockSizeValue.includes('container')) {
+				tree_planting_costs = {
+					id: 'Tree planting (containerized)',
+					unit_cost: '$1.50',
+					units: '$/tree',
+					present_value: '$1.44',
+					qty: treeQty,
+					get totalCost() {
+						const totalCost = Number(this.present_value.substring(1)) * this.qty;
+						return `$${totalCost.toFixed(2)}`;
+					},
+				};
+			}
+		}
+
 		const plastic_mulch_costs = {
 			id: 'Plastic Mulch',
 			unit_cost: '$450.00',
@@ -363,6 +420,8 @@ class Report extends React.Component {
 				return `$${totalCost.toFixed(2)}`;
 			},
 		};
+		const costs = [tree_costs, tree_planting_costs, plastic_mulch_costs];
+		tree_establishment.costs = costs;
 		if (drip_irrigation) {
 			tree_establishment.costs.push({
 				id: 'Watering (drip irrigation)',
@@ -375,14 +434,13 @@ class Report extends React.Component {
 				},
 			});
 		}
-		const costs = [tree_costs, tree_planting_bareoot_costs, tree_planting_containerized_costs, plastic_mulch_costs];
 		const totalEstablishmentCosts = calcTotalCosts(tree_establishment);
-		costs.push({
+		tree_establishment.costs.push({
 			id: 'Total Tree Establishment Costs',
 			totalCost: `$${totalEstablishmentCosts}`,
 		});
-		tree_establishment.costs = costs;
-		const reportData = [site_prep, inputs, tree_establishment, tree_establishment];
+
+		const reportData = [site_prep, inputs, tree_establishment];
 		return reportData;
 	}
 
@@ -558,7 +616,7 @@ class Report extends React.Component {
 				csr,
 			},
 		} = reportArea;
-		const average_csr = csr.reduce((a, b) => a + b, 0) / csr.length;
+		const average_csr = findAverage(csr);
 		const opportunity_cost = {
 			title: 'Opportunity Cost',
 			labels: ['Opportunity Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
