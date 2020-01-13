@@ -16,6 +16,8 @@ import { SmallModal } from 'components/modals/SmallModal';
 import { MapConsumer } from 'contexts/MapState';
 import { SettingsConsumer } from 'contexts/Settings';
 import { ReportWrapper } from 'components/Report';
+import { Help } from 'components/Help';
+import { About } from 'components/About';
 
 (function injectMapScript(w, s, id) {
 	const script = w.document.createElement(s);
@@ -81,7 +83,8 @@ const App = () => (
 				}}
 			</SettingsConsumer>
 			<Route path="/report" render={router => <ReportWrapper router={router} />} />
-			<Route path="/help" render={() => <h2>Help Page</h2>} />
+			<Route path="/help" render={() => <Help />} />
+			<Route path="/about" render={() => <About />} />
 			<BigModal />
 			{/* ---- */}
 
