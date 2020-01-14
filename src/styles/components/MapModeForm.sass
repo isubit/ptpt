@@ -3,10 +3,10 @@
 .MapModeForm
     position: absolute
     z-index: 10
-    top: 0
+    top: -99px
     left: 0
     width: 100%
-    height: 100%
+    height: 100vh
     background: rgba(0,0,0, 0.4)
     flex-direction: column
     .PlantingFormHeader
@@ -34,6 +34,7 @@
 
 @media (min-width: 900px)
     .MapModeForm
+        top: -72px
         justify-content: center
         .PlantingFormHeader
             .planting-modal-text

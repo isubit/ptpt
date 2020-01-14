@@ -36,8 +36,10 @@ const Header = (props) => {
 	return (
 		<div className="Header">
 			<div className="grid-row sidenav-btn">
-				<SideNav />
-				<Title />
+				<div className="title-wrap">
+					<SideNav />
+					<Title />
+				</div>
 				<LocationInputWrapper location={location} />
 				<HeaderOptions location={location} />
 				<MapConsumer>
