@@ -22,7 +22,7 @@ const SeedMixInput = (props) => {
 			</div>
 			<div className="configInputs">
 				<p className="inputDescriptor">Choose your seed mix.</p>
-				<div className="inputElement desktop-select-l-width">
+				<div className="inputElement desktop-select-l-width desktop-spacer-right-1">
 					<span className="inputLabel">Seed Mix</span>
 					<select
 						value={seed}
