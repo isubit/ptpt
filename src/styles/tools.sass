@@ -23,6 +23,12 @@
 	display: flex
 	justify-content: space-between
 
+@media (min-width: 900px)
+	.desktop-distribute
+		display: flex
+		justify-content: space-between
+
+
 .margin-center
     margin: 0 auto !important
 
@@ -72,6 +78,10 @@
 
 .spacer-top-1_5
 	margin-top: 1.5rem !important
+
+@media (min-width: 900px)
+	.desktop-spacer-right-1
+		margin-right: 1rem
 
 @for $i from 0 through 4
 	.spacer-top-#{$i}

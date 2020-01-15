@@ -16,6 +16,7 @@
             span
                 color: black
     .modal
+        display: block
         background: white
         width: 100%
         height: calc(100vh - 99px)
@@ -36,12 +37,14 @@
     .MapModeForm
         top: -72px
         justify-content: center
-        .PlantingFormHeader
-            .planting-modal-text
-                padding-left: 2rem
-                padding-right: 2rem
         .modal
             width: 670px
-            height: 500px
+            height: 450px
+            padding: 0 2rem 3rem 2rem
+            .modal-header
+                padding-left: 0
+                padding-right: 0
+                &::after
+                    left: 0
         .button-wrap
             width: 670px
