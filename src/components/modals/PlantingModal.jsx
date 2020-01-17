@@ -231,7 +231,7 @@ export class PlantingModal extends React.Component {
 		}
 	}
 
-	handleSave = () => {
+	handleSave = (e) => {
 		const {
 			props: {
 				editingFeature,
@@ -243,7 +243,6 @@ export class PlantingModal extends React.Component {
 				},
 			},
 		} = this;
-
 		let properties;
 		if (type === 'tree') {
 			const {
@@ -292,6 +291,7 @@ export class PlantingModal extends React.Component {
 				},
 			};
 		}
+		const setReportFeature = e.target.innerHTML === 'View Report' || (e.target.children[0] ? e.target.children[0].innerText === 'View Report' : false);
 
 		if (this.form.current && this.form.current.checkValidity()) {
 			this.setState(() => ({
@@ -301,7 +301,7 @@ export class PlantingModal extends React.Component {
 					...editingFeature.properties,
 					...properties,
 				};
-				saveFeature(editingFeature);
+				saveFeature(editingFeature, setReportFeature);
 			});
 		} else {
 			this.setState(() => ({
@@ -309,16 +309,6 @@ export class PlantingModal extends React.Component {
 			}));
 		}
 	}
-
-	// routeToReport = () => {
-	// 	const {
-	// 		editingFeature,
-	// 		nextStep,
-	// 	} = this.props;
-
-	// 	this.handleSave();
-	// 	nextStep('/report', editingFeature)
-	// }
 
 	render() {
 		const {

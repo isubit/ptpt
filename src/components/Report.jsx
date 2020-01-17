@@ -976,7 +976,7 @@ class Report extends React.Component {
 							<div className="reportArea flex-column">
 								<div className="selectWrap flex-column">
 									<span className="inputLabel">View Report Area</span>
-									<select onChange={(e) => this.handleReportAreaChange(e)}>
+									<select value={this.state.reportArea.properties.label} onChange={(e) => this.handleReportAreaChange(e)}>
 										{
 											features.map(feature => (
 												<option value={feature.properties.label} key={feature.id}>{feature.properties.label}</option>
