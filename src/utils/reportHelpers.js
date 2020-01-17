@@ -20,7 +20,7 @@ export function calcTotalCosts(costObj) {
 }
 
 export function findAverage(numArr) {
-	return (numArr.reduce((a, b) => a + b, 0) / numArr.length);
+	return (numArr.reduce((a, b) => a + b, 0) / numArr.length) || 0;
 }
 
 export function findTreeEQIP(properties) {
