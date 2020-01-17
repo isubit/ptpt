@@ -7,6 +7,7 @@ import Debug from 'debug';
 
 import {
 	annualSeries,
+	annualizedCost,
 	calcTotalCosts,
 	findAverage,
 	findTreeEQIP,
@@ -88,14 +89,14 @@ const ReportTable = (props) => {
 		const total_costs = [labels[4]];
 		costs.forEach(cost => {
 			cost.id ? ids.push(cost.id) : ids.push(null);
-			cost.unit_cost ? unit_costs.push(`$${cost.unit_cost.toFixed(2)}`) : unit_costs.push(null);
+			(cost.unit_cost || cost.unit_cost === 0) ? unit_costs.push(`$${cost.unit_cost.toFixed(2)}`) : unit_costs.push(null);
 			cost.units ? units.push(cost.units) : units.push(null);
-			if (cost.units && cost.units === '$/tree') {
-				cost.qty ? qty.push(cost.qty.toFixed(0)) : qty.push(null);
+			if (cost.units && (cost.units === '$/tree' || cost.units === 'N/A')) {
+				(cost.qty || cost.qty === 0) ? qty.push(cost.qty.toFixed(0)) : qty.push(null);
 			} else {
-				cost.qty ? qty.push(cost.qty.toFixed(2)) : qty.push(null);
+				(cost.qty || cost.qty === 0) ? qty.push(cost.qty.toFixed(2)) : qty.push(null);
 			}
-			if (cost.totalCost) {
+			if (cost.totalCost || cost.totalCost === 0) {
 				const total_cost = cost.totalCost;
 				total_costs.push(`$${total_cost.toFixed(2)}`);
 			} else {
@@ -211,7 +212,7 @@ class Report extends React.Component {
 		// Site Preparation Costs
 		const site_prep = {
 			title: 'Site Preparation',
-			labels: ['Site Preparation Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			labels: ['Site Preparation Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 			costs: [
 				{
 					id: 'Chisel Plow',
@@ -219,7 +220,8 @@ class Report extends React.Component {
 					units: '$/acre',
 					qty,
 					get totalCost() {
-						const totalCost = this.unit_cost * this.qty;
+						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const totalCost = annualizedUnitCost * this.qty;
 						return totalCost;
 					},
 				},
@@ -229,7 +231,8 @@ class Report extends React.Component {
 					units: '$/acre',
 					qty,
 					get totalCost() {
-						const totalCost = this.unit_cost * this.qty;
+						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const totalCost = annualizedUnitCost * this.qty;
 						return totalCost;
 					},
 				},
@@ -244,7 +247,7 @@ class Report extends React.Component {
 		// Input Costs
 		const inputs = {
 			title: 'Inputs',
-			labels: ['Input Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			labels: ['Input Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 			costs: [
 				{
 					id: 'Princep (pre-emergent herbicide)',
@@ -256,7 +259,8 @@ class Report extends React.Component {
 					},
 					qty,
 					get totalCost() {
-						const totalCost = this.unit_cost * this.qty;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
 						return totalCost;
 					},
 				},
@@ -270,7 +274,8 @@ class Report extends React.Component {
 					},
 					qty,
 					get totalCost() {
-						const totalCost = this.present_value * this.qty;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
 						return totalCost;
 					},
 				},
@@ -284,7 +289,8 @@ class Report extends React.Component {
 					},
 					qty,
 					get totalCost() {
-						const totalCost = this.present_value * this.qty;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
 						return totalCost;
 					},
 				},
@@ -297,7 +303,8 @@ class Report extends React.Component {
 					},
 					qty,
 					get totalCost() {
-						const totalCost = this.present_value * this.qty;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
 						return totalCost;
 					},
 				},
@@ -311,7 +318,8 @@ class Report extends React.Component {
 					},
 					qty,
 					get totalCost() {
-						const totalCost = this.present_value * this.qty;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
 						return totalCost;
 					},
 				},
@@ -325,7 +333,8 @@ class Report extends React.Component {
 					},
 					qty,
 					get totalCost() {
-						const totalCost = this.present_value * this.qty;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
 						return totalCost;
 					},
 				},
@@ -340,7 +349,8 @@ class Report extends React.Component {
 						return presentValue;
 					},
 					get totalCost() {
-						const totalCost = this.present_value * this.qty;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
 						return totalCost;
 					},
 				},
@@ -355,7 +365,8 @@ class Report extends React.Component {
 						return presentValue;
 					},
 					get totalCost() {
-						const totalCost = this.present_value * this.qty;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
 						return totalCost;
 					},
 				},
@@ -380,7 +391,7 @@ class Report extends React.Component {
 		const treeQty = getOptimalTreePlacements(reportArea).length;
 		const tree_establishment = {
 			title: 'Tree Establishment',
-			labels: ['Tree Establishment Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			labels: ['Tree Establishment Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 		};
 
 		const tree_prices = [];
@@ -423,12 +434,14 @@ class Report extends React.Component {
 				return this.unit_cost / 1.02;
 			},
 			get totalCost() {
-				const totalCost = this.present_value * this.qty;
+				const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+				const totalCost = annualizedPVCost * this.qty;
 				return totalCost;
 			},
 		};
 		let tree_planting_costs;
 		const stockSizeValue = treeStockSizes.find(ea => ea.id === stock_size).value || null;
+		console.log(stockSizeValue);
 		if (stockSizeValue) {
 			if (stockSizeValue === 'bareroot') {
 				tree_planting_costs = {
@@ -441,7 +454,8 @@ class Report extends React.Component {
 					},
 					qty,
 					get totalCost() {
-						const totalCost = this.present_value * this.qty;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
 						return totalCost;
 					},
 				};
@@ -456,7 +470,8 @@ class Report extends React.Component {
 					},
 					qty: treeQty,
 					get totalCost() {
-						const totalCost = this.present_value * this.qty;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
 						return totalCost;
 					},
 				};
@@ -468,7 +483,8 @@ class Report extends React.Component {
 			units: '$/acre',
 			qty,
 			get totalCost() {
-				const totalCost = this.unit_cost * this.qty;
+				const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+				const totalCost = annualizedUnitCost * this.qty;
 				return totalCost;
 			},
 		};
@@ -485,7 +501,8 @@ class Report extends React.Component {
 				},
 				qty: treeQty,
 				get totalCost() {
-					const totalCost = this.present_value * this.qty;
+					const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+					const totalCost = annualizedPVCost * this.qty;
 					return totalCost;
 				},
 			});
@@ -499,7 +516,7 @@ class Report extends React.Component {
 		// Tree Replacement costs
 		const tree_replacement_costs = {
 			title: 'Tree Replacement',
-			labels: ['Tree Replacement Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			labels: ['Tree Replacement Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 			costs: [
 				{
 					id: 'Tree replacement (natural mortality)',
@@ -510,7 +527,8 @@ class Report extends React.Component {
 						return this.unit_cost / (1.02 ** 3);
 					},
 					get totalCost() {
-						const totalCost = this.present_value * this.qty;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
 						return totalCost;
 					},
 				},
@@ -523,7 +541,8 @@ class Report extends React.Component {
 						return this.unit_cost / (1.02 ** 3);
 					},
 					get totalCost() {
-						const totalCost = this.present_value * this.qty;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
 						return totalCost;
 					},
 				},
@@ -547,7 +566,7 @@ class Report extends React.Component {
 		} = reportArea;
 		const opportunity_cost = {
 			title: 'Opportunity Costs',
-			labels: ['Opportunity Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			labels: ['Opportunity Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 			costs: [
 				{
 					id: 'Land rent row crop (non-irrigated)',
@@ -558,7 +577,8 @@ class Report extends React.Component {
 						return annualSeries(this.unit_cost, 0.02, 15);
 					},
 					get totalCost() {
-						const totalCost = this.present_value * this.qty;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
 						return totalCost;
 					},
 				},
@@ -574,7 +594,8 @@ class Report extends React.Component {
 					return annualSeries(this.unit_cost, 0.02, 15);
 				},
 				get totalCost() {
-					const totalCost = this.present_value * this.qty;
+					const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+					const totalCost = annualizedPVCost * this.qty;
 					return totalCost;
 				},
 			});
@@ -618,7 +639,7 @@ class Report extends React.Component {
 		// Site Preparation Costs
 		const site_prep = {
 			title: 'Site Preparation',
-			labels: ['Site Preparation Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			labels: ['Site Preparation Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 			costs: [
 				{
 					id: 'Tillage',
@@ -626,7 +647,8 @@ class Report extends React.Component {
 					units: '$/acre',
 					qty: acreage,
 					get totalCost() {
-						const totalCost = this.unit_cost * this.qty;
+						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const totalCost = annualizedUnitCost * this.qty;
 						return totalCost;
 					},
 				},
@@ -636,7 +658,8 @@ class Report extends React.Component {
 					units: '$/acre',
 					qty: acreage,
 					get totalCost() {
-						const totalCost = this.unit_cost * this.qty;
+						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const totalCost = annualizedUnitCost * this.qty;
 						return totalCost;
 					},
 				},
@@ -646,7 +669,8 @@ class Report extends React.Component {
 					units: '$/acre',
 					qty: acreage,
 					get totalCost() {
-						const totalCost = this.unit_cost * this.qty;
+						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const totalCost = annualizedUnitCost * this.qty;
 						return totalCost;
 					},
 				},
@@ -661,7 +685,7 @@ class Report extends React.Component {
 		// Establishment Costs
 		const establishment = {
 			title: 'Establishment',
-			labels: ['Establishment Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			labels: ['Establishment Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 			costs: [
 				{
 					id: 'Seed',
@@ -669,7 +693,8 @@ class Report extends React.Component {
 					units: '$/acre',
 					qty: acreage,
 					get totalCost() {
-						const totalCost = this.unit_cost * this.qty;
+						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const totalCost = annualizedUnitCost * this.qty;
 						return totalCost;
 					},
 				},
@@ -679,7 +704,8 @@ class Report extends React.Component {
 					units: '$/acre',
 					qty: acreage,
 					get totalCost() {
-						const totalCost = this.unit_cost * this.qty;
+						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const totalCost = annualizedUnitCost * this.qty;
 						return totalCost;
 					},
 				},
@@ -689,7 +715,8 @@ class Report extends React.Component {
 					units: '$/acre',
 					qty: acreage,
 					get totalCost() {
-						const totalCost = this.unit_cost * this.qty;
+						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const totalCost = annualizedUnitCost * this.qty;
 						return totalCost;
 					},
 				},
@@ -704,7 +731,7 @@ class Report extends React.Component {
 		// Management Costs
 		const management = {
 			title: 'Management',
-			labels: ['Management Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			labels: ['Management Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 		};
 		let management_row2;
 		let management_row3;
@@ -720,7 +747,8 @@ class Report extends React.Component {
 			units: '$/acre',
 			qty: acreage,
 			get totalCost() {
-				const totalCost = this.present_value * this.qty;
+				const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+				const totalCost = annualizedPVCost * this.qty;
 				return totalCost;
 			},
 		};
@@ -737,7 +765,8 @@ class Report extends React.Component {
 				units: '$/acre',
 				qty: acreage,
 				get totalCost() {
-					const totalCost = this.present_value * this.qty;
+					const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+					const totalCost = annualizedPVCost * this.qty;
 					return totalCost;
 				},
 			};
@@ -753,7 +782,8 @@ class Report extends React.Component {
 				units: '$/acre',
 				qty: acreage,
 				get totalCost() {
-					const totalCost = this.present_value * this.qty;
+					const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+					const totalCost = annualizedPVCost * this.qty;
 					return totalCost;
 				},
 			};
@@ -770,7 +800,8 @@ class Report extends React.Component {
 				units: '$/acre',
 				qty: acreage,
 				get totalCost() {
-					const totalCost = this.present_value * this.qty;
+					const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+					const totalCost = annualizedPVCost * this.qty;
 					return totalCost;
 				},
 			};
@@ -784,7 +815,8 @@ class Report extends React.Component {
 				units: '$/acre',
 				qty: acreage,
 				get totalCost() {
-					const totalCost = this.present_value * this.qty;
+					const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+					const totalCost = annualizedPVCost * this.qty;
 					return totalCost;
 				},
 			};
@@ -806,7 +838,7 @@ class Report extends React.Component {
 		const average_csr = findAverage(csr);
 		const opportunity_cost = {
 			title: 'Opportunity Cost',
-			labels: ['Opportunity Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			labels: ['Opportunity Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 			costs: [
 				{
 					id: 'Land Rent (year 1-15)',
@@ -819,8 +851,9 @@ class Report extends React.Component {
 						return present_value;
 					},
 					get totalCost() {
-						const presentValue = this.present_value;
-						return (presentValue * this.qty);
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
+						return totalCost;
 					},
 				},
 				{
@@ -835,8 +868,9 @@ class Report extends React.Component {
 						return present_value;
 					},
 					get totalCost() {
-						const presentValue = this.present_value;
-						return (presentValue * this.qty);
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
+						return totalCost;
 					},
 				},
 			],
@@ -852,7 +886,7 @@ class Report extends React.Component {
 		const totalEstablishmentUnitCosts = establishment.costs.map(cost => cost.unit_cost || 0).reduce((a, b) => a + b, 0);
 		const conservationProgram = {
 			title: 'Conservation Programs',
-			labels: ['Conservation Program', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			labels: ['Conservation Program', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 			costs: [
 				{
 					id: 'Cost Share 90% (year 1)',
@@ -860,8 +894,9 @@ class Report extends React.Component {
 					units: '$/acre',
 					qty: acreage,
 					get totalCost() {
-						const unitCost = this.unit_cost;
-						return (unitCost * this.qty);
+						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const totalCost = annualizedUnitCost * this.qty;
+						return totalCost;
 					},
 				},
 				{
@@ -870,8 +905,9 @@ class Report extends React.Component {
 					units: '$/acre',
 					qty: acreage,
 					get totalCost() {
-						const unitCost = this.unit_cost;
-						return (unitCost * this.qty);
+						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const totalCost = annualizedUnitCost * this.qty;
+						return totalCost;
 					},
 				},
 			],

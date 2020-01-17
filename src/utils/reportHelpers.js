@@ -8,6 +8,13 @@ export function annualSeries(cost, interest, years) {
 	return value;
 }
 
+export function annualizedCost(cost, interest, years) {
+	const numerator = interest * ((1 + interest) ** years);
+	const denominator = ((1 + interest) ** years) - 1;
+	const value = cost * (numerator / denominator);
+	return value;
+}
+
 export function calcTotalCosts(costObj) {
 	return costObj.costs.map(cost => cost.totalCost).reduce((a, b) => a + b, 0);
 }
@@ -61,10 +68,10 @@ export function getEQIPCosts(programArr, qty, treeQty, rowLength) {
 		if (ea.length === 0) {
 			return {
 				id: `Row ${index + 1} (Does not qualify)`,
-				unit_cost: 'N/A',
-				qty: 'N/A',
+				unit_cost: 0,
+				qty: 0,
 				units: 'N/A',
-				totalCost: 'N/A',
+				totalCost: 0,
 			};
 		}
 		let programCost;
