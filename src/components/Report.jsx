@@ -252,7 +252,7 @@ class Report extends React.Component {
 				{
 					id: 'Princep (pre-emergent herbicide)',
 					unit_cost: 3.75,
-					units: '$/pint',
+					units: '$/pint/acre',
 					// present_value: '$3.70',
 					get present_value() {
 						return this.unit_cost / (1.02 ** (4 / 12));
@@ -310,8 +310,8 @@ class Report extends React.Component {
 				},
 				{
 					id: 'Granular Urea (50 lb N/ac)',
-					unit_cost: 0.56,
-					units: '$/lb',
+					unit_cost: 28, // This is $0.56/lb * 50 lb.
+					units: '$/acre',
 					// present_value: '$27.62',
 					get present_value() {
 						return (50 * this.unit_cost) / (1.02 ** (5 / 12));
@@ -441,7 +441,6 @@ class Report extends React.Component {
 		};
 		let tree_planting_costs;
 		const stockSizeValue = treeStockSizes.find(ea => ea.id === stock_size).value || null;
-		console.log(stockSizeValue);
 		if (stockSizeValue) {
 			if (stockSizeValue === 'bareroot') {
 				tree_planting_costs = {
