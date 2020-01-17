@@ -19,8 +19,8 @@ const Title = () => (
 	</div>
 );
 
-const SaveButton = ({ save }) => (
-	<div className="Save">
+const SaveButton = ({ save, mobileShow }) => (
+	<div className={`Save ${mobileShow ? 'mobileSave' : ''}`}>
 		<button type="button" className="SaveButton" onClick={save} onKeyPress={save}>
 			<img className="narrow-save" src="/assets/save_narrow.svg" alt="Save" />
 			<img className="wide-save" src="/assets/save_wide.svg" alt="Save" />
@@ -32,7 +32,7 @@ const Header = (props) => {
 	const {
 		location,
 	} = props;
-
+	const { pathname } = location;
 	return (
 		<div className="Header">
 			<div className="grid-row sidenav-btn">
@@ -40,18 +40,38 @@ const Header = (props) => {
 					<SideNav />
 					<Title />
 				</div>
-				<LocationInputWrapper location={location} />
-				<HeaderOptions location={location} />
-				<MapConsumer>
-					{ctx => <SaveButton save={ctx.save} />}
-				</MapConsumer>
+				{
+					(pathname !== '/report' && pathname !== '/about' && pathname !== '/help') && (
+						<>
+							<LocationInputWrapper location={location} />
+							<HeaderOptions location={location} />
+						</>
+					)
+				}
+				{
+					(pathname === '/report' || (pathname !== '/about' && pathname !== '/help')) && (
+						<MapConsumer>
+							{ctx => {
+								const mobileShow = pathname === '/report';
+								return <SaveButton save={ctx.save} mobileShow={mobileShow} />;
+							}}
+						</MapConsumer>
+					)
+				}
+				{
+					(pathname === '/help' || pathname === '/about') && null
+				}
 			</div>
-			<div className="search-save-btn">
-				<LocationInputWrapper location={location} />
-				<MapConsumer>
-					{ctx => <SaveButton save={ctx.save} />}
-				</MapConsumer>
-			</div>
+			{
+				(pathname !== '/help' && pathname !== '/about' && pathname !== '/report') && (
+					<div className="search-save-btn">
+						<LocationInputWrapper location={location} />
+						<MapConsumer>
+							{ctx => <SaveButton save={ctx.save} />}
+						</MapConsumer>
+					</div>
+				)
+			}
 		</div>
 	);
 };

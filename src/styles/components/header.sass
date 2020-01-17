@@ -2,7 +2,6 @@
     position: relative
     z-index: 3
     width: 100%
-    height: 99px
     background-color: $white
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1)
     > .grid-row
@@ -30,14 +29,33 @@
                 display: none
             .HeaderOptions
                 grid-column: 4 / -1
-            .SaveButton
+            .Save
+                margin-left: auto
                 display: none
     .search-save-btn
+        height: 45px
         .Save
             display: inline-block
             .SaveButton
                 .wide-save
                     display: none
+
+@media (max-width: 899px)
+     .Header
+        > .grid-row
+            &.sidenav-btn
+                .Save
+                    &.mobileSave
+                        display: block
+                        width: 54px
+                        height: 54px
+                        grid-column: 6 / 7
+                        .wide-save
+                            display: none
+                        .narrow-save
+                            width: 54px
+                            height: 54px
+                            background-color: #006ba6
 
 @media (min-width: 900px)
     .Header
@@ -60,8 +78,11 @@
                     display: block
                 .HeaderOptions
                     grid-column: 8 / 12
-                .SaveButton
+                .Save
+                    grid-column: 12 / 13
                     display: block
+                    .wide-save
+                        display: block
                     .narrow-save
                         display: none
         .search-save-btn
@@ -78,4 +99,6 @@
                     grid-column: 4 / 9
                 .HeaderOptions
                     grid-column: 9 / 14
+                .Save
+                    grid-column: 14 / 15
                 
