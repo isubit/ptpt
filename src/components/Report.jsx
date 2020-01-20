@@ -10,6 +10,7 @@ import {
 	annualizedCost,
 	calcTotalCosts,
 	findAverage,
+	findTreeAverageCost,
 	findTreeEQIP,
 	getEQIPCosts,
 } from 'utils/reportHelpers';
@@ -159,7 +160,7 @@ class Report extends React.Component {
 		}
 		let reportData;
 		if (reportArea) {
-			debug(`Reporting for: ${reportArea}`);
+			debug(`Reporting for: ${reportArea.properties.label}`);
 			if (reportArea.properties.type === 'tree') {
 				reportData = this.calcTreeReportData(reportArea);
 			} else if (reportArea.properties.type === 'prairie') {
@@ -394,37 +395,7 @@ class Report extends React.Component {
 			labels: ['Tree Establishment Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 		};
 
-		const tree_prices = [];
-		rows.forEach(row => {
-			let treePrice;
-			const {
-				type,
-				species,
-			} = row;
-			const price_group = treeCosts[stock_size];
-			// find tree species in tree list
-			const treeDetails = treeList.find(tree => tree.id === species);
-			// pull the display and check if it contains 'Willow' || 'Eastern Red Cedar'
-			const treeName = treeDetails.display;
-			if (treeName === 'Eastern Red Cedar' || treeName.includes('Willow')) {
-				if (treeName === 'Eastern Red Cedar') {
-					treePrice = price_group[treeName];
-				} else if (treeName.includes('Willow')) {
-					treePrice = price_group['Hybrid willow'];
-				}
-			} else {
-				const treeTypeValue = treeTypes.find(ea => ea.id === type).value;
-				if (treeTypeValue === 'Hardwood') {
-					treePrice = price_group.Hardwoods;
-				} else if (treeTypeValue === 'Evergreen') {
-					treePrice = price_group.Conifers;
-				} else if (treeTypeValue === 'Shrub') {
-					treePrice = price_group.Shrubs;
-				}
-			}
-			tree_prices.push(treePrice);
-		});
-		const avgTreePrice = findAverage(tree_prices);
+		const avgTreePrice = findTreeAverageCost(rows, stock_size);
 		const tree_costs = {
 			id: 'Trees (planting stock)',
 			unit_cost: avgTreePrice,
