@@ -1,4 +1,7 @@
 import programs from 'references/programs.json';
+import treeList from 'references/trees_list.json';
+import treeCosts from 'references/tree_cost.json';
+import treeStockSizes from 'references/tree_stock_sizes.json';
 import treeTypes from 'references/tree_types.json';
 
 export function annualSeries(cost, interest, years) {
@@ -21,6 +24,41 @@ export function calcTotalCosts(costObj) {
 
 export function findAverage(numArr) {
 	return (numArr.reduce((a, b) => a + b, 0) / numArr.length) || 0;
+}
+
+export function findTreeAverageCost(rows, stock_size) {
+	const tree_prices = [];
+	rows.forEach(row => {
+		let treePrice;
+		const {
+			type,
+			species,
+		} = row;
+		const price_group = treeCosts[stock_size];
+		// find tree species in tree list
+		const treeDetails = treeList.find(tree => tree.id === species);
+		// pull the display and check if it contains 'Willow' || 'Eastern Red Cedar'
+		const treeName = treeDetails.display;
+		if (treeName === 'Eastern Red Cedar' || treeName.includes('Willow')) {
+			if (treeName === 'Eastern Red Cedar') {
+				treePrice = price_group[treeName];
+			} else if (treeName.includes('Willow')) {
+				treePrice = price_group['Hybrid willow'];
+			}
+		} else {
+			const treeTypeValue = treeTypes.find(ea => ea.id === type).value;
+			if (treeTypeValue === 'Hardwood') {
+				treePrice = price_group.Hardwoods;
+			} else if (treeTypeValue === 'Evergreen') {
+				treePrice = price_group.Conifers;
+			} else if (treeTypeValue === 'Shrub') {
+				treePrice = price_group.Shrubs;
+			}
+		}
+		tree_prices.push(treePrice);
+	});
+	const avgTreePrice = findAverage(tree_prices);
+	return avgTreePrice;
 }
 
 export function findTreeEQIP(properties) {
