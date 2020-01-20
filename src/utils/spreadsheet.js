@@ -268,14 +268,14 @@ function treeTemplate(feature, sheet) {
 			[],
 			// Inputs (22 - 31)
 			['(2) Inputs'],
-			['  Princep (pre-emergent herbicide)', 3.75, { formula: 'B23*$B$4' }, annualizedTotalSeries('C23', 15)],
-			['  Ground sprayer (pre-emergent)', 7.25, { formula: 'B24*$B$4' }, annualizedTotalSeries('C24', 15)],
-			['  Poast (post-emergent herbicide)', 11.32, { formula: 'B25*$B$4' }, annualizedTotalSeries('C25', 15)],
-			['  Boom sprayer (post-emergent)', 7.25, { formula: 'B26*$B$4' }, annualizedTotalSeries('C26', 15)],
-			['  Granular Urea (50 lb N/ac)', 28.00, { formula: 'B27*$B$4' }, annualizedTotalSeries('C27', 15)],
-			['  Fertilizer spreader', 7.30, { formula: 'B28*$B$4' }, annualizedTotalSeries('C28', 15)],
-			['  Monitoring (Spring)', 3.00, { formula: 'B29*$B$4' }, annualizedTotalSeries('C29', 15)],
-			['  Monitoring (Summer)', 3.00, { formula: 'B30*$B$4' }, annualizedTotalSeries('C30', 15)],
+			['  Princep (pre-emergent herbicide)', 3.75, { formula: '(B23/1.02^(4/12))*$B$4' }, annualizedTotalSeries('C23', 15)],
+			['  Ground sprayer (pre-emergent)', 7.25, { formula: '(B24/1.02)*$B$4' }, annualizedTotalSeries('C24', 15)],
+			['  Poast (post-emergent herbicide)', 11.32, { formula: '(B23/1.02^(4/12))*$B$4' }, annualizedTotalSeries('C25', 15)],
+			['  Boom sprayer (post-emergent)', 7.25, { formula: '(B24/1.02)*$B$4' }, annualizedTotalSeries('C26', 15)],
+			['  Granular Urea (50 lb N/ac)', 28.00, { formula: '(B23/1.02^(5/12))*$B$4' }, annualizedTotalSeries('C27', 15)],
+			['  Fertilizer spreader', 7.30, { formula: '(B24/1.02)*$B$4' }, annualizedTotalSeries('C28', 15)],
+			['  Monitoring (Spring)', 3.00, terminatingAnnualSeriesFormula('B29', 15), annualizedTotalSeries('C29', 15)],
+			['  Monitoring (Summer)', 3.00, terminatingAnnualSeriesFormula('B30', 15), annualizedTotalSeries('C30', 15)],
 			[],
 		]);
 
