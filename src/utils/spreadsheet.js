@@ -223,7 +223,6 @@ function treeTemplate(feature, sheet) {
 	const treeQty = getOptimalTreePlacements(feature).length;
 	const eqip = findTreeEQIP(feature.properties);
 	const eqipValues = getEQIPCosts(eqip, acreage, treeQty, rowLength);
-	console.log(eqip, eqipValues);
 
 	// Header
 	// Row 1-2
