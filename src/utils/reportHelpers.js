@@ -1,7 +1,7 @@
 import programs from 'references/programs.json';
 import treeList from 'references/trees_list.json';
 import treeCosts from 'references/tree_cost.json';
-import treeStockSizes from 'references/tree_stock_sizes.json';
+// import treeStockSizes from 'references/tree_stock_sizes.json';
 import treeTypes from 'references/tree_types.json';
 
 export function annualSeries(cost, interest, years) {
