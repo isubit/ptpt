@@ -1,21 +1,35 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
+import download from 'js-file-download';
 import uuid from 'uuid/v4';
+import Debug from 'debug';
 
 import {
 	annualSeries,
+	annualizedCost,
 	calcTotalCosts,
+	findAverage,
+	findTreeAverageCost,
+	findTreeEQIP,
+	getEQIPCosts,
 } from 'utils/reportHelpers';
 import {
 	getFeatures,
 	getOptimalTreePlacements,
 } from 'utils/sources';
+import { spreadsheet } from 'utils/spreadsheet';
 import { MapConsumer } from 'contexts/MapState';
+import treeStockSizes from 'references/tree_stock_sizes.json';
+// import treeTypes from 'references/tree_types.json';
+// import treeList from 'references/trees_list.json';
+// import treeCosts from 'references/tree_cost.json';
+
+const debug = Debug('Report');
 
 // include editingFeature into props
 // if editingFeature, then show report for editingFeature
-// if no editingFeature, default to first tree area
+// if no editingFeature, default to first feature area
 // if no features, empty table
 
 // report heading text
@@ -76,12 +90,16 @@ const ReportTable = (props) => {
 		const total_costs = [labels[4]];
 		costs.forEach(cost => {
 			cost.id ? ids.push(cost.id) : ids.push(null);
-			cost.unit_cost ? unit_costs.push(cost.unit_cost) : unit_costs.push(null);
+			(cost.unit_cost || cost.unit_cost === 0) ? unit_costs.push(`$${cost.unit_cost.toFixed(2)}`) : unit_costs.push(null);
 			cost.units ? units.push(cost.units) : units.push(null);
-			cost.qty ? qty.push(cost.qty) : qty.push(null);
-			if (cost.totalCost) {
+			if (cost.units && (cost.units === '$/tree' || cost.units === 'N/A')) {
+				(cost.qty || cost.qty === 0) ? qty.push(cost.qty.toFixed(0)) : qty.push(null);
+			} else {
+				(cost.qty || cost.qty === 0) ? qty.push(cost.qty.toFixed(2)) : qty.push(null);
+			}
+			if (cost.totalCost || cost.totalCost === 0) {
 				const total_cost = cost.totalCost;
-				total_costs.push(total_cost);
+				total_costs.push(`$${total_cost.toFixed(2)}`);
 			} else {
 				total_costs.push(null);
 			}
@@ -101,7 +119,7 @@ const ReportTable = (props) => {
 				</ul>
 			</div>
 			<div className="divider" />
-			<div className="scrollWrap spacer-bottom-4">
+			<div className="scrollWrap">
 				<div className="ReportTable" key={uuid()}>
 					{
 						tables[activeTable].map((column, colIndex) => {
@@ -140,9 +158,9 @@ class Report extends React.Component {
 		} else {
 			reportArea = props.features.length > 0 ? props.features[0] : null;
 		}
-		console.log(reportArea);
 		let reportData;
 		if (reportArea) {
+			debug(`Reporting for: ${reportArea.properties.label}`);
 			if (reportArea.properties.type === 'tree') {
 				reportData = this.calcTreeReportData(reportArea);
 			} else if (reportArea.properties.type === 'prairie') {
@@ -165,9 +183,9 @@ class Report extends React.Component {
 		const featureLabel = e.target.value;
 
 		const reportArea = features.find(feature => feature.properties.label === featureLabel);
-		console.log(reportArea);
 		let reportData;
 		if (reportArea) {
+			debug(`Reporting for: ${reportArea}`);
 			if (reportArea.properties.type === 'tree') {
 				reportData = this.calcTreeReportData(reportArea);
 			} else if (reportArea.properties.type === 'prairie') {
@@ -185,35 +203,39 @@ class Report extends React.Component {
 	}
 
 	calcTreeReportData = (reportArea) => {
+		debug('Preparing report data for feature:', reportArea);
 		const {
 			properties: {
 				acreage,
 			},
 		} = reportArea;
-		const qty = acreage.toFixed(2);
-		console.log(reportArea);
+		const qty = acreage;
+
+		// Site Preparation Costs
 		const site_prep = {
 			title: 'Site Preparation',
-			labels: ['Site Preparation Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			labels: ['Site Preparation Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 			costs: [
 				{
 					id: 'Chisel Plow',
-					unit_cost: '$18.35',
+					unit_cost: 18.35,
 					units: '$/acre',
 					qty,
 					get totalCost() {
-						const totalCost = Number(this.unit_cost.substring(1)) * this.qty;
-						return `$${totalCost.toFixed(2)}`;
+						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const totalCost = annualizedUnitCost * this.qty;
+						return totalCost;
 					},
 				},
 				{
 					id: 'Tandem Disk',
-					unit_cost: '$15.40',
+					unit_cost: 15.40,
 					units: '$/acre',
 					qty,
 					get totalCost() {
-						const totalCost = Number(this.unit_cost.substring(1)) * this.qty;
-						return `$${totalCost.toFixed(2)}`;
+						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const totalCost = annualizedUnitCost * this.qty;
+						return totalCost;
 					},
 				},
 			],
@@ -221,88 +243,135 @@ class Report extends React.Component {
 		const totalSitePrepCost = calcTotalCosts(site_prep);
 		site_prep.costs.push({
 			id: 'Total Site Preparation Costs',
-			totalCost: `$${totalSitePrepCost}`,
+			totalCost: totalSitePrepCost,
 		});
 
+		// Input Costs
 		const inputs = {
 			title: 'Inputs',
-			labels: ['Input Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			labels: ['Input Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 			costs: [
 				{
 					id: 'Princep (pre-emergent herbicide)',
-					unit_cost: '$3.75',
-					units: '$/pint',
-					present_value: '$3.70',
+					unit_cost: 3.75,
+					units: '$/pint/acre',
+					// present_value: '$3.70',
+					get present_value() {
+						return this.unit_cost / (1.02 ** (4 / 12));
+					},
 					qty,
 					get totalCost() {
-						const totalCost = Number(this.present_value.substring(1)) * this.qty;
-						return `$${totalCost.toFixed(2)}`;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
+						return totalCost;
 					},
 				},
 				{
-					id: 'Ground Sprayer (pre-emergent)',
-					unit_cost: '$7.25',
+					id: 'Ground sprayer (pre-emergent)',
+					unit_cost: 7.25,
 					units: '$/acre',
-					present_value: '$6.97',
+					// present_value: '$6.97',
+					get present_value() {
+						return this.unit_cost / 1.02;
+					},
 					qty,
 					get totalCost() {
-						const totalCost = Number(this.present_value.substring(1)) * this.qty;
-						return `$${totalCost.toFixed(2)}`;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
+						return totalCost;
 					},
 				},
 				{
 					id: 'Poast (post-emergent herbicide)',
-					unit_cost: '$11.32',
+					unit_cost: 11.32,
 					units: '$/pint',
-					present_value: '$11.10',
+					// present_value: '$11.10',
+					get present_value() {
+						return this.unit_cost / (1.02 ** (6 / 12));
+					},
 					qty,
 					get totalCost() {
-						const totalCost = Number(this.present_value.substring(1)) * this.qty;
-						return `$${totalCost.toFixed(2)}`;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
+						return totalCost;
 					},
 				},
 				{
-					id: 'Boom Sprayer (post-emergent)',
-					unit_cost: '$7.25',
+					id: 'Boom sprayer (post-emergent)',
+					unit_cost: 7.25,
 					units: '$/acre',
-					present_value: '$7.25',
+					get present_value() {
+						return this.unit_cost;
+					},
 					qty,
 					get totalCost() {
-						const totalCost = Number(this.present_value.substring(1)) * this.qty;
-						return `$${totalCost.toFixed(2)}`;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
+						return totalCost;
 					},
 				},
 				{
 					id: 'Granular Urea (50 lb N/ac)',
-					unit_cost: '$0.56',
-					units: '$/lb',
-					present_value: '$27.62',
+					unit_cost: 28, // This is $0.56/lb * 50 lb.
+					units: '$/acre',
+					// present_value: '$27.62',
+					get present_value() {
+						return this.unit_cost / (1.02 ** (5 / 12));
+					},
 					qty,
 					get totalCost() {
-						const totalCost = Number(this.present_value.substring(1)) * this.qty;
-						return `$${totalCost.toFixed(2)}`;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
+						return totalCost;
 					},
 				},
 				{
 					id: 'Fertilizer spreader',
-					unit_cost: '$7.30',
+					unit_cost: 7.30,
 					units: '$/acre',
-					present_value: '$7.02',
+					// present_value: '$7.02',
+					get present_value() {
+						return this.unit_cost / 1.02;
+					},
 					qty,
 					get totalCost() {
-						const totalCost = Number(this.present_value.substring(1)) * this.qty;
-						return `$${totalCost.toFixed(2)}`;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
+						return totalCost;
+					},
+				},
+				{
+					id: 'Monitoring (Spring)',
+					unit_cost: 3.00,
+					units: '$/acre',
+					qty,
+					get present_value() {
+						// const cost = this.unit_cost / (1.02 ** (4 / 12));
+						// const presentValue = annualSeries(cost, 0.02, 15);
+						const presentValue = annualSeries(this.unit_cost, 0.02, 15);
+						return presentValue;
+					},
+					get totalCost() {
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
+						return totalCost;
 					},
 				},
 				{
 					id: 'Monitoring (Summer)',
-					unit_cost: '$3.00',
+					unit_cost: 3.00,
 					units: '$/acre',
-					present_value: '$65.52',
 					qty,
+					get present_value() {
+						// const cost = this.unit_cost / (1.02 ** (7 / 12));
+						// const presentValue = annualSeries(cost, 0.02, 15);
+						const presentValue = annualSeries(this.unit_cost, 0.02, 15);
+						return presentValue;
+					},
 					get totalCost() {
-						const totalCost = Number(this.present_value.substring(1)) * this.qty;
-						return `$${totalCost.toFixed(2)}`;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
+						return totalCost;
 					},
 				},
 			],
@@ -310,58 +379,226 @@ class Report extends React.Component {
 		const totalInputCosts = calcTotalCosts(inputs);
 		inputs.costs.push({
 			id: 'Total Input Costs',
-			totalCost: `$${totalInputCosts}`,
+			totalCost: totalInputCosts,
 		});
 
+		// Tree Establishment Costs
 		const {
 			properties: {
 				configs: {
 					drip_irrigation,
+					stock_size,
+					rows,
 				},
 			},
 		} = reportArea;
 		const treeQty = getOptimalTreePlacements(reportArea).length;
-
 		const tree_establishment = {
 			title: 'Tree Establishment',
-			labels: ['Tree Establishment Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
-			costs: [
-				// {
-				// 	id: 'Trees (planting stock)',
-				// 	unit_cost: '',
-				// 	units: '$/tree',
-				// },
-				{
-					id: 'Plastic Mulch',
-					unit_cost: '$450.00',
+			labels: ['Tree Establishment Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
+		};
+
+		const avgTreePrice = findTreeAverageCost(rows, stock_size);
+		const tree_costs = {
+			id: 'Trees (planting stock)',
+			unit_cost: avgTreePrice,
+			units: '$/tree',
+			qty: treeQty,
+			get present_value() {
+				return this.unit_cost / 1.02;
+			},
+			get totalCost() {
+				const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+				const totalCost = annualizedPVCost * this.qty;
+				return totalCost;
+			},
+		};
+		let tree_planting_costs;
+		const stockSizeValue = treeStockSizes.find(ea => ea.id === stock_size).value || null;
+		if (stockSizeValue) {
+			if (stockSizeValue === 'bareroot') {
+				tree_planting_costs = {
+					id: 'Tree planting (bareroot)',
+					unit_cost: 220.00,
 					units: '$/acre',
+					// present_value: '$211.54',
+					get present_value() {
+						return this.unit_cost / 1.02;
+					},
 					qty,
 					get totalCost() {
-						const totalCost = Number(this.unit_cost.substring(1)) * this.qty;
-						return `$${totalCost.toFixed(2)}`;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
+						return totalCost;
 					},
-				},
-			],
+				};
+			} else if (stockSizeValue.includes('container')) {
+				tree_planting_costs = {
+					id: 'Tree planting (containerized)',
+					unit_cost: 1.50,
+					units: '$/tree',
+					// present_value: '$1.44',
+					get present_value() {
+						return this.unit_cost / 1.02;
+					},
+					qty: treeQty,
+					get totalCost() {
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
+						return totalCost;
+					},
+				};
+			}
+		}
+		const plastic_mulch_costs = {
+			id: 'Plastic Mulch',
+			unit_cost: 450.00,
+			units: '$/acre',
+			qty,
+			get totalCost() {
+				const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+				const totalCost = annualizedUnitCost * this.qty;
+				return totalCost;
+			},
 		};
+		const costs = [tree_costs, tree_planting_costs, plastic_mulch_costs];
+		tree_establishment.costs = costs;
 		if (drip_irrigation) {
 			tree_establishment.costs.push({
 				id: 'Watering (drip irrigation)',
-				unit_cost: '$4.50',
+				unit_cost: 4.50,
 				units: '$/tree',
+				// present_value: '$4.33',
+				get present_value() {
+					return this.unit_cost / 1.02;
+				},
 				qty: treeQty,
 				get totalCost() {
-					const totalCost = Number(this.unit_cost.substring(1)) * this.qty;
-					return `$${totalCost.toFixed(2)}`;
+					const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+					const totalCost = annualizedPVCost * this.qty;
+					return totalCost;
 				},
 			});
 		}
 		const totalEstablishmentCosts = calcTotalCosts(tree_establishment);
 		tree_establishment.costs.push({
 			id: 'Total Tree Establishment Costs',
-			totalCost: `$${totalEstablishmentCosts}`,
+			totalCost: totalEstablishmentCosts,
 		});
 
-		const reportData = [site_prep, inputs, tree_establishment];
+		// Tree Replacement costs
+		const tree_replacement_costs = {
+			title: 'Tree Replacement',
+			labels: ['Tree Replacement Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
+			costs: [
+				{
+					id: 'Tree replacement (natural mortality)',
+					unit_cost: tree_costs.unit_cost,
+					units: '$/tree',
+					qty: Math.round(treeQty * 0.1),
+					get present_value() {
+						return this.unit_cost / (1.02 ** 3);
+					},
+					get totalCost() {
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
+						return totalCost;
+					},
+				},
+				{
+					id: 'Tree planting (by hand)',
+					unit_cost: 1.50,
+					units: '$/tree',
+					qty: Math.round(treeQty * 0.1),
+					get present_value() {
+						return this.unit_cost / (1.02 ** 3);
+					},
+					get totalCost() {
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
+						return totalCost;
+					},
+				},
+			],
+		};
+		const totalTreeReplacementCosts = calcTotalCosts(tree_replacement_costs);
+		tree_replacement_costs.costs.push({
+			id: 'Total Tree Replacement Costs',
+			totalCost: totalTreeReplacementCosts,
+		});
+
+		// Opportunity costs
+		const {
+			properties: {
+				csr,
+				rent,
+				configs: {
+					pasture_conversion,
+				},
+			},
+		} = reportArea;
+		const opportunity_cost = {
+			title: 'Opportunity Costs',
+			labels: ['Opportunity Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
+			costs: [
+				pasture_conversion
+					? {
+						id: 'Land rent pasture',
+						unit_cost: 51.00,
+						units: '$/acre',
+						qty,
+						get present_value() {
+							return annualSeries(this.unit_cost, 0.02, 15);
+						},
+						get totalCost() {
+							const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+							const totalCost = annualizedPVCost * this.qty;
+							return totalCost;
+						},
+					}
+					: {
+						id: 'Land rent row crop (non-irrigated)',
+						unit_cost: findAverage(csr) * rent,
+						units: '$/acre',
+						qty,
+						get present_value() {
+							return annualSeries(this.unit_cost, 0.02, 15);
+						},
+						get totalCost() {
+							const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+							const totalCost = annualizedPVCost * this.qty;
+							return totalCost;
+						},
+					},
+			],
+		};
+
+		const totalOpportunityCost = calcTotalCosts(opportunity_cost);
+		opportunity_cost.costs.push({
+			id: 'Total Opportunity Costs',
+			totalCost: totalOpportunityCost,
+		});
+
+		// EQIP
+		const {
+			properties: {
+				rowLength,
+			},
+		} = reportArea;
+		const eqip = findTreeEQIP(reportArea.properties);
+		const eqip_costs = {
+			labels: ['Conservation Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			title: 'EQIP',
+		};
+		eqip_costs.costs = getEQIPCosts(eqip, qty, treeQty, rowLength);
+		const totalEQIPCosts = calcTotalCosts(eqip_costs) || 0;
+		eqip_costs.costs.push({
+			id: 'Total EQIP Costs',
+			totalCost: totalEQIPCosts,
+		});
+
+		const reportData = [site_prep, inputs, tree_establishment, tree_replacement_costs, opportunity_cost, eqip_costs];
+		debug('Tree report data:', reportData);
 		return reportData;
 	}
 
@@ -375,36 +612,39 @@ class Report extends React.Component {
 		// Site Preparation Costs
 		const site_prep = {
 			title: 'Site Preparation',
-			labels: ['Site Preparation Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			labels: ['Site Preparation Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 			costs: [
 				{
 					id: 'Tillage',
-					unit_cost: '$15.40',
+					unit_cost: 15.40,
 					units: '$/acre',
-					qty: acreage.toFixed(2),
+					qty: acreage,
 					get totalCost() {
-						const totalCost = Number(this.unit_cost.substring(1)) * this.qty;
-						return `$${totalCost.toFixed(2)}`;
+						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const totalCost = annualizedUnitCost * this.qty;
+						return totalCost;
 					},
 				},
 				{
 					id: 'Herb Product',
-					unit_cost: '$15.00',
+					unit_cost: 15.00,
 					units: '$/acre',
-					qty: acreage.toFixed(2),
+					qty: acreage,
 					get totalCost() {
-						const totalCost = Number(this.unit_cost.substring(1)) * this.qty;
-						return `$${totalCost.toFixed(2)}`;
+						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const totalCost = annualizedUnitCost * this.qty;
+						return totalCost;
 					},
 				},
 				{
 					id: 'Herb Application',
-					unit_cost: '$53.00',
+					unit_cost: 53.00,
 					units: '$/acre',
-					qty: acreage.toFixed(2),
+					qty: acreage,
 					get totalCost() {
-						const totalCost = Number(this.unit_cost.substring(1)) * this.qty;
-						return `$${totalCost.toFixed(2)}`;
+						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const totalCost = annualizedUnitCost * this.qty;
+						return totalCost;
 					},
 				},
 			],
@@ -412,42 +652,45 @@ class Report extends React.Component {
 		const totalSitePrepCost = calcTotalCosts(site_prep);
 		site_prep.costs.push({
 			id: 'Site Preparation Total Cost',
-			totalCost: `$${totalSitePrepCost}`,
+			totalCost: totalSitePrepCost,
 		});
 
 		// Establishment Costs
 		const establishment = {
 			title: 'Establishment',
-			labels: ['Establishment Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			labels: ['Establishment Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 			costs: [
 				{
 					id: 'Seed',
-					unit_cost: `$${reportArea.properties.configs.seed_price}`,
+					unit_cost: reportArea.properties.configs.seed_price,
 					units: '$/acre',
-					qty: acreage.toFixed(2),
+					qty: acreage,
 					get totalCost() {
-						const totalCost = Number(this.unit_cost.substring(1)) * this.qty;
-						return `$${totalCost.toFixed(2)}`;
+						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const totalCost = annualizedUnitCost * this.qty;
+						return totalCost;
 					},
 				},
 				{
 					id: 'Seed Drilling',
-					unit_cost: '$18.00',
+					unit_cost: 18.00,
 					units: '$/acre',
-					qty: acreage.toFixed(2),
+					qty: acreage,
 					get totalCost() {
-						const totalCost = Number(this.unit_cost.substring(1)) * this.qty;
-						return `$${totalCost.toFixed(2)}`;
+						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const totalCost = annualizedUnitCost * this.qty;
+						return totalCost;
 					},
 				},
 				{
 					id: 'Culitpacking',
-					unit_cost: '$20.00',
+					unit_cost: 20.00,
 					units: '$/acre',
-					qty: acreage.toFixed(2),
+					qty: acreage,
 					get totalCost() {
-						const totalCost = Number(this.unit_cost.substring(1)) * this.qty;
-						return `$${totalCost.toFixed(2)}`;
+						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const totalCost = annualizedUnitCost * this.qty;
+						return totalCost;
 					},
 				},
 			],
@@ -455,71 +698,99 @@ class Report extends React.Component {
 		const totalEstablishmentCosts = calcTotalCosts(establishment);
 		establishment.costs.push({
 			id: 'Total Establishment Costs',
-			totalCost: `$${totalEstablishmentCosts}`,
+			totalCost: totalEstablishmentCosts,
 		});
 
 		// Management Costs
 		const management = {
 			title: 'Management',
-			labels: ['Management Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			labels: ['Management Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 		};
 		let management_row2;
 		let management_row3;
 		const management_row1 = {
 			id: 'Mowing (year 1: 3x)',
-			unit_cost: '$90.00',
-			present_value: '$88.24',
+			unit_cost: 90.00,
+			// present_value: '$88.24',
+			get present_value() {
+				const unitCost = this.unit_cost;
+				const present_value = annualSeries(unitCost, 0.02, 1);
+				return present_value;
+			},
 			units: '$/acre',
-			qty: acreage.toFixed(2),
+			qty: acreage,
 			get totalCost() {
-				const totalCost = Number(this.present_value.substring(1)) * this.qty;
-				return `$${totalCost.toFixed(2)}`;
+				const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+				const totalCost = annualizedPVCost * this.qty;
+				return totalCost;
 			},
 		};
 		if (reportArea.properties.configs.management.display === 'mow') {
 			management_row2 = {
 				id: 'Mowing (year 2-15)',
-				unit_cost: '$30.00',
-				present_value: '$327.23',
+				unit_cost: 30.00,
+				// present_value: '$327.23',
+				get present_value() {
+					const unitCost = this.unit_cost;
+					const present_value = (annualSeries(unitCost, 0.02, 14) / (1.02 ** 2));
+					return present_value;
+				},
 				units: '$/acre',
-				qty: acreage.toFixed(2),
+				qty: acreage,
 				get totalCost() {
-					const totalCost = Number(this.present_value.substring(1)) * this.qty;
-					return `$${totalCost.toFixed(2)}`;
+					const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+					const totalCost = annualizedPVCost * this.qty;
+					return totalCost;
 				},
 			};
 			management_row3 = {
 				id: 'Raking, Rowing, Baleing (year 2-15)',
-				unit_cost: '$35.85',
-				present_value: '$391.04',
+				unit_cost: 35.85,
+				// present_value: '$391.04',
+				get present_value() {
+					const unitCost = this.unit_cost;
+					const present_value = (annualSeries(unitCost, 0.02, 14) / (1.02 ** 2));
+					return present_value;
+				},
 				units: '$/acre',
-				qty: acreage.toFixed(2),
+				qty: acreage,
 				get totalCost() {
-					const totalCost = Number(this.present_value.substring(1)) * this.qty;
-					return `$${totalCost.toFixed(2)}`;
+					const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+					const totalCost = annualizedPVCost * this.qty;
+					return totalCost;
 				},
 			};
 		} else if (reportArea.properties.configs.management.display === 'burn') {
 			management_row2 = {
 				id: 'Burning (year 2-6)',
-				unit_cost: '$65.00',
-				present_value: '$237.89',
+				unit_cost: 65.00,
+				// present_value: '$237.89',
+				get present_value() {
+					const unitCost = this.unit_cost;
+					const present_value = (annualSeries(unitCost, 0.02, 4) / (1.02 ** 2));
+					return present_value;
+				},
 				units: '$/acre',
-				qty: acreage.toFixed(2),
+				qty: acreage,
 				get totalCost() {
-					const totalCost = Number(this.present_value.substring(1)) * this.qty;
-					return `$${totalCost.toFixed(2)}`;
+					const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+					const totalCost = annualizedPVCost * this.qty;
+					return totalCost;
 				},
 			};
 			management_row3 = {
 				id: 'Burning (year 8, 10, 12, 14)',
-				unit_cost: '$65.00',
-				present_value: '$169.54',
+				unit_cost: 65.00,
+				// present_value: '$169.54',
+				get present_value() {
+					return (this.unit_cost / (1.02 ** 8)) + (this.unit_cost / (1.02 ** 10)) + (this.unit_cost / (1.02 ** 12)) + (this.unit_cost / (1.02 ** 14));
+				},
 				units: '$/acre',
-				qty: acreage.toFixed(2),
+				qty: acreage,
 				get totalCost() {
-					const totalCost = Number(this.present_value.substring(1)) * this.qty;
-					return `$${totalCost.toFixed(2)}`;
+					const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+					const totalCost = annualizedPVCost * this.qty;
+					return totalCost;
 				},
 			};
 		}
@@ -527,7 +798,7 @@ class Report extends React.Component {
 		const totalManagementCosts = calcTotalCosts(management);
 		management.costs.push({
 			id: 'Total Management Costs',
-			totalCost: `$${totalManagementCosts}`,
+			totalCost: totalManagementCosts,
 		});
 
 		// Opportunity Costs
@@ -537,35 +808,42 @@ class Report extends React.Component {
 				csr,
 			},
 		} = reportArea;
-		const average_csr = csr.reduce((a, b) => a + b, 0) / csr.length;
+		const average_csr = findAverage(csr);
 		const opportunity_cost = {
 			title: 'Opportunity Cost',
-			labels: ['Opportunity Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			labels: ['Opportunity Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 			costs: [
 				{
 					id: 'Land Rent (year 1-15)',
-					unit_cost: `$${(average_csr * rent).toFixed(2)}`,
+					unit_cost: (average_csr * rent),
 					units: '$/acre',
-					qty: acreage.toFixed(2),
+					qty: acreage,
 					get present_value() {
-						const unitCost = Number(this.unit_cost.substring(1));
-						const present_value = `$${annualSeries(unitCost, 0.02, 14).toFixed(2)}`;
+						const unitCost = this.unit_cost;
+						const present_value = annualSeries(unitCost, 0.02, 15);
 						return present_value;
 					},
 					get totalCost() {
-						const presentValue = Number(this.present_value.substring(1));
-						return `$${(presentValue * this.qty).toFixed(2)}`;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
+						return totalCost;
 					},
 				},
 				{
 					id: 'General Operation Costs (year 1-15)',
-					unit_cost: '$8.00',
+					unit_cost: 8.00,
 					units: '$/acre',
-					qty: acreage.toFixed(2),
-					present_value: '$102.79',
+					qty: acreage,
+					// present_value: '$102.79',
+					get present_value() {
+						const unitCost = this.unit_cost;
+						const present_value = annualSeries(unitCost, 0.02, 15);
+						return present_value;
+					},
 					get totalCost() {
-						const presentValue = Number(this.present_value.substring(1));
-						return `$${(presentValue * this.qty).toFixed(2)}`;
+						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+						const totalCost = annualizedPVCost * this.qty;
+						return totalCost;
 					},
 				},
 			],
@@ -573,42 +851,48 @@ class Report extends React.Component {
 		const totalOpportunityCost = calcTotalCosts(opportunity_cost);
 		opportunity_cost.costs.push({
 			id: 'Total Opportunity Costs',
-			totalCost: `$${totalOpportunityCost}`,
+			totalCost: totalOpportunityCost,
 		});
-		const conservation_program = {
+
+		// Conservation Program
+		const totalSitePrepUnitCosts = site_prep.costs.map(cost => cost.unit_cost || 0).reduce((a, b) => a + b, 0);
+		const totalEstablishmentUnitCosts = establishment.costs.map(cost => cost.unit_cost || 0).reduce((a, b) => a + b, 0);
+		const conservationProgram = {
 			title: 'Conservation Programs',
-			labels: ['Conservation Program', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			labels: ['Conservation Program', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 			costs: [
 				{
 					id: 'Cost Share 90% (year 1)',
-					// this is incorrect (should be calculated with site_prep: unit_costs and establishment: PV)
-					unit_cost: `$${((Number(totalSitePrepCost) + Number(totalEstablishmentCosts)) * 0.9).toFixed(2)}`,
+					unit_cost: ((totalSitePrepUnitCosts + totalEstablishmentUnitCosts) * 0.9),
 					units: '$/acre',
-					qty: acreage.toFixed(2),
+					qty: acreage,
 					get totalCost() {
-						const unitCost = Number(this.unit_cost.substring(1));
-						return `$${(unitCost * this.qty).toFixed(2)}`;
+						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const totalCost = annualizedUnitCost * this.qty;
+						return totalCost;
 					},
 				},
 				{
 					id: 'Rent Payment (year 1-15)',
-					unit_cost: `$${(Number(opportunity_cost.costs[0].present_value.substring(1)) * 0.9).toFixed(2)}`,
+					unit_cost: (opportunity_cost.costs[0].present_value * 0.9),
 					units: '$/acre',
-					qty: acreage.toFixed(2),
+					qty: acreage,
 					get totalCost() {
-						const unitCost = Number(this.unit_cost.substring(1));
-						return `$${(unitCost * this.qty).toFixed(2)}`;
+						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const totalCost = annualizedUnitCost * this.qty;
+						return totalCost;
 					},
 				},
 			],
 		};
-		const totalConservationCosts = calcTotalCosts(conservation_program);
-		conservation_program.costs.push({
+		const totalConservationCosts = calcTotalCosts(conservationProgram);
+		conservationProgram.costs.push({
 			id: 'Total Conservation',
-			totalCost: `$${totalConservationCosts}`,
+			totalCost: totalConservationCosts,
 		});
 
-		const reportData = [site_prep, establishment, management, opportunity_cost, conservation_program];
+		const reportData = [site_prep, establishment, management, opportunity_cost, conservationProgram];
+		debug('Prairie report data:', reportData);
 		return reportData;
 	}
 
@@ -617,8 +901,16 @@ class Report extends React.Component {
 		this.setState(() => ({ activeTable: updateactiveTable }));
 	}
 
+	handleDownloadXLSX = () => {
+		const book = spreadsheet(this.props.features);
+		const date = new Date();
+		book.xlsx.writeBuffer()
+			.then(buf => download(buf, `prairie_tree_planting_tool_report_${date.getTime()}.xlsx`));
+	}
+
 	render() {
 		const {
+			handleDownloadXLSX,
 			handleTabClick,
 			props: {
 				features,
@@ -636,10 +928,12 @@ class Report extends React.Component {
 						<img src="../assets/left-arrow.svg" alt="Back to Map" />
 						<Link to="/" className="map-link">Back to Map</Link>
 					</div>
-					<div className="distribute reportAction">
-						<img src="../assets/download_xls.svg" alt="Download XLS file" />
-						<p>Download XLS File</p>
-					</div>
+					<button type="button" onClick={handleDownloadXLSX}>
+						<div className="distribute reportAction">
+							<img src="../assets/download_xls.svg" alt="Download XLSX file" />
+							<p>Download XLSX File</p>
+						</div>
+					</button>
 					<div className="distribute reportAction">
 						<img src="../assets/download_shapefile.svg" alt="Download Shapefile" />
 						<p>Download Shapefile</p>
@@ -647,7 +941,7 @@ class Report extends React.Component {
 				</div>
 				<div className="reportText">
 					<p className="header-large">Cost Report</p>
-					<p>Below is your econmic report for planting your tree area. You can use any of the options above to print, email or download your report.</p>
+					<p>Below is your economic report for planting your tree area. You can use any of the options above to print, email or download your report.</p>
 				</div>
 				{
 					features.length > 0 && (
@@ -655,7 +949,7 @@ class Report extends React.Component {
 							<div className="reportArea flex-column">
 								<div className="selectWrap flex-column">
 									<span className="inputLabel">View Report Area</span>
-									<select onChange={(e) => this.handleReportAreaChange(e)}>
+									<select value={this.state.reportArea.properties.label} onChange={(e) => this.handleReportAreaChange(e)}>
 										{
 											features.map(feature => (
 												<option value={feature.properties.label} key={feature.id}>{feature.properties.label}</option>

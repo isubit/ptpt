@@ -53,6 +53,7 @@ export class Planting extends React.Component {
 
 	componentDidMount() {
 		this.setDrawMode();
+		this.determineHelper();
 	}
 
 	componentDidUpdate(prevProps) {
@@ -60,7 +61,6 @@ export class Planting extends React.Component {
 			events,
 			props: {
 				map,
-				toggleHelper,
 				type,
 			},
 		} = this;
@@ -74,17 +74,26 @@ export class Planting extends React.Component {
 		this.setDrawMode();
 
 		if (prevProps.type !== type) {
-			if (type === 'tree') {
-				toggleHelper({
-					text: 'Draw a tree row by clicking where you want the row to start and end. You can add more rows and define your trees during configuration.',
-					buttonText: 'No problem!',
-				});
-			} else {
-				toggleHelper({
-					text: 'Draw a prairie area by clicking to draw the corners of a shape. Click the starting point to finish drawing.',
-					buttonText: 'No problem!',
-				});
-			}
+			this.determineHelper();
+		}
+	}
+
+	determineHelper() {
+		const {
+			toggleHelper,
+			type,
+		} = this.props;
+
+		if (type === 'tree') {
+			toggleHelper({
+				text: 'Draw a tree row by clicking where you want the row to start and end. You can add more rows and define your trees during configuration.',
+				buttonText: 'No problem!',
+			});
+		} else {
+			toggleHelper({
+				text: 'Draw a prairie area by clicking to draw the corners of a shape. Click the starting point to finish drawing.',
+				buttonText: 'No problem!',
+			});
 		}
 	}
 

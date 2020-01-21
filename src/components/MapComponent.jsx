@@ -212,7 +212,7 @@ export class MapComponent extends React.Component {
 			},
 		} = this.props;
 
-		history.push(step);
+		history.push(step)
 	}
 
 	setEditingFeature = (feature, cb = () => {}) => {
@@ -294,19 +294,18 @@ export class MapComponent extends React.Component {
 		}
 	}
 
-	saveFeature = feature => {
+	saveFeature = (feature, setReportFeature) => {
 		// This saves the feature to context.
 		const {
 			map,
 			props: {
-				addData,
-				mapAPILoaded,
 				router: {
 					history,
 				},
+				addData,
+				mapAPILoaded,
 			},
 		} = this;
-
 		debug('Saving feature:', feature);
 
 		let clone = _.cloneDeep(feature);
@@ -327,9 +326,17 @@ export class MapComponent extends React.Component {
 				editingFeature: null,
 			}));
 
-			history.push('/');
+			if (!setReportFeature) {
+				this.nextStep('/')
+			} else {
+				history.push({
+					pathname: '/report',
+					state: clone,
+				});
+			}
 		});
 	}
+
 
 	deleteFeature = id => {
 		const {

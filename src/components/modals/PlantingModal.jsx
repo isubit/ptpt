@@ -33,11 +33,11 @@ export class PlantingModal extends React.Component {
 						species: '',
 					}],
 					spacing_rows: {
-						value: 3, // placeholder value
+						value: 10,
 						unit: 'feet',
 					},
 					spacing_trees: {
-						value: 3, //  placeholder value
+						value: 5,
 						unit: 'feet',
 					},
 					stock_size: '',
@@ -164,6 +164,7 @@ export class PlantingModal extends React.Component {
 
 	handleStockSizeChange = (event) => {
 		const stock_size = event.target.value;
+		console.log(stock_size);
 		this.setState(() => ({ stock_size }));
 	}
 
@@ -230,7 +231,7 @@ export class PlantingModal extends React.Component {
 		}
 	}
 
-	handleSave = () => {
+	handleSave = (e) => {
 		const {
 			props: {
 				editingFeature,
@@ -242,7 +243,6 @@ export class PlantingModal extends React.Component {
 				},
 			},
 		} = this;
-
 		let properties;
 		if (type === 'tree') {
 			const {
@@ -291,6 +291,7 @@ export class PlantingModal extends React.Component {
 				},
 			};
 		}
+		const setReportFeature = e.target.innerHTML === 'View Report' || (e.target.children[0] ? e.target.children[0].innerText === 'View Report' : false);
 
 		if (this.form.current && this.form.current.checkValidity()) {
 			this.setState(() => ({
@@ -300,7 +301,7 @@ export class PlantingModal extends React.Component {
 					...editingFeature.properties,
 					...properties,
 				};
-				saveFeature(editingFeature);
+				saveFeature(editingFeature, setReportFeature);
 			});
 		} else {
 			this.setState(() => ({
@@ -308,16 +309,6 @@ export class PlantingModal extends React.Component {
 			}));
 		}
 	}
-
-	// routeToReport = () => {
-	// 	const {
-	// 		editingFeature,
-	// 		nextStep,
-	// 	} = this.props;
-
-	// 	this.handleSave();
-	// 	nextStep('/report', editingFeature)
-	// }
 
 	render() {
 		const {
@@ -451,17 +442,6 @@ export class PlantingModal extends React.Component {
 									>
 										<span>View Report</span>
 									</button>
-									{/* <Link
-										onClick={this.handleSave}
-										onKeyPress={this.handleSave}
-										className="Button"
-										to={{
-											pathname: '/report',
-											state: editingFeature,
-										}}
-									>
-										<span>View Report</span>
-									</Link> */}
 								</>
 							)
 							: (
