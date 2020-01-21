@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import download from 'js-file-download';
+import JSZip from 'jszip';
 import shpwrite from 'shp-write';
 import uuid from 'uuid/v4';
 import Debug from 'debug';
@@ -57,7 +58,7 @@ export const ReportWrapper = (props) => {
 				const features = getFeatures(mapCtx.state.data)
 					.map(ea => {
 						const labeledFeature = _.cloneDeep(ea);
-						labeledFeature.properties.label = `${labeledFeature.properties.type.replace(/^\w/, c => c.toUpperCase())} ${labeledFeature.properties.type === 'tree' ? 'Rows' : 'Area'} ${labeledFeature.properties.index}`;
+						labeledFeature.properties.label = `${labeledFeature.properties.type.replace(/^\w/, c => c.toUpperCase())} Area ${labeledFeature.properties.index}`;
 						return labeledFeature;
 					});
 				if (editingFeature) {
@@ -905,39 +906,52 @@ class Report extends React.Component {
 		this.setState(() => ({ activeTable: updateactiveTable }));
 	}
 
-	handleDownloadSHP = () => {
+	handleDownloadSHP = async () => {
 		const date = new Date();
 		const features = this.props.features.reduce((arr, ea) => {
-			if (ea.properties.type === 'tree') {
-				return arr.concat(ea.properties.rows.map((row, i) => {
-					const rowInfo = ea.properties.configs.rows[i];
+			const {
+				acreage,
+				label,
+				type,
+			} = ea.properties;
+
+			if (type === 'tree') {
+				const {
+					configs: {
+						rows,
+						stock_size,
+					},
+					rows: treeRowGeos,
+				} = ea.properties;
+
+				return arr.concat(treeRowGeos.map((row, i) => {
+					const rowInfo = rows[i];
 					const treeType = (_.keyBy(treeTypes, 'id')[rowInfo.type] || {}).value;
 					const treeSpecies = (_.keyBy(treeList, 'id')[rowInfo.species] || {}).display;
-					const stockSize = (_.keyBy(treeStockSizes, 'id')[ea.properties.configs.stock_size] || {}).value;
+					const stockSize = (_.keyBy(treeStockSizes, 'id')[stock_size] || {}).value;
 					return {
 						...row,
 						properties: {
-							...row.properties,
-							type: treeType,
+							label: `${label} Row ${i + 1}`,
 							species: treeSpecies,
 							stock_size: stockSize,
+							type: treeType,
 						},
 					};
 				}));
 			}
 
 			const {
-				properties: {
-					acreage,
-					bufferAcreage,
+				bufferAcreage,
+				configs: {
 					seed,
 				},
-			} = ea;
+			} = ea.properties;
 
 			const buffer = _.cloneDeep(ea.properties.buffer || {});
 			buffer.properties = {
 				...buffer.properties,
-				label: `Buffer for ${ea.properties.label}`,
+				label: `Buffer for ${label}`,
 			};
 
 			const seedMix = (seedMixes.find(where => where.id === seed) || {}).display;
@@ -946,21 +960,78 @@ class Report extends React.Component {
 				properties: {
 					acreage,
 					bufferAcreage,
+					label,
 					seed_mix: seedMix,
 				},
 			};
 			return arr.concat([prairie, buffer]);
 		}, []);
-		shpwrite.download({
-			type: 'FeatureCollection',
-			features,
-		}, {
-			folder: `prairie_tree_planting_tool_report_${date.getTime()}`,
-			types: {
-				polygon: 'prairies',
-				polyline: 'trees',
-			},
+		debug(features);
+
+		function writeDataToBuffer(feature) {
+			return new Promise(resolve => {
+				const geoType = feature.geometry.type === 'LineString' ? 'POLYLINE' : 'POLYGON';
+				const data = [feature.properties];
+				const geometries = [feature.geometry.coordinates];
+
+				shpwrite.write(
+					data,
+					geoType,
+					geometries,
+					(err, files) => {
+						resolve([feature, files]);
+					},
+				);
+			});
+		}
+
+		const promises = features.map(writeDataToBuffer);
+		const allFiles = await Promise.all(promises);
+		const zip = new JSZip();
+		const name = `prairie_tree_planting_tool_report_${date.getTime()}`;
+		const folder = zip.folder(name);
+		allFiles.forEach(ea => {
+			const feature = ea[0];
+			const files = ea[1];
+			const subFolder = folder.folder(feature.properties.label);
+			subFolder.file(`${feature.properties.label.replace(/\s/g, '_')}.shp`, Buffer.from(files.shp.buffer));
+			subFolder.file(`${feature.properties.label.replace(/\s/g, '_')}.shx`, Buffer.from(files.shx.buffer));
+			subFolder.file(`${feature.properties.label.replace(/\s/g, '_')}.dbf`, Buffer.from(files.dbf.buffer));
 		});
+		const zipFile = await zip.generateAsync({ type: 'blob' });
+		download(zipFile, `${name}.zip`);
+
+		// features.forEach(ea => {
+
+
+		// 	// function toBuffer(ab) {
+		// 	// 	const buffer = Buffer.from(ab);
+		// 	// 	const view = new Uint8Array(ab);
+		// 	// 	for (let i = 0; i < buffer.length; i += 1) { buffer[i] = view[i]; }
+		// 	// 	return buffer;
+		// 	// }
+
+		// 	function finish(err, files) {
+		// 		const zip = new JSZip();
+		// 		const name = `prairie_tree_planting_tool_report_${date.getTime()}`;
+		// 		const folder = zip.folder(name);
+		// 		folder.file(`${ea.properties.label.replace(/\s/g, '_')}.shp`, Buffer.from(files.shp.buffer));
+		// 		folder.file(`${ea.properties.label.replace(/\s/g, '_')}.shx`, Buffer.from(files.shx.buffer));
+		// 		folder.file(`${ea.properties.label.replace(/\s/g, '_')}.dbf`, Buffer.from(files.dbf.buffer));
+		// 		zip.generateAsync({ type: 'blob' }).then(content => download(content, `${name}.zip`));
+		// 	}
+		// });
+
+		// shpwrite.download({
+		// 	type: 'FeatureCollection',
+		// 	features,
+		// }, {
+		// 	folder: `prairie_tree_planting_tool_report_${date.getTime()}`,
+		// 	types: {
+		// 		polygon: 'prairies',
+		// 		line: 'trees',
+		// 	},
+		// });
 	}
 
 	handleDownloadXLSX = () => {
