@@ -1,15 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { Loader } from 'components/Loader';
+
 import { MapConsumer } from 'contexts/MapState';
 
 export class Component extends React.Component {
+	state = {
+		loader: true, // This is a loader for visual purposes.
+	}
+
 	componentDidMount() {
 		const {
 			promptCurrentGeolocation,
 		} = this.props;
 
 		promptCurrentGeolocation();
+
+		this.loaderTimeout = setTimeout(() => {
+			this.setState(() => ({ loader: false }));
+		}, 500);
+	}
+
+	componentWillUnmount() {
+		clearTimeout(this.loaderTimeout);
 	}
 
 	componentDidUpdate(prevProps) {
@@ -53,30 +67,34 @@ export class Component extends React.Component {
 
 		return (
 			<div className="LocationPrompt modal">
-				<div className="grid-row">
-					<div className="grid-wrap">
-						<Link className="CloseButton" to={location.pathname} replace><img src="../../assets/close_dropdown.svg" alt="close location prompt" /></Link>
-						<h3 className="modal-header">Allow the Prairie &amp; Tree Planting application to access your location while using the app?</h3>
-						<div className="content modal-text">
-							<div className="LocationPromptExplainer">
-								<img src="https://via.placeholder.com/250x150" alt="browser location prompt" />
-								<p>
-									{
-										errorMsg && geolocationError === 1
-											? errorMsg
-											: 'Select \'Allow\' to pan the map to your current location. We don\'t use your location information for any other purposes. Blocking this feature will still allow you to use all other functionality in the app.'
-									}
-								</p>
+				{this.state.loader
+					? <Loader />
+					: (
+						<div className="grid-row">
+							<div className="grid-wrap">
+								<Link className="CloseButton" to={location.pathname} replace><img src="../../assets/close_dropdown.svg" alt="close location prompt" /></Link>
+								<h3 className="modal-header">Allow the Prairie &amp; Tree Planting application to access your location while using the app?</h3>
+								<div className="content modal-text">
+									<div className="LocationPromptExplainer">
+										<img src="https://via.placeholder.com/250x150" alt="browser location prompt" />
+										<p>
+											{
+												errorMsg && geolocationError === 1
+													? errorMsg
+													: 'Select \'Allow\' to pan the map to your current location. We don\'t use your location information for any other purposes. Blocking this feature will still allow you to use all other functionality in the app.'
+											}
+										</p>
+									</div>
+									{errorMsg && geolocationError > 1 && <p className="warning spacer-top-2">{errorMsg} Click the link below or close this popup to continue without this feature.</p>}
+								</div>
+								{errorMsg && (
+									<div className="modal-footer">
+										<Link className="modal-link block" to={location.pathname}>Continue without my location</Link>
+									</div>
+								)}
 							</div>
-							{errorMsg && geolocationError > 1 && <p className="warning spacer-top-2">{errorMsg} Click the link below or close this popup to continue without this feature.</p>}
 						</div>
-						{errorMsg && (
-							<div className="modal-footer">
-								<Link className="modal-link block" to={location.pathname}>Continue without my location</Link>
-							</div>
-						)}
-					</div>
-				</div>
+					)}
 			</div>
 		);
 	}
