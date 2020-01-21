@@ -10,6 +10,8 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import calcBbox from '@turf/bbox';
 import Debug from 'debug';
 
+import { Loader } from 'components/Loader';
+
 import { MapConsumer } from 'contexts/MapState';
 import { SettingsConsumer } from 'contexts/Settings';
 
@@ -481,6 +483,7 @@ export class MapComponent extends React.Component {
 			state: {
 				cleanup,
 				drawInit,
+				enriching,
 				sourcesAdded,
 				editingFeature,
 			},
@@ -501,6 +504,12 @@ export class MapComponent extends React.Component {
 		return (
 			<>
 				<div className="Map" ref={this.mapElement}>
+					{enriching && (
+						<div className="modal">
+							<Loader />
+						</div>
+					)}
+
 					{/* When the draw controller is init, we can render the drawing modes. They self-contain their event listeners and config forms. */}
 					{!cleanup && drawInit
 						&& (
