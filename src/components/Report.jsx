@@ -21,9 +21,9 @@ import {
 import { spreadsheet } from 'utils/spreadsheet';
 import { MapConsumer } from 'contexts/MapState';
 import treeStockSizes from 'references/tree_stock_sizes.json';
-import treeTypes from 'references/tree_types.json';
-import treeList from 'references/trees_list.json';
-import treeCosts from 'references/tree_cost.json';
+// import treeTypes from 'references/tree_types.json';
+// import treeList from 'references/trees_list.json';
+// import treeCosts from 'references/tree_cost.json';
 
 const debug = Debug('Report');
 
@@ -203,6 +203,7 @@ class Report extends React.Component {
 	}
 
 	calcTreeReportData = (reportArea) => {
+		debug('Preparing report data for feature:', reportArea);
 		const {
 			properties: {
 				acreage,
@@ -315,7 +316,7 @@ class Report extends React.Component {
 					units: '$/acre',
 					// present_value: '$27.62',
 					get present_value() {
-						return (50 * this.unit_cost) / (1.02 ** (5 / 12));
+						return this.unit_cost / (1.02 ** (5 / 12));
 					},
 					qty,
 					get totalCost() {
@@ -345,8 +346,9 @@ class Report extends React.Component {
 					units: '$/acre',
 					qty,
 					get present_value() {
-						const cost = this.unit_cost / (1.02 ** (4 / 12));
-						const presentValue = annualSeries(cost, 0.02, 15);
+						// const cost = this.unit_cost / (1.02 ** (4 / 12));
+						// const presentValue = annualSeries(cost, 0.02, 15);
+						const presentValue = annualSeries(this.unit_cost, 0.02, 15);
 						return presentValue;
 					},
 					get totalCost() {
@@ -361,8 +363,9 @@ class Report extends React.Component {
 					units: '$/acre',
 					qty,
 					get present_value() {
-						const cost = this.unit_cost / (1.02 ** (7 / 12));
-						const presentValue = annualSeries(cost, 0.02, 15);
+						// const cost = this.unit_cost / (1.02 ** (7 / 12));
+						// const presentValue = annualSeries(cost, 0.02, 15);
+						const presentValue = annualSeries(this.unit_cost, 0.02, 15);
 						return presentValue;
 					},
 					get totalCost() {
@@ -538,38 +541,38 @@ class Report extends React.Component {
 			title: 'Opportunity Costs',
 			labels: ['Opportunity Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 			costs: [
-				{
-					id: 'Land rent row crop (non-irrigated)',
-					unit_cost: findAverage(csr) * rent,
-					units: '$/acre',
-					qty,
-					get present_value() {
-						return annualSeries(this.unit_cost, 0.02, 15);
+				pasture_conversion
+					? {
+						id: 'Land rent pasture',
+						unit_cost: 51.00,
+						units: '$/acre',
+						qty,
+						get present_value() {
+							return annualSeries(this.unit_cost, 0.02, 15);
+						},
+						get totalCost() {
+							const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+							const totalCost = annualizedPVCost * this.qty;
+							return totalCost;
+						},
+					}
+					: {
+						id: 'Land rent row crop (non-irrigated)',
+						unit_cost: findAverage(csr) * rent,
+						units: '$/acre',
+						qty,
+						get present_value() {
+							return annualSeries(this.unit_cost, 0.02, 15);
+						},
+						get totalCost() {
+							const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
+							const totalCost = annualizedPVCost * this.qty;
+							return totalCost;
+						},
 					},
-					get totalCost() {
-						const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
-						const totalCost = annualizedPVCost * this.qty;
-						return totalCost;
-					},
-				},
 			],
 		};
-		if (pasture_conversion) {
-			opportunity_cost.costs.push({
-				id: 'Land rent pasture',
-				unit_cost: 51.00,
-				units: '$/acre',
-				qty,
-				get present_value() {
-					return annualSeries(this.unit_cost, 0.02, 15);
-				},
-				get totalCost() {
-					const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
-					const totalCost = annualizedPVCost * this.qty;
-					return totalCost;
-				},
-			});
-		}
+
 		const totalOpportunityCost = calcTotalCosts(opportunity_cost);
 		opportunity_cost.costs.push({
 			id: 'Total Opportunity Costs',
