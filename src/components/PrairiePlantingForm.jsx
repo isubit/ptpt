@@ -1,12 +1,20 @@
 import React from 'react';
 
+import prairieClassificationPrices from 'references/prairie_classification_prices.json';
+import prairieMgmt from 'references/prairie_mgmt.json';
+
 const SeedMixInput = (props) => {
 	// value and handlers
 	const {
+		series,
 		seed,
+		seed_price,
 		handleSeedMixChange,
-		handleSeedValueChange,
+		handleSeedPriceChange,
 	} = props;
+
+	const moistureClasses = [...new Set([...series.values()].map(ea => ea.moisture))]; // Moisture classifications without duplicate.
+
 	return (
 		<div className="ConfigForm">
 			<div className="stepNumber">
@@ -14,17 +22,41 @@ const SeedMixInput = (props) => {
 			</div>
 			<div className="configInputs">
 				<p className="inputDescriptor">Choose your seed mix.</p>
-				<div className="inputElement desktop-select-l-width">
+				<div className="inputElement desktop-select-l-width desktop-spacer-right-1">
 					<span className="inputLabel">Seed Mix</span>
-					<select value={seed.value} onChange={(e) => handleSeedMixChange(e)}>
-						<option value="Seed Mix 1">Seed Mix 1</option>
-						<option value="Seed Mix 2">Seed Mix 2</option>
-						<option value="Seed Mix 3">Seed Mix 3</option>
+					<select
+						value={seed}
+						onChange={(e) => {
+							const seedPrice = (prairieClassificationPrices.find(where => where.id === e.target.value) || {}).price || 0;
+							handleSeedMixChange(e);
+							handleSeedPriceChange(seedPrice);
+						}}
+					>
+						<option value="" disabled>Select a seed mix</option>
+						{moistureClasses.map(type => {
+							const seedPrices = prairieClassificationPrices.filter(where => where.type === type);
+							if (seedPrices.length === 0) {
+								return null;
+							}
+
+							return (
+								<optgroup key={type} label={type}>
+									{seedPrices.map(ea => <option key={ea.id} value={ea.id}>{ea.display}: ${ea.price.toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,')}</option>)}
+								</optgroup>
+							);
+						})}
+						<optgroup label="Use a custom seed mix">
+							<option value="custom">custom</option>
+						</optgroup>
 					</select>
 				</div>
 				<div className="inputElement">
-					<span className="inputLabel">Enter Price Per Acre</span>
-					<input type="text" className="ModalTextInput" value={seed.price.value} onChange={(e) => handleSeedValueChange(e)} />
+					<span className="inputLabel">{seed === 'custom' ? 'Enter ' : ''}Price Per Acre</span>
+					{
+						seed === 'custom'
+							? <input type="text" className="ModalTextInput" value={seed_price} onChange={(e) => handleSeedPriceChange(e)} />
+							: <span className="SeedPrice">{Number(seed_price) ? `$${seed_price.toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,')}` : 'Unknown'}</span>
+					}
 				</div>
 			</div>
 		</div>
@@ -45,10 +77,9 @@ const PrairieMgmt1 = (props) => {
 				<p className="inputDescriptor">Choose a way to manage your prairie.</p>
 				<div className="inputElement desktop-select-l-width">
 					<span className="inputLabel">Prairie Management</span>
-					<select value={management.display} onChange={(e) => handleManagementChange(e)}>
-						<option value="Burning">Burning</option>
-						<option value="Mow">Mow</option>
-						<option value="Management 3">Management 3</option>
+					<select value={management.id} onChange={(e) => handleManagementChange(e)}>
+						<option value="" disabled>Select a management method</option>
+						{prairieMgmt.map(ea => <option key={ea.id} value={ea.id}>{ea.value}</option>)}
 					</select>
 				</div>
 			</div>
@@ -72,7 +103,7 @@ const PrairieMgmt2 = (props) => {
 				<p className="inputDescriptor">Choose a cropping system and pest control that you plan on using in the adjacent fields.</p>
 				<div className="inputElement desktop-select-l-width">
 					<span className="inputLabel">Cropping System</span>
-					<select value={cropping_system.display} onChange={(e) => handleCroppingChange(e)}>
+					<select value={cropping_system} onChange={(e) => handleCroppingChange(e)}>
 						<option value="Corn Rotation">Corn Rotation</option>
 						<option value="Cropping System 2">Cropping System 2</option>
 						<option value="Cropping System 3">Cropping System 3</option>
@@ -80,7 +111,7 @@ const PrairieMgmt2 = (props) => {
 				</div>
 				<div className="inputElement desktop-select-l-width">
 					<span className="inputLabel">Pest Control</span>
-					<select value={pest_control.display} onChange={(e) => handlePestControlChange(e)}>
+					<select value={pest_control} onChange={(e) => handlePestControlChange(e)}>
 						<option value="Pest Control">Pest Control</option>
 						<option value="Pest Control 2">Pest Control 2</option>
 						<option value="Pest Control 3">Pest Control 3</option>
@@ -93,8 +124,11 @@ const PrairieMgmt2 = (props) => {
 
 export const PrairiePlantingForm = (props) => {
 	const {
+		form,
+		editingFeature,
 		step,
 		seed,
+		seed_price,
 		management,
 		cropping_system,
 		pest_control,
@@ -102,22 +136,32 @@ export const PrairiePlantingForm = (props) => {
 		handlePestControlChange,
 		handleManagementChange,
 		handleCroppingChange,
-		handleSeedValueChange,
+		handleSeedPriceChange,
 	} = props;
+
+	const series = editingFeature.properties.series ? new Map(editingFeature.properties.series) : new Map();
+
 	return (
 		<>
-			<h2 className="modal-header">Configure your prairie planting area below.</h2>
-			<SeedMixInput seed={seed} handleSeedMixChange={handleSeedMixChange} handleSeedValueChange={handleSeedValueChange} />
-			{
-				(step === 'mgmt_1' || step === 'mgmt_2') && (
-					<PrairieMgmt1 management={management} handleManagementChange={handleManagementChange} />
-				)
-			}
-			{
-				(step === 'mgmt_2') && (
-					<PrairieMgmt2 pest_control={pest_control} cropping_system={cropping_system} handlePestControlChange={handlePestControlChange} handleCroppingChange={handleCroppingChange} />
-				)
-			}
+			<div className="PlantingFormHeader">
+				<h2 className="modal-header">Configure your prairie planting area below.</h2>
+				{series.size > 0 && <p className="SoilTypes planting-modal-text spacer-top-1">Your soil types: <span>{[...series.keys()].sort().toString().replace(/,/g, ', ')}</span></p>}
+				{editingFeature.properties.acreage && <p className="PrairieArea planting-modal-text">Prairie area: <span>{editingFeature.properties.acreage.toFixed(2)} acres</span></p>}
+				{editingFeature.properties.bufferAcreage && <p className="BufferArea planting-modal-text">Buffer area: <span>{editingFeature.properties.bufferAcreage.toFixed(2)} acres</span></p>}
+			</div>
+			<form ref={form}>
+				<SeedMixInput series={series} seed={seed} seed_price={seed_price} handleSeedMixChange={handleSeedMixChange} handleSeedPriceChange={handleSeedPriceChange} />
+				{
+					(step === 'mgmt_1' || step === 'mgmt_2') && (
+						<PrairieMgmt1 management={management} handleManagementChange={handleManagementChange} />
+					)
+				}
+				{
+					(step === 'mgmt_2') && (
+						<PrairieMgmt2 pest_control={pest_control} cropping_system={cropping_system} handlePestControlChange={handlePestControlChange} handleCroppingChange={handleCroppingChange} />
+					)
+				}
+			</form>
 		</>
 	);
 };

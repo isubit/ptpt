@@ -1,7 +1,7 @@
 import React from 'react';
 import {
 	Link,
-	useLocation,
+	withRouter,
 } from 'react-router-dom';
 
 import { MapConsumer } from 'contexts/MapState';
@@ -19,8 +19,8 @@ const Title = () => (
 	</div>
 );
 
-const SaveButton = ({ save }) => (
-	<div className="Save">
+const SaveButton = ({ save, mobileShow }) => (
+	<div className={`Save ${mobileShow ? 'mobileSave' : ''}`}>
 		<button type="button" className="SaveButton" onClick={save} onKeyPress={save}>
 			<img className="narrow-save" src="/assets/save_narrow.svg" alt="Save" />
 			<img className="wide-save" src="/assets/save_wide.svg" alt="Save" />
@@ -28,22 +28,52 @@ const SaveButton = ({ save }) => (
 	</div>
 );
 
-export const Header = () => (
-	<div className="Header">
-		<div className="grid-row sidenav-btn">
-			<SideNav />
-			<Title />
-			<LocationInputWrapper location={useLocation()} />
-			<HeaderOptions />
-			<MapConsumer>
-				{ctx => <SaveButton save={ctx.save} />}
-			</MapConsumer>
+const Header = (props) => {
+	const {
+		location,
+	} = props;
+	const { pathname } = location;
+	return (
+		<div className="Header">
+			<div className="grid-row sidenav-btn">
+				<div className="title-wrap">
+					<SideNav />
+					<Title />
+				</div>
+				{
+					(pathname !== '/report' && pathname !== '/about' && pathname !== '/help') && (
+						<>
+							<LocationInputWrapper location={location} />
+							<HeaderOptions location={location} />
+						</>
+					)
+				}
+				{
+					(pathname === '/report' || (pathname !== '/about' && pathname !== '/help')) && (
+						<MapConsumer>
+							{ctx => {
+								const mobileShow = pathname === '/report';
+								return <SaveButton save={ctx.save} mobileShow={mobileShow} />;
+							}}
+						</MapConsumer>
+					)
+				}
+				{
+					(pathname === '/help' || pathname === '/about') && null
+				}
+			</div>
+			{
+				(pathname !== '/help' && pathname !== '/about' && pathname !== '/report') && (
+					<div className="search-save-btn">
+						<LocationInputWrapper location={location} />
+						<MapConsumer>
+							{ctx => <SaveButton save={ctx.save} />}
+						</MapConsumer>
+					</div>
+				)
+			}
 		</div>
-		<div className="search-save-btn">
-			<LocationInputWrapper location={useLocation()} />
-			<MapConsumer>
-				{ctx => <SaveButton save={ctx.save} />}
-			</MapConsumer>
-		</div>
-	</div>
-);
+	);
+};
+
+export const HeaderWithRouter = withRouter(Header);
