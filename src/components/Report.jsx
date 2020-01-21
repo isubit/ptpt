@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import download from 'js-file-download';
+import shpwrite from 'shp-write';
 import uuid from 'uuid/v4';
 import Debug from 'debug';
 
@@ -901,6 +902,26 @@ class Report extends React.Component {
 		this.setState(() => ({ activeTable: updateactiveTable }));
 	}
 
+	handleDownloadSHP = () => {
+		const date = new Date();
+		const features = this.props.features.reduce((arr, ea) => {
+			if (ea.properties.type === 'tree') {
+				return arr.concat(ea.properties.rows.map(row => ({ ...row, properties: { ...row.properties, ...ea.properties, ...ea.properties.configs } })));
+			}
+			return arr.concat({ ...ea, properties: { ...ea.properties, ...ea.properties.configs } });
+		}, []);
+		shpwrite.download({
+			type: 'FeatureCollection',
+			features,
+		}, {
+			folder: `prairie_tree_planting_tool_report_${date.getTime()}`,
+			types: {
+				polygon: 'prairies',
+				polyline: 'trees',
+			},
+		});
+	}
+
 	handleDownloadXLSX = () => {
 		const book = spreadsheet(this.props.features);
 		const date = new Date();
@@ -910,6 +931,7 @@ class Report extends React.Component {
 
 	render() {
 		const {
+			handleDownloadSHP,
 			handleDownloadXLSX,
 			handleTabClick,
 			props: {
@@ -934,10 +956,12 @@ class Report extends React.Component {
 							<p>Download XLSX File</p>
 						</div>
 					</button>
-					<div className="distribute reportAction">
-						<img src="../assets/download_shapefile.svg" alt="Download Shapefile" />
-						<p>Download Shapefile</p>
-					</div>
+					<button type="button" onClick={handleDownloadSHP}>
+						<div className="distribute reportAction">
+							<img src="../assets/download_shapefile.svg" alt="Download Shapefile" />
+							<p>Download Shapefile</p>
+						</div>
+					</button>
 				</div>
 				<div className="reportText">
 					<p className="header-large">Cost Report</p>

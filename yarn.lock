@@ -2803,6 +2803,13 @@ dayjs@^1.8.15:
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.19.tgz#5117dc390d8f8e586d53891dbff3fa308f51abfe"
   integrity sha512-7kqOoj3oQSmqbvtvGFLU5iYqies+SqUiEGNT0UtUPPxcPYgY1BrkXR0Cq2R9HYSimBXN+xHkEN4Hi399W+Ovlg==
 
+dbf@0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/dbf/-/dbf-0.1.4.tgz#162f0d8fd1db37c976458ac6fe6f55b48c72f466"
+  integrity sha1-Fi8Nj9HbN8l2RYrG/m9VtIxy9GY=
+  dependencies:
+    jdataview "~2.5.0"
+
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.8, debug@^2.6.9:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
@@ -4953,6 +4960,11 @@ isstream@~0.1.2:
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
   integrity sha1-R+Y/evVa+m+S4VAOaQ64uFKcCZo=
 
+jdataview@~2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/jdataview/-/jdataview-2.5.0.tgz#3081b3fea651f9317ec6bd4feb2ddc98aa41d595"
+  integrity sha1-MIGz/qZR+TF+xr1P6y3cmKpB1ZU=
+
 js-base64@^2.1.8:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.5.1.tgz#1efa39ef2c5f7980bb1784ade4a8af2de3291121"
@@ -5077,6 +5089,13 @@ jsx-ast-utils@^2.2.1:
   dependencies:
     array-includes "^3.0.3"
     object.assign "^4.1.0"
+
+jszip@2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/jszip/-/jszip-2.5.0.tgz#7444fd8551ddf3e5da7198fea0c91bc8308cc274"
+  integrity sha1-dET9hVHd8+XacZj+oMkbyDCMwnQ=
+  dependencies:
+    pako "~0.2.5"
 
 jszip@^3.1.5:
   version "3.2.2"
@@ -6288,6 +6307,11 @@ p-try@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/p-try/-/p-try-2.2.0.tgz#cb2868540e313d61de58fafbe35ce9004d5540e6"
   integrity sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==
+
+pako@~0.2.5:
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/pako/-/pako-0.2.9.tgz#f3f7522f4ef782348da8161bad9ecfd51bf83a75"
+  integrity sha1-8/dSL073gjSNqBYbrZ7P1Rv4OnU=
 
 pako@~1.0.2, pako@~1.0.5:
   version "1.0.10"
@@ -7567,6 +7591,14 @@ shortid@^2.2.15:
   integrity sha512-5EaCy2mx2Jgc/Fdn9uuDuNIIfWBpzY4XIlhoqtXF6qsf+/+SGZ+FxDdX/ZsMZiWupIWNqAEmiNY4RC+LSmCeOw==
   dependencies:
     nanoid "^2.1.0"
+
+shp-write@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/shp-write/-/shp-write-0.3.2.tgz#cac3e84bcfdc953c4fc273a1b2f2843d6db8f69d"
+  integrity sha1-ysPoS8/clTxPwnOhsvKEPW249p0=
+  dependencies:
+    dbf "0.1.4"
+    jszip "2.5.0"
 
 signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
