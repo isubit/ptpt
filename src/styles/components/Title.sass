@@ -1,6 +1,7 @@
 .Title
     display: flex
     align-items: center
+    padding-left: 0.5rem
     .wide-logo
         display: none
     .narrow-logo
@@ -10,9 +11,15 @@
 
 @media (min-width: 900px) 
     .Title
+        margin: 0 auto
         .narrow-logo
             display: none
         .wide-logo
             display: block
             width: 100%
             max-width: 154px
+
+@media (min-width: 1440px)
+    .Title
+        margin: 0
+        padding-left: 1rem
