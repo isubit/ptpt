@@ -21,9 +21,10 @@ import {
 } from 'utils/sources';
 import { spreadsheet } from 'utils/spreadsheet';
 import { MapConsumer } from 'contexts/MapState';
+import seedMixes from 'references/prairie_classification_prices.json';
 import treeStockSizes from 'references/tree_stock_sizes.json';
-// import treeTypes from 'references/tree_types.json';
-// import treeList from 'references/trees_list.json';
+import treeTypes from 'references/tree_types.json';
+import treeList from 'references/trees_list.json';
 // import treeCosts from 'references/tree_cost.json';
 
 const debug = Debug('Report');
@@ -153,6 +154,7 @@ class Report extends React.Component {
 	// initialize state with either the editingFeature or the first entry in features property
 	constructor(props) {
 		super(props);
+		console.log(props);
 		let reportArea;
 		if (props.editingFeature) {
 			reportArea = props.features.find(feature => feature.id === props.editingFeature.id);
@@ -186,7 +188,7 @@ class Report extends React.Component {
 		const reportArea = features.find(feature => feature.properties.label === featureLabel);
 		let reportData;
 		if (reportArea) {
-			debug(`Reporting for: ${reportArea}`);
+			debug(`Reporting for: ${reportArea.properties.label}`);
 			if (reportArea.properties.type === 'tree') {
 				reportData = this.calcTreeReportData(reportArea);
 			} else if (reportArea.properties.type === 'prairie') {
@@ -604,6 +606,7 @@ class Report extends React.Component {
 	}
 
 	calcPrairieReportData = (reportArea) => {
+		debug('Preparing report data for feature:', reportArea);
 		const {
 			properties: {
 				acreage,
@@ -906,9 +909,47 @@ class Report extends React.Component {
 		const date = new Date();
 		const features = this.props.features.reduce((arr, ea) => {
 			if (ea.properties.type === 'tree') {
-				return arr.concat(ea.properties.rows.map(row => ({ ...row, properties: { ...row.properties, ...ea.properties, ...ea.properties.configs } })));
+				return arr.concat(ea.properties.rows.map((row, i) => {
+					const rowInfo = ea.properties.configs.rows[i];
+					const treeType = (_.keyBy(treeTypes, 'id')[rowInfo.type] || {}).value;
+					const treeSpecies = (_.keyBy(treeList, 'id')[rowInfo.species] || {}).display;
+					const stockSize = (_.keyBy(treeStockSizes, 'id')[ea.properties.configs.stock_size] || {}).value;
+					return {
+						...row,
+						properties: {
+							...row.properties,
+							type: treeType,
+							species: treeSpecies,
+							stock_size: stockSize,
+						},
+					};
+				}));
 			}
-			return arr.concat({ ...ea, properties: { ...ea.properties, ...ea.properties.configs } });
+
+			const {
+				properties: {
+					acreage,
+					bufferAcreage,
+					seed,
+				},
+			} = ea;
+
+			const buffer = _.cloneDeep(ea.properties.buffer || {});
+			buffer.properties = {
+				...buffer.properties,
+				label: `Buffer for ${ea.properties.label}`,
+			};
+
+			const seedMix = (seedMixes.find(where => where.id === seed) || {}).display;
+			const prairie = {
+				...ea,
+				properties: {
+					acreage,
+					bufferAcreage,
+					seed_mix: seedMix,
+				},
+			};
+			return arr.concat([prairie, buffer]);
 		}, []);
 		shpwrite.download({
 			type: 'FeatureCollection',
