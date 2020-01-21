@@ -6,8 +6,9 @@ const BUILD_DIR = path.resolve(__dirname, 'public');
 const APP_DIR = path.resolve(__dirname, './src');
 const MODULES_DIR = path.resolve(__dirname, './node_modules');
 
-// call dotenv and it will return an Object with a parsed key 
+// call dotenv and it will return an Object with a parsed key
 const env = dotenv.config().parsed;
+console.log(env);
 
 // reduce it to a nice object, the same as before
 const envKeys = Object.keys(env).reduce((prev, next) => {
@@ -23,7 +24,8 @@ const config = {
 	entry: APP_DIR + '/app.jsx',
 	output: {
 		path: BUILD_DIR,
-		filename: 'bundle.js'
+		filename: 'bundle.js',
+		globalObject: 'this'
 	},
 	devtool: 'source-map',
 	devServer:{
@@ -51,6 +53,15 @@ const config = {
 					},
 				// }]
 				}, 'eslint-loader'],
+			},
+			{
+				test: /\.worker\.js$/,
+				use: [{
+					loader: 'worker-loader',
+					options: {
+						publicPath: '/'
+					}
+				}, 'babel-loader']
 			},
 			// {
 			// 	test: /\.json/,

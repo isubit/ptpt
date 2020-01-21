@@ -7,9 +7,13 @@ import {
 } from 'react-router-dom';
 import mapboxgl from 'mapbox-gl';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
+import calcBbox from '@turf/bbox';
 import Debug from 'debug';
 
+import { Loader } from 'components/Loader';
+
 import { MapConsumer } from 'contexts/MapState';
+import { SettingsConsumer } from 'contexts/Settings';
 
 import {
 	getFeatures,
@@ -18,7 +22,7 @@ import {
 	getTreeRows,
 } from 'utils/sources';
 
-import { enrichFeature } from 'utils/enrichFeature';
+import { enrichment } from 'utils/enrichment';
 
 import csrRent from 'references/csr_rent.json';
 
@@ -42,21 +46,29 @@ const debug = Debug('MapComponent');
 // Export two different MapWrappers to trigger a full component switch when styles change, for a clean refresh of the map.
 // This can be optimized in the future, but requires a lot of tweaking of lifecycle logic, because a style change means all sources and layers are wiped...
 export const MapWrapperDefault = (props) => (
-	<MapConsumer>
-		{(mapCtx) => {
-			const ctx = { ...mapCtx.state, ...mapCtx.actions };
-			return <MapComponent {...ctx} {...props} styleURL={process.env.mapbox_outdoor_url} />;
-		}}
-	</MapConsumer>
+	<SettingsConsumer>
+		{(settingsCtx) => (
+			<MapConsumer>
+				{(mapCtx) => {
+					const ctx = { ...mapCtx.state, ...mapCtx.actions, ...settingsCtx.state, ...settingsCtx.actions };
+					return <MapComponent {...ctx} {...props} styleURL={process.env.mapbox_outdoor_url} />;
+				}}
+			</MapConsumer>
+		)}
+	</SettingsConsumer>
 );
 
 export const MapWrapperSatellite = (props) => (
-	<MapConsumer>
-		{(mapCtx) => {
-			const ctx = { ...mapCtx.state, ...mapCtx.actions };
-			return <MapComponent {...ctx} {...props} styleURL={process.env.mapbox_satellite_url} />;
-		}}
-	</MapConsumer>
+	<SettingsConsumer>
+		{(settingsCtx) => (
+			<MapConsumer>
+				{(mapCtx) => {
+					const ctx = { ...mapCtx.state, ...mapCtx.actions, ...settingsCtx.state, ...settingsCtx.actions };
+					return <MapComponent {...ctx} {...props} styleURL={process.env.mapbox_satellite_url} />;
+				}}
+			</MapConsumer>
+		)}
+	</SettingsConsumer>
 );
 
 
@@ -98,12 +110,13 @@ export class MapComponent extends React.Component {
 		const mapConfig = {
 			container: this.mapElement.current,
 			style: styleURL,
-			minZoom: 12,
+			minZoom: window.innerWidth * window.innerHeight > 1000000 ? 15 : 12,
 			center: latlng || defaultLatLng,
 			zoom: zoom || defaultZoom,
 			pitch: pitch || defaultPitch,
 			bearing: bearing || defaultBearing,
-		}
+		};
+
 		this.map = new mapboxgl.Map(mapConfig);
 
 		this.map.on('load', () => {
@@ -148,19 +161,8 @@ export class MapComponent extends React.Component {
 			return true;
 		});
 
-		this.map.on('moveend', () => {
-			const { lat, lng } = this.map.getCenter();
-			const latlng = [lng, lat];
-			const zoom = this.map.getZoom();
-			const bearing = this.map.getBearing();
-			const pitch = this.map.getPitch();
-			updateCurrentMapDetails({
-				latlng,
-				zoom,
-				bearing,
-				pitch,
-			});
-		});
+		this.map.on('moveend', this.updatePosition);
+		this.map.on('zoomend', this.updatePosition);
 	}
 
 	componentDidUpdate() {
@@ -186,48 +188,86 @@ export class MapComponent extends React.Component {
 		return params;
 	}
 
+	updatePosition = () => {
+		const {
+			updateCurrentMapDetails,
+		} = this.props;
+
+		const { lat, lng } = this.map.getCenter();
+		const latlng = [lng, lat];
+		const zoom = this.map.getZoom();
+		const bearing = this.map.getBearing();
+		const pitch = this.map.getPitch();
+		updateCurrentMapDetails({
+			latlng,
+			zoom,
+			bearing,
+			pitch,
+		});
+	}
+
 	nextStep = step => {
 		// This simply pushes a desired URL into the router.
 		const {
 			router: {
 				history,
-				// location: {
-				// 	pathname,
-				// },
 			},
 		} = this.props;
 
-		history.push(step);
+		history.push(step)
 	}
 
-	setEditingFeature = feature => {
+	setEditingFeature = (feature, cb = () => {}) => {
 		// This sets the feature that is currently being edited to state.
 		const {
 			map,
 			props: {
 				mapAPILoaded,
 			},
+			updatePosition,
 		} = this;
+
+		const time = new Date().getTime();
 
 		if (feature) {
 			let clone = _.cloneDeep(feature);
-	
-			this.setState({ enriching: true }, async () => {
-				if (mapAPILoaded) {
-					try {
-						clone = await enrichFeature(clone, map);
-					} catch(e) {
-						debug(e);	
+
+			const bbox = calcBbox(feature);
+
+			map.fitBounds(bbox, {
+				duration: 400,
+				padding: 200,
+			});
+			
+			let ran = false;
+			const runEnrichment = () => {
+				updatePosition();
+				!ran && this.setState({ enriching: true }, async () => {
+					if (mapAPILoaded) {
+						try {
+							clone = await enrichment(clone, map);
+						} catch(e) {
+							debug(e);	
+						}
 					}
-				}
-	
-				this.setState({
-					enriching: false,
-					editingFeature: clone,
+		
+					this.setState(() => ({
+						enriching: false,
+						editingFeature: clone,
+					}), cb);
 				});
+				map.off('zoomend', runEnrichment);
+				ran = true;
+			};
+
+
+			setTimeout(runEnrichment, 1000);
+
+			map.once('zoomstart', () => {
+				map.once('zoomend', runEnrichment);
 			});
 		} else {
-			this.setState({ editingFeature: null });
+			this.setState(() => ({ editingFeature: null }), cb);
 		}
 	}
 
@@ -256,25 +296,49 @@ export class MapComponent extends React.Component {
 		}
 	}
 
-	saveFeature = () => {
+	saveFeature = (feature, setReportFeature) => {
 		// This saves the feature to context.
 		const {
-			state: {
-				editingFeature,
-			},
+			map,
 			props: {
-				addData,
 				router: {
 					history,
 				},
+				addData,
+				mapAPILoaded,
 			},
 		} = this;
-		console.log(editingFeature);
-		debug('Saving feature:', editingFeature);
+		debug('Saving feature:', feature);
 
-		addData(editingFeature);
-		history.push('/');
+		let clone = _.cloneDeep(feature);
+
+		// Re-enrich.
+		this.setState({ enriching: true }, async () => {
+			if (mapAPILoaded) {
+				try {
+					clone = await enrichment(clone, map);
+					addData(clone);
+				} catch(e) {
+					debug(e);	
+				}
+			}
+
+			this.setState(() => ({
+				enriching: false,
+				editingFeature: null,
+			}));
+
+			if (!setReportFeature) {
+				this.nextStep('/')
+			} else {
+				history.push({
+					pathname: '/report',
+					state: clone,
+				});
+			}
+		});
 	}
+
 
 	deleteFeature = id => {
 		const {
@@ -412,12 +476,14 @@ export class MapComponent extends React.Component {
 						pathname,
 					},
 				},
+				toggleHelper,
 			},
 			setEditingFeature,
 			saveFeature,
 			state: {
 				cleanup,
 				drawInit,
+				enriching,
 				sourcesAdded,
 				editingFeature,
 			},
@@ -432,19 +498,26 @@ export class MapComponent extends React.Component {
 			nextStep,
 			setEditingFeature,
 			saveFeature,
+			toggleHelper,
 		};
 
 		return (
 			<>
 				<div className="Map" ref={this.mapElement}>
+					{enriching && (
+						<div className="modal">
+							<Loader />
+						</div>
+					)}
+
 					{/* When the draw controller is init, we can render the drawing modes. They self-contain their event listeners and config forms. */}
 					{!cleanup && drawInit
 						&& (
 							<Switch>
 								<Route path="/plant/tree/:step?" render={router => <Planting router={router} type="tree" steps={['rows', 'species', 'spacing']} {...mapModeProps} />} />
-								<Route path="/plant/prairie/:step?" render={router => <Planting router={router} type="prairie" steps={['seed', 'mgmt_1', 'mgmt_2']} {...mapModeProps} />} />
-								<Route path="/" render={router => <SimpleSelect router={router} {...mapModeProps} />} />
-								<Redirect to="/" />
+								<Route path="/plant/prairie/:step?" render={router => <Planting router={router} type="prairie" steps={['seed', 'mgmt_1']} {...mapModeProps} />} />
+								<Route exact path="/" render={router => <SimpleSelect router={router} {...mapModeProps} />} />
+								{/* <Redirect to="/" /> */}
 							</Switch>
 						)}
 

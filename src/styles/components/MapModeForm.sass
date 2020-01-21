@@ -1,17 +1,26 @@
+@import "../mixins"
+
 .MapModeForm
     position: absolute
     z-index: 10
-    top: 0
+    top: -99px
     left: 0
     width: 100%
-    height: 100%
+    height: 100vh
     background: rgba(0,0,0, 0.4)
     flex-direction: column
+    .PlantingFormHeader
+        .planting-modal-text
+            font-family: Merriweather, serif
+            color: $cool-grey
+            span
+                color: black
     .modal
+        display: block
         background: white
         width: 100%
         height: calc(100vh - 99px)
-        padding: 4rem 1.5rem 3rem 1.5rem
+        padding: 0 1.5rem 3rem 1.5rem
         box-sizing: border-box
         position: relative
         overflow: scroll
@@ -27,9 +36,16 @@
 
 @media (min-width: 900px)
     .MapModeForm
+        top: -72px
         justify-content: center
         .modal
             width: 670px
-            height: 500px
+            height: 450px
+            padding: 0 2rem 3rem 2rem
+            .modal-header
+                padding-left: 0
+                padding-right: 0
+                &::after
+                    left: 0
         .button-wrap
             width: 670px

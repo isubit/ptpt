@@ -23,8 +23,50 @@
 	display: flex
 	justify-content: space-between
 
+@media (min-width: 900px)
+	.desktop-distribute
+		display: flex
+		justify-content: space-between
+
+
 .margin-center
     margin: 0 auto !important
+
+.header-large
+	font-size: 1.949rem
+	line-height: 2.5rem
+	font-weight: bold
+
+.subtitle-large
+    font-size: 1.464rem
+    line-height: 2rem
+    font-weight: bold
+
+.inputLabel
+	font-size: 0.826rem
+	color: $cool-grey
+
+.flex-column
+	display: flex
+	flex-direction: column
+
+.modal-link
+	font-family: Merriweather
+	font-style: italic
+	font-weight: normal
+	font-size: 0.751rem
+	line-height: 21px
+	text-decoration-line: underline
+	color: $bright-blue
+	background: transparent
+
+.map-link
+	font-family: Merriweather
+	white-space: nowrap
+	font-style: italic
+	font-size: .826rem
+	line-height: 1rem
+	padding: 0rem 0.5rem
 
 @media (min-width: 900px)
 	.desktop-select-l-width
@@ -36,6 +78,10 @@
 
 .spacer-top-1_5
 	margin-top: 1.5rem !important
+
+@media (min-width: 900px)
+	.desktop-spacer-right-1
+		margin-right: 1rem
 
 @for $i from 0 through 4
 	.spacer-top-#{$i}
@@ -67,6 +113,9 @@
 
 .warning
 	color: red
+
+.bolded
+	font-weight: bold
 
 .block
 	display: block !important
