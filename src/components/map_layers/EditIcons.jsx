@@ -20,16 +20,19 @@ export const EditIcons = props => {
 		},
 	};
 
+	const goEdit = e => {
+		const editingIcon = e.features[0];
+		const {
+			for: featureId,
+			type,
+		} = editingIcon.properties;
+		const feature = data.get(featureId);
+		setEditingFeature(feature, () => nextStep(`/plant/${type}`));
+	};
+
 	const events = new Map([
-		['click', e => {
-			const editingIcon = e.features[0];
-			const {
-				for: featureId,
-				type,
-			} = editingIcon.properties;
-			const feature = data.get(featureId);
-			setEditingFeature(feature, () => nextStep(`/plant/${type}`));
-		}],
+		['touchend', goEdit],
+		['click', goEdit],
 	]);
 
 	return <Layer map={map} layer={layer} events={events} />;

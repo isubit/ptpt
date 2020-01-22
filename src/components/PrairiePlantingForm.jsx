@@ -22,7 +22,7 @@ const SeedMixInput = (props) => {
 			</div>
 			<div className="configInputs">
 				<p className="inputDescriptor">Choose your seed mix.</p>
-				<div className="inputElement desktop-select-l-width">
+				<div className="inputElement desktop-select-l-width desktop-spacer-right-1">
 					<span className="inputLabel">Seed Mix</span>
 					<select
 						value={seed}
@@ -77,7 +77,7 @@ const PrairieMgmt1 = (props) => {
 				<p className="inputDescriptor">Choose a way to manage your prairie.</p>
 				<div className="inputElement desktop-select-l-width">
 					<span className="inputLabel">Prairie Management</span>
-					<select value={management} onChange={(e) => handleManagementChange(e)}>
+					<select value={management.id} onChange={(e) => handleManagementChange(e)}>
 						<option value="" disabled>Select a management method</option>
 						{prairieMgmt.map(ea => <option key={ea.id} value={ea.id}>{ea.value}</option>)}
 					</select>
@@ -145,7 +145,9 @@ export const PrairiePlantingForm = (props) => {
 		<>
 			<div className="PlantingFormHeader">
 				<h2 className="modal-header">Configure your prairie planting area below.</h2>
-				{series.size > 0 && <p className="SoilTypes spacer-top-1">Your soil types: <span>{[...series.keys()].sort().toString().replace(/,/g, ', ')}</span></p>}
+				{series.size > 0 && <p className="SoilTypes planting-modal-text spacer-top-1">Your soil types: <span>{[...series.keys()].sort().toString().replace(/,/g, ', ')}</span></p>}
+				{editingFeature.properties.acreage && <p className="PrairieArea planting-modal-text">Prairie area: <span>{editingFeature.properties.acreage.toFixed(2)} acres</span></p>}
+				{editingFeature.properties.bufferAcreage && <p className="BufferArea planting-modal-text">Buffer area: <span>{editingFeature.properties.bufferAcreage.toFixed(2)} acres</span></p>}
 			</div>
 			<form ref={form}>
 				<SeedMixInput series={series} seed={seed} seed_price={seed_price} handleSeedMixChange={handleSeedMixChange} handleSeedPriceChange={handleSeedPriceChange} />

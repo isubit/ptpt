@@ -12,8 +12,12 @@ import { MapWrapperDefault, MapWrapperSatellite } from 'components/MapComponent'
 import { Store } from 'contexts';
 import { HeaderWithRouter } from 'components/Header';
 import { BigModal } from 'components/modals/BigModal';
+import { SmallModal } from 'components/modals/SmallModal';
 import { MapConsumer } from 'contexts/MapState';
 import { SettingsConsumer } from 'contexts/Settings';
+import { ReportWrapper } from 'components/Report';
+import { Help } from 'components/Help';
+import { About } from 'components/About';
 
 (function injectMapScript(w, s, id) {
 	const script = w.document.createElement(s);
@@ -59,6 +63,16 @@ const App = () => (
 					);
 				}}
 			</MapConsumer>
+
+			{/* Helper modal. */}
+			<SettingsConsumer>
+				{ctx => {
+					const { helper, helpersDismissed } = ctx.state;
+					const { dismissHelpers, toggleHelper } = ctx.actions;
+					return helper && !helpersDismissed ? <SmallModal {...helper} dismissHelpers={dismissHelpers} toggleHelper={toggleHelper} /> : null;
+				}}
+			</SettingsConsumer>
+
 			{/* --- */}
 
 			{/* Routed components here. These will float over the map. */}
@@ -68,7 +82,9 @@ const App = () => (
 					return !seenWelcome ? <Redirect to="/#welcome" /> : null;
 				}}
 			</SettingsConsumer>
-			<Route path="/help" render={() => <h2>Help Page</h2>} />
+			<Route path="/report" render={router => <ReportWrapper router={router} />} />
+			<Route path="/help" render={() => <Help />} />
+			<Route path="/about" render={() => <About />} />
 			<BigModal />
 			{/* ---- */}
 

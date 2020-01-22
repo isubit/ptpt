@@ -1,5 +1,7 @@
-import calcArea from '@turf/area';
 import _ from 'lodash';
+import calcArea from '@turf/area';
+import calcLength from '@turf/length';
+import calcBuffer from '@turf/buffer';
 import Debug from 'debug';
 
 import csrRent from 'references/csr_rent.json';
@@ -47,25 +49,39 @@ export async function enrichment(feature, map) {
 
 	let boundingPolygon;
 	if (clone.properties.type === 'tree') {
-		boundingPolygon = linesToPolygon(getTreeRows({
+		const rows = getTreeRows({
 			...clone,
 			properties: {
 				...clone.properties,
 				configs: {
-					...(clone.properties.configs || {}),
 					rows: [{}, {}, {}],
 					spacing_rows: {
 						value: 3,
 						unit: 'feet',
 					},
 					propagation: 'N', // Placeholder, because it doesn't really matter, the width of the number of rows isn't large enough to span multiple ssurgo areas.
+					...(clone.properties.configs || {}),
 				},
 			},
+		});
+		clone.properties.rows = rows.map(ea => ({
+			type: ea.type,
+			geometry: ea.geometry,
 		}));
+		boundingPolygon = linesToPolygon(rows);
+		clone.properties.rowLength = calcLength(clone) * 1000; // meters
 	}
 
 	// Acreage
-	clone.properties.acreage = (boundingPolygon ? calcArea(boundingPolygon) : calcArea(clone)) * 0.000247105;
+	clone.properties.acreage = (clone.properties.rowLength ? (clone.properties.rows.length * clone.properties.rowLength * (clone.properties.configs.spacing_rows.value * 0.3048)) : calcArea(clone)) * 0.000247105;
+
+	if (clone.properties.type === 'prairie') {
+		clone.properties.buffer = calcBuffer({
+			type: clone.type,
+			geometry: clone.geometry,
+		}, 50, { units: 'feet' });
+		clone.properties.bufferAcreage = (calcArea(clone.properties.buffer) * 0.000247105) - clone.properties.acreage;
+	}
 
 	// County and CSR Rent
 	try {
@@ -94,43 +110,9 @@ export async function enrichment(feature, map) {
 
 	// Soils
 	// For whatever reason, queryRenderedFeatures is inaccurate and only returns one polygon that doesn't even intersect the bbox.
-	// const bbox = calcBbox(boundingPolygon || clone);
-	// console.log(bbox);
-	// const ssurgo = map.queryRenderedFeatures([[bbox[0], bbox[1]], [bbox[2], bbox[3]]], {
-	// 	layers: ['ssurgo'],
-	// });
 	const ssurgo = map.querySourceFeatures('ssurgo', {
 		sourceLayer: 'default',
 	});
-		// .filter(ea => calcIntersect(ea, boundingPolygon || clone));
-
-	// async function stagger() {
-	// 	return new Promise(resolve => {
-	// 		const results = [];
-	// 		const slices = [];
-	// 		const chunk = 50;
-	// 		const delay = 0;
-
-	// 		for (let i = 0, ii = ssurgo.length; i < ii; i += chunk) {
-	// 			const slice = ssurgo.slice(i, i + chunk);
-	// 			slices.push(slice);
-	// 		}
-
-	// 		async function run() {
-	// 			if (slices.length === 0) {
-	// 				resolve(results);
-	// 				return;
-	// 			}
-	// 			const slice = slices.shift();
-	// 			const result = await findSSURGOIntersects(boundingPolygon || clone, slice);
-	// 			results.push(result);
-	// 			setTimeout(run, delay);
-	// 		}
-
-	// 		run();
-	// 	});
-	// }
-	// const intersects = await stagger();
 
 	const intersects = await findSSURGOIntersects(boundingPolygon || clone, ssurgo);
 	const ssurgoIntersects = intersects.map(ea => ssurgo.find(mapunit => mapunit.properties.OBJECTID === ea));
