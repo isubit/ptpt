@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import download from 'js-file-download';
+import JSZip from 'jszip';
+import shpwrite from 'shp-write';
 import uuid from 'uuid/v4';
 import Debug from 'debug';
 
@@ -20,10 +22,10 @@ import {
 } from 'utils/sources';
 import { spreadsheet } from 'utils/spreadsheet';
 import { MapConsumer } from 'contexts/MapState';
+import seedMixes from 'references/prairie_classification_prices.json';
 import treeStockSizes from 'references/tree_stock_sizes.json';
-// import treeTypes from 'references/tree_types.json';
-// import treeList from 'references/trees_list.json';
-// import treeCosts from 'references/tree_cost.json';
+import treeTypes from 'references/tree_types.json';
+import treeList from 'references/trees_list.json';
 
 const debug = Debug('Report');
 
@@ -55,7 +57,7 @@ export const ReportWrapper = (props) => {
 				const features = getFeatures(mapCtx.state.data)
 					.map(ea => {
 						const labeledFeature = _.cloneDeep(ea);
-						labeledFeature.properties.label = `${labeledFeature.properties.type.replace(/^\w/, c => c.toUpperCase())} ${labeledFeature.properties.type === 'tree' ? 'Rows' : 'Area'} ${labeledFeature.properties.index}`;
+						labeledFeature.properties.label = `${labeledFeature.properties.type.replace(/^\w/, c => c.toUpperCase())} Area ${labeledFeature.properties.index}`;
 						return labeledFeature;
 					});
 				if (editingFeature) {
@@ -152,6 +154,7 @@ class Report extends React.Component {
 	// initialize state with either the editingFeature or the first entry in features property
 	constructor(props) {
 		super(props);
+		console.log(props);
 		let reportArea;
 		if (props.editingFeature) {
 			reportArea = props.features.find(feature => feature.id === props.editingFeature.id);
@@ -185,7 +188,7 @@ class Report extends React.Component {
 		const reportArea = features.find(feature => feature.properties.label === featureLabel);
 		let reportData;
 		if (reportArea) {
-			debug(`Reporting for: ${reportArea}`);
+			debug(`Reporting for: ${reportArea.properties.label}`);
 			if (reportArea.properties.type === 'tree') {
 				reportData = this.calcTreeReportData(reportArea);
 			} else if (reportArea.properties.type === 'prairie') {
@@ -603,6 +606,7 @@ class Report extends React.Component {
 	}
 
 	calcPrairieReportData = (reportArea) => {
+		debug('Preparing report data for feature:', reportArea);
 		const {
 			properties: {
 				acreage,
@@ -901,6 +905,102 @@ class Report extends React.Component {
 		this.setState(() => ({ activeTable: updateactiveTable }));
 	}
 
+	handleDownloadSHP = async () => {
+		const date = new Date();
+		const features = this.props.features.reduce((arr, ea) => {
+			const {
+				acreage,
+				label,
+				type,
+			} = ea.properties;
+
+			if (type === 'tree') {
+				const {
+					configs: {
+						rows,
+						stock_size,
+					},
+					rows: treeRowGeos,
+				} = ea.properties;
+
+				return arr.concat(treeRowGeos.map((row, i) => {
+					const rowInfo = rows[i];
+					const treeType = (_.keyBy(treeTypes, 'id')[rowInfo.type] || {}).value;
+					const treeSpecies = (_.keyBy(treeList, 'id')[rowInfo.species] || {}).display;
+					const stockSize = (_.keyBy(treeStockSizes, 'id')[stock_size] || {}).value;
+					return {
+						...row,
+						properties: {
+							label: `${label} Row ${i + 1}`,
+							species: treeSpecies,
+							stock_size: stockSize,
+							type: treeType,
+						},
+					};
+				}));
+			}
+
+			const {
+				bufferAcreage,
+				configs: {
+					seed,
+				},
+			} = ea.properties;
+
+			const buffer = _.cloneDeep(ea.properties.buffer || {});
+			buffer.properties = {
+				...buffer.properties,
+				label: `Buffer for ${label}`,
+			};
+
+			const seedMix = (seedMixes.find(where => where.id === seed) || {}).display;
+			const prairie = {
+				...ea,
+				properties: {
+					acreage,
+					bufferAcreage,
+					label,
+					seed_mix: seedMix,
+				},
+			};
+			return arr.concat([prairie, buffer]);
+		}, []);
+		debug(features);
+
+		function writeDataToBuffer(feature) {
+			return new Promise(resolve => {
+				const geoType = feature.geometry.type === 'LineString' ? 'POLYLINE' : 'POLYGON';
+				const data = [feature.properties];
+				const geometries = [feature.geometry.coordinates];
+
+				shpwrite.write(
+					data,
+					geoType,
+					geometries,
+					(err, files) => {
+						resolve([feature, files]);
+					},
+				);
+			});
+		}
+
+		const promises = features.map(writeDataToBuffer);
+		const allFiles = await Promise.all(promises);
+		const zip = new JSZip();
+		const name = `prairie_tree_planting_tool_report_${date.getTime()}`;
+		const folder = zip.folder(name);
+		allFiles.forEach(ea => {
+			const feature = ea[0];
+			const files = ea[1];
+			const subFolder = folder.folder(feature.properties.label);
+			subFolder.file(`${feature.properties.label.replace(/\s/g, '_')}.shp`, Buffer.from(files.shp.buffer));
+			subFolder.file(`${feature.properties.label.replace(/\s/g, '_')}.shx`, Buffer.from(files.shx.buffer));
+			subFolder.file(`${feature.properties.label.replace(/\s/g, '_')}.dbf`, Buffer.from(files.dbf.buffer));
+		});
+		const zipFile = await zip.generateAsync({ type: 'blob' });
+		download(zipFile, `${name}.zip`);
+	}
+
 	handleDownloadXLSX = () => {
 		const book = spreadsheet(this.props.features);
 		const date = new Date();
@@ -910,6 +1010,7 @@ class Report extends React.Component {
 
 	render() {
 		const {
+			handleDownloadSHP,
 			handleDownloadXLSX,
 			handleTabClick,
 			props: {
@@ -934,10 +1035,12 @@ class Report extends React.Component {
 							<p>Download XLSX File</p>
 						</div>
 					</button>
-					<div className="distribute reportAction">
-						<img src="../assets/download_shapefile.svg" alt="Download Shapefile" />
-						<p>Download Shapefile</p>
-					</div>
+					<button type="button" onClick={handleDownloadSHP}>
+						<div className="distribute reportAction">
+							<img src="../assets/download_shapefile.svg" alt="Download Shapefile" />
+							<p>Download Shapefile</p>
+						</div>
+					</button>
 				</div>
 				<div className="reportText">
 					<p className="header-large">Cost Report</p>
