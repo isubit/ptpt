@@ -3,13 +3,11 @@ import _ from 'lodash';
 import Excel from 'exceljs';
 import { getOptimalTreePlacements } from 'utils/sources';
 import prairieMgmt from 'references/prairie_mgmt.json';
-// import treeCost from 'references/tree_cost.json';
 import treesList from 'references/trees_list.json';
 import treeStockSizes from 'references/tree_stock_sizes.json';
 import treeTypes from 'references/tree_types.json';
 import seedMixes from 'references/prairie_classification_prices.json';
 import {
-	// calcTotalCosts,
 	findTreeAverageCost,
 	findTreeEQIP,
 	getEQIPCosts,
