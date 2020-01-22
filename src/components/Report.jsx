@@ -26,7 +26,6 @@ import seedMixes from 'references/prairie_classification_prices.json';
 import treeStockSizes from 'references/tree_stock_sizes.json';
 import treeTypes from 'references/tree_types.json';
 import treeList from 'references/trees_list.json';
-// import treeCosts from 'references/tree_cost.json';
 
 const debug = Debug('Report');
 
@@ -1000,38 +999,6 @@ class Report extends React.Component {
 		});
 		const zipFile = await zip.generateAsync({ type: 'blob' });
 		download(zipFile, `${name}.zip`);
-
-		// features.forEach(ea => {
-
-
-		// 	// function toBuffer(ab) {
-		// 	// 	const buffer = Buffer.from(ab);
-		// 	// 	const view = new Uint8Array(ab);
-		// 	// 	for (let i = 0; i < buffer.length; i += 1) { buffer[i] = view[i]; }
-		// 	// 	return buffer;
-		// 	// }
-
-		// 	function finish(err, files) {
-		// 		const zip = new JSZip();
-		// 		const name = `prairie_tree_planting_tool_report_${date.getTime()}`;
-		// 		const folder = zip.folder(name);
-		// 		folder.file(`${ea.properties.label.replace(/\s/g, '_')}.shp`, Buffer.from(files.shp.buffer));
-		// 		folder.file(`${ea.properties.label.replace(/\s/g, '_')}.shx`, Buffer.from(files.shx.buffer));
-		// 		folder.file(`${ea.properties.label.replace(/\s/g, '_')}.dbf`, Buffer.from(files.dbf.buffer));
-		// 		zip.generateAsync({ type: 'blob' }).then(content => download(content, `${name}.zip`));
-		// 	}
-		// });
-
-		// shpwrite.download({
-		// 	type: 'FeatureCollection',
-		// 	features,
-		// }, {
-		// 	folder: `prairie_tree_planting_tool_report_${date.getTime()}`,
-		// 	types: {
-		// 		polygon: 'prairies',
-		// 		line: 'trees',
-		// 	},
-		// });
 	}
 
 	handleDownloadXLSX = () => {
