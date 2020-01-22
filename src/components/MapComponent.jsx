@@ -273,6 +273,10 @@ export class MapComponent extends React.Component {
 
 	moveMapCenter() {
 		const {
+			defaultLatLng,
+			defaultZoom,
+			defaultPitch,
+			defaultBearing,
 			currentMapDetails: {
 				latlng,
 				pitch,
@@ -288,9 +292,9 @@ export class MapComponent extends React.Component {
 						lat: latlng[1],
 						lng: latlng[0],
 					},
-					pitch,
-					bearing,
-					zoom,
+					pitch: pitch || defaultPitch,
+					bearing: bearing || defaultBearing,
+					zoom: zoom || defaultZoom,
 				});
 			}
 		}
