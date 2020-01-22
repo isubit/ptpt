@@ -2,6 +2,7 @@
 import React from 'react';
 import _ from 'lodash';
 import uuid from 'uuid/v4';
+import { Link } from 'react-router-dom';
 
 import {
 	findSlope,
@@ -30,7 +31,7 @@ const NumRowInput = (props) => {
 				<h1>1</h1>
 			</div>
 			<div className="configInputs">
-				<div className="inputElement desktop-select-s-width spacer-right-3">
+				<div className="inputElement desktop-select-s-width desktop-spacer-right-3">
 					<span className="inputDescriptor">Is this a windbreak?</span>
 					<select value={windbreak} onChange={(e) => handleWindbreakChange(e)} required>
 						<option value="true">Yes</option>
@@ -86,9 +87,11 @@ const RowDetailInput = (props) => {
 		pasture_conversion,
 		rows,
 		series,
+		selectForAllRows,
 		handlePastureConversionChange,
 		handleRowTypeChange,
 		handleRowSpeciesChange,
+		handleSelectForAllRows,
 	} = props;
 
 	const csgs = [...new Set([...series.values()].map(ea => ea.csg))]; // CSGs without duplicate.
@@ -110,7 +113,7 @@ const RowDetailInput = (props) => {
 				<p className="inputDescriptor">Choose a tree type and species for each row. Below are the recommended tree types and species based on your soil. You can change these by choosing a different option in each dropdown.</p>
 				{
 					rows.map((row, i) => (
-						<div key={uuid()} className="rowDetails">
+						<div key={uuid()} className={`${(i === 0 && rows.length > 1) ? 'rowDetails spacer-bottom-1' : 'rowDetails'}`}>
 							<div className="rowNumber">
 								<h4>Row {i + 1}</h4>
 							</div>
@@ -128,6 +131,14 @@ const RowDetailInput = (props) => {
 									{treesByType.get(row.type) && treesByType.get(row.type).map(ea => <option key={ea.id} value={ea.id}>{ea.display}</option>)}
 								</select>
 							</div>
+							{
+								(i === 0 && rows.length > 1) && (
+									<div className="checkboxElement spacer-top-1">
+										<input checked={selectForAllRows} type="checkbox" onChange={(e) => handleSelectForAllRows(e)} />
+										<span className="inline">Select for all</span>
+									</div>
+								)
+							}
 						</div>
 					))
 				}
@@ -237,6 +248,7 @@ export const TreePlantingForm = (props) => {
 		spacing_rows,
 		stock_size,
 		drip_irrigation,
+		selectForAllRows,
 		pasture_conversion,
 		handleTreeSpacingChange,
 		handleDripIrrigationChange,
@@ -248,6 +260,7 @@ export const TreePlantingForm = (props) => {
 		handleWindbreakChange,
 		handlePropgationChange,
 		handlePastureConversionChange,
+		handleSelectForAllRows,
 	} = props;
 
 	const series = editingFeature.properties.series ? new Map(editingFeature.properties.series) : new Map();
@@ -255,14 +268,15 @@ export const TreePlantingForm = (props) => {
 	return (
 		<>
 			<div className="PlantingFormHeader">
+				<Link className="CloseButton" to="/"><img src="../../assets/close_dropdown.svg" alt="Close Planting Modal" /></Link>
 				<h2 className="modal-header">Configure your tree rows below.</h2>
 				{series.size > 0 && <p className="SoilTypes spacer-top-1">Your soil types: <span>{[...series.keys()].sort().toString().replace(/,/g, ', ')}</span></p>}
 			</div>
-			<form ref={form}>
+			<form className="form-spacing-top" ref={form}>
 				<NumRowInput editingFeature={editingFeature} windbreak={windbreak} propagation={propagation} numRows={rows.length} handleNumRowChange={handleNumRowChange} handleWindbreakChange={handleWindbreakChange} handlePropgationChange={handlePropgationChange} />
 				{
 					(step === 'species' || step === 'spacing') && (
-						<RowDetailInput series={series} rows={rows} pasture_conversion={pasture_conversion} handleRowTypeChange={handleRowTypeChange} handleRowSpeciesChange={handleRowSpeciesChange} handlePastureConversionChange={handlePastureConversionChange} />
+						<RowDetailInput series={series} rows={rows} pasture_conversion={pasture_conversion} selectForAllRows={selectForAllRows} handleRowTypeChange={handleRowTypeChange} handleRowSpeciesChange={handleRowSpeciesChange} handlePastureConversionChange={handlePastureConversionChange} handleSelectForAllRows={handleSelectForAllRows} />
 					)
 				}
 				{

@@ -39,7 +39,7 @@ import { Trees } from './map_layers/Trees';
 import { SimpleSelect } from './map_modes/SimpleSelect';
 import { DrawLineMode, Planting } from './map_modes/Planting';
 
-mapboxgl.accessToken = process.env.mapbox_api_key;
+mapboxgl.accessToken = process.env.mapbox_public_key;
 
 const debug = Debug('MapComponent');
 

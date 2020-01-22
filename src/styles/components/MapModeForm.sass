@@ -1,5 +1,13 @@
 @import "../mixins"
 
+.form-spacing-top
+	margin-top: 99px
+	padding-top: 2rem
+
+.prairie-form-spacing-top
+	margin-top: 99px
+	padding-top: 7rem
+
 .MapModeForm
     position: absolute
     z-index: 10
@@ -10,9 +18,17 @@
     background: rgba(0,0,0, 0.4)
     flex-direction: column
     .PlantingFormHeader
+        position: fixed
+        background-color: #FFFFFF
+        width: inherit
+        left: 0
+        // .CloseButton
+        //     right: -3px
         .planting-modal-text
             font-family: Merriweather, serif
             color: $cool-grey
+            padding: 0rem 1.5rem
+            margin-top: 1rem
             span
                 color: black
     .modal
@@ -25,6 +41,10 @@
         position: relative
         overflow: scroll
         display: initial
+        .modal-header
+            padding: 4rem 1.5rem 0.5rem 1.5rem
+            &::after
+                left: 1.5rem
     .button-wrap
         height: 99px
         width: 100%
@@ -34,10 +54,24 @@
         .Button
             margin: 1.5rem
 
+@media (min-width: 419px)
+	.form-spacing-top
+		padding-top: 1rem
+
 @media (min-width: 900px)
+    .prairie-form-spacing-top
+        margin-top: 99px
+        padding-top: 6rem
     .MapModeForm
         top: -72px
         justify-content: center
+        .PlantingFormHeader
+            width: 598px
+            left: auto
+            .planting-modal-text
+                padding: 0
+            .CloseButton
+                right: -14px
         .modal
             width: 670px
             height: 450px
