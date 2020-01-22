@@ -110,43 +110,9 @@ export async function enrichment(feature, map) {
 
 	// Soils
 	// For whatever reason, queryRenderedFeatures is inaccurate and only returns one polygon that doesn't even intersect the bbox.
-	// const bbox = calcBbox(boundingPolygon || clone);
-	// console.log(bbox);
-	// const ssurgo = map.queryRenderedFeatures([[bbox[0], bbox[1]], [bbox[2], bbox[3]]], {
-	// 	layers: ['ssurgo'],
-	// });
 	const ssurgo = map.querySourceFeatures('ssurgo', {
 		sourceLayer: 'default',
 	});
-	// .filter(ea => calcIntersect(ea, boundingPolygon || clone));
-
-	// async function stagger() {
-	// 	return new Promise(resolve => {
-	// 		const results = [];
-	// 		const slices = [];
-	// 		const chunk = 50;
-	// 		const delay = 0;
-
-	// 		for (let i = 0, ii = ssurgo.length; i < ii; i += chunk) {
-	// 			const slice = ssurgo.slice(i, i + chunk);
-	// 			slices.push(slice);
-	// 		}
-
-	// 		async function run() {
-	// 			if (slices.length === 0) {
-	// 				resolve(results);
-	// 				return;
-	// 			}
-	// 			const slice = slices.shift();
-	// 			const result = await findSSURGOIntersects(boundingPolygon || clone, slice);
-	// 			results.push(result);
-	// 			setTimeout(run, delay);
-	// 		}
-
-	// 		run();
-	// 	});
-	// }
-	// const intersects = await stagger();
 
 	const intersects = await findSSURGOIntersects(boundingPolygon || clone, ssurgo);
 	const ssurgoIntersects = intersects.map(ea => ssurgo.find(mapunit => mapunit.properties.OBJECTID === ea));
