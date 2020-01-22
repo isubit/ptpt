@@ -5,7 +5,6 @@ import {
 } from 'react-router-dom';
 
 import { MapConsumer } from 'contexts/MapState';
-
 import { SideNav } from './SideNav';
 import { HeaderOptions } from './HeaderOptions';
 import { LocationInputWrapper } from './LocationInput';
