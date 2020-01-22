@@ -12,14 +12,18 @@ const debug = Debug('MapComponent');
 export const DrawLineMode = MapboxDraw.modes.draw_line_string;
 
 DrawLineMode.clickAnywhere = function clickAnywhere(state, e) {
+	debug('Clicked', state, e);
 	// This ends the drawing after the user creates a second point, triggering this.onStop
 	if (state.currentVertexPosition === 1) {
+		state.line.updateCoordinate(1, e.lngLat.lng, e.lngLat.lat);
 		return this.changeMode('simple_select', { featureIds: [state.line.id] }); // eslint-disable-line react/no-this-in-sfc
 	}
 
 	this.updateUIClasses({ mouse: 'add' }); // eslint-disable-line react/no-this-in-sfc
 	state.line.updateCoordinate(state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
+	debug('Update', state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
 	if (state.direction === 'forward') {
+		debug('Forward', state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
 		state.currentVertexPosition += 1; // eslint-disable-line no-param-reassign
 		state.line.updateCoordinate(state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
 	} else {
@@ -49,13 +53,15 @@ export class Planting extends React.Component {
 
 	componentDidMount() {
 		this.setDrawMode();
+		this.determineHelper();
 	}
 
-	componentDidUpdate() {
+	componentDidUpdate(prevProps) {
 		const {
 			events,
 			props: {
 				map,
+				type,
 			},
 		} = this;
 
@@ -66,6 +72,29 @@ export class Planting extends React.Component {
 		});
 
 		this.setDrawMode();
+
+		if (prevProps.type !== type) {
+			this.determineHelper();
+		}
+	}
+
+	determineHelper() {
+		const {
+			toggleHelper,
+			type,
+		} = this.props;
+
+		if (type === 'tree') {
+			toggleHelper({
+				text: 'Draw a tree row by clicking where you want the row to start and end. You can add more rows and define your trees during configuration.',
+				buttonText: 'No problem!',
+			});
+		} else {
+			toggleHelper({
+				text: 'Draw a prairie area by clicking to draw the corners of a shape. Click the starting point to finish drawing.',
+				buttonText: 'No problem!',
+			});
+		}
 	}
 
 	setDrawMode() {

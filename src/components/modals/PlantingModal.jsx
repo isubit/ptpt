@@ -33,11 +33,11 @@ export class PlantingModal extends React.Component {
 						species: '',
 					}],
 					spacing_rows: {
-						value: 3, // placeholder value
+						value: 10,
 						unit: 'feet',
 					},
 					spacing_trees: {
-						value: 3, //  placeholder value
+						value: 5,
 						unit: 'feet',
 					},
 					stock_size: '',
@@ -49,8 +49,8 @@ export class PlantingModal extends React.Component {
 					seed: '',
 					seed_price: '',
 					management: {
-						id: 1,
-						display: 'Mow',
+						id: 'J8wEfx7P',
+						display: 'mow',
 					},
 					cropping_system: {
 						id: 1,
@@ -122,8 +122,8 @@ export class PlantingModal extends React.Component {
 	}
 
 	handlePastureConversionChange = (event) => {
-		const updateConversion = event.target.value;
-		this.setState({ pasture_conversion: updateConversion === 'on' });
+		const updateConversion = event.target.checked;
+		this.setState({ pasture_conversion: updateConversion });
 	}
 
 	handleRowTypeChange = (event, rowIndex) => {
@@ -164,6 +164,7 @@ export class PlantingModal extends React.Component {
 
 	handleStockSizeChange = (event) => {
 		const stock_size = event.target.value;
+		console.log(stock_size);
 		this.setState(() => ({ stock_size }));
 	}
 
@@ -183,8 +184,13 @@ export class PlantingModal extends React.Component {
 	}
 
 	handleManagementChange = (event) => {
-		const updateManagement = event.target.value;
-		this.setState(() => ({ management: updateManagement }));
+		const id = event.target.value;
+		const display = event.target.options[event.target.selectedIndex].text;
+		const updateManagement = {
+			id,
+			display,
+		};
+		this.setState(() => ({ management: updateManagement }), () => console.log(this.state));
 	}
 
 	handleCroppingChange = (event) => {
@@ -225,7 +231,7 @@ export class PlantingModal extends React.Component {
 		}
 	}
 
-	handleSave = () => {
+	handleSave = (e) => {
 		const {
 			props: {
 				editingFeature,
@@ -237,8 +243,7 @@ export class PlantingModal extends React.Component {
 				},
 			},
 		} = this;
-
-		let properties = {};
+		let properties;
 		if (type === 'tree') {
 			const {
 				state: {
@@ -286,13 +291,17 @@ export class PlantingModal extends React.Component {
 				},
 			};
 		}
+		const setReportFeature = e.target.innerHTML === 'View Report' || (e.target.children[0] ? e.target.children[0].innerText === 'View Report' : false);
 
 		if (this.form.current && this.form.current.checkValidity()) {
 			this.setState(() => ({
 				formError: null,
 			}), () => {
-				editingFeature.properties = properties;
-				saveFeature(editingFeature);
+				editingFeature.properties = {
+					...editingFeature.properties,
+					...properties,
+				};
+				saveFeature(editingFeature, setReportFeature);
 			});
 		} else {
 			this.setState(() => ({
@@ -405,7 +414,7 @@ export class PlantingModal extends React.Component {
 
 		return (
 			<>
-				<div className="modal margin-center">
+				<div className="modal">
 					<Link className="CloseButton" to="/"><img src="../../assets/close_dropdown.svg" alt="Close Planting Modal" /></Link>
 					{ type === 'tree' && <TreePlantingForm {...formProps} /> }
 					{ type === 'prairie' && <PrairiePlantingForm {...formProps} /> }
@@ -416,14 +425,24 @@ export class PlantingModal extends React.Component {
 					{
 						stepIndex === steps.length - 1
 							? (
-								<button
-									type="button"
-									className="Button"
-									onClick={this.handleSave}
-									onKeyPress={this.handleSave}
-								>
-									<span>View Map</span>
-								</button>
+								<>
+									<button
+										type="button"
+										className="modal-link"
+										onClick={this.handleSave}
+										onKeyPress={this.handleSave}
+									>
+										<span>View Map</span>
+									</button>
+									<button
+										type="button"
+										className="Button"
+										onClick={this.handleSave}
+										onKeyPress={this.handleSave}
+									>
+										<span>View Report</span>
+									</button>
+								</>
 							)
 							: (
 								<button

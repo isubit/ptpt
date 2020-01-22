@@ -40,7 +40,14 @@ const NumRowInput = (props) => {
 				<div className="inputElement desktop-select-l-width">
 					<span className="inputDescriptor nowrap">How many tree rows would you like to plant?</span>
 					<select value={numRows} onChange={(e) => handleNumRowChange(e)} required>
-						{_.range(1, windbreak ? 5 : 11).map(val => <option key={val} value={val}>{val}</option>)}
+						{windbreak
+							? (
+								<>
+									<option key={1} value={1}>1</option>
+									<option key={3} value={3}>3</option>
+								</>
+							)
+							: _.range(1, windbreak ? 5 : 11).map(val => <option key={val} value={val}>{val}</option>)}
 					</select>
 				</div>
 				<div className="inputElement desktop-select-s-width spacer-top-1_5">
@@ -142,9 +149,7 @@ const RowSpacingInput = (props) => {
 		spacing_rows: {
 			value: row_spacing,
 		},
-		stock_size: {
-			display: stock_size,
-		},
+		stock_size,
 		handleRowSpacingChange,
 		handleTreeSpacingChange,
 		handleStockSizeChange,
@@ -158,52 +163,58 @@ const RowSpacingInput = (props) => {
 			</div>
 			<div className="configInputs">
 				<p className="inputDescriptor">Choose the spacing you need in between the trees and what size you plan on purchasing the plantings. Recommendations based on your soil type and slope percentage are prefilled.</p>
-				<div className="inputElement desktop-select-s-width">
-					<span className="inputLabel">Spacing Between Rows</span>
-					<select
-						value={row_spacing}
-						onChange={(e) => handleRowSpacingChange(e)}
-						required
-					>
-						<option value="3">3&apos;</option>
-						<option value="4">4&apos;</option>
-						<option value="5">5&apos;</option>
-					</select>
-				</div>
-				<div className="inputElement desktop-select-s-width">
-					<span className="inputLabel">Spacing Between Trees</span>
-					<select
-						value={tree_spacing}
-						onChange={(e) => handleTreeSpacingChange(e)}
-						required
-					>
-						<option value="3">3&apos;</option>
-						<option value="4">4&apos;</option>
-						<option value="5">5&apos;</option>
-					</select>
-				</div>
-				<div className="inputElement desktop-select-m-width">
-					<span className="inputLabel">Planting Stock Size</span>
-					<select value={stock_size} onChange={(e) => handleStockSizeChange(e)} required>
-						<option value="" disabled>Select a stock size</option>
-						{treeStockSizes.map(ea => (
-							<option key={ea.id} value={ea.id}>
-								{ea.value.includes('container') ? ea.value.split('_').reduce((str, frag, i) => {
-									if (i === 0) {
-										return str + frag;
-									} else if (i === 1 && frag.includes('over')) {
-										return `${str} (${frag} `;
-									} else if (i === 1) {
-										return `${str} (${frag} - `;
-									} else if (i === 2) {
-										return `${str}${frag})`;
-									} else {
-										return `${str} ${frag}`;
-									}
-								}, '') : ea.value}
-							</option>
-						))}
-					</select>
+				<div className="desktop-distribute">
+					<div className="inputElement desktop-select-s-width">
+						<span className="inputLabel">Spacing Between Rows</span>
+						<select
+							value={row_spacing}
+							onChange={(e) => handleRowSpacingChange(e)}
+							required
+						>
+							<option value="10">10&apos;</option>
+							<option value="20">20&apos;</option>
+							<option value="30">30&apos;</option>
+							<option value="40">40&apos;</option>
+							<option value="50">50&apos;</option>
+						</select>
+					</div>
+					<div className="inputElement desktop-select-s-width">
+						<span className="inputLabel">Spacing Between Trees</span>
+						<select
+							value={tree_spacing}
+							onChange={(e) => handleTreeSpacingChange(e)}
+							required
+						>
+							<option value="5">5&apos;</option>
+							<option value="10">10&apos;</option>
+							<option value="15">15&apos;</option>
+							<option value="20">20&apos;</option>
+							<option value="25">25&apos;</option>
+						</select>
+					</div>
+					<div className="inputElement desktop-select-m-width">
+						<span className="inputLabel">Planting Stock Size</span>
+						<select value={stock_size} onChange={(e) => handleStockSizeChange(e)} required>
+							<option value="" disabled>Select a stock size</option>
+							{treeStockSizes.map(ea => (
+								<option key={ea.id} value={ea.id}>
+									{ea.value.includes('container') ? ea.value.split('_').reduce((str, frag, i) => {
+										if (i === 0) {
+											return str + frag;
+										} else if (i === 1 && frag.includes('over')) {
+											return `${str} (${frag} `;
+										} else if (i === 1) {
+											return `${str} (${frag} - `;
+										} else if (i === 2) {
+											return `${str}${frag})`;
+										} else {
+											return `${str} ${frag}`;
+										}
+									}, '') : ea.value}
+								</option>
+							))}
+						</select>
+					</div>
 				</div>
 				<div className="checkboxElement">
 					<input type="checkbox" name="drip_irrigation" checked={drip_irrigation} onChange={(e) => handleDripIrrigationChange(e)} />

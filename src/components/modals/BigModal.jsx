@@ -4,6 +4,7 @@ import {
 	useHistory,
 } from 'react-router-dom';
 
+import { MapConsumer } from 'contexts/MapState';
 import { SettingsConsumer } from 'contexts/Settings';
 
 import { LocationPrompt } from './LocationPrompt';
@@ -28,12 +29,19 @@ export const BigModal = props => {
 			break;
 		case 'welcome':
 			Component = welcomeProps => (
-				<SettingsConsumer>
-					{ctx => {
-						const { toggleSeenWelcome } = ctx.actions;
-						return <WelcomeModal toggleSeenWelcome={toggleSeenWelcome} {...welcomeProps} />;
+				<MapConsumer>
+					{mapCtx => {
+						const { load } = mapCtx;
+						return (
+							<SettingsConsumer>
+								{settingsCtx => {
+									const { toggleSeenWelcome } = settingsCtx.actions;
+									return <WelcomeModal toggleSeenWelcome={toggleSeenWelcome} load={load} {...welcomeProps} />;
+								}}
+							</SettingsConsumer>
+						);
 					}}
-				</SettingsConsumer>
+				</MapConsumer>
 			);
 			break;
 		default:

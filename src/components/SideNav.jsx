@@ -27,16 +27,16 @@ export class SideNav extends React.Component {
 					<div className="grid-wrap">
 						<ul>
 							<li>
-								<Link to="/settings">Settings</Link>
+								<Link onClick={this.toggleNav} onKeyPress={this.toggleNav} to="/settings">Settings</Link>
 							</li>
 							<li>
-								<Link to="/help">Help</Link>
+								<Link onClick={this.toggleNav} onKeyPress={this.toggleNav} to="/help">Help</Link>
 							</li>
 							<li>
-								<Link to="/about">About</Link>
+								<Link onClick={this.toggleNav} onKeyPress={this.toggleNav} to="/about">About</Link>
 							</li>
 							<li>
-								<Link to="/activate">Activate Helper Popups</Link>
+								<Link onClick={this.toggleNav} onKeyPress={this.toggleNav} to="/activate">Activate Helper Popups</Link>
 							</li>
 						</ul>
 						<div>
