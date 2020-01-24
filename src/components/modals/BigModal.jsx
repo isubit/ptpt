@@ -26,8 +26,12 @@ export const BigModal = props => {
 			Component = welcomeProps => (
 				<SettingsConsumer>
 					{ctx => {
-						const { toggleSeenWelcome } = ctx.actions;
-						return <WelcomeModal toggleSeenWelcome={toggleSeenWelcome} {...welcomeProps} />;
+						const {
+							toggleSeenWelcome,
+							dismissHelpers,
+						} = ctx.actions;
+						const { helpersDismissed } = ctx.state;
+						return !helpersDismissed && <WelcomeModal toggleSeenWelcome={toggleSeenWelcome} dismissHelpers={dismissHelpers} {...welcomeProps} />;
 					}}
 				</SettingsConsumer>
 			);
