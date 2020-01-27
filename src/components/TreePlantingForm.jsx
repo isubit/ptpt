@@ -264,7 +264,7 @@ export const TreePlantingForm = (props) => {
 	} = props;
 
 	const series = editingFeature.properties.series ? new Map(editingFeature.properties.series) : new Map();
-
+	console.log(props);
 	return (
 		<>
 			<div className="PlantingFormHeader">
