@@ -73,7 +73,11 @@ export async function enrichment(feature, map) {
 	}
 
 	// Acreage
-	clone.properties.acreage = (clone.properties.rowLength ? (clone.properties.rows.length * clone.properties.rowLength * (clone.properties.configs.spacing_rows.value * 0.3048)) : calcArea(clone)) * 0.000247105;
+	if (clone.properties.type === 'prairie') {
+		clone.properties.acreage = calcArea(clone) * 0.000247105;
+	} else {
+		clone.properties.acreage = clone.properties.rowLength && clone.properties.configs && clone.properties.configs.spacing_rows ? (clone.properties.rows.length * clone.properties.rowLength * (clone.properties.configs.spacing_rows.value * 0.3048)) * 0.000247105 : 0;
+	}
 
 	if (clone.properties.type === 'prairie') {
 		clone.properties.buffer = calcBuffer({

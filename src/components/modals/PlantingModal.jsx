@@ -440,6 +440,7 @@ export class PlantingModal extends React.Component {
 		};
 
 		if (type === 'tree') {
+			console.log(this);
 			const {
 				state: {
 					windbreak,
