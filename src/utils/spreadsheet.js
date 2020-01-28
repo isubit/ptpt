@@ -343,7 +343,8 @@ function treeTemplate(feature, sheet) {
 	(() => {
 		sheet.addRows([
 			['EQIP'],
-			...eqipValues.map((ea, i) => ([`  ${ea.id}`, ea.unit_cost, '', { formula: `(B${48 + i}/1.02)*${ea.qty}` }])),
+			// ...eqipValues.map((ea, i) => ([`  ${ea.id}`, ea.unit_cost, '', annualizedTotalSeries(`B${48 + i}`, 15, `* ${ea.qty}`)])),
+			...eqipValues.map((ea) => ([`  ${ea.id}`, ea.unit_cost, '', annualizedTotalSeries(`${ea.present_value}`, 15, `* ${ea.qty}`)])),
 			[],
 			['Total EQIP', '', '', { formula: `sum(D48:D${48 + eqipValues.length - 1})` }],
 			[],

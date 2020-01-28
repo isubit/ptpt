@@ -153,7 +153,7 @@ export function getEQIPCosts(programArr, qty, treeQty, rowLength) {
 				default:
 					break;
 			}
-			programCost.totalCost = programCost.present_value * programCost.qty;
+			programCost.totalCost = annualizedCost(programCost.present_value, 0.02, 15) * programCost.qty;
 		}
 		programCost = {
 			id: `Row ${index + 1} (${ea[0].display})`,
@@ -176,7 +176,7 @@ export function getEQIPCosts(programArr, qty, treeQty, rowLength) {
 			default:
 				break;
 		}
-		programCost.totalCost = (programCost.present_value * programCost.qty);
+		programCost.totalCost = annualizedCost(programCost.present_value, 0.02, 15) * programCost.qty;
 
 		return programCost;
 	});
