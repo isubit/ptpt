@@ -294,7 +294,13 @@ export class TreePlantingForm extends React.Component {
 				<div className="PlantingFormHeader">
 					<Link className="CloseButton" to="/"><img src="../../assets/close_dropdown.svg" alt="Close Planting Modal" /></Link>
 					<h2 className="modal-header">Configure your tree rows below.</h2>
-					{series.size > 0 && <p className="SoilTypes spacer-top-1">Your soil types: <span>{[...series.keys()].sort().toString().replace(/,/g, ', ')}</span></p>}
+					{
+						series.size > 0 && (
+							<div className="tree-area-info spacer-top-1 spacer-bottom-0_5">
+								<p className="SoilTypes">Your soil types: <span>{[...series.keys()].sort().toString().replace(/,/g, ', ')}</span></p>
+							</div>
+						)
+					}
 				</div>
 				<form className="form-spacing" ref={form}>
 					<NumRowInput ref={this.rowInputEl} editingFeature={editingFeature} windbreak={windbreak} propagation={propagation} numRows={rows.length} handleNumRowChange={handleNumRowChange} handleWindbreakChange={handleWindbreakChange} handlePropgationChange={handlePropgationChange} />
