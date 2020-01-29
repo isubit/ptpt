@@ -12,7 +12,7 @@ import treesList from 'references/trees_list.json';
 import treeTypes from 'references/tree_types.json';
 import treeStockSizes from 'references/tree_stock_sizes.json';
 
-const NumRowInput = (props) => {
+const NumRowInput = React.forwardRef((props, ref) => {
 	const {
 		editingFeature,
 		windbreak,
@@ -26,7 +26,7 @@ const NumRowInput = (props) => {
 	const slope = findSlope(editingFeature);
 
 	return (
-		<div className="ConfigForm">
+		<div className="ConfigForm" ref={ref}>
 			<div className="stepNumber">
 				<h1>1</h1>
 			</div>
@@ -80,9 +80,9 @@ const NumRowInput = (props) => {
 			</div>
 		</div>
 	);
-};
+});
 
-const RowDetailInput = (props) => {
+const RowDetailInput = React.forwardRef((props, ref) => {
 	const {
 		pasture_conversion,
 		rows,
@@ -105,7 +105,7 @@ const RowDetailInput = (props) => {
 	}, new Map());
 
 	return (
-		<div className="ConfigForm">
+		<div className="ConfigForm" ref={ref}>
 			<div className="stepNumber">
 				<h1>2</h1>
 			</div>
@@ -149,9 +149,9 @@ const RowDetailInput = (props) => {
 			</div>
 		</div>
 	);
-};
+});
 
-const RowSpacingInput = (props) => {
+const RowSpacingInput = React.forwardRef((props, ref) => {
 	const {
 		drip_irrigation,
 		spacing_trees: {
@@ -168,7 +168,7 @@ const RowSpacingInput = (props) => {
 	} = props;
 
 	return (
-		<div className="ConfigForm">
+		<div className="ConfigForm" ref={ref}>
 			<div className="stepNumber">
 				<h1>3</h1>
 			</div>
@@ -234,57 +234,82 @@ const RowSpacingInput = (props) => {
 			</div>
 		</div>
 	);
-};
+});
 
-export const TreePlantingForm = (props) => {
-	const {
-		form,
-		editingFeature,
-		step,
-		windbreak,
-		propagation,
-		rows,
-		spacing_trees,
-		spacing_rows,
-		stock_size,
-		drip_irrigation,
-		selectForAllRows,
-		pasture_conversion,
-		handleTreeSpacingChange,
-		handleDripIrrigationChange,
-		handleRowSpeciesChange,
-		handleRowTypeChange,
-		handleNumRowChange,
-		handleRowSpacingChange,
-		handleStockSizeChange,
-		handleWindbreakChange,
-		handlePropgationChange,
-		handlePastureConversionChange,
-		handleSelectForAllRows,
-	} = props;
+export class TreePlantingForm extends React.Component {
+	constructor(props) {
+		super(props);
+		this.rowInputEl = React.createRef();
+		this.rowDetailInputEl = React.createRef();
+		this.rowSpacingInputEl = React.createRef();
+	}
 
-	const series = editingFeature.properties.series ? new Map(editingFeature.properties.series) : new Map();
-	console.log(props);
-	return (
-		<>
-			<div className="PlantingFormHeader">
-				<Link className="CloseButton" to="/"><img src="../../assets/close_dropdown.svg" alt="Close Planting Modal" /></Link>
-				<h2 className="modal-header">Configure your tree rows below.</h2>
-				{series.size > 0 && <p className="SoilTypes spacer-top-1">Your soil types: <span>{[...series.keys()].sort().toString().replace(/,/g, ', ')}</span></p>}
-			</div>
-			<form className="form-spacing-top" ref={form}>
-				<NumRowInput editingFeature={editingFeature} windbreak={windbreak} propagation={propagation} numRows={rows.length} handleNumRowChange={handleNumRowChange} handleWindbreakChange={handleWindbreakChange} handlePropgationChange={handlePropgationChange} />
-				{
-					(step === 'species' || step === 'spacing') && (
-						<RowDetailInput series={series} rows={rows} pasture_conversion={pasture_conversion} selectForAllRows={selectForAllRows} handleRowTypeChange={handleRowTypeChange} handleRowSpeciesChange={handleRowSpeciesChange} handlePastureConversionChange={handlePastureConversionChange} handleSelectForAllRows={handleSelectForAllRows} />
-					)
-				}
-				{
-					(step === 'spacing') && (
-						<RowSpacingInput spacing_trees={spacing_trees} spacing_rows={spacing_rows} stock_size={stock_size} drip_irrigation={drip_irrigation} handleRowSpacingChange={handleRowSpacingChange} handleTreeSpacingChange={handleTreeSpacingChange} handleStockSizeChange={handleStockSizeChange} handleDripIrrigationChange={handleDripIrrigationChange} />
-					)
-				}
-			</form>
-		</>
-	);
-};
+	componentDidUpdate(prevProps) {
+		const { step: prevStep } = prevProps;
+		const { step: currentStep } = this.props;
+		if (prevStep !== currentStep) {
+			if (currentStep === 'species') {
+				this.scrollToElement(this.rowDetailInputEl);
+			} else if (currentStep === 'spacing') {
+				this.scrollToElement(this.rowSpacingInputEl);
+			}
+		}
+	}
+
+	scrollToElement = (ref) => {
+		ref.current.scrollIntoView({ behavior: 'smooth' });
+	}
+
+	render() {
+		const {
+			form,
+			editingFeature,
+			step,
+			windbreak,
+			propagation,
+			rows,
+			spacing_trees,
+			spacing_rows,
+			stock_size,
+			drip_irrigation,
+			selectForAllRows,
+			pasture_conversion,
+			handleTreeSpacingChange,
+			handleDripIrrigationChange,
+			handleRowSpeciesChange,
+			handleRowTypeChange,
+			handleNumRowChange,
+			handleRowSpacingChange,
+			handleStockSizeChange,
+			handleWindbreakChange,
+			handlePropgationChange,
+			handlePastureConversionChange,
+			handleSelectForAllRows,
+		} = this.props;
+
+		const series = editingFeature.properties.series ? new Map(editingFeature.properties.series) : new Map();
+		// console.log(props);
+		return (
+			<>
+				<div className="PlantingFormHeader">
+					<Link className="CloseButton" to="/"><img src="../../assets/close_dropdown.svg" alt="Close Planting Modal" /></Link>
+					<h2 className="modal-header">Configure your tree rows below.</h2>
+					{series.size > 0 && <p className="SoilTypes spacer-top-1">Your soil types: <span>{[...series.keys()].sort().toString().replace(/,/g, ', ')}</span></p>}
+				</div>
+				<form className="form-spacing" ref={form}>
+					<NumRowInput ref={this.rowInputEl} editingFeature={editingFeature} windbreak={windbreak} propagation={propagation} numRows={rows.length} handleNumRowChange={handleNumRowChange} handleWindbreakChange={handleWindbreakChange} handlePropgationChange={handlePropgationChange} />
+					{
+						(step === 'species' || step === 'spacing') && (
+							<RowDetailInput ref={this.rowDetailInputEl} series={series} rows={rows} pasture_conversion={pasture_conversion} selectForAllRows={selectForAllRows} handleRowTypeChange={handleRowTypeChange} handleRowSpeciesChange={handleRowSpeciesChange} handlePastureConversionChange={handlePastureConversionChange} handleSelectForAllRows={handleSelectForAllRows} />
+						)
+					}
+					{
+						(step === 'spacing') && (
+							<RowSpacingInput ref={this.rowSpacingInputEl} spacing_trees={spacing_trees} spacing_rows={spacing_rows} stock_size={stock_size} drip_irrigation={drip_irrigation} handleRowSpacingChange={handleRowSpacingChange} handleTreeSpacingChange={handleTreeSpacingChange} handleStockSizeChange={handleStockSizeChange} handleDripIrrigationChange={handleDripIrrigationChange} />
+						)
+					}
+				</form>
+			</>
+		);
+	}
+}

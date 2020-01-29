@@ -7,7 +7,7 @@ import { PrairiePlantingForm } from '../PrairiePlantingForm';
 export class PlantingModal extends React.Component {
 	constructor(props) {
 		super(props);
-		this.bottom = React.createRef();
+		// this.bottom = React.createRef();
 		const {
 			editingFeature: {
 				properties: {
@@ -71,13 +71,13 @@ export class PlantingModal extends React.Component {
 		this.form = React.createRef();
 	}
 
-	componentDidUpdate(prevProps) {
-		const { stepIndex: prevStepIndex } = prevProps;
-		const { stepIndex: currentStepIndex } = this.props;
-		if (currentStepIndex > prevStepIndex) {
-			this.scrollToBottom();
-		}
-	}
+	// componentDidUpdate(prevProps) {
+	// 	const { stepIndex: prevStepIndex } = prevProps;
+	// 	const { stepIndex: currentStepIndex } = this.props;
+	// 	if (currentStepIndex > prevStepIndex) {
+	// 		this.scrollToBottom();
+	// 	}
+	// }
 
 	handleNumRowChange = (event) => {
 		const {
@@ -306,9 +306,9 @@ export class PlantingModal extends React.Component {
 		this.setState(() => ({ pest_control: updatePestControl }));
 	}
 
-	scrollToBottom = () => {
-		this.bottom.current.scrollIntoView({ behavior: 'smooth' });
-	}
+	// scrollToBottom = () => {
+	// 	this.bottom.current.scrollIntoView({ behavior: 'smooth' });
+	// }
 
 	handleNextStep = () => {
 		const {
@@ -525,7 +525,7 @@ export class PlantingModal extends React.Component {
 				<div className="modal">
 					{ type === 'tree' && <TreePlantingForm {...formProps} /> }
 					{ type === 'prairie' && <PrairiePlantingForm {...formProps} /> }
-					<div ref={this.bottom} />
+					{/* <div ref={this.bottom} /> */}
 				</div>
 				<div className="button-wrap vertical-align">
 					{formError && <p className="warning">{formError}</p>}
