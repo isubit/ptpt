@@ -169,7 +169,7 @@ export class PrairiePlantingForm extends React.Component {
 				<div className="PlantingFormHeader">
 					<Link className="CloseButton" to="/"><img src="../../assets/close_dropdown.svg" alt="Close Planting Modal" /></Link>
 					<h2 className="modal-header">Configure your prairie planting area below.</h2>
-					<div className="prairie-area-info spacer-top-1">
+					<div className="prairie-area-info spacer-top-1 spacer-bottom-0_5">
 						{series.size > 0 && <p className="SoilTypes planting-modal-text">Your soil types: <span>{[...series.keys()].sort().toString().replace(/,/g, ', ')}</span></p>}
 						{editingFeature.properties.acreage && <p className="PrairieArea planting-modal-text">Prairie area: <span>{editingFeature.properties.acreage.toFixed(2)} acres</span></p>}
 						{editingFeature.properties.bufferAcreage && <p className="BufferArea planting-modal-text">Buffer area: <span>{editingFeature.properties.bufferAcreage.toFixed(2)} acres</span></p>}
