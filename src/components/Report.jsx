@@ -922,7 +922,7 @@ class Report extends React.Component {
 				activeTable,
 			},
 		} = this;
-		return (
+		return reportArea ? (
 			<div className="Report">
 				<div className="reportActions">
 					<div className="distribute">
@@ -965,6 +965,6 @@ class Report extends React.Component {
 					)
 				}
 			</div>
-		);
+		) : null;
 	}
 }
