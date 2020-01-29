@@ -6540,7 +6540,11 @@ exports.default = along;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+<<<<<<< HEAD
+var meta_1 = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/main.es.js");
+=======
 var meta_1 = __webpack_require__(/*! @turf/meta */ "./node_modules/@turf/meta/index.js");
+>>>>>>> dev
 // Note: change RADIUS => earthRadius
 var RADIUS = 6378137;
 /**
@@ -10445,7 +10449,11 @@ var ___CSS_LOADER_URL___2___ = getUrl(__webpack_require__(/*! ../assets/my_locat
 var ___CSS_LOADER_URL___3___ = getUrl(__webpack_require__(/*! ../assets/search_small.svg */ "./src/assets/search_small.svg"));
 var ___CSS_LOADER_URL___4___ = getUrl(__webpack_require__(/*! ../assets/search_wide.svg */ "./src/assets/search_wide.svg"));
 // Module
+<<<<<<< HEAD
+exports.push([module.i, ".mapbox-gl-draw_ctrl-draw-btn {\n  display: none !important; }\n\n.mapboxgl-map {\n  position: initial; }\n\n.grid-row {\n  display: grid;\n  grid-template-columns: repeat(6, 1fr);\n  grid-column-gap: 1rem;\n  padding: 0px 5.625%;\n  max-width: 1680px; }\n\n.grid-wrap {\n  grid-column: 1 / -1; }\n\n@media (min-width: 900px) {\n  .grid-row {\n    grid-template-columns: repeat(12, 1fr); } }\n\n@media (min-width: 1280px) {\n  .grid-row {\n    grid-template-columns: repeat(14, 1fr);\n    padding: 0px 2.5%; } }\n\n.suggestion-item--active {\n  background-color: #fafafa;\n  cursor: pointer; }\n\n.suggestion-item {\n  background-color: #ffffff;\n  cursor: pointer; }\n\n.vertical-align {\n  display: flex;\n  align-items: center; }\n\n.distribute {\n  display: flex;\n  justify-content: space-between; }\n\n.margin-center {\n  margin: 0 auto !important; }\n\n@media (min-width: 900px) {\n  .desktop-select-l-width {\n    width: 240px; }\n  .desktop-select-s-width {\n    width: 160px; }\n  .desktop-select-m-width {\n    width: 210px; } }\n\n.spacer-top-1_5 {\n  margin-top: 1.5rem !important; }\n\n.spacer-top-0 {\n  margin-top: 0rem !important; }\n\n.spacer-top-1 {\n  margin-top: 1rem !important; }\n\n.spacer-top-2 {\n  margin-top: 2rem !important; }\n\n.spacer-top-3 {\n  margin-top: 3rem !important; }\n\n.spacer-top-4 {\n  margin-top: 4rem !important; }\n\n.spacer-bottom-0 {\n  margin-bottom: 0rem !important; }\n\n.spacer-bottom-1 {\n  margin-bottom: 1rem !important; }\n\n.spacer-bottom-2 {\n  margin-bottom: 2rem !important; }\n\n.spacer-bottom-3 {\n  margin-bottom: 3rem !important; }\n\n.spacer-bottom-4 {\n  margin-bottom: 4rem !important; }\n\n.spacer-left-0 {\n  margin-left: 0rem !important; }\n\n.spacer-left-1 {\n  margin-left: 1rem !important; }\n\n.spacer-left-2 {\n  margin-left: 2rem !important; }\n\n.spacer-left-3 {\n  margin-left: 3rem !important; }\n\n.spacer-left-4 {\n  margin-left: 4rem !important; }\n\n.spacer-right-0 {\n  margin-right: 0rem !important; }\n\n.spacer-right-1 {\n  margin-right: 1rem !important; }\n\n.spacer-right-2 {\n  margin-right: 2rem !important; }\n\n.spacer-right-3 {\n  margin-right: 3rem !important; }\n\n.spacer-right-4 {\n  margin-right: 4rem !important; }\n\n.width-1 {\n  width: 1% !important; }\n\n.width-2 {\n  width: 2% !important; }\n\n.width-3 {\n  width: 3% !important; }\n\n.width-4 {\n  width: 4% !important; }\n\n.width-5 {\n  width: 5% !important; }\n\n.width-6 {\n  width: 6% !important; }\n\n.width-7 {\n  width: 7% !important; }\n\n.width-8 {\n  width: 8% !important; }\n\n.width-9 {\n  width: 9% !important; }\n\n.width-10 {\n  width: 10% !important; }\n\n.width-11 {\n  width: 11% !important; }\n\n.width-12 {\n  width: 12% !important; }\n\n.width-13 {\n  width: 13% !important; }\n\n.width-14 {\n  width: 14% !important; }\n\n.width-15 {\n  width: 15% !important; }\n\n.width-16 {\n  width: 16% !important; }\n\n.width-17 {\n  width: 17% !important; }\n\n.width-18 {\n  width: 18% !important; }\n\n.width-19 {\n  width: 19% !important; }\n\n.width-20 {\n  width: 20% !important; }\n\n.width-21 {\n  width: 21% !important; }\n\n.width-22 {\n  width: 22% !important; }\n\n.width-23 {\n  width: 23% !important; }\n\n.width-24 {\n  width: 24% !important; }\n\n.width-25 {\n  width: 25% !important; }\n\n.width-26 {\n  width: 26% !important; }\n\n.width-27 {\n  width: 27% !important; }\n\n.width-28 {\n  width: 28% !important; }\n\n.width-29 {\n  width: 29% !important; }\n\n.width-30 {\n  width: 30% !important; }\n\n.width-31 {\n  width: 31% !important; }\n\n.width-32 {\n  width: 32% !important; }\n\n.width-33 {\n  width: 33% !important; }\n\n.width-34 {\n  width: 34% !important; }\n\n.width-35 {\n  width: 35% !important; }\n\n.width-36 {\n  width: 36% !important; }\n\n.width-37 {\n  width: 37% !important; }\n\n.width-38 {\n  width: 38% !important; }\n\n.width-39 {\n  width: 39% !important; }\n\n.width-40 {\n  width: 40% !important; }\n\n.width-41 {\n  width: 41% !important; }\n\n.width-42 {\n  width: 42% !important; }\n\n.width-43 {\n  width: 43% !important; }\n\n.width-44 {\n  width: 44% !important; }\n\n.width-45 {\n  width: 45% !important; }\n\n.width-46 {\n  width: 46% !important; }\n\n.width-47 {\n  width: 47% !important; }\n\n.width-48 {\n  width: 48% !important; }\n\n.width-49 {\n  width: 49% !important; }\n\n.width-50 {\n  width: 50% !important; }\n\n.width-51 {\n  width: 51% !important; }\n\n.width-52 {\n  width: 52% !important; }\n\n.width-53 {\n  width: 53% !important; }\n\n.width-54 {\n  width: 54% !important; }\n\n.width-55 {\n  width: 55% !important; }\n\n.width-56 {\n  width: 56% !important; }\n\n.width-57 {\n  width: 57% !important; }\n\n.width-58 {\n  width: 58% !important; }\n\n.width-59 {\n  width: 59% !important; }\n\n.width-60 {\n  width: 60% !important; }\n\n.width-61 {\n  width: 61% !important; }\n\n.width-62 {\n  width: 62% !important; }\n\n.width-63 {\n  width: 63% !important; }\n\n.width-64 {\n  width: 64% !important; }\n\n.width-65 {\n  width: 65% !important; }\n\n.width-66 {\n  width: 66% !important; }\n\n.width-67 {\n  width: 67% !important; }\n\n.width-68 {\n  width: 68% !important; }\n\n.width-69 {\n  width: 69% !important; }\n\n.width-70 {\n  width: 70% !important; }\n\n.width-71 {\n  width: 71% !important; }\n\n.width-72 {\n  width: 72% !important; }\n\n.width-73 {\n  width: 73% !important; }\n\n.width-74 {\n  width: 74% !important; }\n\n.width-75 {\n  width: 75% !important; }\n\n.width-76 {\n  width: 76% !important; }\n\n.width-77 {\n  width: 77% !important; }\n\n.width-78 {\n  width: 78% !important; }\n\n.width-79 {\n  width: 79% !important; }\n\n.width-80 {\n  width: 80% !important; }\n\n.width-81 {\n  width: 81% !important; }\n\n.width-82 {\n  width: 82% !important; }\n\n.width-83 {\n  width: 83% !important; }\n\n.width-84 {\n  width: 84% !important; }\n\n.width-85 {\n  width: 85% !important; }\n\n.width-86 {\n  width: 86% !important; }\n\n.width-87 {\n  width: 87% !important; }\n\n.width-88 {\n  width: 88% !important; }\n\n.width-89 {\n  width: 89% !important; }\n\n.width-90 {\n  width: 90% !important; }\n\n.width-91 {\n  width: 91% !important; }\n\n.width-92 {\n  width: 92% !important; }\n\n.width-93 {\n  width: 93% !important; }\n\n.width-94 {\n  width: 94% !important; }\n\n.width-95 {\n  width: 95% !important; }\n\n.width-96 {\n  width: 96% !important; }\n\n.width-97 {\n  width: 97% !important; }\n\n.width-98 {\n  width: 98% !important; }\n\n.width-99 {\n  width: 99% !important; }\n\n.width-100 {\n  width: 100% !important; }\n\n.height-1 {\n  height: 1% !important; }\n\n.height-2 {\n  height: 2% !important; }\n\n.height-3 {\n  height: 3% !important; }\n\n.height-4 {\n  height: 4% !important; }\n\n.height-5 {\n  height: 5% !important; }\n\n.height-6 {\n  height: 6% !important; }\n\n.height-7 {\n  height: 7% !important; }\n\n.height-8 {\n  height: 8% !important; }\n\n.height-9 {\n  height: 9% !important; }\n\n.height-10 {\n  height: 10% !important; }\n\n.height-11 {\n  height: 11% !important; }\n\n.height-12 {\n  height: 12% !important; }\n\n.height-13 {\n  height: 13% !important; }\n\n.height-14 {\n  height: 14% !important; }\n\n.height-15 {\n  height: 15% !important; }\n\n.height-16 {\n  height: 16% !important; }\n\n.height-17 {\n  height: 17% !important; }\n\n.height-18 {\n  height: 18% !important; }\n\n.height-19 {\n  height: 19% !important; }\n\n.height-20 {\n  height: 20% !important; }\n\n.height-21 {\n  height: 21% !important; }\n\n.height-22 {\n  height: 22% !important; }\n\n.height-23 {\n  height: 23% !important; }\n\n.height-24 {\n  height: 24% !important; }\n\n.height-25 {\n  height: 25% !important; }\n\n.height-26 {\n  height: 26% !important; }\n\n.height-27 {\n  height: 27% !important; }\n\n.height-28 {\n  height: 28% !important; }\n\n.height-29 {\n  height: 29% !important; }\n\n.height-30 {\n  height: 30% !important; }\n\n.height-31 {\n  height: 31% !important; }\n\n.height-32 {\n  height: 32% !important; }\n\n.height-33 {\n  height: 33% !important; }\n\n.height-34 {\n  height: 34% !important; }\n\n.height-35 {\n  height: 35% !important; }\n\n.height-36 {\n  height: 36% !important; }\n\n.height-37 {\n  height: 37% !important; }\n\n.height-38 {\n  height: 38% !important; }\n\n.height-39 {\n  height: 39% !important; }\n\n.height-40 {\n  height: 40% !important; }\n\n.height-41 {\n  height: 41% !important; }\n\n.height-42 {\n  height: 42% !important; }\n\n.height-43 {\n  height: 43% !important; }\n\n.height-44 {\n  height: 44% !important; }\n\n.height-45 {\n  height: 45% !important; }\n\n.height-46 {\n  height: 46% !important; }\n\n.height-47 {\n  height: 47% !important; }\n\n.height-48 {\n  height: 48% !important; }\n\n.height-49 {\n  height: 49% !important; }\n\n.height-50 {\n  height: 50% !important; }\n\n.height-51 {\n  height: 51% !important; }\n\n.height-52 {\n  height: 52% !important; }\n\n.height-53 {\n  height: 53% !important; }\n\n.height-54 {\n  height: 54% !important; }\n\n.height-55 {\n  height: 55% !important; }\n\n.height-56 {\n  height: 56% !important; }\n\n.height-57 {\n  height: 57% !important; }\n\n.height-58 {\n  height: 58% !important; }\n\n.height-59 {\n  height: 59% !important; }\n\n.height-60 {\n  height: 60% !important; }\n\n.height-61 {\n  height: 61% !important; }\n\n.height-62 {\n  height: 62% !important; }\n\n.height-63 {\n  height: 63% !important; }\n\n.height-64 {\n  height: 64% !important; }\n\n.height-65 {\n  height: 65% !important; }\n\n.height-66 {\n  height: 66% !important; }\n\n.height-67 {\n  height: 67% !important; }\n\n.height-68 {\n  height: 68% !important; }\n\n.height-69 {\n  height: 69% !important; }\n\n.height-70 {\n  height: 70% !important; }\n\n.height-71 {\n  height: 71% !important; }\n\n.height-72 {\n  height: 72% !important; }\n\n.height-73 {\n  height: 73% !important; }\n\n.height-74 {\n  height: 74% !important; }\n\n.height-75 {\n  height: 75% !important; }\n\n.height-76 {\n  height: 76% !important; }\n\n.height-77 {\n  height: 77% !important; }\n\n.height-78 {\n  height: 78% !important; }\n\n.height-79 {\n  height: 79% !important; }\n\n.height-80 {\n  height: 80% !important; }\n\n.height-81 {\n  height: 81% !important; }\n\n.height-82 {\n  height: 82% !important; }\n\n.height-83 {\n  height: 83% !important; }\n\n.height-84 {\n  height: 84% !important; }\n\n.height-85 {\n  height: 85% !important; }\n\n.height-86 {\n  height: 86% !important; }\n\n.height-87 {\n  height: 87% !important; }\n\n.height-88 {\n  height: 88% !important; }\n\n.height-89 {\n  height: 89% !important; }\n\n.height-90 {\n  height: 90% !important; }\n\n.height-91 {\n  height: 91% !important; }\n\n.height-92 {\n  height: 92% !important; }\n\n.height-93 {\n  height: 93% !important; }\n\n.height-94 {\n  height: 94% !important; }\n\n.height-95 {\n  height: 95% !important; }\n\n.height-96 {\n  height: 96% !important; }\n\n.height-97 {\n  height: 97% !important; }\n\n.height-98 {\n  height: 98% !important; }\n\n.height-99 {\n  height: 99% !important; }\n\n.height-100 {\n  height: 100% !important; }\n\n@media (min-width: 900px) {\n  .nowrap {\n    white-space: nowrap; } }\n\n.warning {\n  color: red; }\n\n.block {\n  display: block !important; }\n\n.inline {\n  display: inline !important; }\n\n.inline-block {\n  display: inline-block !important; }\n\n.clickable {\n  pointer-events: auto !important; }\n  .clickable * {\n    pointer-events: auto !important; }\n\n.unclickable {\n  pointer-events: none !important; }\n\n.Button {\n  padding: 0.5rem 22px;\n  font-size: .909rem;\n  display: inline-block;\n  border-radius: 5px;\n  background-color: #006BA6;\n  cursor: pointer;\n  color: white;\n  line-height: 1.5rem;\n  outline: none;\n  border: none; }\n\n.checkboxElement {\n  display: block; }\n  .checkboxElement input[type=\"checkbox\"] {\n    -webkit-appearance: none;\n    border-radius: 3px;\n    border: 1px solid #A8ACAE;\n    width: 18px;\n    box-sizing: border-box;\n    height: 18px;\n    margin: 0px 0.5rem 0px 0px;\n    vertical-align: middle;\n    /* &:focus\n            border: 1px solid $black\n            outline: none\n            + span\n                color: black */ }\n    .checkboxElement input[type=\"checkbox\"]:focus {\n      outline: none; }\n    .checkboxElement input[type=\"checkbox\"]:checked {\n      background-color: #006BA6;\n      background-image: url(" + ___CSS_LOADER_URL___0___ + ");\n      background-repeat: no-repeat;\n      border: 1px solid #006BA6; }\n      .checkboxElement input[type=\"checkbox\"]:checked + span {\n        color: #333333; }\n    .checkboxElement input[type=\"checkbox\"]:disabled {\n      background-color: #ECF1F3;\n      border: 1px solid #ECF1F3; }\n      .checkboxElement input[type=\"checkbox\"]:disabled + span {\n        color: #A8ACAE; }\n  .checkboxElement span {\n    font-size: .909rem;\n    color: #707372;\n    line-height: 2rem; }\n\nselect {\n  -webkit-appearance: none;\n  border: 1px solid #A8ACAE;\n  box-sizing: border-box;\n  border-radius: 5px;\n  font-size: .909rem;\n  padding: 7px;\n  line-height: 1rem;\n  background: transparent;\n  background-image: url(" + ___CSS_LOADER_URL___1___ + ");\n  background-repeat: no-repeat;\n  background-position: right; }\n  select:focus {\n    outline: none; }\n\n.CloseButton {\n  position: absolute;\n  z-index: 1;\n  top: 18px;\n  right: 18px;\n  cursor: pointer;\n  padding: 0;\n  border: none;\n  background-color: inherit; }\n\n.dropdown-checkbox {\n  margin-top: 1.5em;\n  margin-bottom: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-checkbox .Button {\n    margin-top: 1rem;\n    margin-bottom: 3rem; }\n  .dropdown-checkbox > img:last-of-type {\n    position: absolute;\n    bottom: 18px;\n    right: 18px;\n    cursor: pointer; }\n\n@media (min-width: 900px) {\n  .dropdown-checkbox {\n    margin-top: 1em;\n    margin-bottom: 1em; }\n    .dropdown-checkbox .Button {\n      display: block;\n      text-align: center;\n      margin: 0.5rem auto 2.5rem auto; }\n    .dropdown-checkbox > img:last-of-type {\n      bottom: 9px;\n      right: 9px; } }\n\n.dropdown-list {\n  margin-top: 1.5em;\n  margin-bottom: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-list ul {\n    display: block;\n    padding: 0; }\n    .dropdown-list ul li a {\n      text-decoration: none;\n      font-size: 0.909rem;\n      line-height: 2.75em; }\n    .dropdown-list ul li:last-child {\n      border-top: 1px solid #ECF1F3;\n      padding: 1em 0; }\n      .dropdown-list ul li:last-child a {\n        line-height: 1.5em; }\n\n@media (min-width: 900px) {\n  .dropdown-list {\n    margin-top: 1em;\n    margin-top: 1em;\n    margin-bottom: 1em; }\n    .dropdown-list ul li a {\n      line-height: 2em;\n      padding: 0; }\n    .dropdown-list ul li:nth-of-type(3) {\n      padding-bottom: 1em; } }\n\n.Header {\n  position: relative;\n  z-index: 2;\n  width: 100%;\n  height: 99px;\n  background-color: #FFFFFF;\n  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); }\n  .Header > .grid-row {\n    grid-template-columns: auto repeat(5, 1fr); }\n    .Header > .grid-row.sidenav-btn {\n      padding: 0; }\n      .Header > .grid-row.sidenav-btn .SideNavButton {\n        background-color: #FFFFFF;\n        grid-column: 1 / 2;\n        cursor: pointer;\n        padding: 0;\n        border: none; }\n        .Header > .grid-row.sidenav-btn .SideNavButton img {\n          display: block; }\n        .Header > .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n          display: none; }\n      .Header > .grid-row.sidenav-btn .Title {\n        grid-column: 2 / 4; }\n      .Header > .grid-row.sidenav-btn .LocationInput {\n        display: none; }\n      .Header > .grid-row.sidenav-btn .HeaderOptions {\n        grid-column: 4 / -1; }\n      .Header > .grid-row.sidenav-btn .SaveButton {\n        display: none; }\n  .Header .search-save-btn .Save {\n    display: inline-block; }\n    .Header .search-save-btn .Save .SaveButton .wide-save {\n      display: none; }\n\n@media (min-width: 900px) {\n  .Header {\n    height: 72px; }\n    .Header > .grid-row {\n      height: 72px;\n      grid-template-columns: repeat(12, 1fr); }\n      .Header > .grid-row > * {\n        max-height: 72px; }\n      .Header > .grid-row.sidenav-btn .SideNavButton .narrow-sidenav {\n        display: none; }\n      .Header > .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n        display: block; }\n      .Header > .grid-row.sidenav-btn .Title {\n        grid-column: 2 / 4; }\n      .Header > .grid-row.sidenav-btn .LocationInput {\n        grid-column: 4 / 8;\n        display: block; }\n      .Header > .grid-row.sidenav-btn .HeaderOptions {\n        grid-column: 8 / 12; }\n      .Header > .grid-row.sidenav-btn .SaveButton {\n        display: block; }\n        .Header > .grid-row.sidenav-btn .SaveButton .narrow-save {\n          display: none; }\n    .Header .search-save-btn {\n      display: none; } }\n\n@media (min-width: 1280px) {\n  .Header > .grid-row {\n    grid-template-columns: repeat(14, 1fr); }\n    .Header > .grid-row.sidenav-btn .Title {\n      grid-column: 2 / 4; }\n    .Header > .grid-row.sidenav-btn .LocationInput {\n      grid-column: 4 / 9; }\n    .Header > .grid-row.sidenav-btn .HeaderOptions {\n      grid-column: 9 / 14; } }\n\n.HeaderOptions > ul {\n  margin: 0;\n  padding: 0;\n  display: flex;\n  justify-content: flex-end;\n  display: grid;\n  grid-template-columns: repeat(4, minmax(35px, 60px));\n  height: 100%; }\n  .HeaderOptions > ul .option {\n    display: flex;\n    align-items: center;\n    padding: 0px 4px; }\n    .HeaderOptions > ul .option a {\n      display: block;\n      margin: 0 auto; }\n      .HeaderOptions > ul .option a .option-active {\n        display: none; }\n      .HeaderOptions > ul .option a .option-name {\n        display: none; }\n      .HeaderOptions > ul .option a img {\n        display: block;\n        width: 100%;\n        max-width: 45px; }\n    .HeaderOptions > ul .option.active {\n      background-color: #006BA6; }\n      .HeaderOptions > ul .option.active a .option-inactive {\n        display: none; }\n      .HeaderOptions > ul .option.active a .option-active {\n        display: block; }\n      .HeaderOptions > ul .option.active .OptionsDropdown {\n        display: grid; }\n\n@media (min-width: 400px) {\n  .HeaderOptions {\n    padding-right: 15px; } }\n\n@media (min-width: 900px) {\n  .HeaderOptions {\n    padding-right: 0px;\n    margin-left: 0;\n    padding-left: 0; }\n    .HeaderOptions > ul {\n      grid-template-rows: 1fr;\n      grid-template-columns: repeat(4, 1fr);\n      width: 100%; }\n      .HeaderOptions > ul .option {\n        grid-row: 1;\n        width: 100%;\n        padding: 0; }\n        .HeaderOptions > ul .option .option-name {\n          width: 40px;\n          font-size: 0.5rem; } }\n\n@media (min-width: 1280px) {\n  .HeaderOptions ul .option a .option-name {\n    display: inline-block;\n    vertical-align: middle;\n    padding-left: 5px; }\n  .HeaderOptions ul .option a .option-inactive {\n    display: inline-block;\n    vertical-align: middle; }\n  .HeaderOptions ul .option.active a .option-active {\n    display: inline-block;\n    vertical-align: middle; } }\n\n.Map {\n  width: 100%;\n  height: calc(100vh - 99px);\n  position: relative; }\n  .Map .ZoomControl {\n    position: absolute;\n    bottom: 2rem;\n    right: 2rem;\n    z-index: 1;\n    display: flex;\n    flex-flow: column nowrap;\n    justify-content: center;\n    align-items: center;\n    background: white;\n    padding: 6px; }\n    .Map .ZoomControl hr {\n      width: 80%;\n      opacity: 0.4;\n      transform: translateY(2px); }\n    .Map .ZoomControl img {\n      cursor: pointer; }\n  .Map .LegendControl {\n    position: absolute;\n    bottom: 2rem;\n    right: 4.5rem;\n    z-index: 1;\n    background: white;\n    padding: 6px;\n    line-height: 0; }\n    .Map .LegendControl img {\n      cursor: pointer; }\n\n@media (min-width: 900px) {\n  .Map {\n    height: calc(100vh - 72px); } }\n\n.MapModeForm {\n  position: absolute;\n  z-index: 10;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.4);\n  flex-direction: column; }\n  .MapModeForm .modal {\n    background: white;\n    width: 100%;\n    height: calc(100vh - 99px);\n    padding: 4rem 1.5rem 3rem 1.5rem;\n    box-sizing: border-box;\n    position: relative;\n    overflow: scroll; }\n  .MapModeForm .button-wrap {\n    height: 99px;\n    width: 100%;\n    background-color: gray;\n    justify-content: flex-end;\n    background-color: #ECF1F3; }\n    .MapModeForm .button-wrap .Button {\n      margin: 1.5rem; }\n\n@media (min-width: 900px) {\n  .MapModeForm {\n    justify-content: center; }\n    .MapModeForm .modal {\n      width: 670px;\n      height: 500px; }\n    .MapModeForm .button-wrap {\n      width: 670px; } }\n\n.MapLegend .SSURGO .gradient {\n  width: 200px;\n  height: 20px;\n  background: linear-gradient(90deg, #f8f601 0%, #888900 50%, #909090 100%);\n  opacity: 0.6; }\n\n.MapLegend .SSURGO .labels {\n  width: 200px;\n  transform: translateY(-8px); }\n\n.modal {\n  display: grid;\n  height: 100vh;\n  width: 100vw;\n  position: absolute;\n  top: 0;\n  z-index: 3;\n  background-color: rgba(51, 51, 51, 0.7); }\n  .modal .grid-row {\n    background-color: #FFFFFF; }\n    .modal .grid-row .grid-wrap {\n      max-width: 800px;\n      background-color: #FFFFFF; }\n      .modal .grid-row .grid-wrap .modal-footer {\n        position: absolute;\n        padding: 0px 5.625%;\n        left: 0;\n        right: 0;\n        display: flex;\n        align-items: center;\n        justify-content: space-between;\n        bottom: 0;\n        padding: 1.5rem;\n        background-color: #ECF1F3; }\n      .modal .grid-row .grid-wrap .modal-header {\n        padding-top: 4rem;\n        padding-bottom: 0.5rem;\n        position: relative; }\n        .modal .grid-row .grid-wrap .modal-header::after {\n          content: '';\n          position: absolute;\n          bottom: -2px;\n          left: 0;\n          height: 2px;\n          width: 135px;\n          background-color: #76881D; }\n      .modal .grid-row .grid-wrap .button-wrap > *:last-child {\n        display: none; }\n      .modal .grid-row .grid-wrap .modal-text {\n        padding-top: 1.5rem; }\n      .modal .grid-row .grid-wrap .modal-link {\n        font-family: Merriweather;\n        font-style: italic;\n        font-weight: normal;\n        font-size: 0.751rem;\n        line-height: 21px;\n        text-decoration-line: underline;\n        color: #006BA6; }\n\n@media (min-width: 900px) {\n  .modal {\n    height: 100vh;\n    align-items: center;\n    justify-content: center; }\n    .modal .grid-row {\n      background: none; }\n      .modal .grid-row .grid-wrap {\n        min-height: 400px;\n        min-width: 600px;\n        max-height: 450px;\n        display: flex;\n        flex-direction: column;\n        grid-column: 2 / 12;\n        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);\n        position: relative; }\n        .modal .grid-row .grid-wrap .modal-footer {\n          position: initial;\n          margin-top: auto;\n          padding: 1.5rem 2rem 1.5rem 2rem;\n          align-items: baseline; }\n        .modal .grid-row .grid-wrap .modal-header {\n          padding-top: 3.5rem; }\n          .modal .grid-row .grid-wrap .modal-header::after {\n            left: 2rem; }\n        .modal .grid-row .grid-wrap .modal-text {\n          padding-bottom: 3rem; }\n        .modal .grid-row .grid-wrap .modal-header, .modal .grid-row .grid-wrap .modal-text {\n          padding-left: 2rem;\n          padding-right: 2rem; }\n        .modal .grid-row .grid-wrap .button-wrap > *:last-child {\n          color: #7A99AC;\n          display: block;\n          padding-top: 0.5rem;\n          font-size: .909rem; } }\n\n@media (min-width: 1280px) {\n  .modal .grid-wrap {\n    grid-column: 4 / 12; } }\n\n.NavOptions {\n  position: fixed;\n  bottom: 0;\n  height: 100vh;\n  background-color: #3E4827;\n  display: none;\n  z-index: 10; }\n  .NavOptions.active {\n    display: block; }\n  .NavOptions .grid-wrap {\n    padding-top: 4rem; }\n    .NavOptions .grid-wrap ul {\n      border-bottom: 2px solid #656D52;\n      padding-bottom: 1rem; }\n      .NavOptions .grid-wrap ul li a {\n        line-height: 2.75rem;\n        text-decoration: none;\n        color: #FFFFFF;\n        font-size: .909rem; }\n    .NavOptions .grid-wrap div p {\n      margin: 0;\n      font-family: Merriweather;\n      font-style: italic;\n      color: #FFFFFF;\n      font-size: 0.683rem;\n      line-height: 1rem;\n      padding-top: 1.5rem; }\n\n@media (min-width: 900px) {\n  .NavOptions {\n    width: 270px; } }\n\n.OptionsDropdown {\n  position: absolute;\n  top: 54px;\n  left: 0;\n  right: 0;\n  background-color: #FFFFFF;\n  border-top: 2px solid #006BA6;\n  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);\n  display: none; }\n\n@media (min-width: 900px) {\n  .OptionsDropdown {\n    width: 180px;\n    top: 72px;\n    padding: 0 1em;\n    left: auto;\n    right: auto; }\n    .OptionsDropdown.grid-row {\n      grid-column-gap: 0rem; }\n    .OptionsDropdown .CloseButton {\n      display: none; } }\n\n.SaveButton {\n  display: inline-block;\n  border: none;\n  padding: 0; }\n  .SaveButton img {\n    display: block;\n    margin-left: auto; }\n\n.LocationInput {\n  width: calc(100% - 54px);\n  height: 45px;\n  vertical-align: top;\n  display: inline-block; }\n  .LocationInput .wrapper {\n    display: flex;\n    align-items: center;\n    height: 100%;\n    width: 100%;\n    position: relative; }\n  .LocationInput .MyLocation {\n    width: 30px;\n    height: 30px;\n    background-size: 30px;\n    display: inline-block;\n    position: absolute;\n    right: 22.5px;\n    background-color: #ECF1F3;\n    background-repeat: no-repeat;\n    background-image: url(" + ___CSS_LOADER_URL___2___ + "); }\n  .LocationInput input {\n    width: 100%;\n    height: 100%;\n    -webkit-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    box-sizing: border-box;\n    -webkit-appearance: none;\n    border: none;\n    padding: 0 0px 0px 75px;\n    background-color: #ECF1F3;\n    background-repeat: no-repeat;\n    background-position: 5%;\n    background-image: url(" + ___CSS_LOADER_URL___3___ + ");\n    background-size: 20px; }\n    .LocationInput input::-webkit-input-placeholder {\n      font-family: Merriweather;\n      font-style: italic;\n      font-weight: normal;\n      font-size: 0.683rem;\n      line-height: 1rem; }\n\n@media (min-width: 900px) {\n  .LocationInput {\n    height: auto;\n    width: auto;\n    padding-bottom: 9px;\n    padding-top: 9px;\n    position: relative; }\n    .LocationInput .MyLocation {\n      width: 40px;\n      height: 40px;\n      background-size: 40px; }\n    .LocationInput input {\n      background-image: url(" + ___CSS_LOADER_URL___4___ + "); }\n      .LocationInput input::-webkit-input-placeholder {\n        font-size: 0.826rem; } }\n\n.LocationInputSuggestions {\n  background-color: #FFFFFF;\n  position: absolute;\n  left: 0;\n  right: 0; }\n  .LocationInputSuggestions > div {\n    padding: 0rem 1rem 0rem 1rem; }\n\n.Title {\n  display: flex;\n  align-items: center; }\n  .Title .wide-logo {\n    display: none; }\n  .Title .narrow-logo {\n    width: 100%;\n    max-width: 82px;\n    min-width: 63px; }\n\n@media (min-width: 900px) {\n  .Title .narrow-logo {\n    display: none; }\n  .Title .wide-logo {\n    display: block;\n    width: 100%;\n    max-width: 154px; } }\n\n.ConfigForm {\n  display: flex;\n  padding-top: 1.5rem;\n  padding-bottom: 1.5rem;\n  border-bottom: 1px solid #ECF1F3; }\n  .ConfigForm:nth-last-child(2) {\n    padding-bottom: 0;\n    border: none; }\n  .ConfigForm .stepNumber {\n    margin-right: 0.5rem;\n    height: 36px;\n    text-align: center;\n    border-radius: 18px;\n    background-color: #CAC7A7;\n    flex: 0 0 36px; }\n    .ConfigForm .stepNumber h1 {\n      width: 36px;\n      line-height: 36px;\n      color: white; }\n  .ConfigForm .inputDescriptor {\n    margin-bottom: 1.5rem; }\n  .ConfigForm .configInputs {\n    flex-grow: 1; }\n    .ConfigForm .configInputs > .inputElement {\n      margin-top: 0px; }\n    .ConfigForm .configInputs > .inputElement ~ .inputElement {\n      margin-top: 1.5rem; }\n    .ConfigForm .configInputs .inputElement span {\n      display: block;\n      font-size: .909rem; }\n    .ConfigForm .configInputs .inputElement .ModalTextInput {\n      font-size: .909rem;\n      padding: 7px;\n      line-height: 1rem;\n      width: 100%; }\n    .ConfigForm .configInputs .inputElement select {\n      width: 100%; }\n    .ConfigForm .configInputs .inputElement .inputLabel {\n      font-size: 0.826rem;\n      color: #707372;\n      margin-bottom: 2px; }\n    .ConfigForm .configInputs .rowDetails:last-of-type {\n      margin-bottom: 0; }\n    .ConfigForm .configInputs .rowDetails {\n      margin-bottom: 2rem; }\n      .ConfigForm .configInputs .rowDetails .rowNumber {\n        margin-bottom: 0.5rem; }\n        .ConfigForm .configInputs .rowDetails .rowNumber h4 {\n          color: #707372; }\n      .ConfigForm .configInputs .rowDetails .inputElement {\n        margin-bottom: 1.5rem; }\n      .ConfigForm .configInputs .rowDetails > .inputElement ~ .inputElement {\n        margin-bottom: 0; }\n    .ConfigForm .configInputs .checkboxElement {\n      margin-top: 1.5rem; }\n\n@media (min-width: 900px) {\n  .ConfigForm .stepNumber {\n    margin-right: 10px;\n    height: 45px;\n    border-radius: 23px; }\n    .ConfigForm .stepNumber h1 {\n      width: 45px;\n      line-height: 45px;\n      font-size: 1.948rem; }\n  .ConfigForm .configInputs .inputDescriptor {\n    margin-bottom: 1rem; }\n  .ConfigForm .configInputs .inputElement {\n    display: inline-block;\n    margin-right: 0.5rem; }\n  .ConfigForm .configInputs > .inputElement ~ .inputElement {\n    margin-top: 0; }\n  .ConfigForm .configInputs .rowDetails {\n    display: flex;\n    justify-content: space-between; }\n    .ConfigForm .configInputs .rowDetails .rowNumber {\n      align-self: flex-end;\n      margin-bottom: 0; }\n    .ConfigForm .configInputs .rowDetails .inputElement {\n      margin: 0; } }\n\n.ModalTextInput {\n  -webkit-appearance: none;\n  border: 1px solid #A8ACAE;\n  box-sizing: border-box;\n  border-radius: 5px;\n  background: transparent; }\n  .ModalTextInput:focus {\n    outline: none; }\n\nhtml, body {\n  font-size: 18px;\n  font-family: Nimbus Sans, Arial;\n  margin: 0;\n  min-width: 305px; }\n\nul {\n  list-style: none;\n  padding: 0;\n  margin: 0; }\n\nh1 {\n  font-size: 1.464rem;\n  line-height: 2rem;\n  margin: 0; }\n\nh2 {\n  font-size: 1.331rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\nh3 {\n  font-size: 1rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\nh4, p {\n  font-size: 0.909rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\na {\n  text-decoration: none; }\n\nspan.link {\n  color: blue;\n  cursor: pointer; }\n", ""]);
+=======
 exports.push([module.i, ".mapbox-gl-draw_ctrl-draw-btn {\n  display: none !important; }\n\n.mapboxgl-map {\n  position: initial; }\n\n.grid-row {\n  display: grid;\n  grid-template-columns: repeat(6, 1fr);\n  grid-column-gap: 1rem;\n  padding: 0px 5.625%;\n  max-width: 1680px; }\n\n.grid-wrap {\n  grid-column: 1 / -1; }\n\n@media (min-width: 900px) {\n  .grid-row {\n    grid-template-columns: repeat(12, 1fr); } }\n\n@media (min-width: 1280px) {\n  .grid-row {\n    grid-template-columns: repeat(14, 1fr);\n    padding: 0px 2.5%; } }\n\n.suggestion-item--active {\n  background-color: #fafafa;\n  cursor: pointer; }\n\n.suggestion-item {\n  background-color: #ffffff;\n  cursor: pointer; }\n\n.vertical-align {\n  display: flex;\n  align-items: center; }\n\n.distribute {\n  display: flex;\n  justify-content: space-between; }\n\n.margin-center {\n  margin: 0 auto !important; }\n\n.header-large {\n  font-size: 1.949rem;\n  line-height: 2.5rem;\n  font-weight: bold; }\n\n.inputLabel {\n  font-size: 0.826rem;\n  color: #707372; }\n\n.flex-column {\n  display: flex;\n  flex-direction: column; }\n\n.modal-link {\n  font-family: Merriweather;\n  font-style: italic;\n  font-weight: normal;\n  font-size: 0.751rem;\n  line-height: 21px;\n  text-decoration-line: underline;\n  color: #006BA6;\n  background: transparent; }\n\n@media (min-width: 900px) {\n  .desktop-select-l-width {\n    width: 240px; }\n  .desktop-select-s-width {\n    width: 160px; }\n  .desktop-select-m-width {\n    width: 210px; } }\n\n.spacer-top-1_5 {\n  margin-top: 1.5rem !important; }\n\n.spacer-top-0 {\n  margin-top: 0rem !important; }\n\n.spacer-top-1 {\n  margin-top: 1rem !important; }\n\n.spacer-top-2 {\n  margin-top: 2rem !important; }\n\n.spacer-top-3 {\n  margin-top: 3rem !important; }\n\n.spacer-top-4 {\n  margin-top: 4rem !important; }\n\n.spacer-bottom-0 {\n  margin-bottom: 0rem !important; }\n\n.spacer-bottom-1 {\n  margin-bottom: 1rem !important; }\n\n.spacer-bottom-2 {\n  margin-bottom: 2rem !important; }\n\n.spacer-bottom-3 {\n  margin-bottom: 3rem !important; }\n\n.spacer-bottom-4 {\n  margin-bottom: 4rem !important; }\n\n.spacer-left-0 {\n  margin-left: 0rem !important; }\n\n.spacer-left-1 {\n  margin-left: 1rem !important; }\n\n.spacer-left-2 {\n  margin-left: 2rem !important; }\n\n.spacer-left-3 {\n  margin-left: 3rem !important; }\n\n.spacer-left-4 {\n  margin-left: 4rem !important; }\n\n.spacer-right-0 {\n  margin-right: 0rem !important; }\n\n.spacer-right-1 {\n  margin-right: 1rem !important; }\n\n.spacer-right-2 {\n  margin-right: 2rem !important; }\n\n.spacer-right-3 {\n  margin-right: 3rem !important; }\n\n.spacer-right-4 {\n  margin-right: 4rem !important; }\n\n.width-1 {\n  width: 1% !important; }\n\n.width-2 {\n  width: 2% !important; }\n\n.width-3 {\n  width: 3% !important; }\n\n.width-4 {\n  width: 4% !important; }\n\n.width-5 {\n  width: 5% !important; }\n\n.width-6 {\n  width: 6% !important; }\n\n.width-7 {\n  width: 7% !important; }\n\n.width-8 {\n  width: 8% !important; }\n\n.width-9 {\n  width: 9% !important; }\n\n.width-10 {\n  width: 10% !important; }\n\n.width-11 {\n  width: 11% !important; }\n\n.width-12 {\n  width: 12% !important; }\n\n.width-13 {\n  width: 13% !important; }\n\n.width-14 {\n  width: 14% !important; }\n\n.width-15 {\n  width: 15% !important; }\n\n.width-16 {\n  width: 16% !important; }\n\n.width-17 {\n  width: 17% !important; }\n\n.width-18 {\n  width: 18% !important; }\n\n.width-19 {\n  width: 19% !important; }\n\n.width-20 {\n  width: 20% !important; }\n\n.width-21 {\n  width: 21% !important; }\n\n.width-22 {\n  width: 22% !important; }\n\n.width-23 {\n  width: 23% !important; }\n\n.width-24 {\n  width: 24% !important; }\n\n.width-25 {\n  width: 25% !important; }\n\n.width-26 {\n  width: 26% !important; }\n\n.width-27 {\n  width: 27% !important; }\n\n.width-28 {\n  width: 28% !important; }\n\n.width-29 {\n  width: 29% !important; }\n\n.width-30 {\n  width: 30% !important; }\n\n.width-31 {\n  width: 31% !important; }\n\n.width-32 {\n  width: 32% !important; }\n\n.width-33 {\n  width: 33% !important; }\n\n.width-34 {\n  width: 34% !important; }\n\n.width-35 {\n  width: 35% !important; }\n\n.width-36 {\n  width: 36% !important; }\n\n.width-37 {\n  width: 37% !important; }\n\n.width-38 {\n  width: 38% !important; }\n\n.width-39 {\n  width: 39% !important; }\n\n.width-40 {\n  width: 40% !important; }\n\n.width-41 {\n  width: 41% !important; }\n\n.width-42 {\n  width: 42% !important; }\n\n.width-43 {\n  width: 43% !important; }\n\n.width-44 {\n  width: 44% !important; }\n\n.width-45 {\n  width: 45% !important; }\n\n.width-46 {\n  width: 46% !important; }\n\n.width-47 {\n  width: 47% !important; }\n\n.width-48 {\n  width: 48% !important; }\n\n.width-49 {\n  width: 49% !important; }\n\n.width-50 {\n  width: 50% !important; }\n\n.width-51 {\n  width: 51% !important; }\n\n.width-52 {\n  width: 52% !important; }\n\n.width-53 {\n  width: 53% !important; }\n\n.width-54 {\n  width: 54% !important; }\n\n.width-55 {\n  width: 55% !important; }\n\n.width-56 {\n  width: 56% !important; }\n\n.width-57 {\n  width: 57% !important; }\n\n.width-58 {\n  width: 58% !important; }\n\n.width-59 {\n  width: 59% !important; }\n\n.width-60 {\n  width: 60% !important; }\n\n.width-61 {\n  width: 61% !important; }\n\n.width-62 {\n  width: 62% !important; }\n\n.width-63 {\n  width: 63% !important; }\n\n.width-64 {\n  width: 64% !important; }\n\n.width-65 {\n  width: 65% !important; }\n\n.width-66 {\n  width: 66% !important; }\n\n.width-67 {\n  width: 67% !important; }\n\n.width-68 {\n  width: 68% !important; }\n\n.width-69 {\n  width: 69% !important; }\n\n.width-70 {\n  width: 70% !important; }\n\n.width-71 {\n  width: 71% !important; }\n\n.width-72 {\n  width: 72% !important; }\n\n.width-73 {\n  width: 73% !important; }\n\n.width-74 {\n  width: 74% !important; }\n\n.width-75 {\n  width: 75% !important; }\n\n.width-76 {\n  width: 76% !important; }\n\n.width-77 {\n  width: 77% !important; }\n\n.width-78 {\n  width: 78% !important; }\n\n.width-79 {\n  width: 79% !important; }\n\n.width-80 {\n  width: 80% !important; }\n\n.width-81 {\n  width: 81% !important; }\n\n.width-82 {\n  width: 82% !important; }\n\n.width-83 {\n  width: 83% !important; }\n\n.width-84 {\n  width: 84% !important; }\n\n.width-85 {\n  width: 85% !important; }\n\n.width-86 {\n  width: 86% !important; }\n\n.width-87 {\n  width: 87% !important; }\n\n.width-88 {\n  width: 88% !important; }\n\n.width-89 {\n  width: 89% !important; }\n\n.width-90 {\n  width: 90% !important; }\n\n.width-91 {\n  width: 91% !important; }\n\n.width-92 {\n  width: 92% !important; }\n\n.width-93 {\n  width: 93% !important; }\n\n.width-94 {\n  width: 94% !important; }\n\n.width-95 {\n  width: 95% !important; }\n\n.width-96 {\n  width: 96% !important; }\n\n.width-97 {\n  width: 97% !important; }\n\n.width-98 {\n  width: 98% !important; }\n\n.width-99 {\n  width: 99% !important; }\n\n.width-100 {\n  width: 100% !important; }\n\n.height-1 {\n  height: 1% !important; }\n\n.height-2 {\n  height: 2% !important; }\n\n.height-3 {\n  height: 3% !important; }\n\n.height-4 {\n  height: 4% !important; }\n\n.height-5 {\n  height: 5% !important; }\n\n.height-6 {\n  height: 6% !important; }\n\n.height-7 {\n  height: 7% !important; }\n\n.height-8 {\n  height: 8% !important; }\n\n.height-9 {\n  height: 9% !important; }\n\n.height-10 {\n  height: 10% !important; }\n\n.height-11 {\n  height: 11% !important; }\n\n.height-12 {\n  height: 12% !important; }\n\n.height-13 {\n  height: 13% !important; }\n\n.height-14 {\n  height: 14% !important; }\n\n.height-15 {\n  height: 15% !important; }\n\n.height-16 {\n  height: 16% !important; }\n\n.height-17 {\n  height: 17% !important; }\n\n.height-18 {\n  height: 18% !important; }\n\n.height-19 {\n  height: 19% !important; }\n\n.height-20 {\n  height: 20% !important; }\n\n.height-21 {\n  height: 21% !important; }\n\n.height-22 {\n  height: 22% !important; }\n\n.height-23 {\n  height: 23% !important; }\n\n.height-24 {\n  height: 24% !important; }\n\n.height-25 {\n  height: 25% !important; }\n\n.height-26 {\n  height: 26% !important; }\n\n.height-27 {\n  height: 27% !important; }\n\n.height-28 {\n  height: 28% !important; }\n\n.height-29 {\n  height: 29% !important; }\n\n.height-30 {\n  height: 30% !important; }\n\n.height-31 {\n  height: 31% !important; }\n\n.height-32 {\n  height: 32% !important; }\n\n.height-33 {\n  height: 33% !important; }\n\n.height-34 {\n  height: 34% !important; }\n\n.height-35 {\n  height: 35% !important; }\n\n.height-36 {\n  height: 36% !important; }\n\n.height-37 {\n  height: 37% !important; }\n\n.height-38 {\n  height: 38% !important; }\n\n.height-39 {\n  height: 39% !important; }\n\n.height-40 {\n  height: 40% !important; }\n\n.height-41 {\n  height: 41% !important; }\n\n.height-42 {\n  height: 42% !important; }\n\n.height-43 {\n  height: 43% !important; }\n\n.height-44 {\n  height: 44% !important; }\n\n.height-45 {\n  height: 45% !important; }\n\n.height-46 {\n  height: 46% !important; }\n\n.height-47 {\n  height: 47% !important; }\n\n.height-48 {\n  height: 48% !important; }\n\n.height-49 {\n  height: 49% !important; }\n\n.height-50 {\n  height: 50% !important; }\n\n.height-51 {\n  height: 51% !important; }\n\n.height-52 {\n  height: 52% !important; }\n\n.height-53 {\n  height: 53% !important; }\n\n.height-54 {\n  height: 54% !important; }\n\n.height-55 {\n  height: 55% !important; }\n\n.height-56 {\n  height: 56% !important; }\n\n.height-57 {\n  height: 57% !important; }\n\n.height-58 {\n  height: 58% !important; }\n\n.height-59 {\n  height: 59% !important; }\n\n.height-60 {\n  height: 60% !important; }\n\n.height-61 {\n  height: 61% !important; }\n\n.height-62 {\n  height: 62% !important; }\n\n.height-63 {\n  height: 63% !important; }\n\n.height-64 {\n  height: 64% !important; }\n\n.height-65 {\n  height: 65% !important; }\n\n.height-66 {\n  height: 66% !important; }\n\n.height-67 {\n  height: 67% !important; }\n\n.height-68 {\n  height: 68% !important; }\n\n.height-69 {\n  height: 69% !important; }\n\n.height-70 {\n  height: 70% !important; }\n\n.height-71 {\n  height: 71% !important; }\n\n.height-72 {\n  height: 72% !important; }\n\n.height-73 {\n  height: 73% !important; }\n\n.height-74 {\n  height: 74% !important; }\n\n.height-75 {\n  height: 75% !important; }\n\n.height-76 {\n  height: 76% !important; }\n\n.height-77 {\n  height: 77% !important; }\n\n.height-78 {\n  height: 78% !important; }\n\n.height-79 {\n  height: 79% !important; }\n\n.height-80 {\n  height: 80% !important; }\n\n.height-81 {\n  height: 81% !important; }\n\n.height-82 {\n  height: 82% !important; }\n\n.height-83 {\n  height: 83% !important; }\n\n.height-84 {\n  height: 84% !important; }\n\n.height-85 {\n  height: 85% !important; }\n\n.height-86 {\n  height: 86% !important; }\n\n.height-87 {\n  height: 87% !important; }\n\n.height-88 {\n  height: 88% !important; }\n\n.height-89 {\n  height: 89% !important; }\n\n.height-90 {\n  height: 90% !important; }\n\n.height-91 {\n  height: 91% !important; }\n\n.height-92 {\n  height: 92% !important; }\n\n.height-93 {\n  height: 93% !important; }\n\n.height-94 {\n  height: 94% !important; }\n\n.height-95 {\n  height: 95% !important; }\n\n.height-96 {\n  height: 96% !important; }\n\n.height-97 {\n  height: 97% !important; }\n\n.height-98 {\n  height: 98% !important; }\n\n.height-99 {\n  height: 99% !important; }\n\n.height-100 {\n  height: 100% !important; }\n\n@media (min-width: 900px) {\n  .nowrap {\n    white-space: nowrap; } }\n\n.warning {\n  color: red; }\n\n.bolded {\n  font-weight: bold; }\n\n.block {\n  display: block !important; }\n\n.inline {\n  display: inline !important; }\n\n.inline-block {\n  display: inline-block !important; }\n\n.clickable {\n  pointer-events: auto !important; }\n  .clickable * {\n    pointer-events: auto !important; }\n\n.unclickable {\n  pointer-events: none !important; }\n\n.Button {\n  padding: 0.5rem 22px;\n  font-size: .909rem;\n  display: inline-block;\n  border-radius: 5px;\n  background-color: #006BA6;\n  cursor: pointer;\n  color: white;\n  line-height: 1.5rem;\n  outline: none;\n  border: none; }\n\n.checkboxElement {\n  display: block; }\n  .checkboxElement input[type=\"checkbox\"] {\n    -webkit-appearance: none;\n    border-radius: 3px;\n    border: 1px solid #A8ACAE;\n    width: 18px;\n    box-sizing: border-box;\n    height: 18px;\n    margin: 0px 0.5rem 0px 0px;\n    vertical-align: middle;\n    /* &:focus\n            border: 1px solid $black\n            outline: none\n            + span\n                color: black */ }\n    .checkboxElement input[type=\"checkbox\"]:focus {\n      outline: none; }\n    .checkboxElement input[type=\"checkbox\"]:checked {\n      background-color: #006BA6;\n      background-image: url(" + ___CSS_LOADER_URL___0___ + ");\n      background-repeat: no-repeat;\n      border: 1px solid #006BA6; }\n      .checkboxElement input[type=\"checkbox\"]:checked + span {\n        color: #333333; }\n    .checkboxElement input[type=\"checkbox\"]:disabled {\n      background-color: #ECF1F3;\n      border: 1px solid #ECF1F3; }\n      .checkboxElement input[type=\"checkbox\"]:disabled + span {\n        color: #A8ACAE; }\n  .checkboxElement span {\n    font-size: .909rem;\n    color: #707372;\n    line-height: 2rem; }\n\nselect {\n  -webkit-appearance: none;\n  border: 1px solid #A8ACAE;\n  box-sizing: border-box;\n  border-radius: 5px;\n  font-size: .909rem;\n  padding: 7px 45px 7px 7px;\n  line-height: 1rem;\n  background: transparent;\n  background-image: url(" + ___CSS_LOADER_URL___1___ + ");\n  background-repeat: no-repeat;\n  background-position: right; }\n  select:focus {\n    outline: none; }\n\n.CloseButton {\n  position: absolute;\n  z-index: 1;\n  top: 18px;\n  right: 18px;\n  cursor: pointer;\n  padding: 0;\n  border: none;\n  background-color: inherit; }\n\n.dropdown-checkbox {\n  margin-top: 1.5em;\n  margin-bottom: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-checkbox .Button {\n    margin-top: 1rem;\n    margin-bottom: 3rem; }\n  .dropdown-checkbox > img:last-of-type {\n    position: absolute;\n    bottom: 18px;\n    right: 18px;\n    cursor: pointer; }\n\n@media (min-width: 900px) {\n  .dropdown-checkbox {\n    margin-top: 1em;\n    margin-bottom: 1em; }\n    .dropdown-checkbox .Button {\n      display: block;\n      text-align: center;\n      margin: 0.5rem auto 2.5rem auto; }\n    .dropdown-checkbox > img:last-of-type {\n      bottom: 9px;\n      right: 9px; } }\n\n.dropdown-list {\n  margin-top: 1.5em;\n  margin-bottom: 1.5em;\n  grid-column: 1 / -1; }\n  .dropdown-list ul {\n    display: block;\n    padding: 0; }\n    .dropdown-list ul li a {\n      text-decoration: none;\n      font-size: 0.909rem;\n      line-height: 2.75em; }\n    .dropdown-list ul li:last-child {\n      border-top: 1px solid #ECF1F3;\n      padding: 1em 0; }\n      .dropdown-list ul li:last-child a {\n        line-height: 1.5em; }\n\n@media (min-width: 900px) {\n  .dropdown-list {\n    margin-top: 1em;\n    margin-top: 1em;\n    margin-bottom: 1em; }\n    .dropdown-list ul li a {\n      line-height: 2em;\n      padding: 0; }\n    .dropdown-list ul li:nth-of-type(3) {\n      padding-bottom: 1em; } }\n\n.Header {\n  position: relative;\n  z-index: 2;\n  width: 100%;\n  height: 99px;\n  background-color: #FFFFFF;\n  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); }\n  .Header > .grid-row {\n    grid-template-columns: auto repeat(5, 1fr); }\n    .Header > .grid-row.sidenav-btn {\n      padding: 0; }\n      .Header > .grid-row.sidenav-btn .SideNavButton {\n        background-color: #FFFFFF;\n        display: block;\n        grid-column: 1 / 2;\n        cursor: pointer;\n        padding: 0;\n        border: none; }\n        .Header > .grid-row.sidenav-btn .SideNavButton img {\n          display: block; }\n        .Header > .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n          display: none; }\n      .Header > .grid-row.sidenav-btn .Title {\n        grid-column: 2 / 4; }\n      .Header > .grid-row.sidenav-btn .LocationInput {\n        display: none; }\n      .Header > .grid-row.sidenav-btn .HeaderOptions {\n        grid-column: 4 / -1; }\n      .Header > .grid-row.sidenav-btn .SaveButton {\n        display: none; }\n  .Header .search-save-btn .Save {\n    display: inline-block; }\n    .Header .search-save-btn .Save .SaveButton .wide-save {\n      display: none; }\n\n@media (min-width: 900px) {\n  .Header {\n    height: 72px; }\n    .Header > .grid-row {\n      height: 72px;\n      grid-template-columns: repeat(12, 1fr); }\n      .Header > .grid-row > * {\n        max-height: 72px; }\n      .Header > .grid-row.sidenav-btn .SideNavButton .narrow-sidenav {\n        display: none; }\n      .Header > .grid-row.sidenav-btn .SideNavButton .wide-sidenav {\n        display: block; }\n      .Header > .grid-row.sidenav-btn .Title {\n        grid-column: 2 / 4; }\n      .Header > .grid-row.sidenav-btn .LocationInput {\n        grid-column: 4 / 8;\n        display: block; }\n      .Header > .grid-row.sidenav-btn .HeaderOptions {\n        grid-column: 8 / 12; }\n      .Header > .grid-row.sidenav-btn .SaveButton {\n        display: block; }\n        .Header > .grid-row.sidenav-btn .SaveButton .narrow-save {\n          display: none; }\n    .Header .search-save-btn {\n      display: none; } }\n\n@media (min-width: 1280px) {\n  .Header > .grid-row {\n    grid-template-columns: repeat(14, 1fr); }\n    .Header > .grid-row.sidenav-btn .Title {\n      grid-column: 2 / 4; }\n    .Header > .grid-row.sidenav-btn .LocationInput {\n      grid-column: 4 / 9; }\n    .Header > .grid-row.sidenav-btn .HeaderOptions {\n      grid-column: 9 / 14; } }\n\n.HeaderOptions > ul {\n  margin: 0;\n  padding: 0;\n  display: flex;\n  justify-content: flex-end;\n  display: grid;\n  grid-template-columns: repeat(4, minmax(35px, 60px));\n  height: 100%; }\n  .HeaderOptions > ul .option {\n    display: flex;\n    align-items: center;\n    padding: 0px 4px; }\n    .HeaderOptions > ul .option a {\n      display: block;\n      margin: 0 auto; }\n      .HeaderOptions > ul .option a .option-active {\n        display: none; }\n      .HeaderOptions > ul .option a .option-name {\n        display: none; }\n      .HeaderOptions > ul .option a img {\n        display: block;\n        width: 100%;\n        max-width: 45px; }\n    .HeaderOptions > ul .option.active {\n      background-color: #006BA6; }\n      .HeaderOptions > ul .option.active a .option-inactive {\n        display: none; }\n      .HeaderOptions > ul .option.active a .option-active {\n        display: block; }\n      .HeaderOptions > ul .option.active .OptionsDropdown {\n        display: grid; }\n\n@media (min-width: 400px) {\n  .HeaderOptions {\n    padding-right: 15px; } }\n\n@media (min-width: 900px) {\n  .HeaderOptions {\n    padding-right: 0px;\n    margin-left: 0;\n    padding-left: 0; }\n    .HeaderOptions > ul {\n      grid-template-rows: 1fr;\n      grid-template-columns: repeat(4, 1fr);\n      width: 100%; }\n      .HeaderOptions > ul .option {\n        grid-row: 1;\n        width: 100%;\n        padding: 0; }\n        .HeaderOptions > ul .option .option-name {\n          width: 40px;\n          font-size: 0.5rem; } }\n\n@media (min-width: 1280px) {\n  .HeaderOptions ul .option a .option-name {\n    display: inline-block;\n    vertical-align: middle;\n    padding-left: 5px; }\n  .HeaderOptions ul .option a .option-inactive {\n    display: inline-block;\n    vertical-align: middle; }\n  .HeaderOptions ul .option.active a .option-active {\n    display: inline-block;\n    vertical-align: middle; } }\n\n.Map {\n  width: 100%;\n  height: calc(100vh - 99px);\n  position: relative; }\n  .Map .ZoomControl {\n    position: absolute;\n    bottom: 2rem;\n    right: 2rem;\n    z-index: 1;\n    display: flex;\n    flex-flow: column nowrap;\n    justify-content: center;\n    align-items: center;\n    background: white;\n    padding: 6px; }\n    .Map .ZoomControl hr {\n      width: 80%;\n      opacity: 0.4;\n      transform: translateY(2px); }\n    .Map .ZoomControl img {\n      cursor: pointer; }\n  .Map .LegendControl {\n    position: absolute;\n    bottom: 2rem;\n    right: 4.5rem;\n    z-index: 1;\n    background: white;\n    padding: 6px;\n    line-height: 0; }\n    .Map .LegendControl img {\n      cursor: pointer; }\n\n@media (min-width: 900px) {\n  .Map {\n    height: calc(100vh - 72px); } }\n\n.MapModeForm {\n  position: absolute;\n  z-index: 10;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.4);\n  flex-direction: column; }\n  .MapModeForm .PlantingFormHeader .SoilTypes {\n    font-family: Merriweather, serif;\n    color: #707372; }\n    .MapModeForm .PlantingFormHeader .SoilTypes span {\n      color: black; }\n  .MapModeForm .modal {\n    background: white;\n    width: 100%;\n    height: calc(100vh - 99px);\n    padding: 0 1.5rem 3rem 1.5rem;\n    box-sizing: border-box;\n    position: relative;\n    overflow: scroll; }\n  .MapModeForm .button-wrap {\n    height: 99px;\n    width: 100%;\n    background-color: gray;\n    justify-content: flex-end;\n    background-color: #ECF1F3; }\n    .MapModeForm .button-wrap .Button {\n      margin: 1.5rem; }\n\n@media (min-width: 900px) {\n  .MapModeForm {\n    justify-content: center; }\n    .MapModeForm .PlantingFormHeader .SoilTypes {\n      padding-left: 2rem;\n      padding-right: 2rem; }\n    .MapModeForm .modal {\n      width: 670px;\n      height: 500px; }\n    .MapModeForm .button-wrap {\n      width: 670px; } }\n\n.MapLegend .SSURGO .gradient {\n  width: 200px;\n  height: 20px;\n  background: linear-gradient(90deg, #f8f601 0%, #888900 50%, #909090 100%);\n  opacity: 0.6; }\n\n.MapLegend .SSURGO .labels {\n  width: 200px; }\n\n.modal {\n  display: grid;\n  height: 100vh;\n  width: 100vw;\n  position: absolute;\n  top: 0;\n  z-index: 3;\n  background-color: rgba(51, 51, 51, 0.7); }\n  .modal .grid-row {\n    background-color: #FFFFFF; }\n    .modal .grid-row .grid-wrap {\n      max-width: 800px;\n      background-color: #FFFFFF; }\n  .modal .modal-footer {\n    position: absolute;\n    padding: 0px 5.625%;\n    left: 0;\n    right: 0;\n    display: flex;\n    align-items: center;\n    justify-content: space-between;\n    bottom: 0;\n    padding: 1.5rem;\n    background-color: #ECF1F3; }\n  .modal .modal-header {\n    padding-top: 4rem;\n    padding-bottom: 0.5rem;\n    position: relative; }\n    .modal .modal-header::after {\n      content: '';\n      position: absolute;\n      bottom: -2px;\n      left: 0;\n      height: 2px;\n      width: 135px;\n      background-color: #76881D; }\n  .modal .button-wrap > *:last-child {\n    display: none; }\n  .modal .modal-text {\n    padding-top: 1.5rem; }\n\n@media (min-width: 900px) {\n  .modal {\n    height: 100vh;\n    align-items: center;\n    justify-content: center; }\n    .modal .grid-row {\n      background: none; }\n      .modal .grid-row .grid-wrap {\n        min-height: 400px;\n        min-width: 600px;\n        max-height: 450px;\n        display: flex;\n        flex-direction: column;\n        grid-column: 2 / 12;\n        box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.25);\n        position: relative; }\n    .modal .modal-footer {\n      position: initial;\n      margin-top: auto;\n      padding: 1.5rem 2rem 1.5rem 2rem;\n      align-items: baseline; }\n    .modal .modal-header {\n      padding-top: 3.5rem; }\n      .modal .modal-header::after {\n        left: 2rem; }\n    .modal .modal-text {\n      padding-bottom: 3rem; }\n    .modal .modal-header, .modal .modal-text {\n      padding-left: 2rem;\n      padding-right: 2rem; }\n    .modal .button-wrap > *:last-child {\n      color: #7A99AC;\n      display: block;\n      padding-top: 0.5rem;\n      font-size: .909rem; } }\n\n@media (min-width: 1280px) {\n  .modal .grid-wrap {\n    grid-column: 4 / 12; } }\n\n.NavOptions {\n  position: fixed;\n  bottom: 0;\n  height: 100vh;\n  background-color: #3E4827;\n  display: none;\n  z-index: 10; }\n  .NavOptions.active {\n    display: block; }\n  .NavOptions .grid-wrap {\n    padding-top: 4rem; }\n    .NavOptions .grid-wrap ul {\n      border-bottom: 2px solid #656D52;\n      padding-bottom: 1rem; }\n      .NavOptions .grid-wrap ul li a {\n        line-height: 2.75rem;\n        text-decoration: none;\n        color: #FFFFFF;\n        font-size: .909rem; }\n    .NavOptions .grid-wrap div p {\n      margin: 0;\n      font-family: Merriweather;\n      font-style: italic;\n      color: #FFFFFF;\n      font-size: 0.683rem;\n      line-height: 1rem;\n      padding-top: 1.5rem; }\n\n@media (min-width: 900px) {\n  .NavOptions {\n    width: 270px; } }\n\n.OptionsDropdown {\n  position: absolute;\n  top: 54px;\n  left: 0;\n  right: 0;\n  background-color: #FFFFFF;\n  border-top: 2px solid #006BA6;\n  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);\n  display: none; }\n\n@media (min-width: 900px) {\n  .OptionsDropdown {\n    width: 180px;\n    top: 72px;\n    padding: 0 1em;\n    left: auto;\n    right: auto; }\n    .OptionsDropdown.grid-row {\n      grid-column-gap: 0rem; }\n    .OptionsDropdown .CloseButton {\n      display: none; } }\n\n.SaveButton {\n  display: inline-block;\n  border: none;\n  padding: 0; }\n  .SaveButton img {\n    display: block;\n    margin-left: auto; }\n\n.LocationInput {\n  width: calc(100% - 54px);\n  height: 45px;\n  vertical-align: top;\n  display: inline-block; }\n  .LocationInput .wrapper {\n    display: flex;\n    align-items: center;\n    height: 100%;\n    width: 100%;\n    position: relative; }\n  .LocationInput .MyLocation {\n    width: 30px;\n    height: 30px;\n    background-size: 30px;\n    display: inline-block;\n    position: absolute;\n    right: 22.5px;\n    background-color: #ECF1F3;\n    background-repeat: no-repeat;\n    background-image: url(" + ___CSS_LOADER_URL___2___ + "); }\n  .LocationInput input {\n    width: 100%;\n    height: 100%;\n    -webkit-box-sizing: border-box;\n    -moz-box-sizing: border-box;\n    box-sizing: border-box;\n    -webkit-appearance: none;\n    border: none;\n    padding: 0 0px 0px 75px;\n    background-color: #ECF1F3;\n    background-repeat: no-repeat;\n    background-position: 5%;\n    background-image: url(" + ___CSS_LOADER_URL___3___ + ");\n    background-size: 20px; }\n    .LocationInput input::-webkit-input-placeholder {\n      font-family: Merriweather;\n      font-style: italic;\n      font-weight: normal;\n      font-size: 0.683rem;\n      line-height: 1rem; }\n\n@media (min-width: 900px) {\n  .LocationInput {\n    height: auto;\n    width: auto;\n    padding-bottom: 9px;\n    padding-top: 9px;\n    position: relative; }\n    .LocationInput .MyLocation {\n      width: 40px;\n      height: 40px;\n      background-size: 40px; }\n    .LocationInput input {\n      background-image: url(" + ___CSS_LOADER_URL___4___ + "); }\n      .LocationInput input::-webkit-input-placeholder {\n        font-size: 0.826rem; } }\n\n.LocationInputSuggestions {\n  background-color: #FFFFFF;\n  position: absolute;\n  left: 0;\n  right: 0; }\n  .LocationInputSuggestions > div {\n    padding: 0rem 1rem 0rem 1rem; }\n\n.Title {\n  display: flex;\n  align-items: center; }\n  .Title .wide-logo {\n    display: none; }\n  .Title .narrow-logo {\n    width: 100%;\n    max-width: 82px;\n    min-width: 63px; }\n\n@media (min-width: 900px) {\n  .Title .narrow-logo {\n    display: none; }\n  .Title .wide-logo {\n    display: block;\n    width: 100%;\n    max-width: 154px; } }\n\n.ConfigForm {\n  display: flex;\n  padding-top: 1.5rem;\n  padding-bottom: 1.5rem;\n  border-bottom: 1px solid #ECF1F3; }\n  .ConfigForm:nth-last-child(2) {\n    padding-bottom: 0;\n    border: none; }\n  .ConfigForm .stepNumber {\n    margin-right: 0.5rem;\n    height: 36px;\n    text-align: center;\n    border-radius: 18px;\n    background-color: #CAC7A7;\n    flex: 0 0 36px; }\n    .ConfigForm .stepNumber h1 {\n      width: 36px;\n      line-height: 36px;\n      color: white; }\n  .ConfigForm .inputDescriptor {\n    margin-bottom: 1.5rem; }\n  .ConfigForm .configInputs {\n    flex-grow: 1; }\n    .ConfigForm .configInputs > .inputElement {\n      margin-top: 0px; }\n    .ConfigForm .configInputs > .inputElement ~ .inputElement {\n      margin-top: 1.5rem; }\n    .ConfigForm .configInputs .inputElement span {\n      display: block;\n      font-size: .909rem; }\n    .ConfigForm .configInputs .inputElement .ModalTextInput {\n      font-size: .909rem;\n      padding: 7px;\n      line-height: 1rem;\n      width: 100%; }\n    .ConfigForm .configInputs .inputElement select {\n      width: 100%;\n      text-transform: capitalize; }\n    .ConfigForm .configInputs .inputElement .inputLabel {\n      margin-bottom: 2px; }\n    .ConfigForm .configInputs .inputElement .SeedPrice {\n      padding: 7px; }\n    .ConfigForm .configInputs .rowDetails:last-of-type {\n      margin-bottom: 0; }\n    .ConfigForm .configInputs .rowDetails {\n      margin-bottom: 2rem; }\n      .ConfigForm .configInputs .rowDetails .rowNumber {\n        margin-bottom: 0.5rem; }\n        .ConfigForm .configInputs .rowDetails .rowNumber h4 {\n          color: #707372; }\n      .ConfigForm .configInputs .rowDetails .inputElement {\n        margin-bottom: 1.5rem; }\n      .ConfigForm .configInputs .rowDetails > .inputElement ~ .inputElement {\n        margin-bottom: 0; }\n    .ConfigForm .configInputs .checkboxElement {\n      margin-top: 1.5rem; }\n\n@media (min-width: 900px) {\n  .ConfigForm .stepNumber {\n    margin-right: 10px;\n    height: 45px;\n    border-radius: 23px; }\n    .ConfigForm .stepNumber h1 {\n      width: 45px;\n      line-height: 45px;\n      font-size: 1.948rem; }\n  .ConfigForm .configInputs .inputDescriptor {\n    margin-bottom: 1rem; }\n  .ConfigForm .configInputs .inputElement {\n    display: inline-block;\n    margin-right: 0.5rem; }\n  .ConfigForm .configInputs > .inputElement ~ .inputElement {\n    margin-top: 0; }\n  .ConfigForm .configInputs .rowDetails {\n    display: flex;\n    justify-content: space-between; }\n    .ConfigForm .configInputs .rowDetails .rowNumber {\n      align-self: flex-end;\n      margin-bottom: 0; }\n    .ConfigForm .configInputs .rowDetails .inputElement {\n      margin: 0; } }\n\n.ModalTextInput {\n  -webkit-appearance: none;\n  border: 1px solid #A8ACAE;\n  box-sizing: border-box;\n  border-radius: 5px;\n  background: transparent; }\n  .ModalTextInput:focus {\n    outline: none; }\n\n.Report {\n  position: absolute;\n  top: 54px;\n  bottom: 0;\n  z-index: 10;\n  background-color: #FFFFFF;\n  padding: 1.5rem 1.5rem 0rem 1.5rem; }\n  .Report .reportActions {\n    display: flex;\n    align-items: center;\n    margin-bottom: 2.5rem; }\n    .Report .reportActions .reportAction:nth-child(2) {\n      border-right: 1px solid #ECF1F3;\n      border-left: 1px solid #ECF1F3; }\n  .Report .reportText {\n    margin-bottom: 2rem; }\n    .Report .reportText .header-large {\n      margin-bottom: 0.5rem; }\n  .Report .reportArea {\n    margin-top: 2rem; }\n    .Report .reportArea .inputLabel {\n      margin-bottom: 6px; }\n    .Report .reportArea select {\n      width: 240px;\n      margin-bottom: 2rem; }\n  .Report .map-link {\n    font-family: Merriweather;\n    white-space: nowrap;\n    font-style: italic;\n    font-size: .826rem;\n    line-height: 1rem;\n    padding: 0rem 0.5rem; }\n  .Report .reportAction {\n    height: 18px;\n    align-items: center;\n    padding: 0rem 1rem; }\n    .Report .reportAction p {\n      font-size: .683rem;\n      line-height: 12px;\n      color: #707372;\n      width: 55px;\n      padding-left: 6px; }\n\n@media (min-width: 900px) {\n  .Report {\n    top: 72px;\n    width: calc(100% - 3rem); }\n    .Report > div {\n      max-width: 780px;\n      margin: 0 auto; }\n    .Report .reportArea {\n      flex-direction: row;\n      justify-content: space-between;\n      align-items: flex-end;\n      margin-bottom: 0.5rem; }\n      .Report .reportArea h1 {\n        order: 1; }\n      .Report .reportArea .selectWrap {\n        float: right;\n        order: 2; }\n        .Report .reportArea .selectWrap select {\n          margin-bottom: 0; } }\n\n.scrollWrap {\n  overflow: scroll;\n  position: relative;\n  width: 100vw;\n  margin-left: -1.5rem;\n  margin-right: -1.5rem; }\n\n.ReportTable {\n  display: flex;\n  min-width: 650px;\n  margin-bottom: 13px; }\n  .ReportTable > .table-column {\n    flex: auto; }\n\n.table-column:first-child {\n  border-right: 1px solid rgba(168, 172, 174, 0.7); }\n\n.table-column > .table-cell {\n  padding: 1rem 1.5rem;\n  font-size: .826rem;\n  white-space: nowrap; }\n  .table-column > .table-cell.empty {\n    height: 16px; }\n\n.tableNav {\n  display: flex;\n  min-width: 910px; }\n  .tableNav > .tableTab {\n    flex: auto;\n    margin: 0rem 1.5rem;\n    line-height: 1.5rem; }\n    .tableNav > .tableTab button {\n      -webkit-appearance: none;\n      border: none;\n      background: none;\n      white-space: nowrap;\n      padding: 0;\n      font-size: .909rem;\n      color: #006BA6;\n      padding-bottom: 5px; }\n    .tableNav > .tableTab.active button {\n      font-weight: bold;\n      color: #707372;\n      border-bottom: 2px solid #006BA6; }\n    .tableNav > .tableTab p {\n      white-space: nowrap; }\n\n.divider {\n  height: 26px;\n  border-top: 1px solid #ECF1F3;\n  border-bottom: 1px solid rgba(168, 172, 174, 0.4);\n  background-color: rgba(236, 241, 243, 0.4);\n  width: 100vw;\n  margin: 0 -1.5rem; }\n\n.light-blue {\n  background-color: #ECF1F3; }\n\n@media (min-width: 900px) {\n  .tableNav {\n    min-width: initial;\n    border-bottom: 1px solid #ECF1F3;\n    margin-bottom: 3rem; }\n    .tableNav > .tableTab {\n      margin: 0; }\n  .divider {\n    display: none; }\n  .table-column:first-child {\n    border-right: none; } }\n\nhtml, body {\n  font-size: 18px;\n  font-family: Nimbus Sans, Arial;\n  margin: 0;\n  min-width: 305px; }\n\nul {\n  list-style: none;\n  padding: 0;\n  margin: 0; }\n\nh1 {\n  font-size: 1.464rem;\n  line-height: 2rem;\n  margin: 0; }\n\nh2 {\n  font-size: 1.331rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\nh3 {\n  font-size: 1rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\nh4, p {\n  font-size: 0.909rem;\n  line-height: 1.5rem;\n  margin: 0; }\n\na {\n  text-decoration: none; }\n\nspan.link {\n  color: blue;\n  cursor: pointer; }\n\nbutton[type='button'] {\n  border: none;\n  cursor: pointer; }\n", ""]);
+>>>>>>> dev
 
 
 /***/ }),
@@ -71091,8 +71099,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var components_modals_BigModal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! components/modals/BigModal */ "./src/components/modals/BigModal.jsx");
 /* harmony import */ var contexts_MapState__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! contexts/MapState */ "./src/contexts/MapState.js");
 /* harmony import */ var contexts_Settings__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! contexts/Settings */ "./src/contexts/Settings.js");
+<<<<<<< HEAD
+=======
 /* harmony import */ var components_Report__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! components/Report */ "./src/components/Report.jsx");
 
+>>>>>>> dev
 
 
 
@@ -71100,6 +71111,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+ // import { LocationPrompt } from 'components/modals/LocationPrompt';
+// import { WelcomeModal } from 'components/modals/WelcomeModal';
 
 
 
@@ -71124,9 +71137,16 @@ var App = function App() {
   return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(contexts__WEBPACK_IMPORTED_MODULE_6__["Store"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["BrowserRouter"], null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_9__["MapConsumer"], null, function (ctx) {
     var state = ctx.state,
         actions = ctx.actions;
+<<<<<<< HEAD
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(components_Header__WEBPACK_IMPORTED_MODULE_7__["Header"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, state, actions));
+  }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_9__["MapConsumer"], null, function (ctx) {
+    var basemap = ctx.state.basemap; // If satellite style is selected render satellite styled map component, otherwise render the default outdoors style.
+
+=======
     return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(components_Header__WEBPACK_IMPORTED_MODULE_7__["HeaderWithRouter"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0___default()({}, state, actions));
   }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_9__["MapConsumer"], null, function (ctx) {
     var basemap = ctx.state.basemap;
+>>>>>>> dev
     return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Route"], {
       path: "/",
       render: function render(router) {
@@ -71147,6 +71167,12 @@ var App = function App() {
       to: "/#welcome"
     }) : null;
   }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Route"], {
+<<<<<<< HEAD
+    path: "/help",
+    render: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h2", null, "Help Page");
+    }
+=======
     path: "/report",
     render: function render(router) {
       return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(components_Report__WEBPACK_IMPORTED_MODULE_11__["ReportWrapper"], {
@@ -71158,6 +71184,7 @@ var App = function App() {
     render: function render() {
       return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h2", null, "Help Page");
     }
+>>>>>>> dev
   }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(components_modals_BigModal__WEBPACK_IMPORTED_MODULE_8__["BigModal"], null)));
 };
 
@@ -71287,17 +71314,26 @@ var Header = function Header(props) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "grid-row sidenav-btn"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SideNav__WEBPACK_IMPORTED_MODULE_3__["SideNav"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Title, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LocationInput__WEBPACK_IMPORTED_MODULE_5__["LocationInputWrapper"], {
+<<<<<<< HEAD
+    location: Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useLocation"])()
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HeaderOptions__WEBPACK_IMPORTED_MODULE_4__["HeaderOptions"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_2__["MapConsumer"], null, function (ctx) {
+=======
     location: location
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_HeaderOptions__WEBPACK_IMPORTED_MODULE_4__["HeaderOptions"], {
     location: location
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_2__["MapConsumer"], null, function (ctx) {
+>>>>>>> dev
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SaveButton, {
       save: ctx.save
     });
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "search-save-btn"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_LocationInput__WEBPACK_IMPORTED_MODULE_5__["LocationInputWrapper"], {
+<<<<<<< HEAD
+    location: Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["useLocation"])()
+=======
     location: location
+>>>>>>> dev
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_2__["MapConsumer"], null, function (ctx) {
     return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SaveButton, {
       save: ctx.save
@@ -71337,6 +71373,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _contexts_MapState__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../contexts/MapState */ "./src/contexts/MapState.js");
+<<<<<<< HEAD
+
+=======
+>>>>>>> dev
 
 
 
@@ -71344,7 +71384,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+<<<<<<< HEAD
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+=======
+
+>>>>>>> dev
 
 
 
@@ -71393,6 +71439,15 @@ function (_React$Component) {
   function HeaderOptions() {
     var _getPrototypeOf2;
 
+<<<<<<< HEAD
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, HeaderOptions);
+
+    _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default()(HeaderOptions).call(this, props));
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this), "handleCheckboxChange", function (event) {
+      var checkboxName = event.target.name;
+      var layerStates = _this.state.layerStates; // toggle on or off
+=======
     var _this;
 
     _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, HeaderOptions);
@@ -71400,6 +71455,7 @@ function (_React$Component) {
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
+>>>>>>> dev
 
     _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2___default()(this, (_getPrototypeOf2 = _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_3___default()(HeaderOptions)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
@@ -71410,8 +71466,20 @@ function (_React$Component) {
       reportOption: false
     });
 
+<<<<<<< HEAD
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_6___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_4___default()(_this), "toggleActiveClass", function (optionName) {
+      var optionStates = _this.state.optionStates;
+      var prevActiveState;
+      var optionStateKeys = Object.keys(optionStates);
+      optionStateKeys.forEach(function (key) {
+        if (optionStates[key] === true) {
+          prevActiveState = key;
+        }
+      });
+=======
     return _this;
   }
+>>>>>>> dev
 
   _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(HeaderOptions, [{
     key: "componentDidUpdate",
@@ -71456,13 +71524,49 @@ function (_React$Component) {
         }
       }
 
+<<<<<<< HEAD
+      _this.setState({
+        optionStates: _objectSpread({}, optionStates)
+      });
+    });
+
+    _this.state = {
+      optionStates: {
+        treeOptionActive: false,
+        prairieOptionActive: false,
+        layerOptionActive: false,
+        reportOptionActive: false
+      }
+    };
+    return _this;
+  }
+
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(HeaderOptions, [{
+=======
       this.setState(updateState);
     }
   }, {
+>>>>>>> dev
     key: "render",
     value: function render() {
       var _this2 = this;
 
+<<<<<<< HEAD
+      var _this$state$optionSta = this.state.optionStates,
+          treeOptionActive = _this$state$optionSta.treeOptionActive,
+          prairieOptionActive = _this$state$optionSta.prairieOptionActive,
+          layerOptionActive = _this$state$optionSta.layerOptionActive,
+          reportOptionActive = _this$state$optionSta.reportOptionActive;
+      return react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "HeaderOptions"
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("li", {
+        className: treeOptionActive ? 'option active' : 'option'
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Link"], {
+        to: "/plant/tree",
+        onClick: function onClick() {
+          return _this2.toggleActiveClass('treeOption');
+        }
+=======
       var _this$state2 = this.state,
           treeOption = _this$state2.treeOption,
           prairieOption = _this$state2.prairieOption,
@@ -71474,6 +71578,7 @@ function (_React$Component) {
         className: treeOption ? 'option active' : 'option'
       }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Link"], {
         to: "/plant/tree"
+>>>>>>> dev
       }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
         className: "option-inactive",
         src: "/assets/plant_tree_option.svg",
@@ -71485,9 +71590,18 @@ function (_React$Component) {
       }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
         className: "option-name"
       }, "Plant Trees"))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("li", {
+<<<<<<< HEAD
+        className: prairieOptionActive ? 'option active' : 'option'
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Link"], {
+        to: "/plant/prairie",
+        onClick: function onClick() {
+          return _this2.toggleActiveClass('prairieOption');
+        }
+=======
         className: prairieOption ? 'option active' : 'option'
       }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Link"], {
         to: "/plant/prairie"
+>>>>>>> dev
       }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
         className: "option-inactive",
         src: "/assets/plant_prairie.svg",
@@ -71499,7 +71613,11 @@ function (_React$Component) {
       }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
         className: "option-name"
       }, "Plant Prairies"))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("li", {
+<<<<<<< HEAD
+        className: layerOptionActive ? 'option active' : 'option'
+=======
         className: layerOption ? 'option active' : 'option'
+>>>>>>> dev
       }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Link"], {
         to: "/#",
         onClick: function onClick() {
@@ -71540,9 +71658,18 @@ function (_React$Component) {
           basemap: basemap
         });
       }))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("li", {
+<<<<<<< HEAD
+        className: reportOptionActive ? 'option active' : 'option'
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Link"], {
+        to: "/#",
+        onClick: function onClick() {
+          return _this2.toggleActiveClass('reportOption');
+        }
+=======
         className: reportOption ? 'option active' : 'option'
       }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Link"], {
         to: "/report"
+>>>>>>> dev
       }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
         className: "option-inactive",
         src: "/assets/view_report.svg",
@@ -71591,11 +71718,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_places_autocomplete__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-places-autocomplete */ "./node_modules/react-places-autocomplete/dist/index.js");
 /* harmony import */ var react_places_autocomplete__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_places_autocomplete__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _contexts_MapState__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../contexts/MapState */ "./src/contexts/MapState.js");
+<<<<<<< HEAD
+
+=======
+>>>>>>> dev
 
 
 
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> dev
 
 // import Debug from 'debug';
 
@@ -71733,7 +71867,7 @@ function (_React$Component) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapWrapperDefault", function() { return MapWrapperDefault; });
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapWrapperDefault", function() { return MapWrapperDefault; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapWrapperSatellite", function() { return MapWrapperSatellite; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapComponent", function() { return MapComponent; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
@@ -71763,6 +71897,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var mapbox_gl__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(mapbox_gl__WEBPACK_IMPORTED_MODULE_12__);
 /* harmony import */ var _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @mapbox/mapbox-gl-draw */ "./node_modules/@mapbox/mapbox-gl-draw/index.js");
 /* harmony import */ var _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_13__);
+<<<<<<< HEAD
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var contexts_MapState__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! contexts/MapState */ "./src/contexts/MapState.js");
+/* harmony import */ var utils_sources__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! utils/sources */ "./src/utils/sources.js");
+/* harmony import */ var utils_enrichFeature__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! utils/enrichFeature */ "./src/utils/enrichFeature.js");
+/* harmony import */ var references_csr_rent_json__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! references/csr_rent.json */ "./src/references/csr_rent.json");
+var references_csr_rent_json__WEBPACK_IMPORTED_MODULE_18___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/csr_rent.json */ "./src/references/csr_rent.json", 1);
+/* harmony import */ var _map_layers_Contours__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./map_layers/Contours */ "./src/components/map_layers/Contours.jsx");
+/* harmony import */ var _map_layers_PrairieArea__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./map_layers/PrairieArea */ "./src/components/map_layers/PrairieArea.jsx");
+/* harmony import */ var _map_layers_EditIcons__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./map_layers/EditIcons */ "./src/components/map_layers/EditIcons.jsx");
+/* harmony import */ var _map_layers_FeatureLabels__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./map_layers/FeatureLabels */ "./src/components/map_layers/FeatureLabels.jsx");
+/* harmony import */ var _map_layers_GeolocationPosition__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./map_layers/GeolocationPosition */ "./src/components/map_layers/GeolocationPosition.jsx");
+/* harmony import */ var _map_layers_PrairieOutline__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./map_layers/PrairieOutline */ "./src/components/map_layers/PrairieOutline.jsx");
+/* harmony import */ var _map_layers_SSURGO__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./map_layers/SSURGO */ "./src/components/map_layers/SSURGO.jsx");
+/* harmony import */ var _map_layers_TreeRows__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./map_layers/TreeRows */ "./src/components/map_layers/TreeRows.jsx");
+/* harmony import */ var _map_layers_Trees__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./map_layers/Trees */ "./src/components/map_layers/Trees.jsx");
+/* harmony import */ var _map_modes_SimpleSelect__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./map_modes/SimpleSelect */ "./src/components/map_modes/SimpleSelect.jsx");
+/* harmony import */ var _map_modes_Planting__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./map_modes/Planting */ "./src/components/map_modes/Planting.jsx");
+=======
 /* harmony import */ var _turf_bbox__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @turf/bbox */ "./node_modules/@turf/bbox/index.js");
 /* harmony import */ var _turf_bbox__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(_turf_bbox__WEBPACK_IMPORTED_MODULE_14__);
 /* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
@@ -71783,6 +71937,7 @@ var references_csr_rent_json__WEBPACK_IMPORTED_MODULE_19___namespace = /*#__PURE
 /* harmony import */ var _map_layers_Trees__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./map_layers/Trees */ "./src/components/map_layers/Trees.jsx");
 /* harmony import */ var _map_modes_SimpleSelect__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./map_modes/SimpleSelect */ "./src/components/map_modes/SimpleSelect.jsx");
 /* harmony import */ var _map_modes_Planting__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./map_modes/Planting */ "./src/components/map_modes/Planting.jsx");
+>>>>>>> dev
 
 
 
@@ -71819,6 +71974,14 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 
 
+<<<<<<< HEAD
+mapbox_gl__WEBPACK_IMPORTED_MODULE_12___default.a.accessToken = process.env.mapbox_public_key;
+var debug = debug__WEBPACK_IMPORTED_MODULE_14___default()('MapComponent'); // Export two different MapWrappers to trigger a full component switch when styles change, for a clean refresh of the map.
+// This can be optimized in the future, but requires a lot of tweaking of lifecycle logic, because a style change means all sources and layers are wiped...
+
+var MapWrapperDefault = function MapWrapperDefault(props) {
+  return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_15__["MapConsumer"], null, function (mapCtx) {
+=======
 
 mapbox_gl__WEBPACK_IMPORTED_MODULE_12___default.a.accessToken = "pk.eyJ1IjoibnJlbXZlYiIsImEiOiJjazIweGM1eWQxZHMzM25tdWVsbm9wNHc5In0.sNlJy0ZYiaaquL_Js5PrZA";
 var debug = debug__WEBPACK_IMPORTED_MODULE_15___default()('MapComponent'); // Export two different MapWrappers to trigger a full component switch when styles change, for a clean refresh of the map.
@@ -71826,6 +71989,7 @@ var debug = debug__WEBPACK_IMPORTED_MODULE_15___default()('MapComponent'); // Ex
 
 var MapWrapperDefault = function MapWrapperDefault(props) {
   return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_16__["MapConsumer"], null, function (mapCtx) {
+>>>>>>> dev
     var ctx = _objectSpread({}, mapCtx.state, {}, mapCtx.actions);
 
     return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(MapComponent, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default()({}, ctx, props, {
@@ -71834,7 +71998,11 @@ var MapWrapperDefault = function MapWrapperDefault(props) {
   });
 };
 var MapWrapperSatellite = function MapWrapperSatellite(props) {
+<<<<<<< HEAD
+  return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_15__["MapConsumer"], null, function (mapCtx) {
+=======
   return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(contexts_MapState__WEBPACK_IMPORTED_MODULE_16__["MapConsumer"], null, function (mapCtx) {
+>>>>>>> dev
     var ctx = _objectSpread({}, mapCtx.state, {}, mapCtx.actions);
 
     return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(MapComponent, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default()({}, ctx, props, {
@@ -71861,13 +72029,75 @@ function (_React$Component) {
     });
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_9___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this), "setEditingFeature", function (feature) {
+<<<<<<< HEAD
+=======
       var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
 
+>>>>>>> dev
       // This sets the feature that is currently being edited to state.
       var _assertThisInitialize = _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this),
           map = _assertThisInitialize.map,
           mapAPILoaded = _assertThisInitialize.props.mapAPILoaded;
 
+<<<<<<< HEAD
+      if (feature) {
+        var clone = _.cloneDeep(feature);
+
+        _this.setState({
+          enriching: true
+        },
+        /*#__PURE__*/
+        _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()(
+        /*#__PURE__*/
+        _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  if (!mapAPILoaded) {
+                    _context.next = 10;
+                    break;
+                  }
+
+                  _context.prev = 1;
+                  _context.next = 4;
+                  return Object(utils_enrichFeature__WEBPACK_IMPORTED_MODULE_17__["enrichFeature"])(clone, map);
+
+                case 4:
+                  clone = _context.sent;
+                  _context.next = 10;
+                  break;
+
+                case 7:
+                  _context.prev = 7;
+                  _context.t0 = _context["catch"](1);
+                  debug(_context.t0);
+
+                case 10:
+                  _this.setState({
+                    enriching: false,
+                    editingFeature: clone
+                  });
+
+                case 11:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee, null, [[1, 7]]);
+        })));
+      } else {
+        _this.setState({
+          editingFeature: null
+        });
+      }
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_9___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this), "saveFeature", function () {
+      // This saves the feature to context.
+      var _assertThisInitialize2 = _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this),
+          editingFeature = _assertThisInitialize2.state.editingFeature,
+=======
       var time = new Date().getTime();
 
       if (feature) {
@@ -71936,12 +72166,19 @@ function (_React$Component) {
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_9___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this), "saveFeature", function (feature) {
       // This saves the feature to context.
       var _assertThisInitialize2 = _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6___default()(_this),
+>>>>>>> dev
           _assertThisInitialize3 = _assertThisInitialize2.props,
           addData = _assertThisInitialize3.addData,
           history = _assertThisInitialize3.router.history;
 
+<<<<<<< HEAD
+      console.log(editingFeature);
+      debug('Saving feature:', editingFeature);
+      addData(editingFeature);
+=======
       debug('Saving feature:', feature);
       addData(feature);
+>>>>>>> dev
       history.push('/');
     });
 
@@ -72035,7 +72272,11 @@ function (_React$Component) {
 
         _this2.draw = new _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_13___default.a({
           modes: _objectSpread({
+<<<<<<< HEAD
+            draw_line: _map_modes_Planting__WEBPACK_IMPORTED_MODULE_29__["DrawLineMode"]
+=======
             draw_line: _map_modes_Planting__WEBPACK_IMPORTED_MODULE_30__["DrawLineMode"]
+>>>>>>> dev
           }, _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_13___default.a.modes)
         });
 
@@ -72162,39 +72403,66 @@ function (_React$Component) {
 
       this.addSource('feature_data_prairie', 'geojson', {
         type: 'FeatureCollection',
+<<<<<<< HEAD
+        features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_16__["getFeatures"])(data).filter(function (ea) {
+=======
         features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_17__["getFeatures"])(data).filter(function (ea) {
+>>>>>>> dev
           return ea.properties.type === 'prairie';
         })
       }); // These are the tree rows.
 
       this.addSource('feature_data_tree_rows', 'geojson', {
         type: 'FeatureCollection',
+<<<<<<< HEAD
+        features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_16__["getFeatures"])(data).filter(function (ea) {
+          return ea.properties.type === 'tree';
+        }).reduce(function (features, line) {
+          var rows = Object(utils_sources__WEBPACK_IMPORTED_MODULE_16__["getTreeRows"])(line);
+=======
         features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_17__["getFeatures"])(data).filter(function (ea) {
           return ea.properties.type === 'tree';
         }).reduce(function (features, line) {
           var rows = Object(utils_sources__WEBPACK_IMPORTED_MODULE_17__["getTreeRows"])(line);
+>>>>>>> dev
           return features.concat(rows);
         }, [])
       }); // These are the tree placements.
 
       this.addSource('feature_data_trees', 'geojson', {
         type: 'FeatureCollection',
+<<<<<<< HEAD
+        features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_16__["getFeatures"])(data).filter(function (ea) {
+          return ea.properties.type === 'tree';
+        }).reduce(function (features, line) {
+          var trees = Object(utils_sources__WEBPACK_IMPORTED_MODULE_16__["getOptimalTreePlacements"])(line);
+=======
         features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_17__["getFeatures"])(data).filter(function (ea) {
           return ea.properties.type === 'tree';
         }).reduce(function (features, line) {
           var trees = Object(utils_sources__WEBPACK_IMPORTED_MODULE_17__["getOptimalTreePlacements"])(line);
+>>>>>>> dev
           return features.concat(trees);
         }, [])
       }); // These are the edit icons and labels.
 
       this.addSource('feature_data_southern_vertices', 'geojson', {
         type: 'FeatureCollection',
+<<<<<<< HEAD
+        features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_16__["getSouthernVertices"])(data)
+      }); // This is SSURGO.
+
+       true && this.addSource('ssurgo', 'vector', "mapbox://".concat("johnwildspring.7ub1ysq1")); // This is 2ft contour lines.
+
+      process.env.mapbox_contour_tileset_id && this.addSource('contours', 'vector', "mapbox://".concat(process.env.mapbox_contour_tileset_id)); // This is the Geolocation position.
+=======
         features: Object(utils_sources__WEBPACK_IMPORTED_MODULE_17__["getSouthernVertices"])(data)
       }); // This is SSURGO.
 
        true && this.addSource('ssurgo', 'vector', "mapbox://".concat("nremveb.ssurgo")); // This is 2ft contour lines.
 
        true && this.addSource('contours', 'vector', "mapbox://".concat("nremveb.2ft-contour")); // This is the Geolocation position.
+>>>>>>> dev
 
       lastGeolocationResult && this.addSource('geolocation_position', 'geojson', {
         type: 'Feature',
@@ -72268,7 +72536,11 @@ function (_React$Component) {
       }, !cleanup && drawInit && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
         path: "/plant/tree/:step?",
         render: function render(router) {
+<<<<<<< HEAD
+          return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_modes_Planting__WEBPACK_IMPORTED_MODULE_29__["Planting"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default()({
+=======
           return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_modes_Planting__WEBPACK_IMPORTED_MODULE_30__["Planting"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default()({
+>>>>>>> dev
             router: router,
             type: "tree",
             steps: ['rows', 'species', 'spacing']
@@ -72277,13 +72549,41 @@ function (_React$Component) {
       }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
         path: "/plant/prairie/:step?",
         render: function render(router) {
+<<<<<<< HEAD
+          return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_modes_Planting__WEBPACK_IMPORTED_MODULE_29__["Planting"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default()({
+=======
           return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_modes_Planting__WEBPACK_IMPORTED_MODULE_30__["Planting"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default()({
+>>>>>>> dev
             router: router,
             type: "prairie",
             steps: ['seed', 'mgmt_1']
           }, mapModeProps));
         }
       }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Route"], {
+<<<<<<< HEAD
+        path: "/",
+        render: function render(router) {
+          return react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_modes_SimpleSelect__WEBPACK_IMPORTED_MODULE_28__["SimpleSelect"], _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_8___default()({
+            router: router
+          }, mapModeProps));
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__["Redirect"], {
+        to: "/"
+      })), !cleanup && sourcesAdded && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_10___default.a.Fragment, null, layers.contours && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_Contours__WEBPACK_IMPORTED_MODULE_19__["Contours"], {
+        map: map
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_SSURGO__WEBPACK_IMPORTED_MODULE_25__["SSURGO"], {
+        map: map,
+        active: layers.ssurgo
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_PrairieArea__WEBPACK_IMPORTED_MODULE_20__["PrairieArea"], {
+        map: map
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_PrairieOutline__WEBPACK_IMPORTED_MODULE_24__["PrairieOutline"], {
+        map: map
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_TreeRows__WEBPACK_IMPORTED_MODULE_26__["TreeRows"], {
+        map: map
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_Trees__WEBPACK_IMPORTED_MODULE_27__["Trees"], {
+        map: map
+      }), !/^\/plant/.test(pathname) && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_EditIcons__WEBPACK_IMPORTED_MODULE_21__["EditIcons"], {
+=======
         exact: true,
         path: "/",
         render: function render(router) {
@@ -72305,13 +72605,20 @@ function (_React$Component) {
       }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_Trees__WEBPACK_IMPORTED_MODULE_28__["Trees"], {
         map: map
       }), !/^\/plant/.test(pathname) && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_EditIcons__WEBPACK_IMPORTED_MODULE_22__["EditIcons"], {
+>>>>>>> dev
         map: map,
         data: data,
         setEditingFeature: setEditingFeature,
         nextStep: nextStep
+<<<<<<< HEAD
+      }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_FeatureLabels__WEBPACK_IMPORTED_MODULE_22__["FeatureLabels"], {
+        map: map
+      }), map.getSource('geolocation_position') && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_GeolocationPosition__WEBPACK_IMPORTED_MODULE_23__["GeolocationPosition"], {
+=======
       }), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_FeatureLabels__WEBPACK_IMPORTED_MODULE_23__["FeatureLabels"], {
         map: map
       }), map.getSource('geolocation_position') && react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement(_map_layers_GeolocationPosition__WEBPACK_IMPORTED_MODULE_24__["GeolocationPosition"], {
+>>>>>>> dev
         map: map
       })), react__WEBPACK_IMPORTED_MODULE_10___default.a.createElement("div", {
         className: "ZoomControl"
@@ -72351,6 +72658,10 @@ function (_React$Component) {
 
   return MapComponent;
 }(react__WEBPACK_IMPORTED_MODULE_10___default.a.Component);
+<<<<<<< HEAD
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
+=======
+>>>>>>> dev
 
 /***/ }),
 
@@ -72364,6 +72675,10 @@ function (_React$Component) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PrairiePlantingForm", function() { return PrairiePlantingForm; });
+<<<<<<< HEAD
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+=======
 /* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/toConsumableArray.js");
 /* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
@@ -72375,10 +72690,51 @@ var references_prairie_mgmt_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__P
 
 
 
+>>>>>>> dev
 
 
 var SeedMixInput = function SeedMixInput(props) {
   // value and handlers
+<<<<<<< HEAD
+  var seed = props.seed,
+      handleSeedMixChange = props.handleSeedMixChange,
+      handleSeedValueChange = props.handleSeedValueChange;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "ConfigForm"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "stepNumber"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "1")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "configInputs"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "inputDescriptor"
+  }, "Choose your seed mix."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "inputElement desktop-select-l-width"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "inputLabel"
+  }, "Seed Mix"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    value: seed.value,
+    onChange: function onChange(e) {
+      return handleSeedMixChange(e);
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Seed Mix 1"
+  }, "Seed Mix 1"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Seed Mix 2"
+  }, "Seed Mix 2"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Seed Mix 3"
+  }, "Seed Mix 3"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "inputElement"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "inputLabel"
+  }, "Enter Price Per Acre"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    className: "ModalTextInput",
+    value: seed.price.value,
+    onChange: function onChange(e) {
+      return handleSeedValueChange(e);
+    }
+  }))));
+=======
   var series = props.series,
       seed = props.seed,
       seed_price = props.seed_price,
@@ -72450,11 +72806,38 @@ var SeedMixInput = function SeedMixInput(props) {
   }) : react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
     className: "SeedPrice"
   }, Number(seed_price) ? "$".concat(seed_price.toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,')) : 'Unknown'))));
+>>>>>>> dev
 };
 
 var PrairieMgmt1 = function PrairieMgmt1(props) {
   var management = props.management,
       handleManagementChange = props.handleManagementChange;
+<<<<<<< HEAD
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "ConfigForm"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "stepNumber"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "2")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "configInputs"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "inputDescriptor"
+  }, "Choose a way to manage your prairie."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "inputElement desktop-select-l-width"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "inputLabel"
+  }, "Prairie Management"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    value: management.display,
+    onChange: function onChange(e) {
+      return handleManagementChange(e);
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Burning"
+  }, "Burning"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Mow"
+  }, "Mow"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Management 3"
+  }, "Management 3")))));
+=======
   return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "ConfigForm"
   }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -72481,6 +72864,7 @@ var PrairieMgmt1 = function PrairieMgmt1(props) {
       value: ea.id
     }, ea.value);
   })))));
+>>>>>>> dev
 };
 
 var PrairieMgmt2 = function PrairieMgmt2(props) {
@@ -72488,6 +72872,45 @@ var PrairieMgmt2 = function PrairieMgmt2(props) {
       pest_control = props.pest_control,
       handlePestControlChange = props.handlePestControlChange,
       handleCroppingChange = props.handleCroppingChange;
+<<<<<<< HEAD
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "ConfigForm"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "stepNumber"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "3")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "configInputs"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "inputDescriptor"
+  }, "Choose a cropping system and pest control that you plan on using in the adjacent fields."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "inputElement desktop-select-l-width"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "inputLabel"
+  }, "Cropping System"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    value: cropping_system.display,
+    onChange: function onChange(e) {
+      return handleCroppingChange(e);
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Corn Rotation"
+  }, "Corn Rotation"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Cropping System 2"
+  }, "Cropping System 2"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Cropping System 3"
+  }, "Cropping System 3"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "inputElement desktop-select-l-width"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "inputLabel"
+  }, "Pest Control"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    value: pest_control.display,
+    onChange: function onChange(e) {
+      return handlePestControlChange(e);
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Pest Control"
+  }, "Pest Control"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "Pest Control 2"
+  }, "Pest Control 2"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+=======
   return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "ConfigForm"
   }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -72525,16 +72948,22 @@ var PrairieMgmt2 = function PrairieMgmt2(props) {
   }, "Pest Control"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     value: "Pest Control 2"
   }, "Pest Control 2"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+>>>>>>> dev
     value: "Pest Control 3"
   }, "Pest Control 3")))));
 };
 
 var PrairiePlantingForm = function PrairiePlantingForm(props) {
+<<<<<<< HEAD
+  var step = props.step,
+      seed = props.seed,
+=======
   var form = props.form,
       editingFeature = props.editingFeature,
       step = props.step,
       seed = props.seed,
       seed_price = props.seed_price,
+>>>>>>> dev
       management = props.management,
       cropping_system = props.cropping_system,
       pest_control = props.pest_control,
@@ -72542,6 +72971,19 @@ var PrairiePlantingForm = function PrairiePlantingForm(props) {
       handlePestControlChange = props.handlePestControlChange,
       handleManagementChange = props.handleManagementChange,
       handleCroppingChange = props.handleCroppingChange,
+<<<<<<< HEAD
+      handleSeedValueChange = props.handleSeedValueChange;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+    className: "modal-header"
+  }, "Configure your prairie planting area below."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(SeedMixInput, {
+    seed: seed,
+    handleSeedMixChange: handleSeedMixChange,
+    handleSeedValueChange: handleSeedValueChange
+  }), (step === 'mgmt_1' || step === 'mgmt_2') && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(PrairieMgmt1, {
+    management: management,
+    handleManagementChange: handleManagementChange
+  }), step === 'mgmt_2' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(PrairieMgmt2, {
+=======
       handleSeedPriceChange = props.handleSeedPriceChange;
   var series = editingFeature.properties.series ? new Map(editingFeature.properties.series) : new Map();
   return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_1___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -72562,10 +73004,15 @@ var PrairiePlantingForm = function PrairiePlantingForm(props) {
     management: management,
     handleManagementChange: handleManagementChange
   }), step === 'mgmt_2' && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(PrairieMgmt2, {
+>>>>>>> dev
     pest_control: pest_control,
     cropping_system: cropping_system,
     handlePestControlChange: handlePestControlChange,
     handleCroppingChange: handleCroppingChange
+<<<<<<< HEAD
+  }));
+};
+=======
   })));
 };
 
@@ -73316,6 +73763,7 @@ function (_React$Component) {
 
   return Report;
 }(react__WEBPACK_IMPORTED_MODULE_7___default.a.Component);
+>>>>>>> dev
 
 /***/ }),
 
@@ -73437,6 +73885,14 @@ function (_React$Component) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TreePlantingForm", function() { return TreePlantingForm; });
+<<<<<<< HEAD
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! uuid/v4 */ "./node_modules/uuid/v4.js");
+/* harmony import */ var uuid_v4__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(uuid_v4__WEBPACK_IMPORTED_MODULE_2__);
+=======
 /* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/toConsumableArray.js");
 /* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
@@ -73459,18 +73915,76 @@ var references_tree_stock_sizes_json__WEBPACK_IMPORTED_MODULE_7___namespace = /*
 
 
 
+>>>>>>> dev
 
 
 
 
 var NumRowInput = function NumRowInput(props) {
+<<<<<<< HEAD
+  var windbreak = props.windbreak,
+=======
   var editingFeature = props.editingFeature,
       windbreak = props.windbreak,
+>>>>>>> dev
       numRows = props.numRows,
       handleNumRowChange = props.handleNumRowChange,
       handleWindbreakChange = props.handleWindbreakChange,
       handlePropgationChange = props.handlePropgationChange,
       propagation = props.propagation;
+<<<<<<< HEAD
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "ConfigForm"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "stepNumber"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "1")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "configInputs"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "inputElement desktop-select-s-width spacer-right-3"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "inputDescriptor"
+  }, "Is this a windbreak?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    value: windbreak,
+    onChange: function onChange(e) {
+      return handleWindbreakChange(e);
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "true"
+  }, "Yes"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "false"
+  }, "No"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "inputElement desktop-select-l-width"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "inputDescriptor nowrap"
+  }, "How many tree rows would you like to plant?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    value: numRows,
+    onChange: function onChange(e) {
+      return handleNumRowChange(e);
+    }
+  }, lodash__WEBPACK_IMPORTED_MODULE_1___default.a.range(1, 11).map(function (val) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: val,
+      value: val
+    }, val);
+  }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "inputElement desktop-select-s-width spacer-top-1_5"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "inputDescriptor nowrap"
+  }, "Choose a direction to plant your rows in."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    value: propagation,
+    onChange: function onChange(e) {
+      return handlePropgationChange(e);
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "N"
+  }, "North"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "S"
+  }, "South"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "W"
+  }, "West"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "E"
+  }, "East")))));
+=======
   var slope = Object(utils_geometry__WEBPACK_IMPORTED_MODULE_4__["findSlope"])(editingFeature);
   return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "ConfigForm"
@@ -73526,11 +74040,66 @@ var NumRowInput = function NumRowInput(props) {
   }, "North"), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
     value: "S"
   }, "South"))))));
+>>>>>>> dev
 };
 
 var RowDetailInput = function RowDetailInput(props) {
   var pasture_conversion = props.pasture_conversion,
       rows = props.rows,
+<<<<<<< HEAD
+      handlePastureConversionChange = props.handlePastureConversionChange,
+      handleRowTypeChange = props.handleRowTypeChange,
+      handleRowSpeciesChange = props.handleRowSpeciesChange; // build the controlled input fields
+
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "ConfigForm"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "stepNumber"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "2")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "configInputs"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "inputDescriptor"
+  }, "Choose a tree type and species for each row. Below are the recommended tree types and species based on your soil. You can change these by choosing a different option in each dropdown."), rows.map(function (row, i) {
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      key: uuid_v4__WEBPACK_IMPORTED_MODULE_2___default()(),
+      className: "rowDetails"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "rowNumber"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "Row ", i + 1)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "inputElement desktop-select-l-width"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "inputLabel"
+    }, "Tree Type"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+      value: row.type.display,
+      onChange: function onChange(e) {
+        return handleRowTypeChange(e, i);
+      }
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      value: "Type 1"
+    }, "Type 1"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      value: "Type 2"
+    }, "Type 2"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      value: "Type 3"
+    }, "Type 3"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      className: "inputElement desktop-select-l-width"
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+      className: "inputLabel"
+    }, "Tree Species"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+      value: row.species.display,
+      onChange: function onChange(e) {
+        return handleRowSpeciesChange(e, i);
+      }
+    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      value: "Species 1"
+    }, "Species 1"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      value: "Species 2"
+    }, "Species 2"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      value: "Species 3"
+    }, "Species 3"))));
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "checkboxElement"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+=======
       series = props.series,
       handlePastureConversionChange = props.handlePastureConversionChange,
       handleRowTypeChange = props.handleRowTypeChange,
@@ -73605,13 +74174,18 @@ var RowDetailInput = function RowDetailInput(props) {
   }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "checkboxElement"
   }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+>>>>>>> dev
     type: "checkbox",
     name: "pasture_conversion",
     checked: pasture_conversion,
     onChange: function onChange(e) {
       return handlePastureConversionChange(e);
     }
+<<<<<<< HEAD
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+=======
   }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+>>>>>>> dev
     className: "inline"
   }, "I'm converting pasture"))));
 };
@@ -73620,11 +74194,67 @@ var RowSpacingInput = function RowSpacingInput(props) {
   var drip_irrigation = props.drip_irrigation,
       tree_spacing = props.spacing_trees.value,
       row_spacing = props.spacing_rows.value,
+<<<<<<< HEAD
+      stock_size = props.stock_size.display,
+=======
       stock_size = props.stock_size,
+>>>>>>> dev
       handleRowSpacingChange = props.handleRowSpacingChange,
       handleTreeSpacingChange = props.handleTreeSpacingChange,
       handleStockSizeChange = props.handleStockSizeChange,
       handleDripIrrigationChange = props.handleDripIrrigationChange;
+<<<<<<< HEAD
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "ConfigForm"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "stepNumber"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "3")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "configInputs"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "inputDescriptor"
+  }, "Choose the spacing you need in between the trees and what size you plan on purchasing the plantings. Recommendations based on your soil type and slope percentage are prefilled."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "inputElement desktop-select-s-width"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "inputLabel"
+  }, "Spacing Between Rows"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    value: row_spacing,
+    onChange: function onChange(e) {
+      return handleRowSpacingChange(e);
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "3"
+  }, "3'"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "4"
+  }, "4'"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "5"
+  }, "5'"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "inputElement desktop-select-s-width"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "inputLabel"
+  }, "Spacing Between Trees"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    value: tree_spacing,
+    onChange: function onChange(e) {
+      return handleTreeSpacingChange(e);
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "3"
+  }, "3'"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "4"
+  }, "4'"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "5"
+  }, "5'"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "inputElement desktop-select-m-width"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+    className: "inputLabel"
+  }, "Planting Stock Size"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    value: stock_size,
+    onChange: function onChange(e) {
+      return handleStockSizeChange(e);
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Stock Size 1"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Stock Size 2"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, "Stock Size 3"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "checkboxElement"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+=======
   return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "ConfigForm"
   }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -73698,21 +74328,30 @@ var RowSpacingInput = function RowSpacingInput(props) {
   }))), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "checkboxElement"
   }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+>>>>>>> dev
     type: "checkbox",
     name: "drip_irrigation",
     checked: drip_irrigation,
     onChange: function onChange(e) {
       return handleDripIrrigationChange(e);
     }
+<<<<<<< HEAD
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+=======
   }), react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("span", {
+>>>>>>> dev
     className: "inline"
   }, "I'm using drip irrigation"))));
 };
 
 var TreePlantingForm = function TreePlantingForm(props) {
+<<<<<<< HEAD
+  var step = props.step,
+=======
   var form = props.form,
       editingFeature = props.editingFeature,
       step = props.step,
+>>>>>>> dev
       windbreak = props.windbreak,
       propagation = props.propagation,
       rows = props.rows,
@@ -73720,7 +74359,10 @@ var TreePlantingForm = function TreePlantingForm(props) {
       spacing_rows = props.spacing_rows,
       stock_size = props.stock_size,
       drip_irrigation = props.drip_irrigation,
+<<<<<<< HEAD
+=======
       pasture_conversion = props.pasture_conversion,
+>>>>>>> dev
       handleTreeSpacingChange = props.handleTreeSpacingChange,
       handleDripIrrigationChange = props.handleDripIrrigationChange,
       handleRowSpeciesChange = props.handleRowSpeciesChange,
@@ -73729,6 +74371,12 @@ var TreePlantingForm = function TreePlantingForm(props) {
       handleRowSpacingChange = props.handleRowSpacingChange,
       handleStockSizeChange = props.handleStockSizeChange,
       handleWindbreakChange = props.handleWindbreakChange,
+<<<<<<< HEAD
+      handlePropgationChange = props.handlePropgationChange;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+    className: "modal-header"
+  }, "Configure your tree rows below."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(NumRowInput, {
+=======
       handlePropgationChange = props.handlePropgationChange,
       handlePastureConversionChange = props.handlePastureConversionChange;
   var series = editingFeature.properties.series ? new Map(editingFeature.properties.series) : new Map();
@@ -73742,12 +74390,20 @@ var TreePlantingForm = function TreePlantingForm(props) {
     ref: form
   }, react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(NumRowInput, {
     editingFeature: editingFeature,
+>>>>>>> dev
     windbreak: windbreak,
     propagation: propagation,
     numRows: rows.length,
     handleNumRowChange: handleNumRowChange,
     handleWindbreakChange: handleWindbreakChange,
     handlePropgationChange: handlePropgationChange
+<<<<<<< HEAD
+  }), (step === 'species' || step === 'spacing') && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RowDetailInput, {
+    rows: rows,
+    handleRowTypeChange: handleRowTypeChange,
+    handleRowSpeciesChange: handleRowSpeciesChange
+  }), step === 'spacing' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(RowSpacingInput, {
+=======
   }), (step === 'species' || step === 'spacing') && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RowDetailInput, {
     series: series,
     rows: rows,
@@ -73756,6 +74412,7 @@ var TreePlantingForm = function TreePlantingForm(props) {
     handleRowSpeciesChange: handleRowSpeciesChange,
     handlePastureConversionChange: handlePastureConversionChange
   }), step === 'spacing' && react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(RowSpacingInput, {
+>>>>>>> dev
     spacing_trees: spacing_trees,
     spacing_rows: spacing_rows,
     stock_size: stock_size,
@@ -73764,7 +74421,11 @@ var TreePlantingForm = function TreePlantingForm(props) {
     handleTreeSpacingChange: handleTreeSpacingChange,
     handleStockSizeChange: handleStockSizeChange,
     handleDripIrrigationChange: handleDripIrrigationChange
+<<<<<<< HEAD
+  }));
+=======
   })));
+>>>>>>> dev
 };
 
 /***/ }),
@@ -73778,7 +74439,11 @@ var TreePlantingForm = function TreePlantingForm(props) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+<<<<<<< HEAD
+/* WEBPACK VAR INJECTION */(function(process) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Contours", function() { return Contours; });
+=======
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Contours", function() { return Contours; });
+>>>>>>> dev
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Layer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Layer */ "./src/components/map_layers/Layer.jsx");
@@ -73795,7 +74460,11 @@ var Contours = function Contours(props) {
     id: 'contours',
     type: 'line',
     source: 'contours',
+<<<<<<< HEAD
+    'source-layer': process.env.mapbox_contour_tileset_layer_name,
+=======
     'source-layer': "default",
+>>>>>>> dev
     minzoom: 10,
     paint: {
       'line-color': color || 'yellow',
@@ -73807,6 +74476,10 @@ var Contours = function Contours(props) {
     layer: layer
   });
 };
+<<<<<<< HEAD
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../node_modules/process/browser.js */ "./node_modules/process/browser.js")))
+=======
+>>>>>>> dev
 
 /***/ }),
 
@@ -73939,7 +74612,11 @@ var GeolocationPosition = function GeolocationPosition(props) {
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layer__WEBPACK_IMPORTED_MODULE_1__["Layer"], {
     map: map,
     layer: labelLayer
+<<<<<<< HEAD
+  }), ",", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layer__WEBPACK_IMPORTED_MODULE_1__["Layer"], {
+=======
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Layer__WEBPACK_IMPORTED_MODULE_1__["Layer"], {
+>>>>>>> dev
     map: map,
     layer: circleLayer
   }));
@@ -73975,6 +74652,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
 /* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_8__);
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev
 
 
 
@@ -73983,7 +74664,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> dev
 var debug = debug__WEBPACK_IMPORTED_MODULE_8___default()('MapComponent');
 var Layer =
 /*#__PURE__*/
@@ -74185,7 +74869,11 @@ var SSURGO = function SSURGO(props) {
     'source-layer': "default",
     minzoom: 10,
     paint: {
+<<<<<<< HEAD
+      'fill-color': ['interpolate', ['linear'], ['get', 'iacornsr'], 0, '#909090', 50, '#888900', 100, '#f8f601'],
+=======
       'fill-color': ['interpolate', ['linear'], ['to-number', ['get', 'iacornsr']], 0, '#909090', 50, '#888900', 100, '#f8f601'],
+>>>>>>> dev
       'fill-opacity': props.active ? 0.6 : 0,
       'fill-antialias': false
     }
@@ -74318,10 +75006,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+ // import tree from 'test_data/tree.json';
+// import prairie from 'test_data/prairie.json';
 
 
 
 var debug = debug__WEBPACK_IMPORTED_MODULE_10___default()('MapComponent');
+<<<<<<< HEAD
+/* const testData = {
+	tree,
+	prairie,
+}; */
+
+=======
+>>>>>>> dev
 var DrawLineMode = _mapbox_mapbox_gl_draw__WEBPACK_IMPORTED_MODULE_9___default.a.modes.draw_line_string;
 
 DrawLineMode.clickAnywhere = function clickAnywhere(state, e) {
@@ -74448,10 +75146,18 @@ function (_React$Component) {
         var onCreate = function onCreate(e) {
           map.off('draw.create', onCreate);
           var feature = e.features[0]; // feature properties need to be populated with the planting modal
+<<<<<<< HEAD
+
+          feature.properties = {
+            type: type
+          }; // draw.add(feature);
+
+=======
 
           feature.properties = {
             type: type
           };
+>>>>>>> dev
           debug('Created feature:', feature);
           setEditingFeature(feature, function () {
             return nextStep("/plant/".concat(type, "/").concat(steps[0]));
@@ -74484,7 +75190,10 @@ function (_React$Component) {
     value: function render() {
       var _this$props3 = this.props,
           step = _this$props3.router.match.params.step,
+<<<<<<< HEAD
+=======
           deleteFeature = _this$props3.deleteFeature,
+>>>>>>> dev
           setEditingFeature = _this$props3.setEditingFeature,
           editingFeature = _this$props3.editingFeature,
           saveFeature = _this$props3.saveFeature,
@@ -74497,8 +75206,19 @@ function (_React$Component) {
         return react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Redirect"], {
           to: "/plant/".concat(type)
         });
-      }
+      } // If we're on a config step, render the form.
+      // if (type === 'tree' && step) {
+      // 	return (
+      // 		<div className="Planting MapModeForm vertical-align">
+      // 			<PlantingModal editingFeature={editingFeature} setEditingFeature={setEditingFeature} saveFeature={saveFeature} nextStep={nextStep} step={step} steps={steps} />
+      // 		</div>
+      // 	);
+      // }
 
+<<<<<<< HEAD
+
+      return step ? react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+=======
       var stepIndex = steps.indexOf(step);
 
       if (stepIndex === -1) {
@@ -74508,10 +75228,18 @@ function (_React$Component) {
       }
 
       return react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+>>>>>>> dev
         className: "Planting MapModeForm vertical-align"
       }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(_modals_PlantingModal__WEBPACK_IMPORTED_MODULE_11__["PlantingModal"], {
         editingFeature: editingFeature,
         setEditingFeature: setEditingFeature,
+<<<<<<< HEAD
+        saveFeature: saveFeature,
+        nextStep: nextStep,
+        step: step,
+        steps: steps
+      })) : null;
+=======
         deleteFeature: deleteFeature,
         saveFeature: saveFeature,
         nextStep: nextStep,
@@ -74519,6 +75247,7 @@ function (_React$Component) {
         steps: steps,
         stepIndex: stepIndex
       }));
+>>>>>>> dev
     }
   }]);
 
@@ -74549,13 +75278,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
+<<<<<<< HEAD
+=======
 /* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
 /* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_6__);
+>>>>>>> dev
 
 
 
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> dev
 
 
 var debug = debug__WEBPACK_IMPORTED_MODULE_6___default()('MapComponent');
@@ -74756,12 +75491,21 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", {
         className: "grid-wrap"
       }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__["Link"], {
+<<<<<<< HEAD
+        to: location.pathname,
+        replace: true
+      }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("img", {
+        className: "CloseButton",
+        src: "../../assets/close_dropdown.svg",
+        alt: "close modal"
+=======
         className: "CloseButton",
         to: location.pathname,
         replace: true
       }, react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("img", {
         src: "../../assets/close_dropdown.svg",
         alt: "close location prompt"
+>>>>>>> dev
       })), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("h3", {
         className: "modal-header"
       }, "Allow the Prairie & Tree Planting application to access your location while using the app?"), react__WEBPACK_IMPORTED_MODULE_6___default.a.createElement("div", {
@@ -74821,12 +75565,19 @@ var MapLegend = function MapLegend(_ref) {
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "grid-wrap"
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+<<<<<<< HEAD
+=======
     className: "CloseButton",
+>>>>>>> dev
     to: pathname
   }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     className: "CloseButton",
     src: "../../assets/close_dropdown.svg",
+<<<<<<< HEAD
+    alt: "Close Welcome Modal"
+=======
     alt: "close legend modal"
+>>>>>>> dev
   })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
     className: "modal-header"
   }, "Map Legend"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -74853,6 +75604,140 @@ var MapLegend = function MapLegend(_ref) {
 };
 
 /***/ }),
+<<<<<<< HEAD
+
+/***/ "./src/components/modals/PlantingModal.jsx":
+/*!*************************************************!*\
+  !*** ./src/components/modals/PlantingModal.jsx ***!
+  \*************************************************/
+/*! exports provided: PlantingModal */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PlantingModal", function() { return PlantingModal; });
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js");
+/* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
+/* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js");
+/* harmony import */ var _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js");
+/* harmony import */ var _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/assertThisInitialized.js");
+/* harmony import */ var _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js");
+/* harmony import */ var _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _TreePlantingForm__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../TreePlantingForm */ "./src/components/TreePlantingForm.jsx");
+/* harmony import */ var _PrairiePlantingForm__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../PrairiePlantingForm */ "./src/components/PrairiePlantingForm.jsx");
+
+
+
+
+
+
+
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+
+
+
+
+var PlantingModal =
+/*#__PURE__*/
+function (_React$Component) {
+  _babel_runtime_helpers_inherits__WEBPACK_IMPORTED_MODULE_6___default()(PlantingModal, _React$Component);
+
+  function PlantingModal(props) {
+    var _this;
+
+    _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, PlantingModal);
+
+    _this = _babel_runtime_helpers_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3___default()(this, _babel_runtime_helpers_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4___default()(PlantingModal).call(this, props));
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleNumRowChange", function (event) {
+      var numRows = event.target.value;
+
+      _this.setState(function (state) {
+        var updateRows = [];
+
+        if (numRows < state.rows.length) {
+          updateRows = state.rows.splice(0, numRows);
+          return {
+            rows: updateRows
+          };
+        }
+
+        if (numRows > state.rows.length) {
+          updateRows = _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0___default()(state.rows);
+
+          for (var i = 0; i < numRows - state.rows.length; i += 1) {
+            // test data
+            updateRows.push({
+              type: {
+                id: 1,
+                display: 'Type 1'
+              },
+              species: {
+                id: 15,
+                display: 'Species 3'
+              }
+            });
+          }
+
+          return {
+            rows: updateRows
+          };
+        }
+
+        return null;
+      });
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleWindbreakChange", function (event) {
+      var updateWindbreak = event.target.value;
+
+      if (updateWindbreak === 'true' || updateWindbreak === 'false') {
+        updateWindbreak = JSON.parse(updateWindbreak);
+      }
+
+      _this.setState({
+        windbreak: updateWindbreak
+      });
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handlePropgationChange", function (event) {
+      var updatePropagation = event.target.value;
+
+      _this.setState({
+        propagation: updatePropagation
+      });
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handlePastureConversionChange", function (event) {
+      var updateConversion = event.target.value;
+
+      _this.setState({
+        pasture_conversion: updateConversion
+      });
+    });
+
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleRowTypeChange", function (event, rowIndex) {
+      var rows = _this.state.rows;
+      rows[rowIndex].type.display = event.target.value;
+
+=======
 
 /***/ "./src/components/modals/PlantingModal.jsx":
 /*!*************************************************!*\
@@ -74982,6 +75867,7 @@ function (_React$Component) {
       var rows = _this.state.rows;
       rows[rowIndex].type = event.target.value;
 
+>>>>>>> dev
       _this.setState({
         rows: rows
       });
@@ -74989,7 +75875,11 @@ function (_React$Component) {
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleRowSpeciesChange", function (event, rowIndex) {
       var rows = _this.state.rows;
+<<<<<<< HEAD
+      rows[rowIndex].species.display = event.target.value;
+=======
       rows[rowIndex].species = event.target.value;
+>>>>>>> dev
 
       _this.setState({
         rows: rows
@@ -75005,6 +75895,11 @@ function (_React$Component) {
             value: spacingValue
           })
         };
+<<<<<<< HEAD
+      }, function () {
+        return console.log(_this.state);
+=======
+>>>>>>> dev
       });
     });
 
@@ -75021,12 +75916,22 @@ function (_React$Component) {
     });
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleStockSizeChange", function (event) {
+<<<<<<< HEAD
+      var stockSize = event.target.value;
+
+      _this.setState(function (state) {
+        return {
+          stock_size: _objectSpread({}, state.stock_size, {
+            display: stockSize
+          })
+=======
       var stock_size = event.target.value;
       console.log(stock_size);
 
       _this.setState(function () {
         return {
           stock_size: stock_size
+>>>>>>> dev
         };
       });
     });
@@ -75042,24 +75947,55 @@ function (_React$Component) {
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleSeedMixChange", function (event) {
       var updateSeedMix = event.target.value;
 
+<<<<<<< HEAD
+      _this.setState(function (state) {
+        return {
+          seed: _objectSpread({}, state.seed, {
+            value: updateSeedMix
+          })
+=======
       _this.setState(function () {
         return {
           seed: updateSeedMix
+>>>>>>> dev
         };
       });
     });
 
+<<<<<<< HEAD
+    _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleSeedValueChange", function (event) {
+      var updateValue = event.target.value;
+
+      _this.setState(function (state) {
+        return {
+          seed: _objectSpread({}, state.seed, {
+            price: _objectSpread({}, state.seed.price, {
+              value: updateValue
+            })
+          })
+=======
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleSeedPriceChange", function (event) {
       var updateValue = typeof event === 'number' ? event : event.target.value;
 
       _this.setState(function () {
         return {
           seed_price: updateValue
+>>>>>>> dev
         };
       });
     });
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleManagementChange", function (event) {
+<<<<<<< HEAD
+      var updateManagement = event.target.value;
+
+      _this.setState(function (state) {
+        return {
+          management: _objectSpread({}, state.management, {
+            display: updateManagement
+          })
+        };
+=======
       var id = event.target.value;
       var display = event.target.options[event.target.selectedIndex].text;
       var updateManagement = {
@@ -75073,15 +76009,24 @@ function (_React$Component) {
         };
       }, function () {
         return console.log(_this.state);
+>>>>>>> dev
       });
     });
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleCroppingChange", function (event) {
       var updateCropping = event.target.value;
 
+<<<<<<< HEAD
+      _this.setState(function (state) {
+        return {
+          cropping_system: _objectSpread({}, state.cropping, {
+            display: updateCropping
+          })
+=======
       _this.setState(function () {
         return {
           cropping_system: updateCropping
+>>>>>>> dev
         };
       });
     });
@@ -75089,9 +76034,17 @@ function (_React$Component) {
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handlePestControlChange", function (event) {
       var updatePestControl = event.target.value;
 
+<<<<<<< HEAD
+      _this.setState(function (state) {
+        return {
+          pest_control: _objectSpread({}, state.pest_control, {
+            display: updatePestControl
+          })
+=======
       _this.setState(function () {
         return {
           pest_control: updatePestControl
+>>>>>>> dev
         };
       });
     });
@@ -75106,6 +76059,17 @@ function (_React$Component) {
       var _this$props = _this.props,
           nextStep = _this$props.nextStep,
           steps = _this$props.steps,
+<<<<<<< HEAD
+          type = _this$props.editingFeature.properties.type;
+
+      _this.setState(function (state) {
+        return {
+          stepIndex: state.stepIndex + 1
+        };
+      }, function () {
+        nextStep("/plant/".concat(type, "/").concat(steps[_this.state.stepIndex]));
+      });
+=======
           stepIndex = _this$props.stepIndex,
           type = _this$props.editingFeature.properties.type;
 
@@ -75124,6 +76088,7 @@ function (_React$Component) {
           };
         });
       }
+>>>>>>> dev
     });
 
     _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(_babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this), "handleSave", function () {
@@ -75131,14 +76096,24 @@ function (_React$Component) {
           _assertThisInitialize2 = _assertThisInitialize.props,
           editingFeature = _assertThisInitialize2.editingFeature,
           saveFeature = _assertThisInitialize2.saveFeature,
+<<<<<<< HEAD
+          setEditingFeature = _assertThisInitialize2.setEditingFeature,
+          type = _assertThisInitialize2.editingFeature.properties.type;
+
+      var properties = {};
+=======
           type = _assertThisInitialize2.editingFeature.properties.type;
 
       var properties;
+>>>>>>> dev
 
       if (type === 'tree') {
         var _assertThisInitialize3 = _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_5___default()(_this),
             _assertThisInitialize4 = _assertThisInitialize3.state,
+<<<<<<< HEAD
+=======
             pasture_conversion = _assertThisInitialize4.pasture_conversion,
+>>>>>>> dev
             propagation = _assertThisInitialize4.propagation,
             rows = _assertThisInitialize4.rows,
             spacing_trees = _assertThisInitialize4.spacing_trees,
@@ -75150,7 +76125,10 @@ function (_React$Component) {
         properties = {
           type: type,
           configs: {
+<<<<<<< HEAD
+=======
             pasture_conversion: pasture_conversion,
+>>>>>>> dev
             propagation: propagation,
             windbreak: windbreak,
             rows: rows,
@@ -75163,7 +76141,10 @@ function (_React$Component) {
       } else if (type === 'prairie') {
         var _this$state = _this.state,
             seed = _this$state.seed,
+<<<<<<< HEAD
+=======
             seed_price = _this$state.seed_price,
+>>>>>>> dev
             management = _this$state.management,
             cropping_system = _this$state.cropping_system,
             pest_control = _this$state.pest_control;
@@ -75171,7 +76152,10 @@ function (_React$Component) {
           type: type,
           configs: {
             seed: seed,
+<<<<<<< HEAD
+=======
             seed_price: seed_price,
+>>>>>>> dev
             management: management,
             cropping_system: cropping_system,
             pest_control: pest_control
@@ -75179,6 +76163,11 @@ function (_React$Component) {
         };
       }
 
+<<<<<<< HEAD
+      editingFeature.properties = properties;
+      setEditingFeature(editingFeature);
+      saveFeature();
+=======
       if (_this.form.current && _this.form.current.checkValidity()) {
         _this.setState(function () {
           return {
@@ -75195,6 +76184,7 @@ function (_React$Component) {
           };
         });
       }
+>>>>>>> dev
     });
 
     _this.bottom = react__WEBPACK_IMPORTED_MODULE_8___default.a.createRef();
@@ -75207,10 +76197,14 @@ function (_React$Component) {
         configs = {
           windbreak: false,
           propagation: 'N',
+<<<<<<< HEAD
+          rows: [],
+=======
           rows: [{
             type: '',
             species: ''
           }],
+>>>>>>> dev
           spacing_rows: {
             value: 3,
             // placeholder value
@@ -75221,17 +76215,42 @@ function (_React$Component) {
             //  placeholder value
             unit: 'feet'
           },
+<<<<<<< HEAD
+          stock_size: {
+            id: 1,
+            // placeholder id
+            display: 'Stock Size 1'
+          },
+=======
           stock_size: '',
+>>>>>>> dev
           drip_irrigation: false,
           pasture_conversion: false
         };
       } else if (_type === 'prairie') {
         configs = {
+<<<<<<< HEAD
+          seed: {
+            id: 14,
+            // placeholder
+            value: 'Seed Mix 1',
+            // placeholder
+            price: {
+              value: '',
+              per_unit: 'acre',
+              currency: '$_dollar'
+            }
+          },
+          management: {
+            id: 1,
+            display: 'Mow'
+=======
           seed: '',
           seed_price: '',
           management: {
             id: 'J8wEfx7P',
             display: 'mow'
+>>>>>>> dev
           },
           cropping_system: {
             id: 1,
@@ -75245,22 +76264,79 @@ function (_React$Component) {
       }
     }
 
+<<<<<<< HEAD
+    _this.state = _objectSpread({}, configs, {
+      stepIndex: 0
+    });
+=======
     _this.state = _objectSpread({}, configs);
     _this.form = react__WEBPACK_IMPORTED_MODULE_8___default.a.createRef();
+>>>>>>> dev
     return _this;
   }
 
   _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default()(PlantingModal, [{
+<<<<<<< HEAD
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var type = this.props.editingFeature.properties.type;
+
+      if (type === 'tree') {
+        this.initializeTreeRows();
+      }
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps) {
+      var prevStep = prevProps.step;
+      var currentStep = this.props.step;
+
+      if (prevStep !== currentStep) {
+=======
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
       var prevStepIndex = prevProps.stepIndex;
       var currentStepIndex = this.props.stepIndex;
 
       if (currentStepIndex > prevStepIndex) {
+>>>>>>> dev
         this.scrollToBottom();
       }
     }
   }, {
+<<<<<<< HEAD
+    key: "initializeTreeRows",
+    value: function initializeTreeRows() {
+      // initialize first row if editingFeature has not been configured before (recommended type/species)
+      var rows = this.state.rows;
+
+      if (rows.length === 0) {
+        // const updateRows = this.generateRecommendedRowConfig(...);
+        var updateRows = {
+          type: {
+            id: 1,
+            display: 'Type 1'
+          },
+          species: {
+            id: 15,
+            display: 'Species 3'
+          }
+        };
+        this.setState({
+          rows: [updateRows]
+        });
+      } // set the recommended spacing and stock size
+
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props2 = this.props,
+          step = _this$props2.step,
+          type = _this$props2.editingFeature.properties.type,
+          stepIndex = this.state.stepIndex;
+      var formProps = {};
+=======
     key: "render",
     // routeToReport = () => {
     // 	const {
@@ -75285,6 +76361,7 @@ function (_React$Component) {
         form: form,
         formError: formError
       };
+>>>>>>> dev
 
       if (type === 'tree') {
         var _this$state2 = this.state,
@@ -75295,7 +76372,10 @@ function (_React$Component) {
             spacing_rows = _this$state2.spacing_rows,
             stock_size = _this$state2.stock_size,
             drip_irrigation = _this$state2.drip_irrigation,
+<<<<<<< HEAD
+=======
             pasture_conversion = _this$state2.pasture_conversion,
+>>>>>>> dev
             handleTreeSpacingChange = this.handleTreeSpacingChange,
             handleDripIrrigationChange = this.handleDripIrrigationChange,
             handleRowSpeciesChange = this.handleRowSpeciesChange,
@@ -75304,9 +76384,15 @@ function (_React$Component) {
             handleRowSpacingChange = this.handleRowSpacingChange,
             handleStockSizeChange = this.handleStockSizeChange,
             handleWindbreakChange = this.handleWindbreakChange,
+<<<<<<< HEAD
+            handlePropgationChange = this.handlePropgationChange;
+        formProps = {
+          step: step,
+=======
             handlePropgationChange = this.handlePropgationChange,
             handlePastureConversionChange = this.handlePastureConversionChange;
         formProps = _objectSpread({}, formProps, {
+>>>>>>> dev
           windbreak: windbreak,
           propagation: propagation,
           rows: rows,
@@ -75314,7 +76400,10 @@ function (_React$Component) {
           spacing_rows: spacing_rows,
           stock_size: stock_size,
           drip_irrigation: drip_irrigation,
+<<<<<<< HEAD
+=======
           pasture_conversion: pasture_conversion,
+>>>>>>> dev
           handleTreeSpacingChange: handleTreeSpacingChange,
           handleDripIrrigationChange: handleDripIrrigationChange,
           handleRowSpeciesChange: handleRowSpeciesChange,
@@ -75323,6 +76412,13 @@ function (_React$Component) {
           handleRowSpacingChange: handleRowSpacingChange,
           handleStockSizeChange: handleStockSizeChange,
           handleWindbreakChange: handleWindbreakChange,
+<<<<<<< HEAD
+          handlePropgationChange: handlePropgationChange
+        };
+      } else if (type === 'prairie') {
+        var _this$state3 = this.state,
+            seed = _this$state3.seed,
+=======
           handlePropgationChange: handlePropgationChange,
           handlePastureConversionChange: handlePastureConversionChange
         });
@@ -75330,6 +76426,7 @@ function (_React$Component) {
         var _this$state3 = this.state,
             seed = _this$state3.seed,
             seed_price = _this$state3.seed_price,
+>>>>>>> dev
             management = _this$state3.management,
             cropping_system = _this$state3.cropping_system,
             pest_control = _this$state3.pest_control,
@@ -75337,10 +76434,17 @@ function (_React$Component) {
             handlePestControlChange = this.handlePestControlChange,
             handleManagementChange = this.handleManagementChange,
             handleCroppingChange = this.handleCroppingChange,
+<<<<<<< HEAD
+            handleSeedValueChange = this.handleSeedValueChange;
+        formProps = {
+          step: step,
+          seed: seed,
+=======
             handleSeedPriceChange = this.handleSeedPriceChange;
         formProps = _objectSpread({}, formProps, {
           seed: seed,
           seed_price: seed_price,
+>>>>>>> dev
           management: management,
           cropping_system: cropping_system,
           pest_control: pest_control,
@@ -75348,22 +76452,41 @@ function (_React$Component) {
           handlePestControlChange: handlePestControlChange,
           handleManagementChange: handleManagementChange,
           handleCroppingChange: handleCroppingChange,
+<<<<<<< HEAD
+          handleSeedValueChange: handleSeedValueChange
+        };
+=======
           handleSeedPriceChange: handleSeedPriceChange
         });
+>>>>>>> dev
       }
 
       return react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_8___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("div", {
         className: "modal margin-center"
       }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_9__["Link"], {
+<<<<<<< HEAD
+        to: "/"
+      }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("img", {
+        className: "CloseButton",
+=======
         className: "CloseButton",
         to: "/"
       }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("img", {
+>>>>>>> dev
         src: "../../assets/close_dropdown.svg",
         alt: "Close Planting Modal"
       })), type === 'tree' && react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement(_TreePlantingForm__WEBPACK_IMPORTED_MODULE_10__["TreePlantingForm"], formProps), type === 'prairie' && react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement(_PrairiePlantingForm__WEBPACK_IMPORTED_MODULE_11__["PrairiePlantingForm"], formProps), react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("div", {
         ref: this.bottom
       })), react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("div", {
         className: "button-wrap vertical-align"
+<<<<<<< HEAD
+      }, stepIndex <= 1 && react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("button", {
+        type: "button",
+        className: "Button",
+        onClick: this.handleNextStep,
+        onKeyPress: this.handleNextStep
+      }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("span", null, "Next")), stepIndex === 2 && react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("button", {
+=======
       }, formError && react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("p", {
         className: "warning"
       }, formError), stepIndex === steps.length - 1 ? react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_8___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("button", {
@@ -75372,16 +76495,21 @@ function (_React$Component) {
         onClick: this.handleSave,
         onKeyPress: this.handleSave
       }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("span", null, "View Map")), react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("button", {
+>>>>>>> dev
         type: "button",
         className: "Button",
         onClick: this.handleSave,
         onKeyPress: this.handleSave
+<<<<<<< HEAD
+      }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("span", null, "View Map"))));
+=======
       }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("span", null, "View Report"))) : react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("button", {
         type: "button",
         className: "Button",
         onClick: this.handleNextStep,
         onKeyPress: this.handleNextStep
       }, react__WEBPACK_IMPORTED_MODULE_8___default.a.createElement("span", null, "Next"))));
+>>>>>>> dev
     }
   }]);
 
@@ -75468,11 +76596,20 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
         className: "grid-wrap"
       }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__["Link"], {
+<<<<<<< HEAD
+        to: "/"
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
+=======
+>>>>>>> dev
         className: "CloseButton",
         to: "/"
       }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
         src: "../../assets/close_dropdown.svg",
+<<<<<<< HEAD
+        alt: "Close Welcome Modal"
+=======
         alt: "close welcome modal"
+>>>>>>> dev
       })), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("h2", {
         className: "modal-header"
       }, "Welcome to the Prairie & Tree Planting Tool"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("p", {
@@ -75934,14 +77071,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Settings__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Settings */ "./src/contexts/Settings.js");
 /* harmony import */ var _MapState__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./MapState */ "./src/contexts/MapState.js");
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev
 
 
 
 
+<<<<<<< HEAD
 
 
 
 
+=======
+
+
+
+>>>>>>> dev
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -76062,6 +77209,8 @@ function (_React$Component) {
 /***/ (function(module) {
 
 module.exports = JSON.parse("{\"Cherokee\":2.84,\"Clay\":2.27,\"Dickenson\":2.29,\"Emmet\":2.09,\"Lyon\":3.06,\"O'Brien\":2.56,\"Osceola\":2.83,\"Palo Alto\":2.55,\"Plymouth\":3.05,\"Pocahontas\":2.64,\"Sioux\":3,\"Butler\":2.9,\"Cerro Gordo\":2.79,\"Floyd\":2.4,\"Franklin\":2.76,\"Hancock\":2.67,\"Humboldt\":2.47,\"Kossuth\":2.64,\"Mitchell\":2.57,\"Winnebago\":2.56,\"Worth\":2.57,\"Wright\":2.56,\"Allamakee & Fayette\":3.1,\"Blackhawk\":2.92,\"Bremer\":3.08,\"Buchanan\":2.83,\"Chikasaw\":2.69,\"Clayton\":3.2,\"Delaware\":3.37,\"Dubuque\":3.38,\"Howard\":2.4,\"Winneshiek\":2.99,\"Audubon\":3.14,\"Calhoun\":2.56,\"Carroll\":2.91,\"Crawford\":3.2,\"Greene\":2.69,\"Guthrie\":2.8,\"Harrison\":3.18,\"Ida\":3.09,\"Monona\":3.22,\"Sac\":2.91,\"Shelby\":3.21,\"Woodbury\":3.34,\"Boone\":2.69,\"Dallas\":2.42,\"Grundy\":3,\"Hamilton\":2.57,\"Hardin\":2.73,\"Jasper\":2.84,\"Marshall\":2.82,\"Polk\":2.48,\"Powehiek\":2.85,\"Story\":2.59,\"Tama\":2.96,\"Webster\":2.7,\"Benton\":2.78,\"Cedar\":2.72,\"Clinton\":3.12,\"Iowa\":2.53,\"Jackson\":3.54,\"Johnson\":2.67,\"Jones\":3,\"Linn\":2.77,\"Muscatine\":2.48,\"Scott\":2.89,\"Adair\":2.36,\"Adams\":2.87,\"Cass\":2.67,\"Fremont\":2.49,\"Mills\":2.75,\"Montgomery\":2.68,\"Page\":2.51,\"Pottawatamie\":3.04,\"Taylor\":2.61,\"Appanoose & Monroe\":2.38,\"Clarke\":1.88,\"Decatur\":1.95,\"Lucas\":2.11,\"Madison\":2.32,\"Marion\":2.27,\"Ringgold\":2.72,\"Union\":2.48,\"Warren\":2.26,\"Wayne\":2.48,\"Davis & Jefferson\":2.45,\"Des Moines\":2.48,\"Henry\":2.81,\"Keokuk\":2.69,\"Lee\":2.78,\"Louisa\":2.89,\"Mahaska\":2.51,\"Van Buren\":2.28,\"Wapello\":2.53,\"Washington\":2.93}");
+<<<<<<< HEAD
+=======
 
 /***/ }),
 
@@ -76139,6 +77288,7 @@ module.exports = JSON.parse("[{\"id\":\"9EmOC874\",\"value\":\"hardwood\"},{\"id
 /***/ (function(module) {
 
 module.exports = JSON.parse("[{\"id\":\"iovTQuCC9\",\"type\":\"9EmOC874\",\"display\":\"Bur Oak\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"bCZzj69Cl\",\"type\":\"9EmOC874\",\"display\":\"Pin Oak\",\"csgs\":[\"1\",\"2\"]},{\"id\":\"i9EPNTpZ4\",\"type\":\"9EmOC874\",\"display\":\"Swamp White Oak\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"6\"]},{\"id\":\"rK9SIxkuM\",\"type\":\"9EmOC874\",\"display\":\"Walnut\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\"]},{\"id\":\"AUkE_fQXE\",\"type\":\"9EmOC874\",\"display\":\"Pecan\",\"csgs\":[\"1\",\"3\",\"4\"]},{\"id\":\"94bzYJimE\",\"type\":\"9EmOC874\",\"display\":\"Hackberry\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"9jNWCkaYj\",\"type\":\"9EmOC874\",\"display\":\"Kentucky Coffee Tree\",\"csgs\":[\"1\",\"3\",\"4\",\"6\"]},{\"id\":\"W85HaxeUr\",\"type\":\"9EmOC874\",\"display\":\"Shellbark Hickory\",\"csgs\":[\"1\",\"2\",\"8W\"]},{\"id\":\"onz9wUD_j\",\"type\":\"9EmOC874\",\"display\":\"River Birch\",\"csgs\":[\"1\",\"2\",\"8W\"]},{\"id\":\"XM2ddv7LM\",\"type\":\"9EmOC874\",\"display\":\"Silver Maple\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"6\",\"9\"]},{\"id\":\"FrG3Ef9FY\",\"type\":\"9EmOC874\",\"display\":\"Sycamore\",\"csgs\":[\"1\",\"2\",\"6\",\"8W\"]},{\"id\":\"041ezRmp_\",\"type\":\"9EmOC874\",\"display\":\"Cottonwood\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"6\",\"8\",\"9\",\"8W\"]},{\"id\":\"p_3RUq1xo\",\"type\":\"9EmOC874\",\"display\":\"Hybrid Poplar\",\"csgs\":[\"1\",\"3\",\"4\",\"6\",\"8\"]},{\"id\":\"Xo2V7HS71d\",\"type\":\"9EmOC874\",\"display\":\"Willow\",\"csgs\":[\"1\",\"2\",\"9\",\"8W\"]},{\"id\":\"xYmlHbRELv\",\"type\":\"9EmOC874\",\"display\":\"Black Oak\",\"csgs\":[\"3\",\"5\",\"6\",\"7\"]},{\"id\":\"LSp15RnJq-\",\"type\":\"9EmOC874\",\"display\":\"Chinkapin Oak\",\"csgs\":[\"3\",\"5\",\"8\"]},{\"id\":\"a7wryzls1Q\",\"type\":\"9EmOC874\",\"display\":\"Red Oak\",\"csgs\":[\"3\",\"4\",\"5\",\"6\",\"7\",\"8\"]},{\"id\":\"hsB7qC5cJ8\",\"type\":\"9EmOC874\",\"display\":\"White Oak\",\"csgs\":[\"3\",\"4\",\"5\",\"6\",\"7\",\"8\"]},{\"id\":\"Z2Sh5ATXyk\",\"type\":\"9EmOC874\",\"display\":\"Basswood\",\"csgs\":[\"3\",\"4\",\"6\"]},{\"id\":\"6m-MQwx6y3\",\"type\":\"9EmOC874\",\"display\":\"Black Cherry\",\"csgs\":[\"3\",\"4\",\"5\",\"6\"]},{\"id\":\"PZx4TGimVY\",\"type\":\"9EmOC874\",\"display\":\"Shagbark Hickory\",\"csgs\":[\"3\",\"4\",\"8\"]},{\"id\":\"1JNsJZ_Nok\",\"type\":\"9EmOC874\",\"display\":\"Hard Maple\",\"csgs\":[\"3\",\"4\",\"6\"]},{\"id\":\"v5deek8wi9\",\"type\":\"9EmOC874\",\"display\":\"Butternut\",\"csgs\":[\"3\",\"5\",\"6\",\"7\"]},{\"id\":\"e0saAueD8h\",\"type\":\"9EmOC874\",\"display\":\"Pin Pak\",\"csgs\":[\"4\"]},{\"id\":\"F_1E76wqp4\",\"type\":\"9EmOC874\",\"display\":\"Hickory\",\"csgs\":[\"5\",\"6\",\"7\"]},{\"id\":\"G49XliiXfU\",\"type\":\"9EmOC874\",\"display\":\"Swamp White\",\"csgs\":[\"8W\"]},{\"id\":\"cOMTQi8tJt\",\"type\":\"77l_gl54Q\",\"display\":\"Eastern Red Cedar\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"IiigTpFthZ\",\"type\":\"77l_gl54Q\",\"display\":\"Tamarack\",\"csgs\":[\"1\",\"2\"]},{\"id\":\"QJ6h4oHD7L\",\"type\":\"77l_gl54Q\",\"display\":\"European Larch\",\"csgs\":[\"1\",\"3\",\"4\",\"6\"]},{\"id\":\"2uQkqmTKGO\",\"type\":\"77l_gl54Q\",\"display\":\"Bald Cypress\",\"csgs\":[\"1\",\"2\"]},{\"id\":\"J8lpymM5E7\",\"type\":\"77l_gl54Q\",\"display\":\"Eastern White Pine\",\"csgs\":[\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"00SrGSjqwU\",\"type\":\"77l_gl54Q\",\"display\":\"Jack Pine\",\"csgs\":[\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"6KmLxdJqdY\",\"type\":\"77l_gl54Q\",\"display\":\"Red Pine\",\"csgs\":[\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"DifVgU7w8s\",\"type\":\"77l_gl54Q\",\"display\":\"Norway Spruce\",\"csgs\":[\"3\",\"4\",\"5\",\"6\"]},{\"id\":\"c4Hfc4jqQD\",\"type\":\"77l_gl54Q\",\"display\":\"White Spruce\",\"csgs\":[\"3\",\"4\",\"5\",\"6\"]},{\"id\":\"dknk8dlURn\",\"type\":\"77l_gl54Q\",\"display\":\"White/Concolor Fir\",\"csgs\":[\"3\",\"4\",\"6\"]},{\"id\":\"6iI_E4bBud\",\"type\":\"77l_gl54Q\",\"display\":\"Arborvitae\",\"csgs\":[\"3\",\"4\",\"6\"]},{\"id\":\"r7RWHbq14y\",\"type\":\"77l_gl54Q\",\"display\":\"Serbian Spruce\",\"csgs\":[\"3\",\"4\",\"5\"]},{\"id\":\"3J2Sqy9Fd0\",\"type\":\"77l_gl54Q\",\"display\":\"Cannan Fir\",\"csgs\":[\"3\"]},{\"id\":\"LLW0ItjhDD\",\"type\":\"77l_gl54Q\",\"display\":\"Concolor fir\",\"csgs\":[\"5\",\"7\"]},{\"id\":\"2AccoyhbGd\",\"type\":\"lJEh5tsIx\",\"display\":\"American Plum\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"yZG1nFDwvo\",\"type\":\"lJEh5tsIx\",\"display\":\"Arrowwood\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"bt3x5SyDGi\",\"type\":\"lJEh5tsIx\",\"display\":\"Buttonbush\",\"csgs\":[\"1\",\"2\",\"3\",\"5\",\"6\",\"9\"]},{\"id\":\"ENcB3AMDJW\",\"type\":\"lJEh5tsIx\",\"display\":\"Choke Cherry\",\"csgs\":[\"1\",\"3\"]},{\"id\":\"f7gcHSxjW7\",\"type\":\"lJEh5tsIx\",\"display\":\"Crabapple\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"zgFrzi8t9W\",\"type\":\"lJEh5tsIx\",\"display\":\"Dogwood, Gray\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"36BAMLGu3e\",\"type\":\"lJEh5tsIx\",\"display\":\"Dogwood, Silky\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"6\",\"9\"]},{\"id\":\"hD2mThEOTR\",\"type\":\"lJEh5tsIx\",\"display\":\"Dogwood, Redosier\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"6\"]},{\"id\":\"bbNEqTbsy_\",\"type\":\"lJEh5tsIx\",\"display\":\"Elderberry\",\"csgs\":[\"1\",\"2\",\"3\",\"4\",\"6\",\"9\"]},{\"id\":\"7TqpVBBC7T\",\"type\":\"lJEh5tsIx\",\"display\":\"Hawthorn\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"KPGrCsefy1\",\"type\":\"lJEh5tsIx\",\"display\":\"Hazelnut\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"Cz4TpCmWaL\",\"type\":\"lJEh5tsIx\",\"display\":\"Highbush Cranberry\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\"]},{\"id\":\"fw20SZbIjF\",\"type\":\"lJEh5tsIx\",\"display\":\"Nanking Cherry\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"Ad4QTpDw0i\",\"type\":\"lJEh5tsIx\",\"display\":\"Nannyberry\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"8\",\"8W\"]},{\"id\":\"oCChtWlsJA\",\"type\":\"lJEh5tsIx\",\"display\":\"Ninebark\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"8W\"]},{\"id\":\"-CbefAGeRa\",\"type\":\"lJEh5tsIx\",\"display\":\"Eastern Redbud\",\"csgs\":[\"1\",\"3\",\"4\",\"6\"]},{\"id\":\"T81S56wXLa\",\"type\":\"lJEh5tsIx\",\"display\":\"Sandbar Willow\",\"csgs\":[\"1\"]},{\"id\":\"mndhyHS6ad\",\"type\":\"lJEh5tsIx\",\"display\":\"Serviceberry\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\"]},{\"id\":\"juSbU5SCYS\",\"type\":\"lJEh5tsIx\",\"display\":\"Viburnum spp.\",\"csgs\":[\"1\",\"3\",\"4\",\"5\",\"6\",\"7\"]},{\"id\":\"eWqicahsWJ\",\"type\":\"lJEh5tsIx\",\"display\":\"Paw Paw\",\"csgs\":[\"1\",\"3\",\"5\",\"6\"]},{\"id\":\"1eocFNPPO7\",\"type\":\"lJEh5tsIx\",\"display\":\"Winterberry\",\"csgs\":[\"1\",\"2\"]},{\"id\":\"qunNx3f92o\",\"type\":\"lJEh5tsIx\",\"display\":\"Blackhaw\",\"csgs\":[\"3\",\"4\",\"5\",\"6\",\"7\",\"8\"]},{\"id\":\"Z4aVwkt7Z5\",\"type\":\"lJEh5tsIx\",\"display\":\"Black Chokeberry\",\"csgs\":[\"3\",\"4\"]},{\"id\":\"SA4r9iESQa\",\"type\":\"lJEh5tsIx\",\"display\":\"Chokecherry\",\"csgs\":[\"5\",\"7\"]},{\"id\":\"TizXtoGw_A\",\"type\":\"lJEh5tsIx\",\"display\":\"Black Chokeberry (Aronia\",\"csgs\":[\"5\"]},{\"id\":\"_ESYLhsl0v\",\"type\":\"lJEh5tsIx\",\"display\":\"Common Liliac\",\"csgs\":[\"8\"]}]");
+>>>>>>> dev
 
 /***/ }),
 
@@ -76169,24 +77319,50 @@ if (content.locals) {
 
 /***/ }),
 
+<<<<<<< HEAD
+/***/ "./src/utils/enrichFeature.js":
+/*!************************************!*\
+  !*** ./src/utils/enrichFeature.js ***!
+  \************************************/
+/*! exports provided: enrichFeature */
+=======
 /***/ "./src/utils/enrichment.js":
 /*!*********************************!*\
   !*** ./src/utils/enrichment.js ***!
   \*********************************/
 /*! exports provided: enrichment */
+>>>>>>> dev
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+<<<<<<< HEAD
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enrichFeature", function() { return enrichFeature; });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1__);
+=======
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "enrichment", function() { return enrichment; });
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__);
+>>>>>>> dev
 /* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js");
 /* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _turf_area__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @turf/area */ "./node_modules/@turf/area/index.js");
 /* harmony import */ var _turf_area__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_turf_area__WEBPACK_IMPORTED_MODULE_3__);
+<<<<<<< HEAD
+/* harmony import */ var _turf_bbox__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @turf/bbox */ "./node_modules/@turf/bbox/index.js");
+/* harmony import */ var _turf_bbox__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_turf_bbox__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var references_csr_rent_json__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! references/csr_rent.json */ "./src/references/csr_rent.json");
+var references_csr_rent_json__WEBPACK_IMPORTED_MODULE_6___namespace = /*#__PURE__*/__webpack_require__.t(/*! references/csr_rent.json */ "./src/references/csr_rent.json", 1);
+/* harmony import */ var _geometry__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./geometry */ "./src/utils/geometry.js");
+/* harmony import */ var _sources__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./sources */ "./src/utils/sources.js");
+=======
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! debug */ "./node_modules/debug/src/browser.js");
@@ -76201,13 +77377,18 @@ var references_soil_series_csg_json__WEBPACK_IMPORTED_MODULE_8___namespace = /*#
 /* harmony import */ var _sources__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./sources */ "./src/utils/sources.js");
 /* harmony import */ var _ssurgo_worker_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./ssurgo.worker.js */ "./src/utils/ssurgo.worker.js");
 /* harmony import */ var _ssurgo_worker_js__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_ssurgo_worker_js__WEBPACK_IMPORTED_MODULE_11__);
+>>>>>>> dev
 
 
 
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
+<<<<<<< HEAD
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_1___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+=======
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+>>>>>>> dev
 
 
 
@@ -76215,6 +77396,26 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 
 
+<<<<<<< HEAD
+function enrichFeature(_x, _x2) {
+  return _enrichFeature.apply(this, arguments);
+}
+
+function _enrichFeature() {
+  _enrichFeature = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()(
+  /*#__PURE__*/
+  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(feature, map) {
+    var clone, boundingPolygon, county, bbox, ssurgo;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            clone = lodash__WEBPACK_IMPORTED_MODULE_5___default.a.cloneDeep(feature);
+            clone.properties = clone.properties || {};
+
+            if (clone.properties.type === 'tree') {
+              boundingPolygon = Object(_geometry__WEBPACK_IMPORTED_MODULE_7__["linesToPolygon"])(Object(_sources__WEBPACK_IMPORTED_MODULE_8__["getTreeRows"])(clone));
+=======
 
  // eslint-disable-next-line
 
@@ -76295,11 +77496,23 @@ function _enrichment() {
                   })
                 })
               })));
+>>>>>>> dev
             } // Acreage
 
 
             clone.properties.acreage = (boundingPolygon ? _turf_area__WEBPACK_IMPORTED_MODULE_3___default()(boundingPolygon) : _turf_area__WEBPACK_IMPORTED_MODULE_3___default()(clone)) * 0.000247105; // County and CSR Rent
 
+<<<<<<< HEAD
+            _context.prev = 4;
+            _context.next = 7;
+            return Object(_geometry__WEBPACK_IMPORTED_MODULE_7__["getPolygonCounty"])(clone);
+
+          case 7:
+            county = _context.sent;
+
+            if (county) {
+              _context.next = 10;
+=======
             _context2.prev = 5;
             _context2.next = 8;
             return Object(_geometry__WEBPACK_IMPORTED_MODULE_9__["getPolygonCounty"])(clone);
@@ -76309,35 +77522,62 @@ function _enrichment() {
 
             if (county) {
               _context2.next = 11;
+>>>>>>> dev
               break;
             }
 
             throw new Error('No country returned.');
 
+<<<<<<< HEAD
+          case 10:
+            if (references_csr_rent_json__WEBPACK_IMPORTED_MODULE_6__[county]) {
+              _context.next = 12;
+=======
           case 11:
             if (references_csr_rent_json__WEBPACK_IMPORTED_MODULE_6__[county]) {
               _context2.next = 13;
+>>>>>>> dev
               break;
             }
 
             throw new Error("Couldn't find CSR rent for county: ".concat(county));
 
+<<<<<<< HEAD
+          case 12:
+=======
           case 13:
+>>>>>>> dev
             clone.properties = _objectSpread({}, clone.properties, {
               county: county,
               rent: references_csr_rent_json__WEBPACK_IMPORTED_MODULE_6__[county]
             });
+<<<<<<< HEAD
+            _context.next = 18;
+            break;
+
+          case 15:
+            _context.prev = 15;
+            _context.t0 = _context["catch"](4);
+=======
             _context2.next = 19;
             break;
 
           case 16:
             _context2.prev = 16;
             _context2.t0 = _context2["catch"](5);
+>>>>>>> dev
             clone.properties = _objectSpread({}, clone.properties, {
               county: null,
               rent: null
             });
 
+<<<<<<< HEAD
+          case 18:
+            // Soils
+            bbox = _turf_bbox__WEBPACK_IMPORTED_MODULE_4___default()(boundingPolygon || clone);
+            ssurgo = map.queryRenderedFeatures([[bbox[0], bbox[1]], [bbox[2], bbox[3]]], {
+              layers: ['ssurgo']
+=======
           case 19:
             // Soils
             // For whatever reason, queryRenderedFeatures is inaccurate and only returns one polygon that doesn't even intersect the bbox.
@@ -76383,10 +77623,27 @@ function _enrichment() {
               return ssurgo.find(function (mapunit) {
                 return mapunit.properties.OBJECTID === ea;
               });
+>>>>>>> dev
             });
 
             if (ssurgo && ssurgo.length > 0) {
               clone.properties = _objectSpread({}, clone.properties, {
+<<<<<<< HEAD
+                series: ssurgo[0].properties.compname
+              });
+            }
+
+            return _context.abrupt("return", clone);
+
+          case 22:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[4, 15]]);
+  }));
+  return _enrichFeature.apply(this, arguments);
+=======
                 ssurgo_intersect_data: ssurgoIntersects.map(function (ea) {
                   return ea.properties;
                 }),
@@ -76417,6 +77674,7 @@ function _enrichment() {
     }, _callee2, null, [[5, 16]]);
   }));
   return _enrichment.apply(this, arguments);
+>>>>>>> dev
 }
 
 /***/ }),
@@ -76880,6 +78138,8 @@ function _getPolygonCounty() {
     }, _callee);
   }));
   return _getPolygonCounty.apply(this, arguments);
+<<<<<<< HEAD
+=======
 }
 
 /***/ }),
@@ -76909,6 +78169,7 @@ function calcTotalCosts(obj) {
     var cost = Number(b.substring(1));
     return a + cost;
   }, 0).toFixed(2);
+>>>>>>> dev
 }
 
 /***/ }),
@@ -76933,9 +78194,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _geometry__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./geometry */ "./src/utils/geometry.js");
+<<<<<<< HEAD
 
 
 
+=======
+
+
+
+>>>>>>> dev
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
