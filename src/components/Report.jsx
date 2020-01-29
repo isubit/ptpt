@@ -590,7 +590,7 @@ class Report extends React.Component {
 		} = reportArea;
 		const eqip = findTreeEQIP(reportArea.properties);
 		const eqip_costs = {
-			labels: ['Conservation Costs', 'Unit Costs', 'Units', 'Qty', 'Total Costs'],
+			labels: ['Conservation Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 			title: 'EQIP',
 		};
 		eqip_costs.costs = getEQIPCosts(eqip, qty, treeQty, rowLength);
@@ -1002,6 +1002,7 @@ class Report extends React.Component {
 	}
 
 	handleDownloadXLSX = () => {
+		console.log(this.props.features);
 		const book = spreadsheet(this.props.features);
 		const date = new Date();
 		book.xlsx.writeBuffer()
@@ -1022,7 +1023,7 @@ class Report extends React.Component {
 				activeTable,
 			},
 		} = this;
-		return (
+		return reportArea ? (
 			<div className="Report">
 				<div className="reportActions">
 					<div className="distribute">
@@ -1067,6 +1068,6 @@ class Report extends React.Component {
 					)
 				}
 			</div>
-		);
+		) : null;
 	}
 }
