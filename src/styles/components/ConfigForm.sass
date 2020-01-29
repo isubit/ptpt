@@ -3,8 +3,11 @@
 	padding-top: 1.5rem
 	padding-bottom: 1.5rem
 	border-bottom: 1px solid $light-blue
+	&:first-child
+		// padding-top: 0
 	&:nth-last-child(1)
         border: none
+        padding-bottom: 3rem
 	.stepNumber
 		margin-right: 0.5rem
 		height: 36px	
@@ -78,6 +81,7 @@
 				margin-top: 0
 			.rowDetails
 				display: flex
+				flex-wrap: wrap
 				justify-content: space-between
 				.rowNumber
 					align-self: flex-end
