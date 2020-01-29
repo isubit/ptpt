@@ -1,12 +1,10 @@
 @import "../mixins"
 
-.form-spacing-top
-	margin-top: 99px
-	padding-top: 2rem
-
-.prairie-form-spacing-top
-	margin-top: 99px
-	padding-top: 7rem
+.form-spacing
+    flex: 1 1 auto
+    overflow: scroll
+    margin-right: -1.5rem
+    padding-right: 1.5rem
 
 .MapModeForm
     position: absolute
@@ -18,7 +16,6 @@
     background: rgba(0,0,0, 0.4)
     flex-direction: column
     .PlantingFormHeader
-        position: fixed
         background-color: #FFFFFF
         width: inherit
         left: 0
@@ -27,24 +24,24 @@
         .planting-modal-text
             font-family: Merriweather, serif
             color: $cool-grey
-            padding: 0rem 1.5rem
-            margin-top: 1rem
+            // padding: 0rem 1.5rem
+            // margin-top: 1rem
             span
                 color: black
     .modal
-        display: block
+        display: flex
+        flex-direction: column
         background: white
         width: 100%
         height: calc(100vh - 99px)
-        padding: 0 1.5rem 3rem 1.5rem
+        padding: 0 1.5rem 0rem 1.5rem
         box-sizing: border-box
         position: relative
-        overflow: scroll
-        display: initial
+        // display: initial
         .modal-header
-            padding: 4rem 1.5rem 0.5rem 1.5rem
+            padding: 4rem 0rem 0.5rem 0rem
             &::after
-                left: 1.5rem
+                left: 0rem
     .button-wrap
         height: 99px
         width: 100%
@@ -54,14 +51,10 @@
         .Button
             margin: 1.5rem
 
-@media (min-width: 419px)
-	.form-spacing-top
-		padding-top: 1rem
-
 @media (min-width: 900px)
-    .prairie-form-spacing-top
-        margin-top: 99px
-        padding-top: 6rem
+    .form-spacing
+        padding-right: 2rem
+        margin-right: -2rem
     .MapModeForm
         top: -72px
         justify-content: center
@@ -71,11 +64,12 @@
             .planting-modal-text
                 padding: 0
             .CloseButton
-                right: -14px
+                // right: -14px
         .modal
             width: 670px
-            height: 450px
-            padding: 0 2rem 3rem 2rem
+            height: 500px
+            padding: 0 2rem 0rem 2rem
+            align-items: normal
             .modal-header
                 padding-left: 0
                 padding-right: 0
