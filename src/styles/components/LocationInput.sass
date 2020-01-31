@@ -15,7 +15,7 @@
         background-size: 30px
         display: inline-block
         position: absolute
-        right: 22.5px
+        right: 15px
         background-color: #ECF1F3
         background-repeat: no-repeat
         background-image: url('../assets/my_location.svg')
@@ -27,10 +27,10 @@
         box-sizing: border-box
         -webkit-appearance: none
         border: none
-        padding: 0 0px 0px 75px
+        padding: 0 60px 0px 54px
         background-color: #ECF1F3
         background-repeat: no-repeat
-        background-position: 5%
+        background-position: 15px
         background-image: url('../assets/search_small.svg')
         background-size: 20px
         &::-webkit-input-placeholder
@@ -39,7 +39,8 @@
             font-weight: normal
             font-size: 0.683rem
             line-height: 1rem
-
+        &:focus
+            outline: none
 @media (min-width: 900px) 
     .LocationInput
         height: auto
@@ -52,6 +53,8 @@
             height: 40px
             background-size: 40px
         input
+            padding: 0 0px 0px 75px
             background-image: url('../assets/search_wide.svg')
+            padding-left: 55px
             &::-webkit-input-placeholder
                 font-size: 0.826rem

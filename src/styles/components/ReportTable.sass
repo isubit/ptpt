@@ -1,0 +1,72 @@
+.scrollWrap
+	overflow: scroll
+	position: relative
+	width: 100vw
+	margin-left: -1.5rem
+	margin-right: -1.5rem
+
+.ReportTable
+	display: flex
+	min-width: 650px
+	margin-bottom: 13px
+	> .table-column
+		flex: auto
+
+.table-column
+	&:first-child
+		border-right: 1px solid rgba(168, 172, 174, .7)
+	> .table-cell
+		padding: 1rem 1.5rem
+		font-size: .826rem
+		white-space: nowrap
+		&.empty
+			height: 16px
+
+.tableNav
+	display: flex
+	min-width: 910px
+	> .tableTab
+		flex: auto
+		margin: 0rem 1.5rem
+		line-height: 1.5rem
+		button
+			-webkit-appearance: none
+			border: none
+			background: none
+			white-space: nowrap
+			padding: 0
+			font-size: .909rem
+			color: $bright-blue
+			padding-bottom: 5px
+		&.active
+			button
+				font-weight: bold
+				color: $cool-grey
+				border-bottom: 2px solid $bright-blue
+
+		p
+			white-space: nowrap
+
+.divider
+	height: 26px
+	border-top: 1px solid $light-blue
+	border-bottom: 1px solid rgba(168, 172, 174, .4)
+	background-color: rgba(236, 241, 243, 0.4)
+	width: 100vw
+	margin: 0 -1.5rem
+
+.light-blue
+	background-color: $light-blue
+
+@media (min-width: 900px)
+	.tableNav
+		min-width: initial
+		border-bottom: 1px solid $light-blue
+		margin-bottom: 3rem
+		> .tableTab
+			margin: 0
+	.divider
+		display: none
+	.table-column
+		&:first-child
+			border-right: none

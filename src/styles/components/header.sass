@@ -1,38 +1,61 @@
 .Header
     position: relative
-    z-index: 2
+    z-index: 3
     width: 100%
-    height: 99px
     background-color: $white
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1)
     > .grid-row
-        grid-template-columns: auto repeat(5, 1fr)
+        max-width: none
+        grid-template-columns: repeat(6, 1fr)
         &.sidenav-btn
+            grid-column-gap: 0.5rem
             padding: 0
-            .SideNavButton
-                background-color: $white
-                grid-column: 1 / 2
-                cursor: pointer
-                padding: 0
-                border: none
-                img
+            .title-wrap
+                grid-column: 1 / 4
+                display: flex
+                align-items: center
+                .SideNavButton
+                    background-color: $white
                     display: block
-                .wide-sidenav
-                    display: none
-            .Title
-                grid-column: 2 / 4
+                    grid-column: 1 / 2
+                    cursor: pointer
+                    padding: 0
+                    border: none
+                    img
+                        display: block
+                    .wide-sidenav
+                        display: none
             .LocationInput
                 display: none
             .HeaderOptions
                 grid-column: 4 / -1
-            .SaveButton
+            .Save
+                margin-left: auto
                 display: none
     .search-save-btn
+        height: 45px
         .Save
             display: inline-block
             .SaveButton
                 .wide-save
                     display: none
+
+@media (max-width: 899px)
+     .Header
+        > .grid-row
+            &.sidenav-btn
+                .Save
+                    &.mobileSave
+                        display: block
+                        width: 54px
+                        height: 54px
+                        grid-column: 6 / 7
+                        .wide-save
+                            display: none
+                        .narrow-save
+                            width: 54px
+                            height: 54px
+                            background-color: #006ba6
 
 @media (min-width: 900px)
     .Header
@@ -43,20 +66,23 @@
             & > *
                 max-height: 72px
             &.sidenav-btn
-                .SideNavButton
-                    .narrow-sidenav
-                        display: none
-                    .wide-sidenav
-                        display: block
-                .Title
-                    grid-column: 2 / 4
+                grid-column-gap: 1rem
+                .title-wrap
+                    .SideNavButton
+                        .narrow-sidenav
+                            display: none
+                        .wide-sidenav
+                            display: block
                 .LocationInput
                     grid-column: 4 / 8
                     display: block
                 .HeaderOptions
                     grid-column: 8 / 12
-                .SaveButton
+                .Save
+                    grid-column: 12 / 13
                     display: block
+                    .wide-save
+                        display: block
                     .narrow-save
                         display: none
         .search-save-btn
@@ -73,5 +99,6 @@
                     grid-column: 4 / 9
                 .HeaderOptions
                     grid-column: 9 / 14
-                    
+                .Save
+                    grid-column: 14 / 15
                 
