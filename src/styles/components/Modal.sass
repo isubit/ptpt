@@ -1,6 +1,6 @@
 .modal
     display: grid
-    height: 100vh
+    height: 100%
     width: 100vw
     position: absolute
     top: 0
@@ -39,14 +39,9 @@
             display: none
     .modal-text
         padding-top: 1.5rem
-    .modal-link
-        font-family: Merriweather
-        font-style: italic
-        font-weight: normal
-        font-size: 0.751rem
-        line-height: 21px
-        text-decoration-line: underline
-        color: $bright-blue
+    .Loader
+        align-self: center;
+        justify-self: center;
 
 @media (min-width: 900px) 
     .modal
@@ -87,5 +82,6 @@
 
 @media (min-width: 1280px) 
     .modal
-        .grid-wrap
-            grid-column: 4 / 12
+        .grid-row
+            .grid-wrap
+                grid-column: 4 / 12

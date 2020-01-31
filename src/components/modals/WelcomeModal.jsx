@@ -23,14 +23,31 @@ export class WelcomeModal extends React.Component {
 		this.fileInput.current.click();
 	}
 
+	dismissToHome = () => {
+		const {
+			props: {
+				dismissHelpers,
+				router: {
+					history,
+				},
+			},
+		} = this;
+
+		dismissHelpers();
+		history.push('/');
+	}
+
 	render() {
 		const {
 			clickFileInput,
 			fileInput,
+			dismissToHome,
 		} = this;
 
 		const {
+			load,
 			router: {
+				history,
 				location,
 			},
 		} = this.props;
@@ -50,7 +67,15 @@ export class WelcomeModal extends React.Component {
 							.
 						</p>
 						<div className="modal-footer">
-							<span className="modal-link">Dismiss helper popups</span>
+							<span
+								className="modal-link"
+								onClick={dismissToHome}
+								onKeyPress={dismissToHome}
+								role="button"
+								tabIndex="0"
+							>
+								Dismiss helper popups
+							</span>
 							<div className="button-wrap">
 								<Link to="/#location">
 									<button className="Button" type="button">Let&apos;s Get Started</button>
@@ -59,7 +84,7 @@ export class WelcomeModal extends React.Component {
 									<span>Or </span>
 									<span className="link" onClick={clickFileInput} onKeyPress={clickFileInput} role="button" tabIndex="0">
 										Upload a saved file
-										<input type="file" hidden ref={fileInput} />
+										<input type="file" hidden ref={fileInput} onChange={e => load(e.target.files, () => history.replace('/'))} />
 									</span>
 								</div>
 							</div>

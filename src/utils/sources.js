@@ -4,10 +4,7 @@ import _ from 'lodash';
 
 import {
 	dotLine,
-	// findBearing,
-	// findLineWithBearing,
 	findLongestParallel,
-	// findPerpendicularLine,
 	findMaximaVertices,
 	fitLine,
 	findSlope,
@@ -38,7 +35,7 @@ export function getSouthernVertices(data = new Map()) {
 			const vertex = findMaximaVertices(ea).southern;
 			vertex.properties = {
 				...ea.properties,
-				label: `${ea.properties.type.replace(/^\w/, c => c.toUpperCase())} ${ea.properties.type === 'tree' ? 'Rows' : 'Area'} ${ea.properties.index}`,
+				label: `${ea.properties.type.replace(/^\w/, c => c.toUpperCase())} Area ${ea.properties.index}`,
 				for: ea.id,
 			};
 			return vertex;

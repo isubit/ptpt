@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 import { TreePlantingForm } from '../TreePlantingForm';
 import { PrairiePlantingForm } from '../PrairiePlantingForm';
@@ -7,7 +7,7 @@ import { PrairiePlantingForm } from '../PrairiePlantingForm';
 export class PlantingModal extends React.Component {
 	constructor(props) {
 		super(props);
-		this.bottom = React.createRef();
+		// this.bottom = React.createRef();
 		const {
 			editingFeature: {
 				properties: {
@@ -33,11 +33,11 @@ export class PlantingModal extends React.Component {
 						species: '',
 					}],
 					spacing_rows: {
-						value: 3, // placeholder value
+						value: 10,
 						unit: 'feet',
 					},
 					spacing_trees: {
-						value: 3, //  placeholder value
+						value: 5,
 						unit: 'feet',
 					},
 					stock_size: '',
@@ -49,8 +49,8 @@ export class PlantingModal extends React.Component {
 					seed: '',
 					seed_price: '',
 					management: {
-						id: 1,
-						display: 'Mow',
+						id: 'J8wEfx7P',
+						display: 'mow',
 					},
 					cropping_system: {
 						id: 1,
@@ -65,21 +65,27 @@ export class PlantingModal extends React.Component {
 		}
 		this.state = {
 			...configs,
+			selectForAllRows: false,
 		};
 
 		this.form = React.createRef();
 	}
 
-	componentDidUpdate(prevProps) {
-		const { stepIndex: prevStepIndex } = prevProps;
-		const { stepIndex: currentStepIndex } = this.props;
-		if (currentStepIndex > prevStepIndex) {
-			this.scrollToBottom();
-		}
-	}
+	// componentDidUpdate(prevProps) {
+	// 	const { stepIndex: prevStepIndex } = prevProps;
+	// 	const { stepIndex: currentStepIndex } = this.props;
+	// 	if (currentStepIndex > prevStepIndex) {
+	// 		this.scrollToBottom();
+	// 	}
+	// }
 
 	handleNumRowChange = (event) => {
+		const {
+			rows,
+			selectForAllRows,
+		} = this.state;
 		const numRows = typeof event === 'number' ? event : event.target.value;
+		// if the number of rows change and the number is greater than 1 and selectForAllRows is true, update all the new rows to have the same type and species as the first.
 		this.setState((state) => {
 			let updateRows = [];
 			if (numRows < state.rows.length) {
@@ -88,12 +94,25 @@ export class PlantingModal extends React.Component {
 					rows: updateRows,
 				};
 			}
-			if (numRows > state.rows.length) {
+			if (!selectForAllRows) {
+				if (numRows > state.rows.length) {
+					updateRows = [...state.rows];
+					for (let i = 0; i < numRows - state.rows.length; i += 1) {
+						updateRows.push({
+							type: '',
+							species: '',
+						});
+					}
+					return {
+						rows: updateRows,
+					};
+				}
+			} else if (numRows > 1 && numRows > state.rows.length) {
 				updateRows = [...state.rows];
 				for (let i = 0; i < numRows - state.rows.length; i += 1) {
 					updateRows.push({
-						type: '',
-						species: '',
+						type: rows[0].type,
+						species: rows[0].species,
 					});
 				}
 				return {
@@ -110,8 +129,59 @@ export class PlantingModal extends React.Component {
 			updateWindbreak = JSON.parse(updateWindbreak);
 		}
 		this.setState({ windbreak: updateWindbreak }, () => {
-			if (this.state.rows.length > 4) {
+			if (this.state.rows.length >= 4 && this.state.windbreak === true) {
+				this.handleNumRowChange(1);
+			} else if (this.state.rows.length > 4) {
 				this.handleNumRowChange(4);
+			}
+		});
+	}
+
+	handleSelectForAllRows = (event) => {
+		// if checked then take the first row type and species and apply it to all rows
+		const {
+			rows,
+		} = this.state;
+		// check if the first row is filled, if not do nothing
+		const updateSelectForAllRows = event.target.checked;
+		this.setState({
+			selectForAllRows: updateSelectForAllRows,
+		}, () => {
+			// if selectForAllRows is true, then pull the first row species and type then assign these to all the rows.
+			if (this.state.selectForAllRows) {
+				const {
+					type,
+					species,
+				} = rows[0];
+				// set the state for all the rows -- build a new row array
+				const updatedRows = [];
+				for (let i = 0; i < rows.length; i += 1) {
+					const row = {
+						type,
+						species,
+					};
+					updatedRows.push(row);
+				}
+				this.setState(() => (
+					{
+						rows: updatedRows,
+					}
+				));
+			} else {
+				// make all the rows after first empty
+				const updatedRows = [rows[0]];
+				for (let i = 0; i < rows.length - 1; i += 1) {
+					const row = {
+						type: '',
+						species: '',
+					};
+					updatedRows.push(row);
+				}
+				this.setState(() => (
+					{
+						rows: updatedRows,
+					}
+				));
 			}
 		});
 	}
@@ -122,24 +192,57 @@ export class PlantingModal extends React.Component {
 	}
 
 	handlePastureConversionChange = (event) => {
-		const updateConversion = event.target.value;
-		this.setState({ pasture_conversion: updateConversion === 'on' });
+		const updateConversion = event.target.checked;
+		this.setState({ pasture_conversion: updateConversion });
 	}
 
 	handleRowTypeChange = (event, rowIndex) => {
 		const {
 			rows,
+			selectForAllRows,
 		} = this.state;
-		rows[rowIndex].type = event.target.value;
-		this.setState({ rows });
+		const updatedRowType = event.target.value;
+		if (selectForAllRows && rowIndex === 0) {
+			// change all the rows to the type of the first row
+			const rowMap = rows.map(row => {
+				const updatedRow = {
+					type: updatedRowType,
+					species: row.species,
+				};
+				return updatedRow;
+			});
+			console.log(rowMap);
+			this.setState({
+				rows: rowMap,
+			});
+		} else {
+			rows[rowIndex].type = updatedRowType;
+			this.setState({ rows });
+		}
 	}
 
 	handleRowSpeciesChange = (event, rowIndex) => {
 		const {
 			rows,
+			selectForAllRows,
 		} = this.state;
-		rows[rowIndex].species = event.target.value;
-		this.setState({ rows });
+		const updatedRowSpecies = event.target.value;
+		if (selectForAllRows && rowIndex === 0) {
+			// change all the rows to the type of the first row
+			const rowMap = rows.map(row => {
+				const updatedRow = {
+					type: row.type,
+					species: updatedRowSpecies,
+				};
+				return updatedRow;
+			});
+			this.setState({
+				rows: rowMap,
+			});
+		} else {
+			rows[rowIndex].species = updatedRowSpecies;
+			this.setState({ rows });
+		}
 	}
 
 	handleRowSpacingChange = (event) => {
@@ -164,6 +267,7 @@ export class PlantingModal extends React.Component {
 
 	handleStockSizeChange = (event) => {
 		const stock_size = event.target.value;
+		console.log(stock_size);
 		this.setState(() => ({ stock_size }));
 	}
 
@@ -183,8 +287,13 @@ export class PlantingModal extends React.Component {
 	}
 
 	handleManagementChange = (event) => {
-		const updateManagement = event.target.value;
-		this.setState(() => ({ management: updateManagement }));
+		const id = event.target.value;
+		const display = event.target.options[event.target.selectedIndex].text;
+		const updateManagement = {
+			id,
+			display,
+		};
+		this.setState(() => ({ management: updateManagement }), () => console.log(this.state));
 	}
 
 	handleCroppingChange = (event) => {
@@ -197,9 +306,9 @@ export class PlantingModal extends React.Component {
 		this.setState(() => ({ pest_control: updatePestControl }));
 	}
 
-	scrollToBottom = () => {
-		this.bottom.current.scrollIntoView({ behavior: 'smooth' });
-	}
+	// scrollToBottom = () => {
+	// 	this.bottom.current.scrollIntoView({ behavior: 'smooth' });
+	// }
 
 	handleNextStep = () => {
 		const {
@@ -225,7 +334,7 @@ export class PlantingModal extends React.Component {
 		}
 	}
 
-	handleSave = () => {
+	handleSave = (e) => {
 		const {
 			props: {
 				editingFeature,
@@ -237,8 +346,7 @@ export class PlantingModal extends React.Component {
 				},
 			},
 		} = this;
-
-		let properties = {};
+		let properties;
 		if (type === 'tree') {
 			const {
 				state: {
@@ -286,13 +394,17 @@ export class PlantingModal extends React.Component {
 				},
 			};
 		}
+		const setReportFeature = e.target.innerHTML === 'View Report' || (e.target.children[0] ? e.target.children[0].innerText === 'View Report' : false);
 
 		if (this.form.current && this.form.current.checkValidity()) {
 			this.setState(() => ({
 				formError: null,
 			}), () => {
-				editingFeature.properties = properties;
-				saveFeature(editingFeature);
+				editingFeature.properties = {
+					...editingFeature.properties,
+					...properties,
+				};
+				saveFeature(editingFeature, setReportFeature);
 			});
 		} else {
 			this.setState(() => ({
@@ -328,6 +440,7 @@ export class PlantingModal extends React.Component {
 		};
 
 		if (type === 'tree') {
+			console.log(this);
 			const {
 				state: {
 					windbreak,
@@ -338,6 +451,7 @@ export class PlantingModal extends React.Component {
 					stock_size,
 					drip_irrigation,
 					pasture_conversion,
+					selectForAllRows,
 				},
 				handleTreeSpacingChange,
 				handleDripIrrigationChange,
@@ -349,6 +463,7 @@ export class PlantingModal extends React.Component {
 				handleWindbreakChange,
 				handlePropgationChange,
 				handlePastureConversionChange,
+				handleSelectForAllRows,
 			} = this;
 
 			formProps = {
@@ -360,6 +475,7 @@ export class PlantingModal extends React.Component {
 				spacing_rows,
 				stock_size,
 				drip_irrigation,
+				selectForAllRows,
 				pasture_conversion,
 				handleTreeSpacingChange,
 				handleDripIrrigationChange,
@@ -371,6 +487,7 @@ export class PlantingModal extends React.Component {
 				handleWindbreakChange,
 				handlePropgationChange,
 				handlePastureConversionChange,
+				handleSelectForAllRows,
 			};
 		} else if (type === 'prairie') {
 			const {
@@ -405,25 +522,34 @@ export class PlantingModal extends React.Component {
 
 		return (
 			<>
-				<div className="modal margin-center">
-					<Link className="CloseButton" to="/"><img src="../../assets/close_dropdown.svg" alt="Close Planting Modal" /></Link>
+				<div className="modal">
 					{ type === 'tree' && <TreePlantingForm {...formProps} /> }
 					{ type === 'prairie' && <PrairiePlantingForm {...formProps} /> }
-					<div ref={this.bottom} />
+					{/* <div ref={this.bottom} /> */}
 				</div>
 				<div className="button-wrap vertical-align">
 					{formError && <p className="warning">{formError}</p>}
 					{
 						stepIndex === steps.length - 1
 							? (
-								<button
-									type="button"
-									className="Button"
-									onClick={this.handleSave}
-									onKeyPress={this.handleSave}
-								>
-									<span>View Map</span>
-								</button>
+								<>
+									<button
+										type="button"
+										className="modal-link"
+										onClick={this.handleSave}
+										onKeyPress={this.handleSave}
+									>
+										<span>View Map</span>
+									</button>
+									<button
+										type="button"
+										className="Button"
+										onClick={this.handleSave}
+										onKeyPress={this.handleSave}
+									>
+										<span>View Report</span>
+									</button>
+								</>
 							)
 							: (
 								<button
