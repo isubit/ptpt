@@ -6,12 +6,27 @@
 	background-color: $white
 	padding: 1.5rem 1.5rem 0rem 1.5rem
 	.reportActions
-		display: flex
-		align-items: center
-		margin-bottom: 2.5rem
-		.reportAction:nth-child(2)
-			border-right: 1px solid $light-blue
-			border-left: 1px solid $light-blue
+		button
+			background-color: transparent
+		.wrapper
+			max-width: 350px
+			display: flex
+			align-items: center
+			margin-bottom: 2.5rem
+			justify-content: space-between
+			.reportAction
+				height: 18px
+				align-items: center
+				// padding: 0rem 1rem
+				p
+					font-size: .683rem
+					line-height: 12px
+					color: $cool-grey
+					width: 55px
+					padding-left: 6px
+			button:nth-child(2)
+				border-right: 1px solid $light-blue
+				border-left: 1px solid $light-blue
 	.reportText
 		margin-bottom: 2rem
 		.header-large
@@ -23,16 +38,6 @@
 		select
 			width: 240px
 			margin-bottom: 2rem
-	.reportAction
-		height: 18px
-		align-items: center
-		padding: 0rem 1rem
-		p
-			font-size: .683rem
-			line-height: 12px
-			color: $cool-grey
-			width: 55px
-			padding-left: 6px
 
 @media (min-width: 900px)
 	.Report

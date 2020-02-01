@@ -85,14 +85,14 @@ export class Component extends React.Component {
 											}
 										</p>
 									</div>
-									{errorMsg && geolocationError > 1 && <p className="warning spacer-top-2">{errorMsg} Click the link below or close this popup to continue without this feature.</p>}
+									{errorMsg && geolocationError > 1 && <p className="warning spacer-top-1">{errorMsg} Click the link below or close this popup to continue without this feature.</p>}
 								</div>
-								{errorMsg && (
-									<div className="modal-footer">
-										<Link className="modal-link block" to={location.pathname}>Continue without my location</Link>
-									</div>
-								)}
 							</div>
+							{errorMsg && (
+								<div className="modal-footer">
+									<Link className="modal-link block" to={location.pathname}>Continue without my location</Link>
+								</div>
+							)}
 						</div>
 					)}
 			</div>

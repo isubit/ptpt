@@ -89,7 +89,7 @@ export class Planting extends React.Component {
 				text: 'Draw a tree row by clicking where you want the row to start and end. You can add more rows and define your trees during configuration.',
 				buttonText: 'No problem!',
 			});
-		} else {
+		} else if (type === 'prairie') {
 			toggleHelper({
 				text: 'Draw a prairie area by clicking to draw the corners of a shape. Click the starting point to finish drawing.',
 				buttonText: 'No problem!',

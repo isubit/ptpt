@@ -36,7 +36,7 @@ export class Store extends React.Component {
 
 		// Query for the Geolocation API permission state.
 		if (!lastGeolocationStatus) {
-			navigator.permissions.query({ name: 'geolocation' })
+			navigator.permissions ? navigator.permissions.query({ name: 'geolocation' })
 				.then(({ state: status }) => {
 					this.setState(state => ({
 						MapState: {
@@ -44,7 +44,14 @@ export class Store extends React.Component {
 							lastGeolocationStatus: status,
 						},
 					}));
-				});
+				}) : navigator.geolocation.getCurrentPosition(({ state: status }) => {
+				this.setState(state => ({
+					MapState: {
+						...state.MapState,
+						lastGeolocationStatus: status,
+					},
+				}));
+			});
 		}
 	}
 

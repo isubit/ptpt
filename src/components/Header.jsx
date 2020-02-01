@@ -33,46 +33,102 @@ const Header = (props) => {
 	} = props;
 	const { pathname } = location;
 	return (
-		<div className="Header">
-			<div className="grid-row sidenav-btn">
-				<div className="title-wrap">
-					<SideNav />
-					<Title />
-				</div>
-				{
-					(pathname !== '/report' && pathname !== '/about' && pathname !== '/help') && (
-						<>
-							<LocationInputWrapper location={location} />
-							<HeaderOptions location={location} />
-						</>
-					)
-				}
-				{
-					(pathname === '/report' || (pathname !== '/about' && pathname !== '/help')) && (
-						<MapConsumer>
-							{ctx => {
-								const mobileShow = pathname === '/report';
-								return <SaveButton save={ctx.save} mobileShow={mobileShow} />;
-							}}
-						</MapConsumer>
-					)
-				}
-				{
-					(pathname === '/help' || pathname === '/about') && null
-				}
-			</div>
+		<MapConsumer>
 			{
-				(pathname !== '/help' && pathname !== '/about' && pathname !== '/report') && (
-					<div className="search-save-btn">
-						<LocationInputWrapper location={location} />
-						<MapConsumer>
-							{ctx => <SaveButton save={ctx.save} />}
-						</MapConsumer>
-					</div>
-				)
+				ctx => {
+					const numFeatures = ctx.state.data.size;
+					// logic to show default header
+					if ((pathname === '/report' && numFeatures === 0) || (pathname !== '/report' && pathname !== '/help' && pathname !== '/about')) {
+						return (
+							<div className="Header">
+								<div className="grid-row sidenav-btn">
+									<div className="title-wrap">
+										<SideNav />
+										<Title />
+									</div>
+									<LocationInputWrapper location={location} />
+									<HeaderOptions location={location} />
+									<SaveButton save={ctx.save} />
+								</div>
+								<div className="search-save-btn">
+									<LocationInputWrapper location={location} />
+									<SaveButton save={ctx.save} />
+								</div>
+							</div>
+						);
+					}
+					// logic to show no headerOptions and locationInput
+					if (pathname === '/report' && numFeatures > 0) {
+						const mobileShow = true;
+						return (
+							<div className="Header">
+								<div className="grid-row sidenav-btn">
+									<div className="title-wrap">
+										<SideNav />
+										<Title />
+									</div>
+									<SaveButton save={ctx.save} mobileShow={mobileShow} />
+								</div>
+							</div>
+						);
+					}
+					// logic to show no headerOptions, locationInput, and save
+					if (pathname === '/help' || pathname === '/about') {
+						return (
+							<div className="Header">
+								<div className="grid-row sidenav-btn">
+									<div className="title-wrap">
+										<SideNav />
+										<Title />
+									</div>
+								</div>
+							</div>
+						);
+					}
+					return null;
+				}
 			}
-		</div>
+		</MapConsumer>
 	);
+	// return (
+	// 	<MapConsumer>
+	// 		{ (ctx) => (
+	// 			<div className="Header">
+	// 				<div className="grid-row sidenav-btn">
+	// 					<div className="title-wrap">
+	// 						<SideNav />
+	// 						<Title />
+	// 					</div>
+	// 					{/* do not change header unless there are saved features */}
+	// 					{
+	// 						(pathname !== '/report' && pathname !== '/about' && pathname !== '/help') && (
+	// 							<>
+	// 								<LocationInputWrapper location={location} />
+	// 								<HeaderOptions location={location} />
+	// 							</>
+	// 						)
+	// 					}
+	// 					{
+	// 						(pathname === '/report' || (pathname !== '/about' && pathname !== '/help')) && (
+	// 							<SaveButton save={ctx.save} mobileShow={pathname === '/report'} />
+	// 						)
+	// 					}
+	// 					{
+	// 						(pathname === '/help' || pathname === '/about') && null
+	// 					}
+	// 				</div>
+	// 				{
+	// 					(pathname !== '/help' && pathname !== '/about' && pathname !== '/report') && (
+	// 						<div className="search-save-btn">
+	// 							<LocationInputWrapper location={location} />
+	// 							<SaveButton save={ctx.save} />
+	// 						</div>
+	// 					)
+	// 				}
+	// 			</div>
+	// 		)}
+	// 	</MapConsumer>
+	// );
 };
 
 export const HeaderWithRouter = withRouter(Header);
