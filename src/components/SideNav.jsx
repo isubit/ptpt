@@ -26,9 +26,9 @@ export class SideNav extends React.Component {
 					</button>
 					<div className="grid-wrap">
 						<ul>
-							<li>
+							{/* <li>
 								<Link onClick={this.toggleNav} onKeyPress={this.toggleNav} to="/settings">Settings</Link>
-							</li>
+							</li> */}
 							<li>
 								<Link onClick={this.toggleNav} onKeyPress={this.toggleNav} to="/help">Help</Link>
 							</li>

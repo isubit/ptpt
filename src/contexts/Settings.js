@@ -33,7 +33,9 @@ export const SettingsActions = (that) => {
 			}));
 		},
 		toggleHelper(options) {
-			const same = _.isEqual(options, that.state.Settings.helper);
+			const newOptions = _.omit(options, ['onClose']);
+			const oldOptions = _.omit(that.state.Settings.helper, ['onClose']);
+			const same = _.isEqual(newOptions, oldOptions);
 			(!same || options === null) && that.setState(state => ({
 				...state,
 				Settings: {
