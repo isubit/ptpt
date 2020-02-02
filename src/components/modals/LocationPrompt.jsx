@@ -72,27 +72,29 @@ export class Component extends React.Component {
 					: (
 						<div className="grid-row">
 							<div className="grid-wrap">
-								<Link className="CloseButton" to={location.pathname} replace><img src="../../assets/close_dropdown.svg" alt="close location prompt" /></Link>
-								<h3 className="modal-header">Allow the Prairie &amp; Tree Planting application to access your location while using the app?</h3>
-								<div className="content modal-text">
-									<div className="LocationPromptExplainer">
-										<img src="https://via.placeholder.com/250x150" alt="browser location prompt" />
-										<p>
-											{
-												errorMsg && geolocationError === 1
-													? errorMsg
-													: 'Select \'Allow\' to pan the map to your current location. We don\'t use your location information for any other purposes. Blocking this feature will still allow you to use all other functionality in the app.'
-											}
-										</p>
+								<div className="scroll-wrap">
+									<Link className="CloseButton" to={location.pathname} replace><img src="../../assets/close_dropdown.svg" alt="close location prompt" /></Link>
+									<h3 className="modal-header">Allow the Prairie &amp; Tree Planting application to access your location while using the app?</h3>
+									<div className="content modal-text">
+										<div className="LocationPromptExplainer">
+											<img src="https://via.placeholder.com/250x150" alt="browser location prompt" />
+											<p>
+												{
+													errorMsg && geolocationError === 1
+														? errorMsg
+														: 'Select \'Allow\' to pan the map to your current location. We don\'t use your location information for any other purposes. Blocking this feature will still allow you to use all other functionality in the app.'
+												}
+											</p>
+										</div>
+										{errorMsg && geolocationError > 1 && <p className="warning spacer-top-1">{errorMsg} Click the link below or close this popup to continue without this feature.</p>}
 									</div>
-									{errorMsg && geolocationError > 1 && <p className="warning spacer-top-1">{errorMsg} Click the link below or close this popup to continue without this feature.</p>}
 								</div>
+								{errorMsg && (
+									<div className="modal-footer">
+										<Link className="modal-link block" to={location.pathname}>Continue without my location</Link>
+									</div>
+								)}
 							</div>
-							{errorMsg && (
-								<div className="modal-footer">
-									<Link className="modal-link block" to={location.pathname}>Continue without my location</Link>
-								</div>
-							)}
 						</div>
 					)}
 			</div>
