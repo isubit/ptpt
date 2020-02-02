@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { SettingsConsumer } from '../contexts/Settings';
+
 export class SideNav extends React.Component {
 	constructor(props) {
 		super(props);
@@ -15,36 +17,51 @@ export class SideNav extends React.Component {
 	render() {
 		const { isNavOpen } = this.state;
 		return (
-			<div>
-				<button type="button" className="SideNavButton" onClick={this.toggleNav} onKeyPress={this.toggleNav}>
-					<img className="narrow-sidenav" src="/assets/side_nav.svg" alt="Side Navigation Toggle" />
-					<img className="wide-sidenav" src="/assets/sidenav_wide.svg" alt="Side Navigation Toggle" />
-				</button>
-				<div className={isNavOpen ? 'NavOptions grid-row active' : 'NavOptions grid-row'}>
-					<button type="button" className="CloseButton" onClick={this.toggleNav} onKeyPress={this.toggleNav}>
-						<img src="/assets/sidebar-close.svg" alt="Close Side Navigation" />
-					</button>
-					<div className="grid-wrap">
-						<ul>
-							{/* <li>
-								<Link onClick={this.toggleNav} onKeyPress={this.toggleNav} to="/settings">Settings</Link>
-							</li> */}
-							<li>
-								<Link onClick={this.toggleNav} onKeyPress={this.toggleNav} to="/help">Help</Link>
-							</li>
-							<li>
-								<Link onClick={this.toggleNav} onKeyPress={this.toggleNav} to="/about">About</Link>
-							</li>
-							<li>
-								<Link onClick={this.toggleNav} onKeyPress={this.toggleNav} to="/activate">Activate Helper Popups</Link>
-							</li>
-						</ul>
-						<div>
-							<p>Any additonal info like copyright information or sponsorship can go here.</p>
+			<SettingsConsumer>
+				{ settingsCtx => (
+					<div>
+						<button type="button" className="SideNavButton" onClick={this.toggleNav} onKeyPress={this.toggleNav}>
+							<img className="narrow-sidenav" src="/assets/side_nav.svg" alt="Side Navigation Toggle" />
+							<img className="wide-sidenav" src="/assets/sidenav_wide.svg" alt="Side Navigation Toggle" />
+						</button>
+						<div className={isNavOpen ? 'NavOptions grid-row active' : 'NavOptions grid-row'}>
+							<button type="button" className="CloseButton" onClick={this.toggleNav} onKeyPress={this.toggleNav}>
+								<img src="/assets/sidebar-close.svg" alt="Close Side Navigation" />
+							</button>
+							<div className="grid-wrap">
+								<ul>
+									{/* <li>
+										<Link onClick={this.toggleNav} onKeyPress={this.toggleNav} to="/settings">Settings</Link>
+									</li> */}
+									<li>
+										<Link onClick={this.toggleNav} onKeyPress={this.toggleNav} to="/help">Help</Link>
+									</li>
+									<li>
+										<Link onClick={this.toggleNav} onKeyPress={this.toggleNav} to="/about">About</Link>
+									</li>
+									<li>
+										<button
+											type="button"
+											onClick={() => {
+												settingsCtx.actions.activateHelpers();
+												this.toggleNav();
+											}}
+											onKeyPress={() => {
+												settingsCtx.actions.activateHelpers();
+												this.toggleNav();
+											}}
+										>Activate Helper Popups
+										</button>
+									</li>
+								</ul>
+								<div>
+									<p>Any additonal info like copyright information or sponsorship can go here.</p>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
-			</div>
+				)}
+			</SettingsConsumer>
 		);
 	}
 }

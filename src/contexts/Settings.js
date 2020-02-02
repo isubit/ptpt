@@ -22,6 +22,15 @@ export const SettingsActions = (that) => {
 				},
 			}));
 		},
+		activateHelpers() {
+			that.setState(state => ({
+				...state,
+				Settings: {
+					...state.Settings,
+					helpersDismissed: false,
+				},
+			}));
+		},
 		dismissHelpers() {
 			that.setState(state => ({
 				...state,
