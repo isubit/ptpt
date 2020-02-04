@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import smoothscroll from 'smoothscroll-polyfill';
 
 import prairieClassificationPrices from 'references/prairie_classification_prices.json';
 import prairieMgmt from 'references/prairie_mgmt.json';
@@ -129,6 +130,7 @@ export class PrairiePlantingForm extends React.Component {
 		this.seedMixInputEl = React.createRef();
 		this.prairieMgmt1El = React.createRef();
 		this.prairieMgmt2El = React.createRef();
+		smoothscroll.polyfill();
 	}
 
 	componentDidUpdate(prevProps) {

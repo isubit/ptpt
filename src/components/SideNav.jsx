@@ -16,6 +16,11 @@ export class SideNav extends React.Component {
 
 	render() {
 		const { isNavOpen } = this.state;
+		if (isNavOpen) {
+			document.body.classList.add('mobile-no-scroll');
+		} else {
+			document.body.classList.remove('mobile-no-scroll');
+		}
 		return (
 			<SettingsConsumer>
 				{ settingsCtx => (

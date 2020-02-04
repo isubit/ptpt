@@ -71,12 +71,18 @@ export const ReportWrapper = (props) => {
 							}
 							return <Report features={features} />;
 						}
+						if (settingsCtx.state.helpersDismissed) {
+							settingsCtx.actions.activateHelpers();
+						}
 						settingsCtx.actions.toggleHelper({
 							text: 'Draw a tree row or prairie to see its report.',
 							buttonText: 'Okay!',
 							helperFor: 'report',
 							onClose: () => {
 								history.push('/');
+								if (settingsCtx.state.helpersDismissed) {
+									settingsCtx.actions.dismissHelpers();
+								}
 							},
 						});
 						return null;
@@ -552,7 +558,7 @@ class Report extends React.Component {
 		// Opportunity costs
 		const {
 			properties: {
-				csr,
+				csr = [],
 				rent,
 				configs: {
 					pasture_conversion,
@@ -685,7 +691,7 @@ class Report extends React.Component {
 			costs: [
 				{
 					id: 'Seed',
-					unit_cost: reportArea.properties.configs.seed_price,
+					unit_cost: reportArea.properties.configs.seed_price || 0,
 					units: '$/acre',
 					qty: acreage,
 					get totalCost() {
@@ -828,7 +834,7 @@ class Report extends React.Component {
 		const {
 			properties: {
 				rent,
-				csr,
+				csr = [],
 			},
 		} = reportArea;
 		const average_csr = findAverage(csr);
