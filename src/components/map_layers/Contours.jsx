@@ -5,6 +5,7 @@ import { Layer } from './Layer';
 
 export const Contours = props => {
 	const {
+		active,
         color,
         map,
         width,
@@ -19,6 +20,7 @@ export const Contours = props => {
 		paint: {
 			'line-color': color || 'yellow',
 			'line-width': width || 0.5,
+			'line-opacity': active ? 1 : 0,
 		},
 	};
 
