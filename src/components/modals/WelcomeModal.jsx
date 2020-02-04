@@ -80,7 +80,7 @@ export class WelcomeModal extends React.Component {
 								<Link to="/#location">
 									<button className="Button" type="button">Let&apos;s Get Started</button>
 								</Link>
-								<div>
+								<div className="OrSave">
 									<span>Or </span>
 									<span className="link" onClick={clickFileInput} onKeyPress={clickFileInput} role="button" tabIndex="0">
 										Upload a saved file
