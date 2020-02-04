@@ -442,9 +442,9 @@ export class MapComponent extends React.Component {
 		// This is lidar hillshade.
 		this.addSource('lidar', 'raster', {
 			tiles: [
-				'https://programs.iowadnr.gov/geospatial/rest/services/Elevation/Shaded_Relief/MapServer/export?bbox={bbox-epsg-3857}&format=jpg&f=image&transparent=false&srs=EPSG:3857&width=256&height=256&layers=2',
+				'https://programs.iowadnr.gov/geospatial/rest/services/Elevation/Shaded_Relief/MapServer/export?bbox={bbox-epsg-3857}&format=jpg&f=image&transparent=false&srs=EPSG:3857&width=1024&height=1024&layers=2',
 			],
-			tileSize: 256,
+			tileSize: 1024,
 		});
 		
 		// This is 2ft contour lines.
