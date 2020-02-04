@@ -60,6 +60,8 @@ export class Store extends React.Component {
 			}
 			return val;
 		}, 4);
+
+		window.localStorage && localStorage.setItem('data', contents);
 		download(contents, `prairie_tree_planting_tool_savefile_${date.getTime()}.json`);
 	}
 

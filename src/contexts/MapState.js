@@ -11,9 +11,19 @@ import {
 
 const debug = Debug('MapState');
 
+// Load from localStorage
+function loadStorage() {
+	let data = window.localStorage ? localStorage.getItem('data') : null;
+	if (data && typeof data === 'string' && data.length > 0) {
+		data = JSON.parse(data);
+		return new Map(data.data);
+	}
+	return new Map();
+}
+
 export const MapDefaultState = {
 	// Data
-	data: new Map(),
+	data: loadStorage(),
 
 	// Google Maps API
 	mapAPILoaded: false,
