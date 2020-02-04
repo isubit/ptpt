@@ -11,9 +11,19 @@ import {
 
 const debug = Debug('MapState');
 
+// Load from localStorage
+function loadStorage() {
+	let data = window.localStorage ? localStorage.getItem('data') : null;
+	if (data && typeof data === 'string' && data.length > 0) {
+		data = JSON.parse(data);
+		return new Map(data.data);
+	}
+	return new Map();
+}
+
 export const MapDefaultState = {
 	// Data
-	data: new Map(),
+	data: loadStorage(),
 
 	// Google Maps API
 	mapAPILoaded: false,
@@ -52,16 +62,6 @@ export const MapDefaultState = {
 		contours: false,
 	},
 };
-
-// Load from localStorage
-function loadStorage(MapDefaultState) {
-	let data = localStorage.getItem('data');
-	if (data) {
-		data = JSON.parse(data);
-		MapDefaultState.data = new Map(data.data);
-	}
-}
-window.localStorage && loadStorage(MapDefaultState);
 
 // // Test data...
 // MapDefaultState.data.set('4b90624007a667f5bcd420e03ffb4119', {
