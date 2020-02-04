@@ -17,7 +17,10 @@ export const SaveModal = () => (
 							{/* eslint-disable-next-line max-len */}
 							When you save your file, it will save your progress and download a file that you can then reupload at any time to continue using the application.
 							<br />
+              <br />
+							If you come back to the application using the same device and browser, it will automatically load your progress.
 							<br />
+              <br />
 							You can also email the file to others and have them upload the file to view your progress.
 						</p>
 						<div className="modal-footer">
