@@ -5,6 +5,7 @@ import { Layer } from './Layer';
 
 export const SSURGO = props => {
 	const {
+		active,
 		map,
 	} = props;
 
@@ -26,7 +27,7 @@ export const SSURGO = props => {
 				100,
 				'#f8f601',
 			],
-			'fill-opacity': props.active ? 0.6 : 0,
+			'fill-opacity': active ? 0.6 : 0,
 			'fill-antialias': false,
 		},
 	};

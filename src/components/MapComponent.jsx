@@ -27,10 +27,11 @@ import { enrichment } from 'utils/enrichment';
 import csrRent from 'references/csr_rent.json';
 
 import { Contours } from './map_layers/Contours';
-import { PrairieArea } from './map_layers/PrairieArea';
 import { EditIcons } from './map_layers/EditIcons';
 import { FeatureLabels } from './map_layers/FeatureLabels';
 import { GeolocationPosition } from './map_layers/GeolocationPosition';
+import { Lidar } from './map_layers/Lidar';
+import { PrairieArea } from './map_layers/PrairieArea';
 import { PrairieOutline } from './map_layers/PrairieOutline';
 import { SSURGO } from './map_layers/SSURGO';
 import { TreeRows } from './map_layers/TreeRows';
@@ -368,13 +369,18 @@ export class MapComponent extends React.Component {
 			}
 		} else {
 			// Add the source.
-			const sourceData = {
+			let sourceData = {
 				type,
 			};
 			if (type === 'geojson') {
 				sourceData.data = data;
 			} else if (type === 'vector') {
 				sourceData.url = data;
+			} else {
+				sourceData = {
+					...sourceData,
+					...data,
+				};
 			}
 			this.map.addSource(name, sourceData);
 			this.setState(prevState => ({
@@ -433,6 +439,14 @@ export class MapComponent extends React.Component {
 		// This is SSURGO.
 		process.env.mapbox_ssurgo_tileset_id && this.addSource('ssurgo', 'vector', `mapbox://${process.env.mapbox_ssurgo_tileset_id}`);
 
+		// This is lidar hillshade.
+		this.addSource('lidar', 'raster', {
+			tiles: [
+				'https://programs.iowadnr.gov/geospatial/rest/services/Elevation/Shaded_Relief/MapServer/export?bbox={bbox-epsg-3857}&format=jpg&f=image&transparent=false&srs=EPSG:3857&width=256&height=256&layers=2',
+			],
+			tileSize: 256,
+		});
+		
 		// This is 2ft contour lines.
 		process.env.mapbox_contour_tileset_id && this.addSource('contours', 'vector', `mapbox://${process.env.mapbox_contour_tileset_id}`);
 
@@ -530,8 +544,9 @@ export class MapComponent extends React.Component {
 					{!cleanup && sourcesAdded
 						&& (
 							<>
-								{layers.contours && <Contours map={map} />}
+								<Lidar map={map} active={layers.lidar} />
 								<SSURGO map={map} active={layers.ssurgo} />
+								<Contours map={map} active={layers.contours} />
 								<PrairieArea map={map} />
 								<PrairieOutline map={map} />
 								<TreeRows map={map} />
