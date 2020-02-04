@@ -15,7 +15,7 @@ export const Lidar = props => {
 		source: 'lidar',
         // minzoom: 10,
         paint: {
-            'raster-opacity': active ? 1 : 0,
+            'raster-opacity': active ? 0.6 : 0,
         },
 	};
 
