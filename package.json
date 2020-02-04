@@ -4,7 +4,7 @@
   "repository": "https://github.com/isubit/ptpt.git",
   "scripts": {
     "watch": "webpack -d --watch",
-    "serve": "webpack-dev-server --progress --inline --hot --host=0.0.0.0 --public $(hostname):8080",
+    "serve": "webpack-dev-server --progress --inline --hot",
     "build": "webpack --config webpack.config.js"
   },
   "dependencies": {
