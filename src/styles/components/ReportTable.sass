@@ -1,4 +1,5 @@
 .scrollWrap
+	-ms-overflow-style: none
 	overflow: scroll
 	position: relative
 	width: 100vw
@@ -19,8 +20,11 @@
 		padding: 1rem 1.5rem
 		font-size: .826rem
 		white-space: nowrap
+		background-color: $white
 		&.empty
 			height: 16px
+		&.light-blue
+			background-color: $light-blue
 
 .tableNav
 	display: flex
@@ -51,12 +55,9 @@
 	height: 26px
 	border-top: 1px solid $light-blue
 	border-bottom: 1px solid rgba(168, 172, 174, .4)
-	background-color: rgba(236, 241, 243, 0.4)
+	background-color: #F8F9FA
 	width: 100vw
 	margin: 0 -1.5rem
-
-.light-blue
-	background-color: $light-blue
 
 @media (min-width: 900px)
 	.tableNav
