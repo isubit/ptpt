@@ -544,7 +544,7 @@ export class MapComponent extends React.Component {
 					{!cleanup && sourcesAdded
 						&& (
 							<>
-								<Lidar map={map} active={layers.lidar} />
+								{layers.lidar && <Lidar map={map} active={layers.lidar} />}{/* This is written this way because the lidar layer takes so long to load it impedes other processes. */}
 								<SSURGO map={map} active={layers.ssurgo} />
 								<Contours map={map} active={layers.contours} />
 								<PrairieArea map={map} />
