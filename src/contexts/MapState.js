@@ -53,6 +53,16 @@ export const MapDefaultState = {
 	},
 };
 
+// Load from localStorage
+function loadStorage(MapDefaultState) {
+	let data = localStorage.getItem('data');
+	if (data) {
+		data = JSON.parse(data);
+		MapDefaultState.data = new Map(data.data);
+	}
+}
+window.localStorage && loadStorage(MapDefaultState);
+
 // // Test data...
 // MapDefaultState.data.set('4b90624007a667f5bcd420e03ffb4119', {
 // 	id: '4b90624007a667f5bcd420e03ffb4119',
