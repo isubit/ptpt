@@ -290,7 +290,6 @@ export class TreePlantingForm extends React.Component {
 		} = this.props;
 
 		const series = editingFeature.properties.series ? new Map(editingFeature.properties.series) : new Map();
-		// console.log(props);
 		return (
 			<>
 				<div className="PlantingFormHeader">

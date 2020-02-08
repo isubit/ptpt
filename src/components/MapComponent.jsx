@@ -441,7 +441,7 @@ export class MapComponent extends React.Component {
 		// This is lidar hillshade.
 		this.addSource('lidar', 'raster', {
 			tiles: [
-				'https://athene.gis.iastate.edu/arcgis/rest/services/ortho/lidar_hs/ImageServer/exportImage?f=image&bbox={bbox-epsg-3857}&imageSR=102100&bboxSR=102100&size=256%2C256',
+				'https://ortho.gis.iastate.edu/arcgis/rest/services/ortho/lidar_hs/ImageServer/exportImage?f=image&bbox={bbox-epsg-3857}&imageSR=102100&bboxSR=102100&size=256%2C256',
 			],
 			tileSize: 256,
 		});

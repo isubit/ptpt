@@ -179,7 +179,7 @@ class Report extends React.Component {
 	// initialize state with either the editingFeature or the first entry in features property
 	constructor(props) {
 		super(props);
-		console.log(props);
+		debug(props);
 		let reportArea;
 		if (props.editingFeature) {
 			reportArea = props.features.find(feature => feature.id === props.editingFeature.id);
@@ -1027,7 +1027,6 @@ class Report extends React.Component {
 	}
 
 	handleDownloadXLSX = () => {
-		console.log(this.props.features);
 		const book = spreadsheet(this.props.features);
 		const date = new Date();
 		book.xlsx.writeBuffer()
