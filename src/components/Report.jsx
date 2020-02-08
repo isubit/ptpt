@@ -283,7 +283,6 @@ class Report extends React.Component {
 					id: 'Princep (pre-emergent herbicide)',
 					unit_cost: 3.75,
 					units: '$/pint/acre',
-					// present_value: '$3.70',
 					get present_value() {
 						return this.unit_cost / (1.02 ** (4 / 12));
 					},
@@ -298,7 +297,6 @@ class Report extends React.Component {
 					id: 'Ground sprayer (pre-emergent)',
 					unit_cost: 7.25,
 					units: '$/acre',
-					// present_value: '$6.97',
 					get present_value() {
 						return this.unit_cost / 1.02;
 					},
@@ -313,7 +311,6 @@ class Report extends React.Component {
 					id: 'Poast (post-emergent herbicide)',
 					unit_cost: 11.32,
 					units: '$/pint',
-					// present_value: '$11.10',
 					get present_value() {
 						return this.unit_cost / (1.02 ** (6 / 12));
 					},
@@ -342,7 +339,6 @@ class Report extends React.Component {
 					id: 'Granular Urea (50 lb N/ac)',
 					unit_cost: 28, // This is $0.56/lb * 50 lb.
 					units: '$/acre',
-					// present_value: '$27.62',
 					get present_value() {
 						return this.unit_cost / (1.02 ** (5 / 12));
 					},
@@ -357,7 +353,6 @@ class Report extends React.Component {
 					id: 'Fertilizer spreader',
 					unit_cost: 7.30,
 					units: '$/acre',
-					// present_value: '$7.02',
 					get present_value() {
 						return this.unit_cost / 1.02;
 					},
@@ -449,7 +444,6 @@ class Report extends React.Component {
 					id: 'Tree planting (bareroot)',
 					unit_cost: 220.00,
 					units: '$/acre',
-					// present_value: '$211.54',
 					get present_value() {
 						return this.unit_cost / 1.02;
 					},
@@ -465,7 +459,6 @@ class Report extends React.Component {
 					id: 'Tree planting (containerized)',
 					unit_cost: 1.50,
 					units: '$/tree',
-					// present_value: '$1.44',
 					get present_value() {
 						return this.unit_cost / 1.02;
 					},
@@ -496,7 +489,6 @@ class Report extends React.Component {
 				id: 'Watering (drip irrigation)',
 				unit_cost: 4.50,
 				units: '$/tree',
-				// present_value: '$4.33',
 				get present_value() {
 					return this.unit_cost / 1.02;
 				},
@@ -740,7 +732,6 @@ class Report extends React.Component {
 		const management_row1 = {
 			id: 'Mowing (year 1: 3x)',
 			unit_cost: 90.00,
-			// present_value: '$88.24',
 			get present_value() {
 				const unitCost = this.unit_cost;
 				const present_value = annualSeries(unitCost, 0.02, 1);
@@ -758,7 +749,6 @@ class Report extends React.Component {
 			management_row2 = {
 				id: 'Mowing (year 2-15)',
 				unit_cost: 30.00,
-				// present_value: '$327.23',
 				get present_value() {
 					const unitCost = this.unit_cost;
 					const present_value = (annualSeries(unitCost, 0.02, 14) / (1.02 ** 2));
@@ -775,7 +765,6 @@ class Report extends React.Component {
 			management_row3 = {
 				id: 'Raking, Rowing, Baleing (year 2-15)',
 				unit_cost: 35.85,
-				// present_value: '$391.04',
 				get present_value() {
 					const unitCost = this.unit_cost;
 					const present_value = (annualSeries(unitCost, 0.02, 14) / (1.02 ** 2));
@@ -793,7 +782,6 @@ class Report extends React.Component {
 			management_row2 = {
 				id: 'Burning (year 2-6)',
 				unit_cost: 65.00,
-				// present_value: '$237.89',
 				get present_value() {
 					const unitCost = this.unit_cost;
 					const present_value = (annualSeries(unitCost, 0.02, 4) / (1.02 ** 2));
@@ -810,7 +798,6 @@ class Report extends React.Component {
 			management_row3 = {
 				id: 'Burning (year 8, 10, 12, 14)',
 				unit_cost: 65.00,
-				// present_value: '$169.54',
 				get present_value() {
 					return (this.unit_cost / (1.02 ** 8)) + (this.unit_cost / (1.02 ** 10)) + (this.unit_cost / (1.02 ** 12)) + (this.unit_cost / (1.02 ** 14));
 				},
@@ -863,7 +850,6 @@ class Report extends React.Component {
 					unit_cost: 8.00,
 					units: '$/acre',
 					qty: acreage,
-					// present_value: '$102.79',
 					get present_value() {
 						const unitCost = this.unit_cost;
 						const present_value = annualSeries(unitCost, 0.02, 15);
