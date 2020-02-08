@@ -1,10 +1,11 @@
 .Map
     width: 100%
-    height: calc(100% - 99px)
+    // min-height: -webkit-fill-available
+    height: calc(100vh - 99px)
     position: relative
     overflow: visible
     .ZoomControl
-        position: absolute
+        position: fixed
         bottom: 2rem
         right: 2rem
         z-index: 1
@@ -21,7 +22,7 @@
         img
             cursor: pointer
     .LegendControl
-        position: absolute
+        position: fixed
         bottom: 2rem
         right: 4.5rem
         z-index: 1

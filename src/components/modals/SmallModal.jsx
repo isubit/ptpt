@@ -7,6 +7,7 @@ export const SmallModal = props => {
 		onClose,
 		text,
 		toggleHelper,
+		helperFor,
 	} = props;
 
 	return (
@@ -23,7 +24,9 @@ export const SmallModal = props => {
 			</button>
 			<p className="modal-text spacer-top-2">{text}</p>
 			<div className="close-wrapper distribute vertical-align spacer-top-1">
-				<span className="modal-link" onClick={dismissHelpers} onKeyPress={dismissHelpers} role="button" tabIndex="0">Dismiss helper popups</span>
+				{
+					(helperFor !== 'report') && <span className="modal-link" onClick={dismissHelpers} onKeyPress={dismissHelpers} role="button" tabIndex="0">Dismiss helper popups</span>
+				}
 				<button
 					className="Button"
 					type="button"

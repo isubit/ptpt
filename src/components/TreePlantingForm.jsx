@@ -1,8 +1,9 @@
 /* eslint-disable no-else-return */
 import React from 'react';
 import _ from 'lodash';
-import uuid from 'uuid/v4';
 import { Link } from 'react-router-dom';
+import smoothscroll from 'smoothscroll-polyfill';
+import uuid from 'uuid/v4';
 
 import {
 	findSlope,
@@ -242,6 +243,7 @@ export class TreePlantingForm extends React.Component {
 		this.rowInputEl = React.createRef();
 		this.rowDetailInputEl = React.createRef();
 		this.rowSpacingInputEl = React.createRef();
+		smoothscroll.polyfill();
 	}
 
 	componentDidUpdate(prevProps) {

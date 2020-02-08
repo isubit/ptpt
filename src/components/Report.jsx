@@ -26,6 +26,8 @@ import seedMixes from 'references/prairie_classification_prices.json';
 import treeStockSizes from 'references/tree_stock_sizes.json';
 import treeTypes from 'references/tree_types.json';
 import treeList from 'references/trees_list.json';
+// import { ReportModal } from './modals/ReportModal';
+import { SettingsConsumer } from '../contexts/Settings';
 
 const debug = Debug('Report');
 
@@ -48,24 +50,47 @@ export const ReportWrapper = (props) => {
 			location: {
 				state = null,
 			},
+			history,
 		},
 	} = props;
 	const editingFeature = state || null;
 	return (
-		<MapConsumer>
-			{ mapCtx => {
-				const features = getFeatures(mapCtx.state.data)
-					.map(ea => {
-						const labeledFeature = _.cloneDeep(ea);
-						labeledFeature.properties.label = `${labeledFeature.properties.type.replace(/^\w/, c => c.toUpperCase())} Area ${labeledFeature.properties.index}`;
-						return labeledFeature;
-					});
-				if (editingFeature) {
-					return <Report editingFeature={editingFeature} features={features} />;
-				}
-				return <Report features={features} />;
-			}}
-		</MapConsumer>
+		<SettingsConsumer>
+			{ (settingsCtx) => (
+				<MapConsumer>
+					{ mapCtx => {
+						const features = getFeatures(mapCtx.state.data)
+							.map(ea => {
+								const labeledFeature = _.cloneDeep(ea);
+								labeledFeature.properties.label = `${labeledFeature.properties.type.replace(/^\w/, c => c.toUpperCase())} Area ${labeledFeature.properties.index}`;
+								return labeledFeature;
+							});
+						if (features.length > 0) {
+							if (editingFeature) {
+								return <Report editingFeature={editingFeature} features={features} />;
+							}
+							return <Report features={features} />;
+						}
+						if (settingsCtx.state.helpersDismissed) {
+							settingsCtx.actions.activateHelpers();
+						}
+						settingsCtx.actions.toggleHelper({
+							text: 'Draw a tree row or prairie to see its report.',
+							buttonText: 'Okay!',
+							helperFor: 'report',
+							onClose: () => {
+								history.push('/');
+								if (settingsCtx.state.helpersDismissed) {
+									settingsCtx.actions.dismissHelpers();
+								}
+							},
+						});
+						return null;
+					}}
+				</MapConsumer>
+			)}
+		</SettingsConsumer>
+
 	);
 };
 
@@ -533,7 +558,7 @@ class Report extends React.Component {
 		// Opportunity costs
 		const {
 			properties: {
-				csr,
+				csr = [],
 				rent,
 				configs: {
 					pasture_conversion,
@@ -666,7 +691,7 @@ class Report extends React.Component {
 			costs: [
 				{
 					id: 'Seed',
-					unit_cost: reportArea.properties.configs.seed_price,
+					unit_cost: reportArea.properties.configs.seed_price || 0,
 					units: '$/acre',
 					qty: acreage,
 					get totalCost() {
@@ -809,7 +834,7 @@ class Report extends React.Component {
 		const {
 			properties: {
 				rent,
-				csr,
+				csr = [],
 			},
 		} = reportArea;
 		const average_csr = findAverage(csr);
@@ -1026,22 +1051,24 @@ class Report extends React.Component {
 		return reportArea ? (
 			<div className="Report">
 				<div className="reportActions">
-					<div className="distribute">
-						<img src="../assets/left-arrow.svg" alt="Back to Map" />
-						<Link to="/" className="map-link">Back to Map</Link>
+					<div className="wrapper">
+						<div className="distribute">
+							<img src="../assets/left-arrow.svg" alt="Back to Map" />
+							<Link to="/" className="map-link">Back to Map</Link>
+						</div>
+						<button type="button" onClick={handleDownloadXLSX}>
+							<div className="distribute reportAction">
+								<img src="../assets/download_xls.svg" alt="Download XLSX file" />
+								<p>Download XLSX File</p>
+							</div>
+						</button>
+						<button type="button" onClick={handleDownloadSHP}>
+							<div className="distribute reportAction">
+								<img src="../assets/download_shapefile.svg" alt="Download Shapefile" />
+								<p>Download Shapefile</p>
+							</div>
+						</button>
 					</div>
-					<button type="button" onClick={handleDownloadXLSX}>
-						<div className="distribute reportAction">
-							<img src="../assets/download_xls.svg" alt="Download XLSX file" />
-							<p>Download XLSX File</p>
-						</div>
-					</button>
-					<button type="button" onClick={handleDownloadSHP}>
-						<div className="distribute reportAction">
-							<img src="../assets/download_shapefile.svg" alt="Download Shapefile" />
-							<p>Download Shapefile</p>
-						</div>
-					</button>
 				</div>
 				<div className="reportText">
 					<p className="header-large">Cost Report</p>
