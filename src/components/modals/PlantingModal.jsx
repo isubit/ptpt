@@ -211,7 +211,6 @@ export class PlantingModal extends React.Component {
 				};
 				return updatedRow;
 			});
-			console.log(rowMap);
 			this.setState({
 				rows: rowMap,
 			});
@@ -267,7 +266,6 @@ export class PlantingModal extends React.Component {
 
 	handleStockSizeChange = (event) => {
 		const stock_size = event.target.value;
-		console.log(stock_size);
 		this.setState(() => ({ stock_size }));
 	}
 
@@ -293,7 +291,7 @@ export class PlantingModal extends React.Component {
 			id,
 			display,
 		};
-		this.setState(() => ({ management: updateManagement }), () => console.log(this.state));
+		this.setState(() => ({ management: updateManagement }));
 	}
 
 	handleCroppingChange = (event) => {
@@ -440,7 +438,6 @@ export class PlantingModal extends React.Component {
 		};
 
 		if (type === 'tree') {
-			console.log(this);
 			const {
 				state: {
 					windbreak,

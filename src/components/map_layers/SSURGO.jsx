@@ -1,7 +1,11 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable indent */
 import React from 'react';
+import Debug from 'debug';
+
 import { Layer } from './Layer';
+
+const debug = Debug('MapComponent');
 
 export const SSURGO = props => {
 	const {
@@ -34,7 +38,7 @@ export const SSURGO = props => {
 
 	const events = new Map([
 		['click', e => {
-			console.log(e.features.length > 0 ? e.features[0] : null);
+			debug(e.features.length > 0 ? e.features[0] : null);
 		}],
 	]);
 
