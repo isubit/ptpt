@@ -1,6 +1,6 @@
 # Prairie and Tree Planting Tool
 
-An application to assist Iowan landowners to blueprint prairie and tree planting initiatives.
+An application to assist Iowan landowners to blueprint prairie and tree planting initiatives. This app requires internet connectivity for mapping functionality.
 
 ## Dependencies
 
