@@ -1,5 +1,6 @@
 import React from 'react';
 import download from 'js-file-download';
+import calcCentroid from '@turf/centroid';
 
 import { SettingsDefaultState, SettingsProvider, SettingsActions } from './Settings';
 import { MapDefaultState, MapProvider, MapActions } from './MapState';
@@ -35,7 +36,7 @@ export class Store extends React.Component {
 
 		// Query for the Geolocation API permission state.
 		if (!lastGeolocationStatus) {
-			navigator.permissions.query({ name: 'geolocation' })
+			navigator.permissions ? navigator.permissions.query({ name: 'geolocation' })
 				.then(({ state: status }) => {
 					this.setState(state => ({
 						MapState: {
@@ -43,14 +44,21 @@ export class Store extends React.Component {
 							lastGeolocationStatus: status,
 						},
 					}));
-				});
+				}) : navigator.geolocation.getCurrentPosition(({ state: status }) => {
+				this.setState(state => ({
+					MapState: {
+						...state.MapState,
+						lastGeolocationStatus: status,
+					},
+				}));
+			});
 		}
 	}
 
 	save = () => {
 		const date = new Date();
 		const contents = JSON.stringify({
-			data: this.state,
+			data: this.state.MapState.data,
 			date,
 			version: '1.0',
 		}, (name, val) => {
@@ -59,20 +67,53 @@ export class Store extends React.Component {
 			}
 			return val;
 		}, 4);
-		download(contents, `prairie_tree_planting_tool_savefile_${date.getDate()}-${date.getMonth()}-${date.getFullYear()}.json`);
+
+		window.localStorage && localStorage.setItem('data', contents);
+		download(contents, `prairie_tree_planting_tool_savefile_${date.getTime()}.json`);
 	}
 
-	load = file => {
-		if (file.data) {
-			this.setState(file.data);
+	load = async (file, cb) => {
+		if (file[0]) {
+			try {
+				const contents = await file[0].text();
+				const parsed = JSON.parse(contents);
+				const data = new Map(parsed.data);
+				const features = [...data.values()];
+				const centroid = calcCentroid({
+					type: 'FeatureCollection',
+					features,
+				});
+
+				this.setState(state => ({
+					MapState: {
+						...state.MapState,
+						data,
+						currentMapDetails: {
+							latlng: centroid.geometry.coordinates,
+						},
+					},
+				}), () => cb && cb());
+			} catch (e) {
+				console.warn('File is corrupted:', e);
+			}
 		}
 	}
 
 	render() {
-		const { state, save } = this;
+		const {
+			load,
+			save,
+			state,
+		} = this;
 		return (
 			<SettingsProvider value={{ state: state.Settings, actions: SettingsActions(this) }}>
-				<MapProvider value={{ state: state.MapState, actions: MapActions(this), save }}>
+				<MapProvider value={{
+					actions: MapActions(this),
+					load,
+					save,
+					state: state.MapState,
+				}}
+				>
 					{this.props.children}
 				</MapProvider>
 			</SettingsProvider>

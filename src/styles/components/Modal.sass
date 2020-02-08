@@ -34,19 +34,11 @@
             height: 2px
             width: 135px
             background-color: $dark-green
-    .button-wrap
-        > *:last-child
-            display: none
     .modal-text
         padding-top: 1.5rem
-    .modal-link
-        font-family: Merriweather
-        font-style: italic
-        font-weight: normal
-        font-size: 0.751rem
-        line-height: 21px
-        text-decoration-line: underline
-        color: $bright-blue
+    .Loader
+        align-self: center
+        justify-self: center
 
 @media (min-width: 900px) 
     .modal
@@ -58,7 +50,7 @@
             .grid-wrap
                 min-height: 400px
                 min-width: 600px
-                max-height: 450px
+                max-height: 500px
                 display: flex
                 flex-direction: column
                 grid-column: 2 / 12
@@ -78,14 +70,9 @@
         .modal-header, .modal-text
             padding-left: 2rem
             padding-right: 2rem
-        .button-wrap
-            > *:last-child
-                color: $medium-blue
-                display: block
-                padding-top: 0.5rem
-                font-size: .909rem
 
 @media (min-width: 1280px) 
     .modal
-        .grid-wrap
-            grid-column: 4 / 12
+        .grid-row
+            .grid-wrap
+                grid-column: 4 / 12

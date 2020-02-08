@@ -1,16 +1,18 @@
 .Map
     width: 100%
+    // min-height: -webkit-fill-available
     height: calc(100vh - 99px)
     position: relative
+    overflow: visible
     .ZoomControl
-        position: absolute
+        position: fixed
         bottom: 2rem
         right: 2rem
         z-index: 1
         display: flex
-        flex-flow: column nowrap;
-        justify-content: center;
-        align-items: center;
+        flex-flow: column nowrap
+        justify-content: center
+        align-items: center
         background: white
         padding: 6px
         hr
@@ -20,7 +22,7 @@
         img
             cursor: pointer
     .LegendControl
-        position: absolute
+        position: fixed
         bottom: 2rem
         right: 4.5rem
         z-index: 1

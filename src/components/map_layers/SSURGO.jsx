@@ -1,10 +1,15 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable indent */
 import React from 'react';
+import Debug from 'debug';
+
 import { Layer } from './Layer';
+
+const debug = Debug('MapComponent');
 
 export const SSURGO = props => {
 	const {
+		active,
 		map,
 	} = props;
 
@@ -26,14 +31,14 @@ export const SSURGO = props => {
 				100,
 				'#f8f601',
 			],
-			'fill-opacity': props.active ? 0.6 : 0,
+			'fill-opacity': active ? 0.6 : 0,
 			'fill-antialias': false,
 		},
 	};
 
 	const events = new Map([
 		['click', e => {
-			console.log(e.features.length > 0 ? e.features[0] : null);
+			debug(e.features.length > 0 ? e.features[0] : null);
 		}],
 	]);
 

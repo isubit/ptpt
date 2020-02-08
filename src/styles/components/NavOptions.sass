@@ -1,10 +1,14 @@
 .NavOptions
     position: fixed
     bottom: 0
+    top: 0
     height: 100vh
+    min-height: -webkit-fill-available
     background-color: $dark-brown
     display: none
     z-index: 10
+    width: 100%
+    box-sizing: border-box
     &.active 
         display: block
     .grid-wrap
@@ -18,6 +22,14 @@
                     text-decoration: none
                     color: $white
                     font-size: .909rem
+            button
+                line-height: 2.75rem
+                text-decoration: none
+                color: #FFFFFF
+                font-size: .909rem
+                background-color: transparent
+                margin: 0
+                padding: 0
         div
             p
                 margin: 0
@@ -30,4 +42,5 @@
 
 @media (min-width: 900px)
     .NavOptions
+        box-sizing: initial
         width: 270px

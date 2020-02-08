@@ -1,9 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import smoothscroll from 'smoothscroll-polyfill';
 
 import prairieClassificationPrices from 'references/prairie_classification_prices.json';
 import prairieMgmt from 'references/prairie_mgmt.json';
 
-const SeedMixInput = (props) => {
+const SeedMixInput = React.forwardRef((props, ref) => {
 	// value and handlers
 	const {
 		series,
@@ -16,13 +18,13 @@ const SeedMixInput = (props) => {
 	const moistureClasses = [...new Set([...series.values()].map(ea => ea.moisture))]; // Moisture classifications without duplicate.
 
 	return (
-		<div className="ConfigForm">
+		<div className="ConfigForm" ref={ref}>
 			<div className="stepNumber">
 				<h1>1</h1>
 			</div>
 			<div className="configInputs">
 				<p className="inputDescriptor">Choose your seed mix.</p>
-				<div className="inputElement desktop-select-l-width">
+				<div className="inputElement desktop-select-l-width desktop-spacer-right-1">
 					<span className="inputLabel">Seed Mix</span>
 					<select
 						value={seed}
@@ -61,15 +63,15 @@ const SeedMixInput = (props) => {
 			</div>
 		</div>
 	);
-};
+});
 
-const PrairieMgmt1 = (props) => {
+const PrairieMgmt1 = React.forwardRef((props, ref) => {
 	const {
 		management,
 		handleManagementChange,
 	} = props;
 	return (
-		<div className="ConfigForm">
+		<div className="ConfigForm" ref={ref}>
 			<div className="stepNumber">
 				<h1>2</h1>
 			</div>
@@ -77,7 +79,7 @@ const PrairieMgmt1 = (props) => {
 				<p className="inputDescriptor">Choose a way to manage your prairie.</p>
 				<div className="inputElement desktop-select-l-width">
 					<span className="inputLabel">Prairie Management</span>
-					<select value={management} onChange={(e) => handleManagementChange(e)}>
+					<select value={management.id} onChange={(e) => handleManagementChange(e)}>
 						<option value="" disabled>Select a management method</option>
 						{prairieMgmt.map(ea => <option key={ea.id} value={ea.id}>{ea.value}</option>)}
 					</select>
@@ -85,9 +87,9 @@ const PrairieMgmt1 = (props) => {
 			</div>
 		</div>
 	);
-};
+});
 
-const PrairieMgmt2 = (props) => {
+const PrairieMgmt2 = React.forwardRef((props, ref) => {
 	const {
 		cropping_system,
 		pest_control,
@@ -99,7 +101,7 @@ const PrairieMgmt2 = (props) => {
 			<div className="stepNumber">
 				<h1>3</h1>
 			</div>
-			<div className="configInputs">
+			<div className="configInputs" ref={ref}>
 				<p className="inputDescriptor">Choose a cropping system and pest control that you plan on using in the adjacent fields.</p>
 				<div className="inputElement desktop-select-l-width">
 					<span className="inputLabel">Cropping System</span>
@@ -120,46 +122,75 @@ const PrairieMgmt2 = (props) => {
 			</div>
 		</div>
 	);
-};
+});
 
-export const PrairiePlantingForm = (props) => {
-	const {
-		form,
-		editingFeature,
-		step,
-		seed,
-		seed_price,
-		management,
-		cropping_system,
-		pest_control,
-		handleSeedMixChange,
-		handlePestControlChange,
-		handleManagementChange,
-		handleCroppingChange,
-		handleSeedPriceChange,
-	} = props;
+export class PrairiePlantingForm extends React.Component {
+	constructor(props) {
+		super(props);
+		this.seedMixInputEl = React.createRef();
+		this.prairieMgmt1El = React.createRef();
+		this.prairieMgmt2El = React.createRef();
+		smoothscroll.polyfill();
+	}
 
-	const series = editingFeature.properties.series ? new Map(editingFeature.properties.series) : new Map();
+	componentDidUpdate(prevProps) {
+		const { step: prevStep } = prevProps;
+		const { step: currentStep } = this.props;
+		if (prevStep !== currentStep) {
+			if (currentStep === 'mgmt_1') {
+				this.scrollToElement(this.prairieMgmt1El);
+			}
+		}
+	}
 
-	return (
-		<>
-			<div className="PlantingFormHeader">
-				<h2 className="modal-header">Configure your prairie planting area below.</h2>
-				{series.size > 0 && <p className="SoilTypes spacer-top-1">Your soil types: <span>{[...series.keys()].sort().toString().replace(/,/g, ', ')}</span></p>}
-			</div>
-			<form ref={form}>
-				<SeedMixInput series={series} seed={seed} seed_price={seed_price} handleSeedMixChange={handleSeedMixChange} handleSeedPriceChange={handleSeedPriceChange} />
-				{
-					(step === 'mgmt_1' || step === 'mgmt_2') && (
-						<PrairieMgmt1 management={management} handleManagementChange={handleManagementChange} />
-					)
-				}
-				{
-					(step === 'mgmt_2') && (
-						<PrairieMgmt2 pest_control={pest_control} cropping_system={cropping_system} handlePestControlChange={handlePestControlChange} handleCroppingChange={handleCroppingChange} />
-					)
-				}
-			</form>
-		</>
-	);
-};
+	scrollToElement = (ref) => {
+		ref.current.scrollIntoView({ behavior: 'smooth' });
+	}
+
+	render() {
+		const {
+			form,
+			editingFeature,
+			step,
+			seed,
+			seed_price,
+			management,
+			cropping_system,
+			pest_control,
+			handleSeedMixChange,
+			handlePestControlChange,
+			handleManagementChange,
+			handleCroppingChange,
+			handleSeedPriceChange,
+		} = this.props;
+
+		const series = editingFeature.properties.series ? new Map(editingFeature.properties.series) : new Map();
+
+		return (
+			<>
+				<div className="PlantingFormHeader">
+					<Link className="CloseButton" to="/"><img src="../../assets/close_dropdown.svg" alt="Close Planting Modal" /></Link>
+					<h2 className="modal-header">Configure your prairie planting area below.</h2>
+					<div className="prairie-area-info spacer-top-1 spacer-bottom-0_5">
+						{series.size > 0 && <p className="SoilTypes planting-modal-text">Your soil types: <span>{[...series.keys()].sort().toString().replace(/,/g, ', ')}</span></p>}
+						{editingFeature.properties.acreage && <p className="PrairieArea planting-modal-text">Prairie area: <span>{editingFeature.properties.acreage.toFixed(2)} acres</span></p>}
+						{editingFeature.properties.bufferAcreage && <p className="BufferArea planting-modal-text">Buffer area: <span>{editingFeature.properties.bufferAcreage.toFixed(2)} acres</span></p>}
+					</div>
+				</div>
+				<form className="form-spacing" ref={form}>
+					<SeedMixInput ref={this.seedMixInputEl} series={series} seed={seed} seed_price={seed_price} handleSeedMixChange={handleSeedMixChange} handleSeedPriceChange={handleSeedPriceChange} />
+					{
+						(step === 'mgmt_1' || step === 'mgmt_2') && (
+							<PrairieMgmt1 ref={this.prairieMgmt1El} management={management} handleManagementChange={handleManagementChange} />
+						)
+					}
+					{
+						(step === 'mgmt_2') && (
+							<PrairieMgmt2 ref={this.prairieMgmt2El} pest_control={pest_control} cropping_system={cropping_system} handlePestControlChange={handlePestControlChange} handleCroppingChange={handleCroppingChange} />
+						)
+					}
+				</form>
+			</>
+		);
+	}
+}

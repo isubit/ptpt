@@ -10,12 +10,14 @@ import 'styles/base.sass';
 
 import { MapWrapperDefault, MapWrapperSatellite } from 'components/MapComponent';
 import { Store } from 'contexts';
-import { Header } from 'components/Header';
-// import { LocationPrompt } from 'components/modals/LocationPrompt';
-// import { WelcomeModal } from 'components/modals/WelcomeModal';
+import { HeaderWithRouter } from 'components/Header';
 import { BigModal } from 'components/modals/BigModal';
+import { SmallModal } from 'components/modals/SmallModal';
 import { MapConsumer } from 'contexts/MapState';
 import { SettingsConsumer } from 'contexts/Settings';
+import { ReportWrapper } from 'components/Report';
+import { Help } from 'components/Help';
+import { About } from 'components/About';
 
 (function injectMapScript(w, s, id) {
 	const script = w.document.createElement(s);
@@ -39,7 +41,7 @@ const App = () => (
 			<MapConsumer>
 				{ctx => {
 					const { state, actions } = ctx;
-					return <Header {...state} {...actions} />;
+					return <HeaderWithRouter {...state} {...actions} />;
 				}}
 			</MapConsumer>
 
@@ -48,7 +50,6 @@ const App = () => (
 					const {
 						basemap,
 					} = ctx.state;
-					// If satellite style is selected render satellite styled map component, otherwise render the default outdoors style.
 					return (
 						<Route
 							path="/"
@@ -62,6 +63,17 @@ const App = () => (
 					);
 				}}
 			</MapConsumer>
+
+			{/* Helper modal. */}
+			<SettingsConsumer>
+				{(ctx) => {
+					const { helper, helpersDismissed } = ctx.state;
+					console.log(ctx.state);
+					const { dismissHelpers, toggleHelper } = ctx.actions;
+					return helper && !helpersDismissed ? <SmallModal {...helper} dismissHelpers={dismissHelpers} toggleHelper={toggleHelper} /> : null;
+				}}
+			</SettingsConsumer>
+
 			{/* --- */}
 
 			{/* Routed components here. These will float over the map. */}
@@ -71,7 +83,10 @@ const App = () => (
 					return !seenWelcome ? <Redirect to="/#welcome" /> : null;
 				}}
 			</SettingsConsumer>
-			<Route path="/help" render={() => <h2>Help Page</h2>} />
+			{/* do no render the reportWrapper unless  */}
+			<Route path="/report" render={router => <ReportWrapper router={router} />} />
+			<Route path="/help" render={() => <Help />} />
+			<Route path="/about" render={() => <About />} />
 			<BigModal />
 			{/* ---- */}
 

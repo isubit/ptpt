@@ -1,5 +1,6 @@
 .HeaderOptions
     > ul
+        max-width: 505px
         margin: 0
         padding: 0
         display: flex
@@ -17,6 +18,8 @@
                 .option-active
                     display: none
                 .option-name
+                    font-weight: bold
+                    color: $cool-grey
                     display: none
                 img 
                     display: block
@@ -31,6 +34,7 @@
                         display: block
                 .OptionsDropdown
                     display: grid
+                    z-index: 2
 
 
 @media (min-width: 400px)
@@ -51,7 +55,7 @@
                 width: 100%
                 padding: 0
                 .option-name
-                    width: 40px
+                    width: 41px
                     font-size: 0.5rem
 
 @media (min-width: 1280px)
@@ -71,3 +75,5 @@
                         .option-active
                             display: inline-block
                             vertical-align: middle
+                        .option-name
+                            color: $white

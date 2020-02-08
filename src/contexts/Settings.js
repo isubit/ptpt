@@ -1,8 +1,10 @@
+import _ from 'lodash';
 import React from 'react';
 
 export const SettingsDefaultState = {
 	colorBlindMode: true,
-	dismissHelpers: false,
+	helpersDismissed: false,
+	helper: null,
 	seenWelcome: false,
 };
 export const SettingsContext = React.createContext(SettingsDefaultState);
@@ -20,12 +22,34 @@ export const SettingsActions = (that) => {
 				},
 			}));
 		},
-		toggleHelpers() {
+		activateHelpers() {
 			that.setState(state => ({
 				...state,
 				Settings: {
 					...state.Settings,
-					dismissHelpers: !state.Settings.dismissHelpers,
+					helpersDismissed: false,
+				},
+			}));
+		},
+		dismissHelpers() {
+			that.setState(state => ({
+				...state,
+				Settings: {
+					...state.Settings,
+					helpersDismissed: true,
+					helper: null,
+				},
+			}));
+		},
+		toggleHelper(options) {
+			const newOptions = _.omit(options, ['onClose']);
+			const oldOptions = _.omit(that.state.Settings.helper, ['onClose']);
+			const same = _.isEqual(newOptions, oldOptions);
+			(!same || options === null) && that.setState(state => ({
+				...state,
+				Settings: {
+					...state.Settings,
+					helper: options,
 				},
 			}));
 		},
