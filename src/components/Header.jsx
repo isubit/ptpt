@@ -4,7 +4,7 @@ import {
 	withRouter,
 } from 'react-router-dom';
 
-// import { MapConsumer } from 'contexts/MapState';
+import { MapConsumer } from 'contexts/MapState';
 import { SideNav } from './SideNav';
 import { HeaderOptions } from './HeaderOptions';
 import { LocationInputWrapper } from './LocationInput';
@@ -33,49 +33,62 @@ const Header = (props) => {
 		history,
 	} = props;
 	const { pathname } = location;
-	const mobileShow = pathname === '/report';
 	return (
-		<div className="Header">
-			<div className="grid-row sidenav-btn">
-				<div className="title-wrap">
-					<SideNav />
-					<Title />
-				</div>
-				{
-					(pathname !== '/report' && pathname !== '/about' && pathname !== '/help') && (
-						<>
-							<LocationInputWrapper location={location} />
-							<HeaderOptions location={location} />
-						</>
-					)
-				}
-				{
-					(pathname === '/report' || (pathname !== '/about' && pathname !== '/help')) && (
-						// <MapConsumer>
-						// 	{ctx => {
-						// 		const mobileShow = pathname === '/report';
-						// 		return <SaveButton save={ctx.save} mobileShow={mobileShow} />;
-						// 	}}
-						// </MapConsumer>
-						<SaveButton save={() => history.push(`${location.pathname}#save`)} mobileShow={mobileShow} />
-					)
-				}
-				{
-					(pathname === '/help' || pathname === '/about') && null
-				}
-			</div>
+		<MapConsumer>
 			{
-				(pathname !== '/help' && pathname !== '/about' && pathname !== '/report') && (
-					<div className="search-save-btn">
-						<LocationInputWrapper location={location} />
-						{/* <MapConsumer>
-							{ctx => <SaveButton save={ctx.save} />}
-						</MapConsumer> */}
-						<SaveButton save={() => history.push(`${location.pathname}#save`)} />
-					</div>
-				)
+				ctx => {
+					const numFeatures = ctx.state.data.size;
+					// logic to show default header
+					if ((pathname === '/report' && numFeatures === 0) || (pathname !== '/report' && pathname !== '/help' && pathname !== '/about')) {
+						return (
+							<div className="Header">
+								<div className="grid-row sidenav-btn">
+									<div className="title-wrap">
+										<SideNav />
+										<Title />
+									</div>
+									<LocationInputWrapper location={location} />
+									<HeaderOptions location={location} />
+									<SaveButton save={() => history.push(`${location.pathname}#save`)} />
+								</div>
+								<div className="search-save-btn">
+									<LocationInputWrapper location={location} />
+									<SaveButton save={() => history.push(`${location.pathname}#save`)} />
+								</div>
+							</div>
+						);
+					}
+					// logic to show no headerOptions and locationInput
+					if (pathname === '/report' && numFeatures > 0) {
+						return (
+							<div className="Header">
+								<div className="grid-row sidenav-btn">
+									<div className="title-wrap">
+										<SideNav />
+										<Title />
+									</div>
+									<SaveButton save={() => history.push(`${location.pathname}#save`)} mobileShow />
+								</div>
+							</div>
+						);
+					}
+					// logic to show no headerOptions, locationInput, and save
+					if (pathname === '/help' || pathname === '/about') {
+						return (
+							<div className="Header">
+								<div className="grid-row sidenav-btn">
+									<div className="title-wrap">
+										<SideNav />
+										<Title />
+									</div>
+								</div>
+							</div>
+						);
+					}
+					return null;
+				}
 			}
-		</div>
+		</MapConsumer>
 	);
 };
 

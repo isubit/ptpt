@@ -319,6 +319,7 @@ export class MapComponent extends React.Component {
 
 		// Re-enrich.
 		this.setState({ enriching: true }, async () => {
+			this.nextStep('/')
 			if (mapAPILoaded) {
 				try {
 					clone = await enrichment(clone, map);
@@ -333,9 +334,7 @@ export class MapComponent extends React.Component {
 				editingFeature: null,
 			}));
 
-			if (!setReportFeature) {
-				this.nextStep('/')
-			} else {
+			if (setReportFeature) {
 				history.push({
 					pathname: '/report',
 					state: clone,
@@ -523,7 +522,7 @@ export class MapComponent extends React.Component {
 			<>
 				<div className="Map" ref={this.mapElement}>
 					{enriching && (
-						<div className="modal">
+						<div className="LoaderModal modal">
 							<Loader />
 						</div>
 					)}

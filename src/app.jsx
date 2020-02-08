@@ -66,8 +66,9 @@ const App = () => (
 
 			{/* Helper modal. */}
 			<SettingsConsumer>
-				{ctx => {
+				{(ctx) => {
 					const { helper, helpersDismissed } = ctx.state;
+					console.log(ctx.state);
 					const { dismissHelpers, toggleHelper } = ctx.actions;
 					return helper && !helpersDismissed ? <SmallModal {...helper} dismissHelpers={dismissHelpers} toggleHelper={toggleHelper} /> : null;
 				}}
@@ -82,6 +83,7 @@ const App = () => (
 					return !seenWelcome ? <Redirect to="/#welcome" /> : null;
 				}}
 			</SettingsConsumer>
+			{/* do no render the reportWrapper unless  */}
 			<Route path="/report" render={router => <ReportWrapper router={router} />} />
 			<Route path="/help" render={() => <Help />} />
 			<Route path="/about" render={() => <About />} />

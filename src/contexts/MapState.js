@@ -1402,7 +1402,7 @@ export const MapActions = (that) => {
 			}
 
 			if (that.state.MapState.geolocationSupported) {
-				navigator.permissions.query({ name: 'geolocation' })
+				navigator.permissions ? navigator.permissions.query({ name: 'geolocation' })
 					.then(({ state: status }) => {
 						that.setState(state => ({
 							MapState: {
@@ -1421,7 +1421,7 @@ export const MapActions = (that) => {
 								}), get);
 							}
 						});
-					});
+					}) : get();
 			} else {
 				debug('Geolocation not supported.');
 				that.setState(state => ({

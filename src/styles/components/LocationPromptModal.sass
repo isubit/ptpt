@@ -6,11 +6,34 @@
         align-items: center
         p
             margin-top: 2rem
+    .scroll-wrap
+        display: flex
+        flex-direction: column
+        height: calc(100vh - 99px)
+        .modal-text
+            -ms-overflow-style: none
+            overflow: scroll
+            padding-right: 1rem
+            padding-bottom: 1rem
+            margin-right: -1rem
+    .grid-wrap
+        .modal-footer
+            height: 99px
+            padding: 0px 5.625%
 
 
 
 @media (min-width: 900px)
     .LocationPrompt
+        .scroll-wrap
+            .modal-text
+                padding: 0px 2rem
+                margin-right: 0
+                margin-top: 2rem
+        .grid-wrap
+            .modal-footer
+                height: auto
+                padding: 2rem
         .LocationPromptExplainer
             flex-shrink: 1
             flex-direction: row
