@@ -111,7 +111,7 @@ export class MapComponent extends React.Component {
 		const mapConfig = {
 			container: this.mapElement.current,
 			style: styleURL,
-			minZoom: window.innerWidth * window.innerHeight > 1000000 ? 15 : 12,
+			// minZoom: window.innerWidth * window.innerHeight > 1000000 ? 15 : 12,
 			center: latlng || defaultLatLng,
 			zoom: zoom || defaultZoom,
 			pitch: pitch || defaultPitch,
