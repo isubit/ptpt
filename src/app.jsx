@@ -68,7 +68,6 @@ const App = () => (
 			<SettingsConsumer>
 				{(ctx) => {
 					const { helper, helpersDismissed } = ctx.state;
-					console.log(ctx.state);
 					const { dismissHelpers, toggleHelper } = ctx.actions;
 					return helper && !helpersDismissed ? <SmallModal {...helper} dismissHelpers={dismissHelpers} toggleHelper={toggleHelper} /> : null;
 				}}

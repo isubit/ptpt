@@ -8,6 +8,8 @@ import csrRent from 'references/csr_rent.json';
 import soilSeriesMoisture from 'references/soil_series_moisture.json';
 import soilSeriesCSG from 'references/soil_series_csg.json';
 
+import { promiseTimeout } from './promiseTimeout';
+
 import {
 	getPolygonCounty,
 	linesToPolygon,
@@ -89,7 +91,7 @@ export async function enrichment(feature, map) {
 
 	// County and CSR Rent
 	try {
-		const county = await getPolygonCounty(clone);
+		const county = await promiseTimeout(getPolygonCounty(clone), 10000);
 
 		if (!county) {
 			throw new Error('No country returned.');
@@ -114,12 +116,19 @@ export async function enrichment(feature, map) {
 
 	// Soils
 	// For whatever reason, queryRenderedFeatures is inaccurate and only returns one polygon that doesn't even intersect the bbox.
-	const ssurgo = map.querySourceFeatures('ssurgo', {
-		sourceLayer: 'default',
-	});
+	let ssurgo = [];
+	let intersects = [];
+	let ssurgoIntersects = [];
+	try {
+		ssurgo = map.querySourceFeatures('ssurgo', {
+			sourceLayer: 'default',
+		});
 
-	const intersects = await findSSURGOIntersects(boundingPolygon || clone, ssurgo);
-	const ssurgoIntersects = intersects.map(ea => ssurgo.find(mapunit => mapunit.properties.OBJECTID === ea));
+		intersects = await promiseTimeout(findSSURGOIntersects(boundingPolygon || clone, ssurgo), 10000);
+		ssurgoIntersects = intersects.map(ea => ssurgo.find(mapunit => mapunit.properties.OBJECTID === ea));
+	} catch (e) {
+		debug(e);
+	}
 
 	if (ssurgo && ssurgo.length > 0) {
 		clone.properties = {

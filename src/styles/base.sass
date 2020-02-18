@@ -67,16 +67,22 @@ h4, p
     margin: 0
 
 a
-    text-decoration: none
     &:visited
-       color: $bright-blue
+        color: $bright-blue
+    &:hover
+        color: $dark-green
+
+span
+    &.link
+        color: blue
+        cursor: pointer
+        &:hover
+            color: $dark-green
 
 button
 	margin: 0
-
-span.link
-    color: blue
-    cursor: pointer
+button:hover
+    background-color: $dark-green
 
 button[type='button']
 	border: none

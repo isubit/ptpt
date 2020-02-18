@@ -4,6 +4,7 @@ import { Layer } from './Layer';
 export const GeolocationPosition = props => {
 	const {
 		map,
+		textColor,
 	} = props;
 
 	const labelLayer = {
@@ -16,6 +17,9 @@ export const GeolocationPosition = props => {
 			'text-offset': [0, 2],
 			'text-allow-overlap': true,
 			'text-justify': 'auto',
+		},
+		paint: {
+			'text-color': textColor || 'white',
 		},
 	};
 

@@ -523,42 +523,42 @@ export class PlantingModal extends React.Component {
 							{
 								stepIndex === steps.length - 1 && (
 									<>
-										<button
-											type="button"
+										<span
+											role="button"
 											className="modal-link mobile spacer-bottom-0_5"
 											onClick={this.handleSave}
 											onKeyPress={this.handleSave}
 											tabIndex="0"
 										>
-											<span>View Map</span>
-										</button>
+											View Map
+										</span>
 									</>
 								)
 							}
-							<button
-								type="button"
+							<span
+								role="button"
 								className="modal-link"
 								onClick={() => deleteFeature(editingFeature.id)}
 								onKeyPress={() => deleteFeature(editingFeature.id)}
 								tabIndex="0"
 							>
 								Delete {type === 'tree' ? 'Tree rows' : 'Prairie area'}
-							</button>
+							</span>
 						</div>
 						<div>
 							{
 								stepIndex === steps.length - 1
 									? (
 										<>
-											<button
-												type="button"
+											<span
+												role="button"
 												className="modal-link desktop"
 												onClick={this.handleSave}
 												onKeyPress={this.handleSave}
 												tabIndex="0"
 											>
-												<span>View Map</span>
-											</button>
+												View Map
+											</span>
 											<button
 												type="button"
 												className="Button desktop"

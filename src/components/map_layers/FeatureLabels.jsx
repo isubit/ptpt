@@ -4,6 +4,7 @@ import { Layer } from './Layer';
 export const FeatureLabels = props => {
 	const {
 		map,
+		textColor,
 	} = props;
 
 	const layer = {
@@ -16,6 +17,9 @@ export const FeatureLabels = props => {
 			'text-offset': [0, 3],
 			'text-allow-overlap': true,
 			'text-justify': 'auto',
+		},
+		paint: {
+			'text-color': textColor || 'white',
 		},
 	};
 

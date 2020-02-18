@@ -325,7 +325,7 @@ export class MapComponent extends React.Component {
 					clone = await enrichment(clone, map);
 					addData(clone);
 				} catch(e) {
-					debug(e);	
+					addData(clone);
 				}
 			}
 
@@ -354,8 +354,11 @@ export class MapComponent extends React.Component {
 			},
 		} = this;
 
-		deleteData(id);
-		history.push('/');
+		const sure = confirm('Are you sure you want to delete this feature?');
+		if (sure) {
+			deleteData(id);
+			history.push('/');
+		}
 	}
 
 	addSource(name, type, data) {
@@ -493,6 +496,7 @@ export class MapComponent extends React.Component {
 						pathname,
 					},
 				},
+				styleURL,
 				toggleHelper,
 			},
 			setEditingFeature,
@@ -551,8 +555,8 @@ export class MapComponent extends React.Component {
 								<TreeRows map={map} />
 								<Trees map={map} />
 								{!/^\/plant/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
-								<FeatureLabels map={map} />
-								{map.getSource('geolocation_position') && <GeolocationPosition map={map} />}
+								<FeatureLabels map={map} textColor={styleURL === process.env.mapbox_satellite_url ? 'white' : 'black'} />
+								{map.getSource('geolocation_position') && <GeolocationPosition map={map} textColor={styleURL === process.env.mapbox_satellite_url ? 'white' : 'black'} />}
 							</>
 						)}
 

@@ -61,9 +61,9 @@ export class WelcomeModal extends React.Component {
 						<Link className="CloseButton" to="/"><img src="../../assets/close_dropdown.svg" alt="close welcome modal" /></Link>
 						<h2 className="modal-header">Welcome to the Prairie &amp; Tree Planting Tool</h2>
 						<p className="modal-text">
-							{/* eslint-disable-next-line max-len */}
-							To get started, you can use your current location or enter a coordinate or address in the bar above. You can also pan to an area on the map. Once you have your location on the map, use the planting tools in the upper right side to plant your trees and prairies. If you need additional help, you can read the
-							<Link to="/help"> help documentation</Link>
+							{/* eslint-disable-next-line max-len, no-trailing-spaces */}
+							To get started, you can use your current location or enter a coordinate or address in the bar above. You can also pan to an area on the map. Once you have your location on the map, use the planting tools in the upper right side to plant your trees and prairies. If you need additional help, you can read the&nbsp;
+							<Link to="/help">help documentation</Link>
 							.
 						</p>
 						<div className="modal-footer">
