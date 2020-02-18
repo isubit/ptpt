@@ -18,6 +18,7 @@ export class SimpleSelect extends React.Component {
 		data.size === 0 ? toggleHelper({
 			text: 'To get started, plant trees or prairie by using the above tools. You can also view different map layers.',
 			buttonText: 'Okay! I got it!',
+			helperFor: 'started',
 		}) : toggleHelper(null);
 	}
 

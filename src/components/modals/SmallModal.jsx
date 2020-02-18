@@ -1,5 +1,7 @@
 import React from 'react';
 
+const dismissed = [];
+
 export const SmallModal = props => {
 	const {
 		buttonText,
@@ -10,7 +12,7 @@ export const SmallModal = props => {
 		helperFor,
 	} = props;
 
-	return (
+	return dismissed.includes(helperFor) ? null : (
 		<div className="SmallModal small-modal">
 			<button
 				className="CloseButton"
@@ -18,6 +20,7 @@ export const SmallModal = props => {
 				onClick={() => {
 					toggleHelper(null);
 					onClose && onClose();
+					helperFor && dismissed.push(helperFor);
 				}}
 			>
 				<img src="../../assets/close_dropdown.svg" alt="close welcome modal" />
@@ -33,6 +36,7 @@ export const SmallModal = props => {
 					onClick={() => {
 						toggleHelper(null);
 						onClose && onClose();
+						helperFor && dismissed.push(helperFor);
 					}}
 				>
 					{buttonText}
