@@ -271,7 +271,8 @@ export class PlantingModal extends React.Component {
 	}
 
 	handleSeedPriceChange = (event) => {
-		const updateValue = typeof event === 'number' ? event : event.target.value;
+		// eslint-disable-next-line no-restricted-globals
+		const updateValue = typeof Number(event) === 'number' && !isNaN(event) ? event : event.target.value;
 		this.setState(() => ({ seed_price: updateValue }));
 	}
 
@@ -518,15 +519,32 @@ export class PlantingModal extends React.Component {
 				</div>
 				<div className="button-wrap">
 					<div className="width-100 distribute vertical-align">
-						<button
-							type="button"
-							className="modal-link"
-							onClick={() => deleteFeature(editingFeature.id)}
-							onKeyPress={() => deleteFeature(editingFeature.id)}
-							tabIndex="0"
-						>
-							Delete {type === 'tree' ? 'tree rows' : 'prairie area'}
-						</button>
+						<div className="flex-column flex-start">
+							{
+								stepIndex === steps.length - 1 && (
+									<>
+										<button
+											type="button"
+											className="modal-link mobile spacer-bottom-0_5"
+											onClick={this.handleSave}
+											onKeyPress={this.handleSave}
+											tabIndex="0"
+										>
+											<span>View Map</span>
+										</button>
+									</>
+								)
+							}
+							<button
+								type="button"
+								className="modal-link"
+								onClick={() => deleteFeature(editingFeature.id)}
+								onKeyPress={() => deleteFeature(editingFeature.id)}
+								tabIndex="0"
+							>
+								Delete {type === 'tree' ? 'Tree rows' : 'Prairie area'}
+							</button>
+						</div>
 						<div>
 							{
 								stepIndex === steps.length - 1
@@ -534,7 +552,7 @@ export class PlantingModal extends React.Component {
 										<>
 											<button
 												type="button"
-												className="modal-link"
+												className="modal-link desktop"
 												onClick={this.handleSave}
 												onKeyPress={this.handleSave}
 												tabIndex="0"
@@ -543,7 +561,7 @@ export class PlantingModal extends React.Component {
 											</button>
 											<button
 												type="button"
-												className="Button"
+												className="Button desktop"
 												onClick={this.handleSave}
 												onKeyPress={this.handleSave}
 												tabIndex="0"

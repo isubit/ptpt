@@ -117,7 +117,7 @@ const ReportTable = (props) => {
 		const total_costs = [labels[4]];
 		costs.forEach(cost => {
 			cost.id ? ids.push(cost.id) : ids.push(null);
-			(cost.unit_cost || cost.unit_cost === 0) ? unit_costs.push(`$${cost.unit_cost.toFixed(2)}`) : unit_costs.push(null);
+			(Number(cost.unit_cost) || Number(cost.unit_cost) === 0) ? unit_costs.push(`$${Number(cost.unit_cost).toFixed(2)}`) : unit_costs.push(null);
 			cost.units ? units.push(cost.units) : units.push(null);
 			if (cost.units && (cost.units === '$/tree' || cost.units === 'N/A')) {
 				(cost.qty || cost.qty === 0) ? qty.push(cost.qty.toFixed(0)) : qty.push(null);
