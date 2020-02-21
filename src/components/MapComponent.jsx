@@ -522,6 +522,8 @@ export class MapComponent extends React.Component {
 			toggleHelper,
 		};
 
+		const labelTextColor = styleURL === process.env.mapbox_satellite_url ? 'white' : 'black';
+
 		return (
 			<>
 				<div className="Map" ref={this.mapElement}>
@@ -549,14 +551,14 @@ export class MapComponent extends React.Component {
 							<>
 								{layers.lidar && <Lidar map={map} active={layers.lidar} />}{/* This is written this way because the lidar layer takes so long to load it impedes other processes. */}
 								<SSURGO map={map} active={layers.ssurgo} />
-								<Contours map={map} active={layers.contours} />
+								<Contours map={map} active={layers.contours} textColor={labelTextColor} />
 								<PrairieArea map={map} />
 								<PrairieOutline map={map} />
 								<TreeRows map={map} />
 								<Trees map={map} />
 								{!/^\/plant/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
-								<FeatureLabels map={map} textColor={styleURL === process.env.mapbox_satellite_url ? 'white' : 'black'} />
-								{map.getSource('geolocation_position') && <GeolocationPosition map={map} textColor={styleURL === process.env.mapbox_satellite_url ? 'white' : 'black'} />}
+								<FeatureLabels map={map} textColor={labelTextColor} />
+								{map.getSource('geolocation_position') && <GeolocationPosition map={map} textColor={labelTextColor} />}
 							</>
 						)}
 
