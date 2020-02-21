@@ -48,7 +48,7 @@ export class Layer extends React.Component {
 		if (map.getLayer(layer.id)) {
 			map.removeLayer(layer.id);
 		}
-		map.addLayer(layer);
+		map.addLayer(layer, 'country-label');
 	}
 
 	setupEvents() {
