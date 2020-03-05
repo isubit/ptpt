@@ -522,7 +522,33 @@ export class MapComponent extends React.Component {
 			toggleHelper,
 		};
 
-		const labelTextColor = styleURL === process.env.mapbox_satellite_url ? 'white' : 'black';
+		map && sourcesAdded && (() => {
+			const labelTextColor = styleURL === process.env.mapbox_satellite_url ? 'white' : 'black';
+
+			map.labelTextColor = labelTextColor;
+	
+			const satelliteEnabled = styleURL === process.env.mapbox_satellite_url;
+	
+			map.satelliteEnabled = satelliteEnabled;
+	
+			const layerToInsertBefore = (() => {
+				if (map) {
+					const layers = map.getStyle().layers;
+					let lastBaseMapLayer;
+					if (satelliteEnabled) {
+						lastBaseMapLayer = 'satellite';
+					} else {
+						lastBaseMapLayer = 'country-label';
+					}
+					const indexOfLastBaseMapLayer = layers.findIndex(ea => ea.id === lastBaseMapLayer);
+					return indexOfLastBaseMapLayer === layers.length - 1 ? null : layers[indexOfLastBaseMapLayer + 1].id;
+				} else {
+					return null;
+				}
+			})();
+	
+			map.layerToInsertBefore = layerToInsertBefore;
+		})();
 
 		return (
 			<>
@@ -551,14 +577,14 @@ export class MapComponent extends React.Component {
 							<>
 								{layers.lidar && <Lidar map={map} active={layers.lidar} />}{/* This is written this way because the lidar layer takes so long to load it impedes other processes. */}
 								<SSURGO map={map} active={layers.ssurgo} />
-								<Contours map={map} active={layers.contours} textColor={labelTextColor} />
+								<Contours map={map} active={layers.contours} />
 								<PrairieArea map={map} />
 								<PrairieOutline map={map} />
 								<TreeRows map={map} />
 								<Trees map={map} />
 								{!/^\/plant/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
-								<FeatureLabels map={map} textColor={labelTextColor} />
-								{map.getSource('geolocation_position') && <GeolocationPosition map={map} textColor={labelTextColor} />}
+								<FeatureLabels map={map} />
+								{map.getSource('geolocation_position') && <GeolocationPosition map={map} />}
 							</>
 						)}
 

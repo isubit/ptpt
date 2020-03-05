@@ -4,7 +4,6 @@ import { Layer } from './Layer';
 export const FeatureLabels = props => {
 	const {
 		map,
-		textColor,
 	} = props;
 
 	const layer = {
@@ -19,7 +18,7 @@ export const FeatureLabels = props => {
 			'text-justify': 'auto',
 		},
 		paint: {
-			'text-color': textColor || 'white',
+			'text-color': map.labelTextColor || 'white',
 		},
 	};
 

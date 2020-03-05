@@ -48,7 +48,13 @@ export class Layer extends React.Component {
 		if (map.getLayer(layer.id)) {
 			map.removeLayer(layer.id);
 		}
-		map.addLayer(layer, 'country-label');
+		console.log(map.layerToInsertBefore);
+		// map.addLayer(layer, 'gl-draw-polygon-fill-inactive.cold');
+		// if (map.satelliteEnabled) {
+
+		// } else {
+		// 	map.addLayer(layer, 'country-label');
+		// }
 	}
 
 	setupEvents() {
