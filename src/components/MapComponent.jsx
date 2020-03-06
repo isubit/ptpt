@@ -530,24 +530,6 @@ export class MapComponent extends React.Component {
 			const satelliteEnabled = styleURL === process.env.mapbox_satellite_url;
 	
 			map.satelliteEnabled = satelliteEnabled;
-	
-			const layerToInsertBefore = (() => {
-				if (map) {
-					const layers = map.getStyle().layers;
-					let lastBaseMapLayer;
-					if (satelliteEnabled) {
-						lastBaseMapLayer = 'satellite';
-					} else {
-						lastBaseMapLayer = 'country-label';
-					}
-					const indexOfLastBaseMapLayer = layers.findIndex(ea => ea.id === lastBaseMapLayer);
-					return indexOfLastBaseMapLayer === layers.length - 1 ? null : layers[indexOfLastBaseMapLayer + 1].id;
-				} else {
-					return null;
-				}
-			})();
-	
-			map.layerToInsertBefore = layerToInsertBefore;
 		})();
 
 		return (
