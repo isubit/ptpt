@@ -45,10 +45,29 @@ export class Layer extends React.Component {
 			layer,
 			map,
 		} = this.props;
+
 		if (map.getLayer(layer.id)) {
 			map.removeLayer(layer.id);
 		}
-		map.addLayer(layer, 'country-label');
+
+		const layerToInsertBefore = (() => {
+			if (map) {
+				const { layers } = map.getStyle();
+				let lastBaseMapLayer;
+				if (map.satelliteEnabled) {
+					lastBaseMapLayer = 'satellite';
+				} else {
+					lastBaseMapLayer = 'country-label';
+				}
+				const indexOfLastBaseMapLayer = layers.findIndex(ea => ea.id === lastBaseMapLayer);
+				return indexOfLastBaseMapLayer === layers.length - 1 ? null : layers[indexOfLastBaseMapLayer + 1].id;
+			}
+
+			return null;
+		})();
+
+		console.log(layerToInsertBefore);
+		map.addLayer(layer, layerToInsertBefore || undefined);
 	}
 
 	setupEvents() {

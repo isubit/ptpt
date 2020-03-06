@@ -4,7 +4,6 @@ import { Layer } from './Layer';
 export const GeolocationPosition = props => {
 	const {
 		map,
-		textColor,
 	} = props;
 
 	const labelLayer = {
@@ -19,7 +18,7 @@ export const GeolocationPosition = props => {
 			'text-justify': 'auto',
 		},
 		paint: {
-			'text-color': textColor || 'white',
+			'text-color': map.labelTextColor || 'white',
 		},
 	};
 

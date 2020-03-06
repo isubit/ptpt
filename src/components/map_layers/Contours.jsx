@@ -8,7 +8,6 @@ export const Contours = props => {
 		active,
 		color,
         map,
-		textColor,
         width,
 	} = props;
 
@@ -45,7 +44,7 @@ export const Contours = props => {
 		paint: {
 			'icon-color': 'black',
 			'icon-halo-width': 1,
-			'text-color': textColor || 'black',
+			'text-color': map.labelTextColor || 'black',
 			'text-halo-width': 1,
 		},
 		// layout: {
