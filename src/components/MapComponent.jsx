@@ -111,7 +111,7 @@ export class MapComponent extends React.Component {
 		const mapConfig = {
 			container: this.mapElement.current,
 			style: styleURL,
-			minZoom: window.innerWidth * window.innerHeight > 1000000 ? 15 : 12,
+			// minZoom: window.innerWidth * window.innerHeight > 1000000 ? 15 : 12,
 			center: latlng || defaultLatLng,
 			zoom: zoom || defaultZoom,
 			pitch: pitch || defaultPitch,
@@ -325,7 +325,7 @@ export class MapComponent extends React.Component {
 					clone = await enrichment(clone, map);
 					addData(clone);
 				} catch(e) {
-					debug(e);	
+					addData(clone);
 				}
 			}
 
@@ -354,8 +354,11 @@ export class MapComponent extends React.Component {
 			},
 		} = this;
 
-		deleteData(id);
-		history.push('/');
+		const sure = confirm('Are you sure you want to delete this feature?');
+		if (sure) {
+			deleteData(id);
+			history.push('/');
+		}
 	}
 
 	addSource(name, type, data) {
@@ -493,6 +496,7 @@ export class MapComponent extends React.Component {
 						pathname,
 					},
 				},
+				styleURL,
 				toggleHelper,
 			},
 			setEditingFeature,
@@ -517,6 +521,16 @@ export class MapComponent extends React.Component {
 			saveFeature,
 			toggleHelper,
 		};
+
+		map && sourcesAdded && (() => {
+			const labelTextColor = styleURL === process.env.mapbox_satellite_url ? 'white' : 'black';
+
+			map.labelTextColor = labelTextColor;
+	
+			const satelliteEnabled = styleURL === process.env.mapbox_satellite_url;
+	
+			map.satelliteEnabled = satelliteEnabled;
+		})();
 
 		return (
 			<>

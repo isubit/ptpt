@@ -6,12 +6,12 @@ import { Layer } from './Layer';
 export const Contours = props => {
 	const {
 		active,
-        color,
+		color,
         map,
         width,
 	} = props;
 
-	const layer = {
+	const contourLayer = {
 		id: 'contours',
 		type: 'line',
 		source: 'contours',
@@ -24,5 +24,49 @@ export const Contours = props => {
 		},
 	};
 
-	return <Layer map={map} layer={layer} />;
+	const labelLayer = {
+		id: 'contour-labels',
+		type: 'symbol',
+		source: 'contours',
+		'source-layer': process.env.mapbox_contour_tileset_layer_name,
+		minzoom: 10,
+		layout: {
+			visibility: 'visible',
+			'symbol-placement': 'line',
+			'text-field': '{CONTOUR} ft',
+			'text-letter-spacing': 0,
+			'text-line-height': 1.6,
+			'text-max-angle': 10,
+			'text-rotation-alignment': 'map',
+			'text-font': ['Open Sans Regular', 'Arial Unicode MS Regular'],
+			'text-size': 12,
+		},
+		paint: {
+			'icon-color': 'black',
+			'icon-halo-width': 1,
+			'text-color': map.labelTextColor || 'black',
+			'text-halo-width': 1,
+		},
+		// layout: {
+		// 	'symbol-placement': 'line',
+		// 	'text-field': '{ele} ft',
+		// 	'text-font': ['Open Sans Regular', 'Arial Unicode MS Regular'],
+
+		// },
+		// 'paint.contours': {
+		// 	'text-opacity': 1,
+		// 	'text-halo-blur': 0,
+		// 	'text-size': 12,
+		// 	'text-halo-width': 1,
+		// 	'text-halo-color': '#333',
+		// 	'text-color': '#00fcdc',
+		// },
+	};
+
+	return (
+		<>
+			<Layer map={map} layer={contourLayer} />
+			<Layer map={map} layer={labelLayer} />
+		</>
+	);
 };

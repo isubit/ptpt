@@ -17,6 +17,9 @@ export const GeolocationPosition = props => {
 			'text-allow-overlap': true,
 			'text-justify': 'auto',
 		},
+		paint: {
+			'text-color': map.labelTextColor || 'white',
+		},
 	};
 
 	const circleLayer = {

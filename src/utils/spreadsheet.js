@@ -211,6 +211,7 @@ function treeTemplate(feature, sheet) {
 			label,
 			rent,
 			rowLength,
+			rows: treeRowsGeo,
 		},
 	} = feature;
 
@@ -336,7 +337,7 @@ function treeTemplate(feature, sheet) {
 
 	// EQIP
 	// Rows 47 - ...
-	let totalEqipColumn;
+	let totalEqipRow;
 	(() => {
 		sheet.addRows([
 			['EQIP'],
@@ -347,23 +348,41 @@ function treeTemplate(feature, sheet) {
 			[],
 		]);
 
-		totalEqipColumn = 48 + eqipValues.length - 1 + 2;
+		totalEqipRow = 48 + eqipValues.length - 1 + 2;
 
 		sheet.getCell('A47').font = { bold: true, underline: true };
 		for (let i = 48, ii = 48 + eqipValues.length - 1; i <= ii; i += 1) {
 			sheet.getCell(`A${i}`).font = { italic: true };
 		}
-		sheet.getCell(`A${totalEqipColumn}`).font = { bold: true };
+		sheet.getCell(`A${totalEqipRow}`).font = { bold: true };
 	})();
 
 	// Net Cost
-	const netCostColumn = totalEqipColumn + 2;
-	// Waiting for confirmation on annualization of EQIP.
-	// sheet.addRow(['Net Cost', '', '', { formula: `D45-D${totalEqipColumn}` }]);
+	const netCostRow = totalEqipRow + 2;
+	sheet.addRows([
+		['Net Cost', '', '', { formula: `D45-D${totalEqipRow}` }],
+		[],
+	]);
 
-	sheet.getCell(`A${netCostColumn}`).font = { bold: true, underline: true };
+	sheet.getCell(`A${netCostRow}`).font = { bold: true, underline: true };
 
-	for (let i = 18, ii = netCostColumn; i <= ii; i += 1) {
+	// Tree Coordinates
+	const treeCoordinatesRows = netCostRow + 2;
+	(() => {
+		const rows = [];
+		rows.push([
+			['Tree Row Coordinates', 'Start LatLng', 'End LatLng'],
+			...treeRowsGeo.map((ea, i) => [`Row ${i + 1}`, `${ea.geometry.coordinates[0][1]}, ${ea.geometry.coordinates[0][0]}`, `${ea.geometry.coordinates[1][1]}, ${ea.geometry.coordinates[1][0]}`]),
+		]);
+		sheet.addRows(_.flatten(rows));
+		sheet.getCell(`A${treeCoordinatesRows}`).font = { bold: true, underline: true };
+		for (let i = treeCoordinatesRows + 1, ii = treeCoordinatesRows + treeRowsGeo.length; i <= ii; i += 1) {
+			sheet.getCell(`A${i}`).font = { italic: true };
+		}
+	})();
+
+	// Formatting
+	for (let i = 18, ii = netCostRow; i <= ii; i += 1) {
 		sheet.getCell(`B${i}`).numFmt = currency;
 		sheet.getCell(`C${i}`).numFmt = currency;
 		sheet.getCell(`D${i}`).numFmt = currency;

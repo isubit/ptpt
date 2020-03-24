@@ -7,7 +7,6 @@ import { PrairiePlantingForm } from '../PrairiePlantingForm';
 export class PlantingModal extends React.Component {
 	constructor(props) {
 		super(props);
-		// this.bottom = React.createRef();
 		const {
 			editingFeature: {
 				properties: {
@@ -70,14 +69,6 @@ export class PlantingModal extends React.Component {
 
 		this.form = React.createRef();
 	}
-
-	// componentDidUpdate(prevProps) {
-	// 	const { stepIndex: prevStepIndex } = prevProps;
-	// 	const { stepIndex: currentStepIndex } = this.props;
-	// 	if (currentStepIndex > prevStepIndex) {
-	// 		this.scrollToBottom();
-	// 	}
-	// }
 
 	handleNumRowChange = (event) => {
 		const {
@@ -280,7 +271,8 @@ export class PlantingModal extends React.Component {
 	}
 
 	handleSeedPriceChange = (event) => {
-		const updateValue = typeof event === 'number' ? event : event.target.value;
+		// eslint-disable-next-line no-restricted-globals
+		const updateValue = typeof Number(event) === 'number' && !isNaN(event) ? event : event.target.value;
 		this.setState(() => ({ seed_price: updateValue }));
 	}
 
@@ -417,6 +409,7 @@ export class PlantingModal extends React.Component {
 				step,
 				stepIndex,
 				steps,
+				deleteFeature,
 				editingFeature,
 				editingFeature: {
 					properties: {
@@ -522,43 +515,74 @@ export class PlantingModal extends React.Component {
 				<div className="modal">
 					{ type === 'tree' && <TreePlantingForm {...formProps} /> }
 					{ type === 'prairie' && <PrairiePlantingForm {...formProps} /> }
-					{/* <div ref={this.bottom} /> */}
+					{formError && <p className="warning spacer-top-1">{formError}</p>}
 				</div>
-				<div className="button-wrap vertical-align">
-					{formError && <p className="warning">{formError}</p>}
-					{
-						stepIndex === steps.length - 1
-							? (
-								<>
-									<button
-										type="button"
-										className="modal-link"
-										onClick={this.handleSave}
-										onKeyPress={this.handleSave}
-									>
-										<span>View Map</span>
-									</button>
-									<button
-										type="button"
-										className="Button"
-										onClick={this.handleSave}
-										onKeyPress={this.handleSave}
-									>
-										<span>View Report</span>
-									</button>
-								</>
-							)
-							: (
-								<button
-									type="button"
-									className="Button"
-									onClick={this.handleNextStep}
-									onKeyPress={this.handleNextStep}
-								>
-									<span>Next</span>
-								</button>
-							)
-					}
+				<div className="button-wrap">
+					<div className="width-100 distribute vertical-align">
+						<div className="flex-column flex-start">
+							{
+								stepIndex === steps.length - 1 && (
+									<>
+										<span
+											role="button"
+											className="modal-link mobile spacer-bottom-0_5"
+											onClick={this.handleSave}
+											onKeyPress={this.handleSave}
+											tabIndex="0"
+										>
+											View Map
+										</span>
+									</>
+								)
+							}
+							<span
+								role="button"
+								className="modal-link"
+								onClick={() => deleteFeature(editingFeature.id)}
+								onKeyPress={() => deleteFeature(editingFeature.id)}
+								tabIndex="0"
+							>
+								Delete {type === 'tree' ? 'Tree rows' : 'Prairie area'}
+							</span>
+						</div>
+						<div>
+							{
+								stepIndex === steps.length - 1
+									? (
+										<>
+											<span
+												role="button"
+												className="modal-link desktop"
+												onClick={this.handleSave}
+												onKeyPress={this.handleSave}
+												tabIndex="0"
+											>
+												View Map
+											</span>
+											<button
+												type="button"
+												className="Button desktop"
+												onClick={this.handleSave}
+												onKeyPress={this.handleSave}
+												tabIndex="0"
+											>
+												<span>View Report</span>
+											</button>
+										</>
+									)
+									: (
+										<button
+											type="button"
+											className="Button"
+											onClick={this.handleNextStep}
+											onKeyPress={this.handleNextStep}
+										>
+											<span>Next</span>
+										</button>
+									)
+							}
+						</div>
+					</div>
 				</div>
 			</>
 		);

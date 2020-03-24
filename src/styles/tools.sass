@@ -49,6 +49,8 @@
 .flex-column
 	display: flex
 	flex-direction: column
+	&.flex-start
+		align-items: flex-start
 
 .modal-link
 	font-family: Merriweather
@@ -61,6 +63,8 @@
 	color: $bright-blue
 	background: transparent
 	cursor: pointer
+	&:hover
+		color: $dark-green
 
 .map-link
 	font-family: Merriweather
@@ -125,6 +129,16 @@
 @media (max-width: 899px)
 	.warning
 		margin-left: 1.5rem
+
+.mobile
+	display: none
+	@media (max-width: 899px)
+		display: initial
+
+.desktop
+	display: none
+	@media (min-width: 900px)
+		display: initial
 
 .warning
 	color: red

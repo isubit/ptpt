@@ -38,10 +38,25 @@ const App = () => (
 			{/* These will always be visible, no addt'l routing required. */}
 			{/* The map is always mounted (but perhaps covered)
 				to improve performance when route switching. */}
+
 			<MapConsumer>
 				{ctx => {
 					const { state, actions } = ctx;
 					return <HeaderWithRouter {...state} {...actions} />;
+				}}
+			</MapConsumer>
+
+			<MapConsumer>
+				{mapCtx => {
+					const { data } = mapCtx.state;
+					return data.size === 0 ? (
+						<SettingsConsumer>
+							{settingsCtx => {
+								const { seenWelcome } = settingsCtx.state;
+								return !seenWelcome ? <Redirect to="/#welcome" /> : null;
+							}}
+						</SettingsConsumer>
+					) : null;
 				}}
 			</MapConsumer>
 
@@ -68,7 +83,6 @@ const App = () => (
 			<SettingsConsumer>
 				{(ctx) => {
 					const { helper, helpersDismissed } = ctx.state;
-					console.log(ctx.state);
 					const { dismissHelpers, toggleHelper } = ctx.actions;
 					return helper && !helpersDismissed ? <SmallModal {...helper} dismissHelpers={dismissHelpers} toggleHelper={toggleHelper} /> : null;
 				}}
@@ -77,12 +91,7 @@ const App = () => (
 			{/* --- */}
 
 			{/* Routed components here. These will float over the map. */}
-			<SettingsConsumer>
-				{ctx => {
-					const { seenWelcome } = ctx.state;
-					return !seenWelcome ? <Redirect to="/#welcome" /> : null;
-				}}
-			</SettingsConsumer>
+
 			{/* do no render the reportWrapper unless  */}
 			<Route path="/report" render={router => <ReportWrapper router={router} />} />
 			<Route path="/help" render={() => <Help />} />

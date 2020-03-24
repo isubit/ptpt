@@ -53,10 +53,11 @@ const SeedMixInput = React.forwardRef((props, ref) => {
 					</select>
 				</div>
 				<div className="inputElement">
-					<span className="inputLabel">{seed === 'custom' ? 'Enter ' : ''}Price Per Acre</span>
+					<span className="inputLabel">{seed === 'custom' ? 'Enter ' : ''}Price{seed === 'custom' ? ' $' : ''} Per Acre</span>
 					{
 						seed === 'custom'
-							? <input type="text" className="ModalTextInput" value={seed_price} onChange={(e) => handleSeedPriceChange(e)} />
+							// eslint-disable-next-line no-return-assign
+							? <input type="number" min="0" step="0.01" className="ModalTextInput" value={seed_price} onBlur={(e) => handleSeedPriceChange((Number(e.target.value) || 0).toFixed(2))} onChange={(e) => handleSeedPriceChange(e)} />
 							: <span className="SeedPrice">{Number(seed_price) ? `$${seed_price.toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,')}` : 'Unknown'}</span>
 					}
 				</div>

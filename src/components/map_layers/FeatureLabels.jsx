@@ -17,6 +17,9 @@ export const FeatureLabels = props => {
 			'text-allow-overlap': true,
 			'text-justify': 'auto',
 		},
+		paint: {
+			'text-color': map.labelTextColor || 'white',
+		},
 	};
 
 	return <Layer map={map} layer={layer} />;
