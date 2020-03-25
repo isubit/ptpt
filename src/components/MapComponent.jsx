@@ -557,16 +557,16 @@ export class MapComponent extends React.Component {
 					{!cleanup && sourcesAdded
 						&& (
 							<>
-								{layers.lidar && <Lidar map={map} active={layers.lidar} />}{/* This is written this way because the lidar layer takes so long to load it impedes other processes. */}
-								<SSURGO map={map} active={layers.ssurgo} />
-								<Contours map={map} active={layers.contours} />
 								<PrairieArea map={map} />
 								<PrairieOutline map={map} />
 								<TreeRows map={map} />
 								<Trees map={map} />
 								{!/^\/plant/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
-								<FeatureLabels map={map} />
 								{map.getSource('geolocation_position') && <GeolocationPosition map={map} />}
+								{layers.lidar && <Lidar map={map} active={layers.lidar} />}{/* This is written this way because the lidar layer takes so long to load it impedes other processes. */}
+								<FeatureLabels map={map} />
+								<SSURGO map={map} active={layers.ssurgo} />
+								<Contours map={map} active={layers.contours} />
 							</>
 						)}
 
