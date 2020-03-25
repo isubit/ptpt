@@ -562,10 +562,10 @@ export class MapComponent extends React.Component {
 								<Contours map={map} active={layers.contours} />
 								<PrairieArea map={map} />
 								<PrairieOutline map={map} />
-								<TreeRows map={map} />
-								<Trees map={map} />
 								{!/^\/plant/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
 								<FeatureLabels map={map} />
+								<TreeRows map={map} />
+								<Trees map={map} />
 								{map.getSource('geolocation_position') && <GeolocationPosition map={map} />}
 							</>
 						)}
