@@ -30,6 +30,7 @@ import { Contours } from './map_layers/Contours';
 import { EditIcons } from './map_layers/EditIcons';
 import { FeatureLabels } from './map_layers/FeatureLabels';
 import { GeolocationPosition } from './map_layers/GeolocationPosition';
+import { Landsat } from './map_layers/Landsat';
 import { Lidar } from './map_layers/Lidar';
 import { PrairieArea } from './map_layers/PrairieArea';
 import { PrairieOutline } from './map_layers/PrairieOutline';
@@ -98,6 +99,7 @@ export class MapComponent extends React.Component {
 			defaultZoom,
 			defaultPitch,
 			defaultBearing,
+			layers,
 			styleURL,
 			updateCurrentMapDetails,
 			currentMapDetails: {
@@ -130,6 +132,9 @@ export class MapComponent extends React.Component {
 				// Disable the default 10-ft contour line included in the style.
 				this.map.setLayoutProperty('contour-line', 'visibility', 'none');
 				this.map.setLayoutProperty('contour-label', 'visibility', 'none');
+			} else if (basemap === 'satellite' && !!layers.landsat) {
+				// Disable the satellite land layer if landsat is active.
+				this.map.setLayoutProperty('satellite', 'visibility', 'none');
 			}
 
 			// this.moveMapCenter();
@@ -452,6 +457,12 @@ export class MapComponent extends React.Component {
 		// This is 2ft contour lines.
 		process.env.mapbox_contour_tileset_id && this.addSource('contours', 'vector', `mapbox://${process.env.mapbox_contour_tileset_id}`);
 
+		// This is landsat.
+		this.addSource('landsat', 'raster', {
+			url: `mapbox://${process.env.mapbox_landsat_tileset_id}`,
+			tileSize: 256,
+		});
+
 		// This is the Geolocation position.
 		lastGeolocationResult && this.addSource('geolocation_position', 'geojson', {
 			type: 'Feature',
@@ -488,6 +499,7 @@ export class MapComponent extends React.Component {
 			map,
 			nextStep,
 			props: {
+				basemap,
 				data,
 				layers,
 				router: {
@@ -496,7 +508,6 @@ export class MapComponent extends React.Component {
 						pathname,
 					},
 				},
-				styleURL,
 				toggleHelper,
 			},
 			setEditingFeature,
@@ -523,13 +534,11 @@ export class MapComponent extends React.Component {
 		};
 
 		map && sourcesAdded && (() => {
-			const labelTextColor = styleURL === process.env.mapbox_satellite_url ? 'white' : 'black';
+			const labelTextColor = basemap === 'satellite' ? 'white' : 'black';
 
 			map.labelTextColor = labelTextColor;
 	
-			const satelliteEnabled = styleURL === process.env.mapbox_satellite_url;
-	
-			map.satelliteEnabled = satelliteEnabled;
+			map.satelliteEnabled = basemap === 'satellite';
 		})();
 
 		return (
@@ -567,6 +576,7 @@ export class MapComponent extends React.Component {
 								{layers.lidar && <Lidar map={map} active={layers.lidar} />}{/* This is written this way because the lidar layer takes so long to load it impedes other processes. */}
 								<SSURGO map={map} active={layers.ssurgo} />
 								<Contours map={map} active={layers.contours} />
+								{basemap === 'satellite' && <Landsat map={map} active={layers.landsat} />}
 							</>
 						)}
 
