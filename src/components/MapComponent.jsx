@@ -459,7 +459,9 @@ export class MapComponent extends React.Component {
 
 		// This is landsat.
 		this.addSource('landsat', 'raster', {
-			url: `mapbox://${process.env.mapbox_landsat_tileset_id}`,
+			tiles: [
+				'https://ortho.gis.iastate.edu/arcgis/rest/services/ortho/naip_2019_nc/ImageServer/exportImage?f=image&bbox={bbox-epsg-3857}&imageSR=102100&bboxSR=102100&size=256%2C256',
+			],
 			tileSize: 256,
 		});
 
