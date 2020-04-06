@@ -31,7 +31,7 @@ export const Contours = props => {
 		'source-layer': process.env.mapbox_contour_tileset_layer_name,
 		minzoom: 10,
 		layout: {
-			visibility: 'visible',
+			visibility: active ? 'visible' : 'none',
 			'symbol-placement': 'line',
 			'text-field': '{CONTOUR} ft',
 			'text-letter-spacing': 0,
