@@ -566,16 +566,16 @@ export class MapComponent extends React.Component {
 					{!cleanup && sourcesAdded
 						&& (
 							<>
+								<FeatureLabels map={map} />
+								{!/^\/plant/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
+								{map.getSource('geolocation_position') && <GeolocationPosition map={map} />}
 								<PrairieArea map={map} />
 								<PrairieOutline map={map} />
-								{!/^\/plant/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
-								<FeatureLabels map={map} />
 								<TreeRows map={map} />
 								<Trees map={map} />
-								{map.getSource('geolocation_position') && <GeolocationPosition map={map} />}
-								{layers.lidar && <Lidar map={map} active={layers.lidar} />}{/* This is written this way because the lidar layer takes so long to load it impedes other processes. */}
-								<SSURGO map={map} active={layers.ssurgo} />
 								<Contours map={map} active={layers.contours} />
+								<SSURGO map={map} active={layers.ssurgo} />
+								{layers.lidar && <Lidar map={map} active={layers.lidar} />}{/* This is written this way because the lidar layer takes so long to load it impedes other processes. */}
 								{basemap === 'satellite' && <Aerial map={map} active={layers.aerial} />}
 							</>
 						)}
