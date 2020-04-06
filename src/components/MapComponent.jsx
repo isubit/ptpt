@@ -132,11 +132,7 @@ export class MapComponent extends React.Component {
 				// Disable the default 10-ft contour line included in the style.
 				this.map.setLayoutProperty('contour-line', 'visibility', 'none');
 				this.map.setLayoutProperty('contour-label', 'visibility', 'none');
-			} 
-			// } else if (basemap === 'satellite' && !!layers.aerial) {
-			// 	// Disable the satellite land layer if aerial is active.
-			// 	this.map.setLayoutProperty('satellite', 'visibility', 'none');
-			// }
+      }
 
 			// this.moveMapCenter();
 
