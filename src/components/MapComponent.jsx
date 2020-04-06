@@ -30,7 +30,7 @@ import { Contours } from './map_layers/Contours';
 import { EditIcons } from './map_layers/EditIcons';
 import { FeatureLabels } from './map_layers/FeatureLabels';
 import { GeolocationPosition } from './map_layers/GeolocationPosition';
-import { Landsat } from './map_layers/Landsat';
+import { Aerial } from './map_layers/Aerial';
 import { Lidar } from './map_layers/Lidar';
 import { PrairieArea } from './map_layers/PrairieArea';
 import { PrairieOutline } from './map_layers/PrairieOutline';
@@ -132,10 +132,7 @@ export class MapComponent extends React.Component {
 				// Disable the default 10-ft contour line included in the style.
 				this.map.setLayoutProperty('contour-line', 'visibility', 'none');
 				this.map.setLayoutProperty('contour-label', 'visibility', 'none');
-			} else if (basemap === 'satellite' && !!layers.landsat) {
-				// Disable the satellite land layer if landsat is active.
-				this.map.setLayoutProperty('satellite', 'visibility', 'none');
-			}
+      }
 
 			// this.moveMapCenter();
 
@@ -204,12 +201,13 @@ export class MapComponent extends React.Component {
 		const zoom = this.map.getZoom();
 		const bearing = this.map.getBearing();
 		const pitch = this.map.getPitch();
-		updateCurrentMapDetails({
+		const details = {
 			latlng,
 			zoom,
 			bearing,
 			pitch,
-		});
+		};
+		updateCurrentMapDetails(details);
 	}
 
 	nextStep = step => {
@@ -457,8 +455,8 @@ export class MapComponent extends React.Component {
 		// This is 2ft contour lines.
 		process.env.mapbox_contour_tileset_id && this.addSource('contours', 'vector', `mapbox://${process.env.mapbox_contour_tileset_id}`);
 
-		// This is landsat.
-		this.addSource('landsat', 'raster', {
+		// This is aerial imagery (high zoom).
+		this.addSource('aerial', 'raster', {
 			tiles: [
 				'https://ortho.gis.iastate.edu/arcgis/rest/services/ortho/naip_2019_nc/ImageServer/exportImage?f=image&bbox={bbox-epsg-3857}&imageSR=102100&bboxSR=102100&size=256%2C256',
 			],
@@ -578,7 +576,7 @@ export class MapComponent extends React.Component {
 								{layers.lidar && <Lidar map={map} active={layers.lidar} />}{/* This is written this way because the lidar layer takes so long to load it impedes other processes. */}
 								<SSURGO map={map} active={layers.ssurgo} />
 								<Contours map={map} active={layers.contours} />
-								{basemap === 'satellite' && <Landsat map={map} active={layers.landsat} />}
+								{basemap === 'satellite' && <Aerial map={map} active={layers.aerial} />}
 							</>
 						)}
 
