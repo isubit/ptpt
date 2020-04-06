@@ -3,18 +3,17 @@
 import React from 'react';
 import { Layer } from './Layer';
 
-export const Landsat = props => {
+export const Aerial = props => {
 	const {
 		active,
 		map,
 	} = props;
 
 	const layer = {
-		id: 'landsat',
+		id: 'aerial',
 		type: 'raster',
-		source: 'landsat',
-        // minzoom: 7,
-        // maxzoom: 13,
+		source: 'aerial',
+		minzoom: 12,
         paint: {
             'raster-opacity': active ? 1 : 0,
         },

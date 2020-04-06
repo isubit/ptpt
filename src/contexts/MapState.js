@@ -60,7 +60,7 @@ export const MapDefaultState = {
 		ssurgo: false,
 		lidar: false,
 		contours: false,
-		landsat: true,
+		aerial: true,
 	},
 };
 
