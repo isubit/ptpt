@@ -169,11 +169,21 @@ export class MapComponent extends React.Component {
 	}
 
 	componentDidUpdate() {
+		const {
+			props: {
+				layers,
+				activeSSURGOFeature,
+				setActiveSSURGOFeature,
+			},
+		} = this;
+
 		this.moveMapCenter();
 		if (this.state.sourcesAdded) {
 			// Only the sources need to be updated, because they contain the state data.
 			this.loadSources();
 		}
+		console.log(layers.ssurgo, activeSSURGOFeature);
+		!layers.ssurgo && activeSSURGOFeature && setActiveSSURGOFeature(null);
 	}
 
 	componentWillUnmount() {
@@ -403,6 +413,7 @@ export class MapComponent extends React.Component {
 			props: {
 				data = new Map(),
 				lastGeolocationResult,
+				activeSSURGOFeature,
 			},
 		} = this;
 
@@ -443,6 +454,12 @@ export class MapComponent extends React.Component {
 
 		// This is SSURGO.
 		process.env.mapbox_ssurgo_tileset_id && this.addSource('ssurgo', 'vector', `mapbox://${process.env.mapbox_ssurgo_tileset_id}`);
+
+		// This is active ssurgo feature
+		activeSSURGOFeature && this.addSource('active_ssurgo_feature', 'geojson', {
+			type: 'Feature',
+			geometry: activeSSURGOFeature.geometry,
+		});
 
 		// This is lidar hillshade.
 		this.addSource('lidar', 'raster', {
@@ -509,6 +526,8 @@ export class MapComponent extends React.Component {
 					},
 				},
 				toggleHelper,
+				setActiveSSURGOFeature,
+				activeSSURGOFeature,
 			},
 			setEditingFeature,
 			saveFeature,
@@ -574,7 +593,7 @@ export class MapComponent extends React.Component {
 								<TreeRows map={map} />
 								<Trees map={map} />
 								<Contours map={map} active={layers.contours} />
-								<SSURGO map={map} active={layers.ssurgo} />
+								<SSURGO map={map} active={layers.ssurgo} setActiveSSURGOFeature={setActiveSSURGOFeature} activeSSURGOFeature={activeSSURGOFeature} />
 								{layers.lidar && <Lidar map={map} active={layers.lidar} />}{/* This is written this way because the lidar layer takes so long to load it impedes other processes. */}
 								{basemap === 'satellite' && <Aerial map={map} active={layers.aerial} />}
 							</>

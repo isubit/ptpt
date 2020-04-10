@@ -11,9 +11,11 @@ export const SSURGO = props => {
 	const {
 		active,
 		map,
+		setActiveSSURGOFeature,
+		activeSSURGOFeature,
 	} = props;
 
-	const layer = {
+	const SSURGOLayer = {
 		id: 'ssurgo',
 		type: 'fill',
 		source: 'ssurgo',
@@ -48,15 +50,39 @@ export const SSURGO = props => {
 				'#226633',
 			],
 			'fill-opacity': active ? 0.75 : 0,
-			'fill-antialias': false,
+			'fill-antialias': true,
 		},
 	};
 
 	const events = new Map([
 		['click', e => {
-			debug(e.features.length > 0 ? e.features[0] : null);
+			active && debug(e.features.length > 0 ? e.features[0] : null);
+			active && e.features.length > [0] && setActiveSSURGOFeature(e.features[0]);
+			// take the features geometry and add it to the map sources
+			// create a outline layer and add it to the map
+
+			// need to import the function to add feature data to the context
+			// something to test: does the data of the 'active_ssurgo_feature' change when another feature gets clicked
 		}],
 	]);
 
-	return <Layer map={map} layer={layer} events={events} />;
+	if (activeSSURGOFeature) {
+		const activeSSURGOLayer = {
+			id: 'active_ssurgo_feature',
+			type: 'line',
+			source: 'active_ssurgo_feature',
+			paint: {
+				'line-color': '#469AFD',
+				'line-width': 4,
+			},
+		};
+		return (
+			<>
+				<Layer map={map} layer={activeSSURGOLayer} />
+				<Layer map={map} layer={SSURGOLayer} events={events} />
+			</>
+		);
+	}
+
+	return <Layer map={map} layer={SSURGOLayer} events={events} />;
 };
