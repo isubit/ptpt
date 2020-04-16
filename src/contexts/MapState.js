@@ -62,9 +62,6 @@ export const MapDefaultState = {
 		contours: false,
 		aerial: true,
 	},
-
-	// Active SSURGO Feature
-	activeSSURGOFeature: null,
 };
 
 // // Test data...
@@ -1436,14 +1433,6 @@ export const MapActions = (that) => {
 					},
 				}));
 			}
-		},
-		setActiveSSURGOFeature(feature) {
-			that.setState(state => ({
-				MapState: {
-					...state.MapState,
-					activeSSURGOFeature: feature,
-				},
-			}));
 		},
 	};
 	return actions;

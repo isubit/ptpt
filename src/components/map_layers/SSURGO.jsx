@@ -11,7 +11,7 @@ export const SSURGO = props => {
 	const {
 		active,
 		map,
-		setActiveSSURGOFeature,
+		loadActiveSSURGOFeature,
 		activeSSURGOFeature,
 	} = props;
 
@@ -57,7 +57,7 @@ export const SSURGO = props => {
 	const events = new Map([
 		['click', e => {
 			active && debug(e.features.length > 0 ? e.features[0] : null);
-			active && e.features.length > [0] && setActiveSSURGOFeature(e.features[0]);
+			active && e.features.length > [0] && loadActiveSSURGOFeature(e.features[0]);
 			// take the features geometry and add it to the map sources
 			// create a outline layer and add it to the map
 
@@ -66,23 +66,21 @@ export const SSURGO = props => {
 		}],
 	]);
 
-	if (activeSSURGOFeature) {
-		const activeSSURGOLayer = {
-			id: 'active_ssurgo_feature',
-			type: 'line',
-			source: 'active_ssurgo_feature',
-			paint: {
-				'line-color': '#469AFD',
-				'line-width': 4,
-			},
-		};
-		return (
-			<>
-				<Layer map={map} layer={activeSSURGOLayer} />
-				<Layer map={map} layer={SSURGOLayer} events={events} />
-			</>
-		);
-	}
+	const activeSSURGOLayer = {
+		id: 'active_ssurgo_feature',
+		type: 'line',
+		source: 'active_ssurgo_feature',
+		paint: {
+			'line-color': '#469AFD',
+			'line-width': 4,
+			'line-opacity': 1,
+		},
+	};
 
-	return <Layer map={map} layer={SSURGOLayer} events={events} />;
+	return (
+		<>
+			{ activeSSURGOFeature && <Layer map={map} layer={activeSSURGOLayer} /> }
+			<Layer map={map} layer={SSURGOLayer} events={events} />
+		</>
+	);
 };
