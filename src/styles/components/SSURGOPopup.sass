@@ -1,0 +1,48 @@
+.SSURGOPopup
+	font-family: Nimbus Sans, Arial
+	min-width: 230px
+	.mapboxgl-popup-content
+		padding: 1.5rem 1rem
+		border-radius: 0px
+		.mapboxgl-popup-close-button
+			font-size: 45px
+			line-height: 0px
+			height: 0px
+			font-weight: 200
+			color: $grey
+			-webkit-appearance: none
+			padding: 0
+			top: 14px
+			right: 4px
+			&:focus
+				outline: none
+		.mapboxgl-popup-text
+			.popup-header
+				padding-bottom: 0.5rem
+				display: inline-block
+				border-bottom: 2px solid $dark-green
+				margin-bottom: 0.5rem
+			.popup-group
+				padding: 0.5rem 5px
+				.popup-label
+					font-weight: bold
+					color: $grey
+					font-size: .826rem
+			.light-blue
+					background-color: $light-blue
+
+@media screen and ( min-width: 1280px ) 
+	.SSURGOPopup	
+		min-width: 450px
+		.mapboxgl-popup-content
+			padding: 1.5rem 1.5rem
+			.mapboxgl-popup-text
+				.popup-header
+					margin-bottom: 1rem
+				.popup-group
+					display: flex
+					.popup-label
+						width: 50%
+					.popup-info
+						width: 50%
+

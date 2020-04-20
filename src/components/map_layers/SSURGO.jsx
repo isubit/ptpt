@@ -11,8 +11,10 @@ export const SSURGO = props => {
 	const {
 		active,
 		map,
-		loadActiveSSURGOFeature,
-		activeSSURGOFeature,
+		loadSSURGOPopupData,
+		settouchStartLocation,
+		touchStartLocation,
+		SSURGOPopupData,
 	} = props;
 
 	const SSURGOLayer = {
@@ -56,13 +58,14 @@ export const SSURGO = props => {
 
 	const events = new Map([
 		['click', e => {
-			active && debug(e.features.length > 0 ? e.features[0] : null);
-			active && e.features.length > [0] && loadActiveSSURGOFeature(e.features[0]);
-			// take the features geometry and add it to the map sources
-			// create a outline layer and add it to the map
-
-			// need to import the function to add feature data to the context
-			// something to test: does the data of the 'active_ssurgo_feature' change when another feature gets clicked
+			active && e.features.length > [0] && loadSSURGOPopupData(e.features[0], e.lngLat);
+			debug(e.features[0]);
+		}],
+		['touchstart', e => {
+			active && settouchStartLocation(e.lngLat);
+		}],
+		['touchend', e => {
+			active && touchStartLocation.lng === e.lngLat.lng && touchStartLocation.lat === e.lngLat.lat && loadSSURGOPopupData(e.features[0], e.lngLat);
 		}],
 	]);
 
@@ -79,7 +82,7 @@ export const SSURGO = props => {
 
 	return (
 		<>
-			{ activeSSURGOFeature && <Layer map={map} layer={activeSSURGOLayer} /> }
+			{ SSURGOPopupData && <Layer map={map} layer={activeSSURGOLayer} /> }
 			<Layer map={map} layer={SSURGOLayer} events={events} />
 		</>
 	);

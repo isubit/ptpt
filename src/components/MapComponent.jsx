@@ -11,7 +11,7 @@ import calcBbox from '@turf/bbox';
 import Debug from 'debug';
 
 import { Loader } from 'components/Loader';
-import { SSURGOModal } from 'components/modals/SSURGOModal';
+import { SSURGOPopup } from 'components/SSURGOPopup';
 
 import { MapConsumer } from 'contexts/MapState';
 import { SettingsConsumer } from 'contexts/Settings';
@@ -84,10 +84,11 @@ export class MapComponent extends React.Component {
 			drawInit: false, // Is the draw controller init?
 			sourcesAdded: false, // Are the sources added?
 			editingFeature: null, // The current feature being edited.
-			activeSSURGOFeature: null,
+			SSURGOPopupData: null, // The data for the SSURGO layer popup.
 			sources: [], // The current sources loaded.
 			cleanup: false, // Is the map cleaning up? (unmounting)
 			enriching: false, // Is the map currently enriching a feature?
+			touchStartLocation: null, // The touchstart lnglat for mobile.
 		};
 		this.mapElement = React.createRef();
 		debug('Props:', props);
@@ -176,7 +177,7 @@ export class MapComponent extends React.Component {
 				layers,
 			},
 			state: {
-				activeSSURGOFeature,
+				SSURGOPopupData,
 			},
 		} = this;
 
@@ -185,9 +186,9 @@ export class MapComponent extends React.Component {
 			// Only the sources need to be updated, because they contain the state data.
 			this.loadSources();
 		}
-		!layers.ssurgo && activeSSURGOFeature && this.setState(() => ({
-			activeSSURGOFeature: null,
-		}))
+		!layers.ssurgo && SSURGOPopupData && this.setState(() => ({
+			SSURGOPopupData: null,
+		}));
 	}
 
 	componentWillUnmount() {
@@ -360,6 +361,11 @@ export class MapComponent extends React.Component {
 		});
 	}
 
+	settouchStartLocation = (lngLat) => {
+		this.setState(() => ({
+			touchStartLocation: lngLat,
+		}));
+	}
 
 	deleteFeature = id => {
 		const {
@@ -408,16 +414,25 @@ export class MapComponent extends React.Component {
 		}
 	}
 
-	loadActiveSSURGOFeature = (feature) => {
-		// on click of SSURGO layer, add the clicked feature to the map sources, then add to map state
-		this.addSource('active_ssurgo_feature', 'geojson', {
-			type: 'Feature',
-			geometry: feature.geometry,
-		});
-
-		this.setState(() => ({
-			activeSSURGOFeature: feature,
-		}));
+	loadSSURGOPopupData = (feature, lngLat) => {
+		if (feature && lngLat) {
+			feature && this.addSource('active_ssurgo_feature', 'geojson', {
+				type: 'Feature',
+				geometry: feature.geometry,
+			});
+			const SSURGOPopupData = {
+				feature,
+				lngLat
+			}
+			this.setState(() => ({
+				SSURGOPopupData,
+			}));
+		}
+		if (!feature) {
+			this.setState(() => ({
+				SSURGOPopupData: null,
+			}));
+		}
 	}
 
 	loadSources() {
@@ -538,14 +553,16 @@ export class MapComponent extends React.Component {
 			},
 			setEditingFeature,
 			saveFeature,
-			loadActiveSSURGOFeature,
+			loadSSURGOPopupData,
+			settouchStartLocation,
 			state: {
 				cleanup,
 				drawInit,
 				enriching,
 				sourcesAdded,
 				editingFeature,
-				activeSSURGOFeature,
+				SSURGOPopupData,
+				touchStartLocation,
 			},
 		} = this;
 
@@ -602,8 +619,8 @@ export class MapComponent extends React.Component {
 								<TreeRows map={map} />
 								<Trees map={map} />
 								<Contours map={map} active={layers.contours} />
-								<SSURGO map={map} active={layers.ssurgo} loadActiveSSURGOFeature={loadActiveSSURGOFeature} activeSSURGOFeature={activeSSURGOFeature} />
-								{activeSSURGOFeature && layers.ssurgo && <SSURGOModal map={map} activeSSURGOFeature={activeSSURGOFeature} /> }
+								<SSURGO map={map} active={layers.ssurgo} loadSSURGOPopupData={loadSSURGOPopupData} SSURGOPopupData={SSURGOPopupData} settouchStartLocation={settouchStartLocation} touchStartLocation={touchStartLocation} />
+								{SSURGOPopupData && layers.ssurgo && <SSURGOPopup map={map} loadSSURGOPopupData={loadSSURGOPopupData} SSURGOPopupData={SSURGOPopupData} /> }
 								{layers.lidar && <Lidar map={map} active={layers.lidar} />}{/* This is written this way because the lidar layer takes so long to load it impedes other processes. */}
 								{basemap === 'satellite' && <Aerial map={map} active={layers.aerial} />}
 							</>
