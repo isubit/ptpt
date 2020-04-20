@@ -7,7 +7,7 @@ export class SSURGOPopup extends React.Component {
 	popup = new mapboxgl.Popup({
 		closeOnClick: false,
 		className: 'SSURGOPopup',
-		// anchor: 'center',
+		// closeOnMove: true,
 	});
 
 	componentDidMount() {
@@ -41,8 +41,8 @@ export class SSURGOPopup extends React.Component {
 		const prevFeatureID = prevFeature.properties.OBJECTID;
 
 		if (activeFeatureID !== prevFeatureID) {
-			this.setLngLat();
 			this.setHTML();
+			this.setLngLat();
 			!this.popup.isOpen() && this.popup.addTo(map);
 		}
 	}
@@ -79,7 +79,6 @@ export class SSURGOPopup extends React.Component {
 			},
 		} = this.props;
 
-		// eslint-disable-next-line no-unused-vars
 		const zoomTo = () => {
 			const bbox = calcBbox(geometry);
 
@@ -91,9 +90,12 @@ export class SSURGOPopup extends React.Component {
 			updatePosition();
 		};
 
+		// popup container
 		const popupHTML = document.createElement('div');
 		popupHTML.classList.add('mapboxgl-popup-text');
-		const popupInfo = `
+
+		// popup text
+		const popupText = `
 		<h3 class="popup-header">gSSURGO (soils)</h3>
 		<div class="popup-group">
 			<p class="popup-label">MUKEY</p>
@@ -112,6 +114,8 @@ export class SSURGOPopup extends React.Component {
 			<p class="popup-info">${compname}</p>
 		</div>
 		`;
+
+		// zoom button
 		const zoomDiv = document.createElement('div');
 		zoomDiv.classList.add('popup-group');
 		const zoomBtn = document.createElement('a');
@@ -121,7 +125,7 @@ export class SSURGOPopup extends React.Component {
 		zoomBtn.appendChild(zoomText);
 		zoomDiv.appendChild(zoomBtn);
 
-		popupHTML.innerHTML = popupInfo;
+		popupHTML.innerHTML = popupText;
 		popupHTML.append(zoomDiv);
 
 		this.popup.setDOMContent(popupHTML);
