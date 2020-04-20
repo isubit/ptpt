@@ -555,6 +555,7 @@ export class MapComponent extends React.Component {
 			saveFeature,
 			loadSSURGOPopupData,
 			settouchStartLocation,
+			updatePosition,
 			state: {
 				cleanup,
 				drawInit,
@@ -620,7 +621,7 @@ export class MapComponent extends React.Component {
 								<Trees map={map} />
 								<Contours map={map} active={layers.contours} />
 								<SSURGO map={map} active={layers.ssurgo} loadSSURGOPopupData={loadSSURGOPopupData} SSURGOPopupData={SSURGOPopupData} settouchStartLocation={settouchStartLocation} touchStartLocation={touchStartLocation} />
-								{SSURGOPopupData && layers.ssurgo && <SSURGOPopup map={map} loadSSURGOPopupData={loadSSURGOPopupData} SSURGOPopupData={SSURGOPopupData} /> }
+								{SSURGOPopupData && layers.ssurgo && <SSURGOPopup map={map} loadSSURGOPopupData={loadSSURGOPopupData} SSURGOPopupData={SSURGOPopupData} updatePosition={updatePosition} /> }
 								{layers.lidar && <Lidar map={map} active={layers.lidar} />}{/* This is written this way because the lidar layer takes so long to load it impedes other processes. */}
 								{basemap === 'satellite' && <Aerial map={map} active={layers.aerial} />}
 							</>

@@ -4,6 +4,7 @@
 	.mapboxgl-popup-content
 		padding: 1.5rem 1rem
 		border-radius: 0px
+		pointer-events: none
 		.mapboxgl-popup-close-button
 			font-size: 45px
 			line-height: 0px
@@ -14,6 +15,7 @@
 			padding: 0
 			top: 14px
 			right: 4px
+			pointer-events: auto
 			&:focus
 				outline: none
 		.mapboxgl-popup-text
@@ -28,10 +30,12 @@
 					font-weight: bold
 					color: $grey
 					font-size: .826rem
+				.zoom
+					pointer-events: auto
 			.light-blue
 					background-color: $light-blue
 
-@media screen and ( min-width: 1280px ) 
+@media screen and ( min-width: 900px ) 
 	.SSURGOPopup	
 		min-width: 450px
 		.mapboxgl-popup-content
