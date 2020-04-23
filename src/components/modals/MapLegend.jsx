@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const SSURGOLegend = () => {
+const SSURGOTable = () => {
 	const SSURGOLegendArr = [
 		['91-100', '$248 - $272', '#226633'],
 		['81-90', '$220 - $245', '#35733d'],
@@ -56,7 +56,7 @@ export const MapLegend = ({
 		</div>
 		<div className="legend-text">
 			<div className="modal-text">
-				<SSURGOLegend />
+				<SSURGOTable />
 				<div className="Contours spacer-top-2">
 					<h3 className="spacer-bottom-1">Contours</h3>
 					<div>
