@@ -79,17 +79,6 @@ export class SSURGOPopup extends React.Component {
 			},
 		} = this.props;
 
-		const zoomTo = () => {
-			const bbox = calcBbox(geometry);
-
-			map.fitBounds(bbox, {
-				duration: 400,
-				padding: 100,
-			});
-
-			updatePosition();
-		};
-
 		// popup container
 		const popupHTML = document.createElement('div');
 		popupHTML.classList.add('mapboxgl-popup-text');
@@ -120,7 +109,14 @@ export class SSURGOPopup extends React.Component {
 		zoomDiv.classList.add('popup-group');
 		const zoomBtn = document.createElement('a');
 		zoomBtn.classList.add('modal-link', 'zoom');
-		zoomBtn.addEventListener('click', zoomTo);
+		zoomBtn.addEventListener('click', () => {
+			const bbox = calcBbox(geometry);
+			map.fitBounds(bbox, {
+				duration: 400,
+				padding: 100,
+			});
+			updatePosition();
+		});
 		const zoomText = document.createTextNode('zoom to');
 		zoomBtn.appendChild(zoomText);
 		zoomDiv.appendChild(zoomBtn);
