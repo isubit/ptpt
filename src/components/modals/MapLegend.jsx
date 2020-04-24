@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const SSURGOTable = () => {
-	const SSURGOLegendArr = [
+	const SSURGOLegendData = [
 		['91-100', '$248 - $272', '#226633'],
 		['81-90', '$220 - $245', '#35733d'],
 		['71-80', '$205 - $220', '#488047'],
@@ -11,9 +11,9 @@ const SSURGOTable = () => {
 		['41-50', '$175 - $185', '#86a66a'],
 		['31-40', '$161 - $174', '#9cb378'],
 		['21-30', '$154 - $162', '#b2bf84'],
-		['11-20', '$154 - $162', '#000000'],
-		['6-10', '$154 - $162', '#000000'],
-		['0-5', '$154 - $162', '#000000'],
+		['11-20', '$154 - $162', '#cccf93'],
+		['6-10', '$154 - $162', '#e6dda1'],
+		['0-5', '$154 - $162', '#ffebb0'],
 	];
 	return (
 		<div className="SSURGO">
@@ -24,7 +24,7 @@ const SSURGOTable = () => {
 					<p>AVERAGE RENT ($.ACRE)</p>
 				</div>
 				{
-					SSURGOLegendArr.map((SSURGOElement, index) => {
+					SSURGOLegendData.map((SSURGOElement, index) => {
 						const highlight = index % 2 === 0 ? 'light-blue' : '';
 						return (
 							<div className={`ssurgo-table-row ${highlight}`}>
