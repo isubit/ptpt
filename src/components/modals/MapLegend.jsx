@@ -2,36 +2,39 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const SSURGOTable = () => {
+	// color of swatches are incomplete for (0-5, 6-10, & 11-20)
 	const SSURGOLegendData = [
-		['91-100', '$248 - $272', '#226633'],
-		['81-90', '$220 - $245', '#35733d'],
-		['71-80', '$205 - $220', '#488047'],
-		['61-70', '$195 - $205', '#5b8a51'],
-		['51-60', '$184 - $196', '#71995f'],
-		['41-50', '$175 - $185', '#86a66a'],
-		['31-40', '$161 - $174', '#9cb378'],
-		['21-30', '$154 - $162', '#b2bf84'],
-		['11-20', '$154 - $162', '#cccf93'],
-		['6-10', '$154 - $162', '#e6dda1'],
-		['0-5', '$154 - $162', '#ffebb0'],
+		{ range: [91, 100], indicator_color: '#668867' },
+		{ range: [81, 90], indicator_color: '#73926F' },
+		{ range: [71, 80], indicator_color: '#809C76' },
+		{ range: [61, 70], indicator_color: '#8CA47F' },
+		{ range: [51, 60], indicator_color: '#9BAF89' },
+		{ range: [41, 50], indicator_color: '#AAB991' },
+		{ range: [31, 40], indicator_color: '#DAD8B1' },
+		{ range: [21, 30], indicator_color: '#ECE4BB' },
+		{ range: [11, 20], indicator_color: '#cccf93' },
+		{ range: [6, 10], indicator_color: '#e6dda1' },
+		{ range: [0, 5], indicator_color: '#ffebb0' },
 	];
+	const IA_RATING_CONSTANT = 2.72;
+
 	return (
 		<div className="SSURGO">
 			<h3 className="ssurgo-table-header spacer-bottom-1">gSSURGO - SLR</h3>
 			<div className="ssurgo-legend-table">
 				<div className="ssurgo-table-labels ssurgo-table-row">
 					<p>IA CSR</p>
-					<p>AVERAGE RENT ($.ACRE)</p>
+					<p>AVERAGE RENT ($/ACRE)</p>
 				</div>
 				{
-					SSURGOLegendData.map((SSURGOElement, index) => {
+					SSURGOLegendData.map((el, index) => {
 						const highlight = index % 2 === 0 ? 'light-blue' : '';
 						return (
 							<div className={`ssurgo-table-row ${highlight}`}>
-								<p>{SSURGOElement[0]}</p>
+								<p className="ssurgo-range">{`${el.range[0]}-${el.range[1]}`}</p>
 								<div className="ssurgo-rent">
-									<div className="ssurgo-color-swatch" style={{ backgroundColor: SSURGOElement[2] }} />
-									<p>{SSURGOElement[1]}</p>
+									<div className="ssurgo-color-indicator" style={{ backgroundColor: el.indicator_color }} />
+									<p>{`$${Math.round(el.range[0] * IA_RATING_CONSTANT)} - $${Math.round(el.range[1] * IA_RATING_CONSTANT)}`}</p>
 								</div>
 							</div>
 						);
