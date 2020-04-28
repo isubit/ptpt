@@ -11,9 +11,13 @@ export const SSURGO = props => {
 	const {
 		active,
 		map,
+		loadSSURGOPopupData,
+		settouchStartLocation,
+		touchStartLocation,
+		SSURGOPopupData,
 	} = props;
 
-	const layer = {
+	const SSURGOLayer = {
 		id: 'ssurgo',
 		type: 'fill',
 		source: 'ssurgo',
@@ -48,15 +52,38 @@ export const SSURGO = props => {
 				'#226633',
 			],
 			'fill-opacity': active ? 0.75 : 0,
-			'fill-antialias': false,
+			'fill-antialias': true,
 		},
 	};
 
 	const events = new Map([
 		['click', e => {
-			debug(e.features.length > 0 ? e.features[0] : null);
+			active && e.features.length > [0] && loadSSURGOPopupData(e.features[0], e.lngLat);
+			debug(e.features[0]);
+		}],
+		['touchstart', e => {
+			active && settouchStartLocation(e.lngLat);
+		}],
+		['touchend', e => {
+			active && touchStartLocation.lng === e.lngLat.lng && touchStartLocation.lat === e.lngLat.lat && loadSSURGOPopupData(e.features[0], e.lngLat);
 		}],
 	]);
 
-	return <Layer map={map} layer={layer} events={events} />;
+	const activeSSURGOLayer = {
+		id: 'active_ssurgo_feature',
+		type: 'line',
+		source: 'active_ssurgo_feature',
+		paint: {
+			'line-color': '#469AFD',
+			'line-width': 4,
+			'line-opacity': 1,
+		},
+	};
+
+	return (
+		<>
+			{ SSURGOPopupData && <Layer map={map} layer={activeSSURGOLayer} /> }
+			<Layer map={map} layer={SSURGOLayer} events={events} />
+		</>
+	);
 };

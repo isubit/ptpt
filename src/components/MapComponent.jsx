@@ -11,6 +11,7 @@ import calcBbox from '@turf/bbox';
 import Debug from 'debug';
 
 import { Loader } from 'components/Loader';
+import { SSURGOPopup } from 'components/SSURGOPopup';
 
 import { MapConsumer } from 'contexts/MapState';
 import { SettingsConsumer } from 'contexts/Settings';
@@ -83,9 +84,11 @@ export class MapComponent extends React.Component {
 			drawInit: false, // Is the draw controller init?
 			sourcesAdded: false, // Are the sources added?
 			editingFeature: null, // The current feature being edited.
+			SSURGOPopupData: null, // The data for the SSURGO layer popup.
 			sources: [], // The current sources loaded.
 			cleanup: false, // Is the map cleaning up? (unmounting)
 			enriching: false, // Is the map currently enriching a feature?
+			touchStartLocation: null, // The touchstart lnglat for mobile.
 		};
 		this.mapElement = React.createRef();
 		debug('Props:', props);
@@ -169,11 +172,23 @@ export class MapComponent extends React.Component {
 	}
 
 	componentDidUpdate() {
+		const {
+			props: {
+				layers,
+			},
+			state: {
+				SSURGOPopupData,
+			},
+		} = this;
+
 		this.moveMapCenter();
 		if (this.state.sourcesAdded) {
 			// Only the sources need to be updated, because they contain the state data.
 			this.loadSources();
 		}
+		!layers.ssurgo && SSURGOPopupData && this.setState(() => ({
+			SSURGOPopupData: null,
+		}));
 	}
 
 	componentWillUnmount() {
@@ -346,6 +361,11 @@ export class MapComponent extends React.Component {
 		});
 	}
 
+	settouchStartLocation = (lngLat) => {
+		this.setState(() => ({
+			touchStartLocation: lngLat,
+		}));
+	}
 
 	deleteFeature = id => {
 		const {
@@ -390,6 +410,27 @@ export class MapComponent extends React.Component {
 			this.map.addSource(name, sourceData);
 			this.setState(prevState => ({
 				sources: prevState.sources.concat(name),
+			}));
+		}
+	}
+
+	loadSSURGOPopupData = (feature, lngLat) => {
+		if (feature && lngLat) {
+			feature && this.addSource('active_ssurgo_feature', 'geojson', {
+				type: 'Feature',
+				geometry: feature.geometry,
+			});
+			const SSURGOPopupData = {
+				feature,
+				lngLat
+			}
+			this.setState(() => ({
+				SSURGOPopupData,
+			}));
+		}
+		if (!feature) {
+			this.setState(() => ({
+				SSURGOPopupData: null,
 			}));
 		}
 	}
@@ -512,12 +553,17 @@ export class MapComponent extends React.Component {
 			},
 			setEditingFeature,
 			saveFeature,
+			loadSSURGOPopupData,
+			settouchStartLocation,
+			updatePosition,
 			state: {
 				cleanup,
 				drawInit,
 				enriching,
 				sourcesAdded,
 				editingFeature,
+				SSURGOPopupData,
+				touchStartLocation,
 			},
 		} = this;
 
@@ -574,7 +620,8 @@ export class MapComponent extends React.Component {
 								<TreeRows map={map} />
 								<Trees map={map} />
 								<Contours map={map} active={layers.contours} />
-								<SSURGO map={map} active={layers.ssurgo} />
+								<SSURGO map={map} active={layers.ssurgo} loadSSURGOPopupData={loadSSURGOPopupData} SSURGOPopupData={SSURGOPopupData} settouchStartLocation={settouchStartLocation} touchStartLocation={touchStartLocation} />
+								{SSURGOPopupData && layers.ssurgo && <SSURGOPopup map={map} loadSSURGOPopupData={loadSSURGOPopupData} SSURGOPopupData={SSURGOPopupData} updatePosition={updatePosition} /> }
 								{layers.lidar && <Lidar map={map} active={layers.lidar} />}{/* This is written this way because the lidar layer takes so long to load it impedes other processes. */}
 								{basemap === 'satellite' && <Aerial map={map} active={layers.aerial} />}
 							</>
