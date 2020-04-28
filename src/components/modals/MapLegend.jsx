@@ -30,7 +30,7 @@ const SSURGOTable = () => {
 					SSURGOLegendData.map((el, index) => {
 						const highlight = index % 2 === 0 ? 'light-blue' : '';
 						return (
-							<div className={`ssurgo-table-row ${highlight}`}>
+							<div className={`ssurgo-table-row ${highlight}`} key={SSURGOLegendData[index].indicator_color}>
 								<p className="ssurgo-range">{`${el.range[0]}-${el.range[1]}`}</p>
 								<div className="ssurgo-rent">
 									<div className="ssurgo-color-indicator" style={{ backgroundColor: el.indicator_color }} />
