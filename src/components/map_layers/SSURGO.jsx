@@ -1,16 +1,17 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable indent */
 import React from 'react';
-import Debug from 'debug';
+// import Debug from 'debug';
 
 import { Layer } from './Layer';
 
-const debug = Debug('MapComponent');
+// const debug = Debug('MapComponent');
 
 export const SSURGO = props => {
 	const {
 		active,
 		map,
+		pathname,
 		loadSSURGOPopupData,
 		settouchStartLocation,
 		touchStartLocation,
@@ -56,16 +57,16 @@ export const SSURGO = props => {
 		},
 	};
 
+	// prevent click and touchevents if planting
 	const events = new Map([
 		['click', e => {
-			active && e.features.length > [0] && loadSSURGOPopupData(e.features[0], e.lngLat);
-			debug(e.features[0]);
+			!/^\/plant/.test(pathname) && active && e.features.length > [0] && loadSSURGOPopupData(e.features[0], e.lngLat);
 		}],
 		['touchstart', e => {
-			active && settouchStartLocation(e.lngLat);
+			!/^\/plant/.test(pathname) && active && settouchStartLocation(e.lngLat);
 		}],
 		['touchend', e => {
-			active && touchStartLocation.lng === e.lngLat.lng && touchStartLocation.lat === e.lngLat.lat && loadSSURGOPopupData(e.features[0], e.lngLat);
+			!/^\/plant/.test(pathname) && active && touchStartLocation.lng === e.lngLat.lng && touchStartLocation.lat === e.lngLat.lat && loadSSURGOPopupData(e.features[0], e.lngLat);
 		}],
 	]);
 

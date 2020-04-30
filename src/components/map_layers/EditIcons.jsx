@@ -28,6 +28,7 @@ export const EditIcons = props => {
 		} = editingIcon.properties;
 		const feature = data.get(featureId);
 		setEditingFeature(feature, () => nextStep(`/plant/${type}`));
+		e.stopPropagation(); // prevents event propagation to layers beneath icon
 	};
 
 	const events = new Map([
