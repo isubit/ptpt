@@ -60,6 +60,7 @@ export const SSURGO = props => {
 	// prevent click and touchevents if planting
 	const events = new Map([
 		['click', e => {
+			console.log(e.features[0]);
 			!/^\/plant/.test(pathname) && active && e.features.length > [0] && loadSSURGOPopupData(e.features[0], e.lngLat);
 		}],
 		['touchstart', e => {
