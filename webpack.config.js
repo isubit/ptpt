@@ -85,10 +85,10 @@ const config = {
 			},
 			{
 				test: /\.svg(\?.*)?$/,
-				include: APP_DIR,
-				loaders: [ 'url-loader', 'svg-transform-loader'],
-			}
-		]
+				include: [BUILD_DIR, APP_DIR],
+				loaders: ['url-loader', 'svg-transform-loader'],
+			},
+		],
 	},
 	plugins: [
 		new webpack.DefinePlugin(envKeys),
