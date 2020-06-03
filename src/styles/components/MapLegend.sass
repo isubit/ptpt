@@ -1,10 +1,49 @@
 .MapLegend
-    .SSURGO
-        .gradient
-            width: 200px
-            height: 20px
-            background: linear-gradient(90deg, #226633 0%, #86a66a 50%, #ffebb0 100%)
-            opacity: 0.75
-        .labels
-            width: 200px
+	&.modal
+		background-color: white
+		z-index: 2
+		top: 99px
+		max-height: 300px
+		overflow: scroll
+		box-sizing: border-box
+		padding: 0 1rem
+	.legend-header
+		.CloseButton
+			right: 5px
+			top: 5px
+		.modal-header
+			padding-top: 1.5rem
+			padding-bottom: 1rem
+	.legend-text
+		overflow: scroll
+		.modal-text
+			padding-bottom: 1.5rem
+	// .SSURGO
+	// 	.gradient
+	// 		width: 200px
+	// 		height: 20px
+	// 		background: linear-gradient(90deg, #226633 0%, #86a66a 50%, #ffebb0 100%)
+	// 		opacity: 0.75
+	// 	.labels
+	// 		width: 200px
             // transform: translateY(-8px)
+
+@media screen and ( min-width: 900px )
+	.MapLegend
+		&.modal
+			justify-content: initial
+			align-items: initial
+			max-height: 420px
+			top: 72px
+			right: 0
+			width: 430px
+		.legend-header
+			.modal-header
+				padding-left: 0
+				padding-right: 0
+				&::after
+					left: 0rem
+		.legend-text
+			.modal-text
+				padding-left: 0
+				padding-right: 0
