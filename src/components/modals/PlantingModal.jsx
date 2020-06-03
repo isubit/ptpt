@@ -296,9 +296,15 @@ export class PlantingModal extends React.Component {
 		this.setState(() => ({ pest_control: updatePestControl }));
 	}
 
-	// scrollToBottom = () => {
-	// 	this.bottom.current.scrollIntoView({ behavior: 'smooth' });
-	// }
+	checkValidationIssue = () => {
+		const form = this.form.current;
+		const fields = Array.from(form.querySelectorAll('input, select'));
+		const invalid = fields.find(where => !where.checkValidity());
+		if (invalid) {
+			return invalid.getAttribute('msg') || 'Please fill in all fields before moving onto the next step.';
+		}
+		return false;
+	}
 
 	handleNextStep = () => {
 		const {
@@ -312,14 +318,14 @@ export class PlantingModal extends React.Component {
 			},
 		} = this.props;
 
-
-		if (this.form.current && this.form.current.checkValidity()) {
+		const issue = this.checkValidationIssue();
+		if (!issue) {
 			this.setState(() => ({
 				formError: null,
 			}), () => nextStep(`/plant/${type}/${steps[stepIndex + 1]}`));
 		} else {
 			this.setState(() => ({
-				formError: 'Please fill in all fields before moving onto the next step.',
+				formError: issue,
 			}));
 		}
 	}
@@ -386,7 +392,8 @@ export class PlantingModal extends React.Component {
 		}
 		const setReportFeature = e.target.innerHTML === 'View Report' || (e.target.children[0] ? e.target.children[0].innerText === 'View Report' : false);
 
-		if (this.form.current && this.form.current.checkValidity()) {
+		const issue = this.checkValidationIssue();
+		if (!issue) {
 			this.setState(() => ({
 				formError: null,
 			}), () => {
@@ -398,7 +405,7 @@ export class PlantingModal extends React.Component {
 			});
 		} else {
 			this.setState(() => ({
-				formError: 'Please fill in all fields before saving.',
+				formError: issue,
 			}));
 		}
 	}

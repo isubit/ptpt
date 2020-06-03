@@ -33,6 +33,8 @@ const SeedMixInput = React.forwardRef((props, ref) => {
 							handleSeedMixChange(e);
 							handleSeedPriceChange(seedPrice);
 						}}
+						msg="Select a seed mix. If you're unsure, consult with an expert."
+						required
 					>
 						<option value="" disabled>Select a seed mix</option>
 						{moistureClasses.map(type => {
@@ -57,8 +59,9 @@ const SeedMixInput = React.forwardRef((props, ref) => {
 					{
 						seed === 'custom'
 							// eslint-disable-next-line no-return-assign
-							? <input type="number" min="0" step="0.01" className="ModalTextInput" value={seed_price} onBlur={(e) => handleSeedPriceChange((Number(e.target.value) || 0).toFixed(2))} onChange={(e) => handleSeedPriceChange(e)} />
-							: <span className="SeedPrice">{Number(seed_price) ? `$${seed_price.toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,')}` : 'Unknown'}</span>
+							? <input type="number" min="0" step="0.01" className="ModalTextInput" value={seed_price} onBlur={(e) => handleSeedPriceChange((Number(e.target.value) || 0).toFixed(2))} onChange={(e) => handleSeedPriceChange(e)} msg="Enter a seed price for your custom seed mix." required />
+							// eslint-disable-next-line no-nested-ternary
+							: <span className="SeedPrice">{Number(seed_price) ? `$${seed_price.toFixed(2).replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, '$1,')}` : !seed ? '-' : 'Unknown'}</span>
 					}
 				</div>
 			</div>

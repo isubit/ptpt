@@ -11,6 +11,7 @@ import calcBbox from '@turf/bbox';
 import Debug from 'debug';
 
 import { Loader } from 'components/Loader';
+import { SSURGOPopup } from 'components/SSURGOPopup';
 
 import { MapConsumer } from 'contexts/MapState';
 import { SettingsConsumer } from 'contexts/Settings';
@@ -30,6 +31,7 @@ import { Contours } from './map_layers/Contours';
 import { EditIcons } from './map_layers/EditIcons';
 import { FeatureLabels } from './map_layers/FeatureLabels';
 import { GeolocationPosition } from './map_layers/GeolocationPosition';
+import { Aerial } from './map_layers/Aerial';
 import { Lidar } from './map_layers/Lidar';
 import { PrairieArea } from './map_layers/PrairieArea';
 import { PrairieOutline } from './map_layers/PrairieOutline';
@@ -82,9 +84,11 @@ export class MapComponent extends React.Component {
 			drawInit: false, // Is the draw controller init?
 			sourcesAdded: false, // Are the sources added?
 			editingFeature: null, // The current feature being edited.
+			SSURGOPopupData: null, // The data for the SSURGO layer popup.
 			sources: [], // The current sources loaded.
 			cleanup: false, // Is the map cleaning up? (unmounting)
 			enriching: false, // Is the map currently enriching a feature?
+			touchStartLocation: null, // The touchstart lnglat for mobile.
 		};
 		this.mapElement = React.createRef();
 		debug('Props:', props);
@@ -98,6 +102,7 @@ export class MapComponent extends React.Component {
 			defaultZoom,
 			defaultPitch,
 			defaultBearing,
+			layers,
 			styleURL,
 			updateCurrentMapDetails,
 			currentMapDetails: {
@@ -130,7 +135,7 @@ export class MapComponent extends React.Component {
 				// Disable the default 10-ft contour line included in the style.
 				this.map.setLayoutProperty('contour-line', 'visibility', 'none');
 				this.map.setLayoutProperty('contour-label', 'visibility', 'none');
-			}
+      }
 
 			// this.moveMapCenter();
 
@@ -167,11 +172,23 @@ export class MapComponent extends React.Component {
 	}
 
 	componentDidUpdate() {
+		const {
+			props: {
+				layers,
+			},
+			state: {
+				SSURGOPopupData,
+			},
+		} = this;
+
 		this.moveMapCenter();
 		if (this.state.sourcesAdded) {
 			// Only the sources need to be updated, because they contain the state data.
 			this.loadSources();
 		}
+		!layers.ssurgo && SSURGOPopupData && this.setState(() => ({
+			SSURGOPopupData: null,
+		}));
 	}
 
 	componentWillUnmount() {
@@ -199,12 +216,13 @@ export class MapComponent extends React.Component {
 		const zoom = this.map.getZoom();
 		const bearing = this.map.getBearing();
 		const pitch = this.map.getPitch();
-		updateCurrentMapDetails({
+		const details = {
 			latlng,
 			zoom,
 			bearing,
 			pitch,
-		});
+		};
+		updateCurrentMapDetails(details);
 	}
 
 	nextStep = step => {
@@ -343,6 +361,11 @@ export class MapComponent extends React.Component {
 		});
 	}
 
+	settouchStartLocation = (lngLat) => {
+		this.setState(() => ({
+			touchStartLocation: lngLat,
+		}));
+	}
 
 	deleteFeature = id => {
 		const {
@@ -387,6 +410,27 @@ export class MapComponent extends React.Component {
 			this.map.addSource(name, sourceData);
 			this.setState(prevState => ({
 				sources: prevState.sources.concat(name),
+			}));
+		}
+	}
+
+	loadSSURGOPopupData = (feature, lngLat) => {
+		if (feature && lngLat) {
+			feature && this.addSource('active_ssurgo_feature', 'geojson', {
+				type: 'Feature',
+				geometry: feature.geometry,
+			});
+			const SSURGOPopupData = {
+				feature,
+				lngLat
+			}
+			this.setState(() => ({
+				SSURGOPopupData,
+			}));
+		}
+		if (!feature) {
+			this.setState(() => ({
+				SSURGOPopupData: null,
 			}));
 		}
 	}
@@ -452,6 +496,14 @@ export class MapComponent extends React.Component {
 		// This is 2ft contour lines.
 		process.env.mapbox_contour_tileset_id && this.addSource('contours', 'vector', `mapbox://${process.env.mapbox_contour_tileset_id}`);
 
+		// This is aerial imagery (high zoom).
+		this.addSource('aerial', 'raster', {
+			tiles: [
+				'https://ortho.gis.iastate.edu/arcgis/rest/services/ortho/naip_2019_nc/ImageServer/exportImage?f=image&bbox={bbox-epsg-3857}&imageSR=102100&bboxSR=102100&size=256%2C256',
+			],
+			tileSize: 256,
+		});
+
 		// This is the Geolocation position.
 		lastGeolocationResult && this.addSource('geolocation_position', 'geojson', {
 			type: 'Feature',
@@ -488,6 +540,7 @@ export class MapComponent extends React.Component {
 			map,
 			nextStep,
 			props: {
+				basemap,
 				data,
 				layers,
 				router: {
@@ -496,17 +549,21 @@ export class MapComponent extends React.Component {
 						pathname,
 					},
 				},
-				styleURL,
 				toggleHelper,
 			},
 			setEditingFeature,
 			saveFeature,
+			loadSSURGOPopupData,
+			settouchStartLocation,
+			updatePosition,
 			state: {
 				cleanup,
 				drawInit,
 				enriching,
 				sourcesAdded,
 				editingFeature,
+				SSURGOPopupData,
+				touchStartLocation,
 			},
 		} = this;
 
@@ -523,13 +580,11 @@ export class MapComponent extends React.Component {
 		};
 
 		map && sourcesAdded && (() => {
-			const labelTextColor = styleURL === process.env.mapbox_satellite_url ? 'white' : 'black';
+			const labelTextColor = basemap === 'satellite' ? 'white' : 'black';
 
 			map.labelTextColor = labelTextColor;
 	
-			const satelliteEnabled = styleURL === process.env.mapbox_satellite_url;
-	
-			map.satelliteEnabled = satelliteEnabled;
+			map.satelliteEnabled = basemap === 'satellite';
 		})();
 
 		return (
@@ -557,16 +612,18 @@ export class MapComponent extends React.Component {
 					{!cleanup && sourcesAdded
 						&& (
 							<>
+								<FeatureLabels map={map} />
+								{!/^\/plant/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
+								{map.getSource('geolocation_position') && <GeolocationPosition map={map} />}
 								<PrairieArea map={map} />
 								<PrairieOutline map={map} />
 								<TreeRows map={map} />
 								<Trees map={map} />
-								{!/^\/plant/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
-								{map.getSource('geolocation_position') && <GeolocationPosition map={map} />}
-								{layers.lidar && <Lidar map={map} active={layers.lidar} />}{/* This is written this way because the lidar layer takes so long to load it impedes other processes. */}
-								<FeatureLabels map={map} />
-								<SSURGO map={map} active={layers.ssurgo} />
 								<Contours map={map} active={layers.contours} />
+								<SSURGO map={map} active={layers.ssurgo} loadSSURGOPopupData={loadSSURGOPopupData} SSURGOPopupData={SSURGOPopupData} settouchStartLocation={settouchStartLocation} touchStartLocation={touchStartLocation} pathname={pathname} />
+								{SSURGOPopupData && layers.ssurgo && <SSURGOPopup map={map} loadSSURGOPopupData={loadSSURGOPopupData} SSURGOPopupData={SSURGOPopupData} updatePosition={updatePosition} /> }
+								{layers.lidar && <Lidar map={map} active={layers.lidar} />}{/* This is written this way because the lidar layer takes so long to load it impedes other processes. */}
+								{basemap === 'satellite' && <Aerial map={map} active={layers.aerial} />}
 							</>
 						)}
 

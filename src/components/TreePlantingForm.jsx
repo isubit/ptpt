@@ -120,14 +120,14 @@ const RowDetailInput = React.forwardRef((props, ref) => {
 							</div>
 							<div className="inputElement desktop-select-l-width">
 								<span className="inputLabel">Tree Type</span>
-								<select value={row.type} onChange={(e) => handleRowTypeChange(e, i)} required>
+								<select value={row.type} onChange={(e) => handleRowTypeChange(e, i)} msg={`Select the tree type for Row ${i + 1}.`} required>
 									<option value="" disabled>Select a tree type</option>
 									{treeTypes.map(ea => <option key={ea.id} value={ea.id}>{ea.value}</option>)}
 								</select>
 							</div>
 							<div className="inputElement desktop-select-l-width">
 								<span className="inputLabel">Tree Species</span>
-								<select value={row.species} onChange={(e) => handleRowSpeciesChange(e, i)} required>
+								<select value={row.species} onChange={(e) => handleRowSpeciesChange(e, i)} msg={`Select the tree species for Row ${i + 1}.`} required>
 									<option value="" disabled>{!row.type ? 'Select a tree type first' : 'Select a tree species'}</option>
 									{treesByType.get(row.type) && treesByType.get(row.type).map(ea => <option key={ea.id} value={ea.id}>{ea.display}</option>)}
 								</select>
@@ -206,7 +206,7 @@ const RowSpacingInput = React.forwardRef((props, ref) => {
 					</div>
 					<div className="inputElement desktop-select-m-width">
 						<span className="inputLabel">Planting Stock Size</span>
-						<select value={stock_size} onChange={(e) => handleStockSizeChange(e)} required>
+						<select value={stock_size} onChange={(e) => handleStockSizeChange(e)} msg="Select a stock size." required>
 							<option value="" disabled>Select a stock size</option>
 							{treeStockSizes.map(ea => (
 								<option key={ea.id} value={ea.id}>

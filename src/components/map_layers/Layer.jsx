@@ -66,7 +66,6 @@ export class Layer extends React.Component {
 			return null;
 		})();
 
-		console.log(layerToInsertBefore);
 		map.addLayer(layer, layerToInsertBefore || undefined);
 	}
 

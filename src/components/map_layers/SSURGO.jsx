@@ -1,19 +1,24 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable indent */
 import React from 'react';
-import Debug from 'debug';
+// import Debug from 'debug';
 
 import { Layer } from './Layer';
 
-const debug = Debug('MapComponent');
+// const debug = Debug('MapComponent');
 
 export const SSURGO = props => {
 	const {
 		active,
 		map,
+		pathname,
+		loadSSURGOPopupData,
+		settouchStartLocation,
+		touchStartLocation,
+		SSURGOPopupData,
 	} = props;
 
-	const layer = {
+	const SSURGOLayer = {
 		id: 'ssurgo',
 		type: 'fill',
 		source: 'ssurgo',
@@ -25,38 +30,62 @@ export const SSURGO = props => {
 				['linear'],
 				['to-number', ['get', 'iacornsr']],
 				5,
-				'#ffebb0',
+				'#F8F8ED',
 				10,
-				'#e6dda1',
+				'#F5F5E0',
 				20,
-				'#cccf93',
+				'#E6E5D2',
 				30,
-				'#b2bf84',
+				'#E3E1B2',
 				40,
-				'#9cb378',
+				'#C1C9A0',
 				50,
-				'#86a66a',
+				'#AAB991',
 				60,
-				'#71995f',
+				'#9BAF89',
 				70,
-				'#5b8a51',
+				'#8CA47F',
 				80,
-				'#488047',
+				'#809C76',
 				90,
-				'#35733d',
+				'#73926F',
 				100,
-				'#226633',
+				'#668867',
 			],
 			'fill-opacity': active ? 0.75 : 0,
-			'fill-antialias': false,
+			'fill-antialias': true,
 		},
 	};
 
+	// prevent click and touchevents if planting
 	const events = new Map([
 		['click', e => {
-			debug(e.features.length > 0 ? e.features[0] : null);
+			console.log(e.features[0]);
+			!/^\/plant/.test(pathname) && active && e.features.length > [0] && loadSSURGOPopupData(e.features[0], e.lngLat);
+		}],
+		['touchstart', e => {
+			!/^\/plant/.test(pathname) && active && settouchStartLocation(e.lngLat);
+		}],
+		['touchend', e => {
+			!/^\/plant/.test(pathname) && active && touchStartLocation.lng === e.lngLat.lng && touchStartLocation.lat === e.lngLat.lat && loadSSURGOPopupData(e.features[0], e.lngLat);
 		}],
 	]);
 
-	return <Layer map={map} layer={layer} events={events} />;
+	const activeSSURGOLayer = {
+		id: 'active_ssurgo_feature',
+		type: 'line',
+		source: 'active_ssurgo_feature',
+		paint: {
+			'line-color': '#469AFD',
+			'line-width': 4,
+			'line-opacity': 1,
+		},
+	};
+
+	return (
+		<>
+			{ SSURGOPopupData && <Layer map={map} layer={activeSSURGOLayer} /> }
+			<Layer map={map} layer={SSURGOLayer} events={events} />
+		</>
+	);
 };
