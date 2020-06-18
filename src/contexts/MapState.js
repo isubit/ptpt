@@ -1,5 +1,7 @@
 import React from 'react';
 import geojsonhint from '@mapbox/geojsonhint';
+import calcBbox from '@turf/bbox';
+import calcBuffer from '@turf/buffer';
 import uuid from 'uuid/v4';
 import _ from 'lodash';
 import Debug from 'debug';
@@ -8,6 +10,8 @@ import {
 	geocodeByAddress,
 	getLatLng,
 } from 'react-places-autocomplete';
+
+import { save } from 'utils/saveLoad';
 
 const debug = Debug('MapState');
 
@@ -18,12 +22,15 @@ function loadStorage() {
 		data = JSON.parse(data);
 		return new Map(data.data);
 	}
+
 	return new Map();
 }
 
+const storageData = loadStorage();
+
 export const MapDefaultState = {
 	// Data
-	data: loadStorage(),
+	data: storageData,
 
 	// Google Maps API
 	mapAPILoaded: false,
@@ -40,6 +47,21 @@ export const MapDefaultState = {
 	defaultZoom: 13,
 	defaultBearing: 0,
 	defaultPitch: 0,
+	defaultBounds: ((data = new Map()) => {
+		if (!data || data.size === 0) {
+			return null;
+		}
+
+		const features = [...data.values()];
+		const fc = {
+			type: 'FeatureCollection',
+			features,
+		};
+		const buffered = calcBuffer(fc, 100, { units: 'meters' });
+		const bbox = calcBbox(buffered);
+
+		return bbox;
+	})(storageData),
 	currentMapDetails: {
 		latlng: null,
 		zoom: null,
@@ -1244,6 +1266,7 @@ export const MapActions = (that) => {
 						},
 					}), () => {
 						debug('Saved data:', that.state.MapState.data);
+						save(data);
 					});
 				}
 			} else {
@@ -1260,7 +1283,10 @@ export const MapActions = (that) => {
 					...state.MapState,
 					data,
 				},
-			}));
+			}), () => {
+				debug('Deleted data:', that.state.MapState.data);
+				save(data);
+			});
 		},
 		setBasemap(basemapName) {
 			that.setState(state => ({
