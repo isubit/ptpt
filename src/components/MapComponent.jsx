@@ -102,6 +102,7 @@ export class MapComponent extends React.Component {
 			defaultZoom,
 			defaultPitch,
 			defaultBearing,
+			defaultBounds,
 			layers,
 			styleURL,
 			updateCurrentMapDetails,
@@ -121,6 +122,7 @@ export class MapComponent extends React.Component {
 			zoom: zoom || defaultZoom,
 			pitch: pitch || defaultPitch,
 			bearing: bearing || defaultBearing,
+			bounds: defaultBounds,
 		};
 
 		this.map = new mapboxgl.Map(mapConfig);
@@ -266,7 +268,7 @@ export class MapComponent extends React.Component {
 						try {
 							clone = await enrichment(clone, map);
 						} catch(e) {
-							debug(e);	
+							debug('Issue enriching...', e);	
 						}
 					}
 		
@@ -297,6 +299,7 @@ export class MapComponent extends React.Component {
 			defaultPitch,
 			defaultBearing,
 			currentMapDetails: {
+				bounds,
 				latlng,
 				pitch,
 				bearing,
@@ -316,6 +319,8 @@ export class MapComponent extends React.Component {
 					zoom: zoom || defaultZoom,
 				});
 			}
+		} else if (bounds) {
+			this.map.fitBounds(bounds);
 		}
 	}
 
@@ -343,6 +348,7 @@ export class MapComponent extends React.Component {
 					clone = await enrichment(clone, map);
 					addData(clone);
 				} catch(e) {
+					debug('Issue enriching...', e);
 					addData(clone);
 				}
 			}

@@ -647,7 +647,7 @@ class Report extends React.Component {
 					},
 				},
 				{
-					id: 'Herb Product',
+					id: 'Herbicide Product',
 					unit_cost: 15.00,
 					units: '$/acre',
 					qty: acreage,
@@ -658,7 +658,7 @@ class Report extends React.Component {
 					},
 				},
 				{
-					id: 'Herb Application',
+					id: 'Herbicide Application',
 					unit_cost: 53.00,
 					units: '$/acre',
 					qty: acreage,
@@ -874,7 +874,7 @@ class Report extends React.Component {
 		const totalEstablishmentUnitCosts = establishment.costs.map(cost => cost.unit_cost || 0).reduce((a, b) => a + b, 0);
 		const conservationProgram = {
 			title: 'Conservation Programs',
-			labels: ['Conservation Program', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
+			labels: ['Conservation Reserve Program (CP 43)', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 			costs: [
 				{
 					id: 'Cost Share 90% (year 1)',

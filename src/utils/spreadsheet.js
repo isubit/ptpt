@@ -90,8 +90,8 @@ function prairieTemplate(feature, sheet) {
 			// Site Preparation (13 - 17)
 			['(1) Site Preparation'],
 			['  Tillage', 15.40, { formula: 'B14*$B$4' }, annualizedTotalSeries('C14', 15)],
-			['  Herb product', 15.00, { formula: 'B15*$B$4' }, annualizedTotalSeries('C15', 15)],
-			['  Herb app.', 53.00, { formula: 'B16*$B$4' }, annualizedTotalSeries('C16', 15)],
+			['  Herbicide product', 15.00, { formula: 'B15*$B$4' }, annualizedTotalSeries('C15', 15)],
+			['  Herbicide app.', 53.00, { formula: 'B16*$B$4' }, annualizedTotalSeries('C16', 15)],
 			[],
 			// Establishment (18 - 22)
 			['(2) Establishment'],
@@ -158,7 +158,7 @@ function prairieTemplate(feature, sheet) {
 	(() => {
 		sheet.addRows([
 			['Conservation Programs'],
-			['Conservation Reserve Program'],
+			['Conservation Reserve Program (CP 43)'],
 			['  Cost Share 90%', '', { formula: 'C23*0.9' }, { formula: 'D23*0.9' }],
 			['  Rent Payment', '', { formula: 'C33*0.9' }, { formula: 'D33*0.9' }],
 			[],
@@ -174,7 +174,7 @@ function prairieTemplate(feature, sheet) {
 	})();
 
 	// Net Cost (47)
-	sheet.addRow(['Net Cost', '', { formula: 'C38-C45' }, { formula: 'D38-D45' }]);
+	sheet.addRow(['Net Cost', '', '', { formula: 'D38-D45' }]);
 
 	sheet.getCell('A47').font = { bold: true, underline: true };
 

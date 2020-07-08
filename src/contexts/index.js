@@ -1,9 +1,12 @@
 import React from 'react';
 import download from 'js-file-download';
-import calcCentroid from '@turf/centroid';
+import calcBbox from '@turf/bbox';
+import calcBuffer from '@turf/buffer';
 
+import { save as saveMethod, load as loadMethod } from 'utils/saveLoad';
 import { SettingsDefaultState, SettingsProvider, SettingsActions } from './Settings';
 import { MapDefaultState, MapProvider, MapActions } from './MapState';
+
 
 export class Store extends React.Component {
 	constructor(props) {
@@ -56,48 +59,82 @@ export class Store extends React.Component {
 	}
 
 	save = () => {
-		const date = new Date();
-		const contents = JSON.stringify({
-			data: this.state.MapState.data,
-			date,
-			version: '1.0',
-		}, (name, val) => {
-			if (val instanceof Map) {
-				return [...val.entries()];
-			}
-			return val;
-		}, 4);
-
-		window.localStorage && localStorage.setItem('data', contents);
+		const { contents, date } = saveMethod(this.state.MapState.data);
 		download(contents, `prairie_tree_planting_tool_savefile_${date.getTime()}.json`);
 	}
 
-	load = async (file, cb) => {
-		if (file[0]) {
-			try {
-				const contents = await file[0].text();
-				const parsed = JSON.parse(contents);
-				const data = new Map(parsed.data);
-				const features = [...data.values()];
-				const centroid = calcCentroid({
-					type: 'FeatureCollection',
-					features,
-				});
+	load = async file => {
+		const data = await loadMethod(file);
 
-				this.setState(state => ({
-					MapState: {
-						...state.MapState,
-						data,
-						currentMapDetails: {
-							latlng: centroid.geometry.coordinates,
-						},
-					},
-				}), () => cb && cb());
-			} catch (e) {
-				console.warn('File is corrupted:', e);
-			}
-		}
+		this.setState(state => ({
+			MapState: {
+				...state.MapState,
+				data,
+				currentMapDetails: {
+					bounds: (() => {
+						if (!data || data.size === 0) {
+							return null;
+						}
+
+						const features = [...data.values()];
+						const fc = {
+							type: 'FeatureCollection',
+							features,
+						};
+						const buffered = calcBuffer(fc, 100, { units: 'meters' });
+						const bbox = calcBbox(buffered);
+
+						return bbox;
+					})(),
+				},
+			},
+		}));
+		return data;
 	}
+
+	// save = () => {
+	// 	const date = new Date();
+	// 	const contents = JSON.stringify({
+	// 		data: this.state.MapState.data,
+	// 		date,
+	// 		version: '1.0',
+	// 	}, (name, val) => {
+	// 		if (val instanceof Map) {
+	// 			return [...val.entries()];
+	// 		}
+	// 		return val;
+	// 	}, 4);
+
+	// 	window.localStorage && localStorage.setItem('data', contents);
+	// 	download(contents, `prairie_tree_planting_tool_savefile_${date.getTime()}.json`);
+	// }
+
+	// load = async (file, cb) => {
+	// 	if (file[0]) {
+	// 		try {
+	// 			const contents = await file[0].text();
+	// 			const parsed = JSON.parse(contents);
+	// 			const data = new Map(parsed.data);
+	// 			const features = [...data.values()];
+	// 			const centroid = calcCentroid({
+	// 				type: 'FeatureCollection',
+	// 				features,
+	// 			});
+
+	// 			this.setState(state => ({
+	// 				MapState: {
+	// 					...state.MapState,
+	// 					data,
+	// 					currentMapDetails: {
+	// 						latlng: centroid.geometry.coordinates,
+	// 					},
+	// 				},
+	// 			}), () => cb && cb());
+	// 		} catch (e) {
+	// 			console.warn('File is corrupted:', e);
+	// 		}
+	// 	}
+	// }
 
 	render() {
 		const {
