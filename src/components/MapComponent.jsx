@@ -502,10 +502,18 @@ export class MapComponent extends React.Component {
 		// This is 2ft contour lines.
 		process.env.mapbox_contour_tileset_id && this.addSource('contours', 'vector', `mapbox://${process.env.mapbox_contour_tileset_id}`);
 
-		// This is aerial imagery (high zoom).
-		this.addSource('aerial', 'raster', {
+		// This is aerial imagery, spring 2019 (high zoom).
+		this.addSource('aerial-2019', 'raster', {
 			tiles: [
 				'https://ortho.gis.iastate.edu/arcgis/rest/services/ortho/naip_2019_nc/ImageServer/exportImage?f=image&bbox={bbox-epsg-3857}&imageSR=102100&bboxSR=102100&size=256%2C256',
+			],
+			tileSize: 256,
+		});
+
+		// This is aerial imagery, sprint 2016-2018 (high zoom).
+		this.addSource('aerial-2016-2018', 'raster', {
+			tiles: [
+				'https://ortho.gis.iastate.edu/arcgis/rest/services/ortho/ortho_2016_2018_nc/ImageServer/exportImage?f=image&bbox={bbox-epsg-3857}&imageSR=102100&bboxSR=102100&size=256%2C256',
 			],
 			tileSize: 256,
 		});
@@ -629,7 +637,7 @@ export class MapComponent extends React.Component {
 								<SSURGO map={map} active={layers.ssurgo} loadSSURGOPopupData={loadSSURGOPopupData} SSURGOPopupData={SSURGOPopupData} settouchStartLocation={settouchStartLocation} touchStartLocation={touchStartLocation} pathname={pathname} />
 								{SSURGOPopupData && layers.ssurgo && <SSURGOPopup map={map} loadSSURGOPopupData={loadSSURGOPopupData} SSURGOPopupData={SSURGOPopupData} updatePosition={updatePosition} /> }
 								{layers.lidar && <Lidar map={map} active={layers.lidar} />}{/* This is written this way because the lidar layer takes so long to load it impedes other processes. */}
-								{basemap === 'satellite' && <Aerial map={map} active={layers.aerial} />}
+								{basemap === 'satellite' && <Aerial map={map} active={layers.aerial} aerialYear={layers.aerialYear} />}
 							</>
 						)}
 

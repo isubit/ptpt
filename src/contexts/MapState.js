@@ -83,6 +83,7 @@ export const MapDefaultState = {
 		lidar: false,
 		contours: false,
 		aerial: true,
+		aerialYear: '2019',
 	},
 };
 
@@ -1296,11 +1297,11 @@ export const MapActions = (that) => {
 				},
 			}));
 		},
-		setMapLayer(layerName) {
+		setMapLayer(layerName, value) {
 			// Set map layer given layer name
 			const { layers } = that.state.MapState;
 			if (Object.prototype.hasOwnProperty.call(layers, layerName)) {
-				layers[layerName] = !layers[layerName];
+				layers[layerName] = value || !layers[layerName];
 			}
 			that.setState(state => ({
 				MapState: {
