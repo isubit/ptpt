@@ -19,7 +19,10 @@ export function annualizedCost(cost, interest, years) {
 
 export function calcTotalCosts(costObj) {
 	// eslint-disable-next-line no-confusing-arrow
-	return costObj.costs.map(cost => cost ? cost.totalCost : 0).reduce((a, b) => a + b, 0);
+	return costObj.costs.filter(cost => !!cost).map(cost => {
+		const { totalCost = 0 } = cost;
+		return Number(totalCost);
+	}).reduce((a, b) => a + b, 0);
 }
 
 export function findAverage(numArr) {

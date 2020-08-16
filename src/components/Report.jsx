@@ -115,9 +115,9 @@ const ReportTable = (props) => {
 		const units = [labels[2]];
 		const qty = [labels[3]];
 		const total_costs = [labels[4]];
-		costs.forEach(cost => {
+		costs.filter(cost => !!cost).forEach(cost => {
 			cost.id ? ids.push(cost.id) : ids.push(null);
-			(Number(cost.unit_cost) || Number(cost.unit_cost) === 0) ? unit_costs.push(`$${Number(cost.unit_cost).toFixed(2)}`) : unit_costs.push(null);
+			(Number(cost.unit_cost) || Number(cost.unit_cost) === 0) ? unit_costs.push(`${cost.unitCost < 0 ? '- ' : ''}$${Math.abs(Number(cost.unit_cost)).toFixed(2)}`) : unit_costs.push(null);
 			cost.units ? units.push(cost.units) : units.push(null);
 			if (cost.units && (cost.units === '$/tree' || cost.units === 'N/A')) {
 				(cost.qty || cost.qty === 0) ? qty.push(cost.qty.toFixed(0)) : qty.push(null);
@@ -126,7 +126,7 @@ const ReportTable = (props) => {
 			}
 			if (cost.totalCost || cost.totalCost === 0) {
 				const total_cost = cost.totalCost;
-				total_costs.push(`$${total_cost.toFixed(2)}`);
+				total_costs.push(`${total_cost < 0 ? '- ' : ''}$${Math.abs(Number(total_cost)).toFixed(2)}`);
 			} else {
 				total_costs.push(null);
 			}
@@ -151,6 +151,7 @@ const ReportTable = (props) => {
 					{
 						tables[activeTable].map((column, colIndex) => {
 							const lastCol = tables[activeTable].length === colIndex + 1;
+							if (column.filter(element => !!element).length === 0) return null;
 							return (
 								<div className="table-column" key={uuid()}>
 									{
@@ -637,7 +638,7 @@ class Report extends React.Component {
 			costs: [
 				{
 					id: 'Tillage',
-					unit_cost: 15.40,
+					unit_cost: 15.50,
 					units: '$/acre',
 					qty: acreage,
 					get totalCost() {
@@ -647,19 +648,8 @@ class Report extends React.Component {
 					},
 				},
 				{
-					id: 'Herbicide Product',
-					unit_cost: 15.00,
-					units: '$/acre',
-					qty: acreage,
-					get totalCost() {
-						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
-						const totalCost = annualizedUnitCost * this.qty;
-						return totalCost;
-					},
-				},
-				{
-					id: 'Herbicide Application',
-					unit_cost: 53.00,
+					id: 'Herbicide Product & Application',
+					unit_cost: 44.37,
 					units: '$/acre',
 					qty: acreage,
 					get totalCost() {
@@ -694,7 +684,7 @@ class Report extends React.Component {
 				},
 				{
 					id: 'Seed Drilling',
-					unit_cost: 18.00,
+					unit_cost: 18.70,
 					units: '$/acre',
 					qty: acreage,
 					get totalCost() {
@@ -731,7 +721,7 @@ class Report extends React.Component {
 		let management_row3;
 		const management_row1 = {
 			id: 'Mowing (year 1: 3x)',
-			unit_cost: 90.00,
+			unit_cost: 57.45,
 			get present_value() {
 				const unitCost = this.unit_cost;
 				const present_value = annualSeries(unitCost, 0.02, 1);
@@ -747,24 +737,8 @@ class Report extends React.Component {
 		};
 		if (reportArea.properties.configs.management.display === 'mow') {
 			management_row2 = {
-				id: 'Mowing (year 2-15)',
-				unit_cost: 30.00,
-				get present_value() {
-					const unitCost = this.unit_cost;
-					const present_value = (annualSeries(unitCost, 0.02, 14) / (1.02 ** 2));
-					return present_value;
-				},
-				units: '$/acre',
-				qty: acreage,
-				get totalCost() {
-					const annualizedPVCost = annualizedCost(this.present_value, 0.02, 15);
-					const totalCost = annualizedPVCost * this.qty;
-					return totalCost;
-				},
-			};
-			management_row3 = {
-				id: 'Raking, Rowing, Baleing (year 2-15)',
-				unit_cost: 35.85,
+				id: 'Mowing, Raking, Rowing, Baleing (year 2-15)',
+				unit_cost: 50.30,
 				get present_value() {
 					const unitCost = this.unit_cost;
 					const present_value = (annualSeries(unitCost, 0.02, 14) / (1.02 ** 2));
@@ -847,7 +821,7 @@ class Report extends React.Component {
 				},
 				{
 					id: 'General Operation Costs (year 1-15)',
-					unit_cost: 8.00,
+					unit_cost: 10.00,
 					units: '$/acre',
 					qty: acreage,
 					get present_value() {
@@ -877,8 +851,8 @@ class Report extends React.Component {
 			labels: ['Conservation Reserve Program (CP 43)', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 			costs: [
 				{
-					id: 'Cost Share 90% (year 1)',
-					unit_cost: ((totalSitePrepUnitCosts + totalEstablishmentUnitCosts) * 0.9),
+					id: 'Cost Share 50% (year 1)',
+					unit_cost: ((totalSitePrepUnitCosts + totalEstablishmentUnitCosts) * 0.5),
 					units: '$/acre',
 					qty: acreage,
 					get totalCost() {
@@ -900,13 +874,62 @@ class Report extends React.Component {
 				},
 			],
 		};
+
+		const incentivePayment = {
+			id: 'Incentive Payment (37.5% annual rent)',
+			unit_cost: (conservationProgram.costs[1].unit_cost * 0.375),
+			units: '$/acre',
+			qty: acreage,
+			get totalCost() {
+				const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+				const totalCost = annualizedUnitCost * this.qty;
+				return totalCost;
+			},
+		};
+
+		conservationProgram.costs.push(incentivePayment);
+
 		const totalConservationCosts = calcTotalCosts(conservationProgram);
 		conservationProgram.costs.push({
 			id: 'Total Conservation',
 			totalCost: totalConservationCosts,
 		});
 
-		const reportData = [site_prep, establishment, management, opportunity_cost, conservationProgram];
+		// Net Totals
+		const netTotals = {
+			title: 'Net Totals',
+			labels: ['Category', null, null, null, 'Annualized Total Costs'],
+			costs: [
+				{
+					id: 'Site Preparation',
+					totalCost: totalSitePrepCost,
+				},
+				{
+					id: 'Establishment',
+					totalCost: totalEstablishmentCosts,
+				},
+				{
+					id: 'Management',
+					totalCost: totalManagementCosts,
+				},
+				{
+					id: 'Opportunity Cost',
+					totalCost: totalOpportunityCost,
+				},
+				{
+					id: 'Conservation Programs',
+					totalCost: -(totalConservationCosts),
+				},
+			],
+		};
+
+		const totalNetCosts = calcTotalCosts(netTotals);
+		netTotals.costs.push({
+			id: 'Net Annualized Total Cost',
+			totalCost: totalNetCosts,
+		});
+
+		const reportData = [site_prep, establishment, management, opportunity_cost, conservationProgram, netTotals];
 		debug('Prairie report data:', reportData);
 		return reportData;
 	}
