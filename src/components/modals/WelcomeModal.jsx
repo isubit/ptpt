@@ -84,7 +84,15 @@ export class WelcomeModal extends React.Component {
 									<span>Or </span>
 									<span className="link" onClick={clickFileInput} onKeyPress={clickFileInput} role="button" tabIndex="0">
 										Upload a saved file
-										<input type="file" hidden ref={fileInput} onChange={e => load(e.target.files, () => history.replace('/'))} />
+										<input
+											type="file"
+											hidden
+											ref={fileInput}
+											onChange={async e => {
+												await load(e.target.files);
+												history.replace('/');
+											}}
+										/>
 									</span>
 								</div>
 							</div>

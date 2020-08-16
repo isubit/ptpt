@@ -102,6 +102,7 @@ export class MapComponent extends React.Component {
 			defaultZoom,
 			defaultPitch,
 			defaultBearing,
+			defaultBounds,
 			layers,
 			styleURL,
 			updateCurrentMapDetails,
@@ -121,6 +122,7 @@ export class MapComponent extends React.Component {
 			zoom: zoom || defaultZoom,
 			pitch: pitch || defaultPitch,
 			bearing: bearing || defaultBearing,
+			bounds: defaultBounds,
 		};
 
 		this.map = new mapboxgl.Map(mapConfig);
@@ -266,7 +268,7 @@ export class MapComponent extends React.Component {
 						try {
 							clone = await enrichment(clone, map);
 						} catch(e) {
-							debug(e);	
+							debug('Issue enriching...', e);	
 						}
 					}
 		
@@ -297,6 +299,7 @@ export class MapComponent extends React.Component {
 			defaultPitch,
 			defaultBearing,
 			currentMapDetails: {
+				bounds,
 				latlng,
 				pitch,
 				bearing,
@@ -316,6 +319,8 @@ export class MapComponent extends React.Component {
 					zoom: zoom || defaultZoom,
 				});
 			}
+		} else if (bounds) {
+			this.map.fitBounds(bounds);
 		}
 	}
 
@@ -343,6 +348,7 @@ export class MapComponent extends React.Component {
 					clone = await enrichment(clone, map);
 					addData(clone);
 				} catch(e) {
+					debug('Issue enriching...', e);
 					addData(clone);
 				}
 			}
@@ -496,10 +502,18 @@ export class MapComponent extends React.Component {
 		// This is 2ft contour lines.
 		process.env.mapbox_contour_tileset_id && this.addSource('contours', 'vector', `mapbox://${process.env.mapbox_contour_tileset_id}`);
 
-		// This is aerial imagery (high zoom).
-		this.addSource('aerial', 'raster', {
+		// This is aerial imagery, spring 2019 (high zoom).
+		this.addSource('aerial-2019', 'raster', {
 			tiles: [
 				'https://ortho.gis.iastate.edu/arcgis/rest/services/ortho/naip_2019_nc/ImageServer/exportImage?f=image&bbox={bbox-epsg-3857}&imageSR=102100&bboxSR=102100&size=256%2C256',
+			],
+			tileSize: 256,
+		});
+
+		// This is aerial imagery, sprint 2016-2018 (high zoom).
+		this.addSource('aerial-2016-2018', 'raster', {
+			tiles: [
+				'https://ortho.gis.iastate.edu/arcgis/rest/services/ortho/ortho_2016_2018_nc/ImageServer/exportImage?f=image&bbox={bbox-epsg-3857}&imageSR=102100&bboxSR=102100&size=256%2C256',
 			],
 			tileSize: 256,
 		});
@@ -623,7 +637,7 @@ export class MapComponent extends React.Component {
 								<SSURGO map={map} active={layers.ssurgo} loadSSURGOPopupData={loadSSURGOPopupData} SSURGOPopupData={SSURGOPopupData} settouchStartLocation={settouchStartLocation} touchStartLocation={touchStartLocation} pathname={pathname} />
 								{SSURGOPopupData && layers.ssurgo && <SSURGOPopup map={map} loadSSURGOPopupData={loadSSURGOPopupData} SSURGOPopupData={SSURGOPopupData} updatePosition={updatePosition} /> }
 								{layers.lidar && <Lidar map={map} active={layers.lidar} />}{/* This is written this way because the lidar layer takes so long to load it impedes other processes. */}
-								{basemap === 'satellite' && <Aerial map={map} active={layers.aerial} />}
+								{basemap === 'satellite' && <Aerial map={map} active={layers.aerial} aerialYear={layers.aerialYear} />}
 							</>
 						)}
 

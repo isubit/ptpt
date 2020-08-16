@@ -5,6 +5,7 @@ import {
 
 import { MapConsumer } from '../contexts/MapState';
 
+// checkboxElements could probably be factored out into own component.
 const DropdownCheckbox = ({
 	setBasemap,
 	setMapLayer,
@@ -35,6 +36,18 @@ const DropdownCheckbox = ({
 			/>
 			<span>Satellite</span>
 		</div>
+		{basemap === 'satellite' && (
+			<div className="satelliteSelection">
+				<div className="checkboxElement">
+					<input type="radio" name="aerialYear" value="2019" checked={layers.aerialYear === '2019'} onChange={(e) => setMapLayer(e.target.name, e.target.value)} />
+					<span>Spring Orthophotos &lsquo;19</span>
+				</div>
+				<div className="checkboxElement">
+					<input type="radio" name="aerialYear" value="2016-2018" checked={layers.aerialYear === '2016-2018'} onChange={(e) => setMapLayer(e.target.name, e.target.value)} />
+					<span>Spring Orthophotos &lsquo;16-&lsquo;18</span>
+				</div>
+			</div>
+		)}
 		{/* <button type="button" className="Button">
 			<span>Add A Map Layer</span>
 		</button>

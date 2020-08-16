@@ -77,7 +77,7 @@ export class Component extends React.Component {
 									<h3 className="modal-header">Allow the Prairie &amp; Tree Planting application to access your location while using the app?</h3>
 									<div className="content modal-text">
 										<div className="LocationPromptExplainer">
-											<img src="https://via.placeholder.com/250x150" alt="browser location prompt" />
+											<img src="/assets/know-your-location-popup.png" alt="browser location prompt" />
 											<p>
 												{
 													errorMsg && geolocationError === 1
