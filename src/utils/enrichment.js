@@ -107,10 +107,11 @@ export async function enrichment(feature, map) {
 			rent: csrRent[county],
 		};
 	} catch (e) {
+		console.log(e);
 		clone.properties = {
 			...clone.properties,
 			county: null,
-			rent: null,
+			rent: 2.72, // Use average CSR rent of all counties.
 		};
 	}
 

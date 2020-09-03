@@ -618,7 +618,45 @@ class Report extends React.Component {
 			totalCost: totalEQIPCosts,
 		});
 
-		const reportData = [site_prep, inputs, tree_establishment, tree_replacement_costs, opportunity_cost, eqip_costs];
+		// Net Totals
+		const netTotals = {
+			title: 'Net Totals',
+			labels: ['Category', null, null, null, 'Annualized Total Costs'],
+			costs: [
+				{
+					id: 'Site Preparation',
+					totalCost: totalSitePrepCost,
+				},
+				{
+					id: 'Inputs',
+					totalCost: totalInputCosts,
+				},
+				{
+					id: 'Tree Establishment',
+					totalCost: totalEstablishmentCosts,
+				},
+				{
+					id: 'Tree Replacement',
+					totalCost: totalTreeReplacementCosts,
+				},
+				{
+					id: 'Opportunity Cost',
+					totalCost: totalOpportunityCost,
+				},
+				{
+					id: 'EQIP',
+					totalCost: -(totalEQIPCosts),
+				},
+			],
+		};
+
+		const totalNetCosts = calcTotalCosts(netTotals);
+		netTotals.costs.push({
+			id: 'Net Annualized Total Cost',
+			totalCost: totalNetCosts,
+		});
+
+		const reportData = [site_prep, inputs, tree_establishment, tree_replacement_costs, opportunity_cost, eqip_costs, netTotals];
 		debug('Tree report data:', reportData);
 		return reportData;
 	}
@@ -877,7 +915,7 @@ class Report extends React.Component {
 
 		const incentivePayment = {
 			id: 'Incentive Payment (37.5% annual rent)',
-			unit_cost: (conservationProgram.costs[1].unit_cost * 0.375),
+			unit_cost: (average_csr * rent * 0.375),
 			units: '$/acre',
 			qty: acreage,
 			get totalCost() {

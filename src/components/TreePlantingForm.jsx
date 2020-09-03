@@ -46,6 +46,7 @@ const NumRowInput = React.forwardRef((props, ref) => {
 							? (
 								<>
 									<option key={1} value={1}>1</option>
+									<option key={2} value={2}>2</option>
 									<option key={3} value={3}>3</option>
 								</>
 							)

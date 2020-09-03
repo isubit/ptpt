@@ -91,8 +91,9 @@ export function findTreeEQIP(properties) {
 		return programs.filter(ea => {
 			const irrigationCheck = ea.irrigation !== undefined ? ea.irrigation === irrigation : true;
 			const pastureConversionCheck = ea.pasture_conversion !== undefined ? ea.pasture_conversion === pasture_conversion : true;
-			const rowsCheck = ea.rows !== undefined ? ea.rows === rows.length : true;
-			let stockSizeCheck = (Array.isArray(ea.stock_size) ? ea.stock_size.includes(stock_size) : ea.stock_size === stock_size);
+			let rowsCheck = Array.isArray(ea.rows) ? ea.rows.includes(rows.length) : ea.rows === rows.length;
+			rowsCheck = ea.rows !== undefined ? rowsCheck : true;
+			let stockSizeCheck = Array.isArray(ea.stock_size) ? ea.stock_size.includes(stock_size) : ea.stock_size === stock_size;
 			stockSizeCheck = ea.stock_size !== undefined ? stockSizeCheck : true;
 			const treeTypeCheck = ea.tree_type !== undefined ? ea.tree_type === treeType.id : true;
 			const windbreakCheck = ea.windbreak !== undefined ? ea.windbreak === windbreak : true;
@@ -184,5 +185,18 @@ export function getEQIPCosts(programArr, qty, treeQty, rowLength) {
 		return programCost;
 	});
 
-	return costs;
+	const sitePrep = {
+		id: 'Site preparation, light mechanical with chemical (code 490)',
+		unit_cost: 138.26,
+		units: '$/acre',
+		qty,
+		get present_value() {
+			return this.unit_cost / 1.02;
+		},
+		get totalCost() {
+			return annualizedCost(this.present_value, 0.02, 15) * this.qty;
+		},
+	};
+
+	return [sitePrep, ...costs];
 }
