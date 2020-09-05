@@ -24,12 +24,11 @@
                 img 
                     display: block
                     width: 100%
-                    width: 38px
                     max-height: 38px
                 img.option-inactive
                     max-height: 21px
             &.active
-                background-color: $bright-blue
+                background-color: $dark-green
                 a
                     .option-inactive
                         display: none
@@ -54,6 +53,7 @@
             grid-template-columns: repeat(5, 1fr)
             width: 100%
             .option
+                position: relative
                 grid-row: 1
                 width: 100%
                 padding: 0

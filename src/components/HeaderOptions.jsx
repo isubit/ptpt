@@ -3,6 +3,7 @@ import {
 	Link,
 } from 'react-router-dom';
 
+import { DistanceDisplay } from './DistanceDisplay';
 import { MapConsumer } from '../contexts/MapState';
 
 // checkboxElements could probably be factored out into own component.
@@ -60,6 +61,7 @@ export class HeaderOptions extends React.Component {
 		treeOption: false,
 		prairieOption: false,
 		layerOption: false,
+		measureOption: false,
 		reportOption: false,
 	};
 
@@ -67,6 +69,7 @@ export class HeaderOptions extends React.Component {
 		const {
 			treeOption,
 			prairieOption,
+			measureOption,
 			reportOption,
 		} = this.state;
 		const {
@@ -79,9 +82,11 @@ export class HeaderOptions extends React.Component {
 			this.setOptionState('treeOption');
 		} else if (pathname.includes('/plant/prairie') && !prairieOption) {
 			this.setOptionState('prairieOption');
+		} else if (pathname.includes('/plant/measure') && !measureOption) {
+			this.setOptionState('measureOption');
 		} else if (pathname.includes('/report') && !reportOption) {
 			this.setOptionState('reportOption');
-		} else if (pathname === '/' && (treeOption || prairieOption || reportOption)) {
+		} else if (pathname === '/' && (treeOption || prairieOption || measureOption || reportOption)) {
 			this.setOptionState(null);
 		}
 	}
@@ -99,6 +104,7 @@ export class HeaderOptions extends React.Component {
 			treeOption: false,
 			prairieOption: false,
 			layerOption: false,
+			measureOption: false,
 			reportOption: false,
 		};
 
@@ -180,6 +186,13 @@ export class HeaderOptions extends React.Component {
 								Measure Distance
 							</div>
 						</Link>
+						<div className="OptionsDropdown large right">
+							<DistanceDisplay
+								distance={300}
+								area={300}
+								onClear={console.log}
+							/>
+						</div>
 					</li>
 					<li className={reportOption ? 'option active' : 'option'}>
 						<Link to="/report">
