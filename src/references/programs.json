@@ -1,67 +1,45 @@
 [
     {
-        "id": "KmaZOoiZ",
-        "windbreak": false,
-        "tree_type": "77l_gl54Q",
-        "stock_size": "MncAVRtr",
-        "price_model": "tree",
-        "price": 2.56,
-        "display": "Conifer establishment, bareroot"
-    },
-    {
         "id": "nNBZAAZT",
         "windbreak": false,
         "tree_type": "77l_gl54Q",
-        "stock_size": "MncAVRtr",
         "price_model": "acre",
         "price": 607.88,
-        "display": "Conifer establishment, bareroot"
-    },
-    {
-        "id": "aV6w1jNc",
-        "windbreak": false,
-        "tree_type": "lJEh5tsIx",
-        "stock_size": "MncAVRtr",
-        "price_model": "tree",
-        "price": 0.61,
-        "display": "Bareroot trees / shrubs"
+        "display": "Conifer establishment (code 612)"
     },
     {
         "id": "hKEPVUQq",
         "windbreak": false,
         "tree_type": "9EmOC874",
-        "stock_size": "MncAVRtr",
         "price_model": "acre",
         "price": 588.26,
-        "display": "Hardwood establishment, bareroot"
+        "display": "Hardwood establishment (code 612)"
     },
     {
         "id": "gXTj8scA",
         "windbreak": false,
         "pasture_conversion": true,
-        "tree_type": "9EmOC874",
-        "stock_size": "MncAVRtr",
         "price_model": "acre",
         "price": 370.13,
-        "display": "Hardwood establishment, pasture conversion"
+        "display": "Tree establishment, pasture conversion (code 612)"
     },
     {
         "id": "4MqUo_Sp",
         "windbreak": true,
-        "rows": 1,
+        "rows": [1, 2],
         "stock_size": "MncAVRtr",
         "price_model": "feet",
-        "price": 0.29,
-        "display": "1 row windbreak, bareroot trees"
+        "price": 0.36,
+        "display": "1-2 row windbreak, bareroot (code 380)"
     },
     {
         "id": "4dve_Y-b",
         "windbreak": true,
-        "rows": 1,
-        "stock_size": "fL_j0l400",
+        "rows": [1, 2],
+        "stock_size": ["ZXrCnom3T", "rDFUVsplI", "3Rrd5veAL", "5cltl3sdD"],
         "price_model": "feet",
         "price": 0.60,
-        "display": "1 row windbreak, container trees, less than 2 gallons"
+        "display": "1-2 row windbreak, container (code 380)"
     },
     {
         "id": "OpJCerBv",
@@ -70,17 +48,7 @@
         "stock_size": "MncAVRtr",
         "price_model": "feet",
         "price": 0.94,
-        "display": "3 row windbreak, bareroot seedling planting stock"
-    },
-    {
-        "id": "UJAOfGQu",
-        "windbreak": true,
-        "rows": 3,
-        "irrigation": true,
-        "stock_size": "MncAVRtr",
-        "price_model": "feet",
-        "price": 2.72,
-        "display": "3 row windbreak, bareroot seedling planting stock, temporary irrigation"
+        "display": "3 row windbreak, bareroot (code 380)"
     },
     {
         "id": "l_piMQsz",
@@ -90,6 +58,46 @@
         "stock_size": ["ZXrCnom3T", "rDFUVsplI", "3Rrd5veAL", "5cltl3sdD"],
         "price_model": "feet",
         "price": 3.43,
-        "display": "3 row windbreak, containerized planting stock"
+        "display": "3 row windbreak, container (code 380)"
+    },
+    {
+        "id": "A5mqstliy",
+        "windbreak": true,
+        "rows": [1,2],
+        "irrigation": true,
+        "stock_size": "MncAVRtr",
+        "price_model": "feet",
+        "price": 0.47,
+        "display": "1-2 row windbreak, bareroot w/ irrigation (code 380)"
+    },
+    {
+        "id": "X3rahBRu7",
+        "windbreak": true,
+        "rows": [1,2],
+        "irrigation": true,
+        "stock_size": ["ZXrCnom3T", "rDFUVsplI", "3Rrd5veAL", "5cltl3sdD"],
+        "price_model": "feet",
+        "price": 0.6,
+        "display": "1-2 row windbreak, container w/ irrigation (code 380)"
+    },
+    {
+        "id": "UJAOfGQu",
+        "windbreak": true,
+        "rows": 3,
+        "irrigation": true,
+        "stock_size": "MncAVRtr",
+        "price_model": "feet",
+        "price": 2.72,
+        "display": "3 row windbreak, bareroot w/ irrigation (code 380)"
+    },
+    {
+        "id": "AJl7cr_Jq",
+        "windbreak": true,
+        "rows": 3,
+        "irrigation": true,
+        "stock_size": ["ZXrCnom3T", "rDFUVsplI", "3Rrd5veAL", "5cltl3sdD"],
+        "price_model": "feet",
+        "price": 5.22,
+        "display": "3 row windbreak, container w/ irrigation (code 380)"
     }
 ]

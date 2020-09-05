@@ -123,6 +123,9 @@ export class MapComponent extends React.Component {
 			pitch: pitch || defaultPitch,
 			bearing: bearing || defaultBearing,
 			bounds: defaultBounds,
+			fitBoundsOptions: {
+				padding: window.innerWidth > 1000 ? 200 : 100
+			}
 		};
 
 		this.map = new mapboxgl.Map(mapConfig);
