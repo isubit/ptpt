@@ -118,6 +118,7 @@ export class HeaderOptions extends React.Component {
 			treeOption,
 			prairieOption,
 			layerOption,
+			measureOption,
 			reportOption,
 		} = this.state;
 
@@ -126,7 +127,7 @@ export class HeaderOptions extends React.Component {
 				<ul>
 					<li className={treeOption ? 'option active' : 'option'}>
 						<Link to="/plant/tree">
-							<img className="option-inactive" src="/assets/plant_tree_option.svg" alt="Plant trees" />
+							<img className="option-inactive" src="/assets/tree_green.svg" alt="Plant trees" />
 							<img className="option-active" src="/assets/tree_active.svg" alt="Plant trees" />
 							<div className="option-name">
 								Plant Trees
@@ -135,7 +136,7 @@ export class HeaderOptions extends React.Component {
 					</li>
 					<li className={prairieOption ? 'option active' : 'option'}>
 						<Link to="/plant/prairie">
-							<img className="option-inactive" src="/assets/plant_prairie.svg" alt="Plant prairies" />
+							<img className="option-inactive" src="/assets/prairie_green.svg" alt="Plant prairies" />
 							<img className="option-active" src="/assets/prairieOption_active.svg" alt="Plant prairies" />
 							<div className="option-name">
 								Plant Prairies
@@ -144,7 +145,7 @@ export class HeaderOptions extends React.Component {
 					</li>
 					<li className={layerOption ? 'option active' : 'option'}>
 						<Link to="/#" onClick={() => this.toggleLayerOption()}>
-							<img className="option-inactive" src="/assets/map_layers.svg" alt="Show layers" />
+							<img className="option-inactive" src="/assets/map_layers_green.svg" alt="Show layers" />
 							<img className="option-active" src="/assets/layerOption_active.svg" alt="Show layers" />
 							<div className="option-name">
 								View Map Layers
@@ -171,9 +172,18 @@ export class HeaderOptions extends React.Component {
 							</MapConsumer>
 						</div>
 					</li>
+					<li className={measureOption ? 'option active' : 'option'}>
+						<Link to="/plant/measure">
+							<img className="option-inactive" src="/assets/measure_green.svg" alt="Measure" />
+							<img className="option-active" src="/assets/measure_active.svg" alt="Measure" />
+							<div className="option-name">
+								Measure Distance
+							</div>
+						</Link>
+					</li>
 					<li className={reportOption ? 'option active' : 'option'}>
 						<Link to="/report">
-							<img className="option-inactive" src="/assets/view_report.svg" alt="View report" />
+							<img className="option-inactive" src="/assets/report_green.svg" alt="View report" />
 							<img className="option-active" src="/assets/reportOption_active.svg" alt="View report" />
 							<div className="option-name">
 								View Report

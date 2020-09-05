@@ -6,7 +6,7 @@
         display: flex
         justify-content: flex-end
         display: grid
-        grid-template-columns: repeat(4, minmax(35px, 60px))
+        grid-template-columns: repeat(5, minmax(35px, 60px))
         height: 100%
         .option
             display: flex
@@ -24,7 +24,10 @@
                 img 
                     display: block
                     width: 100%
-                    max-width: 45px
+                    width: 38px
+                    max-height: 38px
+                img.option-inactive
+                    max-height: 21px
             &.active
                 background-color: $bright-blue
                 a
@@ -48,7 +51,7 @@
         padding-left: 0
         > ul 
             grid-template-rows: 1fr
-            grid-template-columns: repeat(4, 1fr)
+            grid-template-columns: repeat(5, 1fr)
             width: 100%
             .option
                 grid-row: 1
@@ -60,22 +63,20 @@
         > ul
             display: flex
             justify-content: space-between
+            max-width: none
             .option
                 a
+                    display: flex
+                    flex-direction: row
+                    align-items: center
+                    text-decoration: none
                     .option-name
                         display: inline-block
-                        vertical-align: middle
                         padding-left: 5px
                         max-width: 56px
                         font-size: 12.294px
                         line-height: 12px
-                    .option-inactive
-                        display: inline-block
-                        vertical-align: middle
                 &.active
                     a
-                        .option-active
-                            display: inline-block
-                            vertical-align: middle
                         .option-name
                             color: $white
