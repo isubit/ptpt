@@ -71,7 +71,7 @@ export class MeasureDisplay extends React.Component {
 					area = area.toFixed(2);
 					break;
 				case 'sq km':
-					distance /= 1000000;
+					area /= 1000000;
 					area = area.toFixed(2);
 					break;
 				default:
@@ -103,6 +103,7 @@ export class MeasureDisplay extends React.Component {
 						<option>sq mi</option>
 					</select>
 				</div>
+				{area === undefined ? <p className="Hint">Continue clicking to create a shape.</p> : null}
 				<span className="modal-link" onClick={onClear} onKeyPress={onClear} role="button" tabIndex={0}>Clear</span>
 			</div>
 		);

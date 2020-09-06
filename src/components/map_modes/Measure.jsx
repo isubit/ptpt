@@ -8,7 +8,7 @@ const debug = Debug('MapComponent');
 export const MeasureMode = MapboxDraw.modes.draw_polygon;
 
 const ogClickAnywhere = MapboxDraw.modes.draw_polygon.clickAnywhere;
-// const ogOnSetup = MapboxDraw.modes.draw_polygon.onSetup;
+const ogOnMouseMove = MapboxDraw.modes.draw_polygon.onMouseMove;
 
 // MeasureMode.onSetup = function onSetup(state, e) {
 // 	const setup = ogOnSetup.call(this, state, e);
@@ -54,11 +54,15 @@ MeasureMode.clickAnywhere = function clickAnywhere(state, e) {
 	}
 };
 
-MeasureMode.onMouseMove = function onMouseMove() {
-	debug(this);
-};
+delete MeasureMode.clickOnVertex;
 
-// delete MeasureMode.onMouseMove;
+MeasureMode.onMouseMove = function onMouseMove(state, e) {
+	this.updateUIClasses({ mouse: 'add' });
+	if (state.currentVertexPosition > 1) {
+		return null;
+	}
+	return ogOnMouseMove.call(this, state, e);
+};
 
 MeasureMode.onStop = function onStop(state) {
 	// Check to see if we've deleted this feature.
@@ -89,7 +93,7 @@ export class Measure extends React.Component {
 		draw.changeMode('measure');
 
 		toggleHelper({
-			text: 'Measure a row by clicking where you want the row to start and end. Measure an area by clicking to draw the corners of a shape. Click the starting point to finish drawing your shape.',
+			text: 'Measure a row by clicking where you want the row to start and end. Measure an area by clicking to draw the corners of a shape. The distance or area will be measured as you draw.',
 			buttonText: 'Okay! Got it!',
 			helperFor: 'measure',
 		});
