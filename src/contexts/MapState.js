@@ -31,6 +31,7 @@ const storageData = loadStorage();
 export const MapDefaultState = {
 	// Data
 	data: storageData,
+	measureFeature: null,
 
 	// Google Maps API
 	mapAPILoaded: false,
@@ -1288,6 +1289,14 @@ export const MapActions = (that) => {
 				debug('Deleted data:', that.state.MapState.data);
 				save(data);
 			});
+		},
+		setMeasureFeature(geojson) {
+			that.setState(state => ({
+				MapState: {
+					...state.MapState,
+					measureFeature: geojson,
+				},
+			}));
 		},
 		setBasemap(basemapName) {
 			that.setState(state => ({

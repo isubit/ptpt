@@ -3,6 +3,7 @@ import {
 	Link,
 } from 'react-router-dom';
 
+import { MeasureDisplay } from './MeasureDisplay';
 import { MapConsumer } from '../contexts/MapState';
 
 // checkboxElements could probably be factored out into own component.
@@ -60,6 +61,7 @@ export class HeaderOptions extends React.Component {
 		treeOption: false,
 		prairieOption: false,
 		layerOption: false,
+		measureOption: false,
 		reportOption: false,
 	};
 
@@ -67,6 +69,7 @@ export class HeaderOptions extends React.Component {
 		const {
 			treeOption,
 			prairieOption,
+			measureOption,
 			reportOption,
 		} = this.state;
 		const {
@@ -79,9 +82,11 @@ export class HeaderOptions extends React.Component {
 			this.setOptionState('treeOption');
 		} else if (pathname.includes('/plant/prairie') && !prairieOption) {
 			this.setOptionState('prairieOption');
+		} else if (pathname.includes('/measure') && !measureOption) {
+			this.setOptionState('measureOption');
 		} else if (pathname.includes('/report') && !reportOption) {
 			this.setOptionState('reportOption');
-		} else if (pathname === '/' && (treeOption || prairieOption || reportOption)) {
+		} else if (pathname === '/' && (treeOption || prairieOption || measureOption || reportOption)) {
 			this.setOptionState(null);
 		}
 	}
@@ -99,6 +104,7 @@ export class HeaderOptions extends React.Component {
 			treeOption: false,
 			prairieOption: false,
 			layerOption: false,
+			measureOption: false,
 			reportOption: false,
 		};
 
@@ -118,6 +124,7 @@ export class HeaderOptions extends React.Component {
 			treeOption,
 			prairieOption,
 			layerOption,
+			measureOption,
 			reportOption,
 		} = this.state;
 
@@ -126,7 +133,7 @@ export class HeaderOptions extends React.Component {
 				<ul>
 					<li className={treeOption ? 'option active' : 'option'}>
 						<Link to="/plant/tree">
-							<img className="option-inactive" src="/assets/plant_tree_option.svg" alt="Plant trees" />
+							<img className="option-inactive" src="/assets/tree_green.svg" alt="Plant trees" />
 							<img className="option-active" src="/assets/tree_active.svg" alt="Plant trees" />
 							<div className="option-name">
 								Plant Trees
@@ -135,7 +142,7 @@ export class HeaderOptions extends React.Component {
 					</li>
 					<li className={prairieOption ? 'option active' : 'option'}>
 						<Link to="/plant/prairie">
-							<img className="option-inactive" src="/assets/plant_prairie.svg" alt="Plant prairies" />
+							<img className="option-inactive" src="/assets/prairie_green.svg" alt="Plant prairies" />
 							<img className="option-active" src="/assets/prairieOption_active.svg" alt="Plant prairies" />
 							<div className="option-name">
 								Plant Prairies
@@ -144,7 +151,7 @@ export class HeaderOptions extends React.Component {
 					</li>
 					<li className={layerOption ? 'option active' : 'option'}>
 						<Link to="/#" onClick={() => this.toggleLayerOption()}>
-							<img className="option-inactive" src="/assets/map_layers.svg" alt="Show layers" />
+							<img className="option-inactive" src="/assets/map_layers_green.svg" alt="Show layers" />
 							<img className="option-active" src="/assets/layerOption_active.svg" alt="Show layers" />
 							<div className="option-name">
 								View Map Layers
@@ -171,9 +178,26 @@ export class HeaderOptions extends React.Component {
 							</MapConsumer>
 						</div>
 					</li>
+					<li className={measureOption ? 'option active' : 'option'}>
+						<Link to="/measure">
+							<img className="option-inactive" src="/assets/measure_green.svg" alt="Measure" />
+							<img className="option-active" src="/assets/measure_active.svg" alt="Measure" />
+							<div className="option-name">
+								Measure Distance
+							</div>
+						</Link>
+
+						<MapConsumer>
+							{(mapCtx) => (mapCtx.state.measureFeature ? (
+								<div className="OptionsDropdown large right">
+									<MeasureDisplay feature={mapCtx.state.measureFeature} onClear={console.log} />
+								</div>
+							) : null)}
+						</MapConsumer>
+					</li>
 					<li className={reportOption ? 'option active' : 'option'}>
 						<Link to="/report">
-							<img className="option-inactive" src="/assets/view_report.svg" alt="View report" />
+							<img className="option-inactive" src="/assets/report_green.svg" alt="View report" />
 							<img className="option-active" src="/assets/reportOption_active.svg" alt="View report" />
 							<div className="option-name">
 								View Report
