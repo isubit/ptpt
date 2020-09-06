@@ -88,7 +88,10 @@ export class Store extends React.Component {
 					})(),
 				},
 			},
-		}));
+		}), () => {
+			saveMethod(this.state.MapState.data);
+		});
+
 		return data;
 	}
 
