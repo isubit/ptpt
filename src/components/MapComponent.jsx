@@ -262,7 +262,7 @@ export class MapComponent extends React.Component {
 
 			map.fitBounds(bbox, {
 				duration: 400,
-				padding: 200,
+				padding: window.innerWidth > 1000 ? 200 : 100,
 			});
 			
 			let ran = false;
@@ -325,7 +325,9 @@ export class MapComponent extends React.Component {
 				});
 			}
 		} else if (bounds) {
-			this.map.fitBounds(bounds);
+			this.map.fitBounds(bounds, {
+				padding: window.innerWidth > 1000 ? 200 : 100
+			});
 		}
 	}
 

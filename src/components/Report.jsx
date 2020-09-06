@@ -1,4 +1,5 @@
 import React from 'react';
+import calcBbox from '@turf/bbox';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import download from 'js-file-download';
@@ -44,6 +45,8 @@ const debug = Debug('Report');
 // rebuild table on change of tab or change of planting area
 // create the table (mobile and desktop)
 
+let lastSelectedArea;
+
 export const ReportWrapper = (props) => {
 	const {
 		router: {
@@ -54,11 +57,18 @@ export const ReportWrapper = (props) => {
 		},
 	} = props;
 	const editingFeature = state || null;
+
 	return (
 		<SettingsConsumer>
 			{ (settingsCtx) => (
 				<MapConsumer>
 					{ mapCtx => {
+						const boundMapToFeature = feature => {
+							const bbox = calcBbox(feature);
+							mapCtx.actions.updateCurrentMapDetails({
+								bounds: bbox,
+							});
+						};
 						const features = getFeatures(mapCtx.state.data)
 							.map(ea => {
 								const labeledFeature = _.cloneDeep(ea);
@@ -67,9 +77,9 @@ export const ReportWrapper = (props) => {
 							});
 						if (features.length > 0) {
 							if (editingFeature) {
-								return <Report editingFeature={editingFeature} features={features} />;
+								return <Report editingFeature={editingFeature} features={features} boundMapToFeature={boundMapToFeature} />;
 							}
-							return <Report features={features} />;
+							return <Report features={features} boundMapToFeature={boundMapToFeature} />;
 						}
 						if (settingsCtx.state.helpersDismissed) {
 							settingsCtx.actions.activateHelpers();
@@ -185,10 +195,14 @@ class Report extends React.Component {
 		if (props.editingFeature) {
 			reportArea = props.features.find(feature => feature.id === props.editingFeature.id);
 		} else {
-			reportArea = props.features.length > 0 ? props.features[0] : null;
+			reportArea = props.features.find(feature => feature.properties.label === lastSelectedArea);
+			if (!reportArea) {
+				reportArea = props.features.length > 0 ? props.features[0] : null;
+			}
 		}
 		let reportData;
 		if (reportArea) {
+			this.props.boundMapToFeature(reportArea);
 			debug(`Reporting for: ${reportArea.properties.label}`);
 			if (reportArea.properties.type === 'tree') {
 				reportData = this.calcTreeReportData(reportArea);
@@ -208,12 +222,17 @@ class Report extends React.Component {
 
 	handleReportAreaChange = (e) => {
 		// update reportArea then after setState, calculate report data then update the state
-		const { features } = this.props;
+		const {
+			boundMapToFeature,
+			features,
+		} = this.props;
 		const featureLabel = e.target.value;
 
 		const reportArea = features.find(feature => feature.properties.label === featureLabel);
 		let reportData;
 		if (reportArea) {
+			boundMapToFeature(reportArea);
+			lastSelectedArea = featureLabel;
 			debug(`Reporting for: ${reportArea.properties.label}`);
 			if (reportArea.properties.type === 'tree') {
 				reportData = this.calcTreeReportData(reportArea);
