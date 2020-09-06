@@ -562,12 +562,14 @@ export class MapComponent extends React.Component {
 				basemap,
 				data,
 				layers,
+				measureFeature,
 				router: {
 					history,
 					location: {
 						pathname,
 					},
 				},
+				setMeasureFeature,
 				toggleHelper,
 			},
 			setEditingFeature,
@@ -621,7 +623,7 @@ export class MapComponent extends React.Component {
 							<Switch>
 								<Route path="/plant/tree/:step?" render={router => <Planting router={router} type="tree" steps={['rows', 'species', 'spacing']} {...mapModeProps} />} />
 								<Route path="/plant/prairie/:step?" render={router => <Planting router={router} type="prairie" steps={['seed', 'mgmt_1']} {...mapModeProps} />} />
-								<Route path="/measure" render={router => <Measure router={router} {...mapModeProps} />} />
+								<Route path="/measure" render={router => <Measure router={router} measureFeature={measureFeature} setMeasureFeature={setMeasureFeature} {...mapModeProps} />} />
 								<Route exact path="/" render={router => <SimpleSelect router={router} {...mapModeProps} />} />
 								{/* <Redirect to="/" /> */}
 							</Switch>
@@ -633,7 +635,7 @@ export class MapComponent extends React.Component {
 						&& (
 							<>
 								<FeatureLabels map={map} />
-								{!/^\/plant/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
+								{!/^\/(plant|measure)/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
 								{map.getSource('geolocation_position') && <GeolocationPosition map={map} />}
 								<PrairieArea map={map} />
 								<PrairieOutline map={map} />

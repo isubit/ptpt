@@ -8,8 +8,18 @@ const debug = Debug('MapComponent');
 export const MeasureMode = MapboxDraw.modes.draw_polygon;
 
 const ogClickAnywhere = MapboxDraw.modes.draw_polygon.clickAnywhere;
+// const ogOnSetup = MapboxDraw.modes.draw_polygon.onSetup;
+
+// MeasureMode.onSetup = function onSetup(state, e) {
+// 	const setup = ogOnSetup.call(this, state, e);
+// 	setTimeout(() => {
+// 		this.updateUIClasses({ mouse: 'add' }); // eslint-disable-line react/no-this-in-sfc
+// 	}, 5000);
+// 	return setup;
+// };
 
 MeasureMode.clickAnywhere = function clickAnywhere(state, e) {
+	// Need to copy this logic but add some logic for preventing self-intersecting polygons.
 	ogClickAnywhere.call(this, state, e);
 
 	debug(state, e);
@@ -19,44 +29,36 @@ MeasureMode.clickAnywhere = function clickAnywhere(state, e) {
 	if (vertices === 2) {
 		// Coerce into a LineString.
 		const lineGeoJson = {
-			type: 'LineString',
-			coordinates: state.polygon.coordinates[0],
+			type: 'Feature',
+			geometry: {
+				type: 'LineString',
+				coordinates: [...state.polygon.coordinates[0]],
+			},
 		};
+
+		// Delete last added coordinate.
+		lineGeoJson.geometry.coordinates.pop();
 
 		this.map.fire('draw.create', {
 			features: [lineGeoJson],
 		});
+	} if (vertices > 2) {
+		debug(state.polygon.isValid());
+		if (state.polygon.isValid()) {
+			const polygonGeoJson = state.polygon.toGeoJSON();
+
+			this.map.fire('draw.create', {
+				features: [polygonGeoJson],
+			});
+		}
 	}
 };
 
-// MeasureMode.clickAnywhere = function clickAnywhere(state, e) {
-// 	debug('Clicked', state, e);
-// 	// // This ends the drawing after the user creates a second point, triggering this.onStop
-// 	// if (state.currentVertexPosition === 1) {
-// 	// 	state.line.updateCoordinate(1, e.lngLat.lng, e.lngLat.lat);
-// 	// 	return this.changeMode('simple_select', { featureIds: [state.line.id] }); // eslint-disable-line react/no-this-in-sfc
-// 	// }
+MeasureMode.onMouseMove = function onMouseMove() {
+	debug(this);
+};
 
-// 	if (state.currentVertexPosition > 0 && isEventAtCoordinates(e, state.polygon.coordinates[0][state.currentVertexPosition - 1])) {
-// 		return this.changeMode(Constants.modes.SIMPLE_SELECT, { featureIds: [state.polygon.id] });
-// 	}
-
-// 	this.updateUIClasses({ mouse: 'add' }); // eslint-disable-line react/no-this-in-sfc
-// 	state.polygon.updateCoordinate(`0.${state.currentVertexPosition}`, e.lngLat.lng, e.lngLat.lat);
-// 	state.currentVertexPosition += 1; // eslint-disable-line no-param-reassign
-
-// 	// state.polygon.updateCoordinate(state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
-// 	// debug('Update', state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
-// 	// if (state.direction === 'forward') {
-// 	// 	debug('Forward', state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
-// 	// 	state.currentVertexPosition += 1; // eslint-disable-line no-param-reassign
-// 	// 	state.polygon.updateCoordinate(state.currentVertexPosition, e.lngLat.lng, e.lngLat.lat);
-// 	// } else {
-// 	// 	state.polygon.addCoordinate(0, e.lngLat.lng, e.lngLat.lat);
-// 	// }
-
-// 	return null;
-// };
+// delete MeasureMode.onMouseMove;
 
 MeasureMode.onStop = function onStop(state) {
 	// Check to see if we've deleted this feature.
@@ -80,10 +82,12 @@ export class Measure extends React.Component {
 		const {
 			draw,
 			map,
+			setMeasureFeature,
 			toggleHelper,
 		} = this.props;
 
 		draw.changeMode('measure');
+
 		toggleHelper({
 			text: 'Measure a row by clicking where you want the row to start and end. Measure an area by clicking to draw the corners of a shape. Click the starting point to finish drawing your shape.',
 			buttonText: 'Okay! Got it!',
@@ -94,10 +98,10 @@ export class Measure extends React.Component {
 		// This will update the feature with some default properties,
 		// then move the router onto the next step and set the feature being edited.
 		const onCreate = e => {
-			map.off('draw.create', onCreate);
+			// map.off('draw.create', onCreate);
 			const feature = e.features[0];
 			debug('Created feature:', feature);
-			// setMeasureFeature...
+			setMeasureFeature(feature.geometry);
 		};
 		map.on('draw.create', onCreate);
 		this.events.set('draw.create', onCreate);
@@ -105,11 +109,11 @@ export class Measure extends React.Component {
 
 	componentDidUpdate(prevProps) {
 		const {
-			editingFeature,
+			measureFeature,
 			toggleHelper,
 		} = this.props;
 
-		if (editingFeature && !prevProps.editingFeauture) {
+		if (measureFeature && !prevProps.measureFeature) {
 			toggleHelper(null);
 		}
 	}
@@ -118,9 +122,9 @@ export class Measure extends React.Component {
 		const {
 			events,
 			props: {
-				setEditingFeature,
 				map,
 				draw,
+				setMeasureFeature,
 			},
 		} = this;
 
@@ -132,7 +136,7 @@ export class Measure extends React.Component {
 
 		// Clean up draw and feature state.
 		draw && draw.deleteAll();
-		setEditingFeature(null);
+		setMeasureFeature(null);
 	}
 
 	render() {

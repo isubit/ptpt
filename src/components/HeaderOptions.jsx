@@ -3,7 +3,7 @@ import {
 	Link,
 } from 'react-router-dom';
 
-import { DistanceDisplay } from './DistanceDisplay';
+import { MeasureDisplay } from './MeasureDisplay';
 import { MapConsumer } from '../contexts/MapState';
 
 // checkboxElements could probably be factored out into own component.
@@ -186,13 +186,14 @@ export class HeaderOptions extends React.Component {
 								Measure Distance
 							</div>
 						</Link>
-						<div className="OptionsDropdown large right">
-							<DistanceDisplay
-								distance={300}
-								area={300}
-								onClear={console.log}
-							/>
-						</div>
+
+						<MapConsumer>
+							{(mapCtx) => (mapCtx.state.measureFeature ? (
+								<div className="OptionsDropdown large right">
+									<MeasureDisplay feature={mapCtx.state.measureFeature} onClear={console.log} />
+								</div>
+							) : null)}
+						</MapConsumer>
 					</li>
 					<li className={reportOption ? 'option active' : 'option'}>
 						<Link to="/report">
