@@ -82,7 +82,7 @@ export class HeaderOptions extends React.Component {
 			this.setOptionState('treeOption');
 		} else if (pathname.includes('/plant/prairie') && !prairieOption) {
 			this.setOptionState('prairieOption');
-		} else if (pathname.includes('/plant/measure') && !measureOption) {
+		} else if (pathname.includes('/measure') && !measureOption) {
 			this.setOptionState('measureOption');
 		} else if (pathname.includes('/report') && !reportOption) {
 			this.setOptionState('reportOption');
@@ -179,7 +179,7 @@ export class HeaderOptions extends React.Component {
 						</div>
 					</li>
 					<li className={measureOption ? 'option active' : 'option'}>
-						<Link to="/plant/measure">
+						<Link to="/measure">
 							<img className="option-inactive" src="/assets/measure_green.svg" alt="Measure" />
 							<img className="option-active" src="/assets/measure_active.svg" alt="Measure" />
 							<div className="option-name">

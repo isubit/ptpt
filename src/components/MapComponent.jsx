@@ -41,6 +41,7 @@ import { Trees } from './map_layers/Trees';
 
 import { SimpleSelect } from './map_modes/SimpleSelect';
 import { DrawLineMode, Planting } from './map_modes/Planting';
+import { MeasureMode, Measure } from './map_modes/Measure';
 
 mapboxgl.accessToken = process.env.mapbox_public_key;
 
@@ -160,6 +161,7 @@ export class MapComponent extends React.Component {
 			this.draw = new MapboxDraw({
 				modes: {
 					draw_line: DrawLineMode,
+					measure: MeasureMode,
 					...MapboxDraw.modes,
 				},
 			});
@@ -619,6 +621,7 @@ export class MapComponent extends React.Component {
 							<Switch>
 								<Route path="/plant/tree/:step?" render={router => <Planting router={router} type="tree" steps={['rows', 'species', 'spacing']} {...mapModeProps} />} />
 								<Route path="/plant/prairie/:step?" render={router => <Planting router={router} type="prairie" steps={['seed', 'mgmt_1']} {...mapModeProps} />} />
+								<Route path="/measure" render={router => <Measure router={router} {...mapModeProps} />} />
 								<Route exact path="/" render={router => <SimpleSelect router={router} {...mapModeProps} />} />
 								{/* <Redirect to="/" /> */}
 							</Switch>
