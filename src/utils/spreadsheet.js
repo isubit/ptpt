@@ -291,7 +291,7 @@ function treeTemplate(feature, sheet) {
 		]);
 
 		// Tree Establishment
-		// Rows 33 - 37
+		// Rows 33 - 38
 		rows.push([
 			['(3) Tree Establishment'],
 			['  Trees (planting stock)', avgTreePrice, terminatingAnnualSeriesFormula('B34', 1, '/$B$4*$B$14'), annualizedTotalSeries('C34', 15)],
@@ -299,60 +299,61 @@ function treeTemplate(feature, sheet) {
 				? ['  Tree planting (bareroot)', 220.00, terminatingAnnualSeriesFormula('B35', 1), annualizedTotalSeries('C35', 15)]
 				: ['  Tree planting (containerized)', 1.50, terminatingAnnualSeriesFormula('B35', 1, '/$B$4*$B$14'), annualizedTotalSeries('C35', 15)],
 			['  Plastic mulch', 450.00, terminatingAnnualSeriesFormula('B36', 1), annualizedTotalSeries('C36', 15)],
+			drip_irrigation ? ['  Watering (drip irrigation)', 4.50, terminatingAnnualSeriesFormula('B37', 1, '/$B$4*$B$14'), annualizedTotalSeries('C37', 15)] : ['  Watering (drip irrigation)', 0, 0, 0],
 			[],
 		]);
 
 		// Tree Replacement
-		// Rows 38 - 41
+		// Rows 39 - 42
 		rows.push([
 			['(4) Tree Replacement'],
-			['  Tree replacement (natural mortality)', avgTreePrice, { formula: 'B39*$B$14*0.1/(1.02^3)' }, annualizedTotalSeries('C39', 15)],
-			['  Tree planting (by hand)', 1.50, { formula: 'B40*$B$14*0.1/(1.02^3)' }, annualizedTotalSeries('C40', 15)],
+			['  Tree replacement (natural mortality)', avgTreePrice, { formula: 'B40*$B$14*0.1/(1.02^3)' }, annualizedTotalSeries('C40', 15)],
+			['  Tree planting (by hand)', 1.50, { formula: 'B41*$B$14*0.1/(1.02^3)' }, annualizedTotalSeries('C41', 15)],
 			[],
 		]);
 
 		// Opportunity Cost
-		// Rows 42 - 44
+		// Rows 43 - 45
 		rows.push([
 			['(5) Opportunity Cost'],
 			pasture_conversion
-				? ['  Land Rent, pasture (Year 1-15)', 51, terminatingAnnualSeriesFormula('B43', 15), annualizedTotalSeries('C43', 15)]
-				: ['  Land Rent, row crop, non-irrigated (Year 1-15)', { formula: 'B15*B16' }, terminatingAnnualSeriesFormula('B43', 15), annualizedTotalSeries('C43', 15)],
+				? ['  Land Rent, pasture (Year 1-15)', 51, terminatingAnnualSeriesFormula('B44', 15), annualizedTotalSeries('C44', 15)]
+				: ['  Land Rent, row crop, non-irrigated (Year 1-15)', { formula: 'B15*B16' }, terminatingAnnualSeriesFormula('B44', 15), annualizedTotalSeries('C44', 15)],
 			[],
 		]);
 
 		// Total Costs
-		// Rows 45 - 46
+		// Rows 46 - 47
 		rows.push([
-			['Total Costs', '', '', { formula: 'sum(D20:D43)' }],
+			['Total Costs', '', '', { formula: 'sum(D20:D44)' }],
 			[],
 		]);
 
 		sheet.addRows(_.flatten(rows));
 		sheet.getCell('A17').font = { bold: true, underline: true };
-		for (let i = 18, ii = 44; i <= ii; i += 1) {
+		for (let i = 18, ii = 45; i <= ii; i += 1) {
 			sheet.getCell(`A${i}`).font = { italic: true };
 		}
-		sheet.getCell('A45').font = { bold: true };
+		sheet.getCell('A46').font = { bold: true };
 	})();
 
 	// EQIP
-	// Rows 47 - ...
+	// Rows 48 - ...
 	let totalEqipRow;
 	(() => {
 		sheet.addRows([
 			['EQIP'],
-			// ...eqipValues.map((ea, i) => ([`  ${ea.id}`, ea.unit_cost, '', annualizedTotalSeries(`B${48 + i}`, 15, `* ${ea.qty}`)])),
+			// ...eqipValues.map((ea, i) => ([`  ${ea.id}`, ea.unit_cost, '', annualizedTotalSeries(`B${49 + i}`, 15, `* ${ea.qty}`)])),
 			...eqipValues.map((ea) => ([`  ${ea.id}`, ea.unit_cost, '', annualizedTotalSeries(`${ea.present_value}`, 15, `* ${ea.qty}`)])),
 			[],
-			['Total EQIP', '', '', { formula: `sum(D48:D${48 + eqipValues.length - 1})` }],
+			['Total EQIP', '', '', { formula: `sum(D49:D${49 + eqipValues.length - 1})` }],
 			[],
 		]);
 
-		totalEqipRow = 48 + eqipValues.length - 1 + 2;
+		totalEqipRow = 49 + eqipValues.length - 1 + 2;
 
-		sheet.getCell('A47').font = { bold: true, underline: true };
-		for (let i = 48, ii = 48 + eqipValues.length - 1; i <= ii; i += 1) {
+		sheet.getCell('A48').font = { bold: true, underline: true };
+		for (let i = 49, ii = 49 + eqipValues.length - 1; i <= ii; i += 1) {
 			sheet.getCell(`A${i}`).font = { italic: true };
 		}
 		sheet.getCell(`A${totalEqipRow}`).font = { bold: true };
@@ -361,7 +362,7 @@ function treeTemplate(feature, sheet) {
 	// Net Cost
 	const netCostRow = totalEqipRow + 2;
 	sheet.addRows([
-		['Net Cost', '', '', { formula: `D45-D${totalEqipRow}` }],
+		['Net Cost', '', '', { formula: `D46-D${totalEqipRow}` }],
 		[],
 	]);
 
