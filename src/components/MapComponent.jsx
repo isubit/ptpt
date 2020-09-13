@@ -568,6 +568,7 @@ export class MapComponent extends React.Component {
 				router: {
 					history,
 					location: {
+						hash,
 						pathname,
 					},
 				},
@@ -657,8 +658,11 @@ export class MapComponent extends React.Component {
 						<hr />
 						<img src="/assets/minus.svg" alt="zoom out" onClick={() => map.zoomOut({ animate: true })} />
 					</div>
+					<div className="LayerControl">
+						<img src="/assets/map_layers_blue.svg" alt="layers" onClick={() => hash === '#layers' ? history.push(location.pathname) : history.push(`${location.pathname}#layers`)}/>
+					</div>
 					<div className="LegendControl">
-						<img src="/assets/legend.svg" alt="legend" onClick={() => history.push(`${location.pathname}#legend`)}/>
+						<img src="/assets/legend.svg" alt="legend" onClick={() => hash === '#legend' ? history.push(location.pathname) : history.push(`${location.pathname}#legend`)}/>
 					</div>
 				</div>
 			</>

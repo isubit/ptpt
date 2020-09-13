@@ -7,54 +7,54 @@ import { MeasureDisplay } from './MeasureDisplay';
 import { MapConsumer } from '../contexts/MapState';
 
 // checkboxElements could probably be factored out into own component.
-const DropdownCheckbox = ({
-	setBasemap,
-	setMapLayer,
-	layers,
-	basemap,
-}) => (
-	<div className="dropdown-checkbox">
-		<div className="checkboxElement">
-			<input type="checkbox" checked={layers.ssurgo} name="ssurgo" onChange={(e) => setMapLayer(e.target.name)} />
-			<span>gSSURGO - CSR</span>
-		</div>
-		<div className="checkboxElement">
-			<input type="checkbox" checked={layers.lidar} name="lidar" onChange={(e) => setMapLayer(e.target.name)} />
-			<span>LiDAR Hillshade</span>
-		</div>
-		<div className="checkboxElement">
-			<input type="checkbox" checked={layers.contours} name="contours" onChange={(e) => setMapLayer(e.target.name)} />
-			<span>2-ft Contours</span>
-		</div>
-		<div className="checkboxElement">
-			<input
-				type="checkbox"
-				checked={basemap === 'satellite'}
-				name="satellite"
-				onChange={(e) => {
-					e.target.checked ? setBasemap(e.target.name) : setBasemap('outdoor');
-				}}
-			/>
-			<span>Satellite</span>
-		</div>
-		{basemap === 'satellite' && (
-			<div className="satelliteSelection">
-				<div className="checkboxElement">
-					<input type="radio" name="aerialYear" value="2019" checked={layers.aerialYear === '2019'} onChange={(e) => setMapLayer(e.target.name, e.target.value)} />
-					<span>Spring &lsquo;19</span>
-				</div>
-				<div className="checkboxElement">
-					<input type="radio" name="aerialYear" value="2016-2018" checked={layers.aerialYear === '2016-2018'} onChange={(e) => setMapLayer(e.target.name, e.target.value)} />
-					<span>Spring &lsquo;16-&lsquo;18</span>
-				</div>
-			</div>
-		)}
-		{/* <button type="button" className="Button">
-			<span>Add A Map Layer</span>
-		</button>
-		<img src="/assets/question-mark.svg" alt="Help" /> */}
-	</div>
-);
+// const DropdownCheckbox = ({
+// 	setBasemap,
+// 	setMapLayer,
+// 	layers,
+// 	basemap,
+// }) => (
+// 	<div className="dropdown-checkbox">
+// 		<div className="checkboxElement">
+// 			<input type="checkbox" checked={layers.ssurgo} name="ssurgo" onChange={(e) => setMapLayer(e.target.name)} />
+// 			<span>gSSURGO - CSR</span>
+// 		</div>
+// 		<div className="checkboxElement">
+// 			<input type="checkbox" checked={layers.lidar} name="lidar" onChange={(e) => setMapLayer(e.target.name)} />
+// 			<span>LiDAR Hillshade</span>
+// 		</div>
+// 		<div className="checkboxElement">
+// 			<input type="checkbox" checked={layers.contours} name="contours" onChange={(e) => setMapLayer(e.target.name)} />
+// 			<span>2-ft Contours</span>
+// 		</div>
+// 		<div className="checkboxElement">
+// 			<input
+// 				type="checkbox"
+// 				checked={basemap === 'satellite'}
+// 				name="satellite"
+// 				onChange={(e) => {
+// 					e.target.checked ? setBasemap(e.target.name) : setBasemap('outdoor');
+// 				}}
+// 			/>
+// 			<span>Satellite</span>
+// 		</div>
+// 		{basemap === 'satellite' && (
+// 			<div className="satelliteSelection">
+// 				<div className="checkboxElement">
+// 					<input type="radio" name="aerialYear" value="2019" checked={layers.aerialYear === '2019'} onChange={(e) => setMapLayer(e.target.name, e.target.value)} />
+// 					<span>Spring &lsquo;19</span>
+// 				</div>
+// 				<div className="checkboxElement">
+// 					<input type="radio" name="aerialYear" value="2016-2018" checked={layers.aerialYear === '2016-2018'} onChange={(e) => setMapLayer(e.target.name, e.target.value)} />
+// 					<span>Spring &lsquo;16-&lsquo;18</span>
+// 				</div>
+// 			</div>
+// 		)}
+// 		{/* <button type="button" className="Button">
+// 			<span>Add A Map Layer</span>
+// 		</button>
+// 		<img src="/assets/question-mark.svg" alt="Help" /> */}
+// 	</div>
+// );
 
 export class HeaderOptions extends React.Component {
 	state = {
@@ -123,7 +123,7 @@ export class HeaderOptions extends React.Component {
 		const {
 			treeOption,
 			prairieOption,
-			layerOption,
+			// layerOption,
 			measureOption,
 			reportOption,
 		} = this.state;
@@ -149,7 +149,7 @@ export class HeaderOptions extends React.Component {
 							</div>
 						</Link>
 					</li>
-					<li className={layerOption ? 'option active' : 'option'}>
+					{/* <li className={layerOption ? 'option active' : 'option'}>
 						<Link to="/#" onClick={() => this.toggleLayerOption()}>
 							<img className="option-inactive" src="/assets/map_layers_green.svg" alt="Show layers" />
 							<img className="option-active" src="/assets/layerOption_active.svg" alt="Show layers" />
@@ -177,7 +177,7 @@ export class HeaderOptions extends React.Component {
 								}}
 							</MapConsumer>
 						</div>
-					</li>
+					</li> */}
 					<li className={measureOption ? 'option active' : 'option'}>
 						<Link to="/measure">
 							<img className="option-inactive" src="/assets/measure_green.svg" alt="Measure" />
