@@ -8,6 +8,7 @@ import { MapConsumer } from 'contexts/MapState';
 import { SettingsConsumer } from 'contexts/Settings';
 
 import { LocationPrompt } from './LocationPrompt';
+import { MapLayers } from './MapLayers';
 import { MapLegend } from './MapLegend';
 import { WelcomeModal } from './WelcomeModal';
 import { SaveModal } from './SaveModal';
@@ -18,6 +19,13 @@ export const BigModal = props => {
 
 	let Component;
 	switch (location.hash.replace('#', '')) {
+		case 'layers':
+			Component = layersProps => (
+				<MapConsumer>
+					{ctx => <MapLayers {...{ ...ctx.state, ...ctx.actions }} {...layersProps} />}
+				</MapConsumer>
+			);
+			break;
 		case 'legend':
 			Component = MapLegend;
 			break;
