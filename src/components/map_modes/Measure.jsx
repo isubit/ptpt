@@ -1,3 +1,4 @@
+import { clone } from 'lodash';
 import React from 'react';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 
@@ -5,10 +6,10 @@ import Debug from 'debug';
 
 const debug = Debug('MapComponent');
 
-export const MeasureMode = MapboxDraw.modes.draw_polygon;
+export const MeasureMode = clone(MapboxDraw.modes.draw_polygon);
 
-const ogClickAnywhere = MapboxDraw.modes.draw_polygon.clickAnywhere;
-const ogOnMouseMove = MapboxDraw.modes.draw_polygon.onMouseMove;
+const ogClickAnywhere = MeasureMode.clickAnywhere;
+const ogOnMouseMove = MeasureMode.onMouseMove;
 
 // MeasureMode.onSetup = function onSetup(state, e) {
 // 	const setup = ogOnSetup.call(this, state, e);

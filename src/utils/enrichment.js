@@ -74,6 +74,11 @@ export async function enrichment(feature, map) {
 		clone.properties.rowLength = calcLength(clone) * 1000; // meters
 	}
 
+	// For prairies, ensure seed price is a number.
+	if (clone.properties.type === 'prairie' && clone.properties.configs) {
+		clone.properties.configs.seed_price = Number(clone.properties.configs.seed_price) || 0;
+	}
+
 	// Acreage
 	if (clone.properties.type === 'prairie') {
 		clone.properties.acreage = calcArea(clone) * 0.000247105;
