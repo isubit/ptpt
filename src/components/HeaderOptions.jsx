@@ -190,7 +190,7 @@ export class HeaderOptions extends React.Component {
 						<MapConsumer>
 							{(mapCtx) => (mapCtx.state.measureFeature ? (
 								<div className="OptionsDropdown large right">
-									<MeasureDisplay feature={mapCtx.state.measureFeature} onClear={console.log} />
+									<MeasureDisplay feature={mapCtx.state.measureFeature} onClear={() => mapCtx.actions.setMeasureFeature(null)} />
 								</div>
 							) : null)}
 						</MapConsumer>
