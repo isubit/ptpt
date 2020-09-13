@@ -116,8 +116,35 @@ export function getEQIPCosts(programArr, qty, treeQty, rowLength) {
 				totalCost: 0,
 			};
 		}
+
 		let programCost;
-		if (ea.length > 1) {
+
+		const pastureProgram = ea.find(where => where.id === 'gXTj8scA');
+		if (pastureProgram) {
+			// Overrides everything else.
+			programCost = {
+				id: `Row ${index + 1} (${pastureProgram.display})`,
+				unit_cost: pastureProgram.price,
+				units: `$/${pastureProgram.price_model}`,
+				get present_value() {
+					return this.unit_cost / 1.02;
+				},
+			};
+			switch (pastureProgram.price_model) {
+				case 'tree':
+					programCost.qty = treeQty;
+					break;
+				case 'acre':
+					programCost.qty = qty;
+					break;
+				case 'feet':
+					programCost.qty = (rowLength * 3.28084);
+					break;
+				default:
+					break;
+			}
+			programCost.totalCost = annualizedCost(programCost.present_value, 0.02, 15) * programCost.qty;
+		} else if (ea.length > 1) {
 			const totalCostArr = [];
 			const totalCostPrograms = ea.map(program => {
 				let totalCost;
@@ -158,29 +185,30 @@ export function getEQIPCosts(programArr, qty, treeQty, rowLength) {
 					break;
 			}
 			programCost.totalCost = annualizedCost(programCost.present_value, 0.02, 15) * programCost.qty;
+		} else {
+			programCost = {
+				id: `Row ${index + 1} (${ea[0].display})`,
+				unit_cost: ea[0].price,
+				units: `$/${ea[0].price_model}`,
+				get present_value() {
+					return this.unit_cost / 1.02;
+				},
+			};
+			switch (ea[0].price_model) {
+				case 'tree':
+					programCost.qty = treeQty;
+					break;
+				case 'acre':
+					programCost.qty = qty;
+					break;
+				case 'feet':
+					programCost.qty = (rowLength * 3.28084);
+					break;
+				default:
+					break;
+			}
+			programCost.totalCost = annualizedCost(programCost.present_value, 0.02, 15) * programCost.qty;
 		}
-		programCost = {
-			id: `Row ${index + 1} (${ea[0].display})`,
-			unit_cost: ea[0].price,
-			units: `$/${ea[0].price_model}`,
-			get present_value() {
-				return this.unit_cost / 1.02;
-			},
-		};
-		switch (ea[0].price_model) {
-			case 'tree':
-				programCost.qty = treeQty;
-				break;
-			case 'acre':
-				programCost.qty = qty;
-				break;
-			case 'feet':
-				programCost.qty = (rowLength * 3.28084);
-				break;
-			default:
-				break;
-		}
-		programCost.totalCost = annualizedCost(programCost.present_value, 0.02, 15) * programCost.qty;
 
 		return programCost;
 	});
