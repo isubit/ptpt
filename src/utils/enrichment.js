@@ -15,7 +15,10 @@ import {
 	linesToPolygon,
 } from './geometry';
 
-import { getTreeRows } from './sources';
+import {
+	getTreeRows,
+	getOptimalTreePlacements,
+} from './sources';
 
 // eslint-disable-next-line
 import Worker from './ssurgo.worker.js';
@@ -49,6 +52,7 @@ export async function enrichment(feature, map) {
 
 	clone.properties = clone.properties || {};
 
+	// Get tree rows and bounding polygon.
 	let boundingPolygon;
 	if (clone.properties.type === 'tree') {
 		const rows = getTreeRows({
@@ -92,6 +96,12 @@ export async function enrichment(feature, map) {
 			geometry: clone.geometry,
 		}, 50, { units: 'feet' });
 		clone.properties.bufferAcreage = (calcArea(clone.properties.buffer) * 0.000247105) - clone.properties.acreage;
+	}
+
+	// Tree Qty
+	if (clone.properties.type === 'tree') {
+		const treesPerRow = getOptimalTreePlacements(clone).length;
+		clone.properties.treeQty = treesPerRow * clone.properties.rows.length;
 	}
 
 	// County and CSR Rent

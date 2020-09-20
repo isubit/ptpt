@@ -1,6 +1,7 @@
 import React from 'react';
 import calcArea from '@turf/area';
 import calcLength from '@turf/length';
+import { numberWithCommas } from 'utils/reportHelpers';
 
 export class MeasureDisplay extends React.Component {
 	constructor(props) {
@@ -84,7 +85,7 @@ export class MeasureDisplay extends React.Component {
 			<div className="MeasureDisplay">
 				<div>
 					<span>Distance:</span>
-					<span>{distance || '\u2014'}</span>
+					<span>{distance ? numberWithCommas(distance) : '\u2014'}</span>
 					<select value={distanceUnits} onChange={e => setUnits('distance', e.target.value)}>
 						<option>ft</option>
 						<option>m</option>
@@ -94,7 +95,7 @@ export class MeasureDisplay extends React.Component {
 				</div>
 				<div>
 					<span>Area:</span>
-					<span>{area || '\u2014'}</span>
+					<span>{area ? numberWithCommas(area) : '\u2014'}</span>
 					<select value={areaUnits} onChange={e => setUnits('area', e.target.value)}>
 						<option>acres</option>
 						<option>sq ft</option>

@@ -3,6 +3,10 @@ import treeList from 'references/trees_list.json';
 import treeCosts from 'references/tree_cost.json';
 import treeTypes from 'references/tree_types.json';
 
+export function numberWithCommas(x) {
+	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
 export function annualSeries(cost, interest, years) {
 	const numerator = ((1 + interest) ** years) - 1;
 	const denominator = interest * ((1 + interest) ** years);
@@ -105,7 +109,10 @@ export function findTreeEQIP(properties) {
 	return qualifiedPerRow;
 }
 
-export function getEQIPCosts(programArr, qty, treeQty, rowLength) {
+export function getEQIPCosts(programArr, qty, treeQty, rowLength, rows) {
+	const rowAcreage = qty / rows.length;
+	const rowTreeQty = treeQty / rows.length;
+	const rowLengthFeet = (rowLength * 3.28084);
 	const costs = programArr.map((ea, index) => {
 		if (ea.length === 0) {
 			return {
@@ -132,13 +139,13 @@ export function getEQIPCosts(programArr, qty, treeQty, rowLength) {
 			};
 			switch (pastureProgram.price_model) {
 				case 'tree':
-					programCost.qty = treeQty;
+					programCost.qty = rowTreeQty;
 					break;
 				case 'acre':
-					programCost.qty = qty;
+					programCost.qty = rowAcreage;
 					break;
 				case 'feet':
-					programCost.qty = (rowLength * 3.28084);
+					programCost.qty = rowLengthFeet;
 					break;
 				default:
 					break;
@@ -149,11 +156,11 @@ export function getEQIPCosts(programArr, qty, treeQty, rowLength) {
 			const totalCostPrograms = ea.map(program => {
 				let totalCost;
 				if (program.price_model === 'tree') {
-					totalCost = program.price * treeQty;
+					totalCost = program.price * rowTreeQty;
 				} else if (program.price_model === 'acre') {
-					totalCost = program.price * qty;
+					totalCost = program.price * rowAcreage;
 				} else if (program.price_model === 'feet') {
-					totalCost = program.price * rowLength;
+					totalCost = program.price * rowLengthFeet;
 				}
 				totalCostArr.push(totalCost);
 				return {
@@ -173,13 +180,13 @@ export function getEQIPCosts(programArr, qty, treeQty, rowLength) {
 			};
 			switch (bestProgram.price_model) {
 				case 'tree':
-					programCost.qty = treeQty;
+					programCost.qty = rowTreeQty;
 					break;
 				case 'acre':
-					programCost.qty = qty;
+					programCost.qty = rowAcreage;
 					break;
 				case 'feet':
-					programCost.qty = (rowLength * 3.28084);
+					programCost.qty = rowLengthFeet;
 					break;
 				default:
 					break;
@@ -196,13 +203,13 @@ export function getEQIPCosts(programArr, qty, treeQty, rowLength) {
 			};
 			switch (ea[0].price_model) {
 				case 'tree':
-					programCost.qty = treeQty;
+					programCost.qty = rowTreeQty;
 					break;
 				case 'acre':
-					programCost.qty = qty;
+					programCost.qty = rowAcreage;
 					break;
 				case 'feet':
-					programCost.qty = (rowLength * 3.28084);
+					programCost.qty = rowLengthFeet;
 					break;
 				default:
 					break;
@@ -217,7 +224,7 @@ export function getEQIPCosts(programArr, qty, treeQty, rowLength) {
 		id: 'Site preparation, light mechanical with chemical (code 490)',
 		unit_cost: 138.26,
 		units: '$/acre',
-		qty,
+		qty, // Note: This is total acreage of the area, unlike the row specific EQIP programs.
 		get present_value() {
 			return this.unit_cost / 1.02;
 		},

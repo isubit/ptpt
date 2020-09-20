@@ -16,10 +16,10 @@ import {
 	findTreeAverageCost,
 	findTreeEQIP,
 	getEQIPCosts,
+	numberWithCommas,
 } from 'utils/reportHelpers';
 import {
 	getFeatures,
-	getOptimalTreePlacements,
 } from 'utils/sources';
 import { spreadsheet } from 'utils/spreadsheet';
 import { MapConsumer } from 'contexts/MapState';
@@ -114,6 +114,7 @@ const ReportTable = (props) => {
 	// build columns & nav
 	const tabs = [];
 	const tables = {};
+	let subtotalRowIndex;
 	reportData.forEach(ea => {
 		const {
 			labels,
@@ -125,20 +126,24 @@ const ReportTable = (props) => {
 		const units = [labels[2]];
 		const qty = [labels[3]];
 		const total_costs = [labels[4]];
-		costs.filter(cost => !!cost).forEach(cost => {
+		costs.filter(cost => !!cost).forEach((cost, i) => {
 			cost.id ? ids.push(cost.id) : ids.push(null);
-			(Number(cost.unit_cost) || Number(cost.unit_cost) === 0) ? unit_costs.push(`${cost.unitCost < 0 ? '- ' : ''}$${Math.abs(Number(cost.unit_cost)).toFixed(2)}`) : unit_costs.push(null);
-			cost.units ? units.push(cost.units) : units.push(null);
+			(Number(cost.unit_cost) || Number(cost.unit_cost) === 0) ? unit_costs.push(`${cost.unitCost < 0 ? '- ' : ''}$${numberWithCommas(Math.abs(Number(cost.unit_cost)).toFixed(2))}`) : unit_costs.push(null);
+			cost.units ? units.push(numberWithCommas(cost.units)) : units.push(null);
 			if (cost.units && (cost.units === '$/tree' || cost.units === 'N/A')) {
-				(cost.qty || cost.qty === 0) ? qty.push(cost.qty.toFixed(0)) : qty.push(null);
+				(cost.qty || cost.qty === 0) ? qty.push(numberWithCommas(cost.qty.toFixed(0))) : qty.push(null);
 			} else {
-				(cost.qty || cost.qty === 0) ? qty.push(cost.qty.toFixed(2)) : qty.push(null);
+				(cost.qty || cost.qty === 0) ? qty.push(numberWithCommas(cost.qty.toFixed(2))) : qty.push(null);
 			}
 			if (cost.totalCost || cost.totalCost === 0) {
 				const total_cost = cost.totalCost;
-				total_costs.push(`${total_cost < 0 ? '- ' : ''}$${Math.abs(Number(total_cost)).toFixed(2)}`);
+				total_costs.push(`${total_cost < 0 ? '- ' : ''}$${numberWithCommas(Math.abs(Number(total_cost)).toFixed(2))}`);
 			} else {
 				total_costs.push(null);
+			}
+
+			if (cost.id === 'Subtotal Costs') {
+				subtotalRowIndex = i;
 			}
 		});
 		tabs.push(title);
@@ -171,8 +176,8 @@ const ReportTable = (props) => {
 											const bolded = (elementIndex === 0 || (colIndex === 0 && lastElement) || (lastCol && lastElement)) ? 'bolded' : '';
 											return (
 												element
-													? <div className={`table-cell ${light_blue} ${bolded}`} key={uuid()}>{element}</div>
-													: <div className={`table-cell empty ${light_blue}`} key={uuid()} />
+													? <div className={`table-cell ${light_blue} ${bolded} ${activeTable === 'Net Totals' && elementIndex - 1 === subtotalRowIndex ? 'subtotal' : ''}`} key={uuid()}>{element}</div>
+													: <div className={`table-cell empty ${light_blue} ${activeTable === 'Net Totals' && elementIndex - 1 === subtotalRowIndex ? 'subtotal' : ''}`} key={uuid()} />
 											);
 										})
 									}
@@ -255,6 +260,7 @@ class Report extends React.Component {
 		const {
 			properties: {
 				acreage,
+				treeQty,
 			},
 		} = reportArea;
 		const qty = acreage;
@@ -435,7 +441,6 @@ class Report extends React.Component {
 				},
 			},
 		} = reportArea;
-		const treeQty = getOptimalTreePlacements(reportArea).length;
 		const tree_establishment = {
 			title: 'Tree Establishment',
 			labels: ['Tree Establishment Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
@@ -630,7 +635,7 @@ class Report extends React.Component {
 			labels: ['Conservation Costs', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 			title: 'EQIP',
 		};
-		eqip_costs.costs = getEQIPCosts(eqip, qty, treeQty, rowLength);
+		eqip_costs.costs = getEQIPCosts(eqip, qty, treeQty, rowLength, rows);
 		const totalEQIPCosts = calcTotalCosts(eqip_costs) || 0;
 		eqip_costs.costs.push({
 			id: 'Total EQIP Costs',
@@ -670,6 +675,12 @@ class Report extends React.Component {
 		};
 
 		const totalNetCosts = calcTotalCosts(netTotals);
+		const firstCostShareProgram = netTotals.costs.findIndex(where => where.id === 'EQIP');
+		// Insert Subtotal Costs above the first cost share program.
+		netTotals.costs.splice(firstCostShareProgram, 0, {
+			id: 'Subtotal Costs',
+			totalCost: totalSitePrepCost + totalInputCosts + totalEstablishmentCosts + totalTreeReplacementCosts + totalOpportunityCost,
+		});
 		netTotals.costs.push({
 			id: 'Net Annualized Total Cost',
 			totalCost: totalNetCosts,
@@ -981,6 +992,12 @@ class Report extends React.Component {
 		};
 
 		const totalNetCosts = calcTotalCosts(netTotals);
+		const firstCostShareProgram = netTotals.costs.findIndex(where => where.id === 'Conservation Program');
+		// Insert Subtotal Costs above the first cost share program.
+		netTotals.costs.splice(firstCostShareProgram, 0, 				{
+			id: 'Subtotal Costs',
+			totalCost: totalSitePrepCost + totalEstablishmentCosts + totalManagementCosts + totalOpportunityCost,
+		});
 		netTotals.costs.push({
 			id: 'Net Annualized Total Cost',
 			totalCost: totalNetCosts,

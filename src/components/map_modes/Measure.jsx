@@ -11,14 +11,6 @@ export const MeasureMode = clone(MapboxDraw.modes.draw_polygon);
 const ogClickAnywhere = MeasureMode.clickAnywhere;
 const ogOnMouseMove = MeasureMode.onMouseMove;
 
-// MeasureMode.onSetup = function onSetup(state, e) {
-// 	const setup = ogOnSetup.call(this, state, e);
-// 	setTimeout(() => {
-// 		this.updateUIClasses({ mouse: 'add' }); // eslint-disable-line react/no-this-in-sfc
-// 	}, 5000);
-// 	return setup;
-// };
-
 MeasureMode.clickAnywhere = function clickAnywhere(state, e) {
 	// Need to copy this logic but add some logic for preventing self-intersecting polygons.
 	ogClickAnywhere.call(this, state, e);
