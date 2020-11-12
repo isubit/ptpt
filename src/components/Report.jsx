@@ -923,19 +923,29 @@ class Report extends React.Component {
 					unit_cost: ((totalSitePrepUnitCosts + totalEstablishmentUnitCosts) * 0.5),
 					units: '$/acre',
 					qty: acreage,
+					get present_value() {
+						const unitCost = this.unit_cost;
+						const present_value = annualSeries(unitCost, 0.02, 1);
+						return present_value;
+					},
 					get totalCost() {
-						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const annualizedUnitCost = annualizedCost(this.present_value, 0.02, 15);
 						const totalCost = annualizedUnitCost * this.qty;
 						return totalCost;
 					},
 				},
 				{
 					id: 'Rent Payment (year 1-15)',
-					unit_cost: (opportunity_cost.costs[0].present_value * 0.9),
+					unit_cost: (average_csr * rent * 0.9),
 					units: '$/acre',
 					qty: acreage,
+					get present_value() {
+						const unitCost = this.unit_cost;
+						const present_value = annualSeries(unitCost, 0.02, 15);
+						return present_value;
+					},
 					get totalCost() {
-						const annualizedUnitCost = annualizedCost(this.unit_cost, 0.02, 15);
+						const annualizedUnitCost = annualizedCost(this.present_value, 0.02, 15); // 15 years of rent, annualized over 15 years should be the same value.
 						const totalCost = annualizedUnitCost * this.qty;
 						return totalCost;
 					},

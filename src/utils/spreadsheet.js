@@ -160,8 +160,8 @@ function prairieTemplate(feature, sheet) {
 			['Conservation Programs'],
 			['Conservation Reserve Program (CP 43)'],
 			['  Cost Share 50%', '', { formula: 'C23*0.5' }, { formula: 'D23*0.5' }],
-			['  Rent Payment', '', { formula: 'C33*0.9' }, { formula: 'D33*0.9' }],
-			['  Incentive Payment (37.5% annual rent)', '', { formula: 'C43*0.375' }, { formula: 'D43*0.375' }],
+			['  Rent Payment (year 1-15)', { formula: 'B9*B10*0.9' }, terminatingAnnualSeriesFormula('B43', 15), annualizedTotalSeries('C43', 15)],
+			['  Incentive Payment (37.5% annual rent)', { formula: 'B9*B10' }, terminatingAnnualSeriesFormula('B44*0.375', 15), annualizedTotalSeries('C44', 15)],
 			[],
 			['Total Cost Share', '', { formula: 'sum(C42:C44)' }, { formula: 'sum(D42:D44)' }],
 			[],
@@ -222,7 +222,7 @@ function treeTemplate(feature, sheet) {
 	const avgTreePrice = findTreeAverageCost(treeRows, stock_size);
 	const treeQty = getOptimalTreePlacements(feature).length;
 	const eqip = findTreeEQIP(feature.properties);
-	const eqipValues = getEQIPCosts(eqip, acreage, treeQty, rowLength);
+	const eqipValues = getEQIPCosts(eqip, acreage, treeQty, rowLength, treeRows);
 
 	// Header
 	// Row 1-2
