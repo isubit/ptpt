@@ -916,7 +916,7 @@ class Report extends React.Component {
 		const totalEstablishmentUnitCosts = establishment.costs.map(cost => cost.unit_cost || 0).reduce((a, b) => a + b, 0);
 		const conservationProgram = {
 			title: 'Conservation Programs',
-			labels: ['Conservation Reserve Program (CP 43)', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
+			labels: ['Conservation Reserve Program (CP 42 or 43)', 'Unit Costs', 'Units', 'Qty', 'Annualized Total Costs'],
 			costs: [
 				{
 					id: 'Cost Share 50% (year 1)',
@@ -1164,7 +1164,7 @@ class Report extends React.Component {
 				</div>
 				<div className="reportText">
 					<p className="header-large">Cost Report</p>
-					<p>Below is your economic report for planting your tree area. You can use any of the options above to print, email or download your report.</p>
+					<p>Below is your economic report for planting your tree area. You can use any of the options above to print, email or download your report. Financial analysis over a 10 year period and a 2% discount rate.</p>
 				</div>
 				{
 					features.length > 0 && (

@@ -158,7 +158,7 @@ function prairieTemplate(feature, sheet) {
 	(() => {
 		sheet.addRows([
 			['Conservation Programs'],
-			['Conservation Reserve Program (CP 43)'],
+			['Conservation Reserve Program (CP 42 or 43)'],
 			['  Cost Share 50%', '', { formula: 'C23*0.5' }, { formula: 'D23*0.5' }],
 			['  Rent Payment (year 1-15)', { formula: 'B9*B10*0.9' }, terminatingAnnualSeriesFormula('B43', 15), annualizedTotalSeries('C43', 15)],
 			['  Incentive Payment (37.5% annual rent)', { formula: 'B9*B10' }, terminatingAnnualSeriesFormula('B44*0.375', 15), annualizedTotalSeries('C44', 15)],
