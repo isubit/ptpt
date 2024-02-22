@@ -1,7 +1,7 @@
 import React from 'react';
 import geojsonhint from '@mapbox/geojsonhint';
 import calcBbox from '@turf/bbox';
-import calcBuffer from '@turf/buffer';
+// import calcBuffer from '@turf/buffer';
 import uuid from 'uuid/v4';
 import _ from 'lodash';
 import Debug from 'debug';
@@ -31,6 +31,7 @@ const storageData = loadStorage();
 export const MapDefaultState = {
 	// Data
 	data: storageData,
+	measureFeature: null,
 
 	// Google Maps API
 	mapAPILoaded: false,
@@ -57,8 +58,8 @@ export const MapDefaultState = {
 			type: 'FeatureCollection',
 			features,
 		};
-		const buffered = calcBuffer(fc, 100, { units: 'meters' });
-		const bbox = calcBbox(buffered);
+		// const buffered = calcBuffer(fc, 100, { units: 'meters' });
+		const bbox = calcBbox(fc);
 
 		return bbox;
 	})(storageData),
@@ -83,6 +84,7 @@ export const MapDefaultState = {
 		lidar: false,
 		contours: false,
 		aerial: true,
+		aerialYear: '2019',
 	},
 };
 
@@ -1288,6 +1290,14 @@ export const MapActions = (that) => {
 				save(data);
 			});
 		},
+		setMeasureFeature(geojson) {
+			that.setState(state => ({
+				MapState: {
+					...state.MapState,
+					measureFeature: geojson,
+				},
+			}));
+		},
 		setBasemap(basemapName) {
 			that.setState(state => ({
 				MapState: {
@@ -1296,11 +1306,11 @@ export const MapActions = (that) => {
 				},
 			}));
 		},
-		setMapLayer(layerName) {
+		setMapLayer(layerName, value) {
 			// Set map layer given layer name
 			const { layers } = that.state.MapState;
 			if (Object.prototype.hasOwnProperty.call(layers, layerName)) {
-				layers[layerName] = !layers[layerName];
+				layers[layerName] = value || !layers[layerName];
 			}
 			that.setState(state => ({
 				MapState: {

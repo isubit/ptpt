@@ -41,6 +41,7 @@ import { Trees } from './map_layers/Trees';
 
 import { SimpleSelect } from './map_modes/SimpleSelect';
 import { DrawLineMode, Planting } from './map_modes/Planting';
+import { MeasureMode, Measure } from './map_modes/Measure';
 
 mapboxgl.accessToken = process.env.mapbox_public_key;
 
@@ -123,6 +124,9 @@ export class MapComponent extends React.Component {
 			pitch: pitch || defaultPitch,
 			bearing: bearing || defaultBearing,
 			bounds: defaultBounds,
+			fitBoundsOptions: {
+				padding: window.innerWidth > 1000 ? 200 : 100
+			}
 		};
 
 		this.map = new mapboxgl.Map(mapConfig);
@@ -157,6 +161,7 @@ export class MapComponent extends React.Component {
 			this.draw = new MapboxDraw({
 				modes: {
 					draw_line: DrawLineMode,
+					measure: MeasureMode,
 					...MapboxDraw.modes,
 				},
 			});
@@ -257,7 +262,7 @@ export class MapComponent extends React.Component {
 
 			map.fitBounds(bbox, {
 				duration: 400,
-				padding: 200,
+				padding: window.innerWidth > 1000 ? 200 : 100,
 			});
 			
 			let ran = false;
@@ -320,7 +325,9 @@ export class MapComponent extends React.Component {
 				});
 			}
 		} else if (bounds) {
-			this.map.fitBounds(bounds);
+			this.map.fitBounds(bounds, {
+				padding: window.innerWidth > 1000 ? 200 : 100
+			});
 		}
 	}
 
@@ -502,10 +509,18 @@ export class MapComponent extends React.Component {
 		// This is 2ft contour lines.
 		process.env.mapbox_contour_tileset_id && this.addSource('contours', 'vector', `mapbox://${process.env.mapbox_contour_tileset_id}`);
 
-		// This is aerial imagery (high zoom).
-		this.addSource('aerial', 'raster', {
+		// This is aerial imagery, spring 2019 (high zoom).
+		this.addSource('aerial-2019', 'raster', {
 			tiles: [
 				'https://ortho.gis.iastate.edu/arcgis/rest/services/ortho/naip_2019_nc/ImageServer/exportImage?f=image&bbox={bbox-epsg-3857}&imageSR=102100&bboxSR=102100&size=256%2C256',
+			],
+			tileSize: 256,
+		});
+
+		// This is aerial imagery, sprint 2016-2018 (high zoom).
+		this.addSource('aerial-2016-2018', 'raster', {
+			tiles: [
+				'https://ortho.gis.iastate.edu/arcgis/rest/services/ortho/ortho_2016_2018_nc/ImageServer/exportImage?f=image&bbox={bbox-epsg-3857}&imageSR=102100&bboxSR=102100&size=256%2C256',
 			],
 			tileSize: 256,
 		});
@@ -549,12 +564,15 @@ export class MapComponent extends React.Component {
 				basemap,
 				data,
 				layers,
+				measureFeature,
 				router: {
 					history,
 					location: {
+						hash,
 						pathname,
 					},
 				},
+				setMeasureFeature,
 				toggleHelper,
 			},
 			setEditingFeature,
@@ -608,6 +626,7 @@ export class MapComponent extends React.Component {
 							<Switch>
 								<Route path="/plant/tree/:step?" render={router => <Planting router={router} type="tree" steps={['rows', 'species', 'spacing']} {...mapModeProps} />} />
 								<Route path="/plant/prairie/:step?" render={router => <Planting router={router} type="prairie" steps={['seed', 'mgmt_1']} {...mapModeProps} />} />
+								<Route path="/measure" render={router => <Measure router={router} measureFeature={measureFeature} setMeasureFeature={setMeasureFeature} {...mapModeProps} />} />
 								<Route exact path="/" render={router => <SimpleSelect router={router} {...mapModeProps} />} />
 								{/* <Redirect to="/" /> */}
 							</Switch>
@@ -619,7 +638,7 @@ export class MapComponent extends React.Component {
 						&& (
 							<>
 								<FeatureLabels map={map} />
-								{!/^\/plant/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
+								{!/^\/(plant|measure)/.test(pathname) && <EditIcons map={map} data={data} setEditingFeature={setEditingFeature} nextStep={nextStep} />}
 								{map.getSource('geolocation_position') && <GeolocationPosition map={map} />}
 								<PrairieArea map={map} />
 								<PrairieOutline map={map} />
@@ -629,7 +648,7 @@ export class MapComponent extends React.Component {
 								<SSURGO map={map} active={layers.ssurgo} loadSSURGOPopupData={loadSSURGOPopupData} SSURGOPopupData={SSURGOPopupData} settouchStartLocation={settouchStartLocation} touchStartLocation={touchStartLocation} pathname={pathname} />
 								{SSURGOPopupData && layers.ssurgo && <SSURGOPopup map={map} loadSSURGOPopupData={loadSSURGOPopupData} SSURGOPopupData={SSURGOPopupData} updatePosition={updatePosition} /> }
 								{layers.lidar && <Lidar map={map} active={layers.lidar} />}{/* This is written this way because the lidar layer takes so long to load it impedes other processes. */}
-								{basemap === 'satellite' && <Aerial map={map} active={layers.aerial} />}
+								{basemap === 'satellite' && <Aerial map={map} active={layers.aerial} aerialYear={layers.aerialYear} />}
 							</>
 						)}
 
@@ -639,8 +658,11 @@ export class MapComponent extends React.Component {
 						<hr />
 						<img src="/assets/minus.svg" alt="zoom out" onClick={() => map.zoomOut({ animate: true })} />
 					</div>
+					<div className="LayerControl">
+						<img src="/assets/map_layers_blue.svg" alt="layers" onClick={() => hash === '#layers' ? history.push(location.pathname) : history.push(`${location.pathname}#layers`)}/>
+					</div>
 					<div className="LegendControl">
-						<img src="/assets/legend.svg" alt="legend" onClick={() => history.push(`${location.pathname}#legend`)}/>
+						<img src="/assets/legend.svg" alt="legend" onClick={() => hash === '#legend' ? history.push(location.pathname) : history.push(`${location.pathname}#legend`)}/>
 					</div>
 				</div>
 			</>

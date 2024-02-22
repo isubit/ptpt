@@ -52,12 +52,12 @@ export const MapLegend = ({
 		},
 	},
 }) => (
-	<div className="MapLegend modal">
-		<div className="legend-header">
+	<div className="MapControlModal modal">
+		<div className="control-header">
 			<Link className="CloseButton" to={pathname}><img className="CloseButton" src="../../assets/close_dropdown.svg" alt="close legend modal" /></Link>
 			<h2 className="modal-header">Legend</h2>
 		</div>
-		<div className="legend-text">
+		<div className="control-text">
 			<div className="modal-text">
 				<SSURGOTable />
 				<div className="Contours spacer-top-2">

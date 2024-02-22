@@ -34,6 +34,7 @@ const LocationInputSuggestions = (props) => {
 						{...getSuggestionItemProps(suggestion, {
 							className,
 						})}
+						key={suggestion.placeId}
 					>
 						<span>{suggestion.description}</span>
 					</div>
@@ -88,7 +89,8 @@ export class LocationInput extends React.Component {
 						// eslint-disable-next-line no-undef
 						location: new google.maps.LatLng(latlng ? latlng[1] : defaultLatLng[1], latlng ? latlng[0] : defaultLatLng[0]),
 						radius: 20000,
-						types: ['address'],
+						// types: ['address'],
+						componentRestrictions: { country: 'us' },
 					}}
 				>
 					{({

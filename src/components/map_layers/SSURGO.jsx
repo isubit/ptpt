@@ -57,17 +57,21 @@ export const SSURGO = props => {
 		},
 	};
 
-	// prevent click and touchevents if planting
+	// prevent click and touchevents on routes that already have click events
+	const unallowed = [/^\/plant/, /^\/measure/].some(regex => regex.test(pathname));
+	if (unallowed && SSURGOPopupData) {
+		loadSSURGOPopupData(null);
+	}
 	const events = new Map([
 		['click', e => {
 			console.log(e.features[0]);
-			!/^\/plant/.test(pathname) && active && e.features.length > [0] && loadSSURGOPopupData(e.features[0], e.lngLat);
+			!unallowed && active && e.features.length > [0] && loadSSURGOPopupData(e.features[0], e.lngLat);
 		}],
 		['touchstart', e => {
-			!/^\/plant/.test(pathname) && active && settouchStartLocation(e.lngLat);
+			!unallowed && active && settouchStartLocation(e.lngLat);
 		}],
 		['touchend', e => {
-			!/^\/plant/.test(pathname) && active && touchStartLocation.lng === e.lngLat.lng && touchStartLocation.lat === e.lngLat.lat && loadSSURGOPopupData(e.features[0], e.lngLat);
+			!unallowed && active && touchStartLocation.lng === e.lngLat.lng && touchStartLocation.lat === e.lngLat.lat && loadSSURGOPopupData(e.features[0], e.lngLat);
 		}],
 	]);
 

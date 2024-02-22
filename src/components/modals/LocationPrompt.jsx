@@ -57,7 +57,7 @@ export class Component extends React.Component {
 		if (geolocationError > 1) {
 			errorMsg = 'Your device was unable to provide us with location information.';
 		} else if (geolocationError === 1) {
-			errorMsg = 'You\'re currently blocking this app from using your location information. To use this feature, unblock this app in your browser permission settings.';
+			errorMsg = 'You\'re currently blocking this app from using your location information. To use this feature, unblock this app in your browser permission settings. You may also need to allow Location Services in your computer\'s security & privacy settings.';
 		}
 
 		// If geolocation status is granted, don't show the modal.

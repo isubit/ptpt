@@ -89,14 +89,14 @@ function prairieTemplate(feature, sheet) {
 			['Costs', 'Cost per acre', 'Present value total (2% RRR)', 'Annualized cost total (15 years)'],
 			// Site Preparation (13 - 17)
 			['(1) Site Preparation'],
-			['  Tillage', 15.40, { formula: 'B14*$B$4' }, annualizedTotalSeries('C14', 15)],
-			['  Herbicide product', 15.00, { formula: 'B15*$B$4' }, annualizedTotalSeries('C15', 15)],
-			['  Herbicide app.', 53.00, { formula: 'B16*$B$4' }, annualizedTotalSeries('C16', 15)],
+			['  Tillage', 15.50, { formula: 'B14*$B$4' }, annualizedTotalSeries('C14', 15)],
+			['  Herbicide product & application', 44.37, { formula: 'B15*$B$4' }, annualizedTotalSeries('C15', 15)],
+			[],
 			[],
 			// Establishment (18 - 22)
 			['(2) Establishment'],
 			['  Seed', { formula: 'B7' }, { formula: 'B19*$B$4' }, annualizedTotalSeries('C19', 15)],
-			['  Seed drilling', 18.00, { formula: 'B20*$B$4' }, annualizedTotalSeries('C20', 15)],
+			['  Seed drilling', 18.70, { formula: 'B20*$B$4' }, annualizedTotalSeries('C20', 15)],
 			['  Cultipacking', 20.00, { formula: 'B21*$B$4' }, annualizedTotalSeries('C21', 15)],
 			[],
 			// Subtotal (23 - 24)
@@ -109,7 +109,7 @@ function prairieTemplate(feature, sheet) {
 			// Burn.
 			rows.push([
 				['(3) Management'],
-				['  Mowing (Year 1: 3x)', 90.00, terminatingAnnualSeriesFormula('B26', 1), annualizedTotalSeries('C26', 15)],
+				['  Mowing (Year 1: 3x)', 57.45, terminatingAnnualSeriesFormula('B26', 1), annualizedTotalSeries('C26', 15)],
 				['  Burning (Year 2-6)', 65.00, terminatingAnnualSeriesFormula('B27', 4, '/(1.02)^2'), annualizedTotalSeries('C27', 15)],
 				['  Burning (Year 8, 10, 12, 14)', 65.00, { formula: '$B$4*(B28/(1.02^8))+(B28/(1.02^10))+(B28/(1.02^12))+(B28/(1.02^14))' }, annualizedTotalSeries('C28', 15)],
 				[],
@@ -120,9 +120,9 @@ function prairieTemplate(feature, sheet) {
 			// Mow.
 			rows.push([
 				['(3) Management'],
-				['  Mowing (Year 1: 3x)', 90.00, terminatingAnnualSeriesFormula('B26', 1), annualizedTotalSeries('C26', 15)],
-				['  Mowing (Year 2-15)', 30.00, terminatingAnnualSeriesFormula('B27', 14, '/(1.02)^2'), annualizedTotalSeries('C27', 15)],
-				['  Raking, Rowing, Baleing (Year 2-15)', 35.85, terminatingAnnualSeriesFormula('B28', 14, '/(1.02)^2'), annualizedTotalSeries('C28', 15)],
+				['  Mowing (Year 1: 3x)', 57.45, terminatingAnnualSeriesFormula('B26', 1), annualizedTotalSeries('C26', 15)],
+				['  Mowing, Raking, Rowing, Baleing (Year 2-15)', 50.30, terminatingAnnualSeriesFormula('B27', 14, '/(1.02)^2'), annualizedTotalSeries('C27', 15)],
+				[],
 				[],
 				['Subtotal (3)', { formula: 'sum(B26:B28)' }, { formula: 'sum(C26:C28)' }, { formula: 'sum(D26:D28)' }],
 				[],
@@ -133,7 +133,7 @@ function prairieTemplate(feature, sheet) {
 		rows.push([
 			['(4) Opportunity Cost'],
 			['  Land Rent (Year 1-15)', { formula: 'B9*B10' }, terminatingAnnualSeriesFormula('B33', 15), annualizedTotalSeries('C33', 15)],
-			['  General Operation Costs (Year 1-15)', 8.00, terminatingAnnualSeriesFormula('B34', 15), annualizedTotalSeries('C34', 15)],
+			['  General Operation Costs (Year 1-15)', 10.00, terminatingAnnualSeriesFormula('B34', 15), annualizedTotalSeries('C34', 15)],
 			[],
 			['Subtotal (4)', { formula: 'sum(B33:B34)' }, { formula: 'sum(C33:C34)' }, { formula: 'sum(D33:D34)' }],
 			[],
@@ -154,15 +154,16 @@ function prairieTemplate(feature, sheet) {
 	})();
 
 	// Conservation Program
-	// Rows 40 - 46
+	// Rows 40 - 47
 	(() => {
 		sheet.addRows([
 			['Conservation Programs'],
-			['Conservation Reserve Program (CP 43)'],
-			['  Cost Share 90%', '', { formula: 'C23*0.9' }, { formula: 'D23*0.9' }],
-			['  Rent Payment', '', { formula: 'C33*0.9' }, { formula: 'D33*0.9' }],
+			['Conservation Reserve Program (CP 42 or 43)'],
+			['  Cost Share 50%', '', { formula: 'C23*0.5' }, { formula: 'D23*0.5' }],
+			['  Rent Payment (year 1-15)', { formula: 'B9*B10*0.9' }, terminatingAnnualSeriesFormula('B43', 15), annualizedTotalSeries('C43', 15)],
+			['  Incentive Payment (37.5% annual rent)', { formula: 'B9*B10' }, terminatingAnnualSeriesFormula('B44*0.375', 15), annualizedTotalSeries('C44', 15)],
 			[],
-			['Total Cost Share', '', { formula: 'sum(C42:C43)' }, { formula: 'sum(D42:D43)' }],
+			['Total Cost Share', '', { formula: 'sum(C42:C44)' }, { formula: 'sum(D42:D44)' }],
 			[],
 		]);
 
@@ -170,15 +171,15 @@ function prairieTemplate(feature, sheet) {
 		for (let i = 41, ii = 43; i <= ii; i += 1) {
 			sheet.getCell(`A${i}`).font = { italic: true };
 		}
-		sheet.getCell('A45').font = { bold: true };
+		sheet.getCell('A46').font = { bold: true };
 	})();
 
-	// Net Cost (47)
-	sheet.addRow(['Net Cost', '', '', { formula: 'D38-D45' }]);
+	// Net Cost (48)
+	sheet.addRow(['Net Cost', '', '', { formula: 'D38-D46' }]);
 
-	sheet.getCell('A47').font = { bold: true, underline: true };
+	sheet.getCell('A48').font = { bold: true, underline: true };
 
-	for (let i = 13, ii = 47; i <= ii; i += 1) {
+	for (let i = 13, ii = 48; i <= ii; i += 1) {
 		sheet.getCell(`B${i}`).numFmt = currency;
 		sheet.getCell(`C${i}`).numFmt = currency;
 		sheet.getCell(`D${i}`).numFmt = currency;
@@ -221,7 +222,7 @@ function treeTemplate(feature, sheet) {
 	const avgTreePrice = findTreeAverageCost(treeRows, stock_size);
 	const treeQty = getOptimalTreePlacements(feature).length;
 	const eqip = findTreeEQIP(feature.properties);
-	const eqipValues = getEQIPCosts(eqip, acreage, treeQty, rowLength);
+	const eqipValues = getEQIPCosts(eqip, acreage, treeQty, rowLength, treeRows);
 
 	// Header
 	// Row 1-2
@@ -290,7 +291,7 @@ function treeTemplate(feature, sheet) {
 		]);
 
 		// Tree Establishment
-		// Rows 33 - 37
+		// Rows 33 - 38
 		rows.push([
 			['(3) Tree Establishment'],
 			['  Trees (planting stock)', avgTreePrice, terminatingAnnualSeriesFormula('B34', 1, '/$B$4*$B$14'), annualizedTotalSeries('C34', 15)],
@@ -298,60 +299,61 @@ function treeTemplate(feature, sheet) {
 				? ['  Tree planting (bareroot)', 220.00, terminatingAnnualSeriesFormula('B35', 1), annualizedTotalSeries('C35', 15)]
 				: ['  Tree planting (containerized)', 1.50, terminatingAnnualSeriesFormula('B35', 1, '/$B$4*$B$14'), annualizedTotalSeries('C35', 15)],
 			['  Plastic mulch', 450.00, terminatingAnnualSeriesFormula('B36', 1), annualizedTotalSeries('C36', 15)],
+			drip_irrigation ? ['  Watering (drip irrigation)', 4.50, terminatingAnnualSeriesFormula('B37', 1, '/$B$4*$B$14'), annualizedTotalSeries('C37', 15)] : ['  Watering (drip irrigation)', 0, 0, 0],
 			[],
 		]);
 
 		// Tree Replacement
-		// Rows 38 - 41
+		// Rows 39 - 42
 		rows.push([
 			['(4) Tree Replacement'],
-			['  Tree replacement (natural mortality)', avgTreePrice, { formula: 'B39*$B$14*0.1/(1.02^3)' }, annualizedTotalSeries('C39', 15)],
-			['  Tree planting (by hand)', 1.50, { formula: 'B40*$B$14*0.1/(1.02^3)' }, annualizedTotalSeries('C40', 15)],
+			['  Tree replacement (natural mortality)', avgTreePrice, { formula: 'B40*$B$14*0.1/(1.02^3)' }, annualizedTotalSeries('C40', 15)],
+			['  Tree planting (by hand)', 1.50, { formula: 'B41*$B$14*0.1/(1.02^3)' }, annualizedTotalSeries('C41', 15)],
 			[],
 		]);
 
 		// Opportunity Cost
-		// Rows 42 - 44
+		// Rows 43 - 45
 		rows.push([
 			['(5) Opportunity Cost'],
 			pasture_conversion
-				? ['  Land Rent, pasture (Year 1-15)', 51, terminatingAnnualSeriesFormula('B43', 15), annualizedTotalSeries('C43', 15)]
-				: ['  Land Rent, row crop, non-irrigated (Year 1-15)', { formula: 'B15*B16' }, terminatingAnnualSeriesFormula('B43', 15), annualizedTotalSeries('C43', 15)],
+				? ['  Land Rent, pasture (Year 1-15)', 51, terminatingAnnualSeriesFormula('B44', 15), annualizedTotalSeries('C44', 15)]
+				: ['  Land Rent, row crop, non-irrigated (Year 1-15)', { formula: 'B15*B16' }, terminatingAnnualSeriesFormula('B44', 15), annualizedTotalSeries('C44', 15)],
 			[],
 		]);
 
 		// Total Costs
-		// Rows 45 - 46
+		// Rows 46 - 47
 		rows.push([
-			['Total Costs', '', '', { formula: 'sum(D20:D43)' }],
+			['Total Costs', '', '', { formula: 'sum(D20:D44)' }],
 			[],
 		]);
 
 		sheet.addRows(_.flatten(rows));
 		sheet.getCell('A17').font = { bold: true, underline: true };
-		for (let i = 18, ii = 44; i <= ii; i += 1) {
+		for (let i = 18, ii = 45; i <= ii; i += 1) {
 			sheet.getCell(`A${i}`).font = { italic: true };
 		}
-		sheet.getCell('A45').font = { bold: true };
+		sheet.getCell('A46').font = { bold: true };
 	})();
 
 	// EQIP
-	// Rows 47 - ...
+	// Rows 48 - ...
 	let totalEqipRow;
 	(() => {
 		sheet.addRows([
 			['EQIP'],
-			// ...eqipValues.map((ea, i) => ([`  ${ea.id}`, ea.unit_cost, '', annualizedTotalSeries(`B${48 + i}`, 15, `* ${ea.qty}`)])),
+			// ...eqipValues.map((ea, i) => ([`  ${ea.id}`, ea.unit_cost, '', annualizedTotalSeries(`B${49 + i}`, 15, `* ${ea.qty}`)])),
 			...eqipValues.map((ea) => ([`  ${ea.id}`, ea.unit_cost, '', annualizedTotalSeries(`${ea.present_value}`, 15, `* ${ea.qty}`)])),
 			[],
-			['Total EQIP', '', '', { formula: `sum(D48:D${48 + eqipValues.length - 1})` }],
+			['Total EQIP', '', '', { formula: `sum(D49:D${49 + eqipValues.length - 1})` }],
 			[],
 		]);
 
-		totalEqipRow = 48 + eqipValues.length - 1 + 2;
+		totalEqipRow = 49 + eqipValues.length - 1 + 2;
 
-		sheet.getCell('A47').font = { bold: true, underline: true };
-		for (let i = 48, ii = 48 + eqipValues.length - 1; i <= ii; i += 1) {
+		sheet.getCell('A48').font = { bold: true, underline: true };
+		for (let i = 49, ii = 49 + eqipValues.length - 1; i <= ii; i += 1) {
 			sheet.getCell(`A${i}`).font = { italic: true };
 		}
 		sheet.getCell(`A${totalEqipRow}`).font = { bold: true };
@@ -360,7 +362,7 @@ function treeTemplate(feature, sheet) {
 	// Net Cost
 	const netCostRow = totalEqipRow + 2;
 	sheet.addRows([
-		['Net Cost', '', '', { formula: `D45-D${totalEqipRow}` }],
+		['Net Cost', '', '', { formula: `D46-D${totalEqipRow}` }],
 		[],
 	]);
 

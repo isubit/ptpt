@@ -3,6 +3,10 @@ import treeList from 'references/trees_list.json';
 import treeCosts from 'references/tree_cost.json';
 import treeTypes from 'references/tree_types.json';
 
+export function numberWithCommas(x) {
+	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
 export function annualSeries(cost, interest, years) {
 	const numerator = ((1 + interest) ** years) - 1;
 	const denominator = interest * ((1 + interest) ** years);
@@ -19,7 +23,10 @@ export function annualizedCost(cost, interest, years) {
 
 export function calcTotalCosts(costObj) {
 	// eslint-disable-next-line no-confusing-arrow
-	return costObj.costs.map(cost => cost ? cost.totalCost : 0).reduce((a, b) => a + b, 0);
+	return costObj.costs.filter(cost => !!cost).map(cost => {
+		const { totalCost = 0 } = cost;
+		return Number(totalCost);
+	}).reduce((a, b) => a + b, 0);
 }
 
 export function findAverage(numArr) {
@@ -88,8 +95,9 @@ export function findTreeEQIP(properties) {
 		return programs.filter(ea => {
 			const irrigationCheck = ea.irrigation !== undefined ? ea.irrigation === irrigation : true;
 			const pastureConversionCheck = ea.pasture_conversion !== undefined ? ea.pasture_conversion === pasture_conversion : true;
-			const rowsCheck = ea.rows !== undefined ? ea.rows === rows.length : true;
-			let stockSizeCheck = (Array.isArray(ea.stock_size) ? ea.stock_size.includes(stock_size) : ea.stock_size === stock_size);
+			let rowsCheck = Array.isArray(ea.rows) ? ea.rows.includes(rows.length) : ea.rows === rows.length;
+			rowsCheck = ea.rows !== undefined ? rowsCheck : true;
+			let stockSizeCheck = Array.isArray(ea.stock_size) ? ea.stock_size.includes(stock_size) : ea.stock_size === stock_size;
 			stockSizeCheck = ea.stock_size !== undefined ? stockSizeCheck : true;
 			const treeTypeCheck = ea.tree_type !== undefined ? ea.tree_type === treeType.id : true;
 			const windbreakCheck = ea.windbreak !== undefined ? ea.windbreak === windbreak : true;
@@ -101,7 +109,10 @@ export function findTreeEQIP(properties) {
 	return qualifiedPerRow;
 }
 
-export function getEQIPCosts(programArr, qty, treeQty, rowLength) {
+export function getEQIPCosts(programArr, qty, treeQty, rowLength, rows) {
+	const rowAcreage = qty / rows.length;
+	const rowTreeQty = treeQty / rows.length;
+	const rowLengthFeet = (rowLength * 3.28084);
 	const costs = programArr.map((ea, index) => {
 		if (ea.length === 0) {
 			return {
@@ -112,17 +123,44 @@ export function getEQIPCosts(programArr, qty, treeQty, rowLength) {
 				totalCost: 0,
 			};
 		}
+
 		let programCost;
-		if (ea.length > 1) {
+
+		const pastureProgram = ea.find(where => where.id === 'gXTj8scA');
+		if (pastureProgram) {
+			// Overrides everything else.
+			programCost = {
+				id: `Row ${index + 1} (${pastureProgram.display})`,
+				unit_cost: pastureProgram.price,
+				units: `$/${pastureProgram.price_model}`,
+				get present_value() {
+					return this.unit_cost / 1.02;
+				},
+			};
+			switch (pastureProgram.price_model) {
+				case 'tree':
+					programCost.qty = rowTreeQty;
+					break;
+				case 'acre':
+					programCost.qty = rowAcreage;
+					break;
+				case 'feet':
+					programCost.qty = rowLengthFeet;
+					break;
+				default:
+					break;
+			}
+			programCost.totalCost = annualizedCost(programCost.present_value, 0.02, 15) * programCost.qty;
+		} else if (ea.length > 1) {
 			const totalCostArr = [];
 			const totalCostPrograms = ea.map(program => {
 				let totalCost;
 				if (program.price_model === 'tree') {
-					totalCost = program.price * treeQty;
+					totalCost = program.price * rowTreeQty;
 				} else if (program.price_model === 'acre') {
-					totalCost = program.price * qty;
+					totalCost = program.price * rowAcreage;
 				} else if (program.price_model === 'feet') {
-					totalCost = program.price * rowLength;
+					totalCost = program.price * rowLengthFeet;
 				}
 				totalCostArr.push(totalCost);
 				return {
@@ -142,44 +180,58 @@ export function getEQIPCosts(programArr, qty, treeQty, rowLength) {
 			};
 			switch (bestProgram.price_model) {
 				case 'tree':
-					programCost.qty = treeQty;
+					programCost.qty = rowTreeQty;
 					break;
 				case 'acre':
-					programCost.qty = qty;
+					programCost.qty = rowAcreage;
 					break;
 				case 'feet':
-					programCost.qty = (rowLength * 3.28084);
+					programCost.qty = rowLengthFeet;
+					break;
+				default:
+					break;
+			}
+			programCost.totalCost = annualizedCost(programCost.present_value, 0.02, 15) * programCost.qty;
+		} else {
+			programCost = {
+				id: `Row ${index + 1} (${ea[0].display})`,
+				unit_cost: ea[0].price,
+				units: `$/${ea[0].price_model}`,
+				get present_value() {
+					return this.unit_cost / 1.02;
+				},
+			};
+			switch (ea[0].price_model) {
+				case 'tree':
+					programCost.qty = rowTreeQty;
+					break;
+				case 'acre':
+					programCost.qty = rowAcreage;
+					break;
+				case 'feet':
+					programCost.qty = rowLengthFeet;
 					break;
 				default:
 					break;
 			}
 			programCost.totalCost = annualizedCost(programCost.present_value, 0.02, 15) * programCost.qty;
 		}
-		programCost = {
-			id: `Row ${index + 1} (${ea[0].display})`,
-			unit_cost: ea[0].price,
-			units: `$/${ea[0].price_model}`,
-			get present_value() {
-				return this.unit_cost / 1.02;
-			},
-		};
-		switch (ea[0].price_model) {
-			case 'tree':
-				programCost.qty = treeQty;
-				break;
-			case 'acre':
-				programCost.qty = qty;
-				break;
-			case 'feet':
-				programCost.qty = (rowLength * 3.28084);
-				break;
-			default:
-				break;
-		}
-		programCost.totalCost = annualizedCost(programCost.present_value, 0.02, 15) * programCost.qty;
 
 		return programCost;
 	});
 
-	return costs;
+	const sitePrep = {
+		id: 'Site preparation, light mechanical with chemical (code 490)',
+		unit_cost: 138.26,
+		units: '$/acre',
+		qty, // Note: This is total acreage of the area, unlike the row specific EQIP programs.
+		get present_value() {
+			return this.unit_cost / 1.02;
+		},
+		get totalCost() {
+			return annualizedCost(this.present_value, 0.02, 15) * this.qty;
+		},
+	};
+
+	return [sitePrep, ...costs];
 }
